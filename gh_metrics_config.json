@@ -1,0 +1,26 @@
+{
+  "version": "2.0",
+  "projectName": "College Toolbox",
+  "managers": ["Poggecci", "Schutz"],
+  "milestones": {
+    "Milestone #1": {
+      "startDate": "2024-01-15",
+      "endDate": "2024-02-09",
+      "projectedGroupGrade": 100.0
+    },
+    "Milestone #2": {
+      "startDate": "2024-02-12",
+      "endDate": "2024-03-08",
+      "projectedGroupGrade": 100.0
+    },
+    "Milestone #3": {
+      "startDate": "2024-03-11",
+      "endDate": "2024-04-05",
+      "projectedGroupGrade": 100.0
+    }
+  },
+  "lectureTopicTaskQuota": 4,
+  "countOpenIssues": false,
+  "sprints": 2,
+  "minTasksPerSprint": 1,
+}
