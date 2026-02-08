@@ -1,26 +1,26 @@
 {
   "version": "2.0",
-  "projectName": "College Toolbox",
-  "managers": ["Poggecci", "Schutz"],
+  "projectName": "Cafeteria Ordering",
+  "managers": ["Alma-pineiro", "TaimaraColon"],
   "milestones": {
     "Milestone #1": {
-      "startDate": "2024-01-15",
-      "endDate": "2024-02-09",
+      "startDate": "2026-02-04",
+      "endDate": "2026-02-27",
       "projectedGroupGrade": 100.0
     },
     "Milestone #2": {
-      "startDate": "2024-02-12",
-      "endDate": "2024-03-08",
+      "startDate": "2026-03-03",
+      "endDate": "2026-04-03",
       "projectedGroupGrade": 100.0
     },
     "Milestone #3": {
-      "startDate": "2024-03-11",
-      "endDate": "2024-04-05",
+      "startDate": "2026-04-07",
+      "endDate": "2026-05-08",
       "projectedGroupGrade": 100.0
     }
   },
   "lectureTopicTaskQuota": 4,
   "countOpenIssues": false,
   "sprints": 2,
-  "minTasksPerSprint": 1,
+  "minTasksPerSprint": 1
 }
