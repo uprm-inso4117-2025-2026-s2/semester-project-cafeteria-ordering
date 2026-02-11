@@ -1,0 +1,252 @@
+= Defining Test Types for Cafeteria Ordering Application
+
+== 1. Purpose
+
+This document defines the functional and non-functional testing approaches for the Cafeteria Ordering application. The goal is to ensure the system is reliable, fast, secure, and usable, especially during peak lunch hours when reducing queue congestion is critical.
+
+== 2. Functional Testing
+
+“Functional testing is a software testing approach that verifies whether an application’s features work as expected based on the specified requirements.”[1] In the context of this project, all its artifacts will be tested guided by the documentation and client spefications (professor recommendations).
+
+=== 2.1 Unit Testing
+
+Unit testing takes small sections of code (i.e a method/function) and assesses its validity and behaviour.[2]
+
+Purpose:
+Validate individual features in isolation.
+
+Scope:
+
+- Business logic
+
+- Data validation
+
+- Utility functions
+
+Examples:
+
+- Ensuring correct cart total calculation
+
+- Reliable menu item availability checks
+
+- Order status transitions
+
+Means / Approach:
+
+- Automated unit tests
+
+- Mocks/Drivers/Stubs
+
+Related Requirements:
+
+- Correct pricing
+
+- Accurate order creation
+
+- Accurate order status transitions
+
+=== 2.2 Integration Testing
+
+Integration testing involves the tesitng of multiple software components such as modules or services to observe their behavior as they work together.[3]
+
+Purpose:
+Ensure components work together correctly.
+
+Scope:
+
+- API endpoints
+
+- Database interactions
+
+- Third-party services (payment portal)
+
+Examples:
+
+- Order submission to payment processing to order persistence
+
+- Menu updates reflected in user ordering flow
+
+Related Requirements:
+
+- End-to-end order integrity
+
+- Payment confirmation
+
+=== 2.3 System Testing
+
+System testing takes a completely integrated system and evaluates the behaviour of the system in compliance with the requirements/specifications.[4]
+
+Purpose:
+Validate the complete system against functional requirements.
+
+Scope:
+
+- Full application (frontend + backend)
+
+- User-facing workflows
+
+Examples:
+
+- User places an order and receives confirmation
+
+- Admin updates menu and users see changes
+
+Related Requirements:
+
+- Complete ordering workflow
+
+- Role-based access
+
+=== 2.4 Acceptance Testing
+
+It is considered the formal testing conducted by stakeholders and end-users to verify that the system complies witht the user needs, requirements, and business processes.[5]
+
+Purpose:
+Confirm the system meets business and user expectations.
+
+Scope:
+
+- Key user scenarios (user stories)
+
+- Business rules
+
+Examples:
+
+- A user can place an order in under 2 minutes
+
+- Orders placed before closing time are accepted
+
+Related Requirements:
+
+- Queue reduction objective
+
+- Business constraints
+
+== 3. Non-Functional Testing
+
+Non-functional testing evaluates and verifies if the behaviour of the system is consistent with the related requirement.[6]
+
+=== 3.1 Performance Testing
+
+Ensures that the system performs correctly under various loads.[7]
+
+Purpose:
+Ensure the system remains responsive during peak usage.
+
+Scope:
+
+- High traffic simulations (stress testing)
+
+- API response times
+
+Examples:
+
+- Simulate lunch rush (stress testing)
+
+- Measure order submission latency
+
+Quality Attributes:
+
+- Speed
+
+- Scalability
+
+=== 3.2 Usability Testing
+
+Allows to observe the real user behavior while navigating the system.[8]
+
+Purpose:
+Ensure the app is intuitive and fast to use.
+
+Scope:
+
+- User interface
+
+- Ordering flow efficiency
+
+Examples:
+
+- Users can complete an order with minimal taps/clicks
+
+- Clear feedback after order placement
+
+Quality Attributes:
+
+- Ease of use
+
+- Accessibility
+
+=== 3.3 A/B Testing
+
+A/B testing evaluates two (or more) versions of the system and rolls them out to different populations, the version users approve the most is selected.[9]
+
+Purpose:
+Evaluate alternative product variations to determine which version better supports the goal of reducing cafeteria queues and improving ordering speed.
+
+Scope:
+
+- User interface variations
+
+- Ordering flow optimizations
+
+Examples:
+
+- Compare a single-page checkout vs. multi-step checkout
+
+- Evaluate default menu sorting (most popular vs. category-based)
+
+Quality Attributes:
+
+- Efficiency
+
+- Usability
+
+- Business effectiveness
+
+=== 3.4 Testing the documentation
+
+Ensures that the product functioning, behaviour, and features are accurately reflected in the documentation,including: specifications, user stories, epics, etc.[10]
+
+Purpose:
+Verify that the system complies with the documentation.
+
+Scope:
+
+- Requirements/Speifications
+
+- Acceptance criteria
+
+Examples:
+
+- Verify that features follow the stated requirements (e.g. responsive design behavior as specified)
+
+- Ensure all acceptance criteria defined in user stories are met
+
+Quality Attributes:
+
+- Consistency
+
+- Integrity
+
+== References
+
+[1] https://www.ibm.com/think/topics/functional-testing
+
+[2] https://www.geeksforgeeks.org/software-testing/unit-testing-software-testing/
+
+[3] https://en.wikipedia.org/wiki/Integration_testing
+
+[4] https://www.geeksforgeeks.org/software-testing/system-testing/
+
+[5] https://www.geeksforgeeks.org/software-engineering/acceptance-testing-software-testing/
+
+[6] https://www.geeksforgeeks.org/software-testing/software-testing-non-functional-testing/
+
+[7] https://www.geeksforgeeks.org/software-testing/performance-testing-software-testing/
+
+[8] https://www.geeksforgeeks.org/software-testing/usability-testing/
+
+[9] https://www.geeksforgeeks.org/blogs/what-is-a-b-testing/
+
+[10] https://clickhelp.com/software-documentation-glossary/documentation-testing/
+
