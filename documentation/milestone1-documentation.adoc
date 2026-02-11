@@ -1,0 +1,68 @@
+= Cafeteria Ordering System
+
+== *Informative Part*
+
+=== 1.1 Team
+
+=== 1.2 Current Situtation, needs, ideas
+
+==== 1.2.1 Current Situation
+
+==== 1.2.2 Needs
+
+==== 1.2.3 Ideas
+
+=== 1.3 Scope, Span and Synopsis
+
+==== 1.3.1 Scope and Span
+
+==== 1.3.2 Synopsis
+
+=== 1.4 Other Activities thatn just developing source code
+
+=== 1.5 Derived Goals
+
+== Descriptive Part
+
+=== 2.1 Domain Description
+
+==== 2.1.1 Domain Rough Sketch
+
+==== 2.1.2 Terminology
+
+==== 2.1.4 Narrative
+
+==== 2.1.5 Events, Actions, and Behaviors
+
+==== 2.1.6 Function Signatures
+
+=== 2.2 Requirements
+
+==== 2.2.1 User stories, epics, and features
+
+==== 2.2.2 Personas
+
+==== 2.2.3 Domain Requirements
+
+==== 2.2.4 Interface Requirements
+
+==== 2.2.5 Machine Requirements
+
+=== 2.3 Implementation
+
+==== 2.3.1 Selected Fragments of the implementation
+
+== Analytic Part
+
+=== 3.1 Concept Analysis
+
+=== 3.2 Validation and Verification
+
+== Specific Class Topics
+
+=== 4.1 TDD
+
+=== 4.2 BDD and BDD tool usage
+
+=== 4.3 User of Debugging
+
