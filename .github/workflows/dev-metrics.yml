@@ -88,5 +88,5 @@ jobs:
             --body "This is an automated pull request to update the milestone metrics." \
             --repo ${{ github.repository }} || echo "Command failed: Unable to create pull request. It might be due to the branch already existing or lack of permissions."
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.MY_API_TOKEN }}
         shell: bash
