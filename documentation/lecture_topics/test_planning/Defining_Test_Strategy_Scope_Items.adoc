@@ -1,0 +1,55 @@
+= Defining Testing Strategy Scope Items
+
+During testing, it is essential to clearly define the project scope. Establishing a well‑defined scope ensures that the testing team understands which features, components, and systems must be validated. This prevents time and resources from being spent on out‑of‑scope activities that could delay the development process. Clearly identifying in‑scope and out‑of‑scope items supports efficiency, improves quality assurance, and aligns testing efforts with overall project objectives.
+
+== In-Scope Items
+
+Within the project, the items that will be tested thoroughly include:
+
+* Functional requirements
+* Input validation
+* User interaction
+* All features agreed upon by the management team
+* Other helpful tools
+
+=== In-Scope Components and Systems
+
+*User Account Management*
+- User Registration  
+- Password Validation  
+- Email Validation  
+- Login and Logout  
+
+*Food Menu Management*
+- Food ordering  
+- Time of pickup  
+- Viewing price and food catalog  
+- Adding and removing items from cart  
+
+*App Interface Functionality*
+- Users can change between pages  
+- Pages run smoothly  
+- Error messages are displayed when the user performs an incorrect action  
+- App is user‑friendly and interactive  
+
+== Out-of-Scope Items
+
+Out‑of‑scope items include features or components not part of the project’s objectives. Defining these exclusions helps avoid wasting valuable testing time.
+
+=== Out-of-Scope Components and Systems
+
+*Advanced Security Testing*
+- Extensive security testing is not required, as it would consume valuable testing time.
+
+*App Stress Testing*
+- Stress testing is unnecessary because the app is intended for a demo release rather than large‑scale deployment.
+
+*Compatibility with Other Platforms*
+- The project will be released as an app and does not require heavy testing for a website version.
+
+*Non‑Planned Features*
+- Any features not originally planned or added later become out‑of‑scope to prevent delays caused by testing unnecessary items.
+
+== Conclusion
+
+By clearly defining the in‑scope and out‑of‑scope testing items, the team ensures that all testing activities align with the project’s objectives. This maintains focus on essential features and prevents unnecessary work that could delay development. Establishing and reviewing the project scope with all testing team members reduces misunderstandings, improves efficiency, and contributes to delivering a successful and high‑quality final product.
