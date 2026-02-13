@@ -2,58 +2,67 @@ name: Daily Project Metrics Generation
 
 on:
   schedule:
-    - cron: "0 0 * * *" # Runs at 21:00 UTC every day
-  workflow_dispatch: # Allows manual trigger from the GitHub UI
+    - cron: "0 0 * * *" # Runs at 00:00 UTC every day
+  workflow_dispatch:
 
 jobs:
   generate_and_commit_metrics:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Give the default GITHUB_TOKEN write permission to commit and push the added or changed files to the repository.
-      pull-requests: write # Requires you go to Settings>Actions>Workflow Permissions>"Allow GitHub Actions to create and approve pull requests"
-    steps:
+      contents: write
+      pull-requests: write
 
-      - name: Checkout existing metrics
+    steps:
+      # Checkout the metrics branch (where files are committed)
+      - name: Checkout existing metrics branch
         uses: actions/checkout@v4
         with:
           ref: inso-metrics
           fetch-depth: 0
           persist-credentials: true
 
+      # Checkout current repository
       - name: Checkout Local Repo
         uses: actions/checkout@v4
-        
+
+      # Checkout external metrics generator repo
       - name: Checkout INSO GH Metrics code
         uses: actions/checkout@v4
         with:
           repository: Poggecci/INSO-GH-API-QUERY
           path: inso-gh-query-metrics
-          
+
+      # Setup Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-          
-      - name: Install poetry
+
+      # Install Poetry
+      - name: Install Poetry
         uses: abatilo/actions-poetry@v2
-        
-      - name: Setup a local virtual environment (if no poetry.toml file)
+
+      # Configure Poetry virtual environment
+      - name: Setup local virtual environment
         run: |
           poetry config virtualenvs.create true --local
           poetry config virtualenvs.in-project true --local
-          
-      - uses: actions/cache@v3
-        name: Define a cache for the virtual environment based on the dependencies lock file
+
+      # Cache virtual environment
+      - name: Cache virtual environment
+        uses: actions/cache@v3
         with:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
-          
-      - name: Install the project dependencies
+
+      # Install dependencies
+      - name: Install project dependencies
         run: |
           cd inso-gh-query-metrics
           poetry install
         shell: bash
-        
+
+      # Run metrics generator
       - name: Run metrics generator
         run: |
           cd inso-gh-query-metrics
@@ -62,13 +71,21 @@ jobs:
         env:
           GITHUB_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
           ORGANIZATION: ${{ github.repository_owner }}
-          
+
+      # ✅ Remove old metrics files BEFORE moving new ones
+      - name: Remove old metrics files
+        run: |
+          rm -f metrics/*.md
+        shell: bash
+
+      # Move generated metrics into metrics folder
       - name: Move Generated Metrics to Source Repo
         run: |
-          mkdir -p ./metrics
+          mkdir -p metrics
           mv inso-gh-query-metrics/*${{ github.repository_owner }}.md metrics/
         shell: bash
-        
+
+      # Commit changes to inso-metrics branch
       - name: Auto Commit Results
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
@@ -78,15 +95,17 @@ jobs:
           commit_user_name: GitHub Action
           commit_user_email: action@github.com
           commit_author: GitHub Action <action@github.com>
-          
+
+      # Create PR into default branch
       - name: Create Pull Request
         run: |
           gh pr create \
-            --base ${{ github.ref }} \
+            --base main \
             --head "inso-metrics" \
             --title "[Automated] Milestone Metrics Update" \
             --body "This is an automated pull request to update the milestone metrics." \
-            --repo ${{ github.repository }} || echo "Command failed: Unable to create pull request. It might be due to the branch already existing or lack of permissions."
+            --repo ${{ github.repository }} \
+          || echo "PR already exists or failed to create."
         env:
-          GH_TOKEN: ${{ secrets.GH_API_TOKEN}}
+          GH_TOKEN: ${{ secrets.GH_API_TOKEN }}
         shell: bash
