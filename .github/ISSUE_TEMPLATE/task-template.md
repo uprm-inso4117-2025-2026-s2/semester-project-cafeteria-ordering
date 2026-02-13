@@ -36,10 +36,10 @@ Specify exactly where deliverables must go:
 
 Define clear, testable conditions that must be met for this issue to be considered complete.
 
-- [] Add criterion
-- [] Add criterion 
-- [] Add criterion  
-- [] Ready for review  
+- [ ] Add criterion
+- [ ] Add criterion 
+- [ ] Add criterion  
+- [ ] Ready for review  
 
 ### 📅 Timeframe  
 
