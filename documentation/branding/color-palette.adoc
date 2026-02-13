@@ -1,0 +1,97 @@
+= Cafeteria Ordering System — Color Palette
+:toc:
+:toclevels: 2
+
+== Objective
+
+Define a consistent, accessible, and scalable color palette for the Cafeteria Ordering System that supports usability, readability, and visual consistency across light and dark UI modes.
+
+The palette is designed for a student-focused cafeteria experience: clean, modern, friendly, and easy on the eyes.
+
+== Color Palette
+
+=== Primary Color
+
+Used for branding, primary actions, and key interactive elements.
+
+[cols="1,1,1,2", options="header"]
+|===
+| Name | HEX | RGB | Usage
+| Primary Green | #2E7D32 | 46, 125, 50 | Primary buttons, active states, highlights, CTA elements
+|===
+
+*Notes:*
+- Represents freshness and food-related branding
+- Strong contrast and recognizable brand anchor
+
+=== Secondary Colors (Pastel)
+
+Soft accent colors that complement the primary green without overpowering the UI.
+
+[cols="1,1,1,2", options="header"]
+|===
+| Name | HEX | RGB | Usage
+| Pastel Sage | #A5D6A7 | 165, 214, 167 | Secondary buttons, selected cards, subtle highlights
+| Pastel Peach | #FFCCBC | 255, 204, 188 | Promotions, badges, empty states, friendly accents
+|===
+
+*Why these work:*
+- Sage stays within the green family for harmony
+- Peach adds warmth and approachability
+- Both feel modern and student-friendly
+
+=== Neutral Colors
+
+Calm neutrals that work well with pastel accents and support light/dark modes.
+
+[cols="1,1,2", options="header"]
+|===
+| Name | HEX | Usage
+| Off White | #FAFAFA | Light mode background
+| Soft Gray | #EEEEEE | Cards, sections, dividers
+| Muted Gray | #BDBDBD | Borders, disabled elements
+| Charcoal | #424242 | Primary text (light mode)
+| Dark Charcoal | #1C1C1C | Dark mode background
+| White | #FFFFFF | Primary text (dark mode)
+|===
+
+== Light & Dark Mode Usage
+
+=== Light Mode
+
+- Background: #FAFAFA
+- Cards / Sections: #EEEEEE
+- Primary text: #424242
+- Primary buttons: #2E7D32
+- Secondary accents: #A5D6A7
+- Highlight accents: #FFCCBC
+
+=== Dark Mode
+
+- Background: #1C1C1C
+- Primary text: #FFFFFF
+- Secondary text: #BDBDBD
+- Primary buttons: #2E7D32
+- Accent elements: #A5D6A7
+
+== Accessibility & Contrast
+
+- Primary Green meets WCAG AA contrast requirements on light and dark backgrounds
+- Pastel colors are used for accents, not critical text
+- Text uses charcoal or white for readability
+
+== Scalability Notes
+
+- Pastel accents can be expanded into success/info states
+- Neutral base supports future components (tables, dashboards, admin panels)
+- Palette works well for mobile-first designs
+
+== Acceptance Criteria Checklist
+
+- ✔ 1 primary color
+- ✔ 2 pastel secondary colors
+- ✔ Neutral colors for backgrounds and text
+- ✔ Supports light and dark UI
+- ✔ Meets readability standards
+- ✔ Documented in /documentation/branding/color-palette.adoc
+- ✔ Ready to commit
