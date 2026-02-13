@@ -11,6 +11,9 @@ assignees: ''
 ### 📝 Title  
 **[Short Task Name]**
 
+### 👤 Assignee  
+- **Assigned To:** `@username`
+
 ### 🎯 Objective  
 Clearly explain **what needs to be achieved** and **why it matters** to the project. 
 
