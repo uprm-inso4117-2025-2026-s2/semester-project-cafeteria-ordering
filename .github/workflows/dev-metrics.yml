@@ -17,6 +17,7 @@ jobs:
       - name: Checkout INSO GH Metrics code
         uses: actions/checkout@v4
         with:
+          branch: inso-metrics
           repository: Poggecci/INSO-GH-API-QUERY
           path: inso-gh-query-metrics
       - name: Set up Python
@@ -56,7 +57,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "[Automated] Milestone Metrics Update"
-          branch: inso-metrics
+          #branch: inso-metrics
           push_options: "--force"
           create_branch: true
           file_pattern: metrics/*.md
