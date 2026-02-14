@@ -1,0 +1,75 @@
+= Defect Management and Deffect severity classification guidelines
+:toc:
+
+== Overview
+The purpose of this document is to have a guideline to follow to encounter defects as soon as possible during the lifetime of the project. This section depends on risk evaluation of any features presented and added to the project, specifically defect severity is very strongly associated with risk assessment of any given feature. Severity in this document will be presented independtly of risks but will attach priority values as examples.
+
+== Defect Management Process step-by-step
+
+* Defect Management is the process with which defects / bugs are handled. The defect / bug lifecycle is a part of the defect management but they are not the same. 
+* Defects can be encountered in many ways, by running the system manually, Unit tests, user acceptance tests
+defect has been detected through various testing activities such as unit testing, integration testing, system testing, and user acceptance testing. 
+Key Stages in the Defect Management Process
+
+* *Defect identification / New bug found*
+** Defect is identified by either automated testing, manual testing or user acceptance testing footnote:[User acceptance testing refers to a user trying the software after going through defect management process prior to a release, in this project's case it can be at after testing and completing a feature] 
+
+* *Defect logging*
+** Tester logs the defect with detailed information  description, steps to reproduce and add to defect tracking log. Should be accessible by at least all testers. Recommended to use github discussions to eventually create an issue that resolves the defect.
+
+* *Defect triage*
+** Assign severity and priority values to defect in tracking log. footnote:[Severity and priority are presented in the next sections]
+
+* *Defect assignment*
+** Assign a developer to fix the defect encountered
+
+* *Defect resolution*
+** Developers fixes the defect
+
+* *Defect verification*
+** Retest by tester to verify defect is resolved footnote:[Retesting and regression testing strategy and policy not covered in this document]
+
+* *Defect closure*
+** Defect has been verified as resolved, update status of defect in tracking
+
+* *Defect reporting*
+** The second most important step after defect tracking, is to report weekly, the amount of defects open, resolved, and the average amount of time it takes to fix defect. This would likely be done by a Team Lead.
+
+== Defect Priority
+Defect priority can also be refered to as urgency to fix an encountered defect. It works hand in hand with severity and risks to decide order in which defects should be fixed. Priority for them should be classified using the following table.
+[cols="1,3"]
+|===
+| High  | Needs to be fixed immidiatly, often associated with a critical or Blocker level of severity defect.
+| Medium | Defects that should be fixed next Milestones. In case of Milestone 3 they should be a focus along with High priority defects.
+| Low | Defects that don't affect the function of the system, often details in UI, grammar that can be fixed later.
+|===
+== Defect Severity Classification
+Defect Severity is also referred to as defect impact. It works together with defect priority to establish the order to fix encountered problems in the systems.
+[cols="1,3"]
+|===
+| *Severity* | *Definition*
+| Blocker | prevents system from starting/running
+| Critical | prevents a feature from working correctly, has workaround
+| Major | defect impacts the feature but does not prevent core functionality of the feature
+| Minor | minimal impact defect the affects small component of the feature
+| Trivial | defect has almost no impact on feature or system
+|===
+
+== Severity and priority example ordering
+
+[cols="4*"]
+|===
+| Priority | Severity | Order | Example
+| High Priority | Blocker Severity | 1st to be fixed | Application does not start / run
+| 
+
+|===
+
+== References
+
+* [1] Madhuri Hammad, "Defect Management Process". July 15, 2025. [Online]. Accessed: February 12, 2026. Available at: https://www.geeksforgeeks.org/software-engineering/defect-management-process/
+
+* [2] TestKarts, "Severity and Priority of Defects Tutorial". [Online]. Accessed: February 12, 2026. Available at: https://www.testkarts.com/manual-testing/severity-and-priority-of-defects#how-to-determine-severity-and-priority
+
+* [3] TestingFrameworks UK, "The Defect Life Cycle in Software Testing: Understanding Stages and Significance" November 12, 2024. [Online]. Accessed: February 13, 2026. Available at: https://www.linkedin.com/pulse/defect-life-cycle-software-testing-understanding-stages-8l0gc
+
