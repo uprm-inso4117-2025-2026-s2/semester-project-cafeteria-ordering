@@ -6,8 +6,9 @@ The purpose of this document is to have a guideline to follow to encounter defec
 
 == Defect Management Process step-by-step
 
-* Defect Management is the process with which defects / bugs are handled. The defect / bug lifecycle is a part of the defect management but they are not the same. 
-* Defects can be encountered in many ways, by running the system manually, Unit tests, user acceptance tests
+Defect Management is the process with which defects / bugs are handled. The defect / bug lifecycle is a part of the defect management but they are not the same. 
+
+Defects can be encountered in many ways, by running the system manually, Unit tests, user acceptance tests
 defect has been detected through various testing activities such as unit testing, integration testing, system testing, and user acceptance testing. 
 Key Stages in the Defect Management Process
 
