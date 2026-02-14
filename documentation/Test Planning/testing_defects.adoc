@@ -62,9 +62,9 @@ When deciding what defects to fix first, Blocker defects always go before any ot
 [cols="4*"]
 |===
 | *Order* | *Priority* | *Severity*  | *Example*
-| 1st | High | Critical | order made does not show up for employees. very likely to occur
+| 1st | High | Critical | order made does not show up for employees. Very likely to occur.
 | 2nd | Medium | Critical | a defect that can likely occur during regular use
-| 3rd | Low | Critical | defect only happens under certain conditions, parameters unlikey to occurr
+| 3rd | Low | Critical | defect only happens under certain conditions or parameters. Unlikely to occur
 | 4th | High | Major | order does not clear after being completed
 | 5th | Medium | Major | items from placed order can't be read fully (cut out text).
 | 6th | Low | Major | order items don't show price cents
