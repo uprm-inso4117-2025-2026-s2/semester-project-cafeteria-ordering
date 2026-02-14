@@ -99,7 +99,7 @@ Related Requirements:
 
 === 2.4 Acceptance Testing
 
-It is considered the formal testing conducted by stakeholders and end-users to verify that the system complies witht the user needs, requirements, and business processes.[5]
+It is considered the formal testing conducted by stakeholders and end-users to verify that the system complies with the user needs, requirements, and business processes.[5]
 
 Purpose:
 Confirm the system meets business and user expectations.
