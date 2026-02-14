@@ -48,7 +48,7 @@ Out‑of‑scope items include features or components not part of the project’
 - The project will be released as an app and does not require heavy testing for a website version.
 
 *Non‑Planned Features*
-- Any features not originally planned or added later become out‑of‑scope to prevent delays caused by testing unnecessary items.
+- Any features not defined in the initial scope will be treated as out-of-scope unless formally approved by the project manager and development team as necessary for the project's success.
 
 == Conclusion
 
