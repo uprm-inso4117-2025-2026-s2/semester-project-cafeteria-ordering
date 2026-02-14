@@ -1,8 +1,121 @@
 = Cafeteria Ordering System
 
-== *Informative Part*
+== Informative Part
 
 === 1.1 Team
+
+==== Team Structure
+The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division’s primary objectives.
+
+==== Managers
+The overall coordination of the project is led by:
+
+* Alma D. Piñero-Calero
+* Taimara P. Colon-Lopez
+
+The managers oversee progress across all divisions, facilitate communication between teams, and ensure that project milestones and academic requirements are met.
+
+==== Team Divisions
+
+===== Documentation Team
+
+*Objective:* +
+Ensure that the project documentation satisfies all hand-in requirements and aligns with project scope.
+
+*Responsibilities:*
+
+* Maintain and update project documentation.
+* Ensure clarity, structure, and completeness of required sections.
+* Verify alignment between implementation and written documentation.
+* Coordinate with other teams as needed.
+
+*Team Lead:* Reinaldo J. Martinez-Morales
+
+*Members:*
+
+* Karina Lopez-Rodriguez
+* Jahdiel E. Montero-Alicea
+* Samarys Barreiro-Melendez
+* Lorenzo A. Perez-Torres
+
+===== Test Planning Team
+
+*Objective:* +
+Identify and implement the initial test suite and configure automated testing using GitHub Actions.
+
+*Responsibilities:*
+
+* Define testing strategies (unit, integration, etc.).
+* Design test cases based on system requirements.
+* Implement automated tests.
+* Configure and maintain CI workflows using GitHub Actions.
+* Monitor test coverage and reliability.
+
+*Team Lead:* Jorge L. Deleon-Orama
+
+*Members:*
+
+* Horeb Cotto-Rosado
+* Kevin J. Lara-Rodriguez
+* Kian R. Ramos-Vega
+* Lucas A. Matos-Datiz
+* Januel E. Torres-Marquez
+* Devlin Hahn-Acosta
+* Gerardo Y. Soto-Rios
+* Yadriel Rivera-Rodriguez
+* Aryam Z. Diaz-Torres
+
+===== Research and Set Up Team
+
+*Objective:* +
+Research and establish the technical foundation of the project, including mobile framework selection and backend/database configuration.
+
+*Responsibilities:*
+
+* Set up the initial project structure and development environment.
+* Implement core functionality using React Native.
+* Evaluate and select an appropriate database solution.
+* Define backend requirements and integration approach.
+
+*Team Lead:* Fernando Castro-Cancel
+
+*Members:*
+
+* Osvaldo F. Figueroa-Canino
+* Yandre Caban-Torres
+* Luis J. Cruz-Cruz
+* Pedro J. Bonilla-Morales
+
+===== UI Team
+
+*Objective:* +
+Define the application’s branding, visual identity, and user experience.
+
+*Responsibilities:*
+
+* Design the application’s interface and layout.
+* Establish branding guidelines (colors, typography, design system).
+* Define user workflows and navigation structure.
+* Ensure usability and accessibility standards are considered.
+* Collaborate with the development team to implement UI components.
+
+*Team Lead:* Yamilette C. Alemany-Vazquez
+
+*Members:*
+
+* Daniella I. Melero-Pereira
+* Andrea P. Segarra-Felix
+* Fabiola Z. Torres-Maldonado
+* Natalia S. Vera-Rivera
+* Jon M. Vargas-Torres
+* Kaysha L. Pagan-Lopez
+* Ernesto S. Soto-Rivera
+
+===== Partners
+
+At this stage of the project, no external partners have been formally integrated. All current partners are internal team members and project managers who have direct responsibility in development and coordination. End users of the application are considered customers rather than partners.
+
+If external partners become involved in later phases, their roles and responsibilities will be formally documented here.
 
 === 1.2 Current Situtation, needs, ideas
 
