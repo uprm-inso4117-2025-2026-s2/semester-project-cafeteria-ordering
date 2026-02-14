@@ -38,7 +38,7 @@ Ensure that the project documentation satisfies all hand-in requirements and ali
 * Samarys Barreiro-Melendez
 * Lorenzo A. Perez-Torres
 
-===== Test Planning Team
+===== Quality Assurance Team
 
 *Objective:* +
 Identify and implement the initial test suite and configure automated testing using GitHub Actions.
