@@ -1,0 +1,418 @@
+= Research Payment Systems for Cafeteria Ordering Application
+:toc:
+:icons: font
+
+== Objective
+
+The purpose of this document is to examine multiple payment system alternatives by presenting an overview of each provider, conducting a structured comparative evaluation of their technical and operational characteristics, assessing their suitability for integration into the Cafeteria Ordering application, and providing a final recommendation based on the analysis.
+
+
+== Payment Providers Selected
+Based on market relevance and wide compatibility with applications, the following payment providers were selected:
+
+* Provider 1: Stripe
+* Provider 2: PayPal
+* Provider 3: Square
+* Provider 4: Braintree
+* Provider 5: Adyen
+
+== Provider Overview
+
+=== Stripe
+* Description:
+Stripe is a technology-focused payment processing platform that provides APIs and SDKs for accepting online and mobile payments.
+
+* Company background:
+Founded in 2010 in the United States, Stripe has become one of the leading global payment processors, serving startups and large enterprises.
+
+* Primary use case:
+E-commerce websites, SaaS platforms, subscription services, and mobile applications.
+
+=== PayPal
+* Description:
+PayPal is an online payment system that allows users and businesses to send and receive payments electronically.
+
+* Company background:
+Founded in 1998, PayPal is one of the most established digital payment companies worldwide.
+
+* Primary use case:
+E-commerce platforms, peer-to-peer payments, and online marketplaces.
+
+
+=== Square
+* Description:
+Square is a financial services platform that provides payment processing and point-of-sale (POS) solutions.
+
+* Company background:
+Founded in 2009, Square initially focused on small business POS systems and later expanded into online payments.
+
+* Primary use case:
+In-person POS systems, restaurants, small businesses, and online payment processing.
+
+
+=== Braintree
+* Description:
+Braintree is a full-stack payment platform that provides online and mobile payment processing and supports multiple payment methods.
+
+* Company background:
+Founded in 2007 and acquired by PayPal in 2013, Braintree focuses on providing developer-friendly solutions for online payments and subscriptions.
+
+* Primary use case:
+Mobile apps, e-commerce platforms, subscription services.
+
+
+=== Adyen
+* Description:
+Adyen is a global payment company providing a single platform to accept payments online, in-app, and in-store.
+
+* Company background:
+Founded in 2006 in the Netherlands, Adyen serves large enterprises and is known for its seamless global payment solutions.
+
+* Primary use case:
+Enterprise e-commerce, omnichannel retail, and in-person payments.
+
+
+== 1. Technical Compatibility Analysis
+
+=== React Native Compatibility
+
+[cols="1,1,2", options="header"]
+|===
+| Payment System Provider | Official React Native SDK | Notes
+
+| Stripe
+| Yes
+| Official SDK available via @stripe/stripe-react-native
+
+| PayPal
+| Limited
+| Requires web-based integration or third-party solutions
+
+| Square
+| Limited
+| SDK available but primarily focused on POS environments
+
+| Braintree
+| Limited
+| Official SDKs for iOS/Android; React Native requires bridging or third-party wrapper
+
+| Adyen
+| Yes
+| Official SDK available via @adyen/react-native
+|===
+
+=== Supabase Backend Integration
+
+[cols="1,1,2", options="header"]
+|===
+| Payment System Provider | API-Based Integration | Notes
+
+| Stripe
+| Yes
+| Fully API-based and compatible with Supabase
+
+| PayPal
+| Yes
+| REST APIs supported for backend integration
+
+| Square
+| Yes
+| API integration available for backend services
+
+| Braintree
+| Yes
+| REST API available; server-side integration feasible with Supabase functions
+
+| Adyen
+| Yes
+| REST APIs and webhooks supported for backend integration
+|===
+
+== 2. Supported Payment Methods
+
+[cols="1,1,1,1,1,1,1", options="header"]
+|===
+| Payment System Provider | Credit/Debit Cards | Apple Pay | Google Pay | PayPal (Balance) | Venmo | Other Local Methods
+
+| Stripe
+| Yes
+| Yes
+| Yes
+| Yes
+| Limited (US only)
+| Bank transfers, subscriptions, international payments
+
+| PayPal
+| Yes
+| Yes
+| Yes
+| Yes
+| Limited (US only)
+| Pay Later options
+
+| Square
+| Yes
+| Yes
+| Yes
+| No
+| No
+| POS hardware integration
+
+| Braintree
+| Yes
+| Yes
+| Yes
+| Yes
+| Limited (US only)
+| Local payment methods
+
+| Adyen
+| Yes
+| Yes
+| Yes
+| Yes
+| Limited (US only)
+| iDEAL, SEPA, Alipay, recurring billing
+|===
+
+
+== 3. Pricing Structure and Transaction Fees
+
+[cols="1,1,1,1,2", options="header"]
+|===
+| Payment System Provider | Percentage Fee | Fixed Fee | Monthly Fee | Additional Notes
+
+| Stripe
+| 2.9%
+| $0.30
+| None
+| Additional fees for international cards
+
+| PayPal
+| 2.89% / 3.49% (varies by region and method)
+| $0.30-$0.49 (varies by region and method)
+| None
+| Higher fees for cross-border transactions
+
+| Square
+| 2.6% (in-person) / 3.3% (online)
+| $0.15 (in-person) / $0.30 (online)
+| None
+| Special pricing for POS transactions
+
+| Braintree
+| 2.89%
+| $0.29
+| None
+| Additional fees for PayPal transactions; discounts for high volume
+
+| Adyen
+| 1.5%–5% (varies by region and method)
+| $0.13 
+| None
+| Transparent volume-based pricing; supports global payments
+|===
+
+== 4. Security and Compliance Evaluation
+
+[cols="1,1,1,1,2", options="header"]
+|===
+| Payment System Provider | PCI Compliant | Encryption | Fraud Protection | Additional Notes
+
+| Stripe
+| Yes
+| TLS Encryption
+| Advanced fraud detection (Stripe Radar)
+| Strong security infrastructure
+
+| PayPal
+| Yes
+| TLS Encryption
+| Buyer and seller protection
+| Established trust and dispute resolution system
+
+| Square
+| Yes
+| TLS Encryption
+| Fraud monitoring tools
+| Secure POS-focused protection
+
+| Braintree
+| Yes
+| TLS Encryption
+| Advanced fraud tools, 3D Secure support
+| Secure vault for storing card information
+
+| Adyen
+| Yes
+| TLS Encryption
+| Risk management tools, 3D Secure
+| Enterprise-grade fraud detection
+|===
+
+== 5. Integration Complexity and Developer Experience
+
+[cols="1,1,1,1", options="header"]
+|===
+| Payment System Provider | Integration Difficulty (Low/Medium/High) | SDK Availability (Good/Limited/None) | Documentation Quality (Low/Medium/High)
+
+| Stripe
+| Low
+| Good
+| High
+
+| PayPal
+| Medium
+| Limited
+| Medium
+
+| Square
+| Medium
+| Good
+| High
+
+| Braintree
+| Medium
+| Limited
+| High
+
+| Adyen
+| High
+| Limited
+| High
+|===
+
+== 6. Pros and Cons
+
+=== Provider 1: Stripe
+
+* Pros:
+- Excellent React Native support
+- Modern APIs
+- High-quality documentation
+- Advanced fraud detection tools
+
+* Cons:
+- Slight learning curve for beginners
+
+=== Provider 2: PayPal
+
+* Pros:
+- Strong global brand recognition
+- Large customer trust
+- Convenient for users with PayPal accounts
+
+* Cons:
+- Less flexible mobile SDK
+- Possible account holds in certain cases
+
+=== Provider 3: Square
+
+* Pros:
+- Ideal for cafeteria POS systems
+- Strong hardware integration
+- Competitive in-person transaction rates
+
+* Cons:
+- More focused on physical POS systems
+- Online tools less flexible compared to others
+
+=== Provider 4: Braintree
+
+* Pros:
+- Supports multiple payment methods including PayPal and Venmo
+- Developer-friendly APIs
+- Recurring billing and subscription support
+
+* Cons:
+- React Native integration requires additional work
+- Slightly more complex to set up than others
+
+=== Provider 5: Adyen
+
+* Pros:
+- Enterprise-grade platform with global payment support
+- Wide range of local payment methods
+- Strong fraud detection and risk management
+
+* Cons:
+- Pricing can be complex for small businesses
+- More suited for large-scale enterprise integration
+
+== 7. Final Recommendation
+
+* Recommended provider: Stripe
+
+* Justification: Stripe is overall the best alternative for the project due to its high compatibility with React Native, easier Supabase integration, modern APIs and  SDKs, high-quality security features, and developer-friendly experience.
+
+
+
+== 8. References
+
+
+* References for Payment System Alternatives:
+** https://touchlane.com/how-to-choose-the-best-payment-gateway-for-mobile-app-and-integrate-it/
+** https://zapier.com/blog/best-payment-gateways/
+** https://www.nerdwallet.com/business/software/best/payment-apps
+** https://www.bitswits.co/blog/payment-gateways-for-mobile-apps
+** https://fastercapital.com/articles/Best-mobile-payment-solutions-for-app-developers.html
+** https://www.foonkiemonkey.co.uk/blog/a-guide-to-choosing-the-best-mobile-payment-gateway-for-your-mobile-app/
+** https://invedus.com/blog/payment-gateway-for-mobile-apps/
+
+
+
+* References for Technical Capabilities:
+** https://reactnative.dev/
+** https://docs.stripe.com/sdks/react-native
+** https://supabase.com/docs/guides/database/extensions/wrappers/stripe
+** https://developer.paypal.com/community/blog/how-to-add-paypal-checkout-payments-to-your-react-app/
+** https://pipedream.com/apps/supabase/integrations/paypal
+** https://github.com/Adyen/adyen-react-native
+** https://pipedream.com/apps/supabase-management-api/integrations/adyen/create-payment-with-adyen-api-on-new-backup-completed-from-supabase-management-api-api-int_XespqeWB
+** https://pipedream.com/apps/braintree
+** https://developer.squareup.com/docs/in-app-payments-sdk/react-native
+** https://developer.squareup.com/forums/t/square-api-supabase/15367
+
+
+
+* References for Supported Payments:
+** https://www.paypal.com/us/cshelp/article/what-payment-methods-can-i-use-with-paypal-help468
+** https://squareup.com/help/us/en/article/5085-accepted-cards
+** https://stripe.com/payments/payment-methods
+** https://developer.paypal.com/braintree/articles/get-started/payment-methods
+** https://docs.adyen.com/point-of-sale/what-we-support/payment-methods
+
+
+
+* References for Pricing Structure and Transaction Fees:
+** https://stripe.com/pricing
+** https://www.paypal.com/us/digital-wallet/paypal-consumer-fees
+** https://squareup.com/us/en/pricing
+** https://www.paypal.com/us/enterprise/paypal-braintree-fees
+** https://www.adyen.com/pricing?utm_source=Google&utm_medium=Online+Advertising&utm_campaign=2022.00-SEA-GLO-Brand&gad_source=1&gad_campaignid=1686771960&gbraid=0AAAAADpEEr1hJ908fUiBJOmPeAfLxKtwL&gclid=Cj0KCQiA18DMBhDeARIsABtYwT395r_w_HH0B_CgTF5BspqCbEsGV87g297TwlvLQ1-bNybPKw6nbtoaAmXkEALw_wcB
+
+
+
+* References for Security and Compliance:
+** https://docs.stripe.com/security
+** https://www.paypal.com/us/brc/article/pci-dss-compliance-basics
+** https://www.paypal.com/us/brc/article/what-is-a-passkey-and-what-are-its-advantages
+** https://squareup.com/help/us/en/article/3796-privacy-and-security
+** https://developer.paypal.com/braintree/help/ComplianceQuestion
+** https://help.adyen.com/knowledge/security/security-principles/what-are-the-adyen-security-certifications
+** https://help.adyen.com/knowledge/security
+** https://help.adyen.com/knowledge/security/product-security/what-versions-of-tls-does-adyen-support
+
+
+
+
+* References for Integration Complexity and Developer Experience:
+** https://stripe.com/resources/more/guide-to-in-app-payments
+** https://developer.paypal.com/upgrade/sdk-upgrade/overview/
+** https://developer.paypal.com/community/blog/faster-payments-integration/
+** https://developer.squareup.com/docs/development-essentials
+** https://developer.paypal.com/braintree/docs/guides/payment-method-types-overview
+** https://developer.paypal.com/braintree/docs/start/overview
+** https://www.adyen.com/knowledge-hub/integration-guide
+** https://docs.adyen.com/
+
