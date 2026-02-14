@@ -1,22 +1,21 @@
-= Defect Management and Deffect severity classification guidelines
+= Defect Management and Defect severity classification guidelines
 :toc:
 
 == Overview
-The purpose of this document is to have a guideline to follow to encounter defects as soon as possible during the lifetime of the project. This section depends on risk evaluation of any features presented and added to the project, specifically defect severity is very strongly associated with risk assessment of any given feature. Severity in this document will be presented independtly of risks but will attach priority values as examples.
+
+The purpose of this document is for the team to have a guideline to follow when encountering bugs, it is preferred to encounter defects as soon as possible during the lifetime of the project. This section depends on risk evaluation of any features presented and added to the project; specifically defect severity is very strongly associated with risk assessment of any given feature. Severity in this document will be presented independently of risks but will attach priority values as examples.
 
 == Defect Management Process step-by-step
 
-Defect Management is the process with which defects / bugs are handled. The defect / bug lifecycle is a part of the defect management but they are not the same. 
+Defect Management is the process with which defects / bugs are handled. The defect / bug lifecycle is a part of defect management, but they are not the same.  
 
-Defects can be encountered in many ways, by running the system manually, Unit tests, user acceptance tests
-defect has been detected through various testing activities such as unit testing, integration testing, system testing, and user acceptance testing. 
-Key Stages in the Defect Management Process
+Once a defect has been detected through various testing activities such as unit testing, integration testing, system testing, and user acceptance testing. Follow the steps bellow:
 
 * *Defect identification / New bug found*
 ** Defect is identified by either automated testing, manual testing or user acceptance testing footnote:[User acceptance testing refers to a user trying the software after going through defect management process prior to a release, in this project's case it can be at after testing and completing a feature] 
 
 * *Defect logging*
-** Tester logs the defect with detailed information  description, steps to reproduce and add to defect tracking log. Should be accessible by at least all testers. Recommended to use github discussions to eventually create an issue that resolves the defect.
+** Tester logs the defect with detailed information description, steps to reproduce and add to defect tracking log. Should be accessible by at least all testers. Recommended to use github discussions to eventually create an issue that resolves the defect.
 
 * *Defect triage*
 ** Assign severity and priority values to defect in tracking log.
@@ -25,22 +24,22 @@ Key Stages in the Defect Management Process
 ** Assign a developer to fix the defect encountered
 
 * *Defect resolution*
-** Developers fixes the defect
+** Developer fixes the defect
 
 * *Defect verification*
-** Retest by tester to verify defect is resolved footnote:[Retesting and regression testing strategy and policy not covered in this document]
+** Retest to verify defect is resolved footnote:[Retesting and regression testing strategy and policy not covered in this document]
 
 * *Defect closure*
 ** Defect has been verified as resolved, update status of defect in tracking
 
 * *Defect reporting*
-** The second most important step after defect tracking, is to report weekly, the amount of defects open, resolved, and the average amount of time it takes to fix defect. This would likely be done by a Team Lead.
+** The second most important step after defect tracking, is to report weekly, the number of defects open, resolved, and the average amount of time it takes to fix defect. This would likely be done by a Team Lead.
 
 == Defect Priority
-Defect priority can also be refered to as urgency to fix an encountered defect. It works hand in hand with severity and risks to decide order in which defects should be fixed. Priority for them should be classified using the following table.
+Defect priority can also be referred to as urgency to fix an encountered defect. It works hand in hand with severity and risks to decide order in which defects should be fixed. Priority for them should be classified using the following table.
 [cols="1,3"]
 |===
-| High  | Needs to be fixed immidiatly, often associated with a critical or Blocker level of severity defect.
+| High  | Needs to be fixed immediately, often associated with a critical or Blocker level of severity defect.
 | Medium | Defects that should be fixed next Milestones. In case of Milestone 3 they should be a focus along with High priority defects.
 | Low | Defects that don't affect the function of the system, often details in UI, grammar that can be fixed later.
 |===
@@ -52,22 +51,22 @@ Defect Severity is also referred to as defect impact. It works together with def
 | Blocker | prevents system from starting/running
 | Critical | prevents a feature from working correctly, has workaround
 | Major | defect impacts the feature but does not prevent core functionality of the feature
-| Minor | minimal impact defect the affects small component of the feature
+| Minor | minimal impact defect that affects a small component of the feature
 | Trivial | defect has almost no impact on feature or system
 |===
 
 == Severity and priority example ordering
 
-When deciding what defects to fix first, Blocker defects always go before any other and they are always classified as High Priority. Since trivial has almost no impact on feature, it can be left or packaged with another defect fix that relates to it. There can be some cases where a defect encountered poses a low severity but really high priority for example a typo in product name. These types of issues are often very important a business perspective and would likely be a priority in spite of how easy it is to fix.
+When deciding what defects to fix first, Blocker defects always go before any other and they are always classified as High Priority. Since trivial has almost no impact on feature, it can be left or packaged with another defect fix that relates to it. There can be some cases where a defect encountered poses a low severity but really high priority, for example a typo in product name. These types of issues are often very important a business perspective and would likely be a priority despite of how easy it is to fix.
 
 [cols="4*"]
 |===
-| Order| Priority | Severity  | Example
+| *Order* | *Priority* | *Severity*  | *Example*
 | 1st | High | Critical | order made does not show up for employees. very likely to occur
 | 2nd | Medium | Critical | a defect that can likely occur during regular use
 | 3rd | Low | Critical | defect only happens under certain conditions, parameters unlikey to occurr
 | 4th | High | Major | order does not clear after being completed
-| 5th | Medium | Major | items from placed order can't be read fully(cut out text).
+| 5th | Medium | Major | items from placed order can't be read fully (cut out text).
 | 6th | Low | Major | order items don't show price cents
 | 7th | High | Minor | spelling error on product logo
 | 8th | Medium | Minor | color of a item does not match others. likely to encounter, does not affect functionality.
