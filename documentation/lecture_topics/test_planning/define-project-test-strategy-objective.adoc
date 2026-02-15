@@ -25,7 +25,7 @@ Testing in this project aims to:
 * Validate that core user flows (ordering, payment, pickup coordination) function correctly.
 * Detect defects as early as possible in the development lifecycle.
 * Ensure the system provides a reliable and intuitive user experience.
-* Provide measurable assurance of system readiness before release.
+* Provide measurable assurance that implemented features meet defined requirements before integration or demonstration.
 
 According to industry best practices, testing objectives must define desired outcomes rather than simply describe activities. Testing must therefore support decision-making and risk mitigation throughout the project lifecycle [1][2].
 
