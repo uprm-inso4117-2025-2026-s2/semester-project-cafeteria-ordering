@@ -2,7 +2,7 @@ name: "auto-test suite"
 
 on:
     push:
-        branches: [main]
+        branches: [main, Establish-base-test-suite-(auto-test-suite)]
     pull_request:
         types: [opened, edited]
         branches: [main]
