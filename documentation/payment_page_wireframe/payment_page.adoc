@@ -1,0 +1,113 @@
+= Cafeteria Ordering System - Payment Page =
+:toc:
+:toclevels: 2
+
+== Objective ==
+Define the visual structure and layout of the Payment Page within the Cafeteria Ordering System mobile ordering flow.
+
+This document describes the wireframe design and component placement that will guide future UI design and implementation.
+
+== Wireframe Overview ==
+The Payment Page wireframe represents the final checkout screen where users review their order and proceed with payment.
+
+The purpose of this wireframe is to:
+
+- Establish layout structure
+- Define section grouping
+- Clarify visual priority of elements
+- Ensure a clean and mobile-friendly design
+- Serve as a reference for UI implementation
+
+== Wireframe Structure ==
+The Payment Page wireframe is divided into the following primary sections:
+
+=== 1. Return Button Section ===
+
+Position: 
+
+- Top left of the screen
+
+Includes:
+
+- Button allowing the option to continue modifying the order
+
+=== 2. Order Summary Section ===
+
+Position:
+
+- Top portion of the screen
+
+Includes:
+
+- List of selected items
+- Quantity displayed before item name
+- Total price per item aligned to the right
+- Individual unit price displayed beneath item name in smaller text
+- Subtotal, taxes, and final total displayed at the bottom of the section
+
+=== 3. Payment Method Section ===
+
+Position:
+
+- Below Order Summary
+
+Include:
+
+- Option to select a payment method
+- Option to add a new payment method
+- Display area for saved payment methods
+
+=== 4. New Payment Entry Form (Conditional) ===
+
+Position:
+
+- Appears below payment method selection when "Add New Card" is selected
+
+Includes:
+
+- Card number field
+- Expiration date field
+- CVV field
+- Cardholder name field
+- Country field
+- Address Line field
+- City field
+- State/Territory field
+- Postal Code field
+
+=== 5. Payment Section ===
+
+Position:
+
+- Bottom of the screen
+
+Includes:
+
+- Primary "Pay Now" button
+
+== Wireframe File Reference ==
+
+The wireframe is stored in:
+
+/documentation/payment_page_wireframe/payment_page_wireframe.png
+
+Embedded Reference:
+
+image::../../documentation/payment_page_wireframe/payment_page_wireframe.png[Payment Page Wireframe - Mobile, align="center"]
+
+== Acceptance Criteria == 
+
+- The wireframe clearly displays an Order Summary section including:
+
+  * Item names
+  * Quantities
+  * Individual prices
+  * Calculated item totals (price × quantity)
+  * Additional fees (if applicable)
+  * Final total cost
+
+- Available payment methods are visually presented within a dedicated section.
+- Input fields for entering or updating payment details are included and clearly positioned in the layout when applicable.
+- A visible and clearly labeled primary action button is included and positioned prominently.
+- Visual cues indicating a secure payment process are included 
+- The finalized wireframe image and this documentation file are accessible to all team members.
