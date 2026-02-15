@@ -10,6 +10,10 @@ The palette is designed for a student-focused cafeteria experience: clean, moder
 
 == Color Palette
 
+The following image visually represents the official project color palette:
+
+image::color-palette.png[Color Palette Preview, align=center]
+
 === Primary Color
 
 Used for branding, primary actions, and key interactive elements.
