@@ -1,0 +1,113 @@
+= Define Project’s Test Strategy Objective (INSO4117)
+:author: Kian R. Ramos-Vega
+
+== Table of Contents
+
+* Overview
+* Purpose of Testing
+* Alignment with Business Goals
+* Quality Objectives
+* Risk-Based Focus
+* Automation & Continuous Integration (CI)
+* Scope of This Document
+* References
+
+== Overview
+
+The purpose of this document is to define the high-level objectives of the testing strategy for the Cafeteria Ordering System. The purpose of the testing strategy objectives is to ensure that all testing activities directly support the project’s goal of reducing long wait times in the university cafeteria through a reliable, secure, and efficient digital ordering system.
+
+Testing is done to provide confidence that the system supports digital ordering efficiently and reduces long wait times at the university cafeteria.
+
+== Purpose of Testing
+
+Testing in this project aims to:
+
+* Validate that core user flows (ordering, payment, pickup coordination) function correctly.
+* Detect defects as early as possible in the development lifecycle.
+* Ensure the system provides a reliable and intuitive user experience.
+* Provide measurable assurance that implemented features meet defined requirements before integration or demonstration.
+
+According to industry best practices, testing objectives must define desired outcomes rather than simply describe activities. Testing must therefore support decision-making and risk mitigation throughout the project lifecycle [1][2].
+
+== Alignment with Business Goals
+
+The primary business objective of the Cafeteria Ordering System is to reduce long wait times caused by manual in-person ordering.
+
+Testing directly supports this goal by ensuring that:
+
+* Orders are processed accurately and without duplication.
+* Payment transactions are reliable and secure.
+* Peak-hour usage does not cause system instability.
+* Navigation between screens is consistent and intuitive.
+* Backend integrations respond correctly and efficiently.
+
+Testing activities must align with stakeholder expectations, including students, cafeteria staff, and project managers.
+
+== Quality Objectives
+
+The testing strategy prioritizes the following quality attributes:
+
+* *Reliability* – The system performs consistently without unexpected failures.
+* *Performance* – The system remains responsive during expected peak demand.
+* *Security* – Authentication and payment processes must prevent unauthorized access and protect sensitive user data.
+* *Maintainability* – The codebase remains stable as new features are introduced.
+
+Testing objectives must clearly define desired outcomes rather than simply describe activities [3].
+
+== Risk-Based Focus
+
+Testing efforts will prioritize areas where failure would have the highest impact.
+
+Key risks include:
+
+* Failed or duplicate orders.
+* Payment processing errors.
+* System crashes during peak traffic.
+* Regression defects introduced during development.
+* Integration failures between frontend and backend components.
+
+A risk-based approach ensures testing resources are concentrated on features with the greatest operational and user impact [2][3].
+
+== Automation & Continuous Integration (CI)
+
+Automation will serve as a quality gate mechanism for maintaining system stability.
+
+Continuous Integration (CI) will:
+
+* Automatically validate builds on every pull request.
+* Execute required test suites prior to merging.
+* Block unstable or failing changes from entering the `main` branch.
+* Provide immediate feedback to developers on build failures, test results, and potential breakage of already existing features before changes are merged.
+* Maintain a consistently functioning codebase.
+
+By preventing unstable code from merging into protected branches, CI ensures the system remains consistently deployable and reduces the risk of introducing new bugs into existing functionality.
+
+== Scope of This Document
+
+This document defines the objectives and intent of testing.
+
+It does not define:
+
+* Specific test cases
+* Detailed test implementation
+* CI configuration details
+* Coverage thresholds
+
+These topics are addressed in separate Test Planning and Test Environment documentation.
+
+== References
+
+[1] Iterators Testing, “Testing Objectives.”
+https://iteratorstesting.com/blog/testing-objectives
+
+[2] Oracle Test Guide, “Test Objectives.”
+https://docs.oracle.com/cd/G26828_01/books/TestGuide/c-Test-Objectives-ady137354.html
+
+[3] TestRail, “Test Planning Guide.”
+https://www.testrail.com/blog/test-planning-guide/
+
+[4] AgileTest, “A Practical Guide to Test Objectives.”
+https://agiletest.app/a-practical-guide-to-test-objectives/
+
+[5] OpenText, “A Beginner’s Guide to Establishing a Successful Testing Program.”
+https://blogs.opentext.com/a-beginners-guide-to-establishing-a-successful-testing-and-optimization-program/

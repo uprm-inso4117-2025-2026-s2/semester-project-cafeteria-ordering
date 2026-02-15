@@ -124,6 +124,41 @@ Eating at the university cafeteria is a necessity for many students, yet the cur
 
 ==== 1.2.2 Needs
 
+The long wait times at the university cafeteria show unmet needs in food service and campus life, not in any specific system or technology. These needs come from how student schedules, cafeteria operations, and institutional restrictions interact, and as a consequence, they affect many stakeholders.
+
+===== Students
+
+* Be able to access meals within limited time windows between classes without risking tardiness or absence.
+* Reduce uncertainty around how long it will take to obtain food, especially during peak cafeteria hours.
+* Maintain consistent access to meals that supports health, focus, and academic performance.
+* Avoid having to choose between basic needs and academic responsibilities.
+
+===== Cafeteria Staff
+
+* Handle high volumes of orders efficiently without excessive pressure during peak periods.
+* Maintain a smooth operational flow that minimizes crowding and confusion at service points.
+* Receive clearer signals about when demand will come and the volume of orders. This will help better manage preparation.
+
+===== University Staff
+
+* Ensure campus services support student retention, wellness, and academic success.
+* Minimize crowds in shared spaces to improve safety and traffic flow.
+* Balance service improvements with resource and staffing constraints.
+
+===== System-Wide Needs
+
+* Reduced trouble between ordering, preparation, payment, and pickup.
+* Alignment between student schedules and cafeteria service capacity.
+* A food-service process that adapts to peak demand patterns.
+* Meals can be obtained reliably and on time, even during busy periods.
+
+===== Project Level Needs
+
+* A clear statement of requirements based on stakeholder needs, without reference to any system. 
+* A common language used in analysis, design, implementation, and testing to avoid confusion. 
+* Planning documents (requirements, architecture, design, and test strategy) to support the solution selected later.
+* A general description of cafeteria operations and how stakeholders interact. 
+
 ==== 1.2.3 Ideas
 
 === 1.3 Scope, Span and Synopsis
