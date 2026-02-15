@@ -1,0 +1,100 @@
+= Test Organization, Roles & Responsibilities
+:project: Cafeteria Ordering System
+
+== 1. Objective
+
+This document establishes and defines the testing organizational structure for the Cafeteria Ordering System. Its purpose is to ensure accountability, effective communication, structured defect handling, and quality validation across all system modules.
+
+== 2. Testing Organizational Structure
+
+The testing organization consists of the following roles:
+
+* Test Lead
+* QA Engineer
+* Developers
+* Project Manager
+
+Each role has clearly defined responsibilities to prevent overlap or ambiguity.
+
+== 3. Roles & Responsibilities
+
+=== 3.1 Test Lead
+
+* Define and maintain the overall testing approach.
+* Review and approve test activities.
+* Monitor testing progress and risk exposure.
+* Escalate critical issues when necessary.
+* Approve release readiness from a testing perspective.
+
+=== 3.2 QA Engineer
+
+* Design and execute functional and non-functional test cases.
+* Perform system and integration testing.
+* Validate the following modules:
+  - Ordering & Cart
+  - Payment Processing
+  - Notification System
+  - OTP Locker Pickup
+  - Admin Dashboard
+* Log and track defects.
+* Perform regression testing after fixes.
+
+=== 3.3 Developers
+
+* Perform unit testing for implemented features.
+* Fix reported defects.
+* Support integration testing.
+* Participate in code reviews.
+
+=== 3.4 Project Manager
+
+* Align testing schedule with sprint milestones.
+* Review testing reports.
+* Approve final release readiness.
+* Ensure managerial oversight of testing structure.
+
+== 4. Responsibility Mapping by Module
+
+[cols="1,2", options="header"]
+|===
+| Module | Responsible Roles
+
+| Ordering & Cart
+| Developers (Unit Testing), QA (System Testing)
+
+| Payment Processing
+| Developers (Unit Testing), QA (Integration & Security Testing)
+
+| Notification System
+| QA
+
+| OTP Locker Pickup
+| QA (Functional & Security Testing)
+
+| Admin Dashboard
+| QA (Functional Testing)
+|===
+
+== 5. Communication Flow
+
+The testing communication flow follows this structure:
+
+Developer → QA → Test Lead → Project Manager
+
+All defects must be documented in the official issue tracking system.
+
+== 6. Escalation Process
+
+For critical issues (e.g., payment failures, OTP bypass vulnerabilities, major system outages):
+
+1. QA logs the issue as Critical.
+2. Test Lead is notified immediately.
+3. Project Manager is informed.
+4. Fix cycle is initiated.
+5. Regression testing is performed before release approval.
+
+== 7. Approval
+
+The testing organizational structure must be reviewed and approved by the Project Manager.
+
+No role conflicts or accountability gaps are permitted.
