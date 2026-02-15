@@ -14,6 +14,7 @@ Layout displays customer orders for staff members to access when preparing meals
 
 
 *Final product:*
+All pages can be viewed in Wireframes/View Order Wireframe.pdf
 Page 1:  The “Unread” tab features orders received and unread by staff. Once these orders are viewed by staff and sent to the kitchen, they can be marked as “Opened”.  Each order can be tapped to open full order view, shown in page 4.
 
 Page 2: The “Opened” tab shows orders sent to the kitchen but not yet ready for pickup. Each order can be tapped to open full order view, shown in page 5.
