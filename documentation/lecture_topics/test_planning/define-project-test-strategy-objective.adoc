@@ -14,7 +14,7 @@
 
 == Overview
 
-The purpose of this document is to define the high-level objectives of the testing strategy for the Cafeteria Ordering System. The purpose of the Testing strategy objectives is to ensure that all testing activities directly support the project’s goal of reducing long wait times in the university cafeteria through a reliable, secure, and efficient digital ordering system.
+The purpose of this document is to define the high-level objectives of the testing strategy for the Cafeteria Ordering System. The purpose of the testing strategy objectives is to ensure that all testing activities directly support the project’s goal of reducing long wait times in the university cafeteria through a reliable, secure, and efficient digital ordering system.
 
 Testing is done to provide confidence that the system supports digital ordering efficiently and reduces long wait times at the university cafeteria.
 
