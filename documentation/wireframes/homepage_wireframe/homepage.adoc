@@ -25,4 +25,4 @@ The goal is to ensure all components are properly labeled, logically grouped, an
 - Cards are interactive and allow users to select items for ordering.
 - The layout prioritizes clarity, quick scanning, and smooth navigation.
 
-image::Homepage_wireframe.png[Home page wireframe]
+image::HomePage_wireframe.png[Home page wireframe]
