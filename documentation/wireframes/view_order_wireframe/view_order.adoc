@@ -14,7 +14,7 @@ Layout displays customer orders for staff members to access when preparing meals
 
 
 *Final product:*
-All pages can be viewed in Wireframes/View Order Wireframe.pdf
+All pages can be viewed in Wireframes/images folder.
 
 [%unbreakable]
 --
