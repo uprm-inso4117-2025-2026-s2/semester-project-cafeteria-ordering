@@ -161,6 +161,22 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 ==== 1.2.3 Ideas
 
+* Welcome to the Cafeteria ordering application, a platform where students and staff from the university community can easily order food from the university cafeteria, drastically reducing the waiting time and facilitating staff work.
+
+* Ordering: Now, it’s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
+
+* Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
+
+*Notification system: The project will have different types of notifications, primarily:
+** User notifications: the user will get notifications for the orders they submit; they get a notification when the order is being processed and when it is available to pick up.
+** Staff notification: when a user makes an order, the cafeteria will receive a notification of the user’s order with details such as the dishes, snacks or drinks the user ordered.
+
+* Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer’s order stolen.
+
+*Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.
+
+*Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.
+
 === 1.3 Scope, Span and Synopsis
 
 ==== 1.3.1 Scope and Span
