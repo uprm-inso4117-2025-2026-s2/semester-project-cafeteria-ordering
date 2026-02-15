@@ -1,0 +1,8 @@
+= PROJECT RESEARCH GUIDELINE
+ASCII DOCS REQUIREMENT
+
+
+== Standard
+
+All text-based files (general documents, research, documentation, etc) in the project must be encoded in asciidoc using the extension ".adoc". This ensures compatibility and consistency across all documentation and source code files.
+
