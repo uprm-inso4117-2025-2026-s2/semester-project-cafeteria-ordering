@@ -167,9 +167,7 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 * Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
 
-*Notification system: The project will have different types of notifications, primarily:
-** User notifications: the user will get notifications for the orders they submit; they get a notification when the order is being processed and when it is available to pick up.
-** Staff notification: when a user makes an order, the cafeteria will receive a notification of the user’s order with details such as the dishes, snacks or drinks the user ordered.
+*Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.
 
 * Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer’s order stolen.
 
