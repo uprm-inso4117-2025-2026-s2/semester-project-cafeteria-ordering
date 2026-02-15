@@ -2,7 +2,7 @@ name: Daily Project Metrics Generation
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 21 * * *" # Every day at 9 PM UTC
   workflow_dispatch:
 
 concurrency:
