@@ -1,18 +1,21 @@
 = Base Auto Test Suite
 
 == Scope:
-1. auto_test_suite.yml
 
-2. package.json
+The following files define the baseline automated test suite:
+
+- .github/workflows/auto_test_suite.yml
+
+- package.json
 
 == Purpose:
-Establish a minimal baseline automated test suite that validates the project builds successfully before code is merged into the main branch.
+The purpose of this configuration is to establish a minimal baseline automated test suite that validates the project builds successfully before code is merged into the main branch.
 
 == Code and Justification
 
-This section reivews the code in segments and explains the why and how the choices were evaluated
+This section reivews the code in segments, explaining the reasoning behind each choice
 
-== Triggers
+== Trigger Configuration
 .Job Triggers:
 
 [source, yml]
@@ -25,13 +28,13 @@ on:
         branches: [main]
 ----
 
-In this snippet, two triggers are established:
+The workflow defines two trigger events:
 
-- on push
+- Push events: executes when commits are pushed directly
 
-- on pull_request
+- Pull request events: executes when pull requests targeting main are opened or edited
 
-This indicates to the CI pipeline that the test building will take place once either of these two events take place. Additionally, for pull requests, the build will execute when the PR is created.
+This configuration ensures build validation occurs automatically whenever changes are proposed for or introduced to the main branch.
 
 == Job Specifications
 
@@ -51,23 +54,29 @@ jobs:
           run: npm run ci-check
 ----
 
-== Job execution:
+== Job Execution Details:
 .Process name
 [source,yml]
 ----
 build-and-lint:
 ----
 
-The name of the task to be executed, since the goal is to provide feedback on where the build process failed, linting is necessary.
+The job is named `build-and-lint` to clearly indicate its dual purpose: validating the build process while also running linting checks. 
 
-.Machine type
+.Build Environment
 [source,yml]
 ----
 runs on: ubuntu-latest
 ----
-Provided and hosted by Github, the ubuntu virtual machine ensures quick build execution. Using `latest` ensures that the environment receives security patches and OS-level updates automatically.
+The workflow executes on GitHub-hosted Ubuntu virtual machines. Using `ubuntu-latest` provides several benefits:
 
-.Steps:
+- Ensures consistent build environments across runs
+
+- Receives automatic security patches and OS-level updates
+
+- Leverages GitHub's optimized infrastructure for fast execution
+
+.Execution Steps:
 
 .Machine set-up
 [source,yml]
@@ -75,7 +84,7 @@ Provided and hosted by Github, the ubuntu virtual machine ensures quick build ex
 - name: Check-out repo
   uses: actions/checkout@v4
 ----
-In the virtual machine the repository is cloned and allows the workflow to execute in main.
+This step clones the repository into the virtual machine environment, making the codebase available for subsequent build operations.
 
 .Build commands
 [source,yml]
@@ -86,8 +95,14 @@ In the virtual machine the repository is cloned and allows the workflow to execu
   run: npm run ci-check
 ----
 
-The development stack for this project involves Node.js, which allows the use of simple build instructions. 
+The project utilizes Node.js, enabling straightforward build instructions:
 
-`npm install` installs the project's dependencies.  
+`npm install` retrieves and installs all project dependencies as defined in `package.json`
 
-`npm run ci-check` is a custom command established in package.json. It executes the following command: `npm run lint && npm run test:build`. Similarly, `test:build` is custom for `npx expo export`. What `npm run ci-check` really does is replace: `npm run lint && npx expo export`
+`npm run ci-check` executes a custom script that combines linting and build verification
+
+The ci-check script, defined in `package.json`, sequentially runs:
+
+`npm run lint` - Performs code linting to enforce style and quality standards
+
+`npx expo export` - Validates the build process by generating a production export`
