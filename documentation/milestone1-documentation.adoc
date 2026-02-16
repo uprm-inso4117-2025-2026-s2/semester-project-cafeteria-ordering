@@ -187,7 +187,7 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 In addition to the primary goal of reducing wait times and improving access to meals in the university cafeteria, the project also pursues several secondary but meaningful outcomes.
 
-One derived goal is to contribute to improved student well-being beyond the immediate act of ordering food. By supporting more predictable access to meals, the project may contribute to promoting healthier daily routines, better time management, and reduced stress during peak academic hours. While the primary objective focuses on operational efficiency, this broader impact on student life represents an important secondary benefit.
+One derived goal is to contribute to improve student well-being beyond the immediate act of ordering food. By supporting more predictable access to meals, the project may contribute to promoting healthier daily routines, better time management, and reduced stress during peak academic hours. While the primary objective focuses on operational efficiency, this broader impact on student life represents an important secondary benefit.
 
 Another goal is to support data-informed decision making within cafeteria operations. Even if not fully implemented in early stages, the structured collection of order and demand information creates the possibility for future analysis of peak times, popular menu items, and service bottlenecks. This can help cafeteria management optimize staffing, preparation strategies, and inventory planning over time.
 
