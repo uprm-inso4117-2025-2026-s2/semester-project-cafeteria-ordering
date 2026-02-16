@@ -185,6 +185,20 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 === 1.5 Derived Goals
 
+In addition to the primary goal of reducing wait times and improving access to meals in the university cafeteria, the project also pursues several secondary but meaningful outcomes.
+
+One derived goal is to contribute to improve student well-being beyond the immediate act of ordering food. By supporting more predictable access to meals, the project may contribute to promoting healthier daily routines, better time management, and reduced stress during peak academic hours. While the primary objective focuses on operational efficiency, this broader impact on student life represents an important secondary benefit.
+
+Another goal is to support data-informed decision making within cafeteria operations. Even if not fully implemented in early stages, the structured collection of order and demand information creates the possibility for future analysis of peak times, popular menu items, and service bottlenecks. This can help cafeteria management optimize staffing, preparation strategies, and inventory planning over time.
+
+The project also aims to encourage digital transformation within campus services. By introducing a structured, mobile-based ordering approach, the system may serve as a model for how other campus services might modernize their processes. This broader institutional impact extends beyond the cafeteria itself and contributes to a more technology-integrated campus environment.
+
+A further derived goal is to strengthen collaboration and coordination among stakeholders. The structured interaction between students, cafeteria staff, and university administration fosters clearer communication channels and more transparent service processes. Even outside the application’s technical implementation, this improved alignment between stakeholders is a valuable outcome.
+
+At the project level, another secondary goal is to develop strong engineering practices within the team. Through domain analysis, requirements engineering, architectural planning, testing strategies, and documentation, the team builds experience in systematic software development. The artifacts produced during this process—such as requirement specifications, design descriptions, and test plans—form a reusable knowledge base for future academic or professional projects.
+
+Finally, the project seeks to raise awareness about the importance of aligning campus services with student needs. By formally analyzing the current situation and articulating stakeholder needs, the project highlights the connection between operational systems and academic success. This reflective understanding of service design within the university context represents a broader outcome beyond the immediate functionality of the Cafeteria Ordering System.
+
 == Descriptive Part
 
 === 2.1 Domain Description
