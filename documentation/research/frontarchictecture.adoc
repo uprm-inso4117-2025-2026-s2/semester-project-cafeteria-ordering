@@ -137,4 +137,4 @@ This process ensures that new contributors can become productive quickly.
 
 == Summary
 
-This document establishes a clear and consistent frontend architecture for the project using React Native with Expo. By defining structure, navigation, state management, styling, API integration, testing, and tooling upfront, the team can develop confidently and collaboratively while minimizing technical debt.
+This document establishes a clear and consistent frontend architecture for this project using React Native with Expo. By defining structure, navigation, state management, styling, API integration, testing, and tooling upfront, the team can develop confidently and collaboratively while minimizing technical debt.
