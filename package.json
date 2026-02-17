@@ -8,7 +8,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "test:build": "npx expo export",
+    "ci-check": "npm run lint && npm run test:build"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

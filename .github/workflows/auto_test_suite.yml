@@ -1,0 +1,25 @@
+name: "auto-test suite"
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        types: [opened, edited]
+        branches: [main]
+jobs:
+
+    build-and-lint:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Check-out repo
+          uses: actions/checkout@v4
+        - name: install dependencies
+          run: npm install
+        - name: lint and build
+          run: npm run ci-check
+            
+
+
+
+
+
