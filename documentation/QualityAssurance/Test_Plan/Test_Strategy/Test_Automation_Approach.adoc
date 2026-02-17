@@ -1,8 +1,9 @@
 = Test Automation Approach
 Author: Jorge L. De León Orama
 v1.0, 2026-02-15
-
-:toc: 
+:toc:
+:sectnums:
+:doctype: article
 
 == Overview
 The purpose of this document is to define the project's test automation approach to guide how automated validation will be executed and expanded over time. This approach will align the team on what will be automated, when it will run, and what standards will be followed to maintain stability of the main branch.
