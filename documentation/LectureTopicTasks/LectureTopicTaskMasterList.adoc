@@ -1,0 +1,326 @@
+= Lecture Topic Task (LTT) Framework
+:toc:
+:sectnums:
+
+== Purpose
+
+This document defines eligible Lecture Topic Tasks (LTTs) for the Cafeteria Ordering System project.
+
+Each student must complete four LTTs during the semester.  
+LTTs replace individual homework assignments and must apply lecture concepts through structured, reviewable, and theory-driven work.
+
+This document:
+
+- Defines qualification criteria for LTT classification
+- Provides representative lecture-aligned LTT options
+- Distinguishes LTTs from routine development activities
+
+== Scope
+
+This framework does not attempt to enumerate every possible LTT.
+
+Instead, it provides:
+
+- Qualification criteria governing LTT eligibility
+- Representative examples aligned with lecture topics
+- A structural template for proposing additional LTTs
+
+Team members may propose additional LTTs not listed here, provided they:
+
+- Clearly align with a lecture topic
+- Satisfy the defined qualification criteria
+- Receive approval from the project lead
+
+== LTT Qualification Criteria
+
+A task qualifies as an LTT only if it:
+
+1. Directly applies at least one lecture concept.
+2. Extends beyond routine coding or documentation.
+3. Produces a concrete, reviewable artifact.
+4. Demonstrates theoretical understanding.
+5. Can be completed individually.
+
+Routine development activities — including standard feature implementation, basic unit testing, refactoring, configuration, or UI styling — do not qualify as LTTs.
+
+Tasks that fail to satisfy these criteria may lose LTT classification.
+
+Each LTT defined below specifies:
+
+- Lecture alignment
+- Deliverables
+- Evidence of completion
+- Justification
+
+== Lecture Topic Tasks
+
+=== Foundations of Testing
+
+==== LTT-01: Define System and Acceptance Testing Strategy
+
+*Lecture Topic:* System/Acceptance Testing Principles  
+
+*Deliverables:*
+- Acceptance criteria for core features
+- Requirement-to-test traceability matrix
+- Identification of UAT, FAT, and SAT scope
+
+*Evidence:*
+- Repository documentation
+
+*Justification:*
+Applies structured validation principles and contractual fulfillment concepts discussed in lecture.
+
+---
+
+==== LTT-02: Develop Behavior-Driven Specification for Core Flow
+
+*Lecture Topic:* Behavior Driven Development  
+
+*Deliverables:*
+- At least three Gherkin scenarios
+- Mapping to system requirements
+- Explanation of discovered acceptance criteria
+
+*Evidence:*
+- Committed scenario files and documentation
+
+*Justification:*
+Applies BDD discovery, specification, and automation principles from lecture.
+
+---
+
+==== LTT-03: Define a Comprehensive Testing Strategy
+
+*Lecture Topic:* Introduction to Testing  
+
+*Deliverables:*
+- Testing objectives
+- Risk-based rationale
+- Classification of testing levels used
+
+*Evidence:*
+- Testing strategy document
+
+*Justification:*
+Applies foundational testing theory to the project context.
+
+---
+
+==== LTT-04: Develop a Formal Test Plan
+
+*Lecture Topic:* Test Planning  
+
+*Deliverables:*
+- Scope definition
+- Entry and exit criteria
+- Roles and responsibilities
+- Risk assessment
+
+*Evidence:*
+- Structured test plan document
+
+*Justification:*
+Implements formal planning structure discussed in lecture.
+
+---
+
+==== LTT-05: Define a Defect Lifecycle and Reporting Protocol
+
+*Lecture Topic:* Test Preparation and Execution: Managing Defects  
+
+*Deliverables:*
+- Defect state model
+- Severity classification scheme
+- Root cause documentation template
+
+*Evidence:*
+- Defect management documentation
+
+*Justification:*
+Applies structured defect management concepts from lecture.
+
+---
+
+==== LTT-06: Formal Debugging Strategy Analysis
+
+*Lecture Topic:* Debugging  
+
+*Deliverables:*
+- Description of debugging techniques applied
+- Case study of defect isolation
+- Root cause analysis
+
+*Evidence:*
+- Debugging report
+
+*Justification:*
+Applies systematic debugging methodologies discussed in lecture.
+
+---
+
+=== Advanced Testing Techniques
+
+==== LTT-07: Apply Mutation Testing to Core Logic
+
+*Lecture Topic:* Mutation Testing  
+
+*Deliverables:*
+- Mutation score report
+- Analysis of surviving mutants
+
+*Evidence:*
+- Tool output and written analysis
+
+*Justification:*
+Evaluates test suite sensitivity using mutation principles from lecture.
+
+---
+
+==== LTT-08: Implement Property-Based Testing
+
+*Lecture Topic:* Property-Based Testing  
+
+*Deliverables:*
+- Defined system properties
+- Automated property tests
+- Explanation of tested invariants
+
+*Evidence:*
+- Test code and execution logs
+
+*Justification:*
+Applies generative testing methods discussed in lecture.
+
+---
+
+==== LTT-09: Implement Targeted Fuzz Testing
+
+*Lecture Topic:* Fuzzing  
+
+*Deliverables:*
+- Fuzzing strategy
+- Input model definition
+- Findings and crash analysis
+
+*Evidence:*
+- Fuzz test logs and report
+
+*Justification:*
+Applies robustness testing techniques presented in lecture.
+
+---
+
+=== Formal Methods and Verification
+
+==== LTT-10: Apply Hoare Logic / Design by Contract
+
+*Lecture Topic:* Hoare Logic and Design by Contract  
+
+*Deliverables:*
+- Preconditions and postconditions for key functions
+- Classification as partial or total correctness
+- Informal proof reasoning
+
+*Evidence:*
+- Annotated code or formal specification document
+
+*Justification:*
+Applies formal correctness reasoning and Hoare triple semantics from lecture.
+
+---
+
+==== LTT-11: Specify System Properties Using Linear Temporal Logic
+
+*Lecture Topic:* Linear Temporal Logic  
+
+*Deliverables:*
+- At least three LTL expressions
+- Classification as safety or liveness properties
+- Explanation of guarantees
+
+*Evidence:*
+- LTL specification document
+
+*Justification:*
+Applies temporal reasoning concepts discussed in lecture.
+
+---
+
+==== LTT-12: Define Type-Level Constraints for Core Models
+
+*Lecture Topic:* (Dependent) Types  
+
+*Deliverables:*
+- Type constraints expressing invariants
+- Explanation of compile-time guarantees
+- Identification of limitations of type checking
+
+*Evidence:*
+- Code examples and formal documentation
+
+*Justification:*
+Applies type systems as program verification mechanisms.
+
+---
+
+=== Process and Quality Governance
+
+==== LTT-13: Define Gated Commit Policy
+
+*Lecture Topic:* Gated Commits  
+
+*Deliverables:*
+- Definition of commit invariant (e.g., all tests must pass)
+- Evidence-based change policy
+- Enforcement location strategy (pre-commit, server-side, etc.)
+
+*Evidence:*
+- Policy document and configuration
+
+*Justification:*
+Applies baseline and test-as-evidence principles discussed in lecture.
+
+---
+
+=== Non-Functional Testing
+
+==== LTT-14: Define Performance Testing Plan
+
+*Lecture Topic:* Performance Testing  
+
+*Deliverables:*
+- Load, stress, and soak testing plan
+- KPI definitions
+- Analysis of results
+
+*Evidence:*
+- Performance testing report
+
+*Justification:*
+Applies structured performance evaluation methods presented in lecture.
+
+---
+
+==== LTT-15: Define Usability Testing Protocol
+
+*Lecture Topic:* Usability Testing  
+
+*Deliverables:*
+- Test protocol
+- Identified usability risks
+- Findings report
+
+*Evidence:*
+- Usability evaluation report
+
+*Justification:*
+Applies user-centered evaluation principles and risk awareness discussed in lecture.
+
+---
+
+== Conclusion
+
+This framework establishes structured, lecture-aligned task options that extend beyond routine development activities.
+
+Students must ensure that selected LTTs satisfy the qualification criteria and maintain clear traceability to lecture concepts.
