@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_API_TOKEN }}
 
       # 2️⃣ Pull latest main (repo is CLEAN here)
       - name: Pull latest changes
@@ -83,7 +84,9 @@ jobs:
         with:
           commit_message: "[Automated] Milestone Metrics Update"
           file_pattern: metrics/*.md
-          push_options: "--force-with-lease"
+          # push_options: "--force-with-lease"
           commit_user_name: GitHub Action
           commit_user_email: action@github.com
           commit_author: GitHub Action <action@github.com>
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
