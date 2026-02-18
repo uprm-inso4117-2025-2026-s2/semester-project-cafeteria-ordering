@@ -77,13 +77,33 @@ jobs:
           mkdir -p metrics
           mv inso-gh-query-metrics/*${{ github.repository_owner }}*.md metrics/
 
-      # 9️⃣ Commit + push (safe)
-      - name: Auto Commit Results
-        uses: stefanzweifel/git-auto-commit-action@v4
+      # # 9️⃣ Commit + push (safe)
+      # - name: Auto Commit Results
+      #   uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: "[Automated] Milestone Metrics Update"
+      #     file_pattern: metrics/*.md
+      #     # push_options: "--force-with-lease"
+      #     commit_user_name: GitHub Action
+      #     commit_user_email: action@github.com
+      #     commit_author: GitHub Action <action@github.com>
+      # 9️⃣ Create or Update Metrics PR
+      - name: Create Pull Request for Metrics
+        uses: peter-evans/create-pull-request@v6
         with:
-          commit_message: "[Automated] Milestone Metrics Update"
-          file_pattern: metrics/*.md
-          # push_options: "--force-with-lease"
-          commit_user_name: GitHub Action
-          commit_user_email: action@github.com
-          commit_author: GitHub Action <action@github.com>
+          token: ${{ secrets.GH_API_TOKEN }}
+          commit-message: "[Automated] Milestone Metrics Update"
+          branch: metrics-auto
+          delete-branch: true
+          title: "[Automated] Milestone Metrics Update"
+          body: "Automated daily metrics update."
+          base: main
+          add-paths: |
+            metrics/*.md
+        # 🔟 Enable Auto-Merge
+      - name: Enable Auto Merge
+        run: gh pr merge metrics-auto --auto --squash
+        env:
+          GH_TOKEN: ${{ secrets.GH_API_TOKEN }}
+
+
