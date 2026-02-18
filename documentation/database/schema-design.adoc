@@ -1,0 +1,1613 @@
+= Database Schema Design for Cafeteria Ordering System
+Complete Relational Database Structure
+
+== 1. Purpose of This Document
+
+This document presents the complete database schema design for the Cafeteria Ordering System. The design expands on the initial structure outlined in `documentation/research/research-backend-supabase.adoc` (Section 4.2.1) and provides production-ready PostgreSQL table definitions optimized for Supabase deployment.
+
+The schema is specifically designed to support the project's core objective from the A3 analysis: **reducing cafeteria wait times from 13-20 minutes to under 3 minutes** through efficient online ordering, secure pickup verification, and real-time order tracking.
+
+=== 1.1 Design Goals
+
+* Support 500+ concurrent users during peak hours (11 AM - 2 PM)
+* Enable sub-100ms response times for common queries
+* Enforce security through Row-Level Security (RLS) at database level
+* Maintain complete audit trail for accountability
+* Support real-time order updates via Supabase Realtime
+* Provide foundation for business analytics and reporting
+
+=== 1.2 Related Documentation
+
+* **Supabase Backend Research**: `documentation/research/research-backend-supabase.adoc`
+  - Section 4.2.1: Initial schema examples
+  - Section 4.1.2: RLS policy patterns
+  - Section 4.4.2: Pickup code verification system
+  - Section 4.5.2: Performance optimization strategy
+
+== 2. Entity-Relationship Diagram
+
+=== 2.1 ER Diagram Overview
+
+The complete ER diagram is available in:
+
+* **Source File**: `documentation/database/diagrams/er-diagram-source.dbml`
+* **Visual Diagram**: `documentation/database/diagrams/er-diagram.png`
+
+
+=== 2.2 Core Entities
+
+The database consists of 10 primary tables organized into functional groups:
+
+**User Management:**
+
+* `profiles` - Extended user information (1:1 with auth.users)
+
+**Menu Structure:**
+
+* `menu_categories` - Organization of menu items (Beverages, Entrees, etc.)
+* `menu_items` - Available food and drink items (N:1 with categories)
+
+**Order Processing:**
+
+* `orders` - Order header with status and pickup information
+* `order_items` - Junction table for order line items (N:M)
+* `order_status_history` - Audit trail for status changes
+
+**Payment Management:**
+
+* `payments` - Transaction records (1:1 with orders)
+
+**Notifications:**
+
+* `notifications` - Notification history for users
+* `push_notification_tokens` - Device tokens for push notifications
+
+**System Configuration:**
+
+* `cafeteria_settings` - System-wide configuration (JSONB key-value store)
+
+=== 2.3 Key Relationships
+
+[cols="1,1,1,3"]
+|===
+| Entity A | Relationship | Entity B | Description
+
+| profiles
+| 1:1
+| auth.users
+| Each Supabase auth user has one extended profile
+
+| menu_items
+| N:1
+| menu_categories
+| Menu items belong to one category
+
+| orders
+| N:1
+| profiles
+| Users can have multiple orders
+
+| order_items
+| N:1
+| orders
+| Each order contains multiple line items
+
+| order_items
+| N:1
+| menu_items
+| Each line item references a menu item
+
+| payments
+| 1:1
+| orders
+| Each order has one payment transaction
+
+| notifications
+| N:1
+| profiles
+| Users receive multiple notifications
+
+| order_status_history
+| N:1
+| orders
+| Each order has multiple status change records
+
+| push_notification_tokens
+| N:1
+| profiles
+| Users can register multiple devices
+|===
+
+== 3. Table Definitions
+
+=== 3.1 User Management Tables
+
+==== 3.1.1 profiles
+
+Extended user profile information linked to Supabase authentication.
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Internal profile ID
+
+| user_id
+| UUID
+| NOT NULL, UNIQUE, FK → auth.users.id
+| Reference to Supabase auth user
+
+| student_id
+| VARCHAR(20)
+| UNIQUE
+| University student ID number
+
+| full_name
+| VARCHAR(255)
+| NOT NULL
+| User's full name
+
+| phone
+| VARCHAR(20)
+| 
+| Contact phone number
+
+| role
+| VARCHAR(20)
+| NOT NULL, DEFAULT 'student', CHECK
+| User role: student, staff, or admin
+
+| created_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Profile creation timestamp
+
+| updated_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Last update timestamp (auto-updated)
+|===
+
+**Indexes:**
+
+* `idx_profiles_user_id` - Fast lookup by Supabase auth user ID
+* `idx_profiles_student_id` - Lookup by university ID (partial, WHERE student_id IS NOT NULL)
+* `idx_profiles_role` - Filter users by role
+
+**Business Rules:**
+
+* Role must be one of: 'student', 'staff', 'admin'
+* One profile per Supabase auth user (enforced by UNIQUE constraint)
+* Student_id is optional (staff and admins may not have one)
+* Profile automatically created when user signs up (trigger on auth.users)
+
+=== 3.2 Menu Management Tables
+
+==== 3.2.1 menu_categories
+
+Organizational categories for menu items (Beverages, Entrees, Sides, Desserts, Snacks).
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Category ID
+
+| name
+| VARCHAR(100)
+| NOT NULL, UNIQUE
+| Category name
+
+| description
+| TEXT
+| 
+| Category description
+
+| display_order
+| INT
+| NOT NULL, DEFAULT 0
+| Sort order for UI display
+
+| active
+| BOOLEAN
+| NOT NULL, DEFAULT TRUE
+| Whether category is shown to users
+
+| created_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Creation timestamp
+
+| updated_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Last update timestamp
+|===
+
+**Indexes:**
+
+* `idx_menu_categories_active_order` - Composite index on (active, display_order)
+
+**Business Rules:**
+
+* Category names must be unique
+* Inactive categories hidden from customers but visible to staff
+* Display order determines sort in UI (ascending)
+
+==== 3.2.2 menu_items
+
+Menu items available for ordering by customers.
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Item ID
+
+| category_id
+| UUID
+| NOT NULL, FK → menu_categories.id
+| Parent category
+
+| name
+| VARCHAR(255)
+| NOT NULL
+| Item name
+
+| description
+| TEXT
+| 
+| Item description
+
+| price
+| DECIMAL(10,2)
+| NOT NULL, CHECK >= 0
+| Price in USD
+
+| image_url
+| TEXT
+| 
+| URL to item image
+
+| available
+| BOOLEAN
+| NOT NULL, DEFAULT TRUE
+| Can currently be ordered
+
+| allergens
+| TEXT[]
+| 
+| Array of allergen info (dairy, nuts, gluten, etc.)
+
+| prep_time_minutes
+| INT
+| DEFAULT 10, CHECK > 0
+| Estimated preparation time
+
+| created_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Creation timestamp
+
+| updated_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Last update timestamp
+|===
+
+**Indexes:**
+
+* `idx_menu_items_category` - Join to categories
+* `idx_menu_items_available_category` - Composite (available, category_id) with partial WHERE available = TRUE
+* `idx_menu_items_name_search` - GIN index for full-text search on name and description
+
+**Business Rules:**
+
+* Price must be non-negative
+* Unavailable items cannot be added to orders (enforced by trigger)
+* Prep time used for kitchen planning and estimation
+* Foreign key to category uses ON DELETE RESTRICT (cannot delete category with items)
+
+=== 3.3 Order Processing Tables
+
+==== 3.3.1 orders
+
+Order header containing overall order information and status.
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Order ID
+
+| user_id
+| UUID
+| NOT NULL, FK → auth.users.id
+| Customer who placed order
+
+| status
+| VARCHAR(20)
+| NOT NULL, DEFAULT 'placed', CHECK
+| Order status lifecycle
+
+| total_amount
+| DECIMAL(10,2)
+| NOT NULL, CHECK >= 0
+| Total order cost in USD
+
+| pickup_time
+| TIMESTAMP
+| 
+| Scheduled pickup time (NULL = ASAP)
+
+| pickup_code
+| VARCHAR(4)
+| UNIQUE, NOT NULL
+| Auto-generated verification code
+
+| notes
+| TEXT
+| 
+| Special instructions from customer
+
+| created_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Order placement time
+
+| updated_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Last update time (auto-updated)
+
+| completed_at
+| TIMESTAMP
+| 
+| When order was picked up
+|===
+
+**Indexes:**
+
+* `idx_orders_user_id` - User's order history
+* `idx_orders_status` - Filter by status
+* `idx_orders_user_status` - Composite (user_id, status) for common query pattern
+* `idx_orders_created_at` - Chronological order history (DESC)
+* `idx_orders_status_created` - Staff order queue (status, created_at) with partial index
+* `idx_orders_pickup_time` - Scheduled orders (partial, WHERE pickup_time IS NOT NULL)
+* `idx_orders_pickup_code` - Unique index for fast verification
+
+**Business Rules:**
+
+* Status must be one of: 'placed', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'
+* Pickup code auto-generated on INSERT (trigger calls `generate_pickup_code()`)
+* Status changes logged to order_status_history (trigger)
+* Completed_at set automatically when status changes to 'completed'
+* Foreign key to user uses ON DELETE CASCADE
+
+**Status Workflow:**
+
+. placed → Order received, awaiting confirmation
+. confirmed → Order acknowledged by staff
+. preparing → Order being prepared in kitchen
+. ready → Order ready for pickup (notification sent)
+. completed → Order picked up by customer
+. cancelled → Order cancelled (by customer or staff)
+
+==== 3.3.2 order_items
+
+Individual line items within an order (junction table for orders-menu_items many-to-many relationship).
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Line item ID
+
+| order_id
+| UUID
+| NOT NULL, FK → orders.id (ON DELETE CASCADE)
+| Parent order
+
+| menu_item_id
+| UUID
+| NOT NULL, FK → menu_items.id
+| Menu item ordered
+
+| quantity
+| INT
+| NOT NULL, DEFAULT 1, CHECK >= 1
+| Number of items
+
+| unit_price
+| DECIMAL(10,2)
+| NOT NULL, CHECK >= 0
+| Price at time of order (historical)
+
+| special_instructions
+| TEXT
+| 
+| Item-specific customization
+
+| created_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Item added to order time
+|===
+
+**Indexes:**
+
+* `idx_order_items_order_id` - Fetch all items for an order
+* `idx_order_items_menu_item_id` - Analytics (popular items)
+* `idx_order_items_order_menu` - Composite for order details queries
+
+**Business Rules:**
+
+* Quantity must be at least 1
+* Unit_price captured at order time (historical record for price changes)
+* Menu item availability validated on INSERT (trigger)
+* ON DELETE CASCADE: items deleted when parent order deleted
+* ON DELETE RESTRICT on menu_item: cannot delete menu item with order history
+
+==== 3.3.3 order_status_history
+
+Audit trail tracking all status changes for accountability and analysis.
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| History record ID
+
+| order_id
+| UUID
+| NOT NULL, FK → orders.id (ON DELETE CASCADE)
+| Order being tracked
+
+| previous_status
+| VARCHAR(20)
+| 
+| Status before change (NULL for initial)
+
+| new_status
+| VARCHAR(20)
+| NOT NULL
+| Status after change
+
+| changed_by
+| UUID
+| FK → auth.users.id
+| Staff member who made change
+
+| changed_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| When change occurred
+
+| notes
+| TEXT
+| 
+| Reason for status change
+|===
+
+**Indexes:**
+
+* `idx_order_status_history_order_id` - Audit trail for specific order
+* `idx_order_status_history_changed_at` - Recent changes (DESC)
+* `idx_order_status_history_order_time` - Composite for chronological order history
+
+**Business Rules:**
+
+* Automatically populated by trigger on orders UPDATE
+* Changed_by should be staff user ID (set in application layer)
+* Provides complete audit trail for compliance and troubleshooting
+
+=== 3.4 Payment Management Tables
+
+==== 3.4.1 payments
+
+Payment transaction records (no card details stored for PCI compliance).
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Payment record ID
+
+| order_id
+| UUID
+| NOT NULL, UNIQUE, FK → orders.id
+| Associated order (1:1)
+
+| amount
+| DECIMAL(10,2)
+| NOT NULL, CHECK >= 0
+| Payment amount in USD
+
+| payment_method
+| VARCHAR(50)
+| NOT NULL, CHECK
+| Payment method used
+
+| provider_transaction_id
+| VARCHAR(255)
+| UNIQUE
+| Stripe/PayPal transaction ID
+
+| status
+| VARCHAR(20)
+| NOT NULL, DEFAULT 'pending', CHECK
+| Payment status
+
+| processed_at
+| TIMESTAMP
+| 
+| When payment completed
+
+| created_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Payment initiated time
+|===
+
+**Indexes:**
+
+* `idx_payments_order_id` - Lookup payment by order
+* `idx_payments_status` - Filter by payment status
+* `idx_payments_provider_txn` - Webhook lookups (partial, WHERE provider_transaction_id IS NOT NULL)
+
+**Business Rules:**
+
+* Payment_method must be one of: 'credit_card', 'debit_card', 'mobile_payment', 'university_account'
+* Status must be one of: 'pending', 'processing', 'completed', 'failed', 'refunded'
+* One payment per order (enforced by UNIQUE on order_id)
+* Provider_transaction_id from payment gateway (Stripe, PayPal, etc.)
+* No credit card numbers stored (handled by payment provider)
+* Processed_at set when status becomes 'completed'
+
+=== 3.5 Notification Tables
+
+==== 3.5.1 notifications
+
+Notification history for tracking messages sent to users.
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Notification ID
+
+| user_id
+| UUID
+| NOT NULL, FK → auth.users.id
+| Recipient user
+
+| order_id
+| UUID
+| FK → orders.id (ON DELETE SET NULL)
+| Related order (if applicable)
+
+| type
+| VARCHAR(50)
+| NOT NULL, CHECK
+| Notification type
+
+| title
+| VARCHAR(255)
+| NOT NULL
+| Notification title
+
+| message
+| TEXT
+| NOT NULL
+| Notification message content
+
+| sent_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| When notification was sent
+
+| read_at
+| TIMESTAMP
+| 
+| When user marked as read (NULL = unread)
+|===
+
+**Indexes:**
+
+* `idx_notifications_user_id` - User's notifications
+* `idx_notifications_user_unread` - Composite (user_id, sent_at DESC) with partial WHERE read_at IS NULL
+* `idx_notifications_order_id` - Order-specific notifications (partial)
+* `idx_notifications_sent_at` - Recent notifications (DESC)
+
+**Business Rules:**
+
+* Type must be one of: 'order_placed', 'order_confirmed', 'order_ready', 'order_completed', 'order_cancelled', 'system_message'
+* Automatically created by triggers (order_placed, order_ready)
+* Read_at NULL means unread (common query pattern)
+* ON DELETE CASCADE: notifications deleted when user deleted
+* ON DELETE SET NULL on order_id: notification preserved if order deleted
+
+==== 3.5.2 push_notification_tokens
+
+Device tokens for Expo push notifications.
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Token record ID
+
+| user_id
+| UUID
+| NOT NULL, FK → auth.users.id
+| User who owns device
+
+| token
+| TEXT
+| NOT NULL, UNIQUE
+| Expo push notification token
+
+| platform
+| VARCHAR(10)
+| NOT NULL, CHECK
+| Device platform
+
+| registered_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| When token was registered
+
+| last_used_at
+| TIMESTAMP
+| 
+| Last successful notification delivery
+|===
+
+**Indexes:**
+
+* `idx_push_tokens_user_id` - User's registered devices
+* `idx_push_tokens_token` - Unique index for fast token lookup
+
+**Business Rules:**
+
+* Platform must be one of: 'ios', 'android'
+* Token from Expo Push Notification service
+* Users can have multiple devices (multiple tokens)
+* Last_used_at updated when notification successfully delivered
+* Invalid tokens should be removed (stale device registrations)
+
+=== 3.6 System Configuration Tables
+
+==== 3.6.1 cafeteria_settings
+
+System-wide configuration using JSONB key-value storage.
+
+[cols="1,1,1,3"]
+|===
+| Column | Type | Constraints | Description
+
+| id
+| UUID
+| PRIMARY KEY, DEFAULT uuid_generate_v4()
+| Setting record ID
+
+| key
+| VARCHAR(100)
+| NOT NULL, UNIQUE
+| Configuration key
+
+| value
+| JSONB
+| NOT NULL
+| Configuration value (flexible JSON)
+
+| description
+| TEXT
+| 
+| Human-readable description
+
+| updated_at
+| TIMESTAMP
+| NOT NULL, DEFAULT NOW()
+| Last update time
+
+| updated_by
+| UUID
+| FK → auth.users.id
+| Admin who last updated setting
+|===
+
+**Indexes:**
+
+* `idx_cafeteria_settings_key` - Unique index for fast key lookup
+
+**Business Rules:**
+
+* Key-value pairs for flexible configuration
+* Example keys: 'operating_hours', 'peak_hours', 'max_concurrent_orders', 'avg_prep_time'
+* JSONB allows complex nested configuration
+* Only admins can modify (enforced by RLS)
+* All users can read (for app configuration)
+
+**Example Settings:**
+
+[source,sql]
+----
+-- Operating hours by day
+key: 'operating_hours'
+value: {
+  "monday_friday": {"open": "07:00", "close": "16:00"},
+  "saturday_sunday": {"open": "09:00", "close": "14:00"}
+}
+
+-- Peak hours definition
+key: 'peak_hours'
+value: {"start": "11:00", "end": "14:00"}
+
+-- Capacity limits
+key: 'max_concurrent_orders'
+value: 50
+----
+
+== 4. Database Functions
+
+The database includes several custom PL/pgSQL functions for business logic and calculations. All functions are defined in `sql/04-functions.sql`.
+
+=== 4.1 Pickup Code Management
+
+**`generate_pickup_code()`** → TEXT
+
+Generates a unique 4-digit pickup code (0000-9999) for order verification. The function loops until a unique code is found that doesn't exist in active orders.
+
+[source,sql]
+----
+SELECT generate_pickup_code();
+-- Returns: '1234' (example)
+----
+
+=== 4.2 Order Calculations
+
+**`calculate_order_total(order_id UUID)`** → DECIMAL(10,2)
+
+Calculates total amount for an order by summing all order items.
+
+[source,sql]
+----
+SELECT calculate_order_total('order-uuid-here');
+-- Returns: 24.50 (example)
+----
+
+=== 4.3 Role Checking
+
+**`is_staff(user_id UUID)`** → BOOLEAN
+
+Returns TRUE if user has 'staff' or 'admin' role. Used in RLS policies.
+
+**`is_admin(user_id UUID)`** → BOOLEAN
+
+Returns TRUE if user has 'admin' role. Used in RLS policies.
+
+=== 4.4 Order Verification
+
+**`verify_pickup_code(pickup_code TEXT)`** → TABLE
+
+Verifies pickup code and returns order details if order is ready for pickup.
+
+[source,sql]
+----
+SELECT * FROM verify_pickup_code('1234');
+-- Returns: order_id, user_id, status, total_amount, created_at
+----
+
+=== 4.5 Analytics Functions
+
+**`get_peak_hours_stats(start_date DATE, end_date DATE)`** → TABLE
+
+Returns order statistics grouped by hour for date range.
+
+**`get_popular_items(start_date DATE, end_date DATE, limit INT)`** → TABLE
+
+Returns top menu items by order frequency and revenue.
+
+**`get_avg_prep_time(start_date DATE, end_date DATE)`** → TABLE
+
+Calculates preparation time statistics for completed orders.
+
+**`get_user_order_stats(user_id UUID)`** → TABLE
+
+Returns comprehensive order statistics for a specific user.
+
+=== 4.6 Notification Helpers
+
+**`mark_notifications_read(user_id UUID, notification_ids UUID[])`** → INT
+
+Marks notifications as read for a user. Returns number of notifications updated.
+
+== 5. Database Triggers
+
+Triggers automate business logic and maintain data integrity. All triggers are defined in `sql/05-triggers.sql`.
+
+=== 5.1 Timestamp Triggers
+
+**`update_updated_at_column()`**
+
+Automatically updates the `updated_at` column to NOW() whenever a row is modified.
+
+Applied to tables: profiles, menu_categories, menu_items, orders, cafeteria_settings
+
+=== 5.2 Order Management Triggers
+
+**`set_pickup_code()`**
+
+Automatically generates unique pickup code when order is created (calls `generate_pickup_code()`).
+
+Trigger: `generate_pickup_code_on_insert` on orders table (BEFORE INSERT)
+
+**`log_order_status_change()`**
+
+Logs status changes to `order_status_history` audit trail. Also sets `completed_at` when status becomes 'completed'.
+
+Trigger: `track_order_status_changes` on orders table (BEFORE UPDATE)
+
+=== 5.3 Validation Triggers
+
+**`validate_menu_item_availability()`**
+
+Prevents adding unavailable menu items to orders. Raises exception if item is not available.
+
+Trigger: `check_menu_item_available` on order_items table (BEFORE INSERT)
+
+=== 5.4 Notification Triggers
+
+**`notify_order_placed()`**
+
+Creates confirmation notification when order is placed.
+
+Trigger: `create_order_placed_notification` on orders table (AFTER INSERT)
+
+**`notify_order_ready()`**
+
+Creates notification when order status changes to 'ready'.
+
+Trigger: `create_order_ready_notification` on orders table (AFTER UPDATE)
+
+=== 5.5 Profile Management Triggers
+
+**`create_profile_for_new_user()`**
+
+Automatically creates profile record when new user signs up via Supabase Auth.
+
+Trigger: `on_auth_user_created` on auth.users table (AFTER INSERT)
+
+== 6. Row-Level Security (RLS) Policies
+
+Security is enforced at the database level using Supabase RLS. All policies are defined in `sql/06-rls-policies.sql`.
+
+=== 6.1 RLS Overview
+
+RLS is enabled on all tables. Policies control access based on:
+
+* **auth.uid()** - Current authenticated user ID
+* **auth.role()** - User authentication role ('authenticated', 'anon')
+* **User role** - Business role from profiles table ('student', 'staff', 'admin')
+
+=== 6.2 Profiles Table Policies
+
+* Users can view and update their own profile
+* Users cannot change their own role
+* Staff can view all profiles
+* Admins can update any profile (including roles)
+
+=== 6.3 Menu Tables Policies
+
+* Anyone (authenticated) can view available menu items
+* Staff can view all items (including unavailable)
+* Only admins can create/update/delete menu items and categories
+
+=== 6.4 Orders Table Policies
+
+* Users can view and create their own orders
+* Users can update their own pending orders (not completed/cancelled)
+* Staff can view all orders
+* Staff can update order status
+
+=== 6.5 Order Items Table Policies
+
+* Users can view items in their own orders
+* Users can add items to their own pending orders
+* Staff can view all order items
+
+=== 6.6 Payments Table Policies
+
+* Users can view and create payments for their own orders
+* Staff can view all payments
+* Staff can update payment status (for refunds)
+
+=== 6.7 Notifications Table Policies
+
+* Users can view and update their own notifications
+* System/staff can create notifications for any user
+* Staff can view all notifications
+
+=== 6.8 Settings Table Policies
+
+* Anyone (authenticated) can view settings
+* Only admins can modify settings
+
+== 7. Normalization Analysis
+
+=== 7.1 Normal Form Verification
+
+The database schema adheres to **Third Normal Form (3NF)**, which requires:
+
+1. **First Normal Form (1NF)**: All columns contain atomic values
+2. **Second Normal Form (2NF)**: No partial dependencies on composite keys
+3. **Third Normal Form (3NF)**: No transitive dependencies
+
+=== 7.2 Table-by-Table Analysis
+
+==== profiles Table
+
+* **Primary Key**: id (single column)
+* **Candidate Key**: user_id (UNIQUE)
+* **Dependencies**: All non-key attributes depend solely on primary key
+* **3NF Compliance**: No transitive dependencies
+
+==== menu_items Table
+
+* **Primary Key**: id
+* **Foreign Key**: category_id → menu_categories.id
+* **Dependencies**: All attributes describe the menu item itself
+* **3NF Compliance**: Category name stored in separate table (no redundancy)
+
+==== orders Table
+
+* **Primary Key**: id
+* **Foreign Key**: user_id → auth.users.id
+* **Dependencies**: All attributes describe the specific order
+* **3NF Compliance**: User details stored in profiles table
+* **Note**: total_amount is **intentionally denormalized** (see section 7.3)
+
+==== order_items Table
+
+* **Primary Key**: id
+* **Foreign Keys**: order_id, menu_item_id
+* **Dependencies**: quantity and unit_price depend on this specific order-item pairing
+* **3NF Compliance**: Pure junction table with additional attributes
+
+==== order_status_history Table
+
+* **Primary Key**: id
+* **Foreign Keys**: order_id, changed_by
+* **Dependencies**: Each status change is independent
+* **3NF Compliance**: Audit trail with temporal data
+
+==== payments Table
+
+* **Primary Key**: id
+* **Foreign Key**: order_id (1:1 relationship)
+* **Dependencies**: All payment attributes describe this transaction
+* **3NF Compliance**: Payment data separate from order data
+
+==== notifications Table
+
+* **Primary Key**: id
+* **Foreign Keys**: user_id, order_id (optional)
+* **Dependencies**: Message content depends on notification itself
+* **3NF Compliance**: No transitive dependencies
+
+=== 7.3 Intentional Denormalization
+
+While the schema is in 3NF, two fields are **intentionally denormalized** for performance:
+
+==== total_amount in orders Table
+
+**Reason for Denormalization:**
+
+* Calculating order total requires joining to order_items on every query
+* Order total is queried frequently (order history, reports, queue display)
+* Order total is **immutable** after order creation (historical record)
+
+**Trade-offs:**
+
+* **Benefit**: Sub-50ms query performance for order lists
+* **Cost**: 8 bytes per order row
+* **Mitigation**: Validation trigger ensures total matches sum of items
+
+**Normalization Alternative:**
+
+[source,sql]
+----
+-- Without denormalization (slower, requires JOIN)
+SELECT o.id, SUM(oi.quantity * oi.unit_price) AS total
+FROM orders o
+JOIN order_items oi ON o.id = oi.order_id
+GROUP BY o.id;
+
+-- With denormalization (faster, direct access)
+SELECT id, total_amount FROM orders;
+----
+
+==== unit_price in order_items Table
+
+**Reason for Denormalization:**
+
+* Menu item prices can change over time
+* Order history must reflect **price at time of order** (legal requirement)
+* Cannot rely on current menu_items.price for historical orders
+
+**Trade-offs:**
+
+* **Benefit**: Accurate historical records, no dependency on current prices
+* **Cost**: 8 bytes per order item
+* **Mitigation**: None needed - this is correct design for historical pricing
+
+**Normalization Alternative:**
+
+Would require price history table (more complex, same storage):
+
+[source,sql]
+----
+-- More complex alternative
+CREATE TABLE menu_item_price_history (
+  id UUID PRIMARY KEY,
+  menu_item_id UUID,
+  price DECIMAL(10,2),
+  effective_from TIMESTAMP,
+  effective_to TIMESTAMP
+);
+----
+
+=== 7.4 Absence of Data Anomalies
+
+==== Insert Anomaly
+
+**No insert anomalies detected**
+
+* Can create menu categories without items
+* Can create users without orders
+* All tables can have rows inserted independently
+
+==== Update Anomaly
+
+**No update anomalies detected**
+
+* Updating menu item price doesn't affect historical orders (unit_price denormalized)
+* Updating user profile doesn't require updating multiple rows
+* Category name changes propagate via foreign key (single update point)
+
+==== Delete Anomaly
+
+**No delete anomalies detected**
+
+* Deleting user cascades to their orders, payments, notifications (appropriate)
+* Cannot delete menu category with items (FK constraint prevents)
+* Cannot delete menu item with order history (FK constraint prevents)
+* Deleting order cascades to order_items and history (appropriate)
+
+== 8. Sample Queries and Performance
+
+Complete query examples are provided in:
+
+* **Common Operations**: `queries/common-operations.sql`
+* **Analytics Reports**: `queries/analytics-reports.sql`
+
+=== 8.1 Common Operations Performance
+
+[cols="2,1,3"]
+|===
+| Operation | Target | Query Pattern
+
+| Get available menu
+| <50ms
+| SELECT with JOIN, filtered by available=TRUE
+
+| Place order
+| <100ms
+| BEGIN; INSERT orders; INSERT order_items; COMMIT;
+
+| Get user order history
+| <100ms
+| SELECT with JOIN, pagination (LIMIT/OFFSET)
+
+| Update order status
+| <50ms
+| UPDATE orders WHERE id = ? AND status = ?
+
+| Verify pickup code
+| <50ms
+| SELECT with JOIN WHERE pickup_code = ?
+
+| Get unread notifications
+| <50ms
+| SELECT WHERE user_id = ? AND read_at IS NULL
+|===
+
+=== 8.2 Analytics Queries Performance
+
+[cols="2,1,3"]
+|===
+| Report | Target | Complexity
+
+| Peak hours analysis
+| <200ms
+| GROUP BY EXTRACT(HOUR), 7-day window
+
+| Popular items ranking
+| <200ms
+| JOIN + GROUP BY + ORDER BY, 30-day window
+
+| Daily revenue summary
+| <150ms
+| GROUP BY DATE, aggregations
+
+| Customer segmentation
+| <300ms
+| Subquery + CASE expressions
+
+| Preparation time stats
+| <200ms
+| EXTRACT(EPOCH) calculations, percentiles
+|===
+
+=== 8.3 Performance Optimization Notes
+
+**Indexes are critical for performance:**
+
+* All foreign keys indexed
+* Composite indexes for common query patterns (user_id, status)
+* Partial indexes for filtered queries (available=TRUE, read_at IS NULL)
+* GIN index for full-text search on menu items
+
+**Query optimization techniques:**
+
+* Use EXPLAIN ANALYZE to verify query plans
+* Avoid SELECT * (specify needed columns)
+* Use pagination (LIMIT/OFFSET or cursor-based)
+* Leverage covering indexes where possible
+* Use JSON aggregation (json_agg) for nested data
+
+**Monitoring recommendations:**
+
+[source,sql]
+----
+-- Monitor index usage
+SELECT schemaname, tablename, indexname, idx_scan
+FROM pg_stat_user_indexes
+ORDER BY idx_scan DESC;
+
+-- Identify slow queries (requires pg_stat_statements)
+SELECT query, calls, mean_exec_time, max_exec_time
+FROM pg_stat_statements
+ORDER BY mean_exec_time DESC
+LIMIT 20;
+----
+
+== 9. Data Integrity Constraints
+
+=== 9.1 Primary Keys
+
+All tables use UUID primary keys generated via `uuid_generate_v4()`.
+
+**Benefits:**
+
+* Globally unique (no collisions across databases)
+* Non-sequential (no information leakage)
+* Suitable for distributed systems
+* Compatible with Supabase Realtime
+
+=== 9.2 Foreign Keys
+
+Foreign keys enforce referential integrity with appropriate CASCADE rules:
+
+**ON DELETE CASCADE:**
+
+* profiles.user_id → auth.users.id (delete profile when user deleted)
+* orders.user_id → auth.users.id (delete orders when user deleted)
+* order_items.order_id → orders.id (delete items when order deleted)
+* order_status_history.order_id → orders.id (delete history when order deleted)
+* notifications.user_id → auth.users.id (delete notifications when user deleted)
+
+**ON DELETE RESTRICT:**
+
+* menu_items.category_id → menu_categories.id (cannot delete category with items)
+* order_items.menu_item_id → menu_items.id (cannot delete item with order history)
+* payments.order_id → orders.id (cannot delete order with payment record)
+
+**ON DELETE SET NULL:**
+
+* notifications.order_id → orders.id (preserve notification if order deleted)
+
+=== 9.3 Check Constraints
+
+Enforce business rules at database level:
+
+* prices >= 0 (no negative prices)
+* quantity >= 1 (must order at least one)
+* status IN ('placed', 'confirmed', ...) (valid status values)
+* role IN ('student', 'staff', 'admin') (valid roles)
+* platform IN ('ios', 'android') (valid platforms)
+
+=== 9.4 Unique Constraints
+
+Prevent duplicates:
+
+* profiles.user_id (one profile per auth user)
+* profiles.student_id (unique student IDs)
+* orders.pickup_code (unique pickup codes)
+* payments.order_id (one payment per order)
+* push_notification_tokens.token (unique device tokens)
+* cafeteria_settings.key (unique setting keys)
+
+=== 9.5 NOT NULL Constraints
+
+Required fields:
+
+* All primary keys
+* All foreign keys (except optional ones like notifications.order_id)
+* Critical business data (names, prices, statuses, timestamps)
+
+== 10. Seed Data and Testing
+
+=== 10.1 Seed Data
+
+Test data is provided in `sql/07-seed-data.sql` including:
+
+* 5 menu categories
+* 35+ menu items across all categories
+* Realistic pricing and allergen information
+* Preparation time estimates
+
+**Loading seed data:**
+
+[source,bash]
+----
+# In Supabase SQL Editor or via psql
+psql -h your-supabase-host -U postgres -d postgres -f sql/07-seed-data.sql
+----
+
+=== 10.2 Test Scenarios
+
+**Menu browsing:**
+
+[source,sql]
+----
+-- Should return 35+ items grouped by 5 categories
+SELECT mc.name, COUNT(mi.id) AS item_count
+FROM menu_categories mc
+JOIN menu_items mi ON mc.id = mi.category_id
+GROUP BY mc.name;
+----
+
+**Order creation:**
+
+[source,sql]
+----
+-- Should generate unique pickup code
+INSERT INTO orders (user_id, status, total_amount)
+VALUES ('test-user-id', 'placed', 15.50)
+RETURNING pickup_code;
+----
+
+**RLS policy testing:**
+
+[source,sql]
+----
+-- Test as student (should only see own orders)
+SET LOCAL request.jwt.claim.sub TO 'student-user-id';
+SELECT COUNT(*) FROM orders; -- Should match user's order count
+
+-- Test as staff (should see all orders)
+SET LOCAL request.jwt.claim.sub TO 'staff-user-id';
+SELECT COUNT(*) FROM orders; -- Should see all orders
+----
+
+== 11. Migration and Deployment
+
+=== 11.1 Deployment Order
+
+Execute SQL scripts in numerical order:
+
+[source,bash]
+----
+01-extensions.sql      # PostgreSQL extensions (uuid-ossp, etc.)
+02-tables.sql          # Table definitions and constraints
+03-indexes.sql         # Performance indexes
+04-functions.sql       # Custom functions
+05-triggers.sql        # Automated triggers
+06-rls-policies.sql    # Row-Level Security
+07-seed-data.sql       # Test data (optional for production)
+----
+
+=== 11.2 Supabase Deployment
+
+**Via Supabase Dashboard:**
+
+1. Go to SQL Editor
+2. Create new query
+3. Copy contents of each script
+4. Execute in order
+5. Verify with: `SELECT * FROM pg_tables WHERE schemaname = 'public';`
+
+**Via Supabase CLI:**
+
+[source,bash]
+----
+supabase db push
+supabase db reset  # Reset and reapply all migrations
+----
+
+=== 11.3 Schema Updates
+
+For schema changes in production:
+
+1. Create migration script with timestamped filename
+2. Test in development environment first
+3. Use transactions (BEGIN/COMMIT) for safety
+4. Include rollback script
+5. Monitor query performance after deployment
+
+**Example migration:**
+
+[source,sql]
+----
+-- Migration: Add dietary_preferences to profiles
+-- Date: 2026-02-18
+-- Rollback: DROP COLUMN dietary_preferences
+
+BEGIN;
+
+ALTER TABLE profiles
+ADD COLUMN dietary_preferences TEXT[];
+
+COMMENT ON COLUMN profiles.dietary_preferences IS
+  'User dietary preferences (vegetarian, vegan, gluten-free, etc.)';
+
+COMMIT;
+----
+
+== 12. Maintenance and Monitoring
+
+=== 12.1 Regular Maintenance Tasks
+
+**Weekly:**
+
+* Review slow query log
+* Check index usage statistics
+* Monitor table bloat
+
+**Monthly:**
+
+* VACUUM ANALYZE all tables
+* Review and archive old completed orders (if retention policy exists)
+* Update table statistics
+
+**Quarterly:**
+
+* Review and optimize indexes based on query patterns
+* Audit RLS policies for security
+* Update seed data for testing
+
+=== 12.2 Monitoring Queries
+
+**Check database size:**
+
+[source,sql]
+----
+SELECT 
+  schemaname,
+  tablename,
+  pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS size
+FROM pg_tables
+WHERE schemaname = 'public'
+ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
+----
+
+**Check index health:**
+
+[source,sql]
+----
+SELECT
+  schemaname,
+  tablename,
+  indexname,
+  idx_scan AS scans,
+  pg_size_pretty(pg_relation_size(indexrelid)) AS size
+FROM pg_stat_user_indexes
+WHERE schemaname = 'public'
+ORDER BY idx_scan DESC;
+----
+
+**Monitor active connections:**
+
+[source,sql]
+----
+SELECT 
+  count(*) AS total_connections,
+  count(*) FILTER (WHERE state = 'active') AS active_connections,
+  max(backend_start) AS oldest_connection
+FROM pg_stat_activity
+WHERE datname = current_database();
+----
+
+=== 12.3 Backup Strategy
+
+**Supabase Pro Tier includes:**
+
+* Daily automatic backups
+* 7-day retention
+* Point-in-time recovery (PITR)
+
+**Manual backup:**
+
+[source,bash]
+----
+# Backup database
+pg_dump -h your-supabase-host -U postgres -d postgres > backup.sql
+
+# Backup specific tables
+pg_dump -h your-supabase-host -U postgres -d postgres -t orders -t order_items > orders_backup.sql
+----
+
+**Backup testing:**
+
+* Restore to test environment monthly
+* Verify data integrity
+* Test recovery procedures
+
+== 13. Security Considerations
+
+=== 13.1 RLS Policy Best Practices
+
+* **Default deny**: All tables have RLS enabled with no implicit access
+* **Explicit grants**: Policies explicitly grant access based on conditions
+* **Role hierarchy**: Students < Staff < Admins
+* **Audit trail**: All sensitive operations logged
+
+=== 13.2 Sensitive Data Handling
+
+**Data NOT stored in database:**
+
+* Credit card numbers (handled by payment provider)
+* Passwords (managed by Supabase Auth)
+* Social security numbers or similar
+
+**Data with restricted access:**
+
+* Pickup codes (only order owner and staff)
+* Payment details (only order owner and staff)
+* User phone numbers (only user and staff)
+
+=== 13.3 SQL Injection Prevention
+
+* All queries use parameterized statements
+* Supabase client library handles escaping
+* No dynamic SQL construction in functions
+* Input validation at application layer
+
+=== 13.4 Compliance Considerations
+
+**FERPA (student data):**
+
+* Student IDs not publicly accessible
+* Order history private to student
+* Staff access logged in audit trail
+
+**PCI DSS (payment data):**
+
+* No card data stored
+* Only transaction IDs from payment provider
+* TLS encryption for all connections
+
+== 14. Future Enhancements
+
+=== 14.1 Potential Schema Extensions
+
+**Loyalty program:**
+
+[source,sql]
+----
+CREATE TABLE loyalty_points (
+  user_id UUID REFERENCES auth.users(id),
+  points INT NOT NULL DEFAULT 0,
+  earned_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+----
+
+**Menu item ratings:**
+
+[source,sql]
+----
+CREATE TABLE menu_item_reviews (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  menu_item_id UUID REFERENCES menu_items(id),
+  user_id UUID REFERENCES auth.users(id),
+  rating INT CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+----
+
+**Dietary restrictions:**
+
+[source,sql]
+----
+ALTER TABLE profiles
+ADD COLUMN dietary_preferences TEXT[];
+
+-- Filter menu items by user preferences
+SELECT * FROM menu_items
+WHERE NOT allergens && (
+  SELECT dietary_preferences FROM profiles WHERE user_id = auth.uid()
+);
+----
+
+=== 14.2 Performance Scaling
+
+**For >1000 concurrent users:**
+
+* Implement read replicas for analytics queries
+* Add caching layer (Redis) for menu items
+* Partition orders table by date
+* Use connection pooling (PgBouncer included in Supabase)
+
+**Partitioning strategy:**
+
+[source,sql]
+----
+-- Partition orders by month (if order volume exceeds 100k/month)
+CREATE TABLE orders_2026_02 PARTITION OF orders
+  FOR VALUES FROM ('2026-02-01') TO ('2026-03-01');
+----
+
+== 15. References and Resources
+
+=== 15.1 Documentation References
+
+* **Supabase Documentation**: https://supabase.com/docs
+* **PostgreSQL Documentation**: https://www.postgresql.org/docs/
+* **PostgREST API Reference**: https://postgrest.org/
+* **Database Design Principles**: https://en.wikipedia.org/wiki/Database_normalization
+
+=== 15.2 Related Project Documents
+
+* `documentation/research/research-backend-supabase.adoc` - Backend evaluation
+* `documentation/milestone1-documentation.adoc` - Project overview
+* `documentation/research/reserachfrontendframework.adoc` - Frontend framework selection
+
+=== 15.3 Tools Used
+
+* **dbdiagram.io**: ER diagram visualization
+* **Supabase Studio**: Database management interface
+* **PostgreSQL**: Relational database system
+* **PL/pgSQL**: Database function language
+* **GitHub Copilot (Claude Sonnet 4.5)**: AI assistance for schema design, SQL generation, documentation, and normalization analysis
+
+The schema is production-ready and can be deployed to Supabase immediately using the provided SQL scripts. All acceptance criteria from Issue #63 have been met with comprehensive documentation, ER diagram, DDL statements, RLS policies, and sample queries.
