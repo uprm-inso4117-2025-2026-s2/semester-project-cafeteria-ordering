@@ -61,15 +61,14 @@ Each LTT defined below specifies:
 *Lecture Topic:* System/Acceptance Testing Principles  
 
 *Deliverables:*
+
 - Acceptance criteria for core features
 - Requirement-to-test traceability matrix
 - Identification of UAT, FAT, and SAT scope
 
-*Evidence:*
-- Repository documentation
+*Evidence:* Repository documentation
 
-*Justification:*
-Applies structured validation principles and contractual fulfillment concepts discussed in lecture.
+*Justification:* Applies structured validation principles and contractual fulfillment concepts discussed in lecture.
 
 ---
 
@@ -78,15 +77,14 @@ Applies structured validation principles and contractual fulfillment concepts di
 *Lecture Topic:* Behavior Driven Development  
 
 *Deliverables:*
+
 - At least three Gherkin scenarios
 - Mapping to system requirements
 - Explanation of discovered acceptance criteria
 
-*Evidence:*
-- Committed scenario files and documentation
+*Evidence:* Committed scenario files and documentation
 
-*Justification:*
-Applies BDD discovery, specification, and automation principles from lecture.
+*Justification:* Applies BDD discovery, specification, and automation principles from lecture.
 
 ---
 
@@ -95,15 +93,14 @@ Applies BDD discovery, specification, and automation principles from lecture.
 *Lecture Topic:* Introduction to Testing  
 
 *Deliverables:*
+
 - Testing objectives
 - Risk-based rationale
 - Classification of testing levels used
 
-*Evidence:*
-- Testing strategy document
+*Evidence:* Testing strategy document
 
-*Justification:*
-Applies foundational testing theory to the project context.
+*Justification:* Applies foundational testing theory to the project context.
 
 ---
 
@@ -112,16 +109,15 @@ Applies foundational testing theory to the project context.
 *Lecture Topic:* Test Planning  
 
 *Deliverables:*
+
 - Scope definition
 - Entry and exit criteria
 - Roles and responsibilities
 - Risk assessment
 
-*Evidence:*
-- Structured test plan document
+*Evidence:* Structured test plan document
 
-*Justification:*
-Implements formal planning structure discussed in lecture.
+*Justification:* Implements formal planning structure discussed in lecture.
 
 ---
 
@@ -130,15 +126,14 @@ Implements formal planning structure discussed in lecture.
 *Lecture Topic:* Test Preparation and Execution: Managing Defects  
 
 *Deliverables:*
+
 - Defect state model
 - Severity classification scheme
 - Root cause documentation template
 
-*Evidence:*
-- Defect management documentation
+*Evidence:* Defect management documentation
 
-*Justification:*
-Applies structured defect management concepts from lecture.
+*Justification:* Applies structured defect management concepts from lecture.
 
 ---
 
@@ -147,15 +142,14 @@ Applies structured defect management concepts from lecture.
 *Lecture Topic:* Debugging  
 
 *Deliverables:*
+
 - Description of debugging techniques applied
 - Case study of defect isolation
 - Root cause analysis
 
-*Evidence:*
-- Debugging report
+*Evidence:* Debugging report
 
-*Justification:*
-Applies systematic debugging methodologies discussed in lecture.
+*Justification:* Applies systematic debugging methodologies discussed in lecture.
 
 ---
 
@@ -166,14 +160,13 @@ Applies systematic debugging methodologies discussed in lecture.
 *Lecture Topic:* Mutation Testing  
 
 *Deliverables:*
+
 - Mutation score report
 - Analysis of surviving mutants
 
-*Evidence:*
-- Tool output and written analysis
+*Evidence:* Tool output and written analysis
 
-*Justification:*
-Evaluates test suite sensitivity using mutation principles from lecture.
+*Justification:* Evaluates test suite sensitivity using mutation principles from lecture.
 
 ---
 
@@ -182,15 +175,14 @@ Evaluates test suite sensitivity using mutation principles from lecture.
 *Lecture Topic:* Property-Based Testing  
 
 *Deliverables:*
+
 - Defined system properties
 - Automated property tests
 - Explanation of tested invariants
 
-*Evidence:*
-- Test code and execution logs
+*Evidence:* Test code and execution logs
 
-*Justification:*
-Applies generative testing methods discussed in lecture.
+*Justification:* Applies generative testing methods discussed in lecture.
 
 ---
 
@@ -199,15 +191,14 @@ Applies generative testing methods discussed in lecture.
 *Lecture Topic:* Fuzzing  
 
 *Deliverables:*
+
 - Fuzzing strategy
 - Input model definition
 - Findings and crash analysis
 
-*Evidence:*
-- Fuzz test logs and report
+*Evidence:* Fuzz test logs and report
 
-*Justification:*
-Applies robustness testing techniques presented in lecture.
+*Justification:* Applies robustness testing techniques presented in lecture.
 
 ---
 
@@ -218,15 +209,14 @@ Applies robustness testing techniques presented in lecture.
 *Lecture Topic:* Hoare Logic and Design by Contract  
 
 *Deliverables:*
+
 - Preconditions and postconditions for key functions
 - Classification as partial or total correctness
 - Informal proof reasoning
 
-*Evidence:*
-- Annotated code or formal specification document
+*Evidence:* Annotated code or formal specification document
 
-*Justification:*
-Applies formal correctness reasoning and Hoare triple semantics from lecture.
+*Justification:* Applies formal correctness reasoning and Hoare triple semantics from lecture.
 
 ---
 
@@ -235,15 +225,14 @@ Applies formal correctness reasoning and Hoare triple semantics from lecture.
 *Lecture Topic:* Linear Temporal Logic  
 
 *Deliverables:*
+
 - At least three LTL expressions
 - Classification as safety or liveness properties
 - Explanation of guarantees
 
-*Evidence:*
-- LTL specification document
+*Evidence:* LTL specification document
 
-*Justification:*
-Applies temporal reasoning concepts discussed in lecture.
+*Justification:* Applies temporal reasoning concepts discussed in lecture.
 
 ---
 
@@ -252,15 +241,14 @@ Applies temporal reasoning concepts discussed in lecture.
 *Lecture Topic:* (Dependent) Types  
 
 *Deliverables:*
+
 - Type constraints expressing invariants
 - Explanation of compile-time guarantees
 - Identification of limitations of type checking
 
-*Evidence:*
-- Code examples and formal documentation
+*Evidence:* Code examples and formal documentation
 
-*Justification:*
-Applies type systems as program verification mechanisms.
+*Justification:* Applies type systems as program verification mechanisms.
 
 ---
 
@@ -271,15 +259,14 @@ Applies type systems as program verification mechanisms.
 *Lecture Topic:* Gated Commits  
 
 *Deliverables:*
+
 - Definition of commit invariant (e.g., all tests must pass)
 - Evidence-based change policy
 - Enforcement location strategy (pre-commit, server-side, etc.)
 
-*Evidence:*
-- Policy document and configuration
+*Evidence:* Policy document and configuration
 
-*Justification:*
-Applies baseline and test-as-evidence principles discussed in lecture.
+*Justification:* Applies baseline and test-as-evidence principles discussed in lecture.
 
 ---
 
@@ -290,15 +277,14 @@ Applies baseline and test-as-evidence principles discussed in lecture.
 *Lecture Topic:* Performance Testing  
 
 *Deliverables:*
+
 - Load, stress, and soak testing plan
 - KPI definitions
 - Analysis of results
 
-*Evidence:*
-- Performance testing report
+*Evidence:* Performance testing report
 
-*Justification:*
-Applies structured performance evaluation methods presented in lecture.
+*Justification:* Applies structured performance evaluation methods presented in lecture.
 
 ---
 
@@ -307,17 +293,14 @@ Applies structured performance evaluation methods presented in lecture.
 *Lecture Topic:* Usability Testing  
 
 *Deliverables:*
+
 - Test protocol
 - Identified usability risks
 - Findings report
 
-*Evidence:*
-- Usability evaluation report
+*Evidence:* Usability evaluation report
 
-*Justification:*
-Applies user-centered evaluation principles and risk awareness discussed in lecture.
-
----
+*Justification:* Applies user-centered evaluation principles and risk awareness discussed in lecture.
 
 == Conclusion
 
