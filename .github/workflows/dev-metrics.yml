@@ -100,10 +100,3 @@ jobs:
           base: main
           add-paths: |
             metrics/*.md
-        # 🔟 Enable Auto-Merge
-      - name: Enable Auto Merge
-        run: gh pr merge metrics-auto --auto --squash
-        env:
-          GH_TOKEN: ${{ secrets.GH_API_TOKEN }}
-
-
