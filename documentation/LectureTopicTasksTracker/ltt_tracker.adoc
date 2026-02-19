@@ -176,7 +176,7 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 === Proposed Lecture Topic Tasks
 
-=== Template:
+==== Template:
 
 ==== LTT-#: [Title]
 
