@@ -156,22 +156,37 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 === Reserved Lecture Topic Tasks
 
-==== LTT-09-(issue-29) Define and Establish Test Reporting Principles (JorgeDeLeonOrama)
+==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (JorgeDeLeonOrama)
 
-==== LTT-10-(issue-113) Define Entry, Exit, and Stop Testing Criteria Across All Test Phases (devlin-hahn04)
+==== LTT-10-(issue-113): Define Entry, Exit, and Stop Testing Criteria Across All Test Phases (devlin-hahn04)
 
-==== LTT-11-(issue-114) Define Test Case Design Methodology and Authoring Guidelines (devlin-hahn04)
+==== LTT-11-(issue-114): Define Test Case Design Methodology and Authoring Guidelines (devlin-hahn04)
 
-==== LTT-12-(issue-118) Research and Develop Behavior Driven Development (reinaldo-martinez1)
+==== LTT-12-(issue-118): Research and Develop Behavior Driven Development (reinaldo-martinez1)
 
-==== LTT-13-(issue-128) Retesting & Regression Approach (kevinlara1)
+==== LTT-13-(issue-128): Retesting & Regression Approach (kevinlara1)
 
-==== LTT-14-(issue-130) Define Frontend Testing Assumptions, Constraints, and Critical Flows (Osvaldoo1414)
+==== LTT-14-(issue-130): Define Frontend Testing Assumptions, Constraints, and Critical Flows (Osvaldoo1414)
 
-==== LTT-15-(issue-134) Define Testing Methodology (Top-Down / Bottom-Up / Risk-Based) (kian-robert)
+==== LTT-15-(issue-134): Define Testing Methodology (Top-Down / Bottom-Up / Risk-Based) (kian-robert)
 
-==== LTT-16-(issue-139) Define Performance Testing Strategy (aryamdiaz)
+==== LTT-16-(issue-139): Define Performance Testing Strategy (aryamdiaz)
 
-==== LTT-17-(issue-140) Define Test-Driven Development Approach (JorgeDeLeonOrama)
+==== LTT-17-(issue-140): Define Test-Driven Development Approach (JorgeDeLeonOrama)
 
 === Proposed Lecture Topic Tasks
+
+==== LTT-#: Property Based testing approach
+
+*Deliverables:*
+
+- Comprehensive guide on Property based testing
+
+- Examples of Property based testing on cafeteria system
+
+- Importance of property based system
+
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Provides the methodology and  means to perform Property Based Testing
