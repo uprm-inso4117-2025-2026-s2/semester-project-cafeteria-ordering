@@ -176,6 +176,23 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 === Proposed Lecture Topic Tasks
 
+=== Template:
+
+==== LTT-#: [Title]
+
+*Deliverables:*
+
+- 
+
+- 
+
+- 
+
+
+*Evidence:* 
+
+*Justification:* 
+
 ==== LTT-#: Property Based testing approach
 
 *Deliverables:*
