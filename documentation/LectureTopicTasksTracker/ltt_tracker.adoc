@@ -16,7 +16,15 @@ This document:
 
 == Scope
 
-This document aims to systematically track past, current, and future LTTs throughout the semester.
+This document serves as the centralized registry for all Lecture Topic Tasks (LTTs) related to the Cafeteria Ordering System project. The scope encompasses:
+
+- *Completed LTTs*: Documentation of all successfully delivered lecture topic tasks, including their deliverables and the evidence supporting their completion.
+
+- *Reserved LTTs*: Tasks that have been claimed and are currently in progress, preventing duplicate efforts and ensuring efficient resource allocation across the team.
+
+- *Proposed LTTs*: New tasks identified as relevant and valuable to the project that align with the established LTT framework and project objectives.
+
+- *Lifecycle Tracking*: Systematic monitoring of LTTs throughout their complete lifecycle, from proposal through completion, ensuring visibility and accountability.
 
 == Lecture Topic Tasks
 
