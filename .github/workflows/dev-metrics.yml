@@ -16,30 +16,27 @@ jobs:
       contents: write
 
     steps:
-      # 1️⃣ Checkout repo
+      # 1 Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: metrics
           fetch-depth: 0
 
-      # 2️⃣ Pull latest main (repo is CLEAN here)
-      - name: Pull latest changes
-        run: git pull --rebase origin main
-
-      # 3️⃣ Checkout metrics generator
+      # 2 Checkout metrics generator
       - name: Checkout INSO GH Metrics code
         uses: actions/checkout@v4
         with:
           repository: Poggecci/INSO-GH-API-QUERY
           path: inso-gh-query-metrics
 
-      # 4️⃣ Python setup
+      # 3 Python setup
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      # 5️⃣ Poetry
+      # 4 Poetry
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2
 
@@ -55,13 +52,13 @@ jobs:
           path: inso-gh-query-metrics/.venv
           key: venv-${{ hashFiles('inso-gh-query-metrics/poetry.lock') }}
 
-      # 6️⃣ Install deps
+      # 5 Install deps
       - name: Install dependencies
         run: |
           cd inso-gh-query-metrics
           poetry install
 
-      # 7️⃣ Run metrics
+      # 6 Run metrics
       - name: Run metrics generator
         run: |
           cd inso-gh-query-metrics
@@ -71,32 +68,20 @@ jobs:
           GITHUB_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
           ORGANIZATION: ${{ github.repository_owner }}
 
-      # 8️⃣ Move metrics
+      # 7 Move metrics
       - name: Move Generated Metrics
         run: |
           mkdir -p metrics
           mv inso-gh-query-metrics/*${{ github.repository_owner }}*.md metrics/
 
-      # # 9️⃣ Commit + push (safe)
-      # - name: Auto Commit Results
-      #   uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: "[Automated] Milestone Metrics Update"
-      #     file_pattern: metrics/*.md
-      #     # push_options: "--force-with-lease"
-      #     commit_user_name: GitHub Action
-      #     commit_user_email: action@github.com
-      #     commit_author: GitHub Action <action@github.com>
-      # 9️⃣ Create or Update Metrics PR
-      - name: Create Pull Request for Metrics
-        uses: peter-evans/create-pull-request@v6
+      # 8 Commit + push (safe)
+      - name: Auto Commit Results
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          token: ${{ secrets.GH_API_TOKEN }}
-          commit-message: "[Automated] Milestone Metrics Update"
-          branch: metrics-auto
-          delete-branch: true
-          title: "[Automated] Milestone Metrics Update"
-          body: "Automated daily metrics update."
-          base: main
-          add-paths: |
-            metrics/*.md
+          commit_message: "[Automated] Milestone Metrics Update"
+          branch: metrics
+          file_pattern: metrics/*.md
+          push_options: "--force-with-lease"
+          commit_user_name: GitHub Action
+          commit_user_email: action@github.com
+          commit_author: GitHub Action <action@github.com>
