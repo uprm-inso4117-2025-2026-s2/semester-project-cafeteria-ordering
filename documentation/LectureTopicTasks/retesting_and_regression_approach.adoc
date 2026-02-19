@@ -1,0 +1,63 @@
+= Retesting & Regression Approach (Lecture Topic Task)
+:toc:
+:toclevels: 2
+
+== Definitions
+*Re-Testing (Confirmation Testing):* Rerunning test cases that failed the last time they were run, to verify the success of corrective actions.
+*Regression Testing:* Testing performed after changes to detect whether defects were introduced or uncovered in unchanged areas as a result of modifications or environmental changes.
+
+== Triggers and Workflow
+=== Retesting Trigger
+Retesting is triggered when a defect is marked fixed (e.g., “Ready for Retest”) and a build/branch with the fix is available.
+
+Steps:
+1. Reproduce the original failing scenario (same setup/data/steps).
+2. Run the same test against the fixed build.
+3. If it fails again, document new evidence and reopen/update the defect.
+4. If it passes, record evidence and mark retest as passed.
+
+=== Regression Trigger
+Regression is triggered whenever any code/config/dependency change is merged or proposed for merge. We re-execute relevant tests to catch side-effects.
+
+Regression scope is selected using a risk-based approach: each change gets a risk score (Likelihood x Impact on 1-5 scales). Higher scores require broader regression coverage.
+
+== Risk-Based Regression Scope Rubric
+[cols="1,3,3",options="header"]
+|===
+|Risk Score (LxI) | Change Description | Regression Scope
+|1-5 (Low)  | Minor UI/text changes (non-functional)  | Smoke tests + local area tests
+|6-12 (Medium) | Feature fix/enhancement (e.g., cart logic, order status) | Affected feature suite + adjacent flows
+|13-20 (High) | Core business logic or shared component change (e.g., pricing rules, order creation) | Expanded regression: smoke + impacted modules + critical end-to-end tests
+|21-25 (Critical) | Major data/schema/environment changes | Full regression + extended tests (performance/usability as applicable)
+|===
+
+== Automation Guidance
+Prioritize automating:
+- *Smoke Suite:* core flows (login if applicable, place order, view order status) run on every PR/build.
+- *Critical rules:* cart calculations, pricing logic, order acceptance rules.
+- *Order lifecycle:* transitions (Placed → Ready → PickedUp), including invalid transitions where applicable.
+
+== Examples (Retest vs Regression)
+*Cart Total Fix:*
+- Retest: rerun the exact cart scenario that failed (same items/qty).
+- Regression: rerun checkout and order summary tests to ensure totals remain correct everywhere.
+
+*Order Status Fix:*
+- Retest: repeat the failing status transition scenario.
+- Regression: run the full order workflow and verify status pages/lists remain consistent.
+
+*Menu/Price Change:*
+- Retest: verify the specific menu item update behaves correctly.
+- Regression: run price calculations in cart and any summary/admin views that depend on pricing (if present).
+
+== Evidence & Reporting
+For each retest/regression run, record:
+- Commit hash/build tested
+- Tests executed (names/IDs)
+- Results (pass/fail) + logs/screenshots
+- Any new defects found during regression (linked issues)
+
+== References
+- ISTQB Glossary — Re-Testing: https://istqb-glossary.page/re-testing/
+- ISTQB Glossary — Regression Testing: https://istqb-glossary.page/regression-testing/
+- ISO/IEC/IEEE 29119-3:2013 — Software and systems engineering — Software testing — Part 3: Test documentation.
