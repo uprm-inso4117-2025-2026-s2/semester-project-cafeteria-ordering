@@ -190,3 +190,18 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 *Evidence:* Associated AsciiDoc file and pull request linked to issue
 
 *Justification:* Provides the methodology and  means to perform Property Based Testing
+
+==== LTT-#: Debugging approach
+
+*Deliverables:*
+
+- Comprehensive guide on debugging for both front-end & back-end
+
+- Debugging tools 
+
+- Importance of debugging
+
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Provides the means and approach to debug code cleanly
