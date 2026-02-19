@@ -1,0 +1,91 @@
+= Behavior Driven Development (BDD) for Cafeteria Ordering System Project
+
+== Introduction
+
+Behavior Driven Development (BDD) is a software development approach that promotes teamwork among developers, testers and business stakeholders. The approach defines system behavior through precise and understandable natural language descriptions. The document will demonstrate BDD implementation for the Cafeteria Ordering System project to verify that the system fulfills user and stakeholder requirements.
+
+== BDD Workflow
+
+The team will follow the BDD workflow, which consists of the following steps:
+
+. Discovery
+.. While drafting user stories, the team will collaborate to identify acceptance criteria.
+.. The focus is on ensuring that requirements are verifiable and expressed in terms of the client's domain
+
+. Formulation
+.. Acceptance criteria are refined into specific, clear, and unambiguous specification examples.
+.. These kind of test cases follow a Given-When-Then structure in order to tell in what condition the software existed before, what action was taken and what the expected outcome is.
+
+. Automation
+.. The team integrates these formulated specifications into an automated testing tool.
+.. Automation ensures that tests can be executed frequently, providing information that the system performs as expected.
+
+== Automation Process
+
+. The Gherkin Layer
+.. Gherkin is a set of grammar rules that allows the team to write test cases in a natural language format. This layer is where the team writes the Given-When-Then scenarios.
+
+. Step Definitions
+.. The step definition works as a bridge between the scenarios and the underlying code. A BDD tool like Cucumber will parse the Gherkin scenarios and match them to specific code blocks.
+
+. Test Execution
+.. Once steps are defined, the team can execute the tests. The BDD tool will run the scenarios and report on their success or failure. The team can configure these tests to run automatically using software like GitHub Actions.
+
+== Test Cases for Milestone 1
+
+These scenarios describe the behavior of the cafeteria system in terms of the client's domain.
+
+* Test case 1: User Log-In
+** Scneario: Successful Log-In with valid credentials.
+** Given the user has valid credentials.
+** And user is on the log-in page.
+** When the user enters their credentials and clicks the log-ing button.
+** Then the user should be redirected to the dashboard/home screen.
+
+* Test case 2: Placing an Order
+** Scenario: Successful order placement.
+** Given the user is logged in and on the menu page.
+** When the user selects "Pollo Asado" with sides of "Arroz Blanco" and "Habichuelas" and clicks the "Add to cart" button.
+** And they proceed to checkout and select "ASAP" as the delivery option and complete the payment process.
+** Then the system should confirm the order and notify the cafeteria staff of the new order.
+** And the user should receive an order confirmation message.
+
+* Test Case 3: Secure Order Pickup
+** Scenario: Secure Order Pickup Successful.
+** Given the user has placed an order and is on the order status page.
+** And the user receives a confirmation that "Order is ready for pickup".
+** And the system gives the user a unique pickup code.
+** When the user goes to the cafeteria, into the pickup section and provides the unique pickup code to the staff.
+** And staff confirms the code in the system.
+** Then the user should be able to pick up their order securely.
+** And the system should mark the order as "picked up" and prompts the user to provide feedback on their experience.
+
+== Technical Stack
+
+The following tools and technologies can/will be used to implement BDD for the Cafeteria Ordering System project:
+
+* Cucumber: For writing and executing BDD scenarios.
+* Gherkin: For structuring the test cases in a natural language format.
+* GitHub Actions: For automating the execution of BDD tests on every code commit.
+* JavaScript/TypeScript: For writing step definitions and integrating with the BDD tool.
+* npm/yarn: For managing dependencies and running tests.
+
+== Comments and Recommendations
+
+* It is imporant to note the source of information of this research as it provides a comprehensive guide on how to implement BDD effectively using Cucumber.
+
+* npm/yarn has to be used to install Cucumber and other necessary dependencies.
+
+* Organize test files by creating a separete folder. Test files shall be named as for example "user-login.feature" to use gherkin syntax and to make it easier to identify the purpose of each test file.
+
+* Since the team will be using jest, it is recommended to take into consideration the jest-cucumber package, which allows the team to write BDD tests using Jest as the test runner.
+
+== Conclusion
+
+The Cafeteria Ordering System project will benefit from BDD implementation because it will improve team member collaboration and verify that the system meets user needs.
+ 
+The team will develop a comprehensive testing suite which uses BDD workflow and proper tools to test system functions and document expected behaviors.
+
+== Sources
+
+* https://cucumber.io/docs
