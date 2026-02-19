@@ -20,7 +20,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: metrics
           fetch-depth: 0
 
       # 2 Checkout metrics generator
@@ -80,6 +79,7 @@ jobs:
         with:
           commit_message: "[Automated] Milestone Metrics Update"
           branch: metrics
+          create_branch: true
           file_pattern: metrics/*.md
           push_options: "--force-with-lease"
           commit_user_name: GitHub Action
