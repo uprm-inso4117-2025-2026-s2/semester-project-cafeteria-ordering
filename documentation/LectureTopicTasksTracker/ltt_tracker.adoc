@@ -156,7 +156,7 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 === Reserved Lecture Topic Tasks
 
-==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (JorgeDeLeonOrama)
+==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
 
 ==== LTT-10-(issue-113): Define Entry, Exit, and Stop Testing Criteria Across All Test Phases (devlin-hahn04)
 
