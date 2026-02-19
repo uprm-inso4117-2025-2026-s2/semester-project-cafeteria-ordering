@@ -3,19 +3,19 @@
   "projectName": "Cafeteria Ordering",
   "managers": ["Alma-pineiro", "TaimaraColon"],
   "milestones": {
-    "Milestone 1": {
-      "startDate": "2026-02-04",
-      "endDate": "2026-02-27",
+    "Milestone #1": {
+      "startDate": "2026-02-04T08:00:00-04:00",
+      "endDate": "2026-02-27T20:00:00-04:00",
       "projectedGroupGrade": 100.0
     },
-    "Milestone 2": {
-      "startDate": "2026-03-03",
-      "endDate": "2026-04-03",
+    "Milestone #2": {
+      "startDate": "2026-03-12",
+      "endDate": "2026-03-20",
       "projectedGroupGrade": 100.0
     },
-    "Milestone 3": {
-      "startDate": "2026-04-07",
-      "endDate": "2026-05-08",
+    "Milestone #3": {
+      "startDate": "2026-04-11",
+      "endDate": "2026-04-20",
       "projectedGroupGrade": 100.0
     }
   },
