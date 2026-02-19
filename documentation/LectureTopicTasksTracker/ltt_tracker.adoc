@@ -24,7 +24,6 @@ This document aims to systematically track past, current, and future LTTs throug
 
 ==== LTT-01-(issue-23): Defining Test Types (functional & non-functional)
 
-
 *Lecture Topic:* Defining Test Types (functional & non-functional)
 
 *Deliverables:*
@@ -35,9 +34,117 @@ This document aims to systematically track past, current, and future LTTs throug
 
 - Requirements required for each test type
 
-*Evidence:* AsciiDoc file and pull request linked to issue
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
 
 *Justification:* Brings to light the "what", "why", and "how" of each test type
+
+==== LTT-02-(issue-28): Define Test Automation Approach
+
+*Lecture Topic:* Define Test Automation Approach
+
+*Deliverables:*
+
+- Strategy of automation implementation
+
+- Explicit definition of Phases
+
+- Clear understanding of automation approach
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Documents and plans the use of automated testing where necessary
+
+==== LTT-03-(issue-30): Defining Testing Strategy Scope Items
+
+*Lecture Topic:* Defining Testing Strategy Scope Items
+
+*Deliverables:*
+
+- Insight of in-scope & out-of-scope items and tests
+
+- Definition of testing boundaries and constraints
+
+- Knowledge of systems to be covered by testing strategy
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* determines which elements are included or excluded from the testing scope
+
+==== LTT-04-(issue-35): Defect Management approach and defect
+
+*Lecture Topic:* Defect Management approach and defect
+
+*Deliverables:*
+
+- Definition of guidelines & procedures when encountering a defect
+
+- Definition of risk severity
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Provides a systematic approach to defect management
+
+==== LTT-05-(issue-52): Define Test Environment
+
+*Lecture Topic:* Define Test Environment
+
+*Deliverables:*
+
+- Clear identification of the tools and means to execute testing
+
+- Definition of test data requirements
+
+- Identification of constrains and limitations imposed by the environment
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Provides insight of the tools, means, constrains, and limitations of the test environment
+
+==== LTT-06-(issue-75): Define Project's Test Strategy Objective
+
+*Lecture Topic:* Define Project's Test Strategy Objective
+
+*Deliverables:*
+
+- High level view of test strategy objectives
+
+- Identification and definition of business and quality goals
+
+- Introspective into the CI and system stability relationship
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Aligns test planning activities with overall project goals
+
+==== LTT-07-(issue-76): Define Test Estimations and Test Schedule
+
+*Lecture Topic:* Define Test Estimations and Test Schedule
+
+*Deliverables:*
+
+- Clear and established testing effort estimates
+
+- Comprehensive test schedule
+
+- Identification of resource allocation
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Provides test schedule aligned with the project's timeline
+
+==== LTT-08-(issue-93): Identify Risks to be Addressed (Risk-Based Test Planning)
+
+*Lecture Topic:* Identify Risks to be Addressed (Risk-Based Test Planning)
+
+*Deliverables:*
+
+- Risk Register section for the Test Strategy/Test Plan artifacts.
+
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Identifies and documents testing-relevant project risks
+
 
 === Reserved Lecture Topic Tasks
 
