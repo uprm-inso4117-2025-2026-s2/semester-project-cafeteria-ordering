@@ -1,0 +1,44 @@
+= Lecture Topic Task (LTT) tracker
+:toc:
+:sectnums:
+
+== Purpose
+
+This document is a centralized LTT tracker file to document completed, reserved, and upcoming LTT topics, where contributors update and propose new Lecture Topic Tasks (LTTs).
+
+This document:
+
+- Archives completed lecture topic tasks accompanied by a brief summary of the artifact.
+
+- Lists all reserved LTTs to prevent task duplication and loss of effort.
+
+- Proposes new, relevant LTTs that follow the approved structure (see `documentation\LectureTopicTasks\LTTFramework.adoc`).
+
+== Scope
+
+This document aims to systematically track past, current, and future LTTs throughout the semester.
+
+== Lecture Topic Tasks
+
+=== Completed Lecture Topic Tasks
+
+==== LTT-01-(issue-23): Defining Test Types (functional & non-functional)
+
+
+*Lecture Topic:* Defining Test Types (functional & non-functional)
+
+*Deliverables:*
+
+- Types and definitions of tests to be used
+
+- Examples of usage within the system
+
+- Requirements required for each test type
+
+*Evidence:* AsciiDoc file and pull request linked to issue
+
+*Justification:* Brings to light the "what", "why", and "how" of each test type
+
+=== Reserved Lecture Topic Tasks
+
+=== Proposed Lecture Topic Tasks
