@@ -1,0 +1,108 @@
+= Base Auto Test Suite
+
+== Scope:
+
+The following files define the baseline automated test suite:
+
+- .github/workflows/auto_test_suite.yml
+
+- package.json
+
+== Purpose:
+The purpose of this configuration is to establish a minimal baseline automated test suite that validates the project builds successfully before code is merged into the main branch.
+
+== Code and Justification
+
+This section reivews the code in segments, explaining the reasoning behind each choice
+
+== Trigger Configuration
+.Job Triggers:
+
+[source, yml]
+----
+on:
+    push:
+        branches: [main]
+    pull_request:
+        types: [opened, edited]
+        branches: [main]
+----
+
+The workflow defines two trigger events:
+
+- Push events: executes when commits are pushed directly
+
+- Pull request events: executes when pull requests targeting main are opened or edited
+
+This configuration ensures build validation occurs automatically whenever changes are proposed for or introduced to the main branch.
+
+== Job Specifications
+
+.Job tasks:
+[source,yml]
+----
+jobs:
+
+    build-and-lint:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Check-out repo
+          uses: actions/checkout@v4
+        - name: install dependencies
+          run: npm install
+        - name: lint and build
+          run: npm run ci-check
+----
+
+== Job Execution Details:
+.Process name
+[source,yml]
+----
+build-and-lint:
+----
+
+The job is named `build-and-lint` to clearly indicate its dual purpose: validating the build process while also running linting checks. 
+
+.Build Environment
+[source,yml]
+----
+runs on: ubuntu-latest
+----
+The workflow executes on GitHub-hosted Ubuntu virtual machines. Using `ubuntu-latest` provides several benefits:
+
+- Ensures consistent build environments across runs
+
+- Receives automatic security patches and OS-level updates
+
+- Leverages GitHub's optimized infrastructure for fast execution
+
+.Execution Steps:
+
+.Machine set-up
+[source,yml]
+----
+- name: Check-out repo
+  uses: actions/checkout@v4
+----
+This step clones the repository into the virtual machine environment, making the codebase available for subsequent build operations.
+
+.Build commands
+[source,yml]
+----
+- name: install dependencies
+  run: npm install
+- name: lint and build
+  run: npm run ci-check
+----
+
+The project utilizes Node.js, enabling straightforward build instructions:
+
+`npm install` retrieves and installs all project dependencies as defined in `package.json`
+
+`npm run ci-check` executes a custom script that combines linting and build verification
+
+The ci-check script, defined in `package.json`, sequentially runs:
+
+`npm run lint` - Performs code linting to enforce style and quality standards
+
+`npx expo export` - Validates the build process by generating a production export`
