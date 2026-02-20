@@ -273,13 +273,13 @@ The moment a meal becomes ready for pickup.
 Student Has Just Left the Queue Without Ordering :: (event, domain)
 The moment a student abandons the line due to time pressure or other circumstances.
 
-Peak-Hour Crowds :: (behavior, domain)
+Crowd Surge :: (behavior, domain)
 A situation that occurs when large numbers of students arrive within a short time spans. This leads to long queues and increased service pressure.
 
 Time-Constrained Decision Making :: (behavior, domain)
 The moment students decide whether to wait for food based on current waiting time and proximity to their next class.
 
-Batch Preparation Under Unpredictable Circumstances :: (behavior, domain)
+Uncertain Demand Preparation :: (behavior, domain)
 A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume.
 
 Service Bottleneck :: (behavior, domain)
