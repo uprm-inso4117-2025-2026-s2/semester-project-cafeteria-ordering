@@ -183,7 +183,7 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 === 1.4 Other Activities than just developing source code
 
-Developing a software solution is only one part of this project. Thought it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.
+Developing a software solution is only one part of this project. Though it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.
 
 ==== A key activity for this project is understanding and structuring the domain.
 
