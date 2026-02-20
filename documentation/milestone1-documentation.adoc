@@ -234,6 +234,18 @@ Finally, the project seeks to raise awareness about the importance of aligning c
 
 ==== 2.1.1 Domain Rough Sketch
 
+The following snippets are raw records of observations and stakeholder experiences within the university cafeteria.
+
+* The 10-Minute Dash: A student walks from the Engineering building toward the cafeteria at 12:05 PM. A small group arrives at the cafeteria at the same time to find a line that extends about 15 people toward the hallway. Some people looks at their watch and decide to walk to their next classroom. They are heard muttering that they'll just have to wait until 4:00 PM to eat.
+
+* The Kitchen's Blind Spot: The kitchen staff members create multiple big trays which contain the "El colegial special" in the back of the kitchen. The team operates at high speed but maintains uncertainty about whether 10 or 100 students will enter the building within the next ten minutes will order. The staff members display visible pressure when 20 students enter the service area which becomes overlwhelming.
+
+* The Post-Lunch Fatigue: Multiple students show signs of falling asleep during the 2:00 PM Biology lecture while they try to maintain their attention on the lesson. A student, when exiting the class, states that he skipped the meal because of the long line which may have caused him to miss his class. The student explained that his lack of food would affect his mental focus and academic performance throughout the day.
+
+* The Payment Bottleneck: A student reaches the front of the line and is told that the payment system is down. The student waits for 3 minutes while the staff tries to fix the issue. Then, the student and every person behind him/her becomes visibly frustrated and expresses concern about being late for their next class.
+
+* The uncertainty of the menu: A student stands at the back of the line, which has spilled out into the hallway near the exit of the cafeteria. From this distance, he cannot see the daily whiteboard or the steam table. He spends 5 minutes moving forward to only discover what the sides or prices are once they are two people away from the counter.
+
 ==== 2.1.2 Terminology
 
 ==== 2.1.4 Narrative
