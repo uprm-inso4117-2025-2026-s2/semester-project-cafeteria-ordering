@@ -1,0 +1,107 @@
+= LTT: Performance Testing Strategy
+:toc:
+:sectnums:
+:project: Cafeteria Ordering System
+
+== Lecture Alignment
+
+Lecture Topic: Performance Testing
+
+In this LTT I applie lecture concepts on performance classification, load modeling, metric separation, and performance regression prevention.
+
+== Purpose
+
+The purpose of this LTT is to define a structured Performance Testing Strategy for the Cafeteria Ordering System that ensures scalability, responsiveness, and operational stability during peak usage periods.
+
+This strategy defines high-level principles governing how performance testing will be approached, measured, and evaluated.
+
+== Performance Testing Classification
+
+The strategy distinguishes between the following testing types:
+
+=== Performance Testing
+Evaluation of individual system operations under normal load conditions.
+
+=== Load Testing
+Evaluation of system behavior under expected peak cafeteria demand.
+
+=== Stress Testing
+Evaluation of system behavior beyond expected load to identify failure thresholds.
+
+=== Soak Testing
+Long-duration testing to detect memory leaks, degradation, or resource exhaustion.
+
+== Performance-Critical Components
+
+The following components are considered performance-sensitive:
+
+* Order placement and cart processing
+* Payment processing service
+* OTP locker validation service
+* Notification dispatch mechanism
+* Database transaction handling
+
+== Performance Metrics Strategy
+
+Performance metrics must be explicitly distinguished and not aggregated improperly.
+
+The following metrics are prioritized:
+
+* Response Time – time required to complete a user-visible action.
+* Latency – time between request initiation and backend processing.
+* Throughput – number of processed orders per unit time.
+* Availability – percentage of uptime during operational hours.
+
+Each metric will be measured independently to avoid masking degradation effects.
+
+== Load Modeling Strategy
+
+Peak usage modeling is based on realistic cafeteria demand scenarios:
+
+* Concurrent users placing orders during lunch hours.
+* Simultaneous payment confirmations.
+* Parallel OTP validation requests.
+* Sustained load over extended intervals.
+
+Load modeling must reflect realistic concurrency patterns rather than artificial sequential execution.
+
+== Environment Considerations
+
+Performance testing must account for:
+
+* Deployment environment differences (local vs production-like).
+* Backend resource constraints.
+* Network variability.
+* Database contention.
+
+Unrealistic testing environments may invalidate results.
+
+== Benchmarking and Regression Prevention
+
+Performance baselines will be recorded for core metrics.
+
+Future releases will compare results against established benchmarks.
+
+Significant regression in response time, throughput, or availability will block release approval.
+
+== Deliverables
+
+* Performance Testing Strategy document (this artifact).
+* Defined performance metrics and thresholds.
+* Defined peak-load modeling approach.
+* Defined regression prevention strategy.
+
+== Evidence of Completion
+
+Committed AsciiDoc document demonstrating application of lecture concepts to system-specific context.
+
+== Justification
+
+This LTT applies theoretical performance testing principles discussed in lecture, including:
+
+* Explicit classification of performance testing types.
+* Separation of competing performance metrics.
+* Realistic load modeling.
+* Structured regression prevention.
+
+The strategy extends beyond routine documentation and demonstrates conceptual application of performance engineering principles.
