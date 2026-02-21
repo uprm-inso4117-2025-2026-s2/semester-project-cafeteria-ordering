@@ -1,0 +1,277 @@
+= Entry, Exit, and Stop Testing Criteria In All Testing Phases
+:author: Devlin Hahn
+
+== Executive Summary
+
+This document defines clear, measurable entry, exit, and stop criteria for all testing phases of the University Cafeteria Ordering System. These criteria establish objective quality gates that ensure testing activities are consistent, prevent premature testing or release decisions, and provide transparent benchmarks for stakeholders. The criteria cover four testing levels: Unit Testing, Integration Testing, System Testing, and Acceptance Testing.
+
+== 1. Testing Levels Overview
+
+The project follows a sequential testing approach with four distinct phases:
+
+[options="header"]
+|===
+| Testing Level | Focus | Responsible Party
+| Unit Testing | Individual components/functions in isolation | Developers
+| Integration Testing | Interactions between integrated components/modules | Developers + QA
+| System Testing | End-to-end functionality of complete system | QA Team
+| Acceptance Testing | Validation against business requirements and user needs | QA + Product Owners + Stakeholders
+|===
+
+Each phase has specific entry criteria (what must be true before starting), exit criteria (what must be true to consider the phase complete), and stop criteria (conditions that justify halting testing).
+
+== 2. Unit Testing Criteria
+
+=== 2.1 Entry Criteria
+
+[options="header"]
+|===
+| # | Criterion | Verification Method
+| 1 | Code has been written and committed to the feature branch | Git log / PR status
+| 2 | All linting/formatting checks pass | CI pipeline output
+| 3 | Test environment is configured with required dependencies | npm install completes successfully
+| 4 | Unit test framework (Jest) is properly configured | Test run executes without setup errors
+| 5 | Code coverage thresholds are defined in configuration | jest.config.js verified
+|===
+
+=== 2.2 Exit Criteria
+
+[options="header"]
+|===
+| # | Criterion | Verification Method | Minimum Threshold
+| 1 | All unit tests pass | Test runner output | 100% pass rate
+| 2 | Code coverage meets minimum thresholds | Coverage report | ≥ 80% statements, ≥ 75% branches
+| 3 | No high-priority defects remain open | Issue tracker | Zero open P1/P2 defects
+| 4 | Tests are integrated into CI pipeline | CI configuration verified | Pipeline includes test step
+| 5 | Test code is peer-reviewed | PR approval | At least 1 reviewer approval
+| 6 | Mocks/stubs are properly documented | Code comments / README | All external dependencies mocked
+|===
+
+=== 2.3 Stop Criteria
+
+[options="header"]
+|===
+| # | Criterion | Action Required
+| 1 | Critical build failure prevents test execution | Halt until build fixed
+| 2 | Test environment unavailable for > 4 hours | Escalate to DevOps; halt if critical
+| 3 | > 20% of tests fail with same root cause | Investigate root cause before proceeding
+| 4 | Coverage drops below 60% | Halt and add missing tests
+| 5 | Blocking defect found that requires architectural change | Halt and schedule refactoring
+|===
+
+== 3. Integration Testing Criteria
+
+=== 3.1 Entry Criteria
+
+[options="header"]
+|===
+| # | Criterion | Verification Method
+| 1 | Unit testing phase completed with exit criteria met | Sign-off from Dev Lead
+| 2 | All integrated modules are merged to development branch | Git branch status
+| 3 | Integration test environment is provisioned | Environment checklist
+| 4 | Test database with sample data is available | DB connection verified
+| 5 | API contracts between modules are documented | OpenAPI/Swagger docs
+| 6 | Integration test suite is written | Test files exist in repository
+|===
+
+=== 3.2 Exit Criteria
+
+[options="header"]
+|===
+| # | Criterion | Verification Method | Minimum Threshold
+| 1 | All integration tests pass | Test runner output | 100% pass rate
+| 2 | API endpoint tests pass with expected responses | Postman/Newman results | 100% success
+| 3 | Database integration tests pass (CRUD operations) | DB test results | All operations verified
+| 4 | Authentication/authorization flow tests pass | Security test results | All flows verified
+| 5 | Error handling and edge cases tested | Test coverage report | ≥ 70% of error paths
+| 6 | No integration defects with priority P1 or P2 | Issue tracker | Zero open
+| 7 | Performance baseline established | Performance test run | Response time < 500ms for 95% of requests
+|===
+
+=== 3.3 Stop Criteria
+
+[options="header"]
+|===
+| # | Criterion | Action Required
+| 1 | Database connection failure persists > 2 hours | Halt; escalate to DBA
+| 2 | API contract violation discovered | Halt; fix contract before continuing
+| 3 | > 15% of integration tests fail | Investigate; halt if root cause unclear
+| 4 | Environment instability causes inconsistent results | Halt; stabilize environment
+| 5 | Critical security vulnerability found | Halt immediately; security review required
+|===
+
+== 4. System Testing Criteria
+
+=== 4.1 Entry Criteria
+
+[options="header"]
+|===
+| # | Criterion | Verification Method
+| 1 | Integration testing phase completed with exit criteria met | Sign-off from QA Lead
+| 2 | Complete system deployed to staging environment | Deployment verified
+| 3 | All features implemented per requirements | Requirements traceability matrix
+| 4 | Test data set prepared (minimum 1000 records for performance) | Data generation script verified
+| 5 | System test plan approved | Document sign-off
+| 6 | Test cases written and reviewed | Test case repository
+| 7 | Regression test suite identified | Test selection documented
+|===
+
+=== 4.2 Exit Criteria
+
+[options="header"]
+|===
+| # | Criterion | Verification Method | Minimum Threshold
+| 1 | All system test cases executed | Test management tool | 100% execution
+| 2 | Pass rate meets minimum threshold | Test results | ≥ 95% pass rate
+| 3 | All critical (P1) and high (P2) defects fixed and verified | Issue tracker | Zero open P1/P2
+| 4 | Medium (P3) defects reviewed and triaged | Defect triage meeting | All P3 assigned/dispositioned
+| 5 | End-to-end user journeys tested | Manual test execution | All critical paths verified
+| 6 | Performance testing completed and meets thresholds | Performance report | See table below
+| 7 | Security testing completed with no critical findings | Security scan report | Zero critical vulnerabilities
+| 8 | Usability testing feedback documented | Usability report | Issues documented and prioritized
+| 9 | Test summary report created and distributed | Report approval | Stakeholder sign-off
+|===
+
+==== Performance Thresholds
+
+[options="header"]
+|===
+| Metric | Threshold
+| Page load time | < 3 seconds
+| Order submission time | < 2 seconds
+| Concurrent users supported | 50 simultaneous
+| API response time (95th percentile) | < 500ms
+| CPU usage under load | < 80%
+| Memory leak detection | No increase over 4-hour test
+|===
+
+=== 4.3 Stop Criteria
+
+[options="header"]
+|===
+| # | Criterion | Action Required
+| 1 | System outage or critical feature unavailable | Halt; fix before continuing
+| 2 | > 10% of test cases blocked by same issue | Halt; resolve blocker
+| 3 | Performance fails to meet minimum thresholds (< 50% of target) | Halt; performance tuning required
+| 4 | Security vulnerability with CVSS score ≥ 7.0 | Halt; security review required
+| 5 | Test environment corrupted or unstable | Halt; restore environment
+| 6 | Requirements change during testing | Halt; assess impact and replan
+|===
+
+== 5. Acceptance Testing Criteria
+
+=== 5.1 Entry Criteria
+
+[options="header"]
+|===
+| # | Criterion | Verification Method
+| 1 | System testing phase completed with exit criteria met | Sign-off from QA Lead
+| 2 | Release candidate deployed to UAT environment | Deployment verified
+| 3 | UAT environment mirrors production configuration | Environment audit
+| 4 | User stories/acceptance criteria documented | Product backlog / Jira
+| 5 | UAT participants identified and trained | Training attendance records
+| 6 | Test data represents real-world scenarios | Data validation
+| 7 | Known defects documented and disclosed | Known issues list
+|===
+
+=== 5.2 Exit Criteria
+
+[options="header"]
+|===
+| # | Criterion | Verification Method | Minimum Threshold
+| 1 | All acceptance criteria for each user story verified | Test results / sign-off | 100% verified
+| 2 | UAT success rate meets threshold | User feedback forms | ≥ 90% "Accept" rating
+| 3 | All P1 and P2 defects fixed and verified | Issue tracker | Zero open
+| 4 | No "must-fix" issues identified by stakeholders | UAT sign-off form | Zero open
+| 5 | Stakeholder/UAT sign-off obtained | Formal sign-off document | All required signatures
+| 6 | Deployment approval received | Change advisory board (CAB) approval | Approval documented
+| 7 | User documentation reviewed and approved | Documentation review | Sign-off obtained
+|===
+
+=== 5.3 Stop Criteria
+
+[options="header"]
+|===
+| # | Criterion | Action Required
+| 1 | Critical business workflow fails | Halt; must be fixed before acceptance
+| 2 | UAT participants unavailable for extended period | Halt; reschedule
+| 3 | Stakeholder raises major concern requiring redesign | Halt; reassess scope
+| 4 | Production data migration issues discovered | Halt; resolve migration
+| 5 | Regulatory/compliance violation found | Halt immediately; legal review required
+|===
+
+== 6. Overall Release Criteria
+
+Before final release to production, the following cumulative criteria must be met:
+
+[options="header"]
+|===
+| # | Criterion | Verification
+| 1 | All testing phases completed with exit criteria met | Phase sign-offs
+| 2 | No open P1 or P2 defects | Issue tracker
+| 3 | All P3 defects have documented workarounds or are scheduled for next release | Defect tracking
+| 4 | Performance and security testing meet thresholds | Test reports
+| 5 | UAT sign-off obtained | Formal document
+| 6 | Rollback plan documented and tested | Plan verification
+| 7 | Monitoring and alerting configured | Ops verification
+|===
+
+== 7. Defect Severity Classification
+
+To ensure objective defect handling, the following classification is used:
+
+[options="header"]
+|===
+| Severity | Definition | Examples | Required Action
+| P1 - Critical | System outage, data loss, security breach, core feature completely broken | Cannot place orders, login fails for all users | Must fix before any further testing
+| P2 - High | Major feature broken, no workaround available | Cannot add items to cart, payment processing fails | Must fix before system/acceptance testing
+| P3 - Medium | Feature works but with issues, workaround exists | UI misalignment, incorrect error message | Fix before release or document as known issue
+| P4 - Low | Cosmetic issues, minor improvements | Typo, color inconsistency | Can be deferred to next release
+|===
+
+== 8. Testing Phase Transition Summary
+
+[source]
+
+┌─────────────────────┐
+│    Unit Testing     │
+└──────────┬──────────┘
+           │ Exit criteria met
+           ▼
+┌─────────────────────┐
+│  Integration Testing │
+└──────────┬──────────┘
+           │ Exit criteria met
+           ▼
+┌─────────────────────┐
+│    System Testing    │
+└──────────┬──────────┘
+           │ Exit criteria met
+           ▼
+┌─────────────────────┐
+│  Acceptance Testing  │
+└──────────┬──────────┘
+           │ Exit criteria met
+           ▼
+┌─────────────────────┐
+│  Release to         │
+│  Production         │
+└─────────────────────┘
+
+     Stop criteria can halt testing at ANY phase
+
+
+== 9. Metrics and Reporting
+
+The following metrics will be tracked per phase to verify criteria are met:
+
+[options="header"]
+|===
+| Metric | Tool | Reporting Frequency
+| Test pass rate | Jest / Test management tool | Daily
+| Defect count by severity | Jira / Issue tracker | Daily
+| Code coverage | Jest / SonarQube | After unit tests
+| Requirements coverage | Traceability matrix | After each phase
+| Performance metrics | Lighthouse / k6 | After system tests
+| UAT satisfaction score | Survey tool | After acceptance
+|===
