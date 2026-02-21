@@ -2,7 +2,7 @@ name: Daily Project Metrics Generation
 
 on:
   schedule:
-    - cron: "0 21 * * *" # Every day at 9 PM UTC
+    - cron: "0 1 * * *" # Every day at 9 PM AST
   workflow_dispatch:
 
 concurrency:
