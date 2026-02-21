@@ -1,0 +1,245 @@
+= Cafeteria Ordering System
+
+== Informative Part
+
+=== 1.1 Team
+
+==== Team Structure
+The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division’s primary objectives.
+
+==== Managers
+The overall coordination of the project is led by:
+
+* Alma D. Piñero-Calero
+* Taimara P. Colon-Lopez
+
+The managers oversee progress across all divisions, facilitate communication between teams, and ensure that project milestones and academic requirements are met.
+
+==== Team Divisions
+
+===== Documentation Team
+
+*Objective:* +
+Ensure that the project documentation satisfies all hand-in requirements and aligns with project scope.
+
+*Responsibilities:*
+
+* Maintain and update project documentation.
+* Ensure clarity, structure, and completeness of required sections.
+* Verify alignment between implementation and written documentation.
+* Coordinate with other teams as needed.
+
+*Team Lead:* Reinaldo J. Martinez-Morales
+
+*Members:*
+
+* Karina Lopez-Rodriguez
+* Jahdiel E. Montero-Alicea
+* Samarys Barreiro-Melendez
+* Lorenzo A. Perez-Torres
+
+===== Quality Assurance Team
+
+*Objective:* +
+Identify and implement the initial test suite and configure automated testing using GitHub Actions.
+
+*Responsibilities:*
+
+* Define testing strategies (unit, integration, etc.).
+* Design test cases based on system requirements.
+* Implement automated tests.
+* Configure and maintain CI workflows using GitHub Actions.
+* Monitor test coverage and reliability.
+
+*Team Lead:* Jorge L. Deleon-Orama
+
+*Members:*
+
+* Horeb Cotto-Rosado
+* Kevin J. Lara-Rodriguez
+* Kian R. Ramos-Vega
+* Lucas A. Matos-Datiz
+* Januel E. Torres-Marquez
+* Devlin Hahn-Acosta
+* Gerardo Y. Soto-Rios
+* Yadriel Rivera-Rodriguez
+* Aryam Z. Diaz-Torres
+
+===== Research and Set Up Team
+
+*Objective:* +
+Research and establish the technical foundation of the project, including mobile framework selection and backend/database configuration.
+
+*Responsibilities:*
+
+* Set up the initial project structure and development environment.
+* Implement core functionality using React Native.
+* Evaluate and select an appropriate database solution.
+* Define backend requirements and integration approach.
+
+*Team Lead:* Fernando Castro-Cancel
+
+*Members:*
+
+* Osvaldo F. Figueroa-Canino
+* Yandre Caban-Torres
+* Luis J. Cruz-Cruz
+* Pedro J. Bonilla-Morales
+
+===== UI Team
+
+*Objective:* +
+Define the application’s branding, visual identity, and user experience.
+
+*Responsibilities:*
+
+* Design the application’s interface and layout.
+* Establish branding guidelines (colors, typography, design system).
+* Define user workflows and navigation structure.
+* Ensure usability and accessibility standards are considered.
+* Collaborate with the development team to implement UI components.
+
+*Team Lead:* Yamilette C. Alemany-Vazquez
+
+*Members:*
+
+* Daniella I. Melero-Pereira
+* Andrea P. Segarra-Felix
+* Fabiola Z. Torres-Maldonado
+* Natalia S. Vera-Rivera
+* Jon M. Vargas-Torres
+* Kaysha L. Pagan-Lopez
+* Ernesto S. Soto-Rivera
+
+===== Partners
+
+At this stage of the project, no external partners have been formally integrated. All current partners are internal team members and project managers who have direct responsibility in development and coordination. End users of the application are considered customers rather than partners.
+
+If external partners become involved in later phases, their roles and responsibilities will be formally documented here.
+
+=== 1.2 Current Situtation, needs, ideas
+
+==== 1.2.1 Current Situation
+Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, as there is no existing infrastructure for pre-ordering or remote payment. Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.
+
+==== 1.2.2 Needs
+
+The long wait times at the university cafeteria show unmet needs in food service and campus life, not in any specific system or technology. These needs come from how student schedules, cafeteria operations, and institutional restrictions interact, and as a consequence, they affect many stakeholders.
+
+===== Students
+
+* Be able to access meals within limited time windows between classes without risking tardiness or absence.
+* Reduce uncertainty around how long it will take to obtain food, especially during peak cafeteria hours.
+* Maintain consistent access to meals that supports health, focus, and academic performance.
+* Avoid having to choose between basic needs and academic responsibilities.
+
+===== Cafeteria Staff
+
+* Handle high volumes of orders efficiently without excessive pressure during peak periods.
+* Maintain a smooth operational flow that minimizes crowding and confusion at service points.
+* Receive clearer signals about when demand will come and the volume of orders. This will help better manage preparation.
+
+===== University Staff
+
+* Ensure campus services support student retention, wellness, and academic success.
+* Minimize crowds in shared spaces to improve safety and traffic flow.
+* Balance service improvements with resource and staffing constraints.
+
+===== System-Wide Needs
+
+* Reduced trouble between ordering, preparation, payment, and pickup.
+* Alignment between student schedules and cafeteria service capacity.
+* A food-service process that adapts to peak demand patterns.
+* Meals can be obtained reliably and on time, even during busy periods.
+
+===== Project Level Needs
+
+* A clear statement of requirements based on stakeholder needs, without reference to any system. 
+* A common language used in analysis, design, implementation, and testing to avoid confusion. 
+* Planning documents (requirements, architecture, design, and test strategy) to support the solution selected later.
+* A general description of cafeteria operations and how stakeholders interact. 
+
+==== 1.2.3 Ideas
+
+* Welcome to the Cafeteria ordering application, a platform where students and staff from the university community can easily order food from the university cafeteria, drastically reducing the waiting time and facilitating staff work.
+
+* Ordering: Now, it’s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
+
+* Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
+
+*Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.
+
+* Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer’s order stolen.
+
+*Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.
+
+*Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.
+
+=== 1.3 Scope, Span and Synopsis
+
+==== 1.3.1 Scope and Span
+
+==== 1.3.2 Synopsis
+
+=== 1.4 Other Activities thatn just developing source code
+
+=== 1.5 Derived Goals
+
+In addition to the primary goal of reducing wait times and improving access to meals in the university cafeteria, the project also pursues several secondary but meaningful outcomes.
+
+One derived goal is to contribute to improve student well-being beyond the immediate act of ordering food. By supporting more predictable access to meals, the project may contribute to promoting healthier daily routines, better time management, and reduced stress during peak academic hours. While the primary objective focuses on operational efficiency, this broader impact on student life represents an important secondary benefit.
+
+Another goal is to support data-informed decision making within cafeteria operations. Even if not fully implemented in early stages, the structured collection of order and demand information creates the possibility for future analysis of peak times, popular menu items, and service bottlenecks. This can help cafeteria management optimize staffing, preparation strategies, and inventory planning over time.
+
+The project also aims to encourage digital transformation within campus services. By introducing a structured, mobile-based ordering approach, the system may serve as a model for how other campus services might modernize their processes. This broader institutional impact extends beyond the cafeteria itself and contributes to a more technology-integrated campus environment.
+
+A further derived goal is to strengthen collaboration and coordination among stakeholders. The structured interaction between students, cafeteria staff, and university administration fosters clearer communication channels and more transparent service processes. Even outside the application’s technical implementation, this improved alignment between stakeholders is a valuable outcome.
+
+At the project level, another secondary goal is to develop strong engineering practices within the team. Through domain analysis, requirements engineering, architectural planning, testing strategies, and documentation, the team builds experience in systematic software development. The artifacts produced during this process—such as requirement specifications, design descriptions, and test plans—form a reusable knowledge base for future academic or professional projects.
+
+Finally, the project seeks to raise awareness about the importance of aligning campus services with student needs. By formally analyzing the current situation and articulating stakeholder needs, the project highlights the connection between operational systems and academic success. This reflective understanding of service design within the university context represents a broader outcome beyond the immediate functionality of the Cafeteria Ordering System.
+
+== Descriptive Part
+
+=== 2.1 Domain Description
+
+==== 2.1.1 Domain Rough Sketch
+
+==== 2.1.2 Terminology
+
+==== 2.1.4 Narrative
+
+==== 2.1.5 Events, Actions, and Behaviors
+
+==== 2.1.6 Function Signatures
+
+=== 2.2 Requirements
+
+==== 2.2.1 User stories, epics, and features
+
+==== 2.2.2 Personas
+
+==== 2.2.3 Domain Requirements
+
+==== 2.2.4 Interface Requirements
+
+==== 2.2.5 Machine Requirements
+
+=== 2.3 Implementation
+
+==== 2.3.1 Selected Fragments of the implementation
+
+== Analytic Part
+
+=== 3.1 Concept Analysis
+
+=== 3.2 Validation and Verification
+
+== Specific Class Topics
+
+=== 4.1 TDD
+
+=== 4.2 BDD and BDD tool usage
+
+=== 4.3 User of Debugging
+
