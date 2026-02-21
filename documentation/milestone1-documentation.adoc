@@ -1,0 +1,425 @@
+= Cafeteria Ordering System
+
+== Informative Part
+
+=== 1.1 Team
+
+==== Team Structure
+The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division’s primary objectives.
+
+==== Managers
+The overall coordination of the project is led by:
+
+* Alma D. Piñero-Calero
+* Taimara P. Colon-Lopez
+
+The managers oversee progress across all divisions, facilitate communication between teams, and ensure that project milestones and academic requirements are met.
+
+==== Team Divisions
+
+===== Documentation Team
+
+*Objective:* +
+Ensure that the project documentation satisfies all hand-in requirements and aligns with project scope.
+
+*Responsibilities:*
+
+* Maintain and update project documentation.
+* Ensure clarity, structure, and completeness of required sections.
+* Verify alignment between implementation and written documentation.
+* Coordinate with other teams as needed.
+
+*Team Lead:* Reinaldo J. Martinez-Morales
+
+*Members:*
+
+* Karina Lopez-Rodriguez
+* Jahdiel E. Montero-Alicea
+* Samarys Barreiro-Melendez
+* Lorenzo A. Perez-Torres
+
+===== Quality Assurance Team
+
+*Objective:* +
+Identify and implement the initial test suite and configure automated testing using GitHub Actions.
+
+*Responsibilities:*
+
+* Define testing strategies (unit, integration, etc.).
+* Design test cases based on system requirements.
+* Implement automated tests.
+* Configure and maintain CI workflows using GitHub Actions.
+* Monitor test coverage and reliability.
+
+*Team Lead:* Jorge L. Deleon-Orama
+
+*Members:*
+
+* Horeb Cotto-Rosado
+* Kevin J. Lara-Rodriguez
+* Kian R. Ramos-Vega
+* Lucas A. Matos-Datiz
+* Januel E. Torres-Marquez
+* Devlin Hahn-Acosta
+* Gerardo Y. Soto-Rios
+* Yadriel Rivera-Rodriguez
+* Aryam Z. Diaz-Torres
+
+===== Research and Set Up Team
+
+*Objective:* +
+Research and establish the technical foundation of the project, including mobile framework selection and backend/database configuration.
+
+*Responsibilities:*
+
+* Set up the initial project structure and development environment.
+* Implement core functionality using React Native.
+* Evaluate and select an appropriate database solution.
+* Define backend requirements and integration approach.
+
+*Team Lead:* Fernando Castro-Cancel
+
+*Members:*
+
+* Osvaldo F. Figueroa-Canino
+* Yandre Caban-Torres
+* Luis J. Cruz-Cruz
+* Pedro J. Bonilla-Morales
+
+===== UI Team
+
+*Objective:* +
+Define the application’s branding, visual identity, and user experience.
+
+*Responsibilities:*
+
+* Design the application’s interface and layout.
+* Establish branding guidelines (colors, typography, design system).
+* Define user workflows and navigation structure.
+* Ensure usability and accessibility standards are considered.
+* Collaborate with the development team to implement UI components.
+
+*Team Lead:* Yamilette C. Alemany-Vazquez
+
+*Members:*
+
+* Daniella I. Melero-Pereira
+* Andrea P. Segarra-Felix
+* Fabiola Z. Torres-Maldonado
+* Natalia S. Vera-Rivera
+* Jon M. Vargas-Torres
+* Kaysha L. Pagan-Lopez
+* Ernesto S. Soto-Rivera
+
+===== Partners
+
+At this stage of the project, no external partners have been formally integrated. All current partners are internal team members and project managers who have direct responsibility in development and coordination. End users of the application are considered customers rather than partners.
+
+If external partners become involved in later phases, their roles and responsibilities will be formally documented here.
+
+=== 1.2 Current Situtation, needs, ideas
+
+==== 1.2.1 Current Situation
+Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, as there is no existing infrastructure for pre-ordering or remote payment. Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.
+
+==== 1.2.2 Needs
+
+The long wait times at the university cafeteria show unmet needs in food service and campus life, not in any specific system or technology. These needs come from how student schedules, cafeteria operations, and institutional restrictions interact, and as a consequence, they affect many stakeholders.
+
+===== Students
+
+* Be able to access meals within limited time windows between classes without risking tardiness or absence.
+* Reduce uncertainty around how long it will take to obtain food, especially during peak cafeteria hours.
+* Maintain consistent access to meals that supports health, focus, and academic performance.
+* Avoid having to choose between basic needs and academic responsibilities.
+
+===== Cafeteria Staff
+
+* Handle high volumes of orders efficiently without excessive pressure during peak periods.
+* Maintain a smooth operational flow that minimizes crowding and confusion at service points.
+* Receive clearer signals about when demand will come and the volume of orders. This will help better manage preparation.
+
+===== University Staff
+
+* Ensure campus services support student retention, wellness, and academic success.
+* Minimize crowds in shared spaces to improve safety and traffic flow.
+* Balance service improvements with resource and staffing constraints.
+
+===== System-Wide Needs
+
+* Reduced trouble between ordering, preparation, payment, and pickup.
+* Alignment between student schedules and cafeteria service capacity.
+* A food-service process that adapts to peak demand patterns.
+* Meals can be obtained reliably and on time, even during busy periods.
+
+===== Project Level Needs
+
+* A clear statement of requirements based on stakeholder needs, without reference to any system. 
+* A common language used in analysis, design, implementation, and testing to avoid confusion. 
+* Planning documents (requirements, architecture, design, and test strategy) to support the solution selected later.
+* A general description of cafeteria operations and how stakeholders interact. 
+
+==== 1.2.3 Ideas
+
+* Welcome to the Cafeteria ordering application, a platform where students and staff from the university community can easily order food from the university cafeteria, drastically reducing the waiting time and facilitating staff work.
+
+* Ordering: Now, it’s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
+
+* Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
+
+*Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.
+
+* Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer’s order stolen.
+
+*Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.
+
+*Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.
+
+=== 1.3 Scope, Span and Synopsis
+
+==== 1.3.1 Scope and Span
+
+==== 1.3.2 Synopsis
+
+=== 1.4 Other Activities than just developing source code
+
+Developing a software solution is only one part of this project. Though it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.
+
+==== A key activity for this project is understanding and structuring the domain.
+
+* Cafeteria operations during peak hours rely heavily on manual and informal processes, which makes it difficult to clearly understand how ordering, payment, preparation, and pickup relate to one another.
+* Creating a domain description would help the team form a shared understanding of these workflows and constraints before moving toward any specific solution.
+
+==== Another important activity is requirements engineering. Although the current situation reveals clear inefficiencies and frustration, there is no formal description of what an improved cafeteria experience should provide for its users.
+
+* Defining requirements helps clarify expectations around functionality, performance, and usage from the perspective of students, staff, and administrators.
+* Having explicit requirements ensures that later design and implementation decisions are guided by stakeholder needs rather than assumptions.
+
+==== Early design and architectural reasoning are also necessary before any code is written.
+
+* Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, system structure and responsibilities cannot be taken from prior solutions. 
+* Planning the system architecture and components early helps manage complexity and reduces the risk of poorly structured designs.
+
+==== Planning for testing and evaluation is another essential activity.
+
+* The cafeteria environment is highly time-sensitive, which makes reliability and usability especially important.
+* Thinking ahead about how the system will be evaluated allows the team to measure improvements such as reduced waiting times and smoother order pickup once a solution is in place.
+
+==== Finally, coordination and project organization tie all project activities together.
+
+* Establishing milestones, documenting decisions, and assigning responsibilities helps keep the team aligned throughout the project.
+* Maintaining communication with stakeholders supports scope management, progress tracking, and preparation for future iterations or expansion.
+
+By combining domain understanding, requirements definition, design planning, testing preparation, and strong coordination with implementation, the project addresses both the technical and operational factors contributing to the current cafeteria situation.
+
+=== 1.5 Derived Goals
+
+In addition to the primary goal of reducing wait times and improving access to meals in the university cafeteria, the project also pursues several secondary but meaningful outcomes.
+
+One derived goal is to contribute to improve student well-being beyond the immediate act of ordering food. By supporting more predictable access to meals, the project may contribute to promoting healthier daily routines, better time management, and reduced stress during peak academic hours. While the primary objective focuses on operational efficiency, this broader impact on student life represents an important secondary benefit.
+
+Another goal is to support data-informed decision making within cafeteria operations. Even if not fully implemented in early stages, the structured collection of order and demand information creates the possibility for future analysis of peak times, popular menu items, and service bottlenecks. This can help cafeteria management optimize staffing, preparation strategies, and inventory planning over time.
+
+The project also aims to encourage digital transformation within campus services. By introducing a structured, mobile-based ordering approach, the system may serve as a model for how other campus services might modernize their processes. This broader institutional impact extends beyond the cafeteria itself and contributes to a more technology-integrated campus environment.
+
+A further derived goal is to strengthen collaboration and coordination among stakeholders. The structured interaction between students, cafeteria staff, and university administration fosters clearer communication channels and more transparent service processes. Even outside the application’s technical implementation, this improved alignment between stakeholders is a valuable outcome.
+
+At the project level, another secondary goal is to develop strong engineering practices within the team. Through domain analysis, requirements engineering, architectural planning, testing strategies, and documentation, the team builds experience in systematic software development. The artifacts produced during this process—such as requirement specifications, design descriptions, and test plans—form a reusable knowledge base for future academic or professional projects.
+
+Finally, the project seeks to raise awareness about the importance of aligning campus services with student needs. By formally analyzing the current situation and articulating stakeholder needs, the project highlights the connection between operational systems and academic success. This reflective understanding of service design within the university context represents a broader outcome beyond the immediate functionality of the Cafeteria Ordering System.
+
+== Descriptive Part
+
+=== 2.1 Domain Description
+
+==== 2.1.1 Domain Rough Sketch
+
+The following snippets are raw records of observations and stakeholder experiences within the university cafeteria.
+
+* The 10-Minute Dash: A student walks from the Engineering building toward the cafeteria at 12:05 PM. A small group arrives at the cafeteria at the same time to find a line that extends about 15 people toward the hallway. Some people looks at their watch and decide to walk to their next classroom. They are heard muttering that they'll just have to wait until 4:00 PM to eat.
+
+* The Kitchen's Blind Spot: The kitchen staff members create multiple big trays which contain the "El colegial special" in the back of the kitchen. The team operates at high speed but maintains uncertainty about whether 10 or 100 students will enter the building within the next ten minutes will order. The staff members display visible pressure when 20 students enter the service area which becomes overlwhelming.
+
+* The Post-Lunch Fatigue: Multiple students show signs of falling asleep during the 2:00 PM Biology lecture while they try to maintain their attention on the lesson. A student, when exiting the class, states that he skipped the meal because of the long line which may have caused him to miss his class. The student explained that his lack of food would affect his mental focus and academic performance throughout the day.
+
+* The Payment Bottleneck: A student reaches the front of the line and is told that the payment system is down. The student waits for 3 minutes while the staff tries to fix the issue. Then, the student and every person behind him/her becomes visibly frustrated and expresses concern about being late for their next class.
+
+* The uncertainty of the menu: A student stands at the back of the line, which has spilled out into the hallway near the exit of the cafeteria. From this distance, he cannot see the daily whiteboard or the steam table. He spends 5 minutes moving forward to only discover what the sides or prices are once they are two people away from the counter.
+
+==== 2.1.2 Terminology
+
+Student :: (entity, domain)
+A person enrolled at the university attempting to obtain food from the cafeteria, typically within limited time windows between academic activities or responsibilities.
+
+Cafeteria :: (entity, domain)
+A food-service environment on campus where meals are prepared, ordered, paid for, and collected.
+
+Cafeteria Staff :: (entity, domain)
+Staff responsible for preparing meals, handling orders, processing payments, and managing the cafeteria.
+
+Meal :: (entity, domain)
+A prepared set of food items offered by the cafeteria during operating hours.
+
+Menu :: (entity, domain)
+A collection of meals and side options available during a specific period.
+
+Order :: (entity, domain)
+A request made by a student for one or more items from the menu.
+
+Queue :: (entity, domain)
+An ordered sequence of students waiting to place an order or complete payment.
+
+Service Period :: (entity, domain)
+A continuous time window during which the cafeteria is open and serving meals.
+
+Order Placement :: (action, domain)
+The act of selecting menu items and communicating the request to cafeteria staff.
+
+Payment :: (action, domain)
+The process of transferring money from a student to the cafeteria in exchange for a meal.
+
+Meal Preparation :: (action, domain)
+The productions of meals in advance or in response to incoming orders.
+
+Meal Pickup :: (action, domain)
+A student receiving a prepared meal after an order has been completed.
+
+Waiting Time :: (attribute, domain)
+The elapsed time between a student joining the queue and receiving their meal.
+
+Student Has Just Joined the Queue :: (event, domain)
+The moment a student enters the line to place an order.
+
+Order Has Just Been Placed :: (event, domain)
+The moment a student’s order is communicated to cafeteria staff.
+
+Payment Has Just Failed :: (event, domain)
+The moment a payment attempt does not complete successfully, causing a delay in service.
+
+Meal Has Just Been Prepared :: (event, domain)
+The moment a meal becomes ready for pickup.
+
+Student Has Just Left the Queue Without Ordering :: (event, domain)
+The moment a student abandons the line due to time pressure or other circumstances.
+
+Crowd Surge :: (behavior, domain)
+A situation that occurs when large numbers of students arrive within a short time spans. This leads to long queues and increased service pressure.
+
+Time-Constrained Decision Making :: (behavior, domain)
+The moment students decide whether to wait for food based on current waiting time and proximity to their next class.
+
+Uncertain Demand Preparation :: (behavior, domain)
+A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume.
+
+Service Bottleneck :: (behavior, domain)
+A recurring slowdown caused by limited capacity in ordering, payment, or preparation.
+==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch
+
+This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.
+
+The rough sketch provides raw observations of behaviors, constraints, and interactions within the cafeteria environment. Through analysis, these observations were abstracted into formal domain concepts, entities, actions, events, attributes, and behaviors.
+
+The following relationships illustrate how domain terminology originates from observed domain phenomena:
+
+* Queue, Waiting Time, and Student Has Just Joined the Queue  
+- Derived from *The 10-Minute Dash*, where students encounter a line extending approximately 15 people into the hallway. This observation demonstrates the existence of an ordered sequence of students waiting for service (Queue), measurable delays between joining and receiving service (Waiting Time), and the identifiable moment when a student enters the queue (Student Has Just Joined the Queue).
+
+* Student Has Just Left the Queue Without Ordering and Time-Constrained Decision Making  
+- Derived from *The 10-Minute Dash* and *The Post-Lunch Fatigue*, where students decide to leave the line due to insufficient available time before their next academic commitment. These observations reveal that students evaluate waiting time against external time constraints, resulting in the observable event of abandoning the queue.
+
+* Meal, Meal Preparation, and Batch Preparation Under Unpredictable Circumstances  
+- Derived from *The Kitchen's Blind Spot*, where cafeteria staff prepare multiple trays of meals without precise knowledge of how many students will arrive. This demonstrates the existence of prepared food units (Meal), the act of producing those meals (Meal Preparation), and the behavior of preparing food under demand uncertainty (Batch Preparation Under Unpredictable Circumstances).
+
+* Crowd Surge and Service Bottleneck  
+- Derived from *The Kitchen's Blind Spot* and *The Payment Bottleneck*, where sudden increases in arriving students create operational pressure and service delays. These observations establish the behavior of rapid increases in student arrival (Crowd Surge) and the resulting slowdown in service processes (Service Bottleneck).
+
+* Order, Order Placement, and Order Has Just Been Placed  
+- Derived implicitly from all rough sketch scenarios involving students progressing through the cafeteria service process. These observations demonstrate that students communicate requests for meals, resulting in identifiable moments when requests are formally made.
+
+* Payment and Payment Has Just Failed  
+- Derived from *The Payment Bottleneck*, where the payment system becomes unavailable, preventing students from completing transactions. This observation demonstrates the existence of a monetary exchange process (Payment) and identifiable failure events within that process (Payment Has Just Failed).
+
+* Menu and Menu Visibility Constraints  
+- Derived from *The Uncertainty of the Menu*, where students are unable to see available meal options or prices until reaching the front of the queue. This establishes the existence of a defined set of available meal options (Menu) and the dependency of student decision-making on access to this information.
+
+* Meal Pickup and Meal Has Just Been Prepared  
+- Derived from the implicit service flow observed across all rough sketch scenarios, where meals are prepared and subsequently transferred to students. This establishes the existence of a distinct moment when a meal becomes available (Meal Has Just Been Prepared) and the act of receiving that meal (Meal Pickup).
+
+* Cafeteria Staff and Operational Pressure Under Demand Variability  
+- Derived from *The Kitchen's Blind Spot* and *The Payment Bottleneck*, where staff members prepare meals and respond to sudden increases in student arrivals and operational disruptions. These observations establish cafeteria staff as active domain entities responsible for food preparation and service execution.
+
+These relationships demonstrate that the terminology defined in Section 2.1.2 is not arbitrary, but rather the result of systematic abstraction and formalization of domain phenomena observed in the rough sketch. This ensures that the terminology accurately reflects the domain environment and provides a reliable conceptual foundation for subsequent domain modeling and requirements analysis.
+
+==== 2.1.4 Narrative
+
+==== 2.1.5 Events, Actions, and Behaviors
+
+==== 2.1.6 Function Signatures
+
+==== 2.2 Requirements
+
+==== 2.2.1 User stories, epics, and features
+
+==== Epics
+
+===== Student Meal Access
+Students need a way to obtain food efficiently during short breaks between classes.
+
+===== Peak-Hour Cafeteria Flow
+Cafeteria staff need to handle large numbers of students during peak hours without excessive congestion.
+
+===== Reliable Cafeteria Service
+The cafeteria needs consistent operations to reduce delays and improve the overall cafeteria experience.
+
+==== User Stories
+
+===== As a Student 
+* I want to know what food options are available, so that I can decide whether waiting fits my schedule.
+
+* I want to spend less time waiting for food, so that I can arrive on time to my next class.
+
+===== As a Cafeteria Staff Member
+* I want better awareness of incoming demand, so that I can prepare meals more efficiently.
+
+* I want service to remain steady during busy periods, so that crowds are reduced.
+
+==== Features
+
+===== Meal availability information
+* Supports students in understanding what meals are offered during a service period.
+
+===== Order and payment handling
+* Supports the processing of student meal requests.
+
+===== Demand awareness support
+* Supports cafeteria staff in anticipating peak-hour service needs and wants.
+
+===== Service flow coordination
+* Supports smoother movement from ordering to meal pickup.
+
+==== 2.2.2 Personas
+
+==== 2.2.3 Domain Requirements
+
+==== 2.2.4 Interface Requirements
+
+==== 2.2.5 Machine Requirements
+
+=== 2.3 Implementation
+
+==== 2.3.1 Selected Fragments of the implementation
+
+== Analytic Part
+
+=== 3.1 Concept Analysis
+
+=== 3.2 Validation and Verification
+
+== Specific Class Topics
+
+=== 4.1 TDD
+
+=== 4.2 BDD and BDD tool usage
+
+=== 4.3 User of Debugging
+

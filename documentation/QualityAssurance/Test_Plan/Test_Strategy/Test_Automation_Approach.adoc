@@ -1,0 +1,155 @@
+= Test Automation Approach
+Author: Jorge L. De León Orama
+v1.0, 2026-02-15
+:toc:
+:sectnums:
+:doctype: article
+
+== Overview
+The purpose of this document is to define the project's test automation approach to guide how automated validation will be executed and expanded over time. This approach will align the team on what will be automated, when it will run, and what standards will be followed to maintain stability of the main branch.
+
+== Automation
+Automation refers to repeatable validation that is executed:
+* Locally by contributors using standard repository commands (developers can catch failures before pushing).
+* In CI (GitHub Actions) using the same commands, producing a status check on the Pull Request.
+
+Automation is deemed successful only if it prevents broken changes from merging into `main`.
+
+== Definitions
+* *Auto-Test Suite:* The repository's standard validation commands executed on GitHub Actions in CI.
+* *Status Check:* The pass/fail indicator shown on a pull request.
+* *Logs:* The run output produced by CI for debugging failures.
+* *Phase*: Defines a new time period where the Auto-Test Suite's contents are modified.
+* *Runtime budget:* The amount of time (and computing resources) you are willing to let your CI system spend running tests.
+* *Critical Path:* The smallest set of tests that verify the system's most essential behavior (things that must always work for the system to be considered usable).
+
+== When Automation Runs
+* Pull Requests:
+** Automatically runs on PRs targeting `main`.
+* Pushes:
+** On push to `main` to verify the branch remains stable after merges.
+
+== Pass/Fail Rules and Merge Protection
+* PASS when all required Auto-Test Suite commands complete successfully.
+* FAIL when any required command fails, setup fails, or workflow does not complete.
+====
+*Merge policy - Repository Rule:*
+
+* A PR with passing checks is allowed to merge into `main`.
+* A PR with a failing check is blocked from merging into `main`.
+====
+
+== Automation Phases
+
+=== Phase 1: Build Validation (current Phase):
+*Goal:* Block changes that break installation/build from reaching `main`.
+====
+*What CI must do:*
+
+. Evaluate the latest version of the repository. 
+. Prepare the runner with the correct language/runtime + version.
+. Install required dependencies.
+. Execute the Auto-Test Suite validation command:
+* *Build command* (current defined validation)
+. Report results back to the PR: 
+* Status check = pass/fail
+* Logs is accessible in the workflow runs.
+====
+====
+*Auto-Test Suite (Phase 1) - standard commands:*
+
+* Local: 
+** Run the same build command contributors will run before pushing.
+* CI:
+** Run the same build command in GitHub Actions.
+====
+====
+*Pass/Fail (Phase 1):*
+
+* PASS = build command succeeds.
+* FAIL = build command fails OR dependencies cannot install OR runner setup fails.
+====
+====
+*Deliverable produced by Phase 1:*
+
+* GitHub Actions workflow file exists in the repo and triggers on PRs to `main`.
+====
+
+
+=== Phase 2: Unit Testing (Near Future)
+Goal: Validate individual modules/functions as they appear, while keeping Phase 1 intact.
+====
+*Entry criteria to start Phase 2:*
+
+* At least one stable module exists that can be tested independently.
+* A unit test framework is selected and configured.
+* A unit test command exists as part of Auto-Test Suite.
+====
+====
+*What becomes automated:*
+
+* Unit tests for:
+** Core modules/features as they are introduced.
+** Business rules and logic that can be tested without external systems (how the system should behave).
+====
+====
+*Auto-Test Suite additions (Phase 2):*
+
+* Add a standard unit test command that will run on all included features. Only one command will be created as having a separate command per feature becomes hard to maintain. Example of naming convention: 
+** `test:unit`
+====
+====
+*Pass/Fail (Phase 2):*
+
+* PASS = build + unit tests succeed.
+* FAIL = build fails OR any unit test fails.
+====
+
+
+=== Phase 3: Integration & Regression (Later)
+*Goal:* Ensure components work together and prevent reintroducing previously fixed bugs.
+====
+*Entry criteria to start Phase 3:*
+
+* Integration points exist (API/DV/auth/services).
+* A test environment approach exists (mocks/ test services/containers).
+* The CI runtime budget supports longer-running suites (heavier tests).
+====
+==== 
+*What becomes automated:*
+
+* Integration tests:
+** Cross-module interactions 
+** External-service interaction via mocks or test instances.
+
+*Regression tests:
+** Tests added for every fixed bug to prevent recurrence. 
+** Minimal "critical path" suite that must always pass.
+====
+====
+*Auto-Test Suite additions (Phase 3):*
+
+* Add standard commands, examples of naming convention:
+** `test:integration`
+** `test:regression`
+====
+====
+*Pass/fail (Phase 3):*
+
+* PASS = build + unit tests + integration tests + regression tests succeed
+* FAIL = build fails OR any unit test fails OR integration test fails OR regression test fails.
+====
+
+=== CI Design Rule: Expand Without Redesign
+The workflow  should keep the same structure across phases: 
+
+* Setup runtime -> install dependencies -< run Auto-Test Suite commands -> report status/logs 
+
+Expansion happens by adding new commands to the Auto-Test Suite, not by creating entirely seperate CI designs.
+
+=== Standardization Requirements
+
+* The commands run in CI must be runnable locally. 
+* CI should invoke repository-defined scripts. 
+* NO "CI-only" magic steps that contributors can not reproduce locally.
+

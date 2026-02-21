@@ -1,0 +1,154 @@
+= Research & Select Frontend Framework (React Native vs Alternatives)
+React Native vs Flutter vs Ionic Capacitor vs Native
+
+== 1. Purpose of This Document
+
+This document presents the research conducted to select the frontend framework that will be used to develop the application. The goal is to make a decision that is practical for the team, sustainable throughout the semester, and capable of delivering a high-quality experience on both iOS and Android.
+
+The decision is not based on trends or popularity alone. Instead, it considers development speed, learning curve, ecosystem maturity, ease of integrating common mobile features, and how realistic it is for the team to maintain the chosen technology within the project timeline.
+
+== 2. Assumed Project Requirements
+
+=== 2.1 Expected Functional Requirements
+
+The application is expected to include standard mobile app screens such as login, signup, navigation between views, user profile, and settings.
+
+It may require integration with alternative authentication methods, such as Google Sign-In.
+
+The frontend will consume backend APIs.
+
+Basic local storage will be needed for session handling or user preferences.
+
+Navigation should be smooth, intuitive, and consistent across the app.
+
+=== 2.2 Non-Functional Requirements
+
+The team should be able to make progress quickly without spending excessive time on environment setup.
+
+The application should feel native on both iOS and Android.
+
+The codebase should be maintainable, testable, and well-documented.
+
+The framework should have an active community, established best practices, and up-to-date learning resources.
+
+== 3. Evaluated Framework Options
+
+=== 3.1 React Native (with Expo as a base)
+
+React Native allows developers to build mobile applications using JavaScript and the React programming model. For new projects, the official documentation recommends starting with a framework such as Expo, which provides tooling and native modules that significantly reduce setup complexity and infrastructure work.
+
+=== 3.2 Flutter
+
+Flutter is Google’s cross-platform framework and uses the Dart programming language. It includes its own rendering engine and places strong emphasis on performance. Flutter provides robust tooling for analyzing frames, detecting jank, and profiling application performance.
+
+=== 3.3 Ionic with Capacitor
+
+This approach is web-first, meaning the UI is built using web technologies. Capacitor acts as a native runtime that allows web applications to run on iOS and Android while accessing native device features through plugins.
+
+=== 3.4 Native Development (Swift for iOS and Kotlin for Android)
+
+Native development offers the highest level of control and the most direct access to platform-specific features. However, it requires maintaining two separate codebases, which significantly increases development effort, coordination overhead, and long-term maintenance cost.
+
+== 4. Market Signals and Adoption
+
+While market adoption alone does not determine the best choice, it helps validate that a technology has a strong community and sufficient industry support.
+
+According to the Stack Overflow Developer Survey 2024, within the category of "Other frameworks and libraries," Flutter shows an adoption rate of approximately 9.4%, while React Native appears at around 8.4%. Ionic is reported at roughly 2.5%, and Capacitor at about 1.8%. This data suggests that Flutter and React Native are the two dominant cross-platform solutions, with significantly higher adoption than hybrid alternatives like Ionic in this category.
+
+Higher adoption generally correlates with better documentation, more third-party libraries, more examples, and easier access to community support when issues arise.
+
+== 5. Technical Comparison Focused on Project Needs
+
+=== 5.1 Development Speed and Setup
+
+React Native with Expo offers a strong advantage for teams that need to move quickly. Expo positions itself as a production-ready framework that simplifies development by providing built-in routing, native modules, and tooling out of the box.
+
+Flutter also provides solid tooling, but it typically requires the team to adapt to the Dart ecosystem and Flutter’s UI architecture. While this is not inherently negative, the initial learning cost can be higher for teams already familiar with JavaScript.
+
+Ionic with Capacitor is relatively easy to start for teams with strong web backgrounds. However, the overall experience depends heavily on WebView behavior. As applications require more native-specific functionality, additional work may be needed through plugins or platform-specific adjustments.
+
+=== 5.2 Navigation and Screen Structure
+
+In the React Native ecosystem, React Navigation is the standard community solution for handling navigation, including transitions, headers, tab bars, and screen stacks.
+
+When using Expo, Expo Router is commonly recommended. It provides file-based routing built on top of React Navigation, making project structure more intuitive and easier to understand by simply examining folders and files.
+
+Flutter also offers reliable navigation solutions, but they follow a widget-based paradigm that differs significantly from React. This can introduce additional friction for teams more comfortable with React-style patterns.
+
+=== 5.3 Performance and User Experience
+
+Flutter places strong emphasis on performance and clearly documents performance goals, such as maintaining consistent frame rates. It also offers detailed profiling tools to identify rendering or performance issues.
+
+React Native applications, when well-implemented, feel native because they use native components. However, care must be taken with complex animations or large lists to maintain smooth performance.
+
+For the typical scope of a university project with standard screens and interactions, both frameworks are capable of delivering excellent user experiences. Meaningful differences usually appear only in highly custom UIs or performance-intensive scenarios.
+
+=== 5.4 Ecosystem, Libraries, and Talent Availability
+
+React Native benefits from its alignment with React and JavaScript, which are widely used technologies. This lowers the barrier for contribution, onboarding, and debugging within the team.
+
+Flutter also has a strong ecosystem, but it requires adoption of Dart and Flutter-specific patterns. This can be effective with sufficient time and motivation, but it increases risk when time is limited.
+
+Ionic with Capacitor may be appealing for web-focused teams, but limitations can surface later if the app requires deeper native integration or platform-specific behavior.
+
+=== 5.5 Key Risks
+
+For React Native, the primary risk is reliance on third-party libraries, with occasional need for native code if very specific features are required. This risk can be mitigated by using Expo and selecting mature, well-supported libraries.
+
+For Flutter, the main risk is the learning curve, which could slow part of the team initially. Mitigation would require onboarding time and internal documentation.
+
+For Ionic with Capacitor, the risk is reduced native feel and increased effort when advanced mobile features are needed. Early prototyping and plugin evaluation can help mitigate this.
+
+For native development, the risk is duplicated work and extended timelines. This option is only justified if cross-platform solutions cannot meet project requirements, which does not appear to be the case here.
+
+== 6. Decision Matrix
+
+The following scale was used for evaluation:
+
+1 represents weak performance  
+3 represents acceptable performance  
+5 represents excellent performance  
+
+Evaluation criteria included development speed, learning curve, perceived native experience, ecosystem maturity, semester-long maintainability, and integration risk.
+
+React Native with Expo scored highest overall due to its balance of speed, accessibility, ecosystem strength, and maintainability. Flutter followed closely, with strong performance but a higher learning cost. Ionic and native development scored lower primarily due to long-term maintenance and scalability concerns within the semester timeframe.
+
+== 7. Final Recommendation
+
+The recommended frontend framework for this project is React Native with Expo.
+
+This recommendation does not imply that Flutter is an inferior technology. Flutter is a strong option, particularly for performance-heavy or highly customized UIs. However, within the context of this project, React Native with Expo minimizes setup friction, supports rapid development, and maintains a high-quality user experience.
+
+Expo provides a production-ready environment with simplified tooling, built-in modules, and file-based routing support. React Navigation is a well-established community standard, and Expo Router builds upon it to further simplify navigation and project structure.
+
+Industry adoption data from the Stack Overflow Developer Survey 2024 further supports this choice, as React Native remains one of the most widely used cross-platform frameworks with a large and active community.
+
+== 8. Decisions and Next Steps
+
+=== 8.1 Decision
+
+The selected frontend framework is React Native with Expo (if decided)
+
+=== 8.2 Suggested Next Steps
+
+Define the initial project structure and folder conventions.
+
+Decide on a navigation approach using Expo Router or React Navigation, noting that Expo Router is recommended for Expo-based projects.
+
+Develop a minimal prototype with two to three screens, such as Login, Sign Up, and Home, to validate navigation flow, styling, and API integration.
+
+== 9. References
+
+React Native Documentation, Environment Setup and Expo recommendation.
+
+React Native Documentation, Navigation overview and community solutions.
+
+React Navigation Documentation, Getting Started.
+
+Expo Documentation, Application navigation and Expo Router.
+
+Flutter Documentation, Architectural overview and performance guidelines.
+
+Capacitor and Ionic Documentation, Native runtime and device feature access.
+
+Stack Overflow Developer Survey 2024, Framework adoption statistics.
