@@ -225,9 +225,46 @@ The following snippets are raw records of observations and stakeholder experienc
 
 ==== 2.1.6 Function Signatures
 
-=== 2.2 Requirements
+==== 2.2 Requirements
 
 ==== 2.2.1 User stories, epics, and features
+
+==== Epics
+
+===== Student Meal Access
+Students need a way to obtain food efficiently during short breaks between classes.
+
+===== Peak-Hour Cafeteria Flow
+Cafeteria staff need to handle large numbers of students during peak hours without excessive congestion.
+
+===== Reliable Cafeteria Service
+The cafeteria needs consistent operations to reduce delays and improve the overall cafeteria experience.
+
+==== User Stories
+
+===== As a Student 
+* I want to know what food options are available, so that I can decide whether waiting fits my schedule.
+
+* I want to spend less time waiting for food, so that I can arrive on time to my next class.
+
+===== As a Cafeteria Staff Member
+* I want better awareness of incoming demand, so that I can prepare meals more efficiently.
+
+* I want service to remain steady during busy periods, so that crowds are reduced.
+
+==== Features
+
+===== Meal availability information
+* Supports students in understanding what meals are offered during a service period.
+
+===== Order and payment handling
+* Supports the processing of student meal requests.
+
+===== Demand awareness support
+* Supports cafeteria staff in anticipating peak-hour service needs and wants.
+
+===== Service flow coordination
+* Supports smoother movement from ordering to meal pickup.
 
 ==== 2.2.2 Personas
 
