@@ -1,0 +1,265 @@
+// Cafeteria Ordering System - Database Schema
+// Use https://dbdiagram.io to visualize this DBML file
+// Project: Cafeteria Ordering System
+// Goal: Reduce wait times from 13-20 minutes to <3 minutes
+
+Project cafeteria_ordering_system {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Cafeteria Ordering System Database Schema
+    Designed for Supabase (PostgreSQL) backend
+    Supports 500+ concurrent users during peak hours (11 AM - 2 PM)
+    Primary Goal: Online ordering to reduce wait times
+  '''
+}
+
+// ============================================
+// USER MANAGEMENT
+// ============================================
+
+Table profiles {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  user_id uuid [ref: - auth.users.id, not null, unique, note: 'Links to Supabase auth.users']
+  student_id varchar(20) [unique, note: 'University student ID']
+  full_name varchar(255) [not null]
+  phone varchar(20)
+  role varchar(20) [not null, default: 'student', note: 'student, staff, or admin']
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  
+  indexes {
+    user_id
+    student_id
+    role
+  }
+  
+  Note: 'Extended user profile information linked to Supabase authentication'
+}
+
+// Supabase auth.users table (reference only, managed by Supabase)
+Table auth.users {
+  id uuid [pk]
+  email varchar(255) [unique, not null]
+  encrypted_password varchar(255)
+  email_confirmed_at timestamp
+  created_at timestamp
+  updated_at timestamp
+  
+  Note: 'Managed by Supabase Authentication (GoTrue). Do not modify directly.'
+}
+
+// ============================================
+// MENU MANAGEMENT
+// ============================================
+
+Table menu_categories {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  name varchar(100) [not null, unique, note: 'Beverages, Entrees, Sides, Desserts, etc.']
+  description text
+  display_order int [not null, default: 0, note: 'Order to display in UI']
+  active boolean [not null, default: true]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  
+  indexes {
+    (active, display_order)
+  }
+  
+  Note: 'Menu item categories for organization'
+}
+
+Table menu_items {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  category_id uuid [ref: > menu_categories.id, not null]
+  name varchar(255) [not null]
+  description text
+  price decimal(10,2) [not null, note: 'Price in USD']
+  image_url text
+  available boolean [not null, default: true, note: 'Can be ordered currently']
+  allergens text[] [note: 'Array of allergen info: dairy, nuts, gluten, etc.']
+  prep_time_minutes int [default: 10, note: 'Estimated preparation time']
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  
+  indexes {
+    category_id
+    (available, category_id)
+    name [type: btree, note: 'For text search']
+  }
+  
+  Note: 'Menu items available for ordering'
+}
+
+// ============================================
+// ORDER PROCESSING
+// ============================================
+
+Table orders {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  user_id uuid [ref: > profiles.user_id, not null]
+  status varchar(20) [not null, default: 'placed', note: 'placed, confirmed, preparing, ready, completed, cancelled']
+  total_amount decimal(10,2) [not null, note: 'Total order cost']
+  pickup_time timestamp [note: 'Scheduled pickup time (null = ASAP)']
+  pickup_code varchar(4) [unique, not null, note: 'Auto-generated 4-digit code']
+  notes text [note: 'Special instructions from customer']
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  completed_at timestamp [note: 'When order was picked up']
+  
+  indexes {
+    user_id
+    status
+    (user_id, status)
+    created_at [type: btree, note: 'For order history queries']
+    pickup_time
+    pickup_code [unique]
+  }
+  
+  Note: 'Order header containing overall order information'
+}
+
+Table order_items {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  order_id uuid [ref: > orders.id, not null, note: 'ON DELETE CASCADE']
+  menu_item_id uuid [ref: > menu_items.id, not null]
+  quantity int [not null, default: 1, note: 'Must be >= 1']
+  unit_price decimal(10,2) [not null, note: 'Price at time of order']
+  special_instructions text [note: 'Item-specific notes']
+  created_at timestamp [not null, default: `now()`]
+  
+  indexes {
+    order_id
+    menu_item_id
+  }
+  
+  Note: 'Individual items within an order (junction table)'
+}
+
+Table order_status_history {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  order_id uuid [ref: > orders.id, not null, note: 'ON DELETE CASCADE']
+  previous_status varchar(20) [note: 'Status before change']
+  new_status varchar(20) [not null]
+  changed_by uuid [ref: > profiles.user_id, note: 'Staff member who made change']
+  changed_at timestamp [not null, default: `now()`]
+  notes text [note: 'Reason for status change']
+  
+  indexes {
+    order_id
+    changed_at
+  }
+  
+  Note: 'Audit trail for order status changes'
+}
+
+// ============================================
+// PAYMENT MANAGEMENT
+// ============================================
+
+Table payments {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  order_id uuid [ref: - orders.id, not null, unique, note: 'One payment per order']
+  amount decimal(10,2) [not null]
+  payment_method varchar(50) [not null, note: 'credit_card, mobile_payment, university_account']
+  provider_transaction_id varchar(255) [unique, note: 'Stripe/PayPal transaction ID']
+  status varchar(20) [not null, default: 'pending', note: 'pending, completed, failed, refunded']
+  processed_at timestamp
+  created_at timestamp [not null, default: `now()`]
+  
+  indexes {
+    order_id
+    status
+    provider_transaction_id
+  }
+  
+  Note: 'Payment transaction records (no card details stored)'
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+Table notifications {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  user_id uuid [ref: > profiles.user_id, not null]
+  order_id uuid [ref: > orders.id, note: 'Related order if applicable']
+  type varchar(50) [not null, note: 'order_placed, order_ready, order_completed, system_message']
+  title varchar(255) [not null]
+  message text [not null]
+  sent_at timestamp [not null, default: `now()`]
+  read_at timestamp [note: 'When user marked as read']
+  
+  indexes {
+    user_id
+    (user_id, read_at)
+    sent_at
+  }
+  
+  Note: 'Notification history for users'
+}
+
+Table push_notification_tokens {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  user_id uuid [ref: > profiles.user_id, not null]
+  token text [not null, unique, note: 'Expo push notification token']
+  platform varchar(10) [not null, note: 'ios or android']
+  registered_at timestamp [not null, default: `now()`]
+  last_used_at timestamp [note: 'Last successful notification delivery']
+  
+  indexes {
+    user_id
+    token [unique]
+  }
+  
+  Note: 'Device tokens for push notifications via Expo'
+}
+
+// ============================================
+// SYSTEM CONFIGURATION
+// ============================================
+
+Table cafeteria_settings {
+  id uuid [pk, default: `uuid_generate_v4()`]
+  key varchar(100) [not null, unique]
+  value jsonb [not null]
+  description text
+  updated_at timestamp [not null, default: `now()`]
+  updated_by uuid [ref: > profiles.user_id]
+  
+  indexes {
+    key [unique]
+  }
+  
+  Note: '''
+    System configuration (operating hours, max concurrent orders, etc.)
+    Example keys: operating_hours, peak_hours, max_orders_per_slot, avg_prep_time
+  '''
+}
+
+// ============================================
+// RELATIONSHIPS SUMMARY
+// ============================================
+
+// User Management:
+// - profiles.user_id -> auth.users.id (1:1)
+
+// Menu Structure:
+// - menu_items.category_id -> menu_categories.id (N:1)
+
+// Order Flow:
+// - orders.user_id -> profiles.user_id (N:1) - User can have many orders
+// - order_items.order_id -> orders.id (N:1) - Order has many items
+// - order_items.menu_item_id -> menu_items.id (N:1) - Each item references a menu item
+// - order_status_history.order_id -> orders.id (N:1) - Order has many status changes
+// - order_status_history.changed_by -> profiles.user_id (N:1) - Staff member tracking
+
+// Payment:
+// - payments.order_id -> orders.id (1:1) - One payment per order
+
+// Notifications:
+// - notifications.user_id -> profiles.user_id (N:1) - User receives many notifications
+// - notifications.order_id -> orders.id (N:1) - Notifications can be order-specific
+// - push_notification_tokens.user_id -> profiles.user_id (N:1) - User can have multiple devices
+
+// Configuration:
+// - cafeteria_settings.updated_by -> profiles.user_id (N:1) - Track who changed settings
