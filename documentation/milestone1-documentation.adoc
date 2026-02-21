@@ -219,6 +219,43 @@ The following snippets are raw records of observations and stakeholder experienc
 
 ==== 2.1.2 Terminology
 
+==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch
+
+This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.
+
+The rough sketch provides raw observations of behaviors, constraints, and interactions within the cafeteria environment. Through analysis, these observations were abstracted into formal domain concepts, entities, actions, events, attributes, and behaviors.
+
+The following relationships illustrate how domain terminology originates from observed domain phenomena:
+
+* Queue, Waiting Time, and Student Has Just Joined the Queue  
+- Derived from *The 10-Minute Dash*, where students encounter a line extending approximately 15 people into the hallway. This observation demonstrates the existence of an ordered sequence of students waiting for service (Queue), measurable delays between joining and receiving service (Waiting Time), and the identifiable moment when a student enters the queue (Student Has Just Joined the Queue).
+
+* Student Has Just Left the Queue Without Ordering and Time-Constrained Decision Making  
+- Derived from *The 10-Minute Dash* and *The Post-Lunch Fatigue*, where students decide to leave the line due to insufficient available time before their next academic commitment. These observations reveal that students evaluate waiting time against external time constraints, resulting in the observable event of abandoning the queue.
+
+* Meal, Meal Preparation, and Batch Preparation Under Unpredictable Circumstances  
+- Derived from *The Kitchen's Blind Spot*, where cafeteria staff prepare multiple trays of meals without precise knowledge of how many students will arrive. This demonstrates the existence of prepared food units (Meal), the act of producing those meals (Meal Preparation), and the behavior of preparing food under demand uncertainty (Batch Preparation Under Unpredictable Circumstances).
+
+* Crowd Surge and Service Bottleneck  
+- Derived from *The Kitchen's Blind Spot* and *The Payment Bottleneck*, where sudden increases in arriving students create operational pressure and service delays. These observations establish the behavior of rapid increases in student arrival (Crowd Surge) and the resulting slowdown in service processes (Service Bottleneck).
+
+* Order, Order Placement, and Order Has Just Been Placed  
+- Derived implicitly from all rough sketch scenarios involving students progressing through the cafeteria service process. These observations demonstrate that students communicate requests for meals, resulting in identifiable moments when requests are formally made.
+
+* Payment and Payment Has Just Failed  
+- Derived from *The Payment Bottleneck*, where the payment system becomes unavailable, preventing students from completing transactions. This observation demonstrates the existence of a monetary exchange process (Payment) and identifiable failure events within that process (Payment Has Just Failed).
+
+* Menu and Menu Visibility Constraints  
+- Derived from *The Uncertainty of the Menu*, where students are unable to see available meal options or prices until reaching the front of the queue. This establishes the existence of a defined set of available meal options (Menu) and the dependency of student decision-making on access to this information.
+
+* Meal Pickup and Meal Has Just Been Prepared  
+- Derived from the implicit service flow observed across all rough sketch scenarios, where meals are prepared and subsequently transferred to students. This establishes the existence of a distinct moment when a meal becomes available (Meal Has Just Been Prepared) and the act of receiving that meal (Meal Pickup).
+
+* Cafeteria Staff and Operational Pressure Under Demand Variability  
+- Derived from *The Kitchen's Blind Spot* and *The Payment Bottleneck*, where staff members prepare meals and respond to sudden increases in student arrivals and operational disruptions. These observations establish cafeteria staff as active domain entities responsible for food preparation and service execution.
+
+These relationships demonstrate that the terminology defined in Section 2.1.2 is not arbitrary, but rather the result of systematic abstraction and formalization of domain phenomena observed in the rough sketch. This ensures that the terminology accurately reflects the domain environment and provides a reliable conceptual foundation for subsequent domain modeling and requirements analysis.
+
 ==== 2.1.4 Narrative
 
 ==== 2.1.5 Events, Actions, and Behaviors
