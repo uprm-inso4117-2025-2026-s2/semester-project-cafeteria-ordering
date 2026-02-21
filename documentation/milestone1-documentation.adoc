@@ -183,6 +183,35 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 === 1.4 Other Activities than just developing source code
 
+Developing a software solution is only one part of this project. Though it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.
+
+==== A key activity for this project is understanding and structuring the domain.
+
+* Cafeteria operations during peak hours rely heavily on manual and informal processes, which makes it difficult to clearly understand how ordering, payment, preparation, and pickup relate to one another.
+* Creating a domain description would help the team form a shared understanding of these workflows and constraints before moving toward any specific solution.
+
+==== Another important activity is requirements engineering. Although the current situation reveals clear inefficiencies and frustration, there is no formal description of what an improved cafeteria experience should provide for its users.
+
+* Defining requirements helps clarify expectations around functionality, performance, and usage from the perspective of students, staff, and administrators.
+* Having explicit requirements ensures that later design and implementation decisions are guided by stakeholder needs rather than assumptions.
+
+==== Early design and architectural reasoning are also necessary before any code is written.
+
+* Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, system structure and responsibilities cannot be taken from prior solutions. 
+* Planning the system architecture and components early helps manage complexity and reduces the risk of poorly structured designs.
+
+==== Planning for testing and evaluation is another essential activity.
+
+* The cafeteria environment is highly time-sensitive, which makes reliability and usability especially important.
+* Thinking ahead about how the system will be evaluated allows the team to measure improvements such as reduced waiting times and smoother order pickup once a solution is in place.
+
+==== Finally, coordination and project organization tie all project activities together.
+
+* Establishing milestones, documenting decisions, and assigning responsibilities helps keep the team aligned throughout the project.
+* Maintaining communication with stakeholders supports scope management, progress tracking, and preparation for future iterations or expansion.
+
+By combining domain understanding, requirements definition, design planning, testing preparation, and strong coordination with implementation, the project addresses both the technical and operational factors contributing to the current cafeteria situation.
+
 === 1.5 Derived Goals
 
 In addition to the primary goal of reducing wait times and improving access to meals in the university cafeteria, the project also pursues several secondary but meaningful outcomes.
