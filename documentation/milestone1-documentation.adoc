@@ -245,34 +245,36 @@ The following snippets are raw records of observations and stakeholder experienc
 
 === 3.1 Concept Analysis
 
+The following concepts where sourced from the rough domain sketch, that was created from user scenarios and the team's understanding of the domain as it stands currently.
+
 ==== *Concepts*
 
-* employee: person who works on the cafeteria, takes order from customer.
+* *employee:* person who works on the cafeteria, takes order from customer. (e.g. cafeteria staff member from The uncertainty of the menu, 10min dash, payment bottleneck and post lunch fatigue in section 2.1.1)
 
-* student: person who is a student in from the university campus and places and order on the cafeteria.
+* *student:* person who is a student in from the university campus and places and order on the cafeteria. (e.g. student coming from Engineering building in 10min dash scenario in section 2.1.1)
 
-* customer: person who places order on the cafeteria.
+* *customer:* person who places order on the cafeteria. Concept indirectly birthed out of, it captures a more general group of people who order inside the cafeteria. (e.g. from 10 min dash,payment bottleneck, post lunch fatigue scenarios in section 2.1.1) 
 
-* order: an item or a group of items from the cafeteria associated to a customer.
+* *order:* an item or a group of items from the cafeteria associated to a customer.
 
-* queue: a list of orders or a line of customers.
+* *queue:* a list of orders or a line of customers.
 
-* menu: a group of items a customer can order.
+* *menu:* a group of items a customer can order.
 
 
 ==== Concept Conflicts
 
-* student / customer: these terms reference a person, who goes to the cafeteria to order/buy an items(s). If the term student is used, they are customer who is also a student.
+* *student / customer:* these terms reference a person, who goes to the cafeteria to order/buy an items(s). If the term student is used, they are customer who is also a student.
 
-* queue: can refer to the line insde the cafeteria or the order queue for a customer.
+* *queue:* can refer to the line insde the cafeteria or the order queue for a customer.
 
-* order: can be viewed as the action that a customer performs, an item(?) an employee reads and delivers.
+* *order:* can be viewed as the action that a customer performs, an item(?) an employee reads and delivers.
 
 ==== Conflicts resolutions
 
-* customer: must be the term used when refering to the person who orders from the cafeteria. The person being a student can be the state of the customer. Other states may be present for specific customers who have a discount by either by being an employee or having athletic student discount.
+* *customer:* must be the term used when refering to the person who orders from the cafeteria. The person being a student can be the state of the customer. Other states may be present for specific customers who have a discount by either by being an employee or having athletic student discount.
 
-* queue: for this term, qualifiers must be added to separate them from eachother. If refering to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise if refering to the position of the order a customer placed, order queue must be used.
+* *queue:* for this term, qualifiers must be added to separate them from eachother. If refering to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise if refering to the position of the order a customer placed, order queue must be used.
 
 === 3.2 Validation and Verification
 
