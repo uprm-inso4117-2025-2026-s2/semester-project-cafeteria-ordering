@@ -253,13 +253,13 @@ The following concepts where sourced from the rough domain sketch, that was crea
 
 * *student:* person who is a student in from the university campus and places and order on the cafeteria. (e.g. student coming from Engineering building in 10min dash scenario in section 2.1.1)
 
-* *customer:* person who places order on the cafeteria. Concept indirectly birthed out of, it captures a more general group of people who order inside the cafeteria. (e.g. from 10 min dash,payment bottleneck, post lunch fatigue scenarios in section 2.1.1) 
+* *customer:* person who places order on the cafeteria. Concept indirectly birthed out of, it captures a more general group of people who order inside the cafeteria. (e.g. from 10 min dash,payment bottleneck, post lunch fatigue scenarios in section 2.1.1)
 
 * *order:* an item or a group of items from the cafeteria associated to a customer.
 
-* *queue:* a list of orders or a line of customers.
+* *queue:* a list of orders or a line of customers. (e.g. post lunch fatigue from section 2.1.1)
 
-* *menu:* a group of items a customer can order.
+* *menu:* a group of items a customer can order.(e.g. from uncertainty of the menu in section 2.1.1)
 
 
 ==== Concept Conflicts
