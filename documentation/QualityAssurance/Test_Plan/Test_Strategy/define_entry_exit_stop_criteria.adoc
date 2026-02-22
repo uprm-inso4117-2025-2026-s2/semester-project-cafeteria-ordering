@@ -32,6 +32,7 @@ Each phase has specific entry criteria (what must be true before starting), exit
 | 3 | Test environment is configured with required dependencies | npm install completes successfully
 | 4 | Unit test framework (Jest) is properly configured | Test run executes without setup errors
 | 5 | Code coverage thresholds are defined in configuration | jest.config.js verified
+| 6 | Regression test suite identified for modified modules | Test case repository / tracking tool
 |===
 
 === 2.2 Exit Criteria
@@ -45,18 +46,21 @@ Each phase has specific entry criteria (what must be true before starting), exit
 | 4 | Tests are integrated into CI pipeline | CI configuration verified | Pipeline includes test step
 | 5 | Test code is peer-reviewed | PR approval | At least 1 reviewer approval
 | 6 | Mocks/stubs are properly documented | Code comments / README | All external dependencies mocked
+| 7 | Regression tests executed for all impacted units | Test runner / CI output | 100% pass for impacted modules
 |===
 
 === 2.3 Stop Criteria
 
 [options="header"]
 |===
-| # | Criterion | Action Required
-| 1 | Critical build failure prevents test execution | Halt until build fixed
-| 2 | Test environment unavailable for > 4 hours | Escalate to DevOps; halt if critical
-| 3 | > 20% of tests fail with same root cause | Investigate root cause before proceeding
-| 4 | Coverage drops below 60% | Halt and add missing tests
-| 5 | Blocking defect found that requires architectural change | Halt and schedule refactoring
+| # | Criterion | Verification Method
+| 1 | Unit testing phase completed with exit criteria met | Sign-off from Dev Lead
+| 2 | All integrated modules are merged to development branch | Git branch status
+| 3 | Integration test environment is provisioned | Environment checklist
+| 4 | Test database with sample data is available | DB connection verified
+| 5 | API contracts between modules are documented | OpenAPI/Swagger docs
+| 6 | Integration test suite is written | Test files exist in repository
+| 7 | Regression test suite identified for integrated modules | Test repository / CI tracking
 |===
 
 == 3. Integration Testing Criteria
@@ -72,6 +76,7 @@ Each phase has specific entry criteria (what must be true before starting), exit
 | 4 | Test database with sample data is available | DB connection verified
 | 5 | API contracts between modules are documented | OpenAPI/Swagger docs
 | 6 | Integration test suite is written | Test files exist in repository
+| 7 | Regression test suite identified for integrated modules | Test repository / CI tracking
 |===
 
 === 3.2 Exit Criteria
@@ -86,6 +91,7 @@ Each phase has specific entry criteria (what must be true before starting), exit
 | 5 | Error handling and edge cases tested | Test coverage report | ≥ 70% of error paths
 | 6 | No integration defects with priority P1 or P2 | Issue tracker | Zero open
 | 7 | Performance baseline established | Performance test run | Response time < 500ms for 95% of requests
+| 8 | Regression tests executed for impacted integrations | Test runner / CI output | 100% pass for impacted flows
 |===
 
 === 3.3 Stop Criteria
@@ -113,7 +119,7 @@ Each phase has specific entry criteria (what must be true before starting), exit
 | 4 | Test data set prepared (minimum 1000 records for performance) | Data generation script verified
 | 5 | System test plan approved | Document sign-off
 | 6 | Test cases written and reviewed | Test case repository
-| 7 | Regression test suite identified | Test selection documented
+| 7 | Regression test suite identified for all critical workflows and previous defects | Test selection documented
 |===
 
 === 4.2 Exit Criteria
@@ -130,6 +136,7 @@ Each phase has specific entry criteria (what must be true before starting), exit
 | 7 | Security testing completed with no critical findings | Security scan report | Zero critical vulnerabilities
 | 8 | Usability testing feedback documented | Usability report | Issues documented and prioritized
 | 9 | Test summary report created and distributed | Report approval | Stakeholder sign-off
+| 10 | Regression tests executed successfully | Test results / CI output | 100% pass for impacted areas
 |===
 
 ==== Performance Thresholds
@@ -172,6 +179,7 @@ Each phase has specific entry criteria (what must be true before starting), exit
 | 5 | UAT participants identified and trained | Training attendance records
 | 6 | Test data represents real-world scenarios | Data validation
 | 7 | Known defects documented and disclosed | Known issues list
+| 8 | Regression test cases covering previous defects and core workflows prepared | Test case repository / test plan
 |===
 
 === 5.2 Exit Criteria
@@ -186,6 +194,7 @@ Each phase has specific entry criteria (what must be true before starting), exit
 | 5 | Stakeholder/UAT sign-off obtained | Formal sign-off document | All required signatures
 | 6 | Deployment approval received | Change advisory board (CAB) approval | Approval documented
 | 7 | User documentation reviewed and approved | Documentation review | Sign-off obtained
+| 8 | Regression tests executed successfully | Test results / UAT sign-off | 100% pass for impacted areas
 |===
 
 === 5.3 Stop Criteria
@@ -275,3 +284,24 @@ The following metrics will be tracked per phase to verify criteria are met:
 | Performance metrics | Lighthouse / k6 | After system tests
 | UAT satisfaction score | Survey tool | After acceptance
 |===
+
+== 10. Regression Testing Guidelines
+
+Regression Testing ensures that existing functionality continues to work
+after changes are introduced. Regression tests span all testing levels and
+are triggered when:
+
+* New features are added
+* Existing functionality is modified
+* Bug fixes are applied
+* Business rules or workflows are updated
+
+Regression coverage MUST include:
+
+* Critical user workflows (login, ordering, payment)
+* Previously fixed defects
+* Core integrations between modules
+* High-risk areas identified from past releases
+
+Regression tests MUST be executed in CI/CD pipelines wherever feasible,
+and results documented per testing phase metrics.
