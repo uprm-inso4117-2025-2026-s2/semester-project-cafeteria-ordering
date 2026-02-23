@@ -413,6 +413,36 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 
 === 3.1 Concept Analysis
 
+The following concepts were sourced from the rough domain sketch, that was created from user scenarios and the team's understanding of the domain as it currently stands.
+
+==== *Concepts*
+
+* *employee:* person who works in the cafeteria, takes order from customer. (e.g. cafeteria staff member from the uncertainty of the menu, 10min dash, payment bottleneck and post lunch fatigue in section 2.1.1)
+
+* *student:* person who is a student from the university campus and places and order on the cafeteria. (e.g. student coming from Engineering building in 10min dash scenario in section 2.1.1)
+
+* *customer:* person who places orders in the cafeteria. Concept indirectly birthed out of, it captures a more general group of people who order inside the cafeteria. (e.g. from 10 min dash, payment bottleneck, post lunch fatigue scenarios in section 2.1.1)
+
+* *order:* an item or a group of items from the cafeteria associated to a customer.
+
+* *queue:* a list of orders or a line of customers. (e.g. post lunch fatigue from section 2.1.1)
+
+* *menu:* a group of items a customer can order. (e.g. from uncertainty of the menu in section 2.1.1)
+
+==== Concept Conflicts
+
+* *student / customer:* these terms reference a person, who goes to the cafeteria to order/buy an item(s). If the term student is used, they are a customer who is also a student.
+
+* *queue:* can refer to the line inside the cafeteria or the order queue for a customer.
+
+* *order:* can be viewed as the action that a customer performs, an item(?) an employee reads and delivers.
+
+==== Conflicts resolutions
+
+* *customer:* must be the term used when referring to the person who orders from the cafeteria. The person being a student can be the state of the customer. Other states may be present for specific customers who have a discount either by being an employee or having athletic student discount.
+
+* *queue:* for this term, qualifiers must be added to separate them from each other. If referring to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise, if referring to the position of the order a customer placed, order queue must be used.
+
 === 3.2 Validation and Verification
 
 == Specific Class Topics
