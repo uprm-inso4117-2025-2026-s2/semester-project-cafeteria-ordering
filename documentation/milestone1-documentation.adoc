@@ -405,6 +405,193 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 
 ==== 2.2.5 Machine Requirements
 
+This section defines the measurable, technical requirements that the Cafeteria Ordering System must satisfy. Unlike domain requirements (which describe what the system must do from a stakeholder perspective) or interface requirements (which describe how users interact with the system), machine requirements specify the performance, capacity, availability, and technical constraints the implemented system must meet. These requirements are currently under active development and will be refined as the project progresses through design, implementation, and testing phases.
+
+=== Performance Requirements
+
+The system must satisfy specific performance criteria to ensure students can complete orders within their limited time between classes.
+
+|===
+| Requirement | Measurable Criterion 
+
+| Order placement response time | When a student submits an order, they receive confirmation within 2 seconds for 95% of attempts during normal system usage 
+
+| Menu loading time 
+| 95% of menu loads complete within 1.5 seconds
+
+| Notification delivery 
+| Status updates delivered within 3 seconds of change
+
+| Payment processing 
+| Initiation to confirmation within 5 seconds (excluding external gateway)
+
+| Menu search 
+| 90% of searches return results within 1 second
+|===
+
+*Normal load* is defined as system usage below 80% of the concurrent user capacity specified below. These measurements assume standard university WiFi with minimum 10 Mbps bandwidth and are measured from user action to interface confirmation.
+
+=== Availability and Reliability
+
+Availability requirements ensure the system remains accessible during critical meal periods.
+
+|===
+| Requirement | Measurable Criterion | Status 
+
+| Core functionality uptime 
+| 99.5% available during operating hours (M-F, 7AM-6PM) 
+| Defined
+
+| Maintenance windows 
+| Scheduled only outside operating hours with 48hr notice 
+| Defined
+
+| Crash recovery 
+| Automatic recovery within 2 minutes 
+| Defined
+
+| Data persistence 
+| No confirmed orders lost after payment confirmation 
+| Defined
+
+| Graceful degradation 
+| Appropriate error messages during partial outages 
+| To be refined
+|===
+
+Criteria for acceptable degradation during partial outages and specific recovery time objectives for various failure scenarios remain to be defined as the project progresses.
+
+=== Capacity Requirements
+
+Capacity requirements define the system's ability to handle varying user loads.
+
+|===
+| Requirement | Measurable Criterion | Clarification 
+
+| Concurrent users 
+| 300 simultaneous users during peak periods 
+| Users active within last 5 minutes
+
+| Order throughput 
+| 60 orders per minute during peak hours 
+| Includes validation, payment, updates, notifications
+
+| Registered accounts 
+| 10,000 total user accounts (~amount of students at UPRM)
+| -
+
+| Staff concurrent access 
+| 5 simultaneous cafeteria staff sessions 
+| For order management
+
+| Active menu items 
+| 100 items across all categories 
+| -
+|===
+
+*Peak periods* are defined as 11:30 AM - 1:30 PM and 3:00 PM - 5 PM on weekdays during the academic semester.
+
+**When capacity is exceeded:** The system shall implement request queuing with appropriate user feedback about increased wait times. Users beyond capacity shall receive a friendly message indicating high traffic with suggestions to try again later or proceed to the in-person line. All capacity exceedance events shall be logged for capacity planning and future scaling decisions.
+
+=== Platform Requirements
+
+Platform requirements specify the technical environment for system operation.
+
+|===
+| Requirement | Specification 
+
+| iOS support 
+| iOS 15 or later
+
+| Android support 
+| Android 12 or later
+
+| Screen size compatibility 
+| 4.7 inches to 6.9 inches
+
+| Network tolerance 
+| Function with intermittent connectivity; cache menu data; allow offline order composition
+|===
+
+Older devices may experience reduced performance but must remain functional for core ordering features. Server specifications will be verified against actual performance during testing.
+
+Security requirements protect user data and system integrity.
+
+|===
+| Requirement | Measurable Criterion 
+
+| Authentication 
+| Secure protocols with password hashing and HTTPS for all transmissions
+
+| Payment data 
+| No storage of complete payment card information; PCI-compliant gateways
+
+| Session management 
+| Inactive sessions timeout after 15 minutes
+
+| Data encryption 
+| All personally identifiable information encrypted at rest
+
+| Access control 
+| Staff access restricted to order management; students cannot access staff functions
+|===
+
+=== Traceability to Domain Needs
+
+The machine requirements above derive directly from domain needs identified in Section 1.2.2.
+
+|===
+| Domain Need (from 1.2.2) | Related Machine Requirements 
+
+| Students need meals within limited time windows 
+| Order placement: 2 sec; Menu loading: 1.5 sec; Throughput: 60 orders/min
+
+| Staff need to handle high volumes efficiently 
+| Throughput: 60 orders/min; Staff sessions: 15 concurrent; Notifications: 3 sec
+
+| Reduce uncertainty around food access 
+| Uptime: 99.5%; Payment processing: 5 sec
+
+| Minimize crowds and improve safety 
+| Concurrent users: 300; Remote ordering reduces physical queues
+|===
+
+=== Requirements Under Investigation
+
+Several machine requirements areas require additional research and stakeholder input before measurable criteria can be established.
+
+|===
+| Area | Investigation Needed | Target Completion 
+
+| Extreme load performance 
+| Acceptable performance beyond 300 concurrent users 
+| Milestone 2
+
+| Battery consumption 
+| Maximum acceptable drain per hour of active use 
+| Milestone 2
+
+| Data usage limits 
+| Maximum acceptable mobile data consumption per month 
+| Milestone 2
+
+| Offline functionality 
+| Which features must work completely offline 
+| Milestone 2
+
+| Accessibility compliance 
+| Specific WCAG compliance level required 
+| Milestone 2
+
+| Cross-platform consistency 
+| Degree of visual/functional consistency required across iOS and Android 
+| Milestone 2
+|===
+
+=== Evolution of Requirements
+
+All machine requirements will be validated through prototype performance testing, refined based on stakeholder feedback, and adjusted according to university infrastructure limitations and available resources. Changes to these requirements will be documented, version-controlled, and communicated to the project team to ensure alignment across all development activities.
+
 === 2.3 Implementation
 
 ==== 2.3.1 Selected Fragments of the implementation
