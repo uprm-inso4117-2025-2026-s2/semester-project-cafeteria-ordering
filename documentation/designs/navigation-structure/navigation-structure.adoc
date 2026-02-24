@@ -1,0 +1,112 @@
+= Navigation Structure (Customer vs Staff)
+:toc:
+:toclevels: 3
+:icons: font
+:sectnums:
+:imagesdir: assets
+
+== Objective
+
+Define and document the application navigation structure for two roles:
+
+* Customer
+* Staff
+
+This documentation ensures:
+
+* Clear role-based access rules
+* Consistent navigation across pages
+* Scalability for future routes
+
+== Navigation Overview
+
+The application supports two navigation layouts depending on role:
+
+* *Customer (mobile-first):* bottom navigation across all customer pages
+* *Staff (desktop-first):* persistent sidebar navigation across staff tools
+
+Role-based restrictions prevent cross-role access even if a user manually enters a URL.
+
+== Main Navigation Layout
+
+=== Role-based visibility rules
+
+* Customer routes: Home, Orders, Payment, Profile (bottom nav)
+* Staff routes: Orders, Payments, Menu Management (sidebar)
+* Cross-role access is denied (show "Access Denied" or redirect based on auth policy)
+* Navigation items remain consistent across all pages within a role
+
+=== PNG Preview
+
+image::main-navigation-layout-light.png[Main Navigation Layout (Light)]
+image::main-navigation-layout-dark.png[Main Navigation Layout (Dark)]
+
+== Customer Navigation Structure
+
+=== Routes
+
+* *Home* — Landing + menu highlights
+* *Orders* — Order history + order details
+* *Payment* — Payment methods + receipts
+* *Profile* — Account + preferences
+
+=== Rules
+
+* Bottom navigation appears on every customer page
+* Active route is clearly highlighted (green text + subtle green background)
+* Icons and labels remain aligned (no layout shifts)
+* New customer routes can be appended without redesigning the navigation container
+
+== Staff Navigation Structure
+
+=== Routes
+
+* *Orders* — Queue, status updates, completion
+* *Payments* — Payment review, refund/support actions
+* *Menu Management* — Items, availability, pricing
+
+=== Rules
+
+* Sidebar persists across all staff tools
+* Active route is clearly highlighted
+* Navigation does not change between staff pages (predictability)
+* Future staff tools can be appended as new sidebar routes without redesign
+
+== Navigation Structure Diagram
+
+This diagram shows high-level role paths and role restrictions.
+
+=== PNG Preview
+
+image::navigation-structure-diagram-light.png[Navigation Structure Diagram (Light)]
+image::navigation-structure-diagram-dark.png[Navigation Structure Diagram (Dark)]
+
+== Role-Based Restrictions
+
+Prevent cross-role access regardless of direct URL entry.
+
+=== Shared policy
+
+* Customer → Staff routes
+** Block + redirect to Customer Home (or show Access Denied)
+
+* Staff → Customer routes
+** Block + redirect to Staff Orders (or show Access Denied)
+
+* Unauthenticated
+** Redirect to Login (or role selection/auth gateway)
+
+== Consistency Across Pages
+
+Navigation container position, active state styling, and icon/text hierarchy remain consistent across all routes within the same role.
+
+=== Rules
+
+* Active route is clearly highlighted (green text + subtle green background)
+* Icon + label alignment stays consistent (no layout shifts)
+* Navigation never changes between pages within the same role (predictability)
+* Future routes should be appended without redesigning the navigation container
+
+=== PNG Preview
+
+image::consistency-across-pages-light.png[Consistency Across Pages (Light)]
