@@ -638,5 +638,92 @@ The following concepts were sourced from the rough domain sketch, that was creat
 
 === 4.2 BDD and BDD tool usage
 
+Behavior-Driven Development (BDD) is applied in the Cafeteria Ordering System project to bridge business requirements and technical implementation through shared, verifiable behavior specifications expressed in the client’s domain.
+
+The team follows a structured transformation process:
+
+User Story (client domain) -> Acceptance Criteria (client domain) -> Specification Examples (Given–When–Then) -> Planned Automation using a BDD tool.
+
+==== From User Story to Acceptance Criteria
+
+User Story (client domain):
+
+As a student, I want to place an order from the cafeteria menu so that I can avoid waiting in line and arrive on time to my next class.
+
+Derived Acceptance Criteria (client domain):
+
+* The student must be authenticated before placing an order.
+* The student must be able to select available menu items.
+* The student must be able to add selected items to a cart.
+* The student must be able to proceed to checkout and choose a pickup option.
+* The system must confirm successful order placement.
+* The cafeteria staff must be notified of new orders.
+* The student must receive an order confirmation message.
+
+These acceptance criteria remain expressed in stakeholder language and do not reference technical implementation details.
+
+==== Specification Examples (Given–When–Then)
+
+The following examples translate acceptance criteria into structured behavioral specifications.
+
+Scenario: Successful log-in with valid credentials  
+Given the student has valid credentials  
+And the student is on the log-in page  
+When the student enters their credentials and clicks the log-in button  
+Then the student should be redirected to the dashboard/home screen  
+
+Scenario: Successful order placement  
+Given the student is logged in and on the menu page  
+When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"  
+And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process  
+Then the system should confirm the order  
+And the cafeteria staff should be notified of the new order  
+And the student should receive an order confirmation message  
+
+Scenario: Secure order pickup  
+Given the student has placed an order  
+And the student receives confirmation that the order is ready for pickup  
+And the system provides a unique pickup code  
+When the student provides the pickup code to cafeteria staff  
+And staff validates the code in the system  
+Then the student should be able to securely pick up the order  
+And the system should mark the order as "picked up"  
+
+These specification examples can be reviewed by stakeholders and are structured for automation.
+
+==== Planned BDD Tool Integration
+
+The team plans to integrate a BDD-capable tool into the development workflow to automate specification examples.
+
+Given the current JavaScript/TypeScript stack and existing Jest usage in the project, the preferred approach is to adopt `jest-cucumber`, which allows Gherkin scenarios to run using Jest as the test runner. Alternatively, `cucumber-js` may be used with step definitions written in JavaScript or TypeScript.
+
+Planned automation structure:
+
+* Gherkin feature files (`.feature`) describing system behavior.
+* Step definition files binding Gherkin steps to executable test code.
+* Execution integrated into GitHub Actions to enable continuous verification of behavior specifications.
+
+==== Illustrative Example of Automated Artifact
+
+The following example illustrates how specification examples can be expressed in a Gherkin feature file.
+
+[source,gherkin]
+----
+Feature: Order Placement
+
+  Scenario: Successful order placement
+    Given the student is logged in
+    And the student is on the menu page
+    When the student selects available menu items and completes checkout
+    Then the system confirms the order
+    And cafeteria staff are notified
+----
+
+This structure enables automated verification of acceptance criteria once step definitions are implemented.
+
+==== Summary
+
+By applying BDD, the project ensures that requirements remain aligned with stakeholder needs while providing a structured path toward automated behavioral verification. Even before full automation is implemented, BDD improves clarity, traceability, and shared understanding between documentation, design, testing, and implementation activities.
+
 === 4.3 User of Debugging
 
