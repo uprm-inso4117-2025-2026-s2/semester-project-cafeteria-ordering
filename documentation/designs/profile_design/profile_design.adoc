@@ -17,7 +17,7 @@ Final designs can be viewed in the `documentation/designs/profile_design/images`
 - All elements were designed following the defined branding and typography guidelines.
 - Users can edit their personal information or log out by clicking the buttons at the bottom of the page.
 - The profile picture is a placeholder and can be changed by the user.
--User can return to previous page by selecting the back button at the top left corner of the page.
+- User can return to previous page by selecting the back button at the top left corner of the page.
 
 .Light mode Profile page design.
 image::images/profile_light_mode.png[]
