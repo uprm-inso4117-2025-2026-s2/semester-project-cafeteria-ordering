@@ -5,7 +5,7 @@
 === 1.1 Team
 
 ==== Team Structure
-The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division’s primary objectives.
+The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division's primary objectives.
 
 ==== Managers
 The overall coordination of the project is led by:
@@ -89,11 +89,11 @@ Research and establish the technical foundation of the project, including mobile
 ===== UI Team
 
 *Objective:* +
-Define the application’s branding, visual identity, and user experience.
+Define the application's branding, visual identity, and user experience.
 
 *Responsibilities:*
 
-* Design the application’s interface and layout.
+* Design the application's interface and layout.
 * Establish branding guidelines (colors, typography, design system).
 * Define user workflows and navigation structure.
 * Ensure usability and accessibility standards are considered.
@@ -163,13 +163,13 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 * Welcome to the Cafeteria ordering application, a platform where students and staff from the university community can easily order food from the university cafeteria, drastically reducing the waiting time and facilitating staff work.
 
-* Ordering: Now, it’s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
+* Ordering: Now, it's easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
 
 * Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
 
 *Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.
 
-* Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer’s order stolen.
+* Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer's order stolen.
 
 *Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.
 
@@ -222,7 +222,7 @@ Another goal is to support data-informed decision making within cafeteria operat
 
 The project also aims to encourage digital transformation within campus services. By introducing a structured, mobile-based ordering approach, the system may serve as a model for how other campus services might modernize their processes. This broader institutional impact extends beyond the cafeteria itself and contributes to a more technology-integrated campus environment.
 
-A further derived goal is to strengthen collaboration and coordination among stakeholders. The structured interaction between students, cafeteria staff, and university administration fosters clearer communication channels and more transparent service processes. Even outside the application’s technical implementation, this improved alignment between stakeholders is a valuable outcome.
+A further derived goal is to strengthen collaboration and coordination among stakeholders. The structured interaction between students, cafeteria staff, and university administration fosters clearer communication channels and more transparent service processes. Even outside the application's technical implementation, this improved alignment between stakeholders is a valuable outcome.
 
 At the project level, another secondary goal is to develop strong engineering practices within the team. Through domain analysis, requirements engineering, architectural planning, testing strategies, and documentation, the team builds experience in systematic software development. The artifacts produced during this process—such as requirement specifications, design descriptions, and test plans—form a reusable knowledge base for future academic or professional projects.
 
@@ -291,7 +291,7 @@ Student Has Just Joined the Queue :: (event, domain)
 The moment a student enters the line to place an order.
 
 Order Has Just Been Placed :: (event, domain)
-The moment a student’s order is communicated to cafeteria staff.
+The moment a student's order is communicated to cafeteria staff.
 
 Payment Has Just Failed :: (event, domain)
 The moment a payment attempt does not complete successfully, causing a delay in service.
@@ -402,6 +402,75 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 ==== 2.2.3 Domain Requirements
 
 ==== 2.2.4 Interface Requirements
+
+Interface requirements describe how *shared phenomena and concepts* in the cafeteria domain are represented inside the Cafeteria Ordering System, and how those representations are initialized, updated, corrected, and constrained. In other words, they define how the system crosses the boundary between the outside world (the cafeteria domain) and the system's internal data model.
+
+In this project, key domain concepts that must be represented in the system include: Menu, Meal, Order, Payment choice, Meal Preparation status, and Meal Pickup status (see domain terminology in Section 2.1.2). The interface requirements below capture how these concepts enter the system, how they remain consistent when the domain changes, and what information can or cannot be modified once recorded.
+
+===== Interface Requirement Set
+
+The requirements in this section use the convention IR-2.2.4-X.
+
+====== IR-2.2.4-1 Menu representation initialization
+The system shall provide a means for authorized cafeteria staff to initialize the menu representation inside the system, including creating menu items and assigning prices and categories.
+
+====== IR-2.2.4-2 Menu representation update
+The system shall provide a means for authorized cafeteria staff to update menu item information when the domain changes, including updating price, description, and category.
+
+====== IR-2.2.4-3 Availability synchronization
+The system shall provide a means for authorized cafeteria staff to mark menu items as available or unavailable to reflect real-world availability changes (e.g., sold out, not prepared today).
+
+====== IR-2.2.4-4 Customer menu visibility
+The system shall provide a means for customers to view the current menu representation and availability status through the application interface.
+
+====== IR-2.2.4-5 Order creation from domain observation
+The system shall provide a means for a customer to create an order representation by selecting menu items and quantities through the application interface.
+
+====== IR-2.2.4-6 Order modification before submission
+The system shall provide a means for a customer to edit an order representation before submission (e.g., add/remove items, change quantities), so incorrect or incomplete entries can be corrected prior to placing the order.
+
+====== IR-2.2.4-7 Order submission and confirmation
+The system shall provide a means for a customer to submit an order and receive confirmation that the system has recorded the order representation.
+
+====== IR-2.2.4-8 Payment method capture and constraints
+The system shall provide a means for a customer to indicate a payment method option (e.g., pay at register or pay in app, if supported).
+
+If an order is submitted, the system shall restrict changes to the recorded payment option unless an explicitly supported correction path exists (e.g., cancellation and re-submission), to preserve consistency and avoid operational confusion.
+
+====== IR-2.2.4-9 Order status synchronization (staff side)
+The system shall provide a means for authorized cafeteria staff to update the internal order status representation to reflect real-world progression (e.g., order is being prepared, order is ready for pickup, order has been picked up, order cancelled).
+
+====== IR-2.2.4-10 Order status visibility (customer side)
+The system shall provide a means for the customer to view the current order status representation through the application interface.
+
+====== IR-2.2.4-11 Correction after submission (controlled editing)
+After an order is submitted, the system shall either:
+(a) disallow customer edits to order contents, or
+(b) restrict customer edits to explicitly defined operations (e.g., cancellation within an allowed window),
+so the internal representation remains consistent with cafeteria operations.
+
+Any staff-side changes to a submitted order representation (if supported) shall be restricted to explicitly defined operations and should be traceable (e.g., include reason or note), to prevent silent corruption of the internal record.
+
+====== IR-2.2.4-12 Immutable identifiers and record integrity
+The system shall assign each submitted order a stable identifier.
+
+The system shall ensure core properties of a submitted order record remain stable (at minimum: order identifier and submission timestamp), except through explicitly defined correction operations, to support auditability and coordination between customers and cafeteria staff.
+
+====== IR-2.2.4-13 Interface decomposition note
+Some requirements that appear to be interface-only include both interface and non-interface aspects. For example, “the system supports creating an order” includes:
+* An interface requirement aspect: the system provides UI mechanisms for customers to select items and submit an order.
+* A non-interface aspect: the system creates and stores an internal order representation and enforces rules.
+
+This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.
+
+===== Derived questions used to identify interface requirements
+
+The interface requirements above were derived by identifying domain concepts that must be represented in the system and then asking:
+
+* How is the internal representation first obtained (who enters it, through what interface)?
+* How is it kept up-to-date when the real-world phenomenon changes (e.g., availability, order status)?
+* What information can be corrected if entered incorrectly or incompletely?
+* What information should be restricted or immutable after submission to preserve integrity?
 
 ==== 2.2.5 Machine Requirements
 
