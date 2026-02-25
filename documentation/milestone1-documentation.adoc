@@ -445,6 +445,47 @@ The following concepts were sourced from the rough domain sketch, that was creat
 
 === 3.2 Validation and Verification
 
+==== 3.2.1 Validation
+
+*Scenario Walkthroughs (Ongoing)*
+ 
+* The team will walkthrough some scenarios with prospective stakeholders (students and cafeteria staff) to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:
+
+** Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.
+
+* After walkthroughs, any mismatches or missing steps will lead to updated domain concepts and requirements.
+
+*Terminology and Concept Validation (Ongoing)*  
+
+* Through internal reviews and discussions we have already identified and resolved terminology conflicts (for example, student vs. customer, and customer queue vs. order queue).  
+* Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.
+
+*Use of Research (Ongoing)*  
+
+* Existing and future research on technologies and cafeteria operations serves on ensuring that proposed solutions such as pre‑ordering and remote payment are realistic and are then incorporated into future scenarios for stakeholder feedback.
+
+==== 3.2.2 Verification
+
+*Consistency and Completeness Reviews (Ongoing)* 
+
+* Reviews will be done by Documentation Team Leader and Managers to verify that:  
+** Requirements and user stories only use defined terms or introduce new ones deliberately.  
+** Each requirement supports at least one stakeholder need or goal stated earlier in the document.  
+** All key flows from the rough sketch (ordering, payment, preparation, pickup, leaving the queue) appear in at least one user story or feature.
+* Peer review by other team members will also be used to verify that the documentation is clear, consistent, and complete.
+
+*Test Planning and Documentation Verification (Ongoing)*
+
+* The defined test types, such as unit, integration, system, acceptance, non‑functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.
+* Risk-based testing will be used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.
+* Documentation testing will compare implemented behavior against requirements and acceptance criteria.
+
+*Automated Verification via Continuous Integration (Ongoing)*
+
+* For the current testing phase, continuous integration will focus on build validation to ensure the repository installs and builds successfully on every pull request.  
+* As unit and integration tests are added, they will be included in the Auto‑Test Suite so that breaking changes cannot be merged into the main branch.
+
+
 == Specific Class Topics
 
 === 4.1 TDD
