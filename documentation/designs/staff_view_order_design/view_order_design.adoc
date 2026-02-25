@@ -15,9 +15,9 @@ Final designs can be viewed in the `documentation/designs/staff_view_order_desig
 *Design description:*
 
 - Designs were created for unread, opened and finished orders.
--Each of these pages show expanded versions where staff can view the full order and change its status accordingly with the buttons placed at the bottom of the page.
--To avoid confucion, unread orders have a white dot at the corner, opened orders have a green dot at the corner and finished orders have no dot. 
--Once an order is maked as finished, the user will recieve a notification that their order is ready for pick-up.
+- Each of these pages show expanded versions where staff can view the full order and change its status accordingly with the buttons placed at the bottom of the page.
+- To avoid confucion, unread orders have a white dot at the corner, opened orders have a green dot at the corner and finished orders have no dot. 
+- Once an order is maked as finished, the user will recieve a notification that their order is ready for pick-up.
 
 .Unopened orders page design.
 image::images/unread_orders_page.png[Unopened orders page design, width=40%]
