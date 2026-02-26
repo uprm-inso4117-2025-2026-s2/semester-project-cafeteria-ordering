@@ -836,6 +836,7 @@ function generateCode(order: Order)
         pickupCode: code
     })
     return code
+----
 The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order. 
 *UI Design*
 
