@@ -793,10 +793,11 @@ All machine requirements will be validated through prototype performance testing
 ====
 Since the Cafeteria Ordering project is still in early development, the software platform has yet to be fully implemented. This means that pseudocode may also be used to help describe an implementation, but as the project continues getting programmed in the future, the selected fragment's codes might change. 
 ====
+The Cafeteria Ordering project implements a client-server architecture using TypeScript as the programming language for the application layer, and React Native as the framework for it since it better fit the vision for the application. As for the backend and database layers, they are managed using Supabase and PostgreSQL for storing information like user accounts, menu items, all the orders and their status, among other items. Additionally, the application handles notifications using the Expo Notifications API, primarily notifying the users of important status information about their orders.
 
 ==== 2.3.1 Selected Fragments of the implementation
 
-The following selected fragments of the project implementation are crucial parts of the application that will be explained using source code, diagrams and pseudocode explinations. 
+To further add to the implementation of the project, the following selected fragments of the project were selected as  crucial parts of the application that will be explained using source code, diagrams and pseudocode explinations. 
 
 *Order Creation and Validation*
 
