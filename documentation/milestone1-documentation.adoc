@@ -362,6 +362,22 @@ These relationships demonstrate that the terminology defined in Section 2.1.2 is
 
 ==== 2.1.4 Narrative
 
+The university's cafeteria functions as one of the primary food services that support the daily nutritional needs of students, staff, and faculty. Often individuals depend on the cafeteria to receive their prepared meals under tight schedules that are most likely caused by multiple classes, team meetings, work responsabilities, or campus activities. Due to the students having similar break periods, demand for the cafeteria's services increase exponentially during some hours, most specifically midday or the universal hour on Tuesdays and Thursdays.
+
+For the current domain environment, the process begins the moment a customer physically arrives at the cafeteria. Once the customer has arrived, they see the available food options presented by the cafeteria through the menu written on a board, or a handheld menu depending on inventory availability. After reviewing the available options, the customers decide which meals they wish to receive.
+
+To receive their meals, customers join a physical queue that forms close to the service counter. This queue advances sequentially as every customer gets attended by the cafeteria staff. When a customer reaches the service point, they communicate their wanted items to the personnel, who are then responsible for preparing the requested food. Some items may be immediately available, while other meals would require short preparation time, making the service duration vary between services.
+
+As the requested items are prepared, the customer proceeds to complete the payment method through the established cafeteria payment processes. Confirmation of payment is required before the order is given to the customer. When payment finalizes, the customer receives their prepared meal and exits the service, which then allows the next individual in the queue to be serviced.
+
+The arrival rate during peak demand periods frequently exceeds the service capacity of the cafeteria staff, lenghtening queues and increasing waiting times. Customers must often make time sensitive decisions whether to remain in line based on their upcoming academic or work obligations. From the other side, the cafeteria personnel experience increased workload, which can affect the preparation pace, communication, and overall service.
+
+From an observational standpoint, this domain includes entities such as customers, cafeteria staff, menu items, orders, payments, preparation, activities, and pickup events. Natural relationships exist among these entities, as customer selects one or more menu items, an order then aggregates the selected items associated with the customer. The cafeteria staff then prepare the items associated with the order, and payment must be completed before the order is released. The availability of menu items could change over time, based on inventory levels and preparations constraints.
+
+Environmental factors such as time of day, academic calendar events, present staff, and the physical layout of the cafeteria further influence the service performance and waiting times for the customer. These real world characteristics shape how the cafeteria operations unfold without the support of any software system.
+
+Understanding these domain dynamics, including the formation of a queue, the time demand, preparation variability, and capacity limitations, provides the necessary foundation for a further requirement analysis, architectural design, and system development activities.
+
 ==== 2.1.5 Events, Actions, and Behaviors
 
 This section distinguishes between *events*, *actions*, and *behaviors* in the cafeteria domain. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an intentional act by an actor (action), and what emerges as a process or recurring pattern over time (behavior).
