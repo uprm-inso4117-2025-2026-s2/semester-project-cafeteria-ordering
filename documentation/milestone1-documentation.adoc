@@ -642,7 +642,7 @@ Behavior-Driven Development (BDD) is applied in the Cafeteria Ordering System pr
 
 The team follows a structured transformation process:
 
-User Story (client domain) -> Acceptance Criteria (client domain) -> Specification Examples (Given–When–Then) -> Planned Automation using a BDD tool.
+User Story (client domain) -> Acceptance Criteria (client domain) -> Specification Examples (Given–When–Then) -> Automation using a BDD tool.
 
 ==== From User Story to Acceptance Criteria
 
@@ -689,41 +689,34 @@ And staff validates the code in the system
 Then the student should be able to securely pick up the order  
 And the system should mark the order as "picked up"  
 
-These specification examples can be reviewed by stakeholders and are structured for automation.
+These specification examples have been formalized as Gherkin feature files (.feature) and committed to the project repository under the Cucumber testing setup branch.
 
-==== Planned BDD Tool Integration
+==== BDD Tool Integration (Cucumber)
 
-The team plans to integrate a BDD-capable tool into the development workflow to automate specification examples.
+The project integrates Cucumber (cucumber-js) as the selected BDD tool. Cucumber has been configured in the repository, and corresponding `.feature` files have been created for the scenarios described above.
 
-Given the current JavaScript/TypeScript stack and existing Jest usage in the project, the preferred approach is to adopt `jest-cucumber`, which allows Gherkin scenarios to run using Jest as the test runner. Alternatively, `cucumber-js` may be used with step definitions written in JavaScript or TypeScript.
+* Tool: Cucumber (cucumber-js)
+* Specification format: Gherkin (`.feature` files)
+* Execution: via the configured npm script in the project setup
 
-Planned automation structure:
+The existing setup enables execution of Gherkin scenarios through the Cucumber runner, demonstrating integration of a BDD tool into the development workflow as required by the course guideline.
 
-* Gherkin feature files (`.feature`) describing system behavior.
-* Step definition files binding Gherkin steps to executable test code.
-* Execution integrated into GitHub Actions to enable continuous verification of behavior specifications.
+==== Automation Status in Milestone 1
 
-==== Illustrative Example of Automated Artifact
+At this milestone, the Cucumber environment and Gherkin specification files are fully configured. However, step definitions binding these scenarios to implemented application behavior have not yet been developed.
 
-The following example illustrates how specification examples can be expressed in a Gherkin feature file.
+This is intentional and aligned with milestone sequencing. Milestone 1 focuses on domain modeling, requirements engineering, documentation, and preparation of testing infrastructure. Full behavioral binding and executable verification against implemented functionality will be completed in Milestone 2, once core application features are available.
 
-[source,gherkin]
-----
-Feature: Order Placement
+The current configuration demonstrates that:
 
-  Scenario: Successful order placement
-    Given the student is logged in
-    And the student is on the menu page
-    When the student selects available menu items and completes checkout
-    Then the system confirms the order
-    And cafeteria staff are notified
-----
-
-This structure enables automated verification of acceptance criteria once step definitions are implemented.
+* A BDD tool is integrated into the project.
+* Behavioral specifications are written in Gherkin.
+* Scenarios are structured for automated execution.
+* The testing infrastructure is prepared for future implementation binding.
 
 ==== Summary
 
-By applying BDD, the project ensures that requirements remain aligned with stakeholder needs while providing a structured path toward automated behavioral verification. Even before full automation is implemented, BDD improves clarity, traceability, and shared understanding between documentation, design, testing, and implementation activities.
+By applying BDD and integrating Cucumber into the repository, the project establishes a clear path from stakeholder requirements to executable behavioral specifications. Even though full step-definition implementation will occur in Milestone 2, the current setup ensures alignment between requirements, documentation, and automated testing infrastructure, satisfying the academic requirements for BDD tool integration.
 
 === 4.3 User of Debugging
 
