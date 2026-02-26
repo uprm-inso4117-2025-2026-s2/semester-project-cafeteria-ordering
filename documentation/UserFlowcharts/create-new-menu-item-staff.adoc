@@ -3,7 +3,7 @@
 :toclevels: 2
 
 == Objective
-
+Create a flowchart that demonstrates how a staff member adds new food items to the menu.
 
 
 == Legend
