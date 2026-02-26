@@ -1,0 +1,61 @@
+= Supabase Constraints & Risks
+
+This research document is about the technical constraints, risks, and limitations of using Supabase as the primary backend-as-a-service (BaaS) for the Home Inventory project.
+
+
+== Technical Constraints
+
+=== Database & Connection Limits
+* **Connection Pooling:** While Supabase uses Supavisor for connection pooling, direct connections to PostgreSQL are limited by compute instance size. High-concurrency applications must use the connection pooler to avoid `503 Service Unavailable` errors.
+* **Storage:** The Free Tier has a cap of **500MB**. Exceeding disk limits may trigger automatic payment or service interruptions.
+* **Maximum Row Size:** Large objects or excessively wide tables can impact the performance of the PostgREST API and Realtime engine.
+
+=== Realtime Engine Limitations
+* The Realtime feature is not designed for high-frequency firehose data (e.g., real-time GPS tracking for 10,000+ vehicles simultaneously).
+* Individual Realtime broadcast messages are typically capped at **256KB**.
+* Concurrent peak connections are limited based on the plan, 200 for the Free tier, and 500 for the Pro tier.
+
+=== Edge Function Constraints
+* **Execution Time:** Edge Functions (Deno-based) are designed for short tasks. They have a default wall-clock limit, typically 50–60 seconds. They are not suitable for heavy video processing.
+* **Runtime Restrictions:** Being Deno-based, some legacy Node.js packages may require specific compatibility layers or may not work at all.
+
+== Security Risks
+
+=== Row-Level Security (RLS) Human Error
+Supabase is "secure by default" in 2026, but creating a table without any RLS policies can expose the entire database to the public.
+
+* **Risk:** A developer forgets to enable RLS on a new table. Exposing important information to the public.
+* **Mitigation:** Use the Supabase CLI to run `supabase-test` or verifying RLS policies before deployment.
+
+=== API Key Exposure
+* **Anon Key:** The `anon` key is safe for public use only if RLS is properly configured.
+* **Service Role Key:** Exposure of the `service_role` key is a critical security risk as it bypasses RLS and can expose the database.
+
+== Operational & Financial Risks
+
+=== Predictable vs. Unpredictable Scaling Costs
+Supabase uses a hybrid pricing model ($25/mo base + usage).
+[cols="1,2", options="header"]
+|===
+| Metric | Risk Factor
+| **Egress (Bandwidth)** | High-traffic media apps can rack up significant costs at **$0.09/GB** beyond plan limits.
+| **Database Size** | Large datasets increase the monthly bill linearly.
+| **Auth MAU** | While the first 50,000 Monthly Active Users are free, rapid viral growth can lead to unexpected costs.
+|===
+
+While Supabase is open source, migrating away involves effort:
+
+* **Auth Logic:** Migrating users and hashed passwords to a different provider (like Firebase) requires custom scripts.
+* **Edge Functions:** Logic written for Deno Edge Functions must be refactored if moving to AWS Lambda or Google Cloud Functions.
+
+== Mitigation Strategy
+
+1. **Schema Integrity:** Always use migrations via the Supabase CLI to ensure environment parity.
+2. **Monitoring:** Enable Custom Backups and Point-in-Time Recovery (PITR) for any production database (requires Pro plan or higher).
+3. **Load Testing:** Perform stress tests on the Realtime and PostgREST layers.
+
+== References
+* Supabase Supavisor FAQ: https://supabase.com/docs/guides/troubleshooting/supavisor-faq-YyP5tI
+* Supabase Pricing: https://supabase.com/pricing
+* Supabase limits (Github): https://github.com/supabase/supabase/blob/master/apps/docs/content/guides/realtime/limits.mdx
+* Supabase Edge Functions limits: https://supabase.com/docs/guides/functions/limits
