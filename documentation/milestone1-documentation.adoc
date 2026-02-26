@@ -354,6 +354,67 @@ These relationships demonstrate that the terminology defined in Section 2.1.2 is
 
 ==== 2.1.5 Events, Actions, and Behaviors
 
+This section distinguishes between *events*, *actions*, and *behaviors* in the cafeteria domain. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an intentional act by an actor (action), and what emerges as a process or recurring pattern over time (behavior).
+
+There is a difference between:
+
+* the moment from which a student has just become a member of the queue (event),
+* the act of becoming a member of the queue (action),
+* and the process consisting of various smaller actions that together make up "becoming a member" during a service period (behavior).
+
+===== Events (Observable Moments)
+
+An *event* is an observable "just happened" moment: a point in time at which the domain state has changed. Events are useful to describe transitions and to connect domain observations to later requirements and system representations.
+
+Examples (from Section 2.1.2):
+
+* *Student Has Just Joined the Queue* — the moment a student enters the line.
+* *Order Has Just Been Placed* — the moment the student's request is communicated to staff.
+* *Payment Has Just Failed* — the moment a payment attempt does not complete successfully.
+* *Meal Has Just Been Prepared* — the moment the meal becomes ready for pickup.
+* *Student Has Just Left the Queue Without Ordering* — the moment the student abandons the line.
+
+Each event captures a transition moment that can be observed directly in the cafeteria environment.
+
+===== Actions (Acts Performed by Actors)
+
+An *action* is an intentional act performed by an actor (student or cafeteria staff) that changes the state of the domain. Actions often lead to events. Multiple actions may be required before a particular event becomes observable.
+
+Examples (from Section 2.1.2):
+
+* *Order Placement* — the act of selecting menu items and communicating the request to cafeteria staff.
+* *Payment* — the act of attempting to complete a transaction at the counter.
+* *Meal Preparation* — the act of producing meals in advance or in response to incoming orders.
+* *Meal Pickup* — the act of receiving the prepared meal.
+
+Actions describe what participants do, while events describe the moment we can observe the outcome of those actions.
+
+===== Behaviors (Processes and Patterns Over Time)
+
+A *behavior* is a process or recurring pattern that unfolds over time and is composed of multiple actions and events. Behaviors describe how the cafeteria operates under certain conditions, especially during peak hours.
+
+Examples (from Section 2.1.2):
+
+* *Crowd Surge* — many students arrive in a short time span, creating long queues and pressure.
+* *Time-Constrained Decision Making* — students evaluate waiting time versus their schedules and decide whether to stay or leave.
+* *Uncertain Demand Preparation* — staff prepare meals without precise near-term demand information.
+* *Service Bottleneck* — recurring slowdowns due to limited capacity in ordering, payment, or preparation.
+
+Behavior decomposition example:
+
+*Behavior:* Service Bottleneck (payment)  
+*Actions involved:* Payment attempts, staff troubleshooting, repeated retries  
+*Events observed:* Payment Has Just Failed; Student Has Just Left the Queue Without Ordering  
+*Outcome:* increased waiting time and reduced service throughput
+
+===== Why This Distinction Matters
+
+This distinction supports later requirements and testing work:
+
+* Events identify the exact moments when state changes occur (useful for tracking and notification requirements later).
+* Actions describe what users and staff do (useful for defining system interactions and responsibilities).
+* Behaviors capture the recurring patterns that drive the main problem (long waiting times), especially during peak periods.
+
 ==== 2.1.6 Function Signatures
 
 ==== 2.2 Requirements
