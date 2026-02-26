@@ -789,7 +789,7 @@ All machine requirements will be validated through prototype performance testing
 === 2.3 Implementation
 [NOTE]
 ====
-Since the Cafeteria Ordering project is still in early development, the software platform has yet to be fully implemented. This means that pseudocode may also be used to help describe an implementation, but as the project continues getting programmed in the future, the selected fragment's codes might change. ********
+Since the Cafeteria Ordering project is still in early development, the software platform has yet to be fully implemented. This means that pseudocode may also be used to help describe an implementation, but as the project continues getting programmed in the future, the selected fragment's codes might change. 
 ====
 
 ==== 2.3.1 Selected Fragments of the implementation
