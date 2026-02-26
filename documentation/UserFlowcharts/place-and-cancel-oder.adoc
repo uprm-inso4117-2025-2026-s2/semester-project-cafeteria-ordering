@@ -26,8 +26,8 @@ image::flowcharts/place-order.png[Place Order Flowchart, width=600]
 
 1. Customer opens application.
 2. System checks if customer has an account.
-   * If no → Customer signs up → sets up profile.
-   * If yes → Customer logs in.
+   * If no, Customer signs up and sets up profile.
+   * If yes, Customer logs in.
 3. Customer lands on Home Page.
 
 === 2. Browse and Add Item
@@ -39,13 +39,20 @@ image::flowcharts/place-order.png[Place Order Flowchart, width=600]
 ==== Inventory Validation
 
 * System checks if item is in stock.
-  ** If not in stock → Show error: "Item sold out".
-  ** If in stock → Item added to cart.
+  ** If not in stock, show error: "Item sold out".
+  ** If in stock, item added to cart.
 
 === 3. Checkout
 
 1. Customer navigates to Checkout Page.
-2. Customer confirms order.
+
+=== 5. Cancellation During Checkout
+
+* Customer may choose to cancel before confirming order.
+  ** If cancelled, order is discarded.
+  ** Refund process for cancellation starts.
+  ** Process ends.
+
 
 === 4. Payment
 
@@ -61,11 +68,6 @@ image::flowcharts/place-order.png[Place Order Flowchart, width=600]
   ** Show error: "Payment was unsuccessful, please try again."
   ** Customer may retry payment.
 
-=== 5. Cancellation During Checkout
-
-* Customer may choose to cancel before confirming order.
-  ** If cancelled → Order is discarded.
-  ** Process ends.
 
 == Alternative Flows
 
@@ -95,7 +97,8 @@ System checks order status.
   ** Cancel button is disabled.
   ** No further action allowed.
 
-* If status "Unread" or "Started" allow cancellation:
+* If status = "Unread" or "Started":
+  ** Cancel button is enabled.
   ** Customer clicks "Cancel Order".
 
 === 2. Cancellation Confirmation
