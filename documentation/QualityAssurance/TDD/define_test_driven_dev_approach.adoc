@@ -84,30 +84,147 @@ TDD artifacts are integrated into the repository as follows:
 The following example demonstrates TDD applied to a realistic unit.
 
 === Unit Specification
-Function: 
+Function: `processPayment`
 
 Behavior:
+
+* When payment succeeds, return `Some(Receipt)` and update the `PaymentSystem` state.
+* When payment fails, return `None` and record failure in `PaymentSystem`.
 
 Input:
 
+* `PaymentSystem`
+* `Order`
+* `PaymentMethod`
+
 Output: 
 
-=== Test 1 - 
+* Updated `PaymentSystem`
+* `Option Receipt`
+
+=== Test 1 - Successful payment returns receipt (Happy Path)
 
 Behavior:
+* If the payment gateway approves the charge, the system returns `Some(receipt)`.
 
 Test:
 
+* Given a `PaymentSystem` whose gateway will approve.
+* When `processPayment(ps, order, method)` is called.
+* Then result is `Some(receipt)` and receipt references `order.id`
+
 Dummy Implementation:
 
+* Return `None` always.
+
 Result: 
-Test fails.
+
+* Test fails (expected `Some`, got `None`).
 
 Implementation Update:
 
-=== Refactoring Step 
-Code is cleaned for readability without altering behavior.
-All tests remain passing, confirming safe
+* If gateway approves → return `Some(Receipt(orderId=order.id, total=order.total))`
+* Otherwise → return `None`
+
+Result:
+
+* Test passes.
+
+Refactoring Step
+
+* Extract `makeReceipt(order)` helper.
+* Keep behavior identical
+* All tests pass
+
+=== Test 2 — Failed payment returns None (Matches the Event “Payment Has Just Failed”)
+
+Behavior: 
+
+* If the gateway declines, return `None`.
+
+Test:
+
+* Given a `PaymentSystem` whose gateway will decline
+* When `processPayment(ps, order, method)` is called
+* Then result is `None`
+
+Dummy Implementation:
+
+* Always return `Some(receipt)`.
+
+Result:
+
+* Test fails (expected `None`, got `Some`).
+
+Implementation Update:
+
+* Add conditional:
+** approve → `Some(receipt)`
+** decline →`None`
+
+Result: 
+
+* Test passes.
+
+Refactoring Step:
+
+* Replace duplicated conditional logic with:
+** `approved = gateway.authorize(...)`
+** `return approved ? Some(makeReceipt(order)) : None`
+* All tests pass
+
+=== Test 3 — PaymentSystem state updates correctly (Supports bottleneck analysis later)
+
+Behavior:
+
+* On success, `PaymentSystem` stores a “payment recorded” entry (for audit/trace).
+* On failure, `PaymentSystem` stores a “failed attempt” entry (this directly supports tracking repeated failures that cause bottlenecks).
+
+Test:
+
+* Case A (Success):
+** Given approve gateway
+** When `processPayment` runs
+** Then `ps'.payments` includes record `{orderId, status="SUCCESS"}`
+* Case B (Failure):
+** Given decline gateway
+** When `processPayment` runs
+** Then `ps'.payments` includes record `{orderId, status="FAILED"}`
+
+Dummy Implementation:
+
+* Return correct `Option`, but do not change `PaymentSystem` state.
+
+Result:
+
+* Test fails (missing records).
+
+Implementation Update: 
+
+* If approved:
+** `ps' = ps.addPaymentRecord(order.id, "SUCCESS")`
+** return `ps'` and `Some(receipt)`
+
+* Else:
+** `ps' = ps.addPaymentRecord(order.id, "FAILED")`
+** return `ps'` and `None`
+
+Result:
+
+* Test passes.
+
+Refactoring Step:
+
+* Create `recordAndReturn(ps, order, status, maybeReceipt)` helper
+* Keep all tests pasing
+
+=== Final Notes for Traceability
+
+* *Test 2* explicitly validates the _event_ *Payment Has just Failed* (observable outcome).
+* *Test 3 failure case* supports analyzing _behavior_ *Service Bottleneck (payment)* by making repeated failure attempts visible in state/logs.
+* All tests remain unit-level and map cleanly to the function signature contract:
+
+`PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
 
 == Rationale Test-Driven Development 
 The adoption of TDD provides the following benefits:
