@@ -198,7 +198,9 @@ The application provides users with temporal flexibility, allowing for "ASAP" or
 
 The target audience are UPRM students and staff at the university cafeteria. However, the project also seeks the possibility to include other campus food vendors and integration with university events, such as Come Colegial.
 
-The project will utilize agile development, following its iterative steps, with primary focus on testing, to achieve project completion. Success will be tracked through specific metrics: the volume of orders processed, the speed of order pickup, and the measurable reduction in counter wait times. Additionally, the system will provide data analytics to help cafeteria administrators optimize inventory and staffing levels based on peak demand patterns.
+The project will utilize agile development, following its iterative steps, with primary focus on testing, to achieve project completion. In addition, the team will apply a Test-Driven Development approach named red, green, and refactor. Through this approach, developers will write failing tests for small, requirement-derived behaviors before implementing the minimum code needed to pass them, and then refactor the code to improve code quality and maintainability.
+
+Success will be tracked through specific metrics: the volume of orders processed, the speed of order pickup, and the measurable reduction in counter wait times. Additionally, the system will provide data analytics to help cafeteria administrators optimize inventory and staffing levels based on peak demand patterns.
 
 ==== 1.3.2 Synopsis
 
