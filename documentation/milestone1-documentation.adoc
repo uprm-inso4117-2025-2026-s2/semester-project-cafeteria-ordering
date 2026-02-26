@@ -787,9 +787,61 @@ Several machine requirements areas require additional research and stakeholder i
 All machine requirements will be validated through prototype performance testing, refined based on stakeholder feedback, and adjusted according to university infrastructure limitations and available resources. Changes to these requirements will be documented, version-controlled, and communicated to the project team to ensure alignment across all development activities.
 
 === 2.3 Implementation
+[NOTE]
+====
+Since the Cafeteria Ordering project is still in early development, the software platform has yet to be fully implemented. This means that pseudocode may also be used to help describe an implementation, but as the project continues getting programmed in the future, the selected fragment's codes might change. ********
+====
 
 ==== 2.3.1 Selected Fragments of the implementation
 
+The following selected fragments of the project implementation are crucial parts of the application that will be explained using source code, diagrams and pseudocode explinations. 
+
+*Order Creation and Validation*
+
+As said in the name, ordering is the core part of the Cafeteria Ordering App. Therefore, our system must validate a list of processes that ultimately validates the user's order.
+
+The following code can help illustrate how the system currently handles this order processing logic:
+
+[source,text]
+----
+export async function createOrder(order: Order) {
+  const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
+
+  if (error) {
+    console.error('Error when creating order:', error.message)
+    return null
+  }
+
+  await Notifications.scheduleNotificationAsync({
+  content: {
+    title: 'Order Confirmed',
+    body: 'Your order has been successfully placed.',
+  },
+  trigger: null,
+})
+
+  return data
+}
+----
+In this brief source code, createOrder takes an Order object as an input, said object has all the essential information such as student ID, selected items, price and status of the order. If there is an error such as the item not being in stock, an error will be displayed signaling that the order could not be completed, if it was completed, then the order will be placed!
+
+*Pickup Code/ Order Security*
+
+Along with our order creation and confirmation, to increase security and reduce or eliminate the possibility of order theft, the system will have a pickup code generator, shown with this pseudocode:
+[source,text]
+----
+function generateCode(order: Order)
+    code= randomnumberBetween (0001,9999)
+    order.update(id, {
+        pickupCode: code
+    })
+    return code
+The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order. 
+*UI Design*
+
+The team designed all of the UI components for the project in a software designing platform called Figma. 
+.Login Light Mode
+image:designs/login_design/Login_light_mode.png[]
 == Analytic Part
 
 === 3.1 Concept Analysis
