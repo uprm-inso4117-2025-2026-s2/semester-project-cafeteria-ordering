@@ -181,6 +181,16 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 ==== 1.3.2 Synopsis
 
+The Cafeteria Ordering System project addresses operational inefficiencies observed in the university cafeteria, particularly during peak service hours. Long waiting times, limited menu visibility, and uncertainty in demand create negative impacts on student well-being and cafeteria workflow. Rather than approaching this situation as a purely technical problem, the project follows a structured software engineering process grounded in domain understanding and systematic analysis.
+
+The project begins with a detailed domain description that formalizes observed phenomena within the cafeteria environment. Through domain sketches, terminology definition, and concept analysis, the team establishes a shared vocabulary that reflects real-world entities, actions, events, and behaviors. This foundation ensures clarity and consistency in subsequent requirements engineering activities.
+
+Building upon the domain model, stakeholder needs are translated into epics, user stories, and structured requirements. These include domain requirements, interface requirements, and machine requirements with measurable performance, availability, and capacity criteria. By defining explicit constraints and measurable targets, the project ensures that any proposed solution aligns with time-sensitive cafeteria operations and institutional limitations.
+
+Early architectural reasoning is incorporated to anticipate system structure and interactions between core components such as ordering, payment processing, notification handling, and pickup coordination. Testing strategies, including Test-Driven Development (TDD) and Behavior-Driven Development (BDD), are integrated into the planned workflow to maintain traceability between requirements and implementation while enabling structured validation and verification.
+
+Throughout the project, documentation, milestone planning, and coordinated team roles support alignment across analysis, design, testing, and implementation activities. By combining domain modeling, structured requirements engineering, architectural planning, and systematic testing preparation, the project establishes a comprehensive and well-founded approach to improving cafeteria service efficiency and reliability.
+
 === 1.4 Other Activities than just developing source code
 
 Developing a software solution is only one part of this project. Though it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.
