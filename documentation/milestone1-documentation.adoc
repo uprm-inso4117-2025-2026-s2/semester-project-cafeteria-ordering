@@ -844,9 +844,21 @@ The pickup code is now in the user order, when the user goes to the pickup count
 The team designed all of the UI components for the project in a software designing platform called Figma. 
 [cols="a,a", frame=none, grid=none]
 |====
-| image:designs/login_design/Login_light_mode.png[]
-| image:designs/login_design/Login_dark_mode.png[]
+|
+.Login Light mode
+image:: designs/login_design/Login_light_mode.png[Light Mode,180,400]
+| 
+.Login Dark mode
+ image:: designs/login_design/Login_dark_mode.png[Dark mode,180,300]
 |====
+
+The project counts on a light mode and a dark mode, for personal preference, as seen in the images above.
+
+*_Staff View_* 
+
+To show how the staff mode will work on the application, here are the current designs of the staff pages:
+
+
 == Analytic Part
 
 === 3.1 Concept Analysis
