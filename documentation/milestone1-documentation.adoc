@@ -849,7 +849,7 @@ The team designed all of the UI components for the project in a software designi
 image::designs/login_design/Login_light_mode.png[Light Mode,180,400]
 | 
 .Login Dark mode
- image::designs/login_design/Login_dark_mode.png[Dark mode,180,300]
+image::designs/login_design/Login_dark_mode.png[Dark mode,180,300]
 |====
 
 The project counts on a light mode and a dark mode, for personal preference, as seen in the images above.
