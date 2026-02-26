@@ -5,9 +5,11 @@
 === 1.1 Team
 
 ==== Team Structure
-The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division’s primary objectives.
+
+The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division's primary objectives.
 
 ==== Managers
+
 The overall coordination of the project is led by:
 
 * Alma D. Piñero-Calero
@@ -89,11 +91,11 @@ Research and establish the technical foundation of the project, including mobile
 ===== UI Team
 
 *Objective:* +
-Define the application’s branding, visual identity, and user experience.
+Define the application's branding, visual identity, and user experience.
 
 *Responsibilities:*
 
-* Design the application’s interface and layout.
+* Design the application's interface and layout.
 * Establish branding guidelines (colors, typography, design system).
 * Define user workflows and navigation structure.
 * Ensure usability and accessibility standards are considered.
@@ -120,6 +122,7 @@ If external partners become involved in later phases, their roles and responsibi
 === 1.2 Current Situtation, needs, ideas
 
 ==== 1.2.1 Current Situation
+
 Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, as there is no existing infrastructure for pre-ordering or remote payment. Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.
 
 ==== 1.2.2 Needs
@@ -161,25 +164,37 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 ==== 1.2.3 Ideas
 
-* Welcome to the Cafeteria ordering application, a platform where students and staff from the university community can easily order food from the university cafeteria, drastically reducing the waiting time and facilitating staff work.
+* Based on the previously discussed needs, a platform where students and staff from the university community can easily order food from the university cafeteria can drastically reduce the waiting time and facilitate staff work. The Cafeteria ordering application can help the aforementioned needs with features such as:
 
-* Ordering: Now, it’s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
+* Ordering: Now, it's easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
 
 * Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
 
 *Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.
 
-* Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer’s order stolen.
+* Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer's order stolen.
 
 *Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.
 
 *Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.
+
+*The application can help students mantain an easier routine for their everyday life, cafeteria staff can be more organized and also cuts down on miscommunication when people have orders taken in person. 
 
 === 1.3 Scope, Span and Synopsis
 
 ==== 1.3.1 Scope and Span
 
 ==== 1.3.2 Synopsis
+
+The Cafeteria Ordering System project addresses operational inefficiencies observed in the university cafeteria, particularly during peak service hours. Long waiting times, limited menu visibility, and uncertainty in demand create negative impacts on student well-being and cafeteria workflow. Rather than approaching this situation as a purely technical problem, the project follows a structured software engineering process grounded in domain understanding and systematic analysis.
+
+The project begins with a detailed domain description that formalizes observed phenomena within the cafeteria environment. Through domain sketches, terminology definition, and concept analysis, the team establishes a shared vocabulary that reflects real-world entities, actions, events, and behaviors. This foundation ensures clarity and consistency in subsequent requirements engineering activities.
+
+Building upon the domain model, stakeholder needs are translated into epics, user stories, and structured requirements. These include domain requirements, interface requirements, and machine requirements with measurable performance, availability, and capacity criteria. By defining explicit constraints and measurable targets, the project ensures that any proposed solution aligns with time-sensitive cafeteria operations and institutional limitations.
+
+Early architectural reasoning is incorporated to anticipate system structure and interactions between core components such as ordering, payment processing, notification handling, and pickup coordination. Testing strategies, including Test-Driven Development (TDD) and Behavior-Driven Development (BDD), are integrated into the planned workflow to maintain traceability between requirements and implementation while enabling structured validation and verification.
+
+Throughout the project, documentation, milestone planning, and coordinated team roles support alignment across analysis, design, testing, and implementation activities. By combining domain modeling, structured requirements engineering, architectural planning, and systematic testing preparation, the project establishes a comprehensive and well-founded approach to improving cafeteria service efficiency and reliability.
 
 === 1.4 Other Activities than just developing source code
 
@@ -222,7 +237,7 @@ Another goal is to support data-informed decision making within cafeteria operat
 
 The project also aims to encourage digital transformation within campus services. By introducing a structured, mobile-based ordering approach, the system may serve as a model for how other campus services might modernize their processes. This broader institutional impact extends beyond the cafeteria itself and contributes to a more technology-integrated campus environment.
 
-A further derived goal is to strengthen collaboration and coordination among stakeholders. The structured interaction between students, cafeteria staff, and university administration fosters clearer communication channels and more transparent service processes. Even outside the application’s technical implementation, this improved alignment between stakeholders is a valuable outcome.
+A further derived goal is to strengthen collaboration and coordination among stakeholders. The structured interaction between students, cafeteria staff, and university administration fosters clearer communication channels and more transparent service processes. Even outside the application's technical implementation, this improved alignment between stakeholders is a valuable outcome.
 
 At the project level, another secondary goal is to develop strong engineering practices within the team. Through domain analysis, requirements engineering, architectural planning, testing strategies, and documentation, the team builds experience in systematic software development. The artifacts produced during this process—such as requirement specifications, design descriptions, and test plans—form a reusable knowledge base for future academic or professional projects.
 
@@ -291,7 +306,7 @@ Student Has Just Joined the Queue :: (event, domain)
 The moment a student enters the line to place an order.
 
 Order Has Just Been Placed :: (event, domain)
-The moment a student’s order is communicated to cafeteria staff.
+The moment a student's order is communicated to cafeteria staff.
 
 Payment Has Just Failed :: (event, domain)
 The moment a payment attempt does not complete successfully, causing a delay in service.
@@ -313,6 +328,7 @@ A pattern where cafeteria staff prepare meals without precise knowledge of near-
 
 Service Bottleneck :: (behavior, domain)
 A recurring slowdown caused by limited capacity in ordering, payment, or preparation.
+
 ==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch
 
 This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.
@@ -352,9 +368,116 @@ These relationships demonstrate that the terminology defined in Section 2.1.2 is
 
 ==== 2.1.4 Narrative
 
+The university's cafeteria functions as one of the primary food services that support the daily nutritional needs of students, staff, and faculty. Often individuals depend on the cafeteria to receive their prepared meals under tight schedules that are most likely caused by multiple classes, team meetings, work responsabilities, or campus activities. Due to the students having similar break periods, demand for the cafeteria's services increase exponentially during some hours, most specifically midday or the universal hour on Tuesdays and Thursdays.
+
+For the current domain environment, the process begins the moment a customer physically arrives at the cafeteria. Once the customer has arrived, they see the available food options presented by the cafeteria through the menu written on a board, or a handheld menu depending on inventory availability. After reviewing the available options, the customers decide which meals they wish to receive.
+
+To receive their meals, customers join a physical queue that forms close to the service counter. This queue advances sequentially as every customer gets attended by the cafeteria staff. When a customer reaches the service point, they communicate their wanted items to the personnel, who are then responsible for preparing the requested food. Some items may be immediately available, while other meals would require short preparation time, making the service duration vary between services.
+
+As the requested items are prepared, the customer proceeds to complete the payment method through the established cafeteria payment processes. Confirmation of payment is required before the order is given to the customer. When payment finalizes, the customer receives their prepared meal and exits the service, which then allows the next individual in the queue to be serviced.
+
+The arrival rate during peak demand periods frequently exceeds the service capacity of the cafeteria staff, lenghtening queues and increasing waiting times. Customers must often make time sensitive decisions whether to remain in line based on their upcoming academic or work obligations. From the other side, the cafeteria personnel experience increased workload, which can affect the preparation pace, communication, and overall service.
+
+From an observational standpoint, this domain includes entities such as customers, cafeteria staff, menu items, orders, payments, preparation, activities, and pickup events. Natural relationships exist among these entities, as customer selects one or more menu items, an order then aggregates the selected items associated with the customer. The cafeteria staff then prepare the items associated with the order, and payment must be completed before the order is released. The availability of menu items could change over time, based on inventory levels and preparations constraints.
+
+Environmental factors such as time of day, academic calendar events, present staff, and the physical layout of the cafeteria further influence the service performance and waiting times for the customer. These real world characteristics shape how the cafeteria operations unfold without the support of any software system.
+
+Understanding these domain dynamics, including the formation of a queue, the time demand, preparation variability, and capacity limitations, provides the necessary foundation for a further requirement analysis, architectural design, and system development activities.
+
 ==== 2.1.5 Events, Actions, and Behaviors
 
+This section distinguishes between *events*, *actions*, and *behaviors* in the cafeteria domain. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an intentional act by an actor (action), and what emerges as a process or recurring pattern over time (behavior).
+
+There is a difference between:
+
+* the moment from which a student has just become a member of the queue (event),
+* the act of becoming a member of the queue (action),
+* and the process consisting of various smaller actions that together make up "becoming a member" during a service period (behavior).
+
+===== Events (Observable Moments)
+
+An *event* is an observable "just happened" moment: a point in time at which the domain state has changed. Events are useful to describe transitions and to connect domain observations to later requirements and system representations.
+
+Examples (from Section 2.1.2):
+
+* *Student Has Just Joined the Queue* — the moment a student enters the line.
+* *Order Has Just Been Placed* — the moment the student's request is communicated to staff.
+* *Payment Has Just Failed* — the moment a payment attempt does not complete successfully.
+* *Meal Has Just Been Prepared* — the moment the meal becomes ready for pickup.
+* *Student Has Just Left the Queue Without Ordering* — the moment the student abandons the line.
+
+Each event captures a transition moment that can be observed directly in the cafeteria environment.
+
+===== Actions (Acts Performed by Actors)
+
+An *action* is an intentional act performed by an actor (student or cafeteria staff) that changes the state of the domain. Actions often lead to events. Multiple actions may be required before a particular event becomes observable.
+
+Examples (from Section 2.1.2):
+
+* *Order Placement* — the act of selecting menu items and communicating the request to cafeteria staff.
+* *Payment* — the act of attempting to complete a transaction at the counter.
+* *Meal Preparation* — the act of producing meals in advance or in response to incoming orders.
+* *Meal Pickup* — the act of receiving the prepared meal.
+
+Actions describe what participants do, while events describe the moment we can observe the outcome of those actions.
+
+===== Behaviors (Processes and Patterns Over Time)
+
+A *behavior* is a process or recurring pattern that unfolds over time and is composed of multiple actions and events. Behaviors describe how the cafeteria operates under certain conditions, especially during peak hours.
+
+Examples (from Section 2.1.2):
+
+* *Crowd Surge* — many students arrive in a short time span, creating long queues and pressure.
+* *Time-Constrained Decision Making* — students evaluate waiting time versus their schedules and decide whether to stay or leave.
+* *Uncertain Demand Preparation* — staff prepare meals without precise near-term demand information.
+* *Service Bottleneck* — recurring slowdowns due to limited capacity in ordering, payment, or preparation.
+
+Behavior decomposition example:
+
+*Behavior:* Service Bottleneck (payment)  
+*Actions involved:* Payment attempts, staff troubleshooting, repeated retries  
+*Events observed:* Payment Has Just Failed; Student Has Just Left the Queue Without Ordering  
+*Outcome:* increased waiting time and reduced service throughput
+
+===== Why This Distinction Matters
+
+This distinction supports later requirements and testing work:
+
+* Events identify the exact moments when state changes occur (useful for tracking and notification requirements later).
+* Actions describe what users and staff do (useful for defining system interactions and responsibilities).
+* Behaviors capture the recurring patterns that drive the main problem (long waiting times), especially during peak periods.
+
 ==== 2.1.6 Function Signatures
+
+This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.
+
+* **User Registration**
+To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
+`registerUser : UserDatabase >< UserDetails -> UserDatabase >< (Option UserProfile)`
+
+* **Browsing the Menu**
+Retrieving the available food items requires access to the active menu catalog.
+`viewMenu : MenuCatalog -> List(MenuItem)`
+
+* **Managing the Cart**
+When a customer adds an item, the operation alters the local state of their cart rather than the global database, minimizing dependencies.
+`addItemToCart : Cart >< MenuItem >< Quantity -> Cart`
+
+* **Placing an Order**
+Placing an order requires the current cart, the customer details, and the global order records. If items are out of stock or the cart is invalid, the operation might fail, returning an `Option` for the generated order.
+`placeOrder : OrderRecords >< Cart >< Customer -> OrderRecords >< (Option Order)`
+
+* **Processing Payments**
+This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
+`processPayment : PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
+
+* **Updating Order Status**
+As cafeteria staff prepare the food, they update the order's progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
+`updateOrderStatus : ActiveOrderList >< OrderID >< Status -> ActiveOrderList`
+
+* **Canceling an Order**
+If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
+`cancelOrder : OrderRecords >< OrderID -> OrderRecords >< (Option RefundStatus)`
 
 ==== 2.2 Requirements
 
@@ -363,22 +486,27 @@ These relationships demonstrate that the terminology defined in Section 2.1.2 is
 ==== Epics
 
 ===== Student Meal Access
+
 Students need a way to obtain food efficiently during short breaks between classes.
 
 ===== Peak-Hour Cafeteria Flow
+
 Cafeteria staff need to handle large numbers of students during peak hours without excessive congestion.
 
 ===== Reliable Cafeteria Service
+
 The cafeteria needs consistent operations to reduce delays and improve the overall cafeteria experience.
 
 ==== User Stories
 
 ===== As a Student 
+
 * I want to know what food options are available, so that I can decide whether waiting fits my schedule.
 
 * I want to spend less time waiting for food, so that I can arrive on time to my next class.
 
 ===== As a Cafeteria Staff Member
+
 * I want better awareness of incoming demand, so that I can prepare meals more efficiently.
 
 * I want service to remain steady during busy periods, so that crowds are reduced.
@@ -386,22 +514,132 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 ==== Features
 
 ===== Meal availability information
+
 * Supports students in understanding what meals are offered during a service period.
 
 ===== Order and payment handling
+
 * Supports the processing of student meal requests.
 
 ===== Demand awareness support
+
 * Supports cafeteria staff in anticipating peak-hour service needs and wants.
 
 ===== Service flow coordination
+
 * Supports smoother movement from ordering to meal pickup.
 
 ==== 2.2.2 Personas
 
 ==== 2.2.3 Domain Requirements
 
+* **DR-01: Order Composition**
+** *Domain Property:* A physical cafeteria order always consists of at least one food or beverage item.
+** *Domain Requirement:* The system must associate every order with a non-empty set of menu items.
+
+* **DR-02: Item Availability**
+** *Domain Property:* Food ingredients and prepared items in the cafeteria have limited daily physical availability.
+** *Domain Requirement:* The system must provide means to prevent a customer from adding an out-of-stock menu item to their order.
+
+* **DR-03: Order Ownership**
+** *Domain Property:* Every food order is requested by a specific person in the cafeteria.
+** *Domain Requirement:* The system must associate every placed order with the specific customer who initiated it.
+
+* **DR-04: Order Preparation Lifecycle**
+** *Domain Property:* The physical preparation of an order progresses through distinct stages in the kitchen.
+** *Domain Requirement:* The system must provide means for cafeteria staff to update and track the physical preparation stage of an order.
+
+* **DR-05: Pricing and Total Calculation**
+** *Domain Property:* Every physical menu item sold in the cafeteria has an established price, and an order's total cost is the sum of these items.
+** *Domain Requirement:* The system must provide means to calculate the total price of an order based strictly on the individual prices of the selected menu items.
+
+* **DR-06: Order Fulfillment**
+** *Domain Property:* A customer cannot pick up their food until the cafeteria kitchen staff has finished preparing it.
+** *Domain Requirement:* The system must provide means to communicate to the customer when their specific order has transitioned to the "ready for pickup" state.
+
 ==== 2.2.4 Interface Requirements
+
+Interface requirements describe how *shared phenomena and concepts* in the cafeteria domain are represented inside the Cafeteria Ordering System, and how those representations are initialized, updated, corrected, and constrained. In other words, they define how the system crosses the boundary between the outside world (the cafeteria domain) and the system's internal data model.
+
+In this project, key domain concepts that must be represented in the system include: Menu, Meal, Order, Payment choice, Meal Preparation status, and Meal Pickup status (see domain terminology in Section 2.1.2). The interface requirements below capture how these concepts enter the system, how they remain consistent when the domain changes, and what information can or cannot be modified once recorded.
+
+===== Interface Requirement Set
+
+The requirements in this section use the convention IR-2.2.4-X.
+
+====== IR-2.2.4-1 Menu representation initialization
+
+The system shall provide a means for authorized cafeteria staff to initialize the menu representation inside the system, including creating menu items and assigning prices and categories.
+
+====== IR-2.2.4-2 Menu representation update
+
+The system shall provide a means for authorized cafeteria staff to update menu item information when the domain changes, including updating price, description, and category.
+
+====== IR-2.2.4-3 Availability synchronization
+
+The system shall provide a means for authorized cafeteria staff to mark menu items as available or unavailable to reflect real-world availability changes (e.g., sold out, not prepared today).
+
+====== IR-2.2.4-4 Customer menu visibility
+
+The system shall provide a means for customers to view the current menu representation and availability status through the application interface.
+
+====== IR-2.2.4-5 Order creation from domain observation
+
+The system shall provide a means for a customer to create an order representation by selecting menu items and quantities through the application interface.
+
+====== IR-2.2.4-6 Order modification before submission
+
+The system shall provide a means for a customer to edit an order representation before submission (e.g., add/remove items, change quantities), so incorrect or incomplete entries can be corrected prior to placing the order.
+
+====== IR-2.2.4-7 Order submission and confirmation
+
+The system shall provide a means for a customer to submit an order and receive confirmation that the system has recorded the order representation.
+
+====== IR-2.2.4-8 Payment method capture and constraints
+
+The system shall provide a means for a customer to indicate a payment method option (e.g., pay at register or pay in app, if supported).
+
+If an order is submitted, the system shall restrict changes to the recorded payment option unless an explicitly supported correction path exists (e.g., cancellation and re-submission), to preserve consistency and avoid operational confusion.
+
+====== IR-2.2.4-9 Order status synchronization (staff side)
+
+The system shall provide a means for authorized cafeteria staff to update the internal order status representation to reflect real-world progression (e.g., order is being prepared, order is ready for pickup, order has been picked up, order cancelled).
+
+====== IR-2.2.4-10 Order status visibility (customer side)
+
+The system shall provide a means for the customer to view the current order status representation through the application interface.
+
+====== IR-2.2.4-11 Correction after submission (controlled editing)
+
+After an order is submitted, the system shall either:
+(a) disallow customer edits to order contents, or
+(b) restrict customer edits to explicitly defined operations (e.g., cancellation within an allowed window),
+so the internal representation remains consistent with cafeteria operations.
+
+Any staff-side changes to a submitted order representation (if supported) shall be restricted to explicitly defined operations and should be traceable (e.g., include reason or note), to prevent silent corruption of the internal record.
+
+====== IR-2.2.4-12 Immutable identifiers and record integrity
+
+The system shall assign each submitted order a stable identifier.
+
+The system shall ensure core properties of a submitted order record remain stable (at minimum: order identifier and submission timestamp), except through explicitly defined correction operations, to support auditability and coordination between customers and cafeteria staff.
+
+====== IR-2.2.4-13 Interface decomposition note
+
+Some requirements that appear to be interface-only include both interface and non-interface aspects. For example, “the system supports creating an order” includes:
+* An interface requirement aspect: the system provides UI mechanisms for customers to select items and submit an order.
+* A non-interface aspect: the system creates and stores an internal order representation and enforces rules.
+
+This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.
+
+===== Derived questions used to identify interface requirements
+
+The interface requirements above were derived by identifying domain concepts that must be represented in the system and then asking:
+
+* How is the internal representation first obtained (who enters it, through what interface)?
+* How is it kept up-to-date when the real-world phenomenon changes (e.g., availability, order status)?
+* What information can be corrected if entered incorrectly or incompletely?
+* What information should be restricted or immutable after submission to preserve integrity?
 
 ==== 2.2.5 Machine Requirements
 
@@ -593,8 +831,90 @@ Several machine requirements areas require additional research and stakeholder i
 All machine requirements will be validated through prototype performance testing, refined based on stakeholder feedback, and adjusted according to university infrastructure limitations and available resources. Changes to these requirements will be documented, version-controlled, and communicated to the project team to ensure alignment across all development activities.
 
 === 2.3 Implementation
+[NOTE]
+====
+Since the Cafeteria Ordering project is still in early development, the software platform has yet to be fully implemented. This means that pseudocode may also be used to help describe an implementation, but as the project continues getting programmed in the future, the selected fragment's codes might change. 
+====
+The Cafeteria Ordering project implements a client-server architecture using TypeScript as the programming language for the application layer, and React Native as the framework for it since it better fit the vision for the application. As for the backend and database layers, they are managed using Supabase and PostgreSQL for storing information like user accounts, menu items, all the orders and their status, among other items. Additionally, the application handles notifications using the Expo Notifications API, primarily notifying the users of important status information about their orders.
 
 ==== 2.3.1 Selected Fragments of the implementation
+
+To further add to the implementation of the project, the following selected fragments of the project were selected as  crucial parts of the application that will be explained using source code, diagrams and pseudocode explinations. 
+
+*Order Creation and Validation*
+
+As said in the name, ordering is the core part of the Cafeteria Ordering App. Therefore, our system must validate a list of processes that ultimately validates the user's order.
+
+The following code can help illustrate how the system currently handles this order processing logic:
+
+[source,text]
+----
+export async function createOrder(order: Order) {
+  const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
+
+  if (error) {
+    console.error('Error when creating order:', error.message)
+    return null
+  }
+
+  await Notifications.scheduleNotificationAsync({
+  content: {
+    title: 'Order Confirmed',
+    body: 'Your order has been successfully placed.',
+  },
+  trigger: null,
+})
+
+  return data
+}
+----
+In this brief source code, createOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. If there is an error such as the item not being in stock, an error will be displayed signaling that the order could not be completed, if it was completed, then the order will be placed!
+
+*Pickup Code/ Order Security*
+
+Along with our order creation and confirmation, to increase security and reduce or eliminate the possibility of order theft, the system will have a pickup code generator, shown with this pseudocode:
+[source,text]
+----
+function generateCode(order: Order)
+    code= randomnumberBetween (0001,9999)
+    order.update(id, {
+        pickupCode: code
+    })
+    return code
+----
+The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order. 
+
+*UI Design*
+
+The team designed all of the UI components for the project in a software designing platform called Figma. 
+[cols="a,a", frame=none, grid=none,align=center]
+|====
+|
+.Login Light mode
+image::designs/login_design/Login_light_mode.png[Light Mode,180,400]
+| 
+.Login Dark mode
+image::designs/login_design/Login_dark_mode.png[Dark mode,180,400]
+|====
+
+The project counts on a light mode and a dark mode, for personal preference, as seen in the images above, which is also the Log in page for the application.
+
+*_Staff View_* 
+
+To show how the staff mode will work on the application, here are the current designs of the staff pages:
+[cols="a,a", frame=none, grid=none,align=center]
+|====
+|
+.Opened orders Page for Staff
+image::designs/staff_view_order_design/images/opened_orders_page.png[Light Mode,348,586]
+| 
+.Staff Unread order
+image::designs/staff_view_order_design/images/unread_order_expanded.png[Dark mode,348,586]
+|====
+
+In Figure 3, all orders that are open and currently being worked on appear on this page. This UI is similar to the unread and finished orders page, having this simple and straightforward design for all the orders helps the staff without complicating processes.
+
+Additionally, in Figure 4, we can see how the staff can see the order details once an order is submitted, and can open or close the order due to any particular reason. 
 
 == Analytic Part
 
@@ -631,6 +951,47 @@ The following concepts were sourced from the rough domain sketch, that was creat
 * *queue:* for this term, qualifiers must be added to separate them from each other. If referring to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise, if referring to the position of the order a customer placed, order queue must be used.
 
 === 3.2 Validation and Verification
+
+==== 3.2.1 Validation
+
+*Scenario Walkthroughs (Ongoing)*
+ 
+* The team will walkthrough some scenarios with prospective stakeholders (students and cafeteria staff) to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:
+
+** Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.
+
+* After walkthroughs, any mismatches or missing steps will lead to updated domain concepts and requirements.
+
+*Terminology and Concept Validation (Ongoing)*  
+
+* Through internal reviews and discussions we have already identified and resolved terminology conflicts (for example, student vs. customer, and customer queue vs. order queue).  
+* Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.
+
+*Use of Research (Ongoing)*  
+
+* Existing and future research on technologies and cafeteria operations serves on ensuring that proposed solutions such as pre‑ordering and remote payment are realistic and are then incorporated into future scenarios for stakeholder feedback.
+
+==== 3.2.2 Verification
+
+*Consistency and Completeness Reviews (Ongoing)* 
+
+* Reviews will be done by Documentation Team Leader and Managers to verify that:  
+** Requirements and user stories only use defined terms or introduce new ones deliberately.  
+** Each requirement supports at least one stakeholder need or goal stated earlier in the document.  
+** All key flows from the rough sketch (ordering, payment, preparation, pickup, leaving the queue) appear in at least one user story or feature.
+* Peer review by other team members will also be used to verify that the documentation is clear, consistent, and complete.
+
+*Test Planning and Documentation Verification (Ongoing)*
+
+* The defined test types, such as unit, integration, system, acceptance, non‑functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.
+* Risk-based testing will be used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.
+* Documentation testing will compare implemented behavior against requirements and acceptance criteria.
+
+*Automated Verification via Continuous Integration (Ongoing)*
+
+* For the current testing phase, continuous integration will focus on build validation to ensure the repository installs and builds successfully on every pull request.  
+* As unit and integration tests are added, they will be included in the Auto‑Test Suite so that breaking changes cannot be merged into the main branch.
+
 
 == Specific Class Topics
 
@@ -719,4 +1080,41 @@ The current configuration demonstrates that:
 By applying BDD and integrating Cucumber into the repository, the project establishes a clear path from stakeholder requirements to executable behavioral specifications. Even though full step-definition implementation will occur in Milestone 2, the current setup ensures alignment between requirements, documentation, and automated testing infrastructure, satisfying the academic requirements for BDD tool integration.
 
 === 4.3 User of Debugging
+=== 4.3 Use of Debugging
+
+For the purposes of demonstrating the use of debugger in the project we ran the project template that was created by the setup team at this first stage of the project as the team has not yet started coding features and is focusing on domain knowlegde aquisition, requirements and creating the test plan and strategies that will be the foundation of the project. Nevertheless, we still tested core functionality that has been worked on, the best example of this is the connection to the database.
+
+==== Use of debugging in supabase connection
+
+===== *Environment variables*
+
+We used the debugger to verify that the enviroment variables (database url and key) named *_supaAnonKey_* and *_supaBaseUrl_* are being read correctly with the script created by the research and setup team. We expected them to be read correctly and as presented in the following image the test database key and URL are read and stored temporarily for this test.
+
+
+.Image of vscode debugger watching variables supaAnonKey and supaBaseUrl
+image::images-m1/Supabase-test-debug-1a.png[Supabase credentials]
+
+==== *Session*
+
+For this next value we expect it to be null, as the database has not been filled for it to have users. In the image below we can see the value of "session" in the watch section of the debugger is null, which is what we expect. Proving there are no "users/clients" connected to this database system right now.
+
+.Debugger watching for the value of session variable to verify number of users connected at the time
+image::images-m1/Supabase-test-debug-1c.png[]
+
+==== Use of debugging in UI elements
+
+===== *Before activating component*
+
+For the UI elements we examined that the collapsible title component was changing states as it's supposed to. We added a conditional breakpoint to the collapsible component function and specified to only break when the title had the value "filter-based routing", this means that only when clicking a collapsible element with this title will activate the breakpoint and stop the execution of the application; To understand the function of this component further we added *_isOpen_* boolean variable to the watchpoint list of the debugger. We hypothesize that the value would be false when title is collapsed and true when value is set to true. In the example image below, we can see that the value of *_isOpen_* is set to false and a visual inspection of it shows that it is currently "closed".
+
+
+.Debugger with a conditional breakpoint on collapsible title watching for the value of the attribute isOpen
+image::images-m1/UI-debug-example1a.png[]
+
+===== *After activating component*
+
+After activating the collapsible title component with the correct title, the function executes and we notice that the value of the variable *_isOpen_* is now set to true. This is the value we expect when the collapsible title is expanded. An image of this value in the debugger and the application running presented below.
+
+.Using debugger to watch for the isOpen attribute value to change to 'true'
+image::images-m1/UI-debug-example1b.png[]
 

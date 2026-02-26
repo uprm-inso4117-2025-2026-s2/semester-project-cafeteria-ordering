@@ -1,0 +1,84 @@
+# Research & Implementation: Offline Support
+
+== Objective
+Research and implement offline support for the Cafeteria Ordering System to ensure the application remains usable during network interruptions. This aims to improve reliability and user experience by allowing critical frontend functionality to work gracefully when connectivity is limited or unavailable.
+
+== Research
+Offline support in mobile applications is essential for providing a seamless user experience, especially in environments with unreliable connectivity. In the context of React Native + Expo, implementing robust offline capabilities involves a combination of architectural decisions, technology choices, and UX patterns. Below is an expanded research overview:
+
+=== 1. Data Storage and Caching
+* **Local Storage:** Use solutions like AsyncStorage (built-in, simple API), MMKV (high performance), or WatermelonDB (for complex, relational data) to persist data locally. This allows the app to display cached content (e.g., menu, previous orders) even when offline.
+* **State Persistence:** Libraries such as redux-persist or Zustand middleware can automatically persist and rehydrate application state, ensuring continuity across sessions and network changes.
+
+=== 2. Synchronization Strategies
+* **Queued Actions:** When offline, user actions (e.g., placing an order) are stored in a local queue. Upon reconnection, these actions are synchronized with the backend. This can be implemented manually or with libraries like redux-offline or react-query's mutation cache.
+* **Background Sync:** While true service workers are not available in React Native, background tasks can be scheduled using Expo Task Manager or react-native-background-fetch to attempt syncs when connectivity is restored.
+* **Conflict Resolution:** Strategies include last-write-wins, client-wins, or prompting the user to resolve conflicts. The choice depends on the criticality of the data and backend support for idempotency.
+
+=== 3. Network Status Detection
+* **Connectivity Awareness:** Use Expo's NetInfo or @react-native-community/netinfo to monitor network status. This enables the app to switch between online and offline modes, and to provide real-time feedback to users.
+
+=== 4. UI/UX Patterns for Offline Mode
+* **Feedback:** Clearly indicate when the app is offline (e.g., banners, icons) and which features are limited.
+* **Optimistic UI:** Allow users to interact with the app as if online, queuing actions for later sync. Show pending states for actions that are not yet confirmed by the server.
+* **Error Handling:** Gracefully handle failed requests, retries, and inform users about unsynced data.
+
+=== 5. Security and Data Integrity
+* **Sensitive Data:** Encrypt sensitive information stored locally, especially if using shared devices.
+* **Data Validation:** Validate data both client-side and server-side to prevent corruption or malicious input during sync.
+
+=== 6. Scalability and Maintainability
+* **Modular Design:** Isolate offline logic (caching, sync, conflict resolution) from UI components for easier testing and maintenance.
+* **Testing:** Simulate offline scenarios during development using device/network tools and automated tests.
+
+=== 7. Limitations and Challenges
+* **Real-Time Features:** Some features (e.g., live order status, payments) may not be feasible offline and should degrade gracefully.
+* **Data Size:** Large datasets may impact device storage and performance; implement cache limits and eviction policies.
+* **Backend Support:** The backend (e.g., Supabase) must support idempotent operations and handle out-of-order requests for reliable sync.
+
+== Features to Support Offline Behavior
+* Viewing previous orders (cached locally)
+* Browsing menu items (cached data)
+* Saving pending actions (e.g., placing an order) for later sync
+* User authentication state persistence
+
+== Proposed Offline Handling Strategy
+* **Data Caching:**
+	- Use AsyncStorage to cache menu data and previous orders.
+* **Pending Actions:**
+	- Store actions (e.g., new orders) locally when offline, and sync when online.
+* **Network Status Detection:**
+	- Use Expo's NetInfo to monitor connectivity and update UI accordingly.
+* **Sync Strategy:**
+	- On reconnection, attempt to sync pending actions and refresh cached data.
+
+== Initial Implementation / Proof of Concept
+* Implemented a basic NetInfo hook to detect online/offline status.
+* Cached menu data and previous orders using AsyncStorage.
+* Pending orders are stored locally and synced when connection is restored.
+
+== Documentation & Limitations
+* Offline support is limited to core features (viewing menu, previous orders, placing orders).
+* Some features (e.g., real-time updates, payment processing) require connectivity.
+* Data conflicts may occur if multiple changes are made offline; current strategy is last-write-wins.
+* Assumptions: Users will eventually reconnect to sync data; backend supports idempotent operations.
+
+== References
+* [Expo Offline Docs](https://docs.expo.dev/versions/latest/sdk/offline/)
+* [React Native Offline Patterns](https://reactnative.dev/docs/offline-support)
+* [Supabase Offline Considerations](https://supabase.com/docs/guides/faq#can-i-use-supabase-offline)
+* [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)
+* [MMKV Storage](https://github.com/mrousavy/react-native-mmkv)
+* [WatermelonDB](https://watermelondb.dev/)
+* [redux-offline](https://github.com/redux-offline/redux-offline)
+* [react-query](https://tanstack.com/query/latest/docs/react-native/overview)
+* [Expo Task Manager](https://docs.expo.dev/versions/latest/sdk/task-manager/)
+* [NetInfo](https://github.com/react-native-netinfo/react-native-netinfo)
+
+== Acceptance Criteria
+* Research on offline support strategies for React Native + Expo is documented
+* Clear definition of which frontend features support offline behavior
+* Offline handling strategy is proposed and justified
+* Initial implementation or proof of concept is completed (if applicable)
+* Documentation is added explaining offline behavior and limitations
+* Ready for review
