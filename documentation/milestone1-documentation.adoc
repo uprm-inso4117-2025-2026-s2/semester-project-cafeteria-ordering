@@ -5,9 +5,11 @@
 === 1.1 Team
 
 ==== Team Structure
+
 The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division's primary objectives.
 
 ==== Managers
+
 The overall coordination of the project is led by:
 
 * Alma D. Piñero-Calero
@@ -120,6 +122,7 @@ If external partners become involved in later phases, their roles and responsibi
 === 1.2 Current Situtation, needs, ideas
 
 ==== 1.2.1 Current Situation
+
 Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, as there is no existing infrastructure for pre-ordering or remote payment. Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.
 
 ==== 1.2.2 Needs
@@ -323,6 +326,7 @@ A pattern where cafeteria staff prepare meals without precise knowledge of near-
 
 Service Bottleneck :: (behavior, domain)
 A recurring slowdown caused by limited capacity in ordering, payment, or preparation.
+
 ==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch
 
 This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.
@@ -480,22 +484,27 @@ If a customer or staff member cancels an order, the system must reverse the tran
 ==== Epics
 
 ===== Student Meal Access
+
 Students need a way to obtain food efficiently during short breaks between classes.
 
 ===== Peak-Hour Cafeteria Flow
+
 Cafeteria staff need to handle large numbers of students during peak hours without excessive congestion.
 
 ===== Reliable Cafeteria Service
+
 The cafeteria needs consistent operations to reduce delays and improve the overall cafeteria experience.
 
 ==== User Stories
 
 ===== As a Student 
+
 * I want to know what food options are available, so that I can decide whether waiting fits my schedule.
 
 * I want to spend less time waiting for food, so that I can arrive on time to my next class.
 
 ===== As a Cafeteria Staff Member
+
 * I want better awareness of incoming demand, so that I can prepare meals more efficiently.
 
 * I want service to remain steady during busy periods, so that crowds are reduced.
@@ -503,15 +512,19 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 ==== Features
 
 ===== Meal availability information
+
 * Supports students in understanding what meals are offered during a service period.
 
 ===== Order and payment handling
+
 * Supports the processing of student meal requests.
 
 ===== Demand awareness support
+
 * Supports cafeteria staff in anticipating peak-hour service needs and wants.
 
 ===== Service flow coordination
+
 * Supports smoother movement from ordering to meal pickup.
 
 ==== 2.2.2 Personas
@@ -553,38 +566,49 @@ In this project, key domain concepts that must be represented in the system incl
 The requirements in this section use the convention IR-2.2.4-X.
 
 ====== IR-2.2.4-1 Menu representation initialization
+
 The system shall provide a means for authorized cafeteria staff to initialize the menu representation inside the system, including creating menu items and assigning prices and categories.
 
 ====== IR-2.2.4-2 Menu representation update
+
 The system shall provide a means for authorized cafeteria staff to update menu item information when the domain changes, including updating price, description, and category.
 
 ====== IR-2.2.4-3 Availability synchronization
+
 The system shall provide a means for authorized cafeteria staff to mark menu items as available or unavailable to reflect real-world availability changes (e.g., sold out, not prepared today).
 
 ====== IR-2.2.4-4 Customer menu visibility
+
 The system shall provide a means for customers to view the current menu representation and availability status through the application interface.
 
 ====== IR-2.2.4-5 Order creation from domain observation
+
 The system shall provide a means for a customer to create an order representation by selecting menu items and quantities through the application interface.
 
 ====== IR-2.2.4-6 Order modification before submission
+
 The system shall provide a means for a customer to edit an order representation before submission (e.g., add/remove items, change quantities), so incorrect or incomplete entries can be corrected prior to placing the order.
 
 ====== IR-2.2.4-7 Order submission and confirmation
+
 The system shall provide a means for a customer to submit an order and receive confirmation that the system has recorded the order representation.
 
 ====== IR-2.2.4-8 Payment method capture and constraints
+
 The system shall provide a means for a customer to indicate a payment method option (e.g., pay at register or pay in app, if supported).
 
 If an order is submitted, the system shall restrict changes to the recorded payment option unless an explicitly supported correction path exists (e.g., cancellation and re-submission), to preserve consistency and avoid operational confusion.
 
 ====== IR-2.2.4-9 Order status synchronization (staff side)
+
 The system shall provide a means for authorized cafeteria staff to update the internal order status representation to reflect real-world progression (e.g., order is being prepared, order is ready for pickup, order has been picked up, order cancelled).
 
 ====== IR-2.2.4-10 Order status visibility (customer side)
+
 The system shall provide a means for the customer to view the current order status representation through the application interface.
 
 ====== IR-2.2.4-11 Correction after submission (controlled editing)
+
 After an order is submitted, the system shall either:
 (a) disallow customer edits to order contents, or
 (b) restrict customer edits to explicitly defined operations (e.g., cancellation within an allowed window),
@@ -593,11 +617,13 @@ so the internal representation remains consistent with cafeteria operations.
 Any staff-side changes to a submitted order representation (if supported) shall be restricted to explicitly defined operations and should be traceable (e.g., include reason or note), to prevent silent corruption of the internal record.
 
 ====== IR-2.2.4-12 Immutable identifiers and record integrity
+
 The system shall assign each submitted order a stable identifier.
 
 The system shall ensure core properties of a submitted order record remain stable (at minimum: order identifier and submission timestamp), except through explicitly defined correction operations, to support auditability and coordination between customers and cafeteria staff.
 
 ====== IR-2.2.4-13 Interface decomposition note
+
 Some requirements that appear to be interface-only include both interface and non-interface aspects. For example, “the system supports creating an order” includes:
 * An interface requirement aspect: the system provides UI mechanisms for customers to select items and submit an order.
 * A non-interface aspect: the system creates and stores an internal order representation and enforces rules.
