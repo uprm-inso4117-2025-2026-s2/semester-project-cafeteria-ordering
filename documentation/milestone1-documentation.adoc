@@ -838,11 +838,15 @@ function generateCode(order: Order)
     return code
 ----
 The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order. 
+
 *UI Design*
 
 The team designed all of the UI components for the project in a software designing platform called Figma. 
-.Login Light Mode
-image:designs/login_design/Login_light_mode.png[]
+[cols="a,a", frame=none, grid=none]
+|====
+| image:designs/login_design/Login_light_mode.png[]
+| image:designs/login_design/Login_dark_mode.png[]
+|====
 == Analytic Part
 
 === 3.1 Concept Analysis
