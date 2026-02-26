@@ -1,0 +1,291 @@
+= System Feedback & Error State Patterns
+:toc:
+:toclevels: 3
+:icons: font
+:sectnums:
+:imagesdir: assets
+
+== Overview
+
+This document defines how the system communicates:
+
+* Errors
+* Success states
+* Confirmations
+* Loading states
+* Disabled states
+
+These patterns apply consistently across both Customer and Staff interfaces.
+
+Goal: improve clarity, reduce confusion, prevent accidental actions, and reinforce user trust.
+
+All feedback patterns:
+
+* Use the approved color palette
+* Follow typography guidelines (Bitter for headings, Inter for body)
+* Maintain accessibility and strong contrast
+* Preserve layout stability (no unexpected shifts)
+
+== Feedback Principles
+
+=== Clarity Over Decoration
+
+Feedback must clearly answer:
+
+* What happened?
+* Why did it happen?
+* What should the user do next?
+
+=== Consistency
+
+The same interaction type must always use the same structure.
+Only semantic color changes (success, error, warning, info).
+
+=== Appropriate Disruption Level
+
+Low risk → Inline confirmation or banner +
+optional Undo
+
+Medium risk → Confirmation modal
+
+High risk → Destructive modal with explicit confirmation
+
+== Form Validation States
+
+Used in:
+
+* Login
+* Sign Up
+* Payment
+* Profile forms
+
+Error styling:
+
+* 2px red border (#D32F2F)
+* Red helper text below field
+* Optional error icon inside field
+
+Success styling:
+
+* Subtle green border (#43A047)
+* Optional success icon
+* Minimal helper text (“Looks good.”)
+
+Disabled input styling:
+
+* Muted background
+* Reduced contrast text
+* Non-interactive
+
+=== When it appears
+
+* On form submit attempt when required fields are invalid
+* On field blur (optional) if validation is enabled
+* After async/server validation returns an error
+
+=== Rules
+
+* Error messages must be specific and actionable.
+* Avoid vague messages like “Invalid input.”
+* Do not rely on color alone — include text.
+
+=== PNG Preview
+
+image::form-validation-light.png[Form Validation (Light)]
+image::form-validation-dark.png[Form Validation (Dark)]
+
+== Loading States
+
+Loading indicators communicate async processing without disrupting layout.
+
+=== When it appears
+
+* Immediately after user triggers async action (payment, save, submit)
+* While awaiting API response to prevent duplicate submissions
+* When user must wait before continuing (full-page processing)
+
+=== Button Loading
+
+* Spinner replaces icon, not label
+* Button width remains constant
+* Button becomes disabled while processing
+
+=== Full Page / Section Loading
+
+* Centered spinner
+* Clear status message (e.g., “Processing payment…”)
+* Optional reassurance text
+
+=== Rules
+
+* Avoid blocking entire page unless necessary
+* Prevent duplicate submissions during loading
+* Motion must remain subtle
+
+=== PNG Preview
+
+image::loading-states-light.png[Loading States (Light)]
+image::loading-states-dark.png[Loading States (Dark)]
+
+== Disabled Buttons
+
+Explicit disabled pattern (standalone).
+
+Light mode example: muted background, no hover, not focusable.
+Disabled state must not rely on opacity alone.
+
+=== When it appears
+
+* Required fields are incomplete or invalid
+* Action is currently processing (loading + disabled)
+* User lacks permission for the action
+
+=== Rules
+
+* Disabled state must not rely on opacity alone
+* Remove hover + focus styles
+* Maintain readable contrast
+
+=== PNG Preview
+
+image::disabled-buttons-light.png[Disabled Buttons (Light)]
+image::disabled-buttons-dark.png[Disabled Buttons (Dark)]
+
+== Confirmation Modals
+
+Used for medium/high risk actions.
+
+Examples:
+
+* Cancel order
+* Delete account
+* Irreversible changes
+
+Structure:
+
+* Clear action question
+* Short consequence explanation
+* Secondary safe action (Cancel / Keep)
+* Primary or destructive action
+
+=== When it appears
+
+* Before irreversible or high-impact actions
+* When accidental triggers could cause meaningful confusion or loss
+* Not recommended for low-risk staff actions (prefer inline confirmation)
+
+=== Rules
+
+* Destructive actions use red primary
+* Non-destructive confirmations use green primary
+* Modal uses consistent spacing (24px padding, 12px radius)
+* Semantic color is the only variable element
+
+=== PNG Preview
+
+image::confirmation-modal-light.png[Confirmation Modal (Light)]
+image::confirmation-modal-dark.png[Confirmation Modal (Dark)]
+
+== Staff Confirmation (Low Risk)
+
+Preferred pattern for low-risk staff actions (e.g., “Mark as completed”).
+
+=== When it appears
+
+* After staff completes low-risk action
+* When confirmation should not interrupt workflow
+* Optionally provide short “Undo” window
+
+Pattern:
+
+* Inline update row
+* Optional Undo action
+* Temporary success banner
+
+=== Rules
+
+* Avoid disruptive modal for low-risk actions
+* Keep confirmation short and contextual
+
+=== PNG Preview
+
+image::staff-confirmation-light.png[Staff Confirmation (Light)]
+image::staff-confirmation-dark.png[Staff Confirmation (Dark)]
+
+== Payment Feedback Screens
+
+Structured state screens (not small alerts).
+
+=== When it appears
+
+* After a payment attempt finishes (success or failure)
+* When user must clearly understand outcome before continuing
+* When next steps require a primary action
+
+=== Success State
+
+* Centered success icon
+* Bitter heading
+* Concise confirmation message
+* Clear primary action (e.g., View Order)
+
+=== Failure State
+
+* Centered error icon
+* Clear explanation
+* Primary action (Try Again)
+* Secondary action (Change Method)
+
+=== Rules
+
+* Always provide a next step
+* Never leave user without actionable path
+
+=== PNG Preview
+
+image::payment-feedback-light.png[Payment Feedback (Light)]
+image::payment-feedback-dark.png[Payment Feedback (Dark)]
+
+== Inline Alert Banners
+
+Used for non-blocking system messages.
+
+Variants:
+
+* Error (red tint)
+* Success (green tint)
+* Warning (yellow tint)
+* Info (blue tint)
+
+=== When it appears
+
+* After async failures or warnings (e.g., payment failed, session expiring)
+* For system-wide status messages not requiring a dedicated screen
+* For low-risk staff confirmations (prefer non-intrusive patterns)
+
+=== Structure
+
+* Left icon column
+* Heading (Inter Medium 16px)
+* Body (Inter 14–16px)
+* Soft tinted background
+* Strong readable contrast
+
+=== Rules
+
+* Alerts must not interrupt workflow
+* Use modals only when user decision is required
+
+=== PNG Preview
+
+image::inline-alerts-light.png[Inline Alerts (Light)]
+image::inline-alerts-dark.png[Inline Alerts (Dark)]
+
+== Acceptance Criteria Mapping
+
+* [x] Error and success states are visually defined
+* [x] Confirmation modal style is standardized
+* [x] Loading indicators are defined
+* [x] Disabled buttons are defined
+* [x] Documentation includes usage rules
+* [x] Ready for design review approval
