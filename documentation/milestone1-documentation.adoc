@@ -502,6 +502,30 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 
 ==== 2.2.3 Domain Requirements
 
+* **DR-01: Order Composition**
+** *Domain Property:* A physical cafeteria order always consists of at least one food or beverage item.
+** *Domain Requirement:* The system must associate every order with a non-empty set of menu items.
+
+* **DR-02: Item Availability**
+** *Domain Property:* Food ingredients and prepared items in the cafeteria have limited daily physical availability.
+** *Domain Requirement:* The system must provide means to prevent a customer from adding an out-of-stock menu item to their order.
+
+* **DR-03: Order Ownership**
+** *Domain Property:* Every food order is requested by a specific person in the cafeteria.
+** *Domain Requirement:* The system must associate every placed order with the specific customer who initiated it.
+
+* **DR-04: Order Preparation Lifecycle**
+** *Domain Property:* The physical preparation of an order progresses through distinct stages in the kitchen.
+** *Domain Requirement:* The system must provide means for cafeteria staff to update and track the physical preparation stage of an order.
+
+* **DR-05: Pricing and Total Calculation**
+** *Domain Property:* Every physical menu item sold in the cafeteria has an established price, and an order's total cost is the sum of these items.
+** *Domain Requirement:* The system must provide means to calculate the total price of an order based strictly on the individual prices of the selected menu items.
+
+* **DR-06: Order Fulfillment**
+** *Domain Property:* A customer cannot pick up their food until the cafeteria kitchen staff has finished preparing it.
+** *Domain Requirement:* The system must provide means to communicate to the customer when their specific order has transitioned to the "ready for pickup" state.
+
 ==== 2.2.4 Interface Requirements
 
 Interface requirements describe how *shared phenomena and concepts* in the cafeteria domain are represented inside the Cafeteria Ordering System, and how those representations are initialized, updated, corrected, and constrained. In other words, they define how the system crosses the boundary between the outside world (the cafeteria domain) and the system's internal data model.
