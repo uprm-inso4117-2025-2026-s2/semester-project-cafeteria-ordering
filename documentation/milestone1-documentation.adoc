@@ -356,6 +356,36 @@ These relationships demonstrate that the terminology defined in Section 2.1.2 is
 
 ==== 2.1.6 Function Signatures
 
+This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.
+
+* **User Registration**
+To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
+`registerUser : UserDatabase >< UserDetails -> UserDatabase >< (Option UserProfile)`
+
+* **Browsing the Menu**
+Retrieving the available food items requires access to the active menu catalog.
+`viewMenu : MenuCatalog -> List(MenuItem)`
+
+* **Managing the Cart**
+When a customer adds an item, the operation alters the local state of their cart rather than the global database, minimizing dependencies.
+`addItemToCart : Cart >< MenuItem >< Quantity -> Cart`
+
+* **Placing an Order**
+Placing an order requires the current cart, the customer details, and the global order records. If items are out of stock or the cart is invalid, the operation might fail, returning an `Option` for the generated order.
+`placeOrder : OrderRecords >< Cart >< Customer -> OrderRecords >< (Option Order)`
+
+* **Processing Payments**
+This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
+`processPayment : PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
+
+* **Updating Order Status**
+As cafeteria staff prepare the food, they update the order's progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
+`updateOrderStatus : ActiveOrderList >< OrderID >< Status -> ActiveOrderList`
+
+* **Canceling an Order**
+If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
+`cancelOrder : OrderRecords >< OrderID -> OrderRecords >< (Option RefundStatus)`
+
 ==== 2.2 Requirements
 
 ==== 2.2.1 User stories, epics, and features
