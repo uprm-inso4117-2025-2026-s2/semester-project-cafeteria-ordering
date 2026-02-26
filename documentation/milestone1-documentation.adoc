@@ -1,4 +1,15 @@
 = Cafeteria Ordering System
+:toc: macro
+
+University of Puerto Rico at Mayagüez +
+College of Engineering +
+Department of Computer Science and Engineering +
+
+Prof. Marko Schutz +
+INSO 4117-060 +
+Friday, February 27, 2026
+
+toc::[]
 
 == Informative Part
 
@@ -479,7 +490,7 @@ As cafeteria staff prepare the food, they update the order's progress (e.g., Pen
 If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
 `cancelOrder : OrderRecords >< OrderID -> OrderRecords >< (Option RefundStatus)`
 
-==== 2.2 Requirements
+=== 2.2 Requirements
 
 ==== 2.2.1 User stories, epics, and features
 
@@ -645,7 +656,7 @@ The interface requirements above were derived by identifying domain concepts tha
 
 This section defines the measurable, technical requirements that the Cafeteria Ordering System must satisfy. Unlike domain requirements (which describe what the system must do from a stakeholder perspective) or interface requirements (which describe how users interact with the system), machine requirements specify the performance, capacity, availability, and technical constraints the implemented system must meet. These requirements are currently under active development and will be refined as the project progresses through design, implementation, and testing phases.
 
-=== Performance Requirements
+==== Performance Requirements
 
 The system must satisfy specific performance criteria to ensure students can complete orders within their limited time between classes.
 
@@ -669,7 +680,7 @@ The system must satisfy specific performance criteria to ensure students can com
 
 *Normal load* is defined as system usage below 80% of the concurrent user capacity specified below. These measurements assume standard university WiFi with minimum 10 Mbps bandwidth and are measured from user action to interface confirmation.
 
-=== Availability and Reliability
+==== Availability and Reliability
 
 Availability requirements ensure the system remains accessible during critical meal periods.
 
@@ -699,7 +710,7 @@ Availability requirements ensure the system remains accessible during critical m
 
 Criteria for acceptable degradation during partial outages and specific recovery time objectives for various failure scenarios remain to be defined as the project progresses.
 
-=== Capacity Requirements
+==== Capacity Requirements
 
 Capacity requirements define the system's ability to handle varying user loads.
 
@@ -731,7 +742,7 @@ Capacity requirements define the system's ability to handle varying user loads.
 
 **When capacity is exceeded:** The system shall implement request queuing with appropriate user feedback about increased wait times. Users beyond capacity shall receive a friendly message indicating high traffic with suggestions to try again later or proceed to the in-person line. All capacity exceedance events shall be logged for capacity planning and future scaling decisions.
 
-=== Platform Requirements
+==== Platform Requirements
 
 Platform requirements specify the technical environment for system operation.
 
@@ -774,7 +785,7 @@ Security requirements protect user data and system integrity.
 | Staff access restricted to order management; students cannot access staff functions
 |===
 
-=== Traceability to Domain Needs
+==== Traceability to Domain Needs
 
 The machine requirements above derive directly from domain needs identified in Section 1.2.2.
 
@@ -794,7 +805,7 @@ The machine requirements above derive directly from domain needs identified in S
 | Concurrent users: 300; Remote ordering reduces physical queues
 |===
 
-=== Requirements Under Investigation
+==== Requirements Under Investigation
 
 Several machine requirements areas require additional research and stakeholder input before measurable criteria can be established.
 
@@ -826,7 +837,7 @@ Several machine requirements areas require additional research and stakeholder i
 | Milestone 2
 |===
 
-=== Evolution of Requirements
+==== Evolution of Requirements
 
 All machine requirements will be validated through prototype performance testing, refined based on stakeholder feedback, and adjusted according to university infrastructure limitations and available resources. Changes to these requirements will be documented, version-controlled, and communicated to the project team to ensure alignment across all development activities.
 
