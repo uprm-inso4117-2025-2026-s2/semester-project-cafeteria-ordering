@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "test:build": "npx expo export",
-    "ci-check": "npm run lint && npm run test:build"
+    "ci-check": "npm run lint && npm run test:build",
+    "test": "cucumber-js"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -43,6 +44,7 @@
     "react-native-worklets": "0.5.1"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^12.7.0",
     "@types/react": "~19.1.0",
     "dotenv": "^17.3.1",
     "eslint": "^9.25.0",
