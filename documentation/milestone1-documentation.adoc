@@ -821,35 +821,39 @@ The following concepts were sourced from the rough domain sketch, that was creat
 
 === 4.3 Use of Debugging
 
-For the purposes of demonstrating the use of debugger in the project we ran the projecet template that was created by the setup team at this first stage of the project as the team has not yet started coding features and is focusing on domain knowlegde aquisition, requirements and creating the test plan and strategies that will be the foundation of the project. Nevertheless we still tested core functionality that has been worked on, the best example of this is the connection to the database.
+For the purposes of demonstrating the use of debugger in the project we ran the project template that was created by the setup team at this first stage of the project as the team has not yet started coding features and is focusing on domain knowlegde aquisition, requirements and creating the test plan and strategies that will be the foundation of the project. Nevertheless, we still tested core functionality that has been worked on, the best example of this is the connection to the database.
 
 ==== Use of debugging in supabase connection
 
-===== *Enviroment variables*
+===== *Environment variables*
 
-We used the debugger to verify that the enviroment variables (database url and key) named *_supaAnonKey_* and *_supaBaseUrl_* are being read correctly with the script created by the research and setup team. We expected for them to be read correctly and as presented in the following image the test database key and url are read and stored temporarily for this test.
-image:images-m1/Supabase-test-debug-1a.png[]
+We used the debugger to verify that the enviroment variables (database url and key) named *_supaAnonKey_* and *_supaBaseUrl_* are being read correctly with the script created by the research and setup team. We expected them to be read correctly and as presented in the following image the test database key and URL are read and stored temporarily for this test.
+
+
+.Image of vscode debugger watching variables supaAnonKey and supaBaseUrl
+image::images-m1/Supabase-test-debug-1a.png[Supabase credentials]
 
 ==== *Session*
 
 For this next value we expect it to be null, as the database has not been filled for it to have users. In the image below we can see the value of "session" in the watch section of the debugger is null, which is what we expect. Proving there are no "users/clients" connected to this database system right now.
 
-image:images-m1/Supabase-test-debug-1c.png[]
-
+.Debugger watching for the value of session variable to verify number of users connected at the time
+image::images-m1/Supabase-test-debug-1c.png[]
 
 ==== Use of debugging in UI elements
 
 ===== *Before activating component*
 
-For the UI elements we examined that the collapsible title component was changing states as it's supposed to. We added a conditional breakpoint to the collapsible component function and specified to only break when the title had the value "filter-based routing", this means that only when clicking a collapsible element with this title will activate the breakpoint and stop the execution of the application; To understand the funciton of this component further we added *_isOpen_* boolean variable to the watchpoint list of the debugger. We hypothesize that the value would be false when title is collapsed and true when value is set to true. In the example image below we can see that the value of *_isOpen_* is set to false and a visual inspection of it shows that it is currently "closed".
+For the UI elements we examined that the collapsible title component was changing states as it's supposed to. We added a conditional breakpoint to the collapsible component function and specified to only break when the title had the value "filter-based routing", this means that only when clicking a collapsible element with this title will activate the breakpoint and stop the execution of the application; To understand the function of this component further we added *_isOpen_* boolean variable to the watchpoint list of the debugger. We hypothesize that the value would be false when title is collapsed and true when value is set to true. In the example image below, we can see that the value of *_isOpen_* is set to false and a visual inspection of it shows that it is currently "closed".
 
 
-image:images-m1/UI-debug-example1a.png[]
+.Debugger with a conditional breakpoint on collapsible title watching for the value of the attribute isOpen
+image::images-m1/UI-debug-example1a.png[]
 
 ===== *After activating component*
 
-After activating the collapsible title component with the correct title and the funciton executes we notice that the value of the variable *_isOpen_* is now set to true. This is the value we expected of when the collapsible title is expanded. An image of this value in the debugger and the application runnning presented below.
+After activating the collapsible title component with the correct title, the function executes and we notice that the value of the variable *_isOpen_* is now set to true. This is the value we expect when the collapsible title is expanded. An image of this value in the debugger and the application running presented below.
 
-
-image:images-m1/UI-debug-example1b.png[]
+.Using debugger to watch for the isOpen attribute value to change to 'true'
+image::images-m1/UI-debug-example1b.png[]
 
