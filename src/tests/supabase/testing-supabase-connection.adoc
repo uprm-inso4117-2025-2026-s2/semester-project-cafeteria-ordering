@@ -1,0 +1,182 @@
+= Testing Supabase Connection
+:toc:
+:icons: font
+
+After setting up your `.env` file with actual Supabase credentials, test the connection.
+
+== Quick Test (Recommended)
+
+The fastest way to verify your Supabase setup:
+
+[source,bash]
+----
+npx tsx src/tests/supabase/quick-test.ts
+----
+
+This will test:
+
+* Environment variables loaded correctly
+* Supabase client initialization
+* Database connection 
+* Authentication configuration
+* Storage bucket accessibility
+
+**Expected output:**
+
+----
+[TEST] Supabase Configuration Tests
+
+[1/5] Checking environment variables...
+[PASS] Environment variables found
+
+[2/5] Initializing Supabase client...
+[PASS] Client initialized
+
+[3/5] Testing database connection...
+[PASS] Database connection works (schema not deployed yet)
+
+[4/5] Testing authentication...
+[PASS] Authentication configured
+
+[5/5] Testing storage...
+[PASS] menu-images bucket exists and is accessible
+
+[SUCCESS] All tests passed!
+----
+
+== Prerequisites
+
+. **Ensure `.env` file exists** in project root with your Supabase credentials:
++
+[source,bash]
+----
+EXPO_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+----
+
+. **Install dependencies** (if not already done):
++
+[source,bash]
+----
+npm install
+----
+
+== Quick Test
+
+. **Start Expo development server:**
++
+[source,bash]
+----
+npm start
+----
+
+. **In your app's entry point** (e.g., `app/_layout.tsx` or `app/index.tsx`), add:
++
+[source,typescript]
+----
+import { useEffect } from 'react';
+import { runSupabaseTests } from '@/tests/supabase-connection.test';
+
+export default function App() {
+  useEffect(() => {
+    // Run tests on app load
+    runSupabaseTests();
+  }, []);
+
+  // Your app component...
+}
+----
+
+. **Check the console** in Expo Go or your browser for test results.
+
+== Expected Output
+
+----
+[TEST] Supabase Configuration Tests
+
+[PASS] Client Initialization
+   Supabase client initialized successfully
+
+[PASS] Environment Variables
+   Environment variables configured correctly
+
+[PASS] Database Connection
+   Database connection works (schema not deployed yet)
+
+[PASS] Authentication Configuration
+   Authentication configured (no active session)
+
+[FAIL] Storage Configuration
+   Storage works, but menu-images bucket not created yet
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[SUMMARY] 4/5 tests passed
+
+[WARNING] Some tests failed. Review the errors above.
+----
+
+NOTE: The storage test will fail until you create the `menu-images` bucket in Supabase Dashboard (see setup guide).
+
+== Manual Verification
+
+=== Test Authentication
+
+[source,typescript]
+----
+import { supabase } from '@/lib/supabase';
+
+// Try signing up
+const { data, error } = await supabase.auth.signUp({
+  email: 'test@upr.edu',
+  password: 'TestPassword123!',
+});
+
+console.log('Signup result:', data, error);
+----
+
+=== Test Database Query
+
+[source,typescript]
+----
+// This will work after deploying the schema
+const { data, error } = await supabase
+  .from('menu_items')
+  .select('*')
+  .limit(10);
+
+console.log('Menu items:', data, error);
+----
+
+== Troubleshooting
+
+**"Missing Supabase environment variables" error:**
+
+* Make sure you created `.env` file (not just `.env.example`)
+* Verify variables start with `EXPO_PUBLIC_`
+* Check `.env` is in project root (same level as `package.json`)
+* Restart Expo: `npx expo start --clear`
+
+**"Invalid API key" error:**
+
+* Check you copied the **anon/public** key, not service_role key
+* Get keys from: Supabase Dashboard → Settings → API
+* Verify no extra spaces or line breaks in `.env` file
+
+**Tests not running:**
+
+* Check import path uses `@/` alias
+* Verify TypeScript can find the files
+* Try absolute import: `import { ... } from '../tests/supabase-connection.test'`
+
+**"Network request failed" error:**
+
+* Check your internet connection
+* Verify Supabase project URL is correct
+* Check if project is paused (free tier pauses after inactivity)
+
+== Need Help?
+
+* **Setup Guide**: See `documentation/setup/supabase-setup.adoc` for complete instructions
+* **Supabase Dashboard**: https://app.supabase.com
+* **Get Credentials**: Dashboard → Your Project → Settings → API

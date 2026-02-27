@@ -1,0 +1,652 @@
+= Supabase Backend Setup Documentation
+Implementation Guide for Development Team
+:toc:
+:toclevels: 3
+:icons: font
+
+== 1. Overview
+
+This document describes the Supabase backend infrastructure implemented for the UPRM Cafeteria Ordering System and how developers can work with it.
+
+=== 1.1 What Has Been Implemented
+
+The backend infrastructure is now configured with:
+
+* **Supabase Project**: Production-ready PostgreSQL database hosted on Supabase
+* **Authentication System**: Email-based authentication with JWT tokens (24-hour expiry)
+* **React Native Client**: Pre-configured Supabase client with AsyncStorage persistence
+* **Realtime Capabilities**: WebSocket connections for live order status updates
+* **Storage Infrastructure**: Public bucket for menu item images with proper access policies
+* **Team Access**: Developer access granted to team leads and managers
+
+=== 1.2 Architecture
+
+The backend follows a serverless architecture:
+
+* **Database**: PostgreSQL 14+ with Row-Level Security (RLS)
+* **Authentication**: Supabase Auth (GoTrue) with JWT-based sessions
+* **Real-time**: Supabase Realtime using WebSocket protocol
+* **Storage**: Supabase Storage with public read access for menu images
+* **API**: Auto-generated REST and GraphQL APIs via PostgREST
+
+All backend logic runs on Supabase infrastructure - no separate backend server required.
+
+== 2. For Developers: Getting Started
+
+=== 2.1 Prerequisites
+
+Before you start developing, ensure you have:
+
+* Node.js 20.18+ installed
+* npm or yarn package manager
+* Git repository cloned to your local machine
+* Access to team credentials (provided by project owner)
+
+=== 2.2 Initial Setup (One-Time)
+
+**Step 1: Install Dependencies**
+
+[source,bash]
+----
+# In project root directory
+npm install
+----
+
+This installs all required packages including:
+
+* `@supabase/supabase-js` - Supabase JavaScript client
+* `@react-native-async-storage/async-storage` - Session persistence
+* `react-native-url-polyfill` - React Native compatibility
+
+**Step 2: Create Your Local Environment File**
+
+[source,bash]
+----
+# Copy the template
+cp .env.example .env
+----
+
+**Step 3: Add Credentials to `.env`**
+
+Contact the project owner (@LuisJCruz) to get the team Supabase credentials, then edit `.env`:
+
+[source,bash]
+----
+EXPO_PUBLIC_SUPABASE_URL=https://[provided-by-team].supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=[provided-by-team]
+NODE_ENV=development
+----
+
+**IMPORTANT**: 
+- Never commit the `.env` file to Git
+- The `.env` file is already in `.gitignore`
+- All developers use the same credentials for the shared development environment
+
+**Step 4: Verify Setup**
+
+[source,bash]
+----
+# Start Expo development server
+npm start
+----
+
+Run the connection tests to verify everything works (see Section 4.2).
+
+=== 2.3 Development Workflow
+
+All developers work against the **same Supabase project** for consistency:
+
+* Database schema changes are deployed by backend team lead
+* Everyone sees the same data during development
+* Real-time updates work across all developer instances
+* Test data is shared across the team
+
+For isolated testing, you can create your own free Supabase project and deploy the schema separately.
+
+== 3. Backend Features Implemented
+
+=== 3.1 Authentication System
+
+**What's Configured:**
+
+* Email/password authentication enabled
+* JWT tokens with 24-hour expiry for better UX
+* Automatic session persistence using AsyncStorage
+* Email confirmation required for new accounts
+* Password reset flow configured
+
+**How Developers Use It:**
+
+The Supabase client (`src/lib/supabase.ts`) provides helper functions:
+
+**Sign Up New User:**
+[source,typescript]
+----
+import { supabase } from '@/lib/supabase';
+
+const { data, error } = await supabase.auth.signUp({
+  email: 'student@upr.edu',
+  password: 'securePassword123',
+  options: {
+    data: {
+      full_name: 'John Doe',
+      student_id: '802-12-3456',
+    }
+  }
+});
+----
+
+**Sign In:**
+[source,typescript]
+----
+const { data, error } = await supabase.auth.signInWithPassword({
+  email: 'student@upr.edu',
+  password: 'securePassword123',
+});
+----
+
+**Get Current User:**
+[source,typescript]
+----
+import { getCurrentUser } from '@/lib/supabase';
+
+const user = await getCurrentUser();
+if (user) {
+  console.log('Logged in as:', user.email);
+}
+----
+
+**Sign Out:**
+[source,typescript]
+----
+import { signOut } from '@/lib/supabase';
+
+await signOut();
+----
+
+Sessions are automatically persisted across app restarts using AsyncStorage.
+
+=== 3.2 Database Access
+
+**What's Configured:**
+
+* Auto-generated REST API for all database operations
+* Row-Level Security (RLS) policies (deployed in next issue)
+* Type-safe queries with TypeScript
+* Real-time subscriptions for live data updates
+
+**How Developers Use It:**
+
+**Query Data:**
+[source,typescript]
+----
+import { supabase } from '@/lib/supabase';
+
+// Fetch available menu items with category information
+const { data: menuItems, error } = await supabase
+  .from('menu_items')
+  .select('*, menu_categories(*)')
+  .eq('available', true)
+  .order('name');
+----
+
+**Insert Data:**
+[source,typescript]
+----
+// Create a new order
+const { data: order, error } = await supabase
+  .from('orders')
+  .insert({
+    user_id: userId,
+    total_amount: 25.50,
+    status: 'placed'
+  })
+  .select()
+  .single();
+----
+
+**Update Data:**
+[source,typescript]
+----
+// Update order status (staff only, enforced by RLS)
+const { data, error } = await supabase
+  .from('orders')
+  .update({ status: 'ready' })
+  .eq('id', orderId);
+----
+
+**Delete Data:**
+[source,typescript]
+----
+// Delete a draft order (user can only delete their own orders)
+const { error} = await supabase
+  .from('orders')
+  .delete()
+  .eq('id', orderId)
+  .eq('status', 'draft');
+----
+
+**Note**: Database tables will be available after the next issue (Database Schema Implementation) is completed.
+
+=== 3.3 Real-Time Subscriptions
+
+**What's Configured:**
+
+* WebSocket-based real-time connections
+* Enabled for `orders`, `notifications`, and `order_status_history` tables
+* Automatic reconnection on network issues
+* Filtered subscriptions for specific users/data
+
+**How Developers Use It:**
+
+**Subscribe to Order Updates:**
+[source,typescript]
+----
+import { supabase } from '@/lib/supabase';
+
+// Subscribe to status changes for user's orders
+const subscription = supabase
+  .channel('order-updates')
+  .on('postgres_changes', {
+    event: 'UPDATE',
+    schema: 'public',
+    table: 'orders',
+    filter: `user_id=eq.${userId}`
+  }, (payload) => {
+    console.log('Order status changed:', payload.new.status);
+    // Update UI with new status
+  })
+  .subscribe();
+
+// Cleanup when component unmounts
+return () => {
+  subscription.unsubscribe();
+};
+----
+
+**Broadcast Messages (Staff Dashboard):**
+[source,typescript]
+----
+// Notify staff when new order is placed
+const channel = supabase.channel('staff-notifications');
+
+channel.on('broadcast', { event: 'new-order' }, (payload) => {
+  console.log('New order received:', payload);
+  // Show notification to staff
+});
+
+channel.subscribe();
+----
+
+=== 3.4 Storage (Menu Images)
+
+**What's Configured:**
+
+* Public bucket `menu-images` for menu item photos
+* Public read access for all users (authenticated and anonymous)
+* Upload access for authenticated users (staff)
+* 5 MB file size limit per image
+* Supports JPEG, PNG, WebP formats
+
+**How Developers Use It:**
+
+**Upload Image (Staff):**
+[source,typescript]
+----
+import { supabase } from '@/lib/supabase';
+
+async function uploadMenuImage(file: File) {
+  const fileExt = file.name.split('.').pop();
+  const fileName = `menu-item-${Date.now()}.${fileExt}`;
+
+  const { data, error } = await supabase.storage
+    .from('menu-images')
+    .upload(fileName, file);
+
+  if (error) {
+    console.error('Upload failed:', error);
+    return null;
+  }
+
+  // Get public URL for database storage
+  const { data: { publicUrl } } = supabase.storage
+    .from('menu-images')
+    .getPublicUrl(fileName);
+
+  return publicUrl;
+}
+----
+
+**Display Image (All Users):**
+[source,typescript]
+----
+// Image URLs are public and can be used directly
+<Image source={{ uri: menuItem.image_url }} />
+----
+
+== 4. Developer Responsibilities
+
+=== 4.1 Frontend Developers
+
+**Your Tasks:**
+
+1. **Authentication UI**: Build login, signup, and password reset screens using the auth functions in `src/lib/supabase.ts`
+2. **Data Display**: Fetch and display menu items, orders, and user profiles using Supabase queries
+3. **Real-Time Updates**: Implement live order status updates using Realtime subscriptions
+4. **Image Handling**: Display menu images from the storage bucket URLs
+5. **Error Handling**: Handle Supabase errors gracefully and show appropriate messages
+
+**Testing:**
+
+* Run connection tests in `src/tests/supabase-connection.test.ts`
+* Test auth flows with real email addresses (use temporary emails for testing)
+* Verify real-time updates by opening app on multiple devices
+
+=== 4.2 Backend Developers
+
+**Your Tasks:**
+
+1. **Schema Deployment**: Execute SQL scripts to create database tables 
+2. **RLS Policies**: Verify Row-Level Security policies work correctly for different user roles
+3. **Database Functions**: Test custom PostgreSQL functions (pickup code generation, analytics)
+4. **Triggers**: Verify automated triggers (order notifications, status logging)
+5. **Performance**: Monitor query performance and optimize indexes if needed
+
+**Testing:**
+
+* Run comprehensive backend tests
+* Verify RLS policies prevent unauthorized access
+* Test database functions with various inputs
+* Check real-time events trigger correctly
+
+=== 4.3 QA Team
+
+**Your Tasks:**
+
+1. **Connection Testing**: Run `src/tests/supabase-connection.test.ts` to verify setup
+2. **Authentication Testing**: Test signup, login, logout, password reset flows
+3. **Data Integrity**: Verify data constraints prevent invalid data entry
+4. **Real-Time Testing**: Test real-time updates work across multiple devices
+5. **Security Testing**: Attempt unauthorized actions to verify RLS policies
+
+**Testing Checklist:**
+
+* [ ] Connection tests pass (5/5 tests)
+* [ ] Users can sign up and receive confirmation emails
+* [ ] Login works with valid credentials
+* [ ] Invalid credentials are rejected
+* [ ] Password reset emails are sent
+* [ ] Real-time order updates appear immediately
+* [ ] Images load from storage bucket
+* [ ] Unauthorized access attempts are blocked
+
+== 5. Testing Your Setup
+
+=== 5.1 Run Connection Tests
+
+**Automated Tests:**
+
+[source,bash]
+----
+# Start development server
+npm start
+
+# In your app code, run tests
+import { runSupabaseTests } from '@/tests/supabase-connection.test';
+
+await runSupabaseTests();
+----
+
+**Expected Output:**
+
+```
+[TEST] Supabase Configuration Tests
+
+[PASS] Client Initialization
+[PASS] Environment Variables
+[PASS] Database Connection
+[PASS] Authentication Configuration
+[PASS] Storage Configuration
+
+[SUMMARY] 5/5 tests passed
+
+[SUCCESS] All tests passed! Supabase is configured correctly.
+```
+
+See `src/tests/supabase/testing-supabase-connection.adoc` for detailed testing instructions.
+
+=== 5.2 Manual Verification
+
+**Test Authentication:**
+
+[source,typescript]
+----
+// Try creating a test account
+const { data, error } = await supabase.auth.signUp({
+  email: 'test@example.com',
+  password: 'TestPassword123!',
+});
+
+console.log('Signup result:', data, error);
+----
+
+**Test Database Query (After Schema Deployment):**
+
+[source,typescript]
+----
+// Fetch menu items
+const { data, error } = await supabase
+  .from('menu_items')
+  .select('*')
+  .limit(10);
+
+console.log('Menu items:', data, error);
+----
+
+== 6. Common Development Scenarios
+
+=== 6.1 Building Authentication Screens
+
+**Login Screen Example:**
+
+[source,typescript]
+----
+import { useState } from 'react';
+import { supabase } from '@/lib/supabase';
+
+export function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogin() {
+    setLoading(true);
+    
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert('Login failed: ' + error.message);
+    } else {
+      // Navigate to home screen
+      console.log('Logged in as:', data.user.email);
+    }
+    
+    setLoading(false);
+  }
+
+  return (
+    // Your UI components here
+  );
+}
+----
+
+=== 6.2 Fetching and Displaying Menu Items
+
+[source,typescript]
+----
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+
+export function MenuScreen() {
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadMenu();
+  }, []);
+
+  async function loadMenu() {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select('*, menu_categories(*)')
+      .eq('available', true)
+      .order('name');
+
+    if (error) {
+      console.error('Failed to load menu:', error);
+    } else {
+      setMenuItems(data);
+    }
+    
+    setLoading(false);
+  }
+
+  return (
+    // Render menu items
+  );
+}
+----
+
+=== 6.3 Implementing Real-Time Order Tracking
+
+[source,typescript]
+----
+import { useEffect, useState } from 'react';
+import { supabase, getCurrentUser } from '@/lib/supabase';
+
+export function OrderTrackingScreen({ orderId }) {
+  const [orderStatus, setOrderStatus] = useState('placed');
+
+  useEffect(() => {
+    // Subscribe to order status changes
+    const subscription = supabase
+      .channel(`order-${orderId}`)
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'orders',
+        filter: `id=eq.${orderId}`
+      }, (payload) => {
+        setOrderStatus(payload.new.status);
+        
+        // Show notification when order is ready
+        if (payload.new.status === 'ready') {
+          alert('Your order is ready for pickup!');
+        }
+      })
+      .subscribe();
+
+    // Cleanup on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [orderId]);
+
+  return (
+    // Display current order status
+  );
+}
+----
+
+== 7. Troubleshooting
+
+=== 7.1 Common Issues
+
+**"Missing Supabase environment variables" error:**
+
+* Ensure `.env` file exists in project root (same directory as `package.json`)
+* Verify variables start with `EXPO_PUBLIC_` prefix
+* Restart Expo: `npx expo start --clear`
+* Contact project owner if you don't have credentials
+
+**"Invalid API key" error:**
+
+* Verify you're using the `anon/public` key, not `service_role` key
+* Check for extra spaces or newlines in `.env` file
+* Request fresh credentials from project owner
+
+**"Network request failed" errors:**
+
+* Check your internet connection
+* Verify Supabase project URL is correct in `.env`
+* Check if Supabase project is paused (free tier pauses after 7 days of inactivity)
+* Restart Supabase project in Dashboard if needed
+
+**Real-time not working:**
+
+* Verify WebSocket connections aren't blocked by firewall/antivirus
+* Check Supabase project health in Dashboard
+* Ensure Realtime is enabled for the table (wait for schema deployment)
+* Verify subscription filter syntax is correct
+
+**AsyncStorage errors:**
+
+* Clear Expo cache: `npx expo start --clear`
+* Reinstall dependencies: `rm -rf node_modules && npm install`
+* For iOS simulator: Reset simulator data
+
+=== 7.2 Getting Help
+
+**Resources:**
+
+* **Setup Documentation**: This file (`documentation/setup/supabase-setup.adoc`)
+* **Test Instructions**: `src/tests/supabase/testing-supabase-connection.adoc`
+* **Backend Research**: `documentation/research/research-backend-supabase.adoc`
+* **Database Schema**: `documentation/database/schema-design.adoc`
+* **Supabase Docs**: https://supabase.com/docs
+* **Expo Docs**: https://docs.expo.dev
+
+**Team Support:**
+
+* **Supabase Project Owner**: @LuisJCruz (for credentials and access issues)
+
+**Supabase Dashboard:**
+
+* URL: https://app.supabase.com
+* Access: Request invitation from Supabase Project Owner
+* Use for: Viewing data, running SQL queries, checking logs
+
+
+== 8. Project Information
+
+**Supabase Project:**
+
+* **Name**: cafeteria-ordering-system
+* **Region**: East US (North Virginia)
+* **Tier**: Free (development)
+* **URL**: https://app.supabase.com (login required)
+
+**Key Files:**
+
+* **Supabase Client**: `src/lib/supabase.ts`
+* **Connection Tests**: `src/tests/supabase/supabase-connection.test.ts`
+* **Test Instructions**: `src/tests/supabase/testing-supabase-connection.adoc`
+* **Environment Template**: `.env.example`
+* **Environment File**: `.env` (local only, not in Git)
+
+**Related Documentation:**
+
+* Backend Research: `documentation/research/research-backend-supabase.adoc`
+* Database Schema: `documentation/database/schema-design.adoc`
+* SQL Scripts: `documentation/database/sql/`
+* Sample Queries: `documentation/database/queries/`
+
+---
+
+*Last updated*: February 21, 2026 +
+*Implemented by*: @LuisJCruz +
+
+
