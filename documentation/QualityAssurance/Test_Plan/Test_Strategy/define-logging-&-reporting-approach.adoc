@@ -1,0 +1,132 @@
+= Define System Logging & Reporting Approach (INSO4117)
+:author: Kian R. Ramos-Vega
+
+== Overview
+
+This document defines the logging and reporting approach for the Cafeteria Ordering System. The purpose is to ensure the team has useful logs for debugging and traceability, and consistent reporting of automated test results through continuous integration (CI).
+
+Logging must provide meaningful feedback to developers as to help identify failures quickly, especially when changes are validated through pull requests.
+
+== Goals
+
+The logging and reporting approach must:
+
+* Provide clear, actionable information during development and testing.
+* Support traceability across user workflows (ordering, payment, authentication).
+* Reduce debugging time by making failures reproducible.
+* Integrate cleanly with CI so failures are visible before merge.
+
+== What the System Should Log
+
+The system should log events in the categories below.
+
+=== Application Logs
+
+These logs describe normal runtime activity.
+
+* App start/stop
+* Screen navigation events (high-level only)
+* Successful completion of major workflow steps (e.g., order submitted, payment confirmed)
+
+=== Error and Exception Logs
+
+These logs capture failures that require investigation.
+
+* Unhandled exceptions (crashes)
+* Failed API calls (timeouts)
+* Validation errors (invalid input, missing required fields)
+* Authentication/authorization failures
+* Payment processing failures
+
+=== Test and CI Reporting Logs
+
+These logs capture automated validation outcomes.
+
+* Local test run results (pass/fail summary)
+* CI test run results showing which job (major workflow section such as build) and step (e.g., install dependencies, compile, run tests) passed or failed
+* Build validation results
+* Artifacts generated (logs, test reports)
+
+== Log Levels and Meaning
+
+The following log levels will be used consistently:
+
+* INFO  - normal events and progress checkpoints.
+* ERROR - operation failed; action required.
+* FATAL - unrecoverable failure (crash).
+
+== Log Structure and Format
+
+Logs must be readable. When possible, logs should use a structured format.
+
+=== Recommended Format
+
+Structured JSON-style fields would be ideal (even if printed as text), including:
+
+* timestamp - YYYY-MM-DDTHH:MM:SS (Year-Month-DayTHour:Minute:Second)
+* level - INFO/ERROR/FATAL
+* source - module or feature area (auth, order, payment, api, ui)
+* event - short event name (e.g., ORDER_SUBMIT_SUCCESS)
+* message - short readable summary of the event
+* context - optional key-value fields capturing relevant runtime information at the moment the event occurred, such as status codes, error codes, function variables, request or response payload data, or identifiers (e.g., orderId).
+* correlationId - optional identifier used to link related logs belonging to the same workflow request
+
+Example (concept):
+
+* timestamp=2026-02-24T18:21:05-04:00 level=ERROR source=payment event=PAYMENT_FAILED message="Payment request failed" context.statusCode=504 context.endpoint="/payments" correlationId=abc123
+
+=== Sensitive Data Rule
+
+Logs must never include sensitive data such as:
+
+* passwords
+* tokens (session tokens)
+* full payment details
+* personal identifiers beyond what is necessary
+
+If identifiers are needed, log only non-sensitive references (e.g., masked userId or orderId).
+
+== Where Logs and Reports Are Stored
+
+=== Local Development
+
+For local development the primary output is the developer console (terminal).
+
+=== Continuous Integration (CI)
+
+In regards to CI, it must preserve logs and test outputs for review:
+
+* Workflow console output for immediate visibility.
+* Optional: Test reports as artifacts when available (e.g., a standardized XML file) allowing developers to review detailed results after execution.
+* If a test fails, the CI output must show:
+  ** which job failed
+  ** which step failed
+  ** the failure summary (error message)
+
+== Reporting Expectations (Developer Feedback)
+
+Logs and reports must make it easy to answer:
+
+* What failed?
+* Where did it fail (module / workflow step)?
+* Why did it fail (error message / status code)?
+* How can it be reproduced (minimal context, endpoint, steps)?
+
+Minimum requirement for “meaningful feedback”:
+
+* When CI fails, the output must clearly indicate whether it was for example:
+  ** build failure
+  ** dependency/install failure
+  ** test failure
+  ** runtime/environment failure
+
+== Traceability Guidelines
+
+To support traceability across workflows:
+
+* Log key checkpoints for critical flows:
+  ** Order submitted
+  ** Payment initiated / confirmed / failed
+  ** Order delivered to staff queue
+* Use consistent event names for key actions.
+* When possible, include an order identifier reference (orderId) and correlationId.
