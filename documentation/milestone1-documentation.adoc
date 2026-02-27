@@ -500,7 +500,7 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 
 ==== 2.2.2 Personas
 
-Personas are different representative archetypes of the primary users within the cafeteria service domain. They help the develoment team to mantain a shared understanding of the user's needs, behaviors, and constraints when defining user stories, features, and system requirements. The following personas were built with the common characteristics observed among members of the university who regularly interact with the cafeteria.
+Personas are different representative archetypes of the primary users within the cafeteria service domain. They help the development team to mantain a shared understanding of the user's needs, behaviors, and constraints when defining user stories, features, and system requirements. The following personas were built with the common characteristics observed among members of the university who regularly interact with the cafeteria.
 
 ===== Persona 1 — Carlos the Time Constrained Student
 
@@ -520,7 +520,7 @@ Carlos values speed, predictability, and efficiency when acquiring food from a p
 - *Primary Goal:* Plan meals around time on campus
 - *Environment:* Balances commuting time with academic responsibilities
 
-Mariana is a student who travels to campus and tries to optimize her time while she is present at the university because she does not remain on campus all day. This student prefest to plan when and where she will obtain food in advance.
+Mariana is a student who travels to campus and tries to optimize her time while she is present at the university because she does not remain on campus all day. This student prefers to plan when and where she will obtain food in advance.
 
 Uncertainty about the availability and congestion of the cafeteria makes planning difficult for Mariana. She values visibility into the service's conditions and prefers predictable food service experiences that allow her to coordinate her meals with her commuting schedule. The inefficiencies in the current process can lead her to skip meals or seek off campus alternatives.
 
