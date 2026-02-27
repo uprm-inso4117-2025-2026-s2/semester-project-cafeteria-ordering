@@ -1030,6 +1030,180 @@ The following concepts were sourced from the rough domain sketch, that was creat
 == Specific Class Topics
 
 === 4.1 TDD
+This section demonstrates the application of Test-Driven Development (TDD)
+to incrementally construct a unit derived from the domain model.
+
+
+Selected Unit:
+`processPayment : PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
+
+This operation corresponds to:
+
+* *Action:* Payment
+* *Events:* Payment Has Just Failed / Payment Has Just Been Processed Successfully
+* *Behavior:* Service Bottleneck caused by repeated failed payments
+
+==== Initial Informal Specification
+
+The function processes a customer's payment attempt.
+
+* If the payment is approved, a receipt must be produced.
+* If the payment fails, no receipt is returned.
+* The system must record the outcome of the attempt.
+
+Inputs:
+`PaymentSystem`, `Order`, `PaymentMethod`
+
+Outputs:
+Updated `PaymentSystem` and `Option Receipt`.
+
+==== Test 1 — A Successful Payment Produces a Result
+
+A developer first checks that an approved payment produces *some* receipt.
+
+Test:
+Given an approving payment gateway,
+calling `processPayment` should return `Some(receipt)`.
+
+Dummy Implementation:
+
+[source]
+----
+return (ps, None)
+----
+
+Result:
+Test fails.
+
+Minimal Implementation Change:
+
+[source]
+----
+return (ps, Some(dummyReceipt))
+----
+
+Test now passes.
+
+==== Test 2 — The Receipt Must Belong to the Correct Order
+
+The first solution is too weak (it always returns a dummy receipt).
+The developer refines the behavior.
+
+Test:
+The returned receipt must reference `order.id`.
+
+Current implementation fails because it returns a constant receipt.
+
+Implementation Update:
+
+[source]
+----
+receipt = Receipt(order.id, order.total)
+return (ps, Some(receipt))
+----
+
+Tests 1–2 now pass.
+
+==== Test 3 — Failed Payments Return None
+
+Next, failure behavior is introduced.
+
+Test:
+If the gateway rejects the transaction,
+the function must return `None`.
+
+Current implementation always succeeds → test fails.
+
+Implementation Update:
+
+[source]
+----
+if gateway.approve(order, method):
+    receipt = Receipt(order.id, order.total)
+    return (ps, Some(receipt))
+else:
+    return (ps, None)
+----
+
+Tests 1–3 now pass.
+
+==== Test 4 — The System Must Record Successful Payments
+
+To make payment outcomes observable, the system must log successes.
+
+Test:
+After a successful payment, the updated `PaymentSystem`
+must contain a `"SUCCESS"` record for the order.
+
+Current implementation does not modify system state → test fails.
+
+Implementation Update:
+
+[source]
+----
+if gateway.approve(order, method):
+    ps2 = ps.addPaymentRecord(order.id, "SUCCESS")
+    receipt = Receipt(order.id, order.total)
+    return (ps2, Some(receipt))
+else:
+    return (ps, None)
+----
+
+Tests 1–4 now pass.
+
+==== Test 5 — Failed Attempts Must Also Be Recorded
+
+To support analysis of repeated failures (service bottlenecks),
+failed attempts must also be logged.
+
+Test:
+If payment fails, `PaymentSystem` must record `"FAILED"`.
+
+Current implementation does not record failures → test fails.
+
+Implementation Update:
+
+[source]
+----
+if gateway.approve(order, method):
+    ps2 = ps.addPaymentRecord(order.id, "SUCCESS")
+    receipt = Receipt(order.id, order.total)
+    return (ps2, Some(receipt))
+else:
+    ps2 = ps.addPaymentRecord(order.id, "FAILED")
+    return (ps2, None)
+----
+
+All five tests now pass simultaneously.
+
+==== Refactoring
+
+With the behavior stabilized by tests, duplication is removed safely.
+
+[source]
+----
+def recordAndReturn(ps, orderId, status, receiptOpt):
+    ps2 = ps.addPaymentRecord(orderId, status)
+    return (ps2, receiptOpt)
+----
+
+This refactoring does not change observable behavior.
+All tests remain passing, confirming correctness.
+
+==== Result
+
+Through five incremental tests:
+
+* The function evolved from a stub into meaningful behavior.
+* Each change was driven by a failing test.
+* Earlier tests continued to pass as new ones were added.
+* The final unit now reflects the domain:
+** successful payments generate receipts,
+** failures are observable events,
+** repeated failures can be analyzed as part of service bottlenecks.
+
+This demonstrates the use of TDD to construct functionality
+through verifiable, incremental behavior.
 
 === 4.2 BDD and BDD tool usage
 

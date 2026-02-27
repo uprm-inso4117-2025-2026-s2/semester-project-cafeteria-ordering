@@ -1,0 +1,242 @@
+= Define Test Driven Development Approach
+Author: Jorge L. De León Orama
+
+== Overview 
+This document will define the Test Driven Development (TDD) approach workflow the team will follow during implementation, including realistic walkthrough examples that demonstrate the required TDD cycle described in Section 4.1 of the Documentation Criteria.
+
+== TDD Workflow Definition
+
+====
+*Red -> Green -> Refactor*
+
+* Is a sequential pattern, applied iteratively.
+** *Red:* Write a failing test.
+** *Green:* Write minimal code to pass.
+** *Refactor:* Improve structure safely.
+
+====
+
+The team follows the Red -> Green -> Refactor cycle:
+
+. Select a small behavior derived from a requirement.
+. Write a unit test that captures that behavior.
+. Run the test and confirm it fails (Red).
+. Implement the *minimum code necessary* to pass the test (Green).
+. Run the entire test suite to ensure no regressions were introduced. 
+. Refactor the implementation for clarity or efficiency while keeping tests passing.
+. Repeat the cycle for the next behavior until the feature is complete. 
+
+This workflow ensures that:
+
+* Implementation is always requirement-driven.
+* No unnecessary functionality is introduced.
+* Errors are detected immediately.
+* The test suite grows into a regression safety net.
+
+== Responsibilities
+=== Quality Assurance (QA)
+QA is responsible for:
+
+* Translating requirements into verifiable behaviors.
+* Defining expected outcomes and edge cases.
+* Reviewing tests to ensure traceability to requirements.
+* Ensuring test follow Master Test Plan standards.
+
+QA does not implement funcitonality but ensures correctness of intent. 
+
+=== Developers
+Developers will be responsible for:
+
+* Writing executable unit tests before implementation.
+* Writing the minimum code required to satisfy failing tests.
+* Refactoring safely while maintaining passing tests.
+*Maintaining test integrity and coverage. 
+
+QA and Developers collaborate to ensure behavior definitions are correct before implementation begins.
+
+== TDD Rules Followed by the Team
+
+To maintain proper TDD discipline, the following rules apply:
+
+* No production code is written without a failing test.
+* Each test must validate on specific behavior.
+* Implementation must be minimal.
+* Existing tests must never be altered to force success.
+* Refactoring occurs only after all tests pass.
+* Test must be added in a logical, incremental order.
+* The growing test suite must run successfully at all times.
+
+== Repository Integration
+
+TDD artifacts are integrated into the repository as follows:
+
+* All unit tests are stored in the `/tests/` directory.
+* Naming convetion:
+`feature_name_test`
+
+* Tests are committed before or alongside implementation changes. 
+* Each pull request must include:
+** The failing test first.
+** The minimal implementation change.
+* The accumulated tests form a regression test suite validating system stability.
+
+== Example TDD Walkthrough
+The following example demonstrates TDD applied to a realistic unit.
+
+=== Unit Specification
+Function: `processPayment`
+
+Behavior:
+
+* When payment succeeds, return `Some(Receipt)` and update the `PaymentSystem` state.
+* When payment fails, return `None` and record failure in `PaymentSystem`.
+
+Input:
+
+* `PaymentSystem`
+* `Order`
+* `PaymentMethod`
+
+Output: 
+
+* Updated `PaymentSystem`
+* `Option Receipt`
+
+=== Test 1 - Successful payment returns receipt (Happy Path)
+
+Behavior:
+* If the payment gateway approves the charge, the system returns `Some(receipt)`.
+
+Test:
+
+* Given a `PaymentSystem` whose gateway will approve.
+* When `processPayment(ps, order, method)` is called.
+* Then result is `Some(receipt)` and receipt references `order.id`
+
+Dummy Implementation:
+
+* Return `None` always.
+
+Result: 
+
+* Test fails (expected `Some`, got `None`).
+
+Implementation Update:
+
+* If gateway approves → return `Some(Receipt(orderId=order.id, total=order.total))`
+* Otherwise → return `None`
+
+Result:
+
+* Test passes.
+
+Refactoring Step
+
+* Extract `makeReceipt(order)` helper.
+* Keep behavior identical
+* All tests pass
+
+=== Test 2 — Failed payment returns None (Matches the Event “Payment Has Just Failed”)
+
+Behavior: 
+
+* If the gateway declines, return `None`.
+
+Test:
+
+* Given a `PaymentSystem` whose gateway will decline
+* When `processPayment(ps, order, method)` is called
+* Then result is `None`
+
+Dummy Implementation:
+
+* Always return `Some(receipt)`.
+
+Result:
+
+* Test fails (expected `None`, got `Some`).
+
+Implementation Update:
+
+* Add conditional:
+** approve → `Some(receipt)`
+** decline →`None`
+
+Result: 
+
+* Test passes.
+
+Refactoring Step:
+
+* Replace duplicated conditional logic with:
+** `approved = gateway.authorize(...)`
+** `return approved ? Some(makeReceipt(order)) : None`
+* All tests pass
+
+=== Test 3 — PaymentSystem state updates correctly (Supports bottleneck analysis later)
+
+Behavior:
+
+* On success, `PaymentSystem` stores a “payment recorded” entry (for audit/trace).
+* On failure, `PaymentSystem` stores a “failed attempt” entry (this directly supports tracking repeated failures that cause bottlenecks).
+
+Test:
+
+* Case A (Success):
+** Given approve gateway
+** When `processPayment` runs
+** Then `ps'.payments` includes record `{orderId, status="SUCCESS"}`
+* Case B (Failure):
+** Given decline gateway
+** When `processPayment` runs
+** Then `ps'.payments` includes record `{orderId, status="FAILED"}`
+
+Dummy Implementation:
+
+* Return correct `Option`, but do not change `PaymentSystem` state.
+
+Result:
+
+* Test fails (missing records).
+
+Implementation Update: 
+
+* If approved:
+** `ps' = ps.addPaymentRecord(order.id, "SUCCESS")`
+** return `ps'` and `Some(receipt)`
+
+* Else:
+** `ps' = ps.addPaymentRecord(order.id, "FAILED")`
+** return `ps'` and `None`
+
+Result:
+
+* Test passes.
+
+Refactoring Step:
+
+* Create `recordAndReturn(ps, order, status, maybeReceipt)` helper
+* Keep all tests pasing
+
+=== Final Notes for Traceability
+
+* *Test 2* explicitly validates the _event_ *Payment Has just Failed* (observable outcome).
+* *Test 3 failure case* supports analyzing _behavior_ *Service Bottleneck (payment)* by making repeated failure attempts visible in state/logs.
+* All tests remain unit-level and map cleanly to the function signature contract:
+
+`PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
+
+== Rationale Test-Driven Development 
+The adoption of TDD provides the following benefits:
+
+* Ensures traceablility between requirements and implementation.
+* Prevents over-engineering by enforcing incremental development.
+* Detects defects immediately rather than after integration.
+* Produces a continuously growing regression test suite. 
+* Improves maintainability and confidence during refactoring.
+
+TDD aligns with the project's Quality Assurance objectives by embedding directly into the development process rather than treating testing as a seperate phase.
+
+== Conclusion
+The team applies Test-Driven Development as a disciplined engineering methodology to ensure correctness, traceability, and maintainability of implemented features.
+The demonstrated walkthrough reflects how features are incrementally constructed through verifiable behaviors, satisfying the expectation outlined in Section 4.1 of the documentation criteria.
