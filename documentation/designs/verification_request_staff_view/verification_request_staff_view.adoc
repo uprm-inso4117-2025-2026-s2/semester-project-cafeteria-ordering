@@ -7,15 +7,15 @@ Closes issue #167
 Design presents a structured list of verification requests submitted by users. It allows staff members to filter requests by status (Pending, Approved, Rejected), quickly view essential request details, and access the full review screen. All visual elements follow the Staff Verification Requests List wireframe (see `documentation/wireframes/verification_requests/` for wireframes and corresponding documentation.)
 
 == Final product:
-Final designs can be viewed in the documentation/designs/verification_requests_design/images.
+Final designs can be viewed in the documentation/designs/verification_requests_staff_view/images.
 
 .Light Mode
 
-image::documentation/designs/verification_requests_design/images/Verification Request Light-Mode.png[align=center, width=350]
+image::documentation/designs/verification_requests_design/images/Verification_Request_Light-Mode.png[align=center, width=350]
 
 .Dark Mode
 
-image::documentation/designs/verification_requests_design/images/Verification Request Dark-Mode.png[align=center, width=350]
+image::documentation/designs/verification_requests_design/images/Verification_Request_Dark-Mode.png[align=center, width=350]
 
 --
 Design description:
