@@ -194,6 +194,29 @@ The long wait times at the university cafeteria show unmet needs in food service
 === 1.3 Scope, Span and Synopsis
 
 ==== 1.3.1 Scope and Span
+*Scope*
+
+The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.
+
+Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in‑person ordering. This includes examining how long wait times affect student health and focus to justify the shift toward modern, digital ordering methods.
+
+Requirements Engineering: Define project requirements that allow users to view menus, manage a digital cart, and process remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes.
+
+Software Architecture: The architecture will consist of a web front-end for students and staff. It will integrate a backend ordering engine with a physical infrastructure component: a dedicated, locker-style pickup area designed to reduce counter congestion.
+
+Software Design Process:  The project will follow an iterative, test‑driven development lifecycle. A standardized process for handling order flows and issues will be defined, and a continuous feedback loop with cafeteria staff and students will be used to refine the user interface, pickup flow, and operational procedures over time.
+
+*Span*
+
+The project’s span is focused on creating a localized, high-efficiency solution for the university cafeteria that streamlines the food procurement process.
+
+The application provides users with temporal flexibility, allowing for "ASAP" orders or specific scheduled pickup times. It also includes a dedicated pickup zone that requires a unique code for access, addressing the risk of order theft.
+
+The target audience are UPRM students and staff at the university cafeteria. However, the project also seeks the possibility to include other campus food vendors and integration with university events, such as Come Colegial.
+
+The project will utilize agile development, following its iterative steps, with primary focus on testing, to achieve project completion. In addition, the team will apply a Test-Driven Development approach named red, green, and refactor. Through this approach, developers will write failing tests for small, requirement-derived behaviors before implementing the minimum code needed to pass them, and then refactor the code to improve code quality and maintainability.
+
+Success will be tracked through specific metrics: the volume of orders processed, the speed of order pickup, and the measurable reduction in counter wait times. Additionally, the system will provide data analytics to help cafeteria administrators optimize inventory and staffing levels based on peak demand patterns.
 
 ==== 1.3.2 Synopsis
 
@@ -1007,6 +1030,180 @@ The following concepts were sourced from the rough domain sketch, that was creat
 == Specific Class Topics
 
 === 4.1 TDD
+This section demonstrates the application of Test-Driven Development (TDD)
+to incrementally construct a unit derived from the domain model.
+
+
+Selected Unit:
+`processPayment : PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
+
+This operation corresponds to:
+
+* *Action:* Payment
+* *Events:* Payment Has Just Failed / Payment Has Just Been Processed Successfully
+* *Behavior:* Service Bottleneck caused by repeated failed payments
+
+==== Initial Informal Specification
+
+The function processes a customer's payment attempt.
+
+* If the payment is approved, a receipt must be produced.
+* If the payment fails, no receipt is returned.
+* The system must record the outcome of the attempt.
+
+Inputs:
+`PaymentSystem`, `Order`, `PaymentMethod`
+
+Outputs:
+Updated `PaymentSystem` and `Option Receipt`.
+
+==== Test 1 — A Successful Payment Produces a Result
+
+A developer first checks that an approved payment produces *some* receipt.
+
+Test:
+Given an approving payment gateway,
+calling `processPayment` should return `Some(receipt)`.
+
+Dummy Implementation:
+
+[source]
+----
+return (ps, None)
+----
+
+Result:
+Test fails.
+
+Minimal Implementation Change:
+
+[source]
+----
+return (ps, Some(dummyReceipt))
+----
+
+Test now passes.
+
+==== Test 2 — The Receipt Must Belong to the Correct Order
+
+The first solution is too weak (it always returns a dummy receipt).
+The developer refines the behavior.
+
+Test:
+The returned receipt must reference `order.id`.
+
+Current implementation fails because it returns a constant receipt.
+
+Implementation Update:
+
+[source]
+----
+receipt = Receipt(order.id, order.total)
+return (ps, Some(receipt))
+----
+
+Tests 1–2 now pass.
+
+==== Test 3 — Failed Payments Return None
+
+Next, failure behavior is introduced.
+
+Test:
+If the gateway rejects the transaction,
+the function must return `None`.
+
+Current implementation always succeeds → test fails.
+
+Implementation Update:
+
+[source]
+----
+if gateway.approve(order, method):
+    receipt = Receipt(order.id, order.total)
+    return (ps, Some(receipt))
+else:
+    return (ps, None)
+----
+
+Tests 1–3 now pass.
+
+==== Test 4 — The System Must Record Successful Payments
+
+To make payment outcomes observable, the system must log successes.
+
+Test:
+After a successful payment, the updated `PaymentSystem`
+must contain a `"SUCCESS"` record for the order.
+
+Current implementation does not modify system state → test fails.
+
+Implementation Update:
+
+[source]
+----
+if gateway.approve(order, method):
+    ps2 = ps.addPaymentRecord(order.id, "SUCCESS")
+    receipt = Receipt(order.id, order.total)
+    return (ps2, Some(receipt))
+else:
+    return (ps, None)
+----
+
+Tests 1–4 now pass.
+
+==== Test 5 — Failed Attempts Must Also Be Recorded
+
+To support analysis of repeated failures (service bottlenecks),
+failed attempts must also be logged.
+
+Test:
+If payment fails, `PaymentSystem` must record `"FAILED"`.
+
+Current implementation does not record failures → test fails.
+
+Implementation Update:
+
+[source]
+----
+if gateway.approve(order, method):
+    ps2 = ps.addPaymentRecord(order.id, "SUCCESS")
+    receipt = Receipt(order.id, order.total)
+    return (ps2, Some(receipt))
+else:
+    ps2 = ps.addPaymentRecord(order.id, "FAILED")
+    return (ps2, None)
+----
+
+All five tests now pass simultaneously.
+
+==== Refactoring
+
+With the behavior stabilized by tests, duplication is removed safely.
+
+[source]
+----
+def recordAndReturn(ps, orderId, status, receiptOpt):
+    ps2 = ps.addPaymentRecord(orderId, status)
+    return (ps2, receiptOpt)
+----
+
+This refactoring does not change observable behavior.
+All tests remain passing, confirming correctness.
+
+==== Result
+
+Through five incremental tests:
+
+* The function evolved from a stub into meaningful behavior.
+* Each change was driven by a failing test.
+* Earlier tests continued to pass as new ones were added.
+* The final unit now reflects the domain:
+** successful payments generate receipts,
+** failures are observable events,
+** repeated failures can be analyzed as part of service bottlenecks.
+
+This demonstrates the use of TDD to construct functionality
+through verifiable, incremental behavior.
 
 === 4.2 BDD and BDD tool usage
 
@@ -1038,28 +1235,43 @@ These acceptance criteria remain expressed in stakeholder language and do not re
 
 The following examples translate acceptance criteria into structured behavioral specifications.
 
+* Successful Log-in with Valid Credentials
+
+[source,gherkin]
+----
 Scenario: Successful log-in with valid credentials  
-Given the student has valid credentials  
-And the student is on the log-in page  
-When the student enters their credentials and clicks the log-in button  
-Then the student should be redirected to the dashboard/home screen  
+    Given the student has valid credentials  
+    And the student is on the log-in page  
+    When the student enters their credentials and clicks the log-in button  
+    Then the student should be redirected to the dashboard/home screen 
+---- 
 
+* Successful Order Placement
+
+[source,gherkin]
+----
 Scenario: Successful order placement  
-Given the student is logged in and on the menu page  
-When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"  
-And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process  
-Then the system should confirm the order  
-And the cafeteria staff should be notified of the new order  
-And the student should receive an order confirmation message  
+    Given the student is logged in and on the menu page  
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"  
+    And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process  
+    Then the system should confirm the order  
+    And the cafeteria staff should be notified of the new order  
+    And the student should receive an order confirmation message  
+----
 
+* Secure Order Pickup
+
+[source,gherkin]
+----
 Scenario: Secure order pickup  
-Given the student has placed an order  
-And the student receives confirmation that the order is ready for pickup  
-And the system provides a unique pickup code  
-When the student provides the pickup code to cafeteria staff  
-And staff validates the code in the system  
-Then the student should be able to securely pick up the order  
-And the system should mark the order as "picked up"  
+    Given the student has placed an order  
+    And the student receives confirmation that the order is ready for pickup  
+    And the system provides a unique pickup code  
+    When the student provides the pickup code to cafeteria staff  
+    And staff validates the code in the system  
+    Then the student should be able to securely pick up the order  
+    And the system should mark the order as "picked up"
+----  
 
 These specification examples have been formalized as Gherkin feature files (.feature) and committed to the project repository under the Cucumber testing setup branch.
 
@@ -1090,7 +1302,6 @@ The current configuration demonstrates that:
 
 By applying BDD and integrating Cucumber into the repository, the project establishes a clear path from stakeholder requirements to executable behavioral specifications. Even though full step-definition implementation will occur in Milestone 2, the current setup ensures alignment between requirements, documentation, and automated testing infrastructure, satisfying the academic requirements for BDD tool integration.
 
-=== 4.3 User of Debugging
 === 4.3 Use of Debugging
 
 For the purposes of demonstrating the use of debugger in the project we ran the project template that was created by the setup team at this first stage of the project as the team has not yet started coding features and is focusing on domain knowlegde aquisition, requirements and creating the test plan and strategies that will be the foundation of the project. Nevertheless, we still tested core functionality that has been worked on, the best example of this is the connection to the database.

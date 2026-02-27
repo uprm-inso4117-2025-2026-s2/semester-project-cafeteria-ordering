@@ -1,0 +1,33 @@
+= Error Flags Within the Project
+
+Flags are special variables or constants used to signal or indicate a particular condition, state, or behavior in a program. They play an important role during the development process of the project, since they help analyze, manage, and identify errors. These error flags help detect abnormal conditions, assisting testers in the debugging process. Their proper implementation contributes to system stability and efficient agile development. Understanding all types of error flags is essential to ensuring high‑quality code within the project.
+
+== Types of Error Flags
+
+=== Error Code Flags
+Flags that use numeric values to represent and communicate specific types of errors that occur within a system.
+
+*Importance:*  
+Error code flags allow precise identification of errors within the project. They support effective system logging, enable consistent error reporting, and improve debugging efficiency by helping developers and testers quickly trace the source of failures.
+
+=== Exception-Based Flags
+Flags that triggers the system to throw an exception, usually a message indicating the error.
+
+*Importance:*  
+Exception-based flags allow automatic interruption of program execution when a critical error occurs, preventing the system from continuing in an unstable state. Exceptions provide structured and detailed information about the error, enabling developers and testers to quickly identify, trace, and resolve issues. This approach improves code organization, promotes centralized error handling, and enhances overall system reliability.
+
+=== Validation Flags
+A flag variable used as a signal to indicate that a certain condition has been met. It usually acts as a Boolean variable indicating a true or false state.
+
+*Importance:*  
+Validation flags ensure that input data and system conditions meet predefined requirements before further processing occurs. They help prevent invalid or corrupted data from entering the system, reduce runtime errors, and improve overall system reliability. These flags support clearer user feedback and assist testers and developers in identifying input‑related issues during debugging.
+
+== Conclusion
+The use of error flags is highly beneficial for project development. These mechanisms support a more structured and efficient testing process while contributing to a safer and more controlled development environment. Error flags play a crucial role in maintaining system order, detecting abnormal conditions, and preventing issues that could compromise the integrity and reliability of the project. By enabling precise error identification and structured error handling, error flags enhance debugging efficiency, improve maintainability, and promote overall development quality.
+
+== References
+https://medium.com/@tamangganesh/flags-meaning-in-coding-df7ab2bc830d 
+https://bugzilla.readthedocs.io/en/5.0.4/using/understanding.html?utm_source=chatgpt.com#flags
+https://zetcode.com/terms-testing/feature-flag-testing/
+https://www.softwaretestinghelp.com/types-of-software-errors/
+https://www.geeksforgeeks.org/dsa/use-of-flag-in-programming/
