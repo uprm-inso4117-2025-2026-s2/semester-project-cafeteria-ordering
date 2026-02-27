@@ -130,7 +130,7 @@ At this stage of the project, no external partners have been formally integrated
 
 If external partners become involved in later phases, their roles and responsibilities will be formally documented here.
 
-=== 1.2 Current Situtation, needs, ideas
+=== 1.2 Current Situation, needs, ideas
 
 ==== 1.2.1 Current Situation
 
