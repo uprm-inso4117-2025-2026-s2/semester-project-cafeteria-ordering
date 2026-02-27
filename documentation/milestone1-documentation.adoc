@@ -565,6 +565,51 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 
 ==== 2.2.2 Personas
 
+Personas are different representative archetypes of the primary users within the cafeteria service domain. They help the development team to mantain a shared understanding of the user's needs, behaviors, and constraints when defining user stories, features, and system requirements. The following personas were built with the common characteristics observed among members of the university who regularly interact with the cafeteria.
+
+===== Persona 1 — Carlos the Time Constrained Student
+
+- *Role:* Undergraduate Student  
+- *Age Range:* 18-23  
+- *Primary Goal:* Obtain food quickly between classes  
+- *Environment:* Busy academic schedule with short breaks
+
+Carlos is a full time undergraduate student who usually has a tight schedule between classes and university activities. His available time to obtain meals is limited to short time spaces between mentioned classes. During peak hours, Carlos often encounters long cafeteria lines, which creates uncertainty about whether he can get food before his next class begins.
+
+Carlos values speed, predictability, and efficiency when acquiring food from a place. Long waiting times or unclear service flow impact his daily routine negatively. He cannot afford a big delay in his schedule, and prefers solutions that help him make quick, informed decisions about getting a prepared meal.    
+
+===== Persona 2 — Mariana the Organized Commuter
+
+- *Role:* Commuter Student
+- *Age Range:* 19-24
+- *Primary Goal:* Plan meals around time on campus
+- *Environment:* Balances commuting time with academic responsibilities
+
+Mariana is a student who travels to campus and tries to optimize her time while she is present at the university because she does not remain on campus all day. This student prefers to plan when and where she will obtain food in advance.
+
+Uncertainty about the availability and congestion of the cafeteria makes planning difficult for Mariana. She values visibility into the service's conditions and prefers predictable food service experiences that allow her to coordinate her meals with her commuting schedule. The inefficiencies in the current process can lead her to skip meals or seek off campus alternatives.
+
+===== Persona 3 — José the Cafeteria Staff Member
+
+- *Role:* Cafeteria Personnel  
+- *Age Range:* 25-55  
+- *Primary Goal:* Serve customers efficiently while maintaining quality  
+- *Environment:* High workload during peak hours
+
+José is a staff member of the cafeteria that is responsible for preparing and delivering customer orders. His workload fluctuates significantly depending on the time of day and customer congestion. During peak periods, José must manage rapidly the order intake, food preparation, and customer communication all simultaneously.
+
+José values a clear order flow which has manageable workload distribution, along with smooth customer interactions. When queues become too long or customer demand suddenly increases, service pressure increases and the chance for a delay or miscomunication rises. Operational improvements that reduce this congestion and improve the workflow directly benefits José's ability to mantain the service's quality.
+
+===== Persona Summary
+
+Together, these personas capture the primary perspectives within the domain:
+
+- Time constrained customers that are seeking fast service  
+- Planning oriented customers that seek predictability  
+- Personnel managing the operational workload for a good service 
+
+They will guide the justification of user stories, epics, and functional requirements in subsequent sections of this document.
+
 ==== 2.2.3 Domain Requirements
 
 * **DR-01: Order Composition**
