@@ -15,7 +15,7 @@ The layout ensures all required elements are present:
 student information, uploaded document preview with zoom/expand option, action buttons, and an optional rejection reason input.
 
 --
-*Wireframe description:*
+Wireframe description:
 
 - *Top Navigation/Header:* Includes a back button to return to the Requests list and a title indicating the review context (e.g., "Review Verification").
 - *Request Summary Section:* Displays request identifier (Request #), current status (e.g., Pending), and the submitted date/time for staff reference.
@@ -32,13 +32,11 @@ student information, uploaded document preview with zoom/expand option, action b
   - "Accept Request" approves the verification request
   - "Reject Request" rejects the request (with rejection reason optionally provided)
 
-*Notes / Behavior:*
+Notes / Behavior:
+
   - The rejection reason input is optional, but recommended when rejecting to support transparency and auditing.
-
   - Approve and Reject are mutually exclusive actions and must update the request status (e.g., Approved or Rejected).
-
   - Once a request is approved or rejected, it should no longer appear in the "Pending" requests list.
-  
   - Staff actions should trigger confirmation feedback (e.g., status update message or redirect).
 
 image::Request_Detail_View_Staff_Wireframe.png[Request Detail View Staff wireframe]
