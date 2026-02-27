@@ -1,0 +1,227 @@
+= Staff Order Lifecycle Flowcharts
+:doctype: article
+:toc: left
+:toclevels: 3
+:toc-title: Contents
+:sectnums:
+:icons: font
+:source-highlighter: highlight.js
+:author: @daniellameleroo
+
+
+// ─────────────────────────────────────────────────────────
+//  Attribute shortcuts
+// ─────────────────────────────────────────────────────────
+:app: Cafeteria Application
+:flow-img: staff_view_order_flow.png
+:adoc-path: documentation/UserFlowcharts/flowcharts/staff_view_order_flow.adoc
+
+''''
+
+== Overview
+
+This document describes the full navigation and decision flow a cafeteria *staff member* follows when using the *{app}* to:
+
+* *View* an existing order
+* *Mark an order as In-Progress or Completed*
+* *Cancel an order*
+
+
+TIP: All shapes in the flowchart follow standard conventions — rectangles for processes, diamonds for decisions, ovals for start/end states, and coloured boxes for error or terminal outcomes.
+
+''''
+
+== File Locations
+
+The flowchart image is located at:
+documentation/UserFlowcharts/flowcharts/staff_view_order_flow.png
+documentation/UserFlowcharts/flowcharts/staff_view_order_flow.adoc
+
+image::{flow-img}[Staff View Order Flow, width=720, align=center]
+
+== Entry Points
+
+Staff can reach the Orders area from three distinct entry points in the application.
+
+[cols="1,2,3", options="header", width="100%"]
+|===
+| Entry Point | UI Location | Trigger
+
+| Home Dashboard
+| Main navigation bar -> *"Orders"* tab
+| Staff taps the *"Orders"* navigation tab after logging in
+
+| Notifications Panel
+| Bell icon, top-right corner of the app
+| Staff taps an incoming *new order* push notification
+
+|===
+
+
+''''
+
+== Navigation Flow
+
+=== Orders List Screen
+
+After reaching the Orders List, the screen displays:
+
+* A *Filter Bar* at the top
+* A *Search Bar* for direct lookup
+* A *paginated results table* listing all orders
+
+=== Browse vs Search
+
+Staff choose one of two methods to locate an order.
+
+==== Browse (Manual)
+
+Staff use the Filter Bar to narrow results by order status:
+
+[cols="1,3", options="header"]
+|===
+| Filter Value | Description
+
+| `Pending`
+| Orders placed but not yet acted on
+
+| `In-Progress`
+| Orders currently being prepared
+
+| `Completed`
+| Orders fulfilled and closed
+
+| `Cancelled`
+| Orders that were cancelled
+|===
+
+*Action:* Select a status chip then tap *"Apply Filter"* button.
+
+==== Search
+
+Staff enter one or more identifiers into the Search Bar.
+
+[cols="1,2", options="header"]
+|===
+| Input Field | Accepted Values
+
+| Order ID
+| Exact numeric or alphanumeric order identifier
+
+| Customer Name
+| Full or partial name match
+
+| Date Range
+| Start date and end date picker
+|===
+
+*Action:* Enter criteria then tap *"Search"* button or press Enter.
+
+''''
+
+== Results Handling
+
+After applying a filter or submitting a search, the system returns one of three outcomes.
+
+=== Orders Found
+
+The *Orders List View* renders a paginated table of matching results.
+
+Staff tap a row -> tap *"Open Order"* -> navigates to *Order Details View*.
+
+=== Empty Results
+
+[WARNING]
+====
+No matching orders were found for the given criteria.
+
+* Toast notification displayed: `"No orders found."`
+* Staff may tap *"Clear"* to reset filters, or refine search terms.
+* Flow loops back to the *Browse / Search* step.
+====
+
+=== Network Error
+
+[CAUTION]
+====
+The API was unreachable during the query.
+
+* Toast notification displayed: `"Connection failed. Please try again."`
+* Staff may tap *"Retry"* to re-trigger the same query.
+* Flow loops back to the *Browse / Search* step.
+====
+
+''''
+
+
+=== Status-Based Branching
+
+The action controls available on the Order Details View depend on the *current status* loaded from the database.
+
+[cols="1,2,2", options="header"]
+|===
+| Status | Action Panel | Notes
+
+| Pending
+| Mark In-Progress, Mark Completed, Cancel
+| Full action set available
+
+| In-Progress
+| Mark Completed, Cancel
+| Cannot revert to Pending
+
+| Completed
+| None (Read-Only)
+| Historical view only -- no actions
+
+| Cancelled
+| None (Read-Only)
+| Historical view only -- no actions
+|===
+
+''''
+
+== Actions
+
+=== Mark as In-Progress
+
+. Staff taps *[Mark In-Progress]* in the Action Panel.
+. Status updates immediately in the database.
+. Toast notification displayed: `"Order is now In-Progress."`
+. Staff is returned to the *Orders List* upon tapping Back.
+
+=== Mark as Completed
+
+. Staff taps *[Mark Completed]* in the Action Panel.
+. A *Confirmation Dialog* is displayed: `"Confirm completion?"`
+.. Staff taps *[Confirm]* -> system performs a *role/permission check*.
+.. Staff taps *[Cancel]* -> dialog dismissed, no state change.
+. *If permitted:* Order status updates to `Completed`.
+** Customer is notified automatically.
+** Toast: `"Order marked complete."`
+. *If not permitted:* Permission Denied error is shown.
+** Toast: `"Not authorized to complete this order."`
+** No state change occurs.
+** Staff remains on the Order Details View.
+
+=== Cancel Order
+
+. Staff taps *[Cancel Order]* in the Action Panel.
+. A *Cancellation Reason* input form is displayed.
+.. Staff must enter a reason in the free-text field *(required)*.
+.. Staff taps *[Confirm Cancel]* -> reason is submitted.
+.. Staff taps *[Back]* -> form dismissed, no state change.
+. *If reason is empty:* Inline validation error shown.
+** Field is highlighted red.
+** Toast: `"Reason required."`
+** Staff must enter a reason before proceeding.
+. *If reason provided:* Order status updates to `Cancelled`.
+** Customer is notified automatically.
+** Toast: `"Order cancelled."`
+
+''''
+
+
+
+
+
