@@ -11,11 +11,11 @@ Final designs can be viewed in the documentation/designs/verification_requests_s
 
 .Light Mode
 
-image::documentation/designs/verification_requests_design/images/Verification_Request_Light-Mode.png[align=center, width=350]
+image::images/Verification_Request_Light-Mode.png[align=center, width=350]
 
 .Dark Mode
 
-image::documentation/designs/verification_requests_design/images/Verification_Request_Dark-Mode.png[align=center, width=350]
+image::images/Verification_Request_Dark-Mode.png[align=center, width=350]
 
 --
 Design description:
