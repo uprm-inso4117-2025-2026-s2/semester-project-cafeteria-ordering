@@ -1,0 +1,42 @@
+= Cafteria Odering System - Verification Request Staff Design
+
+User: andreasegarra
+Closes issue #167
+
+== Purpose:
+Design presents a structured list of verification requests submitted by users. It allows staff members to filter requests by status (Pending, Approved, Rejected), quickly view essential request details, and access the full review screen. All visual elements follow the Staff Verification Requests List wireframe (see `documentation/wireframes/verification_requests/` for wireframes and corresponding documentation.)
+
+== Final product:
+Final designs can be viewed in the documentation/designs/verification_requests_design/images.
+
+.Light Mode
+
+image::documentation/designs/verification_requests_design/images/Verification Request Light-Mode.png[align=center, width=350]
+
+.Dark Mode
+
+image::documentation/designs/verification_requests_design/images/Verification Request Dark-Mode.png[align=center, width=350]
+
+--
+Design description:
+
+- Designs were created for both light and dark mode.
+- All elements follow the defined branding system, color palette, and typography hierarchy.
+- The page header includes a back navigation arrow and the title "Verification Request".
+- Status filter buttons (Pending / Approved / Rejected) allow staff to filter visible requests.
+- Each verification request is displayed in a card layout containing:
+  * User Name (primary identifier)
+  * ID number
+  * Requested status type
+  * Submission date
+- Each card includes:
+  * A status label indicating current request state.
+  * A "Review" button that allows staff to access the detailed review screen.
+- Color semantics:
+  * Green tones represent actionable or approved states.
+  * Red tones represent rejected status.
+- Cards use consistent border radius, spacing, and shadow elevation to maintain visual hierarchy.
+- Layout follows a vertical scrolling structure optimized for mobile first design (iPhone dimensions).
+- Buttons are horizontally aligned within each card for clear action visibility.
+- Light mode prioritizes clarity and administrative cleanliness.
+- Dark mode reduces visual strain while preserving contrast and accessibility.
