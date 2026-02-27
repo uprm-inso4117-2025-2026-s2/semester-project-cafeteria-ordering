@@ -1,0 +1,74 @@
+= Test Deliverables Definition
+
+== 1. Objective
+This document identifies and categorizes all testing deliverables for the Cafeteria Ordering System. It establishes clear expectations for quality assurance, standardizes artifact formats, specifies storage locations, and assigns ownership to ensure a transparent and comprehensive testing process aligned with the project standards.
+
+== 2. Test Deliverables Matrix
+
+[cols="2,1,3,1,2,2", options="header"]
+|===
+| Deliverable 
+| Category 
+| Description 
+| Standardized Format 
+| Storage Location 
+| Ownership / Responsibility
+
+| *Test Plan / QA Strategy* | Strategy 
+| High-level document outlining the testing scope, approach, environments, and tools. 
+| AsciiDoc (`.adoc`) 
+| `documentation/testing/test-plan.adoc` 
+| QA Lead / Software Engineering Team
+
+| *BDD Feature Scenarios* | Test Cases 
+| Business-readable test scenarios defining system behavior. 
+| Gherkin (`.feature`) 
+| `features/*.feature` 
+| Product Owner / QA
+
+| *Step Definitions* | Test Scripts 
+| Code implementations of the BDD feature scenarios mapping to application logic. 
+| JavaScript/TypeScript (`.js`/`.ts`) 
+| `features/step_definitions/` 
+| Developers / SDET
+
+| *Unit & Integration Tests* | Test Scripts 
+| Code-level tests verifying specific components, hooks, and database connections. 
+| TypeScript (`.test.ts`) 
+| `src/tests/` 
+| Developers
+
+| *Automated Test Execution Logs* | Reporting 
+| Automatically generated logs from the CI/CD pipeline detailing pass/fail rates for every pull request and merge. 
+| CI Console Output / YAML 
+| GitHub Actions (`.github/workflows/auto_test_suite.yml`) 
+| DevOps / QA
+
+| *Defect / Bug Reports* | Tracking 
+| Detailed logs of discovered issues, including steps to reproduce, expected vs. actual behavior, and environment details. 
+| GitHub Issue 
+| GitHub Repository (Issues Tab) 
+| Entire Team
+
+| *Test Summary Report* | Reporting 
+| End-of-sprint or pre-release summary detailing testing coverage, known limitations, and overall quality metrics. 
+| AsciiDoc (`.adoc`) 
+| `documentation/testing/summaries/` 
+| QA Lead
+|===
+
+== 3. Storage and Formatting Guidelines
+
+To maintain the repository clean and prevent missing artifacts during the release cycle, all testing deliverables must strictly follow this file structure:
+
+* *Behavior-Driven Development (BDD):* All user stories must have corresponding acceptance criteria mapped in `.feature` files within the root `features/` directory.
+* *Code-Level Testing:* All unit and integration test files must be co-located in `src/tests/` or alongside the components they test, strictly using the `.test.ts` or `.test.tsx` naming convention.
+* *Documentation:* All static testing documentation belongs in `documentation/testing/`.
+
+== 4. Alignment with Project QA Standards
+
+This deliverables structure aligns perfectly with the established project architecture by:
+
+. *Enforcing BDD Integration:* Validating that `cucumber.json` configurations and existing feature files (like `order_placement.feature`) are treated as primary test case deliverables.
+. *Supporting Continuous Integration:* Ensuring that deliverables integrate with the existing `.github/workflows/auto_test_suite.yml` for automated validation.
+. *Traceability:* Linking Defect Reports directly to GitHub Issues to maintain a centralized, trackable backlog of system anomalies.
