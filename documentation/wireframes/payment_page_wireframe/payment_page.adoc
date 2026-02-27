@@ -89,11 +89,11 @@ Includes:
 
 The wireframe is stored in:
 
-/documentation/payment_page_wireframe/payment_page_wireframe.png
+documentation/wireframes/payment_page_wireframe/payment_page_wireframe.png
 
 Embedded Reference:
 
-image::documentation/wireframes/payment_page_wireframe/payment_page_wireframe.png[Payment Page Wireframe, align="center"]
+image::payment_page_wireframe.png[Payment Page Wireframe, align="center"]
 
 == Acceptance Criteria == 
 
