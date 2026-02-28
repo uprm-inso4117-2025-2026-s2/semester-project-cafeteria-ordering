@@ -8,9 +8,9 @@ function banner(title){
 
 function runStep(stepName, command){
     console.log(`\nTest: ${stepName}`); //Prints the step name 
-    console.log(`Command: ${command}`); //Prints command being executed
+    console.log(`\nCommand: ${command}`); //Prints command being executed
     execSync(command, { stdio: "inherit" }); //Sends the command's output onto GitHub log.
-    console.log("\n-----------------------------------------------------------------")
+    console.log("\n///////////////////////////////////////////////////////////////////////\n")
 }
 
 function main(){
