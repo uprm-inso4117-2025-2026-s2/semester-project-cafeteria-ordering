@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "test:build": "npx expo export",
-    "ci-check": "npm run lint && npm run test:build",
+    "ci-check": "node ./scripts/ci-check.js",
     "test": "cucumber-js"
   },
   "dependencies": {
