@@ -1,0 +1,69 @@
+= Define Testing Methodology (INSO4117)
+:author: Kian R. Ramos-Vega
+
+== Overview
+
+The purpose of this document is to define the testing methodology that will guide how testing activities are organized, prioritized, and executed throughout the Cafeteria Ordering System project.
+
+The selected methodology ensures that testing efforts focus on the most critical system functionality first, while still supporting validation of both high-level workflows and low-level components.
+
+== Selected Testing Methodology
+
+The Cafeteria Ordering System project will primarily use a Risk-Based Testing methodology, and will be supported by Top-Down and Bottom-Up testing strategies where appropriate.
+
+This combined approach allows the team to:
+
+* Prioritize testing based on system risk and impact.
+* Validate complete user workflows early in development.
+* Verify individual components and integrations independently.
+
+== Risk-Based Testing Approach
+
+Risk-based testing prioritizes testing activities according to the likelihood and impact of potential failures.
+
+For this project, the highest-risk areas include:
+
+* Order placement and processing
+* Payment functionality
+* Backend communication and data handling
+* System behavior during peak usage
+* Integration between frontend and backend components
+
+Testing resources will be focused primarily on the highest-risk areas to reduce the chances of major system failures.
+
+== Top-Down Testing Application
+
+Top-down testing will be used to validate high-level workflows and user interactions early in development. This would allow early detection of any major issue affecting user experience.
+
+Examples include:
+
+* Navigation between different application screens
+* Order creation workflow from selection to confirmation
+* User authentication and login flow
+* Basic user interface behavior
+
+== Bottom-Up Testing Application
+
+Bottom-up testing will be used to validate individual components, services, and integrations before having full system integration. By testing components, services, etc. independently it improves the reliability of these components before joining and integrating them into a much larger workflow
+
+Examples include:
+
+* Backend API responses
+* Database operations
+* Payment processing modules
+* Utility functions and services
+
+== Alignment with Project Risks and Timeline
+
+The selected Risk-Based methodology fits the project because the system contains many critical features where failure could have a large impact in customer experience, trust and handling of personal information. Early validation of core functionality reduces future rework especially since the development of the project occurs incrementally accross multiple teams. Combining risk-based prioritization with top-down and bottom-up validation, when appropriate, provides balanced coverage without unnecessary complexity.
+
+== Support for CI and Incremental Development
+
+Continuous Integration (CI) integration helps maintain system stability and reduces the risk of introducing defects into existing functionality. The testing methodology supports CI by allowing testing at multiple stages of development. 
+
+Examples include:
+
+* Running automated tests for individual components.
+* Validating system builds before merging code.
+* Preventing unstable code from entering specific branches.
+

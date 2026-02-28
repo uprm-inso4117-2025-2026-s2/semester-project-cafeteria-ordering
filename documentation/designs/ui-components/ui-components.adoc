@@ -1,0 +1,207 @@
+= UI Component System (Buttons, Cards, Status Tags, Inputs)
+:toc:
+:toclevels: 3
+:icons: font
+:sectnums:
+:imagesdir: assets
+
+== Overview
+
+This document defines a reusable UI component system to ensure visual consistency and scalability across all wireframes and future page designs.
+
+Scope includes:
+
+* Buttons (Primary / Secondary / Destructive + Disabled)
+* Order Card (customer & staff views)
+* Status Tags (Paid, Pending, Completed, Urgent, Cancelled)
+* Input Fields (Default / Focus / Error / Disabled)
+* Section containers + spacing rules
+
+These components:
+
+* Follow the established palette and typography
+* Prioritize readability in light and dark mode
+* Are reusable across Homepage, Orders, Payments, and Profile pages
+
+== Design Foundations
+
+=== Typography
+
+* Headings: *Bitter*
+* Body + metadata: *Inter*
+* Use consistent hierarchy across components:
+  ** Title / section heading (Bitter, bold)
+  ** Metadata / helper text (Inter, muted)
+  ** Primary values (Inter, strong emphasis)
+
+=== Spacing & Layout
+
+* Use an *8px grid* (8, 16, 24, 32...)
+* Default component padding: *16px*
+* Default corner radius: *12px*
+* Keep actions aligned consistently:
+  ** Cards: actions bottom-right
+  ** Tags: compact pills, single line when possible
+
+=== Surfaces, Borders, and States
+
+Light mode:
+
+* Surface: `#FFFFFF`
+* Border: subtle 1px neutral
+* Shadows: subtle and minimal (avoid heavy elevation)
+
+Dark mode:
+
+* Surface: `#242424`
+* Border: subtle 1px darker neutral
+* Maintain readable contrast for text and semantic states
+
+== Components
+
+== Buttons
+
+Buttons follow the same structure in light/dark mode with theme tokens applied.
+
+=== Variants
+
+==== Primary
+* Purpose: main call-to-action (CTA)
+* Visual: solid green background, white label
+* Disabled: muted green background, reduced contrast, non-interactive
+
+Usage:
+* Use for the single most important action in a section (e.g., "Mark Completed", "Save", "Submit").
+* Avoid multiple Primary buttons in the same action row unless explicitly required.
+
+==== Secondary
+* Purpose: less prominent actions (navigation, preview, optional actions)
+* Visual: outlined green border, green label, transparent/neutral background
+* Hover: subtle background tint (light: sage tint; dark: subtle green tint)
+* Disabled: muted label and border, non-interactive
+
+Usage:
+* Use for "View", "Cancel", "Back", "Details", or non-destructive alternatives next to a Primary.
+
+==== Destructive
+* Purpose: irreversible or destructive actions (delete, cancel order, remove)
+* Visual: red background, white label
+* Disabled: muted red background, non-interactive
+
+Usage:
+* Use only when action is destructive.
+* Consider confirmation dialogs for irreversible actions.
+
+=== Accessibility
+* Ensure focus state is clearly visible (keyboard navigation).
+* Button label text must remain readable in all states.
+
+=== PNG Preview
+image::buttons-light.png[Buttons (Light)]
+image::buttons-dark.png[Buttons (Dark)]
+
+== Status Tags (Pills)
+
+Semantic pill tags used to quickly communicate order/payment state.
+
+=== Variants
+
+* Paid (green)
+* Pending (orange/amber)
+* Completed (green)
+* Urgent (yellow)
+* Cancelled (red)
+
+Rules:
+* Tags must remain readable (foreground/background contrast).
+* Keep tags compact and consistent in height and padding.
+* Use one tag per entity where possible (avoid stacking multiple tags unless required).
+
+=== Placement
+* Cards: top-right of content area (aligned with heading block)
+* Lists: align consistently across rows
+
+=== PNG Preview
+image::status-tags-light.png[Status Tags (Light)]
+image::status-tags-dark.png[Status Tags (Dark)]
+
+== Input Fields
+
+Standard input styling for all forms across the product.
+
+=== States
+
+==== Default
+* Neutral border
+* Placeholder muted
+* Optional helper text below field
+
+==== Focus
+* 2px green focus ring (clear, accessible)
+* Border can remain neutral or match focus ring depending on implementation
+
+==== Error
+* 2px red border (or red ring)
+* Error helper text in red, directly below input
+
+==== Disabled
+* Muted background
+* Muted text
+* Non-interactive cursor + no focus
+
+Rules:
+* Helper text (optional) should not compete with primary content.
+* Error messages must be specific and actionable.
+* Maintain consistent field height and padding.
+
+=== PNG Preview
+image::inputs-light.png[Inputs (Light)]
+image::inputs-dark.png[Inputs (Dark)]
+
+== Order Card
+
+Reusable order summary card for customer and staff contexts.
+
+=== Structure
+
+Header:
+* Order title (e.g., "Order #1042")
+* Status tag aligned top-right
+
+Metadata row:
+* Customer name
+* Total
+* Placed time
+
+Body:
+* Items summary (quantity × item)
+* Notes (if present)
+
+Footer:
+* Divider
+* Actions aligned bottom-right:
+  ** Secondary: "View"
+  ** Primary: "Mark Completed" (or context equivalent)
+
+=== Usage Notes
+* Keep card layout consistent across pages (Orders list, Order details sidebar, staff dashboard).
+* Do not move actions to different corners between contexts.
+* Notes should be quoted or visually separated to avoid blending with items list.
+
+=== PNG Preview
+image::order-card-light.png[Order Card (Light)]
+image::order-card-dark.png[Order Card (Dark)]
+
+== Component Set Preview (Optional)
+
+This is a combined preview image of the component set.
+
+image::ui-components.png[UI Components (Light/Dark Overview)]
+
+== Acceptance Criteria Mapping
+
+* [x] At least 5 reusable UI components defined (Buttons, Tags, Inputs, Order Card, Containers)
+* [x] Components follow branding documentation (palette + Bitter/Inter)
+* [x] Usage rules documented (when to use which variant)
+* [x] PNG previews included (light + dark)
+* [x] Ready for design review approval

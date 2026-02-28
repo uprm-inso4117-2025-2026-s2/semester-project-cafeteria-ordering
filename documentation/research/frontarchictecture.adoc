@@ -1,0 +1,140 @@
+= Frontend Architecture and Tooling
+Chosen Framework: React Native with Expo
+
+== Overview
+
+This document defines the frontend architecture and development standards for the project. It establishes a shared foundation that all frontend contributors can follow consistently throughout development.
+
+The goal is to reduce ambiguity, improve maintainability, and enable faster onboarding by clearly documenting architectural decisions related to structure, navigation, state management, styling, API integration, testing, and tooling.
+
+This document focuses on planning and standards rather than full implementation.
+
+== Architectural Goals
+
+The frontend architecture is designed to meet the following goals:
+
+* Provide a clear and scalable project structure.
+* Support smooth navigation and a native-like user experience.
+* Keep state management simple while allowing future growth.
+* Maintain visual consistency through centralized styling decisions.
+* Separate concerns between UI, business logic, and data access.
+* Enable collaboration through shared conventions and tooling.
+
+== Project Structure
+
+The frontend follows a feature-oriented structure that balances scalability and readability. Related files are grouped together while maintaining clear separation of concerns.
+
+=== Directory Overview
+
+* `/app`  
+  Contains route-based screens managed by Expo Router. Each folder represents a screen or navigation group.
+
+* `/components`  
+  Reusable UI components shared across the application, such as buttons, inputs, cards, and modals.
+
+* `/features`  
+  Feature-specific logic that may include local components, hooks, and state (e.g., authentication, orders).
+
+* `/services`  
+  Centralized API communication layer, including HTTP client configuration and endpoint abstractions.
+
+* `/hooks`  
+  Shared custom React hooks used across multiple features.
+
+* `/constants`  
+  Application-wide constants such as colors, spacing, typography, and configuration values.
+
+* `/utils`  
+  General-purpose helper functions that are independent of UI concerns.
+
+This structure ensures that the codebase remains easy to navigate as features are added.
+
+== Navigation and Routing
+
+Navigation is handled using **Expo Router**, which provides file-based routing on top of React Navigation.
+
+=== Rationale
+
+* File-based routing improves clarity by reflecting navigation structure directly in the file system.
+* Reduces manual route configuration and boilerplate.
+* Integrates seamlessly with React Navigation’s stack and tab navigators.
+* Aligns with Expo’s recommended best practices.
+
+React Navigation remains the underlying navigation engine, providing access to a mature ecosystem and well-supported navigation patterns.
+
+== State Management
+
+State management is intentionally kept lightweight to match the current project scope.
+
+=== Strategy
+
+* React Context is used for global concerns such as authentication state and user session.
+* Local component state (`useState`, `useReducer`) is used for screen-level logic.
+* API data is handled through the service layer rather than global state.
+
+This approach minimizes complexity while leaving room for future expansion if the application grows. Migration to a dedicated state management library (e.g., Redux Toolkit or Zustand) remains possible without major architectural changes.
+
+== Styling and UI Standards
+
+Styling is handled using **React Native StyleSheet** with centralized theme definitions.
+
+=== Guidelines
+
+* Use `StyleSheet.create` for consistent and performant styling.
+* Define shared design tokens (colors, spacing, typography) in a centralized constants file.
+* Avoid inline styles except when values are dynamic.
+* Prioritize consistency and readability over heavy UI abstraction libraries.
+
+This strategy provides full control over the UI while keeping styling simple and maintainable.
+
+== API Integration
+
+All API communication is centralized in the `/services` directory.
+
+=== Design Principles
+
+* UI components do not call API endpoints directly.
+* API logic is abstracted into reusable service functions.
+* Error handling and loading states follow consistent patterns.
+* API concerns remain separate from presentation logic.
+
+This separation improves testability, readability, and long-term maintainability.
+
+== Testing Approach
+
+Frontend testing focuses on validating critical behavior without introducing unnecessary overhead.
+
+=== Testing Priorities
+
+* Component-level testing for reusable UI components.
+* Basic integration testing for high-impact flows such as authentication and ordering.
+* Manual exploratory testing for navigation and user experience validation.
+
+Testing depth can evolve as the project matures, with emphasis placed on features with the highest user impact.
+
+== Development Tooling
+
+The following tools are used to support code quality and collaboration:
+
+* ESLint for static code analysis and rule enforcement.
+* Prettier for consistent code formatting.
+* Git hooks or CI checks to prevent invalid or unformatted code from being merged.
+* Basic test runner configuration to support future automation.
+
+These tools help maintain consistency and reduce friction during development.
+
+== Getting Started for Frontend Developers
+
+To begin working on the frontend:
+
+1. Install project dependencies using the package manager.
+2. Start the Expo development server.
+3. Run the application using Expo Go or a local emulator.
+4. Review this architecture document and the defined folder structure.
+5. Follow existing patterns when adding new screens, components, or services.
+
+This process ensures that new contributors can become productive quickly.
+
+== Summary
+
+This document establishes a clear and consistent frontend architecture for the project using React Native with Expo. By defining structure, navigation, state management, styling, API integration, testing, and tooling upfront, the team can develop confidently and collaboratively while minimizing technical debt.

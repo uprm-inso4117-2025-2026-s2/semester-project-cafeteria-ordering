@@ -1,0 +1,101 @@
+= AI Integration with Supabase
+:author: Pedro Juan Bonilla
+
+== Overview of Supabase AI Capabilities
+
+Supabase provides several AI-related capabilities that allow developers to build AI-powered applications directly within their backend infrastructure. The primary AI-related features include:
+
+* Edge Functions (for AI API calls)
+* pgvector extension (vector embeddings & similarity search)
+* Database Webhooks
+* Row-Level Security (RLS) for AI-safe data access
+* Third-party AI provider integration (OpenAI, and more.)
+
+
+== Supabase Edge Functions for AI
+
+Supabase Edge Functions are serverless TypeScript functions deployed globally with the use of Deno. This functions allow:
+* Secure API calls to AI providers
+* Backend-only execution
+* Environment variable protection
+* Authentication validation before AI requests
+
+== Potential Use Cases for the Cafeteria Ordering Project
+
+=== AI Chatbot for Student Assistance
+* Menu questions
+* Order status explanations
+* Dietary recommendations
+
+=== Admin Insights
+* AI-generated summaries of daily orders
+* Trend analysis
+
+== Security Considerations
+
+Security is critical when integrating AI. For that we most make sure thaat the AI provider keys must:
+* Never be stored in frontend code
+* Be stored in Supabase environment variables
+* Only be accessed inside Edge Functions
+
+And if the AI accesses database data its imperative that:
+* RLS policies must restrict user-specific data
+* AI functions must validate user identity
+* Only authorized data should be embedded or retrieved
+
+Some potential risks if this is handled wrongly are:
+* Sending sensitive student data to third-party AI APIs
+* Logging of prompts containing private information
+
+Mitigation strategies that help prevent this issue are:
+* Avoid sending PII
+* Sanitize inputs
+* Use minimal necessary context
+* Log securely
+
+AI endpoints can be abused. For that reason its recomented that we:
+* Validate authenticated users
+* Implement rate limiting
+* Monitor usage logs
+* Limit request size
+
+== Limitations of Supabase AI Integration
+
+* Supabase does not provide built-in LLMs.
+* Requires external AI providers (additional cost).
+* Edge Functions introduce latency.
+* Vector storage increases database size.
+* Requires proper prompt engineering for reliability.
+
+== Recommended Architecture for This Project
+
+Recommended approach:
+
+1. Use Supabase Auth for student authentication.
+2. Create Edge Functions for AI calls.
+3. Store embeddings using pgvector.
+4. Use RLS policies to restrict access.
+5. Log AI interactions for auditing.
+
+Small Architecture Summary:
+
+Client → Supabase Edge Function → AI Provider  
+Client → Supabase DB (with RLS)  
+Edge Function ↔ Supabase DB (Embeddings)
+
+== Conclusion
+
+Supabase provides a strong foundation for AI integration through the use of:
+
+* Edge Functions for secure AI calls
+* pgvector for semantic search
+* Row-Level Security for data protection
+
+While it does not provide its own AI models, it enables secure and scalable integration with external AI providers.
+
+For the UPRM Cafeteria Ordering Project, Supabase AI integration can support:
+
+* AI Chatbot
+* Smart meal recommendations
+* Semantic menu search
+* Order insights for administrators

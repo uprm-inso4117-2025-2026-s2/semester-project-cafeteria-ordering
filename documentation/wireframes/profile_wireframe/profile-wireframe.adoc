@@ -1,0 +1,76 @@
+= Profile Page Wireframe
+Author: Daniella Melero Pereira
+:toc:
+
+== Overview
+
+This document describes the Profile page wireframe for the Cafeteria Ordering System.
+
+The Profile page allows users to view and manage their personal account information used for ordering meals and managing their account.
+
+== Wireframe
+
+image::profile_wireframe.png[Profile Wireframe, align=center, width=300]
+
+== Purpose
+
+The Profile page provides a centralized location where users can:
+
+- view personal account details
+- update contact information
+- access account management actions
+
+== Layout Structure
+
+The Profile page is organized into the following sections:
+
+=== Header
+Displays the page title:
+
+- Profile
+
+=== Profile Photo
+A circular avatar placeholder representing the user's profile image.
+
+=== Personal Information
+
+Fields displayed:
+
+- Name
+- Email
+- Phone number
+
+These fields represent the user's account details and may be editable.
+
+=== Account Actions
+
+The page includes the following actions:
+
+- Edit Profile — allows the user to update their information.
+- Logout — signs the user out of the system.
+
+== User Interaction Flow
+
+1. User navigates to the Profile page.
+2. User views their personal information.
+3. User selects *Edit Profile* to update their details.
+4. User may choose *Logout* to exit the system.
+
+== Design Considerations
+
+The wireframe follows these design principles:
+
+- Clear and simple layout
+- Easy readability of personal information
+- Prominent access to account actions
+- Minimal interface to reduce user friction
+
+== Wireframe Location
+
+The Profile page wireframe is stored in:
+
+`documentation/wireframes/profile_wireframe/profile_wireframe.png`
+
+== Notes
+
+This wireframe represents a low-fidelity layout intended to guide future UI design and implementation.

@@ -1,0 +1,631 @@
+= Defining Test Enviroment (INSO4117)
+:author: Devlin Hahn
+
+
+== Summary
+
+This document defines the test enviroment and requirements and pre-merge validation pipeline for this project currently in research and pre-development phase.
+
+Key characteristics:
+
+*  **Platform agnostic** - Works on Windows, macOS, and Linux
+*  **Zero assumptions** - No pre-installed software beyond container runtime
+*  **Fully scriptable** - No manual setup steps
+*  **CI-integrated** - GitHub Actions runs tests before every merge
+*  **Reproducible** - Same configuration produces same results everywhere
+
+== Platform Coverage Strategy
+
+=== Host OS Compatibility (Developer Machines)
+
+[cols="1,1,2"]
+|===
+| OS Family | Support Level | Justification / Constraint
+
+| Windows 10/11
+| ✅ Required
+| Team members using Windows. Must support PowerShell, CMD, and WSL2 workflows.
+
+| macOS (Intel/Apple Silicon)
+| ✅ Required
+| Team members using MacBooks. Must handle arm64 vs x86_64 compatibility.
+
+| Linux (Ubuntu 22.04+ / Fedora)
+| ✅ Preferred
+| CI/CD runners use Linux. Local Linux testing should mirror pipeline.
+|===
+
+[important]
+====
+No developer will be forced to use a specific host OS. All test environment setup must be OS-agnostic or provided with per-OS instructions.
+====
+
+== Containerization & Virtualization Strategy
+
+=== Docker as the Universal Runtime 
+
+|===
+| Aspect | Specification
+| **Why Docker?** | Runs identically on Windows, macOS, and Linux. Solves "works on my machine" permanently.
+| **Prerequisite** | Docker Desktop 24.0+ / Docker Engine 24.0+. This is the **only** mandatory host installation.
+| **Configuration** | All services defined in `docker-compose.test.yml` or `docker-compose.ci.yml`
+| **Image Policy** | Use specific version tags (`postgres:15-alpine`), never `latest`
+|===
+
+== Software Requirements Matrix
+
+=== Development & Runtime Software
+
+[cols="1,1,2,1"]
+|===
+| Category | Requirement | Why It Matters | Cross-Platform
+
+| Container Runtime
+| Docker 24.0+ / Docker Desktop
+| Non-negotiable. All services run in containers.
+| ✅ Windows (WSL2), ✅ macOS, ✅ Linux
+
+| Container Orchestration
+| Docker Compose 2.20+
+| Define multi-container test topologies.
+| ✅ All platforms
+
+| Version Control
+| Git 2.40+
+| CLI tooling for CI operations and hooks.
+| ✅ All platforms
+
+| Language Runtime
+| *TBD by stack*
+| Must support headless execution and containerization.
+| ✅ All platforms if containerized
+
+| Package Manager
+| *TBD by stack*
+| Must support lockfiles for deterministic installs.
+| ✅ All platforms
+
+| Secrets Management
+| GitHub Secrets / Actions
+| No secrets in code. Environment variables injected at runtime.
+| ✅ N/A (CI-managed)
+|===
+
+=== Testing Framework Requirements 
+
+Regardless of language/framework choice, the testing toolchain must support:
+
+[cols="1,2,1"]
+|===
+| Requirement | Why | Validation Criteria
+
+| Headless Execution
+| Tests run on CI servers without displays, SSH, or GUI.
+| Framework supports `--headless` flag, virtual display, or equivalent.
+
+| JUnit XML Output
+| GitHub Actions parses this for rich reporting and annotations.
+| Framework can export results in JUnit/compatible XML format.
+
+| Coverage Reporting
+| Measure what code is actually tested. Enforce thresholds.
+| Framework outputs Cobertura, LCOV, Clover, or OpenCover XML.
+
+| Parallel Execution
+| Test suites must complete quickly to maintain developer velocity.
+| Supports sharding, concurrent workers, or test splitting.
+
+| Selective Execution
+| Only run tests relevant to changed code.
+| Supports path filtering, test name pattern matching, or impact analysis.
+|===
+
+=== Service Dependencies (Supabase Stack)
+
+All Supabase services MUST be containerized for local/CI testing.
+
+[cols="1,2,2"]
+|===
+| Supabase Component | Local Test Implementation | Purpose
+
+| **PostgreSQL Database**
+| `supabase/postgres:15.1.0.104` container with pgvector
+| Core relational data, auth tables, realtime subscriptions
+
+| **Supabase Auth**
+| GoTrue API (container) or custom mock
+| User authentication, JWT validation
+
+| **Supabase Storage**
+| `localstack/s3` or MinIO
+| File uploads, bucket management
+
+| **Supabase Realtime**
+| `supabase/realtime` container
+| WebSocket connections, live queries
+
+| **Edge Functions**
+| Deno runtime in container
+| Serverless function testing
+|===
+
+[note]
+====
+**Official Supabase Local Development:**
+Supabase provides a CLI tool (`supabase start`) that runs all services via Docker Compose.
+We can use this for local testing and replicate the configuration in CI.
+====
+
+== GitHub Actions: Pre-Merge Test Architecture 
+
+=== Pipeline Philosophy
+
+....
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│ Pull Request │────▶│    Setup    │────▶│    Lint     │────▶│   Unit      │
+│   Opened     │     │   CI Env    │     │   & Scan    │     │   Tests     │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+                                                                   │
+                                                         ┌─────────▼─────────┐
+                                                    ┌───│  Integration      │
+                                                    │   │     Tests        │
+                                                    │   └─────────┬─────────┘
+                                                    │             │
+┌─────────────┐     ┌─────────────┐     ┌─────────▼─────┐     ┌─▼─────────────┐
+│   Merge     │◀────│  All Pass   │◀────│   Report      │◀────│    Build      │
+│   Ready     │     │             │     │   & Coverage  │     │   Artifact    │
+└─────────────┘     └─────────────┘     └─────────────┘     └───────────────┘
+....
+
+=== Workflow Defintionl: Example 'pre-merge-validation.yml'
+
+[source,yaml]
+----
+name: Pre-Merge Validation
+
+on:
+  pull_request:
+    branches: 
+      - main
+      - develop
+      - release/**
+    types:
+      - opened
+      - synchronize
+      - reopened
+  workflow_dispatch:  # Manual trigger for testing pipeline changes
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true  # Cancel stale runs on new commits
+
+jobs:
+  # Job definitions follow in subsequent sections
+----
+
+=== Primary Test Job Example (Linux)
+
+[source,yaml]
+----
+  test-linux:
+    name: "Test (Linux)"
+    runs-on: ubuntu-latest
+    container:
+      image: node:20-slim  # PLACEHOLDER - Replace with actual runtime
+      options: --user root
+    
+    services:
+
+      postgres:
+        image: supabase/postgres:15.1.0.104
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      
+      # Optional: Add auth service if needed
+      # auth:
+      #   image: supabase/gotrue:latest
+      #   env:
+      #     GOTRUE_JWT_SECRET: super-secret-jwt-token
+      #     GOTRUE_DB_DRIVER: postgres
+      #     GOTRUE_DB_DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+      
+      localstack:
+        image: localstack/localstack:3.0
+        env:
+          SERVICES: s3,sqs
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+          AWS_DEFAULT_REGION: us-east-1
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ~/.cache/pip
+            ~/.m2
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/package-lock.json', '**/requirements.txt', '**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-
+      
+      - name: Install dependencies
+        run: |
+          # PLACEHOLDER - Language-specific installation
+          echo "Installing project dependencies"
+      
+      - name: Run linter & security scan
+        run: |
+          # PLACEHOLDER
+          echo "Running static analysis"
+      
+      - name: Run unit tests
+        run: |
+          # PLACEHOLDER - Unit tests only, no external services
+          echo "Running unit tests"
+      
+      - name: Run integration tests
+        run: |
+          # PLACEHOLDER - Tests requiring DB, Redis, S3
+          echo "Running integration tests"
+      
+      - name: Upload test results
+        if: always()  # Upload even on failure
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-linux
+          path: |
+            test-results/
+            coverage/
+      
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info,./coverage/cobertura.xml
+          flags: unittests
+          name: codecov-umbrella
+----
+
+=== Compatibility Matrix Example (Windows & macOS)
+
+[source,yaml]
+----
+  compatibility:
+    name: "Test (${{ matrix.os }})"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+      fail-fast: false  # Don't cancel other OS tests on failure
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install dependencies (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          # PLACEHOLDER - Windows-specific setup
+          echo "Installing on Windows"
+      
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          # PLACEHOLDER - macOS-specific setup
+          echo "Installing on macOS"
+      
+      - name: Run critical test suite
+        run: |
+          # PLACEHOLDER - Subset of tests for OS validation
+          # Not full suite - only OS-sensitive tests
+          echo "Running compatibility tests"
+      
+      - name: Upload compatibility test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.os }}
+          path: test-results/
+----
+
+=== Test Gate Aggregator Example
+
+[source,yaml]
+----
+  results:
+    name: "Test Results Summary"
+    needs: [test-linux, compatibility]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Check test status
+        run: |
+          # Aggregate results from all jobs
+          # Enforce merge policies
+          
+          if [[ "${{ needs.test-linux.result }}" != "success" ]]; then
+            echo "❌ Linux tests failed"
+            exit 1
+          fi
+          
+          echo "✅ All required tests passed"
+      
+      - name: Add PR comment with test summary
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const summary = {
+              linux: '${{ needs.test-linux.result }}',
+              windows: '${{ needs.compatibility.result }}',
+              macos: '${{ needs.compatibility.result }}'
+            };
+            
+            let body = `## ✅ Pre-Merge Test Results\n\n`;
+            body += `| Environment | Status |\n`;
+            body += `|------------|--------|\n`;
+            body += `| Linux (primary) | ${summary.linux === 'success' ? '✅' : '❌'} |\n`;
+            body += `| Windows | ${summary.windows === 'success' ? '✅' : '❌'} |\n`;
+            body += `| macOS | ${summary.macos === 'success' ? '✅' : '❌'} |\n`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+----
+
+== Supabase Local Development Environment
+
+=== Prerequisites
+
+```bash
+# Install Supabase CLI
+# macOS
+brew install supabase/tap/supabase
+
+# Windows (via scoop)
+scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+scoop install supabase
+
+# Linux (via curl)
+curl -fsSL https://github.com/supabase/cli/releases/download/v1.0.0/supabase_linux_amd64.tar.gz | tar -xz
+sudo mv supabase /usr/local/bin/
+```
+
+=== Local Test Database Setup
+
+```bash
+##Initialize Supabase in project
+supabase init
+
+# Start all Supabase services locally
+supabase start
+
+# This launches:
+# - PostgreSQL 15 (with PostGIS, pgvector)
+# - Kong (API gateway)
+# - GoTrue (Auth)
+# - Storage API
+# - Realtime server
+# - Edge Functions runtime
+
+# Stop and reset
+supabase stop --no-backup
+```
+
+=== CI Integration with Supabase
+
+For GitHub Actions, we can use either the Docker image approach shown above or:
+
+```yaml
+- name: Setup Supabase CLI
+  uses: supabase/setup-cli@v1
+  with:
+    version: latest
+
+- name: Start Supabase services
+  run: supabase start
+```
+
+
+== Pre-Merge Test Gates
+
+[cols="1,1,2,1"]
+|===
+| Gate | Phase | Requirement | Failure Action
+
+| 1. Code Linting
+| Pre-test
+| Static analysis, formatting enforcement, security patterns.
+| ❌ **Block PR**
+
+| 2. Dependency Scan
+| Pre-test
+| Known vulnerabilities in dependencies. High/Critical severity.
+| ❌ **Block PR**
+
+| 3. Unit Tests
+| Test
+| Isolated, fast (<2 min total). No external dependencies.
+| ❌ **Block PR**
+
+| 4. Integration Tests
+| Test
+| Database, cache, object storage, message queue.
+| ❌ **Block PR**
+
+| 5. Build Verification
+| Post-test
+| Artifact compiles/packages successfully.
+| ❌ **Block PR**
+
+| 6. Coverage Threshold
+| Report
+| Minimum 80% line coverage (configurable per module).
+| ⚠️ Warning / ❌ Block
+
+| 7. OS Compatibility
+| Report
+| Windows/macOS critical path passes.
+| ⚠️ Warning / Investigate
+|===
+
+== Test Data Strategy (Supabase)
+
+=== Data Sources
+
+[cols="1,2,2"]
+|===
+| Data Type | Source Location | Format
+
+| Database Schema
+| /supabase/migrations/
+| SQL migration files (timestamped)
+
+| Seed Data
+| /supabase/seed.sql
+| SQL INSERT statements
+
+| Auth Users
+| /supabase/seed/auth-users.sql
+| SQL for auth.users table
+
+| Storage Buckets
+| /supabase/seed/buckets.json
+| JSON bucket definitions
+
+| Row Level Security (RLS) Policies
+| /supabase/migrations/ (in migration files)
+| SQL policy definitions
+|===
+
+=== Data Refresh Strategy
+
+For Supabase specifically:
+
+```bash
+# Complete database reset (CI environment)
+supabase db reset
+
+# This:
+# 1. Drops all tables
+# 2. Re-runs all migrations from /supabase/migrations
+# 3. Applies seed data from seed.sql
+# 4. Results in consistent, reproducible state
+```
+
+=== Test Data Constraints
+
+[cols="1,2"]
+|===
+| Constraint | Implementation
+
+| Isolation
+| Each test run gets fresh database via supabase db reset
+
+| RLS Testing
+| Tests must run with both authenticated and anonymous roles
+
+| Auth Context
+| Test helper functions to create users and get JWTs
+
+| Storage
+| Mock file uploads using local Supabase Storage API
+
+| Realtime
+| Disable or mock WebSocket connections in CI
+|===
+
+=== Supabase-Specific Testing Considerations
+
+[warning]
+
+Critical Supabase Testing Requirements:
+
+1. RLS Policies Must Be Tested: Test each table with:
+
+- Authenticated user (has access)
+
+- Different user (should not access)
+
+- Anonymous (no access)
+
+2. Auth Context: Tests must properly set auth.uid() and auth.role()
+
+3. Real-time: Consider mocking WebSocket connections in CI
+
+4. Edge Functions: Need Deno runtime in test environment
+
+== Branch Protection Rules (GitHub Settings)
+
+These settings must be configured in the GitHub repository before the first commit to main.
+
+[cols="1,2"]
+|===
+| Setting | Required Value
+
+| ✅ Require pull request reviews
+| `1-2` approvals (team size dependent)
+
+| ✅ Dismiss stale reviews
+| `true` - New commits dismiss previous approvals
+
+| ✅ Require status checks
+| `pre-merge-validation / test-linux` +
+  `pre-merge-validation / results` +
+  (Add others as workflow expands)
+
+| ✅ Require branches to be up-to-date
+| `true` - Must merge/rebase main before merging
+
+| ✅ Include administrators
+| `true` - No bypassing rules
+
+| ✅ Require conversation resolution
+| `true` - All comments must be resolved
+
+| ✅ Allow force pushes
+| `false` - No force push to protected branches
+
+| ✅ Allow deletions
+| `false` - Protect branch from deletion
+|===
+
+== Supabase-Specific Constraints
+
+[cols="1,2"]
+|===
+| Constraint | Impact
+
+| Supabase CLI required locally
+| All developers must install Supabase CLI or use Docker Compose alternative
+
+| Auth system complexity
+| Tests must handle JWT generation and multiple user roles
+
+| RLS must be tested
+| Cannot assume direct table access - always test with security policies
+
+| Edge Functions need Deno
+| CI environment must support Deno runtime
+
+| Realtime WebSockets
+| Not easily testable in CI - mock or disable
+|===
