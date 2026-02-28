@@ -21,7 +21,7 @@ function main(){
 
     //(UNCOMMENT TO USE)
     //Test to verify the FAILED tests are correctly logged.
-    runStep("Intentional failure test", "node -e \"process.exit(1)\"");
+    //runStep("Intentional failure test", "node -e \"process.exit(1)\"");
 
     banner("AUTO TEST SUITE PASSED");
 }
@@ -40,7 +40,7 @@ try{
     //Logs the level (INFO/ERROR/FATAL)
 
     //Error message
-    console.error(`\nError message: ${e?.message ?? e}`);
+    console.error(`\nError message: \n${e?.message ?? e}`);
 
     //Logs defect source
     console.error(`\nSource: \n${e.stack}`);
