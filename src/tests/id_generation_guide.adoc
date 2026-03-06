@@ -37,6 +37,8 @@ Each ID will fit the following format:
 |SEC    |Security
 
 |STAFF  |Staff Operations
+
+|SUPA   |Supabase
 |====
 
 `num` must be assigned by the developer based on the amount of existing ID. 
