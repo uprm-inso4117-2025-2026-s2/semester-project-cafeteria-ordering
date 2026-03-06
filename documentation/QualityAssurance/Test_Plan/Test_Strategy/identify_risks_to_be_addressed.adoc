@@ -1,0 +1,106 @@
+= Identify Risks to be Addressed (Risk-Based Test Planning)
+
+== Purpose  
+Apply risk-based testing to the Cafeteria Ordering System.  Focus on risks that could undermine the project goal (reducing cafeteria wait times).  For each risk we record Likelihood and Impact (1-5), calculate a Risk Score (LxI), and define mitigation/contingency actions that direct test focus.
+
+== Scoring Rubric  
+*Likelihood (L) 1-5:* Probability of risk occurrence (1=Rare … 5=Almost Certain).  
+*Impact (I) 1-5:* Effect on the project if the risk occurs (1=Negligible … 5=Critical).  
+*Risk Score:* LxI (1-25); higher = more severe.
+
+== Risk Register  
+[cols="1,3,1,1,1,1,3,3,3", options="header"]
+|===
+|ID|Risk Statement|Category|L|I|Score|Mitigation|Contingency|Test Planning Consequence
+
+|R-01 
+|Incorrect order totals or item selection (e.g. wrong price or qty) resulting in wrong orders. 
+|Technical 
+|4|5|20 
+|Enforce input validation; unit-test pricing logic; code review on cart modules. 
+|Quick rollback of pricing logic; offer manual correction option. 
+|Add extensive functional tests for cart/checkout (normal & boundary cases); focus on negative/edge tests first.
+
+|R-02 
+|Order state management bugs (e.g. placed→ready→picked up) causing lost, duplicate, or stuck orders. 
+|Technical 
+|4|4|16 
+|Use single source of truth for order state; integration tests for state transitions. 
+|Activate manual reconciliation (staff fix); clear stuck orders periodically. 
+|Prioritize integration tests for order workflow; test idempotency, retry logic, and state edge cases.
+
+|R-03 
+|High concurrency/peak load (rainy days/meal rush) causing timeouts or data conflicts. 
+|Technical 
+|3|5|15 
+|Implement server-side rate-limiting or queuing; load-test early with peak scenarios. 
+|Throttle requests; temporarily disable non-critical features under stress. 
+|Perform load/performance tests simulating peak usage; include duplicate-click and retry scenarios.
+
+|R-04 
+|Inadequate or unstable test environment/data (e.g. missing menu items, poor test data) leads to false confidence. 
+|Resource 
+|4|4|16 
+|Create stable seed dataset and restore process; document environment setup. 
+|Use last-known-good data snapshot; limit new test cases until fixed. 
+|Enforce “test data readiness” as entry criterion; allocate time to set up and maintain realistic test data early.
+
+|R-05 
+|Requirements changes or scope creep (mid-sprint) cause test plan churn and coverage gaps. 
+|Schedule 
+|4|4|16 
+|Baseline requirements each sprint; require documented change requests. 
+|Defer or reduce lower-risk tests; concentrate on core features. 
+|Use risk scores to defend scope; treat changed features as regression candidates for retesting.
+
+|R-06 
+|Usability/UX issues (complex UI, unclear workflow) leading to order abandonment or misuse. 
+|Technical 
+|3|4|12 
+|Apply simple UI design principles; conduct quick heuristic review or mini-usability testing. 
+|Provide additional guidance/tooltips; simplify flow (reduce clicks). 
+|Include usability scenarios (e.g. place-order time) in tests; monitor task completion and error rates.
+
+|R-07 
+|Resource constraints (limited test time/people) reducing test coverage and leading to defects in release. 
+|Resource 
+|4|4|16 
+|Use risk-based prioritization; automate core smoke tests; define clear entry/exit criteria. 
+|Cut low-value tests; extend schedule if possible; communicate reduced scope. 
+|Build a minimal regression suite first; focus human testing on top-risk areas; gate merges on smoke tests.
+
+|R-08 
+|Integration mismatches (UI ↔ API ↔ DB) causing hidden defects not caught by unit tests. 
+|Technical 
+|3|4|12 
+|Define API contracts; add end-to-end integration tests. 
+|Roll back faulty API changes; add data validation layers. 
+|Write integration/contract tests early; include them in nightly/regression builds.
+
+|R-09 
+|Performance targets missed (slow page loads or submit times) hurting the “quick” ordering goal. 
+|Technical 
+|3|4|12 
+|Set performance budgets (e.g. checkout <2s); run basic perf tests after each build. 
+|Optimize code paths; cache static content; scale resources. 
+|Add performance checks (page load times, throughput) aligned with expected peak; treat violations as defects.
+
+|R-10 
+|Security/auth issues (if applicable, e.g. data leaks or unauthorized access) causing downtime or trust loss. 
+|Technical 
+|2|5|10 
+|Enforce authentication and input sanitization; code scan for vulnerabilities. 
+|Isolate system; deploy fixes/patches. 
+|Include security test cases; prioritize testing any login, personal data, or admin features.
+|===
+
+== Top 5 Risks (Summary)  
+[cols="1,3,4", options="header"]
+|===
+| ID | Risk (short) | Test-Planning Consequence
+| R-01 | Wrong order totals or items | Expand functional tests for cart/checkout (add negative and edge cases, verify pricing logic).
+| R-02 | Order state workflow errors | Prioritize end-to-end tests for the order lifecycle (state transitions, retries, idempotency).
+| R-04 | Unstable test data/environment | Allocate effort to prepare reliable test data/environment before other tests; add data validation.
+| R-05 | Requirements/scope changes | Use risk scores to trim low-risk tests; require additional regression tests for changed features.
+| R-07 | Insufficient test resources | Build a core smoke/regression suite first; focus human testers on top-risk areas.
+|===

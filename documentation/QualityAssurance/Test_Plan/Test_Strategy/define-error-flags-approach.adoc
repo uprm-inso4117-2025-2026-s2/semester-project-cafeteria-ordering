@@ -1,0 +1,153 @@
+= Define Error Flag Usage Approach (INSO4117)
+:author: Kian R. Ramos-Vega
+
+== Overview
+
+This document defines how error flags and status indicators will be used within the Cafeteria Ordering System to detect failures and support testing activities during development.
+
+Error flags provide a structured way to identify when operations fail, when unexpected behavior occurs, and when user-visible errors must be handled. 
+
+This help developers and testers quickly understand system state without relying only on logs.
+
+== Goals
+
+The error flag approach must:
+
+* Detect failures as early as possible during execution.
+* Provide clear status indicators for developers and testers.
+* Support debugging and traceability.
+* Integrate with logging and CI feedback mechanisms.
+* Prevent silent failures that could impact system reliability.
+
+== Types of Error Flags and Status Indicators
+
+The project will use the following categories of flags and status indicators.
+
+=== Operation Status Flags
+
+These flags indicate whether an operation succeeded or failed.
+
+Examples:
+
+* success / failure return values
+* boolean flags (isValid, hasError)
+* result objects containing status fields
+
+Example concept:
+
+* orderSubmissionSuccess = true
+* paymentProcessed = false
+
+=== Validation Error Flags
+
+These flags indicate incorrect or missing input data.
+
+These flags allow early detection of user errors before backend processing occurs.
+
+Examples:
+
+* invalid email format
+* missing required fields
+* invalid quantity or selection (example: purchasing -1 Chicken Sandwich)
+
+=== System Error Flags
+
+These flags represent failures caused by system or implementation issues.
+
+These flags are typically associated with ERROR logs.
+
+Examples:
+
+* API request failure
+* database connection failure
+* timeout errors
+* authentication errors
+
+=== Exception Indicators
+
+Unhandled exceptions or fatal conditions act as implicit error flags.
+
+These conditions may trigger FATAL logs and stop execution of the current operation.
+
+Examples:
+
+* runtime exception thrown
+* application crash
+* failed dependency initialization
+
+== When Error Flags Should Be Triggered
+
+Error flags should be triggered whenever:
+
+* An operation cannot complete successfully.
+* Validation rules fail.
+* External services return errors. (example: authentication failures, API info not fetched, etc.)
+* Unexpected system behavior occurs.
+* Exceptions are caught or thrown.
+* Critical workflows fail to complete (order, payment, authentication).
+
+Error flags must not be ignored or silently suppressed.
+
+== Communication of Error Flags
+
+Error flags must be visible through multiple mechanisms.
+
+=== Application Behavior
+
+* UI should display user-friendly error messages when applicable.
+* Failed operations should return clear responses.
+
+== Relationship with Logging
+
+Error flags and logging work together:
+
+* Error flags indicate that something failed.
+* Logs explain why it failed.
+
+Both mechanisms are required for effective debugging and traceability.
+
+=== Logging Integration
+
+When an error flag is triggered:
+
+* A corresponding log entry should be generated.
+* The log should include error context when available.
+* Error context in log should be related to the cause of the error flag.
+* Log level should be ERROR or FATAL depending on severity.
+
+=== Testing and CI Feedback
+
+Error flags help automated tests determine pass/fail conditions.
+
+Examples:
+
+* Test assertions check returned status flags.
+* CI failures occur when error conditions are detected.
+* Failed builds highlight error-triggered scenarios.
+
+== Role in Early Failure Detection
+
+Error flags improve system stability by:
+
+* Detecting problems immediately when they occur.
+* Preventing invalid states from propagating through workflows.
+* Allowing tests to identify failures without manual inspection.
+* Providing immediate or fast feedback during pull request validation.
+
+Early detection reduces debugging time and prevents unstable code from being merged into protected branches.
+
+== Implementation Guidelines
+
+The following guidelines should be followed:
+
+* Use clear and descriptive flag names (examples: paymentFailed, isOrderValid, etc.).
+* Prefer structured result objects over ambiguous return values (objects could include: success status, error code, status code, message, etc.).
+    **Example structured result:
+    {
+      success: false,
+      errorCode: "PAYMENT_FAILED",
+      message: "Payment could not be processed."
+    }
+* Avoid silent failures by properly catching and throwing errors.
+* Always log system-level failures.
+* Do not expose sensitive internal details to end users.

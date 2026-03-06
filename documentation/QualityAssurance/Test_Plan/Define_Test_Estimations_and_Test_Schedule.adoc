@@ -1,0 +1,176 @@
+= Test Estimations and Test Schedule
+:toc:
+:sectnums:
+:doctype: article
+
+== Overview
+
+This document defines the testing effort estimations and the overall test schedule for the project.  
+The goal of this document is to ensure proper planning, reduce risks, and align with the team's project timeline.
+
+Owner: L-A-M-D
+
+---
+
+== 1. Estimation Approach
+
+=== Method
+
+Testing effort is estimated in *person-hours* using the following components:
+
+- Test Design
+- Test Implementation
+- Test Execution
+- Defect Verification
+- Reporting & Documenting
+
+=== Assumptions
+
+- Team produces testable builds.
+- Staging environment will be available before system testing.
+- Requirements are sufficiently stable.
+- One primary QA owner with developer support.
+- Contains a great architecture.
+
+---
+
+== 2. Test Phases and Effort Estimates
+
+[cols="1,3,1,3", options="header"]
+|===
+| Phase | Activities Included | Estimate (hrs) | Notes / Justification
+
+| Test Planning
+| Test plan outline, scope definition, risk analysis
+| 6
+| One-time planning and alignment 
+
+| Test Case Design
+| Create test cases for core and edge flows
+| 12
+| Based on expected feature scope 
+
+| Unit Testing Support
+| Coverage review and guidance
+| 8
+| Developer-owned with QA oversight 
+
+| Integration Testing
+| API and database integration validation
+| 14
+| Higher risk area for React apps 
+
+| System Testing
+| End-to-end validation and error handling
+| 16
+| Requires stable staging build 
+
+| Regression Testing
+| Core suite re-execution after fixes
+| 10
+| Assumes two regression cycles 
+
+| UAT Preparation and Support
+| UAT checklist and stakeholder support
+| 8
+| Includes coordination overhead
+
+| Defect Verification
+| Fix validation and retesting
+| 10
+| Conservative baseline
+
+| Reporting
+| Test summary and sign-off
+| 4
+| Final stakeholder deliverable
+|===
+
+*Subtotal:* 88 hrs  
+*Mercy time (15%):* 13.2 hrs  
+
+**Total Estimated Testing Effort: ~101 hrs**
+
+---
+
+== 3. Achievements
+
+The following achievements must be achieved:
+
+. Test Plan Approved  
+. Test Cases Completed  
+. Staging Environment Ready  
+. Integration Testing Complete  
+. System Testing Complete  
+. Regression Cycle Complete  
+. User Acceptance Testing Sign-off  
+. Final Test Report Published  
+
+---
+
+== 4. Dependencies
+
+The testing schedule depends on:
+
+- Requirements and user stories availability  
+- Working CI/CD pipeline  
+- Staging environment readiness  
+- Test accounts and credentials  
+- Access to logs and monitoring  
+- Feature freeze prior to regression/UAT  
+
+---
+
+== 5. Test Schedule
+
+NOTE: Dates are placeholders and must align with the master project timeline.
+
+[cols="1,1,1,1,1", options="header"]
+|===
+| Week | Focus | Deliverables | Entry Criteria | Exit Criteria
+
+| Week 1
+| Planning and Test Case Design
+| Test Plan and Test Cases v1
+| Requirements available
+| Plan approved and cases ready
+
+| Week 2
+| Integration and System Testing
+| Defect log and status reports
+| Staging build ready
+| Critical defects resolved or mitigated
+
+| Week 3
+| Regression and UAT
+| Regression report and UAT sign-off
+| Fixes merged and stable build
+| UAT passed and release candidate approved
+|===
+
+=== Recommended Cadence
+
+- Daily QA sync during active testing  
+- Defect triage three times per week  
+- Stakeholder checkpoint before UAT  
+
+---
+
+== 6. Next Steps
+
+- Insert actual calendar dates  
+- Confirm resource availability  
+- Review with stakeholders  
+- Baseline the schedule  
+
+---
+
+== References
+
+[bibliography]
+- [[[atlassian-testing]]] Atlassian, "Types of Software Testing", Available: https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing
+- [[[react-testing]]] React Documentation, "Testing Overview", Available: https://legacy.reactjs.org/docs/testing.html
+- [[[rtl-docs]]] Testing Library, "React Testing Library Introduction", Available: https://testing-library.com/docs/react-testing-library/intro/
+- [[[jest-docs]]] Jest Documentation, "Getting Started", Available: https://jestjs.io/docs/getting-started
+- [[[uat-overview]]] TestRail, "User Acceptance Testing (UAT)", Available: https://www.testrail.com/blog/user-acceptance-testing/
+

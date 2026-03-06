@@ -1,0 +1,72 @@
+= Research: Supabase RLS Concept & Implementation Benefits
+:toc: left
+:sectnums:
+
+== Objective
+Research how PostgreSQL Row-Level Security (RLS) acts as a security layer for the cafeteria system. The goal is to demonstrate how RLS simplifies code by moving access logic into the database, ensuring employees and customers can only interact with authorized data.
+
+== How RLS Handles Data Access
+PostgreSQL Row-Level Security (RLS) acts as a gatekeeper attached directly to the tables created on Supabase. Instead of the application code filtering data using `if/else` statements, the information is directly manipulated in the database.
+
+When a request is made, the user’s JSON Web Token (JWT) is passed to Postgres. With RLS enabled, Postgres checks all the rows against defined policies:
+If the policy returns `true` the user can see or modify the row.
+If the policy returns `false` the row is treated as if it does not exist (it is silently filtered out).
+
+== General Benefits of RLS
+* **Security:** Logic lives in one place, it is not scattered across various frontend or other backend components.
+* **Reduced Backend Complexity:** There is no need for repetitive `if` statements, long `switch` blocks, or manual permission checks in the application.
+* **Custom Functions:** RLS supports customized SQL functions, allowing for reusable code and easier maintenance of access rules.
+* **Performance:** Supabase provides ways to optimize policies in their official documentation, making performance delivery more straightforward.
+
+== Distinguishing Roles
+In Supabase, we can distinguish users by using `auth.users` or a dedicated `profiles` table. We can leverage the `auth.jwt()` function to extract the user’s role directly within the SQL policy. Policies can be applied to specific actions: `SELECT`, `INSERT`, `UPDATE`, and `DELETE`.
+
+== Implementation Examples
+
+=== Basic Policy (Customer Access)
+This policy ensures customers can only select their own orders.
+
+[source,sql]
+----
+CREATE POLICY "Users can view their orders"
+ON orders
+AS PERMISSIVE
+FOR SELECT
+TO authenticated
+USING (
+  auth.uid() = customer_id
+);
+----
+
+=== Reusable SQL Function
+This function checks the JWT metadata to see if the user is an employee.
+
+[source,sql]
+----
+CREATE OR REPLACE FUNCTION is_employee()
+RETURNS boolean AS $$
+BEGIN
+  RETURN (auth.jwt() ->> 'user_role')::text = 'employee';
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+----
+
+=== Employee Update Policy
+Using the function above to keep the policy clean and readable.
+
+[source,sql]
+----
+CREATE POLICY "Employees can update order status"
+ON orders
+FOR UPDATE
+USING (is_employee());
+----
+
+== Summary
+For the Cafeteria System, RLS fulfills the requirement of securing application information and supports the dual-view authentication (Employee vs. Customer). It prevents customers from viewing other users' payment details or modifying menu prices. Moving this to the database, the development team can focus on building features rather than debugging permission bugs.
+
+== References
+* Supabase Database Overview: https://supabase.com/docs/guides/database/overview
+* RLS Performance Recommendations: https://supabase.com/docs/guides/database/postgres/row-level-security#rls-performance-recommendations
+* Auth JWT Reference: https://supabase.com/docs/guides/auth/jwt-fields
+* PostgreSQL CREATE POLICY: https://www.postgresql.org/docs/current/sql-createpolicy.html

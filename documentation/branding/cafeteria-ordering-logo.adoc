@@ -1,0 +1,59 @@
+= Cafeteria Ordering System - Logo
+:toc:
+:toclevels: 2
+
+== Objective
+The objective of this document is to provide a detailed overview of the Cafeteria Ordering System's logo design. This includes the logo's visual elements description and use guidelines for consistency across the application.
+
+=== Logo Preview (With and Without Text) and File Locations
+
+The files for the logos are stored in the *'/documentation/branding/images/'* directory in the project repository and the the file name are the following:
+
+- Light Mode (No Text): `Light-Mode-Logo.png`
+- Dark Mode (No Text): `Dark-Mode-Logo.png`
+- Light Mode (With Text): `Light-Mode-Logo-with-Text.png`
+- Dark Mode (With Text): `Dark-Mode-Logo-with-Text.png`
+
+[cols="1,1", frame=none, grid=none]
+|===
+| *Light Mode (No Text)*
+a| image::images/Light-Mode-Logo.png[width=250]
+
+| *Dark Mode (No Text)*
+a| image::images/Dark-Mode-Logo.png[width=250]
+
+| *Light Mode (With Text)*
+a| image::images/Light-Mode-Logo-with-Text.png[width=250]
+
+| *Dark Mode (With Text)*
+a| image::images/Dark-Mode-Logo-with-Text.png[width=250]
+|===
+
+== Logo Design Elements
+The logo was created to reflect the core functionalities of the Cafeteria Ordering System in a simple and clean design. The main design elements include:
+
+- The letter *"C"* represents *"Cafeteria"* and is stylized to resemble both a plate and the outer rim of a clock.
+- The center dot represents the letter *"O"* for *"Ordering"* and symbolizes the center of a clock.
+- The clock hands are designed as a fork and spoon, representing the food and time efficiency aspects of the system.
+- The outer lines to the left of the *"C"* represent speed and its priority in the ordering to food pickup process.
+
+== Usage Guidelines and Color Palette
+
+The logo is designed to support both light and dark UI themes.
+
+=== Logo Theme Usage
+
+- The *Light Mode* logo should be used on light backgrounds.
+- The *Dark Mode* logo should be used on dark backgrounds.
+- The appropriate version should always be selected to maintain visibility, contrast, readability and aesthetics.
+
+=== Logo Variant Usage 
+
+- The *With Text* versions should be used in documentation, headers, and larger UI placements.
+- The *No Text* versions should be used for icons, navigation bars, and smaller UI components.
+
+=== Color Palette
+
+The logo color palette aligns with the official project color scheme defined in *`documentation/branding/color-palette.adoc`*. To ensure the project’s branding identity is maintained, logo colors should not be modified outside of the defined palette and the logo should not be placed on backgrounds that reduce contrast.
+
+

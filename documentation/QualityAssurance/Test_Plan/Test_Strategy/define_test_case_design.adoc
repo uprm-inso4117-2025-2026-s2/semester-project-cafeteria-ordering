@@ -1,0 +1,397 @@
+= Test Case Design Methodology and Authoring Guidelines
+:author: Devlin Hahn 
+
+== Executive Summary
+
+This document defines the test case design methodologies and authoring guidelines for the Cafeteria Ordering System. The goal is to standardize how test cases are designed and written across all testing phases, ensuring consistency, effectiveness, and maintainability.
+
+By establishing clear methodologies and formatting rules, ambiguity is reduced, test coverage is improved, and test cases become easier to understand and execute by both technical and non-technical team members.
+
+The document covers three core black-box test design techniques, provides justification for their selection, and establishes comprehensive authoring guidelines including a standardized test case template.
+
+== 1. Test Design Methodology Selection
+
+Based on the project's characteristics (app ordering system with defined input fields, business rules, and user workflows), three primary black-box test design techniques have been selected. These techniques focus on observable system behavior without requiring knowledge of internal code structure.
+
+=== 1.1 Selected Methodologies Overview
+
+[options="header"]
+|===
+| Technique | Primary Application | When to Use
+| Equivalence Partitioning | Input field validation, form inputs | Efficient testing of valid and invalid data ranges
+| Boundary Value Analysis | Edge cases, limits, thresholds | Validation of input boundaries
+| Decision Table Testing | Business rules, conditional logic | Testing combinations of conditions and actions
+|===
+
+=== 1.2 Equivalence Partitioning
+
+==== Description
+
+Equivalence Partitioning divides input data into groups (equivalence classes) where values within the same group are expected to produce the same system behavior. Testing a single value from each class provides adequate coverage while minimizing redundancy.
+
+==== Rationale for Selection
+
+* *Efficiency*: Reduces the total number of test cases
+* *Coverage*: Ensures valid and invalid inputs are tested
+* *Applicability*: Well suited for forms and structured inputs
+
+
+==== Example Application
+
+For a cafeteria order quantity field accepting values from 1 to 10:
+
+[options="header"]
+|===
+| Equivalence Class | Type | Test Value
+| 1–10 | Valid | 5
+| < 1 | Invalid | 0
+| > 10 | Invalid | 15
+| Non-numeric | Invalid | "abc"
+|===
+
+=== 1.3 Boundary Value Analysis
+
+==== Description
+
+Boundary Value Analysis (BVA) focuses on testing values at the edges of equivalence classes. Since defects frequently occur at boundaries, this technique is highly effective for identifying off-by-one and limit-related errors.
+
+==== Rationale for Selection
+
+* *High Defect Yield*: Boundary conditions are common failure points
+* *Complementary*: Enhances Equivalence Partitioning
+* *Business Critical*: Ensures enforcement of constraints
+
+==== Example Application
+
+For a quantity field with a valid range of 1–10:
+
+[options="header"]
+|===
+| Boundary | Test Value
+| Minimum - 1 | 0
+| Minimum | 1
+| Minimum + 1 | 2
+| Maximum - 1 | 9
+| Maximum | 10
+| Maximum + 1 | 11
+|===
+
+=== 1.4 Decision Table Testing
+
+==== Description
+
+Decision Table Testing represents business rules using combinations of conditions and expected actions. Each column in the decision table corresponds to a unique test scenario.
+
+==== Rationale for Selection
+
+* *Conditional Logic*: Suitable for rule-driven workflows
+* *Completeness*: Ensures all combinations are evaluated
+* *Traceability*: Direct mapping to requirements
+
+==== Example Application
+
+Order availability rules:
+
+[options="header"]
+|===
+| Condition | Rule 1 | Rule 2 | Rule 3 | Rule 4
+| Item in stock? | Y | Y | N | N
+| Order during operating hours? | Y | N | Y | N
+| Action | | | |
+| Allow order placement | Y | N | N | N
+|===
+
+=== 1.5 Regression Testing
+
+==== Description
+
+Regression Testing ensures that existing functionality continues to work
+as expected after new features, bug fixes, or configuration changes are
+introduced. Rather than validating new behavior, regression testing focuses
+on detecting unintended side effects in previously tested areas.
+
+Regression tests reuse stable, high-value test cases derived from Equivalence
+Partitioning, Boundary Value Analysis, and Decision Table Testing.
+
+==== Rationale for Selection
+
+* *Risk Mitigation*: Prevents reintroduction of previously fixed defects
+* *Change Safety*: Ensures new changes do not break core functionality
+* *Efficiency*: Focuses on critical paths instead of full re-testing
+
+==== Example Regression Coverage
+
+The following table shows sample regression test areas and representative test cases:
+
+[options="header"]
+|===
+| Regression Area | Test Scenario | Test Case Example
+
+| User authentication | Valid login works | Login_ValidCredentials_RedirectToDashboard
+| User authentication | Invalid password | Login_InvalidPassword_ShowErrorMessage
+
+| Core ordering workflow | Add item to cart | Order_AddItemToCart_VerifyCartCount
+| Core ordering workflow | Quantity limit exceeded | Order_QuantityExceedsMax_ShowValidationError
+
+| Payment processing | Valid payment | Payment_ValidCard_PaymentSuccessful
+| Payment processing | Declined card | Payment_DeclinedCard_ShowErrorMessage
+
+| Order confirmation | Confirmation email sent | Order_Checkout_EmailConfirmation
+| Order confirmation | Order summary correct | Order_Checkout_VerifySummaryDetails
+
+| Previously reported defects | Fixed bug #123 | Bug123_RefundCalculation_VerifyCorrectAmount
+| Previously reported defects | Fixed bug #456 | Bug456_StockAvailability_VerifyItemDisplay
+|===
+
+
+
+== 2. Test Case Authoring Guidelines
+
+=== 2.1 Naming Conventions
+
+Test case names MUST be descriptive, consistent, and searchable.
+
+==== Format
+
+----
+[Feature]_[Scenario]_[ExpectedOutcome]
+----
+
+==== Examples
+
+[options="header"]
+|===
+| Feature | Scenario | Expected Outcome | Full Test Case Name
+| Login | Valid credentials | Success | Login_ValidCredentials_RedirectToDashboard
+| Login | Invalid password | Fail | Login_InvalidPassword_ShowErrorMessage
+| Order | Quantity exceeds limit | Fail | Order_QuantityExceedsMax_ShowValidationError
+| Payment | Valid payment | Success | Payment_ValidCard_PaymentSuccessful
+|===
+
+==== Rules
+
+* Use PascalCase
+* Separate sections using underscores
+* Keep names under 100 characters
+* Start with an action-oriented feature name
+
+=== 2.2 Test Case Structure
+
+Every test case MUST include the following sections:
+
+[options="header"]
+|===
+| Section | Required | Description
+| Test ID | Yes | Unique identifier (e.g., TC-001)
+| Title | Yes | Short description of the test scenario
+| Description | Yes | Purpose of the test
+| Preconditions | Yes | Required system state
+| Test Data | Yes | Inputs used during execution
+| Test Steps | Yes | Numbered actions
+| Expected Results | Yes | Expected system behavior
+| Actual Results | Optional | Filled during execution
+| Status | Optional | Pass / Fail / Blocked
+| Notes | Optional | Additional information
+| Author | Yes | Test creator
+| Reviewed By | Yes | Peer reviewer
+|===
+
+=== 2.3 Writing Test Steps
+
+Test steps MUST:
+
+* Be sequentially numbered
+* Use clear action verbs (Click, Enter, Verify)
+* Be specific and unambiguous
+* Contain one action per step
+
+==== Example
+
+*Poor*
+
+* Login to system
+* Add item
+* Check out
+
+*Good*
+
+. Navigate to login page
+. Enter "student@university.edu" in Email field
+. Enter "Password123" in Password field
+. Click *Sign In*
+. Verify dashboard page displays
+
+
+=== 2.4 Writing Expected Results
+
+Expected results MUST be:
+
+* Specific and verifiable
+* Include exact messages or values
+* Applicable to both positive and negative scenarios
+
+==== Examples
+
+*Poor*
+
+* Login successful
+* Error shown
+
+*Good*
+
+* User is redirected to `/dashboard`
+* Error message "Invalid email or password" is displayed in red
+* Cart count increments from 0 to 1
+
+=== 2.5 Test Data Guidelines
+
+* Separate test data from steps
+* Use realistic production-like data
+* Include valid and invalid inputs
+* Reset data after test execution
+
+==== Test Data Table Format
+
+[options="header"]
+|===
+| Data Element | Value | Purpose
+| Valid Email | student@university.edu | Successful login
+| Invalid Email | wrong@email.com | Error handling
+| Valid Password | Password123 | Successful login
+| Invalid Password | wrongpass | Error handling
+| Test User ID | U100123 | Pre-seeded user
+|===
+
+== 3. Standard Test Case Template
+
+=== 3.1 Template Structure
+
+[source]
+----
+================================================================================
+TEST CASE: [Test ID] - [Title]
+================================================================================
+
+Description:
+[Description]
+
+Preconditions:
+- [Condition 1]
+- [Condition 2]
+
+Test Data:
+Field | Value
+
+Test Steps & Expected Results:
+Step | Action | Expected Result
+
+Notes:
+[Optional notes]
+
+Author: [Name]
+Reviewer: [Name]
+Date Created: [YYYY-MM-DD]
+================================================================================
+----
+
+=== 3.2 Example – Completed Template
+
+[source]
+----
+================================================================================
+TEST CASE: TC-LOGIN-001 - Valid Student Login Redirects to Dashboard
+================================================================================
+
+Description:
+Verify that a student with valid credentials can successfully log in.
+
+Preconditions:
+- Test user exists (U100123)
+- User is logged out
+- Browser cache cleared
+
+Test Data:
+Email | student@university.edu
+Password | Password123
+
+Test Steps & Expected Results:
+1 | Navigate to login page | Login page loads
+2 | Enter email | Email appears in field
+3 | Enter password | Password masked
+4 | Click Sign In | User redirected to /dashboard
+5 | Verify welcome message | "Welcome, John Doe" displayed
+
+Notes:
+Password is case-sensitive.
+
+Author: John Doe 
+Reviewer: John Doe Jr.
+Date Created: 2026-02-21
+================================================================================
+----
+
+== 4. Test Design Methodology Selection Flow
+
+The following flow diagram assists testers in selecting the most appropriate
+test case design methodology based on the type of functionality being tested.
+
+[source]
+----
+     +--------------------------------------------------+
+     | What type of functionality are you testing?      |
+     +-------------------------+------------------------+
+                               |
+               +---------------+---------------+
+               |                               |
+               v                               v
++------------------------------+   +------------------------------+
+| Input fields, forms,         |   | Business rules, workflows,   |
+| numeric ranges, limits       |   | or conditional logic         |
++---------------+--------------+   +---------------+--------------+
+                |                                  |
+                v                                  v
++------------------------------+   +------------------------------+
+| Use Equivalence Partitioning |   | Use Decision Table Testing   |
+| (EP)                         |   |                              |
++---------------+--------------+   +------------------------------+
+                |
+                v
++------------------------------+
+| Are boundary values critical |
+| or enforced?                 |
++---------------+--------------+
+                |
+          +-----+---------------------+
+          |                           |
+          v                           v
+        Yes                           No
+          |                           |
+          v                           v
++---------------------+   +------------------------------+
+| Add Boundary Value  |   | EP alone is sufficient       |
+| Analysis (BVA)      |   |                              |
++---------------------+   +------------------------------+
+
+NOTE: For any changes, relevant regression test cases must be executed.
+This includes critical workflows, previously fixed defects, and areas
+covered by EP, BVA, and Decision Table tests.
+----
+
+
+== 5. Quality Checklist for Test Cases
+
+=== 5.1 Completeness Checklist
+
+* Test ID follows convention
+* Preconditions are clear
+* Test data is explicit
+* Steps are numbered
+* Expected results are verifiable
+
+=== 5.2 Methodology Checklist
+
+* Correct technique applied
+* Boundary values included
+* Invalid inputs tested
+* All rule combinations covered
+* Regression test cases identified and executed for modified functionality
