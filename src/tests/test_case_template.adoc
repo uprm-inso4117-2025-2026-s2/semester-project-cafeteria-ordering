@@ -3,6 +3,7 @@ Author: <insert name>
 
 == Description
 <insert purpose of the test>
+<insert type of tests to be run (unit, regression, etc)>
 
 == Preconditions
 * <insert precondition1>

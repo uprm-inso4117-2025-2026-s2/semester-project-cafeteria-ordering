@@ -1,7 +1,7 @@
 = Test Case Tracker
 
-[cols="2,5", options=header]
+[cols="1,3,3", options=header]
 |====
-|ID | Description
-
+|ID |Description |Script File Name
+|<insert test case ID> |<insert breif description of the TC> |<insert script file name associated with this test case or 'TBD' if script is not yet implemented>
 |====

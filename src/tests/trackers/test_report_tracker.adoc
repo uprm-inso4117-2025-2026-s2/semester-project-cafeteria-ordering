@@ -1,0 +1,7 @@
+= Test Report Tracker
+
+[cols="1,3,3", options=header]
+|====
+|ID |Description |Script File Name
+|<insert test report ID> |<insert brief description of the TR> |<insert script file name associated with this test report or 'TBD' if script is not yet implemented>
+|====

@@ -11,7 +11,7 @@ Each ID will fit the following format:
 `type` must be one of the following abbreviations:
 [cols="2,4" options="header"]
 |====
-|Abbreviation    |Meaning
+|Abbreviation   |Meaning
 |TC             |Test Case
 |TR             |Test Report
 |====
@@ -22,21 +22,21 @@ Each ID will fit the following format:
 |====
 |Abbreviation |Meaning
 
-|AUTH |Authentication
+|AUTH   |Authentication
 
-|OS |Offline Support
+|OS     |Offline Support
 
-|ORD |Ordering
+|ORD    |Ordering
 
-|PAY |Payments
+|PAY    |Payments
 
-|PROF |Profile
+|PROF   |Profile
 
-|RTO |Real Time Ordering
+|RTO    |Real Time Ordering
 
-|SEC |Security
+|SEC    |Security
 
-|STAFF |Staff Operations
+|STAFF  |Staff Operations
 |====
 
 `num` must be assigned by the developer based on the amount of existing ID. 
@@ -45,12 +45,12 @@ Each ID will fit the following format:
  The authentication team is within their implementation phase and already have 2 different tests which were correctly reported with their respective test case and test report. These tests appear in the test case tracker as follows:
 
 *Test Case Tracker:*
-[cols="2,4", options=header]
+[cols="2,3,3", options=header]
 |====
-|ID | Description
-|TC-AUTH-01 |Password verification
-|TC-PAY-01  |Payment confirmation verification
-|TC-AUTH-02 |Email verification
+|ID |Description |Script Name
+|TC-AUTH-01     |Password verification |
+|TC-PAY-01      |Payment confirmation verification |
+|TC-AUTH-02     |Email verification |
 |====
 
 A tester is creating a new test case to verify that 2-Factor-Authentication authentication user input. This tester must give the ID and ID number of 3. Given that there are currently 2 existing test cases for the Authentication Feature. 
@@ -58,13 +58,13 @@ A tester is creating a new test case to verify that 2-Factor-Authentication auth
 This means that the tester manually updates the test case tracker, it should now look as the following:
 
 *Test Case Tracker:*
-[cols="2,4", options=header]
+[cols="2,3,3", options=header]
 |====
-|ID | Description
-|TC-AUTH-01 |Password verification
-|TC-PAY-01  |Payment confirmation verification
-|TC-AUTH-02 |Email verification
-|TC-AUTH-03 |2FA input verification
+|ID         | Description           |Script Name
+|TC-AUTH-01 |Password verification  |
+|TC-PAY-01  |Payment confirmation verification |
+|TC-AUTH-02 |Email verification |
+|TC-AUTH-03 |2FA input verification |
 |====
 
 *This also applies for the Test Report Tracker.*

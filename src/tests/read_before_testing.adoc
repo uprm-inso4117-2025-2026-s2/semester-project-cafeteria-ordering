@@ -2,11 +2,30 @@
 Author: Jorge L. De León Orama
 
 == Overview
+This document provides guidelines for creating and documenting test cases and test reports. It defines the required workflow developers must follow, including ID generation, file naming conventions, template usage, tracker updates, and the required structure for test case and test report documentation.  
 
+== Must Do Before Creating Test Cases or Test Reports
+Anyone that creates a test case or test report *must* follow this sequence of events:
 
+. Generate file ID following the format `<type>-<feature>-<name>`.
+* Follow the ID generation guide found within: `src/tests/id_generation_guide.adoc`
+. Verify the next available ID number by reviewing the corresponding tacker, as specified in the ID generation guide.
+. Name the file using the correct naming convention.
+* Test Cases must be named: '<TestCaseID>_<descriptive_name>.adoc'.
+* Test Reports must be named: '<TestReportID>_<descriptive_name>.adoc'
+. Create the test file using the appropriate template. 
+* Test Cases must use the template located at `src/tests/test_case_template.adoc`.
+* Test Reports must use the template located at `src/tests/test_report_template.adoc`.
+. Fill out the required sections of the template.
+* Test Cases must include all sections defined in the Test Case Design Format.
+* Test Reports must include all sections defined in the Test Report Design Format.
+. Update the corresponding tracker with the new entry. 
+* Add the new Test Case ID, description, and its linked script file to the Test Case Tracker found in `src/tests/trackers/test_case_tracker.adoc`
+* Add the new Test Report ID, description, and its linked script file to the Test Report Tracker found in `src/tests/trackers/test_report_tracker.adoc`
+. Verify that the ID, file name, and tracker entry match and follow the established conventions before committing the file.
 
 == Test Case Design Format
-Each test case must contain the following, as specified within, `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`:
+Each test case must contain the following, as specified within, `documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`:
 
 . Must be an AsciiDoc file and must be named as '<TestCaseID>_<descriptive_name>'
 * To identify the Test Case ID, refer to the following document: 
@@ -20,17 +39,17 @@ Each test case must contain the following, as specified within, `../../documenta
 . Expected Results
 . Reviewed By
 
-== Test Report Template
+=== Test Case Template
 The test report template is found within `src/tests/test_case_template.adoc`
 
 
 ====
-*Note:* if there are any uncertainties, refer to the document found within the following directory: `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`
+*Note:* if there are any uncertainties, refer to the document found within the following directory: `documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`
 ====
 
 
 == Test Report Design Format
-Each test report must contain the following, as specified within, `../../documentation/QualityAssurance/Test_Plan/test_strategy/Defining_and_Establishing_Test_Reporting_Principles.adoc`:
+Each test report must contain the following, as specified within, `documentation/QualityAssurance/Test_Plan/test_strategy/Defining_and_Establishing_Test_Reporting_Principles.adoc`:
 
 . Must be an AsciiDoc File and must be named as '<TestReportID>_<descriptive_name>'
 * To identify Test Case ID, refer to the following document: 
@@ -42,6 +61,6 @@ Each test report must contain the following, as specified within, `../../documen
 . Description of what passed/failed
 . Pass/Fail Status
 
-== Test Report Template
-The test report template is found within `src/tests/test_report_template.adoc`
 
+=== Test Report Template
+The test report template is found within `src/tests/test_report_template.adoc`

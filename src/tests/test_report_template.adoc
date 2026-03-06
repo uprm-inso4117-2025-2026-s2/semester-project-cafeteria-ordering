@@ -7,9 +7,9 @@ Author: <insert name>
 
 *Issue:* #<insert issue number>
 
-*Test:* <insert test being reported> 
+*Test:* <insert test being reported>
 
-*Pass/Fail Status:* <insert PASS or insert FAIL>
+*Pass/Fail Status:* <insert 'PASS' or insert 'FAIL'>
 
 == Description
 <insert what passed/failed>
