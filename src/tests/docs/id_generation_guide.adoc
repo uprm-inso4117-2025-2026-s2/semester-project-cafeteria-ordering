@@ -41,6 +41,8 @@ Each ID will fit the following format:
 |SUPA   |Supabase
 |====
 
+<<<
+
 `num` must be assigned by the developer based on the amount of existing ID. 
 
 *Example:*
@@ -69,4 +71,6 @@ This means that the tester manually updates the test case tracker, it should now
 |TC-AUTH-03 |2FA input verification |
 |====
 
+====
 *This also applies for the Test Report Tracker.*
+====

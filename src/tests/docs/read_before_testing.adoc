@@ -8,7 +8,7 @@ This document provides guidelines for creating and documenting test cases and te
 Anyone that creates a test case or test report *must* follow this sequence of events:
 
 . Generate file ID following the format `<type>-<feature>-<name>`.
-* Follow the ID generation guide found within: `src/tests/id_generation_guide.adoc`
+* Follow the ID generation guide found within: `src/tests/id_generation_guide.pdf`
 . Verify the next available ID number by reviewing the corresponding tacker, as specified in the ID generation guide.
 . Name the file using the correct naming convention.
 * Test Cases must be named: '<TestCaseID>_<descriptive_name>.adoc'.
@@ -24,12 +24,14 @@ Anyone that creates a test case or test report *must* follow this sequence of ev
 * Add the new Test Report ID, description, and its linked script file to the Test Report Tracker found in `src/tests/trackers/test_report_tracker.adoc`
 . Verify that the ID, file name, and tracker entry match and follow the established conventions before committing the file.
 
+<<<
+
 == Test Case Design Format
 Each test case must contain the following, as specified within, `documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`:
 
 . Must be an AsciiDoc file and must be named as '<TestCaseID>_<descriptive_name>'
 * To identify the Test Case ID, refer to the following document: 
-`../id_generation_reports-cases.adoc`
+`src/tests/id_generation_reports-cases.adoc`
 . Title
 . Author 
 . Description
@@ -47,6 +49,7 @@ The test report template is found within `src/tests/test_case_template.adoc`
 *Note:* if there are any uncertainties, refer to the document found within the following directory: `documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`
 ====
 
+<<<
 
 == Test Report Design Format
 Each test report must contain the following, as specified within, `documentation/QualityAssurance/Test_Plan/test_strategy/Defining_and_Establishing_Test_Reporting_Principles.adoc`:
@@ -57,7 +60,7 @@ Each test report must contain the following, as specified within, `documentation
 . Title
 . Author 
 . Test Report ID
-. Test being reported
+. Test being reported (include test type)
 . Description of what passed/failed
 . Pass/Fail Status
 
