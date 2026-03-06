@@ -1,0 +1,31 @@
+= <Test Name> TC
+Author: <insert name>
+
+== Description
+<insert purpose of the test>
+
+== Preconditions
+* <insert precondition1>
+* <insert precondition2>
+
+== Test Data
+<insert inputs used during execution>
+
+== Test Steps
+<insert sequence of steps that will take place when executing the test>
+
+. <insert step1>
+. <insert step2>
+
+== Expected Results
+<insert expected system behavior >
+
+== Notes
+<insert notes, only if additional infromation is deemed necessary>
+
+== Reviewed By
+<reviewer(s) fill this part>
+
+====
+*NOTE:* if there are any uncertainties, refer to the document in found within the following directory: `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`:
+====

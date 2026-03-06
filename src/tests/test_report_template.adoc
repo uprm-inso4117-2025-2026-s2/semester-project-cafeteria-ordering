@@ -1,0 +1,19 @@
+= <Test Name> TR
+Author: <insert name>
+
+*Date:* <insert date>
+
+*ID:* <insert Report ID>
+
+*Issue:* #<insert issue number>
+
+*Test:* <insert test being reported> 
+
+*Pass/Fail Status:* <insert PASS or insert FAIL>
+
+== Description
+<insert what passed/failed>
+
+
+== Notes
+<insert notes, only if additional infromation is deemed necessary>

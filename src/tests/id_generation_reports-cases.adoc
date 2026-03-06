@@ -1,0 +1,70 @@
+= Test Reports/Cases ID Generation
+
+== Overview
+This document ensures all tests are correctly identified and documented by generating a structured ID format for each test that must be followed. This ensures proper naming conventions and traceability.
+
+== Generating ID
+Each ID will fit the following format:
+
+`<type>-<feature>-<num>`
+
+`type` must be one of the following abbreviations:
+[cols="2,4" options="header"]
+|====
+|Abbreviation    |Meaning
+|TC             |Test Case
+|TR             |Test Report
+|====
+
+`feature` must be one of the following abbreviations:
+
+[cols="2,4" options="header"]
+|====
+|Abbreviation |Meaning
+
+|AUTH |Authentication
+
+|OS |Offline Support
+
+|ORD |Ordering
+
+|PAY |Payments
+
+|PROF |Profile
+
+|RTO |Real Time Ordering
+
+|SEC |Security
+
+|STAFF |Staff Operations
+|====
+
+`num` must be assigned by the developer based on the amount of existing ID. 
+
+*Example:*
+ The authentication team is within their implementation phase and already have 2 different tests which were correctly reported with their respective test case and test report. These tests appear in the test case tracker as follows:
+
+*Test Case Tracker:*
+[cols="2,4", options=header]
+|====
+|ID | Description
+|TC-AUTH-01 |Password verification
+|TC-PAY-01  |Payment confirmation verification
+|TC-AUTH-02 |Email verification
+|====
+
+A tester is creating a new test case to verify that 2-Factor-Authentication authentication user input. This tester must give the ID and ID number of 3. Given that there are currently 2 existing test cases for the Authentication Feature. 
+
+This means that the tester manually updates the test case tracker, it should now look as the following:
+
+*Test Case Tracker:*
+[cols="2,4", options=header]
+|====
+|ID | Description
+|TC-AUTH-01 |Password verification
+|TC-PAY-01  |Payment confirmation verification
+|TC-AUTH-02 |Email verification
+|TC-AUTH-03 |2FA input verification
+|====
+
+*This also applies for the Test Report Tracker.*

@@ -1,0 +1,47 @@
+= Read Before Testing
+Author: Jorge L. De León Orama
+
+== Overview
+
+
+
+== Test Case Design Format
+Each test case must contain the following, as specified within, `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`:
+
+. Must be an AsciiDoc file and must be named as '<TestCaseID>_<descriptive_name>'
+* To identify the Test Case ID, refer to the following document: 
+`../id_generation_reports-cases.adoc`
+. Title
+. Author 
+. Description
+. Preconditions
+. Test Data
+. Test Steps 
+. Expected Results
+. Reviewed By
+
+== Test Report Template
+The test report template is found within `src/tests/test_case_template.adoc`
+
+
+====
+*Note:* if there are any uncertainties, refer to the document found within the following directory: `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`
+====
+
+
+== Test Report Design Format
+Each test report must contain the following, as specified within, `../../documentation/QualityAssurance/Test_Plan/test_strategy/Defining_and_Establishing_Test_Reporting_Principles.adoc`:
+
+. Must be an AsciiDoc File and must be named as '<TestReportID>_<descriptive_name>'
+* To identify Test Case ID, refer to the following document: 
+`../id_generation_reports-cases.adoc`
+. Title
+. Author 
+. Test Report ID
+. Test being reported
+. Description of what passed/failed
+. Pass/Fail Status
+
+== Test Report Template
+The test report template is found within `src/tests/test_report_template.adoc`
+
