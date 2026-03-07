@@ -2,7 +2,7 @@ name: Daily Project Metrics Generation
 
 on:
   schedule:
-    - cron: "13 1 * * *" # Runs at 21:00 AST every day
+    - cron: "13 1 * * *" # Runs at around 21:00 AST every day
   workflow_dispatch: # Allows manual trigger from the GitHub UI
 
 jobs:
