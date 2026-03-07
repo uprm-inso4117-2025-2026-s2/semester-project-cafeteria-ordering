@@ -1,0 +1,22 @@
+= Quality Assurance Directory Structure
+Author: Jorge L. De León Orama
+
+== Overview
+This document defines the directory structure for testing and Continuous Integration (CI) used in the project. The purpose of this document is to establish a clear and organized structure for managing testing artifacts as the project progresses toward Milestone 2.
+
+This document describes the directories that will be used by the QA team and developers to store and organize testing-related files. The structure includes directories for test cases, individual tests, automated tests, and test reports, ensuring consistency, traceability, and easier management of testing activities throughout the project.
+
+== Directories
+=== Features
+To maintain effective traceability, each core feature will have its respective test folder, all found within `src/tests/`.  
+
+Each core feature folder contains its respective test cases, test reports, and test scripts folder. 
+
+=== CI Pipeline
+The AutoTest Suite is defined within the following directory: `../../../scripts/ci-check.js`
+
+This file is referenced within `package.json` and then ran within the workflow `../../../.github/workflows/auto_test_suite.yml`
+
+
+
+
