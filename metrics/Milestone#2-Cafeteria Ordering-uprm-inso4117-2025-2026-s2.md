@@ -1,6 +1,6 @@
 # Milestone Data
 
-## Date Generated: 2026-03-06
+## Date Generated: 2026-03-07
 | Developer | Points Closed | Percent Contribution | Indivudal Grade | Milestone Grade | Lecture Topic Tasks |
 | --------- | ------------- | -------------------- | --------------- | --------------- | ------------------- |
 | horebcotto21 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
@@ -71,40 +71,40 @@
 
 | Developer | Week #1 | Week #2 | Week #3 | Week #4 | Week #5 | Penalty |
 |---|---|---|---|---|---|---|
-| Kaariinaa08 | Yes | No | No | No | No | 14.0 |
-| yamilette-alemany | No | No | No | No | No | 20.0 |
-| jankii03 | No | No | No | No | No | 20.0 |
-| FabiolaZTorres | No | No | No | No | No | 20.0 |
-| Lorenzo-PT | No | No | No | No | No | 20.0 |
-| kevinlara1 | No | No | No | No | No | 20.0 |
-| SamarysB | No | No | No | No | No | 20.0 |
-| andreasegarra | No | No | No | No | No | 20.0 |
-| Osvaldoo1414 | Yes | No | No | No | No | 14.0 |
-| reinaldo-martinez1 | No | No | No | No | No | 20.0 |
-| jonVargas1 | No | No | No | No | No | 20.0 |
-| kian-robert | No | No | No | No | No | 20.0 |
-| JadStelar | Yes | No | No | No | No | 14.0 |
-| LuisJCruz | No | No | No | No | No | 20.0 |
-| daniellameleroo | No | No | No | No | No | 20.0 |
-| Kay9876 | No | No | No | No | No | 20.0 |
-| TaimaraColon | Yes | No | No | No | No | 14.0 |
+| nataliavera6 | Yes | No | No | No | No | 14.0 |
+| LuisJCruz | Yes | No | No | No | No | 14.0 |
+| kevinlara1 | Yes | No | No | No | No | 14.0 |
+| ernestosoto3 | Yes | No | No | No | No | 14.0 |
 | fernan-castro | Yes | No | No | No | No | 14.0 |
-| Alma-pineiro | Yes | No | No | No | No | 14.0 |
-| devlin-hahn04 | No | No | No | No | No | 20.0 |
-| L-A-M-D | No | No | No | No | No | 20.0 |
-| ernestosoto3 | No | No | No | No | No | 20.0 |
-| YadrielRivera | Yes | No | No | No | No | 14.0 |
-| horebcotto21 | Yes | No | No | No | No | 14.0 |
-| nataliavera6 | No | No | No | No | No | 20.0 |
-| GerardoSotoRios | No | No | No | No | No | 20.0 |
-| JorgeDeLeonOrama | No | No | No | No | No | 20.0 |
-| YandreCaban | No | No | No | No | No | 20.0 |
+| SamarysB | Yes | No | No | No | No | 14.0 |
 | Pedro-Juan-Bonilla | Yes | No | No | No | No | 14.0 |
-| aryamdiaz | No | No | No | No | No | 20.0 |
+| TaimaraColon | Yes | No | No | No | No | 14.0 |
+| JadStelar | Yes | No | No | No | No | 14.0 |
+| Kaariinaa08 | Yes | No | No | No | No | 14.0 |
+| yamilette-alemany | Yes | No | No | No | No | 14.0 |
+| L-A-M-D | No | No | No | No | No | 20.0 |
+| jankii03 | Yes | No | No | No | No | 14.0 |
+| andreasegarra | Yes | No | No | No | No | 14.0 |
+| FabiolaZTorres | Yes | No | No | No | No | 14.0 |
+| Lorenzo-PT | Yes | No | No | No | No | 14.0 |
+| reinaldo-martinez1 | Yes | No | No | No | No | 14.0 |
+| daniellameleroo | Yes | No | No | No | No | 14.0 |
+| horebcotto21 | Yes | No | No | No | No | 14.0 |
+| Kay9876 | Yes | No | No | No | No | 14.0 |
+| kian-robert | Yes | No | No | No | No | 14.0 |
+| GerardoSotoRios | Yes | No | No | No | No | 14.0 |
+| YadrielRivera | Yes | No | No | No | No | 14.0 |
+| jonVargas1 | Yes | No | No | No | No | 14.0 |
+| Osvaldoo1414 | Yes | No | No | No | No | 14.0 |
+| aryamdiaz | Yes | No | No | No | No | 14.0 |
+| JorgeDeLeonOrama | Yes | No | No | No | No | 14.0 |
+| Alma-pineiro | Yes | No | No | No | No | 14.0 |
+| devlin-hahn04 | Yes | No | No | No | No | 14.0 |
+| YandreCaban | Yes | No | No | No | No | 14.0 |
 
 ## Point Percent by Label
 
-| Developer | state: concluded | state: in progress |
+| Developer | state: in progress | state: concluded |
 |---|---|---|
 | horebcotto21 | 0.0% | 0.0% |
 | reinaldo-martinez1 | 0.0% | 0.0% |
