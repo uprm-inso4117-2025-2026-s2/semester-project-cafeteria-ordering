@@ -4,7 +4,17 @@ Author: Jorge L. De León Orama
 == Overview
 This document provides guidelines for creating and documenting test cases and test reports. It defines the required workflow developers must follow, including ID generation, file naming conventions, template usage, tracker updates, and the required structure for test case and test report documentation.  
 
-== Must Do Before Creating Test Cases or Test Reports
+== Read Carefully
+A test report documents the outcome of a test execution. This implies the following:
+
+* Every time a developer runs a test, they must create a corresponding test report.
+* Any issue that involves running tests but does not include the respective test report will not be approved until the report is provided.
+* Creating issues solely for the purpose of generating test reports without executing a test is not allowed.
+* If a developer runs a test and it fails, they must still generate a test report indicating that the test failed.
+** If the developer modifies the script or test case and reruns the test multiple times, a new test report must be created for each execution.
+** A test passing or failing does not justify bypassing test reporting or modifying an existing test report.
+
+== Creating Test Cases or Test Reports
 Anyone that creates a test case or test report *must* follow this sequence of events:
 
 . Generate file ID following the format `<type>-<feature>-<name>`.
@@ -23,8 +33,6 @@ Anyone that creates a test case or test report *must* follow this sequence of ev
 * Add the new Test Case ID, description, and its linked script file to the Test Case Tracker found in `src/tests/trackers/test_case_tracker.adoc`
 * Add the new Test Report ID, description, and its linked script file to the Test Report Tracker found in `src/tests/trackers/test_report_tracker.adoc`
 . Verify that the ID, file name, and tracker entry match and follow the established conventions before committing the file.
-
-<<<
 
 == Test Case Design Format
 Each test case must contain the following, as specified within, `documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`:
