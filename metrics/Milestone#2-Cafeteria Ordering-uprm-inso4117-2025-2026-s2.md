@@ -1,6 +1,6 @@
 # Milestone Data
 
-## Date Generated: 2026-03-07
+## Date Generated: 2026-03-08
 | Developer | Points Closed | Percent Contribution | Indivudal Grade | Milestone Grade | Lecture Topic Tasks |
 | --------- | ------------- | -------------------- | --------------- | --------------- | ------------------- |
 | horebcotto21 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
@@ -11,7 +11,7 @@
 | fernan-castro | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | Kaariinaa08 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | nataliavera6 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
-| LuisJCruz | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
+| LuisJCruz | 20.0 | 50.1% | 100.0% | 100.0% | 0 |
 | YandreCaban | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | SamarysB | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | FabiolaZTorres | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
@@ -27,11 +27,11 @@
 | daniellameleroo | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | devlin-hahn04 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | kevinlara1 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
-| JorgeDeLeonOrama | 15.0 | 100.0% | 100.0% | 100.0% | 0 |
+| JorgeDeLeonOrama | 20.0 | 49.9% | 100.0% | 100.0% | 0 |
 | L-A-M-D | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | kian-robert | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | Pedro-Juan-Bonilla | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
-| Total | 15.0 | /100% | /100% | /100% | 0 |
+| Total | 39.95954796251077 | /100% | /100% | /100% | 0 |
 
 
 ## Sprint Task Completion
@@ -46,7 +46,7 @@
 | fernan-castro | 0/1 | 0/1 |
 | Kaariinaa08 | 0/1 | 0/1 |
 | nataliavera6 | 0/1 | 0/1 |
-| LuisJCruz | 0/1 | 0/1 |
+| LuisJCruz | 1/1 | 0/1 |
 | YandreCaban | 0/1 | 0/1 |
 | SamarysB | 0/1 | 0/1 |
 | FabiolaZTorres | 0/1 | 0/1 |
@@ -62,7 +62,7 @@
 | daniellameleroo | 0/1 | 0/1 |
 | devlin-hahn04 | 0/1 | 0/1 |
 | kevinlara1 | 0/1 | 0/1 |
-| JorgeDeLeonOrama | 1/1 | 0/1 |
+| JorgeDeLeonOrama | 2/1 | 0/1 |
 | L-A-M-D | 0/1 | 0/1 |
 | kian-robert | 0/1 | 0/1 |
 | Pedro-Juan-Bonilla | 0/1 | 0/1 |
@@ -71,69 +71,69 @@
 
 | Developer | Week #1 | Week #2 | Week #3 | Week #4 | Week #5 | Penalty |
 |---|---|---|---|---|---|---|
-| nataliavera6 | Yes | No | No | No | No | 14.0 |
-| LuisJCruz | Yes | No | No | No | No | 14.0 |
-| kevinlara1 | Yes | No | No | No | No | 14.0 |
-| ernestosoto3 | Yes | No | No | No | No | 14.0 |
-| fernan-castro | Yes | No | No | No | No | 14.0 |
-| SamarysB | Yes | No | No | No | No | 14.0 |
-| Pedro-Juan-Bonilla | Yes | No | No | No | No | 14.0 |
-| TaimaraColon | Yes | No | No | No | No | 14.0 |
-| JadStelar | Yes | No | No | No | No | 14.0 |
-| Kaariinaa08 | Yes | No | No | No | No | 14.0 |
-| yamilette-alemany | Yes | No | No | No | No | 14.0 |
-| L-A-M-D | No | No | No | No | No | 20.0 |
-| jankii03 | Yes | No | No | No | No | 14.0 |
-| andreasegarra | Yes | No | No | No | No | 14.0 |
-| FabiolaZTorres | Yes | No | No | No | No | 14.0 |
-| Lorenzo-PT | Yes | No | No | No | No | 14.0 |
-| reinaldo-martinez1 | Yes | No | No | No | No | 14.0 |
-| daniellameleroo | Yes | No | No | No | No | 14.0 |
-| horebcotto21 | Yes | No | No | No | No | 14.0 |
-| Kay9876 | Yes | No | No | No | No | 14.0 |
-| kian-robert | Yes | No | No | No | No | 14.0 |
-| GerardoSotoRios | Yes | No | No | No | No | 14.0 |
-| YadrielRivera | Yes | No | No | No | No | 14.0 |
-| jonVargas1 | Yes | No | No | No | No | 14.0 |
-| Osvaldoo1414 | Yes | No | No | No | No | 14.0 |
-| aryamdiaz | Yes | No | No | No | No | 14.0 |
-| JorgeDeLeonOrama | Yes | No | No | No | No | 14.0 |
 | Alma-pineiro | Yes | No | No | No | No | 14.0 |
-| devlin-hahn04 | Yes | No | No | No | No | 14.0 |
+| Kaariinaa08 | Yes | No | No | No | No | 14.0 |
+| nataliavera6 | Yes | No | No | No | No | 14.0 |
+| aryamdiaz | Yes | No | No | No | No | 14.0 |
+| jankii03 | Yes | No | No | No | No | 14.0 |
+| kian-robert | Yes | No | No | No | No | 14.0 |
+| SamarysB | Yes | No | No | No | No | 14.0 |
+| daniellameleroo | Yes | No | No | No | No | 14.0 |
+| kevinlara1 | Yes | No | No | No | No | 14.0 |
+| JadStelar | Yes | No | No | No | No | 14.0 |
+| L-A-M-D | Yes | No | No | No | No | 14.0 |
 | YandreCaban | Yes | No | No | No | No | 14.0 |
+| Osvaldoo1414 | Yes | No | No | No | No | 14.0 |
+| reinaldo-martinez1 | Yes | No | No | No | No | 14.0 |
+| GerardoSotoRios | Yes | No | No | No | No | 14.0 |
+| FabiolaZTorres | Yes | No | No | No | No | 14.0 |
+| jonVargas1 | Yes | No | No | No | No | 14.0 |
+| andreasegarra | Yes | No | No | No | No | 14.0 |
+| YadrielRivera | Yes | No | No | No | No | 14.0 |
+| Pedro-Juan-Bonilla | Yes | No | No | No | No | 14.0 |
+| yamilette-alemany | Yes | No | No | No | No | 14.0 |
+| fernan-castro | Yes | No | No | No | No | 14.0 |
+| Lorenzo-PT | Yes | No | No | No | No | 14.0 |
+| devlin-hahn04 | Yes | No | No | No | No | 14.0 |
+| Kay9876 | Yes | No | No | No | No | 14.0 |
+| TaimaraColon | Yes | No | No | No | No | 14.0 |
+| LuisJCruz | Yes | No | No | No | No | 14.0 |
+| horebcotto21 | Yes | No | No | No | No | 14.0 |
+| JorgeDeLeonOrama | Yes | No | No | No | No | 14.0 |
+| ernestosoto3 | Yes | No | No | No | No | 14.0 |
 
 ## Point Percent by Label
 
-| Developer | state: in progress | state: concluded |
-|---|---|---|
-| horebcotto21 | 0.0% | 0.0% |
-| reinaldo-martinez1 | 0.0% | 0.0% |
-| Kay9876 | 0.0% | 0.0% |
-| JadStelar | 0.0% | 0.0% |
-| aryamdiaz | 0.0% | 0.0% |
-| fernan-castro | 0.0% | 0.0% |
-| Kaariinaa08 | 0.0% | 0.0% |
-| nataliavera6 | 0.0% | 0.0% |
-| LuisJCruz | 0.0% | 0.0% |
-| YandreCaban | 0.0% | 0.0% |
-| SamarysB | 0.0% | 0.0% |
-| FabiolaZTorres | 0.0% | 0.0% |
-| jonVargas1 | 0.0% | 0.0% |
-| andreasegarra | 0.0% | 0.0% |
-| yamilette-alemany | 0.0% | 0.0% |
-| jankii03 | 0.0% | 0.0% |
-| Osvaldoo1414 | 0.0% | 0.0% |
-| ernestosoto3 | 0.0% | 0.0% |
-| Lorenzo-PT | 0.0% | 0.0% |
-| YadrielRivera | 0.0% | 0.0% |
-| GerardoSotoRios | 0.0% | 0.0% |
-| daniellameleroo | 0.0% | 0.0% |
-| devlin-hahn04 | 0.0% | 0.0% |
-| kevinlara1 | 0.0% | 0.0% |
-| JorgeDeLeonOrama | 100.0% | 100.0% |
-| L-A-M-D | 0.0% | 0.0% |
-| kian-robert | 0.0% | 0.0% |
-| Pedro-Juan-Bonilla | 0.0% | 0.0% |
+| Developer | state: concluded | state: in progress | Team Lead Approved | Manager Approved | Database Implementation | documentation | Quality Assurance |
+|---|---|---|---|---|---|---|---|
+| horebcotto21 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| reinaldo-martinez1 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Kay9876 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| JadStelar | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| aryamdiaz | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| fernan-castro | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Kaariinaa08 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| nataliavera6 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| LuisJCruz | 0.0% | 100.0% | 100.0% | 0.0% | 100.0% | 0.0% | 0.0% |
+| YandreCaban | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| SamarysB | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| FabiolaZTorres | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| jonVargas1 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| andreasegarra | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| yamilette-alemany | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| jankii03 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Osvaldoo1414 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| ernestosoto3 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Lorenzo-PT | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| YadrielRivera | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| GerardoSotoRios | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| daniellameleroo | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| devlin-hahn04 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| kevinlara1 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| JorgeDeLeonOrama | 100.0% | 75.2% | 0.0% | 24.8% | 0.0% | 24.8% | 24.8% |
+| L-A-M-D | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| kian-robert | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Pedro-Juan-Bonilla | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 # Metrics Generation Logs
 
 | Message |
@@ -148,7 +148,6 @@
 | WARNING: fernan-castro hasn't completed the minimum 1 task(s) required for sprint 2026/03/03-2026/03/18 |
 | WARNING: Kaariinaa08 hasn't completed the minimum 1 task(s) required for sprint 2026/03/03-2026/03/18 |
 | WARNING: nataliavera6 hasn't completed the minimum 1 task(s) required for sprint 2026/03/03-2026/03/18 |
-| WARNING: LuisJCruz hasn't completed the minimum 1 task(s) required for sprint 2026/03/03-2026/03/18 |
 | WARNING: YandreCaban hasn't completed the minimum 1 task(s) required for sprint 2026/03/03-2026/03/18 |
 | WARNING: SamarysB hasn't completed the minimum 1 task(s) required for sprint 2026/03/03-2026/03/18 |
 | WARNING: FabiolaZTorres hasn't completed the minimum 1 task(s) required for sprint 2026/03/03-2026/03/18 |
