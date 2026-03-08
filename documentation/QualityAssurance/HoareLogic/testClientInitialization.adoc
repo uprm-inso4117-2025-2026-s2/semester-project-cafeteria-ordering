@@ -2,7 +2,6 @@
 :toc:
 :sectnums:
 :doctype: article
-:stem: latexmath
 
 == Purpose
 
@@ -19,15 +18,12 @@ This function is essential for ensuring that all downstream operations depending
 
 This document provides a formal proof that the `testClientInitialization()` function satisfies its specification. We prove that:
 
-[latexmath]
-++++
-\{P\} \; S \; \{Q\}
-++++
+{P} S {Q}
 
 where:
-* stem:[P] represents the preconditions that must be true before execution
-* stem:[S] represents the function body (the statement)
-* stem:[Q] represents the postconditions that must be true after execution
+* P represents the preconditions that must be true before execution
+* S represents the function body (the statement)
+* Q represents the postconditions that must be true after execution
 
 This proof demonstrates that if the preconditions are met, executing the function will always result in a state satisfying the postconditions.
 
@@ -61,59 +57,55 @@ interface TestResult {
 
 The preconditions define the state of the system before execution:
 
-[latexmath]
-++++
-P = \begin{cases}
-\text{supabase module is loaded} \\
-\text{supabase variable is defined (in scope)} \\
-\text{no uncaught exceptions before first statement} \\
-\text{try-catch mechanism is functional}
-\end{cases}
-++++
+P = {
+
+  supabase module is loaded
+
+  supabase variable is defined (in scope)
+
+  no uncaught exceptions before first statement
+
+  try-catch mechanism is functional
+
+}
 
 More formally:
-[latexmath]
-++++
-P \equiv (\text{Module loaded} \land \text{Runtime ready} \land \text{Exception handlers active})
-++++
+P ≡ (Module loaded ∧ Runtime ready ∧ Exception handlers active)
 
 === Postconditions (Q)
 
 The postconditions define the guaranteed state after execution completes:
 
-[latexmath]
-++++
-Q = \begin{cases}
-\text{result.name} = \text{"Client Initialization"} \\
-\text{result.passed} \in \{\text{true}, \text{false}\} \\
-\text{result.message} \neq \text{null} \land \text{result.message is string} \\
-\text{Promise resolves with TestResult object} \\
-\text{No unhandled exceptions are thrown}
-\end{cases}
-++++
+Q = {
+
+  result.name = "Client Initialization"
+  
+  result.passed ∈ {true, false}
+  
+  result.message ≠ null ∧ result.message is string
+  
+  Promise resolves with TestResult object
+  
+  No unhandled exceptions are thrown
+
+}
 
 More formally:
-[latexmath]
-++++
-Q \equiv (\text{TestResult returned} \land \text{All fields initialized} \land \text{Promise state: resolved})
-++++
+Q ≡ (TestResult returned ∧ All fields initialized ∧ Promise state: resolved)
 
 === Proof by Cases
 
-We prove the function satisfies the triple stem:[\{P\} \; S \; \{Q\}] by analyzing all possible execution paths:
+We prove the function satisfies the triple {P} S {Q} by analyzing all possible execution paths:
 
 ==== Case 1: Supabase Client Not Initialized
 
-**Path Condition:** stem:[\neg(\text{supabase})]
+**Path Condition:** ¬(supabase)
 
-[stem]
-++++
-\{P_1\} \quad \text{if } (\neg \text{supabase}) \quad \{Q_1\}
-++++
+{P₁} if (¬supabase) {Q₁}
 
 *Reasoning:*
 . Enter try block (precondition P holds)
-. Evaluate condition: stem:[\neg(\text{supabase}) \equiv \text{true}]
+. Evaluate condition: ¬(supabase) ≡ true
 . Execute first branch:
 +
 [source,typescript]
@@ -125,26 +117,23 @@ return {
 };
 ----
 . Return value satisfies postcondition Q:
-  - stem:[\text{name} = \text{"Client Initialization"} \checkmark]
-  - stem:[\text{passed} = \text{false} \in \{\text{true}, \text{false}\} \checkmark]
-  - stem:[\text{message} = \text{"Supabase client is not initialized"}] (non-null string) stem:[\checkmark]
-  - Promise resolves with TestResult stem:[\checkmark]
+  - name = "Client Initialization" ✓
+  - passed = false ∈ {true, false} ✓
+  - message = "Supabase client is not initialized" (non-null string) ✓
+  - Promise resolves with TestResult ✓
 
-*Conclusion for Case 1:* stem:[Q_1 \text{ is satisfied}]
+*Conclusion for Case 1:* Q₁ is satisfied
 
 ==== Case 2: Supabase Client Missing Required Methods
 
-**Path Condition:** stem:[(\text{supabase} \neq \text{null}) \land (\neg(\text{supabase.auth}) \lor \neg(\text{supabase.from}) \lor \neg(\text{supabase.storage}))]
+**Path Condition:** (supabase ≠ null) ∧ (¬(supabase.auth) ∨ ¬(supabase.from) ∨ ¬(supabase.storage))
 
-[stem]
-++++
-\{P_2\} \quad \text{if } (\text{supabase} \neq \text{null} \land \text{missing methods}) \quad \{Q_2\}
-++++
+{P₂} if (supabase ≠ null ∧ missing methods) {Q₂}
 
 *Reasoning:*
 . Enter try block (precondition P holds)
-. Evaluate first condition: stem:[\neg(\text{supabase}) \equiv \text{false}] (skip first branch)
-. Evaluate second condition: stem:[\text{missing required methods} \equiv \text{true}]
+. Evaluate first condition: ¬(supabase) ≡ false (skip first branch)
+. Evaluate second condition: missing required methods ≡ true
 . Execute second branch:
 +
 [source,typescript]
@@ -156,26 +145,23 @@ return {
 };
 ----
 . Return value satisfies postcondition Q:
-  - stem:[\text{name} = \text{"Client Initialization"} \checkmark]
-  - stem:[\text{passed} = \text{false} \in \{\text{true}, \text{false}\} \checkmark]
-  - stem:[\text{message} = \text{"Supabase client is missing required methods"}] (non-null string) stem:[\checkmark]
-  - Promise resolves with TestResult stem:[\checkmark]
+  - name = "Client Initialization" ✓
+  - passed = false ∈ {true, false} ✓
+  - message = "Supabase client is missing required methods" (non-null string) ✓
+  - Promise resolves with TestResult ✓
 
-*Conclusion for Case 2:* stem:[Q_2 \text{ is satisfied}]
+*Conclusion for Case 2:* Q₂ is satisfied
 
 ==== Case 3: Supabase Client Properly Initialized
 
-**Path Condition:** stem:[(\text{supabase} \neq \text{null}) \land (\text{supabase.auth}) \land (\text{supabase.from}) \land (\text{supabase.storage})]
+**Path Condition:** (supabase ≠ null) ∧ (supabase.auth) ∧ (supabase.from) ∧ (supabase.storage)
 
-[stem]
-++++
-\{P_3\} \quad \text{if } (\text{supabase properly initialized}) \quad \{Q_3\}
-++++
+{P₃} if (supabase properly initialized) {Q₃}
 
 *Reasoning:*
 . Enter try block (precondition P holds)
-. Evaluate first condition: stem:[\neg(\text{supabase}) \equiv \text{false}] (skip first branch)
-. Evaluate second condition: stem:[(\text{all methods present}) \equiv \text{false}] (skip second branch)
+. Evaluate first condition: ¬(supabase) ≡ false (skip first branch)
+. Evaluate second condition: (all methods present) ≡ false (skip second branch)
 . Execute final return statement:
 +
 [source,typescript]
@@ -187,21 +173,18 @@ return {
 };
 ----
 . Return value satisfies postcondition Q:
-  - stem:[\text{name} = \text{"Client Initialization"} \checkmark]
-  - stem:[\text{passed} = \text{true} \in \{\text{true}, \text{false}\} \checkmark]
-  - stem:[\text{message} = \text{"Supabase client initialized successfully"}] (non-null string) stem:[\checkmark]
-  - Promise resolves with TestResult stem:[\checkmark]
+  - name = "Client Initialization" ✓
+  - passed = true ∈ {true, false} ✓
+  - message = "Supabase client initialized successfully" (non-null string) ✓
+  - Promise resolves with TestResult ✓
 
-*Conclusion for Case 3:* stem:[Q_3 \text{ is satisfied}]
+*Conclusion for Case 3:* Q₃ is satisfied
 
 ==== Case 4: Exception During Execution
 
-**Path Condition:** stem:[\text{error thrown during execution}]
+**Path Condition:** error thrown during execution
 
-[stem]
-++++
-\{P_4\} \quad \text{try block throws exception} \quad \{Q_4\}
-++++
+{P₄} try block throws exception {Q₄}
 
 *Reasoning:*
 . Pre-condition P holds: exception handler is active
@@ -221,39 +204,37 @@ catch (error) {
 }
 ----
 . Return value satisfies postcondition Q:
-  - stem:[\text{name} = \text{"Client Initialization"} \checkmark]
-  - stem:[\text{passed} = \text{false} \in \{\text{true}, \text{false}\} \checkmark]
-  - stem:[\text{message} = \text{"Failed to initialize client"}] (non-null string) stem:[\checkmark]
-  - stem:[\text{error} = \text{caught exception}] (available) stem:[\checkmark]
-  - Promise resolves with TestResult (exception is caught, not thrown) stem:[\checkmark]
+  - name = "Client Initialization" ✓
+  - passed = false ∈ {true, false} ✓
+  - message = "Failed to initialize client" (non-null string) ✓
+  - error = caught exception (available) ✓
+  - Promise resolves with TestResult (exception is caught, not thrown) ✓
 
-*Conclusion for Case 4:* stem:[Q_4 \text{ is satisfied, no exception escapes}]
+*Conclusion for Case 4:* Q₄ is satisfied, no exception escapes
 
 === Completeness of Case Analysis
 
 We have exhaustively covered all possible execution paths:
 
-[latexmath]
-++++
-\text{Path}_1 \cup \text{Path}_2 \cup \text{Path}_3 \cup \text{Path}_4 = \text{All Possible Executions}
-++++
+Path₁ ∪ Path₂ ∪ Path₃ ∪ Path₄ = All Possible Executions
 
 The partitioning is complete and mutually exclusive:
-* stem:[\text{Path}_1: \quad \text{supabase} = \text{null}]
-* stem:[\text{Path}_2: \quad \text{supabase} \neq \text{null}, \text{methods missing}]
-* stem:[\text{Path}_3: \quad \text{supabase} \neq \text{null}, \text{all methods present}]
-* stem:[\text{Path}_4: \quad \text{exception during execution}]
+
+* Path₁: supabase = null
+
+* Path₂: supabase ≠ null, methods missing
+
+* Path₃: supabase ≠ null, all methods present
+
+* Path₄: exception during execution
 
 === Global Validity
 
 Since every possible execution path satisfies postconditions, we conclude:
 
-[latexmath]
-++++
-\boxed{\{P\} \; \text{testClientInitialization()} \; \{Q\}}
-++++
+{P} testClientInitialization() {Q}
 
-Therefore, for any state satisfying precondition stem:[P], executing `testClientInitialization()` is guaranteed to produce a state satisfying postcondition stem:[Q].
+Therefore, for any state satisfying precondition P, executing `testClientInitialization()` is guaranteed to produce a state satisfying postcondition Q.
 
 == Proof Summary Table
 
@@ -262,22 +243,22 @@ Therefore, for any state satisfying precondition stem:[P], executing `testClient
 | Execution Path | Condition | Return Value (passed) | Satisfies Q?
 
 | Supabase uninitialized
-| stem:[\neg(\text{supabase})]
+| ¬(supabase)
 | false
 | ✓
 
 | Missing required methods
-| stem:[\neg(\text{methods})]
+| ¬(methods)
 | false
 | ✓
 
 | Properly initialized
-| stem:[(\text{all methods})]
+| (all methods)
 | true
 | ✓
 
 | Exception caught
-| stem:[\text{error thrown}]
+| error thrown
 | false
 | ✓
 |===
@@ -295,15 +276,12 @@ Therefore, for any state satisfying precondition stem:[P], executing `testClient
 
 The function respects TypeScript's type system:
 
-[stem]
-++++
-\text{testClientInitialization}: \texttt{Promise}[\texttt{TestResult}] \text{ where } \texttt{TestResult} = \{\\
-\quad \text{name}: \text{string} \\
-\quad \text{passed}: \text{boolean} \\
-\quad \text{message}: \text{string} \\
-\quad \text{error?}: \text{any}
-\}
-++++
+testClientInitialization: Promise[TestResult] where TestResult = {
+  name: string
+  passed: boolean
+  message: string
+  error?: any
+}
 
 == Conclusion
 
@@ -319,14 +297,8 @@ We have formally proven that `testClientInitialization()` satisfies its specific
 
 === Statement of Correctness
 
-[latexmath]
-++++
-\text{The function } \texttt{testClientInitialization()} \text{ is correct with respect to its specification.}
-++++
+The function testClientInitialization() is correct with respect to its specification.
 
-[latexmath]
-++++
-\forall \text{ initial states } s \text{ where } P(s) \text{ holds, if execution completes, then } Q(s') \text{ holds for the final state } s'.
-++++
+∀ initial states S where P holds, if execution completes, then Q holds for the final state.
 
 This formal proof assures developers that `testClientInitialization()` is a reliable component of the Supabase configuration testing suite and can be safely depended upon in the application's initialization sequence.
