@@ -21,8 +21,11 @@ This document provides a formal proof that the `testClientInitialization()` func
 {P} S {Q}
 
 where:
+
 * P represents the preconditions that must be true before execution
+
 * S represents the function body (the statement)
+
 * Q represents the postconditions that must be true after execution
 
 This proof demonstrates that if the preconditions are met, executing the function will always result in a state satisfying the postconditions.
@@ -36,7 +39,9 @@ async function testClientInitialization(): Promise<TestResult>
 ----
 
 The function takes no parameters but depends on:
+
 * A module-level `supabase` variable of type `SupabaseClient` (or null/undefined)
+
 * The ability to catch exceptions during execution
 
 === Output Specification
@@ -104,6 +109,7 @@ We prove the function satisfies the triple {P} S {Q} by analyzing all possible e
 {P₁} if (¬supabase) {Q₁}
 
 *Reasoning:*
+
 . Enter try block (precondition P holds)
 . Evaluate condition: ¬(supabase) ≡ true
 . Execute first branch:
@@ -131,9 +137,13 @@ return {
 {P₂} if (supabase ≠ null ∧ missing methods) {Q₂}
 
 *Reasoning:*
+
 . Enter try block (precondition P holds)
+
 . Evaluate first condition: ¬(supabase) ≡ false (skip first branch)
+
 . Evaluate second condition: missing required methods ≡ true
+
 . Execute second branch:
 +
 [source,typescript]
@@ -159,9 +169,13 @@ return {
 {P₃} if (supabase properly initialized) {Q₃}
 
 *Reasoning:*
+
 . Enter try block (precondition P holds)
+
 . Evaluate first condition: ¬(supabase) ≡ false (skip first branch)
+
 . Evaluate second condition: (all methods present) ≡ false (skip second branch)
+
 . Execute final return statement:
 +
 [source,typescript]
@@ -187,9 +201,13 @@ return {
 {P₄} try block throws exception {Q₄}
 
 *Reasoning:*
+
 . Pre-condition P holds: exception handler is active
+
 . During any conditional evaluation or return construction, an error is thrown
+
 . Control flow transfers to catch block
+
 . Execute catch block:
 +
 [source,typescript]
