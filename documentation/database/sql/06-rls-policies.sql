@@ -63,18 +63,18 @@ CREATE POLICY "Staff can view all menu categories"
   ON menu_categories FOR SELECT
   USING (is_staff(auth.uid()));
 
--- Staff/Admins can manage categories
+-- Admins can manage categories
 CREATE POLICY "Admins can insert menu categories"
   ON menu_categories FOR INSERT
-  WITH CHECK (is_staff(auth.uid()) OR is_admin(auth.uid()));
+  WITH CHECK (is_admin(auth.uid()));
 
-CREATE POLICY "Staff/Admins can update menu categories"
+CREATE POLICY "Admins can update menu categories"
   ON menu_categories FOR UPDATE
-  USING (is_staff(auth.uid()) OR is_admin(auth.uid()));
+  USING (is_admin(auth.uid()));
 
-CREATE POLICY "Staff/Admins can delete menu categories"
+CREATE POLICY "Admins can delete menu categories"
   ON menu_categories FOR DELETE
-  USING (is_staff(auth.uid()) OR is_admin(auth.uid()));
+  USING (is_admin(auth.uid()));
 
 -- ============================================
 -- MENU ITEMS POLICIES
@@ -90,18 +90,18 @@ CREATE POLICY "Staff can view all menu items"
   ON menu_items FOR SELECT
   USING (is_staff(auth.uid()));
 
--- Staff/Admins can manage menu items
+-- Admins can manage menu items
 CREATE POLICY "Admins can insert menu items"
   ON menu_items FOR INSERT
-  WITH CHECK (is_staff(auth.uid()) OR is_admin(auth.uid()));
+  WITH CHECK (is_admin(auth.uid()));
 
-CREATE POLICY "Staff/Admin can update menu items"
+CREATE POLICY "Admins can update menu items"
   ON menu_items FOR UPDATE
-  USING (is_staff(auth.uid()) OR is_admin(auth.uid()));
+  USING (is_admin(auth.uid()));
 
-CREATE POLICY "Staff/Admins can delete menu items"
+CREATE POLICY "Admins can delete menu items"
   ON menu_items FOR DELETE
-  USING (is_staff(auth.uid()) OR is_admin(auth.uid()));
+  USING (is_admin(auth.uid()));
 
 -- ============================================
 -- ORDERS TABLE POLICIES
@@ -118,26 +118,22 @@ CREATE POLICY "Users can create own orders"
   WITH CHECK (auth.uid() = user_id);
 
 -- Users can update their own orders (only if not completed/cancelled)
--- They can only update details if it is still in 'placed'
 CREATE POLICY "Users can update own pending orders"
   ON orders FOR UPDATE
   USING (
     auth.uid() = user_id 
-    AND status = 'placed'
-  )
-  WITH CHECK (
-    status = 'placed' -- Prevents users from changing status to 'completed' etc.
+    AND status NOT IN ('completed', 'cancelled')
   );
 
 -- Staff can view all orders
-CREATE POLICY "Staff/Admin can view all orders"
+CREATE POLICY "Staff can view all orders"
   ON orders FOR SELECT
-  USING (is_staff(auth.uid()) OR is_admin(auth.uid()));
+  USING (is_staff(auth.uid()));
 
 -- Staff can update order status
-CREATE POLICY "Staff/Admin can update order status"
+CREATE POLICY "Staff can update order status"
   ON orders FOR UPDATE
-  USING (is_staff(auth.uid()) OR is_admin(auth.uid()));
+  USING (is_staff(auth.uid()));
 
 -- ============================================
 -- ORDER ITEMS TABLE POLICIES

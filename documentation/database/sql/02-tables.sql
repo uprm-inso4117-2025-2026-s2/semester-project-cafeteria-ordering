@@ -10,13 +10,15 @@
 -- ============================================
 
 -- Extended user profiles (linked to Supabase auth.users)
+-- NOTE: Merged with existing schema from Supabase (included expo_push_token from prior deployment)
 CREATE TABLE IF NOT EXISTS profiles (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID NOT NULL UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  user_id UUID UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
   student_id VARCHAR(20) UNIQUE,
-  full_name VARCHAR(255) NOT NULL,
+  full_name TEXT,
   phone VARCHAR(20),
-  role VARCHAR(20) NOT NULL DEFAULT 'student' CHECK (role IN ('student', 'staff', 'admin')),
+  role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student', 'athlete', 'staff', 'admin')),
+  expo_push_token TEXT,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -24,7 +26,7 @@ CREATE TABLE IF NOT EXISTS profiles (
 COMMENT ON TABLE profiles IS 'Extended user profile information linked to Supabase authentication';
 COMMENT ON COLUMN profiles.user_id IS 'Foreign key to auth.users table (Supabase managed)';
 COMMENT ON COLUMN profiles.student_id IS 'University student ID number';
-COMMENT ON COLUMN profiles.role IS 'User role: student (customer), staff (cafeteria), admin (manager)';
+COMMENT ON COLUMN profiles.role IS 'User role: student (customer), athlete (student-athlete), staff (cafeteria), admin (manager)';
 
 -- ============================================
 -- MENU MANAGEMENT

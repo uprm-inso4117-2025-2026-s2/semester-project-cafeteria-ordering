@@ -24,7 +24,7 @@ CREATE INDEX IF NOT EXISTS idx_profiles_role
 
 COMMENT ON INDEX idx_profiles_user_id IS 'Fast lookup of profile by Supabase auth user ID';
 COMMENT ON INDEX idx_profiles_student_id IS 'Lookup by university student ID (partial index)';
-COMMENT ON INDEX idx_profiles_role IS 'Filter users by role (student, staff, admin)';
+COMMENT ON INDEX idx_profiles_role IS 'Filter users by role (student, athlete, staff, admin)';
 
 -- ============================================
 -- MENU MANAGEMENT INDEXES
