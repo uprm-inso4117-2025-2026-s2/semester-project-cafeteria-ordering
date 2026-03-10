@@ -1,32 +1,35 @@
-= <Test Name> TC
+////
+<Test Name> TC
 Author: <insert name>
 
-== Description
+Description
 <insert purpose of the test>
 <insert type of tests to be run (unit, integration, etc)>
 
-== Preconditions
+Preconditions
 * <insert precondition1>
 * <insert precondition2>
+////
 
-== Test Data
+//Test Data
 <insert inputs used during execution>
 
-== Test Steps
+////
+Test Steps
 <insert sequence of steps that will take place when executing the test>
 
 . <insert step1>
 . <insert step2>
 
-== Expected Results
+Expected Results
 <insert expected system behavior >
 
-== Notes
+Notes
 <insert notes, only if additional infromation is deemed necessary>
 
-== Reviewed By
+Reviewed By
 <reviewer(s) fill this part>
-
+////
 ====
-*NOTE:* if there are any uncertainties, refer to the document in found within the following directory: `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`:
+*NOTE:* if there are any uncertainties, refer to the document in found within the following directory: `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`. DO NOT INCLUDE THIS NOTE IN THE PRODUCED FILE.
 ====
