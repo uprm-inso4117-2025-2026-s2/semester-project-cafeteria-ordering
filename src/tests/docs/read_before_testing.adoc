@@ -74,4 +74,4 @@ Each test report must contain the following, as specified within `documentation/
 . Pass/Fail Status
 
 === Test Report Template
-Test cases must use the template located at `src/tests/test_report_template.adoc`
+Test report must use the template located at `src/tests/test_report_template.adoc`
