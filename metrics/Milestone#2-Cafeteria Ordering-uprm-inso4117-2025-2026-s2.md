@@ -1,6 +1,6 @@
 # Milestone Data
 
-## Date Generated: 2026-03-10
+## Date Generated: 2026-03-11
 | Developer | Points Closed | Percent Contribution | Indivudal Grade | Milestone Grade | Lecture Topic Tasks |
 | --------- | ------------- | -------------------- | --------------- | --------------- | ------------------- |
 | horebcotto21 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
@@ -71,40 +71,40 @@
 
 | Developer | Week #1 | Week #2 | Week #3 | Week #4 | Week #5 | Penalty |
 |---|---|---|---|---|---|---|
-| YadrielRivera | Yes | No | No | No | No | 14.0 |
-| daniellameleroo | Yes | No | No | No | No | 14.0 |
-| Pedro-Juan-Bonilla | Yes | No | No | No | No | 14.0 |
-| Kay9876 | Yes | No | No | No | No | 14.0 |
-| andreasegarra | Yes | No | No | No | No | 14.0 |
-| Kaariinaa08 | Yes | No | No | No | No | 14.0 |
-| YandreCaban | Yes | No | No | No | No | 14.0 |
-| GerardoSotoRios | Yes | No | No | No | No | 14.0 |
-| kian-robert | Yes | No | No | No | No | 14.0 |
-| L-A-M-D | Yes | No | No | No | No | 14.0 |
-| JadStelar | Yes | No | No | No | No | 14.0 |
-| TaimaraColon | Yes | No | No | No | No | 14.0 |
-| reinaldo-martinez1 | Yes | No | No | No | No | 14.0 |
-| FabiolaZTorres | Yes | No | No | No | No | 14.0 |
-| Alma-pineiro | Yes | No | No | No | No | 14.0 |
-| Osvaldoo1414 | Yes | No | No | No | No | 14.0 |
-| SamarysB | Yes | No | No | No | No | 14.0 |
-| aryamdiaz | Yes | No | No | No | No | 14.0 |
-| Lorenzo-PT | Yes | No | No | No | No | 14.0 |
-| devlin-hahn04 | Yes | No | No | No | No | 14.0 |
 | horebcotto21 | Yes | No | No | No | No | 14.0 |
-| fernan-castro | Yes | No | No | No | No | 14.0 |
-| yamilette-alemany | Yes | No | No | No | No | 14.0 |
+| kevinlara1 | Yes | No | No | No | No | 14.0 |
+| TaimaraColon | Yes | No | No | No | No | 14.0 |
+| jankii03 | Yes | No | No | No | No | 14.0 |
+| JorgeDeLeonOrama | Yes | No | No | No | No | 14.0 |
+| aryamdiaz | Yes | No | No | No | No | 14.0 |
+| FabiolaZTorres | Yes | No | No | No | No | 14.0 |
+| daniellameleroo | Yes | No | No | No | No | 14.0 |
+| YadrielRivera | Yes | No | No | No | No | 14.0 |
 | nataliavera6 | Yes | No | No | No | No | 14.0 |
 | jonVargas1 | Yes | No | No | No | No | 14.0 |
-| jankii03 | Yes | No | No | No | No | 14.0 |
-| LuisJCruz | Yes | No | No | No | No | 14.0 |
-| JorgeDeLeonOrama | Yes | No | No | No | No | 14.0 |
-| kevinlara1 | Yes | No | No | No | No | 14.0 |
+| andreasegarra | Yes | No | No | No | No | 14.0 |
+| Kay9876 | Yes | No | No | No | No | 14.0 |
 | ernestosoto3 | Yes | No | No | No | No | 14.0 |
+| YandreCaban | Yes | No | No | No | No | 14.0 |
+| LuisJCruz | Yes | No | No | No | No | 14.0 |
+| Alma-pineiro | Yes | No | No | No | No | 14.0 |
+| GerardoSotoRios | Yes | No | No | No | No | 14.0 |
+| devlin-hahn04 | Yes | No | No | No | No | 14.0 |
+| Pedro-Juan-Bonilla | Yes | No | No | No | No | 14.0 |
+| Osvaldoo1414 | Yes | No | No | No | No | 14.0 |
+| reinaldo-martinez1 | Yes | No | No | No | No | 14.0 |
+| kian-robert | Yes | No | No | No | No | 14.0 |
+| L-A-M-D | Yes | No | No | No | No | 14.0 |
+| SamarysB | Yes | No | No | No | No | 14.0 |
+| Lorenzo-PT | Yes | No | No | No | No | 14.0 |
+| fernan-castro | Yes | No | No | No | No | 14.0 |
+| yamilette-alemany | Yes | No | No | No | No | 14.0 |
+| JadStelar | Yes | No | No | No | No | 14.0 |
+| Kaariinaa08 | Yes | No | No | No | No | 14.0 |
 
 ## Point Percent by Label
 
-| Developer | Team Lead Approved | Database Implementation | documentation | state: concluded | state: in progress | Quality Assurance | Manager Approved |
+| Developer | state: concluded | state: in progress | Quality Assurance | Database Implementation | Manager Approved | documentation | Team Lead Approved |
 |---|---|---|---|---|---|---|---|
 | horebcotto21 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | reinaldo-martinez1 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
@@ -114,7 +114,7 @@
 | fernan-castro | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | Kaariinaa08 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | nataliavera6 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| LuisJCruz | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% |
+| LuisJCruz | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% |
 | YandreCaban | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | SamarysB | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | FabiolaZTorres | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
@@ -130,7 +130,7 @@
 | daniellameleroo | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | devlin-hahn04 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | kevinlara1 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| JorgeDeLeonOrama | 0.0% | 0.0% | 24.8% | 100.0% | 75.2% | 24.8% | 24.8% |
+| JorgeDeLeonOrama | 100.0% | 75.2% | 24.8% | 0.0% | 24.8% | 24.8% | 0.0% |
 | L-A-M-D | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | kian-robert | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 | Pedro-Juan-Bonilla | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
