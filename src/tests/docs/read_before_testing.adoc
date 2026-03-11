@@ -21,7 +21,8 @@ Anyone that creates a test case or test report *must* follow this sequence of ev
 * Follow the ID generation guide found within: `src/tests/id_generation_guide.pdf`
 . Verify the next available ID number by reviewing the corresponding tacker, as specified in the ID generation guide.
 . Name the file using the correct naming convention.
-* Test Cases must be named: '<TestCaseID>_<descriptive_name>.adoc'.
+* Test cases must be named using the format: '<TestCaseID>_<descriptive_name>.<extension>'.
+** Each test case must follow the established format, where the required sections are included as comments and the structure aligns with the corresponding test script.
 * Test Reports must be named: '<TestReportID>_<descriptive_name>.adoc'
 . Create the test file using the appropriate template. 
 * Test Cases must use the template located at `src/tests/test_case_template.adoc`.
