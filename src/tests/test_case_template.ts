@@ -1,4 +1,4 @@
-////
+/*
 <Test Name> TC
 Author: <insert name>
 
@@ -9,12 +9,12 @@ Description
 Preconditions
 * <insert precondition1>
 * <insert precondition2>
-////
+*/
 
 //Test Data
-<insert inputs used during execution>
+//<insert inputs used during execution> Section must be uncommented code.
 
-////
+/*
 Test Steps
 <insert sequence of steps that will take place when executing the test>
 
@@ -29,7 +29,8 @@ Notes
 
 Reviewed By
 <reviewer(s) fill this part>
-////
+
 ====
 *NOTE:* if there are any uncertainties, refer to the document in found within the following directory: `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`. DO NOT INCLUDE THIS NOTE IN THE PRODUCED FILE.
 ====
+*/
