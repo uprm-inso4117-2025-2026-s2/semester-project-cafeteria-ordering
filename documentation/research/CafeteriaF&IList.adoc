@@ -5,9 +5,11 @@
 
 == Overview
 
-This document compiles a list of common food items typically found in a cafeteria along with their respective ingredients.
+This document compiles a list of food items commonly found in a cafeteria along with their respective ingredients.
 
-The purpose of this list is to support the *menu screen* of the ordering system by providing representative food items and their ingredient composition.
+The purpose of this list is to support the *menu screen* of the ordering system by providing representative food items and their configurable ingredient options.
+
+For the purposes of the cafeteria ordering system, only *optional or configurable ingredients* are listed. Base ingredients required for a product to exist (for example, coffee in a cup of coffee or bread in a sandwich) are intentionally omitted to avoid redundancy when creating food items in the database.
 
 == Cafeteria Menu Items
 
@@ -16,37 +18,39 @@ The purpose of this list is to support the *menu screen* of the ordering system 
 | Food Item | Ingredients
 
 | Coffee
-| Coffee, Water, Sugar, Milk
+| Sugar, Milk
 
 | Ham Sandwich
-| Bread, Ham, Lettuce, Cheese, Mayonnaise
+| Lettuce, Cheese, Mayonnaise
 
 | Cheeseburger
-| Burger Bun, Beef Patty, Cheese, Lettuce, Tomato, Ketchup
+| Cheese, Lettuce, Tomato, Ketchup
 
 | Chicken Wrap
-| Tortilla Wrap, Grilled Chicken, Lettuce, Tomato, Ranch Dressing
+| Lettuce, Tomato, Ranch Dressing
 
 | Caesar Salad
-| Romaine Lettuce, Croutons, Parmesan Cheese, Caesar Dressing
+| Croutons, Parmesan Cheese, Caesar Dressing
 
 | French Fries
-| Potatoes, Salt, Vegetable Oil
+| Salt
 
 | Hot Dog
-| Hot Dog Bun, Sausage, Mustard, Ketchup
+| Mustard, Ketchup
 
 | Breakfast Burrito
-| Tortilla, Scrambled Eggs, Cheese, Sausage, Salsa
+| Cheese, Sausage, Salsa
 |===
 
 == Usage and Summary
 
-Eight cafeteria food items were identified and documented, each including their corresponding ingredients. These items represent typical cafeteria offerings.
+Eight cafeteria food items were identified and documented, each including configurable or optional ingredients that may vary per order.
 
-The list can be used as initial seed data for the cafeteria ordering system, where each item represents a menu entry and its ingredients support features such as:
+Required base ingredients for each product were intentionally omitted to prevent redundancy and simplify the database representation of menu items.
+
+These items can serve as initial seed data for the cafeteria ordering system, supporting features such as:
 
 - menu display
+- ingredient customization
 - ingredient tracking
-- dietary filtering
-- order customization
+- order configuration
