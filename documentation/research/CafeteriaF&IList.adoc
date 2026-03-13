@@ -1,0 +1,56 @@
+= Cafeteria Food Items and Ingredients List
+:project: Cafeteria Ordering
+:issue: 282
+:assignee: @Kaariinaa08
+
+== Overview
+
+This document compiles a list of food items commonly found in a cafeteria along with their respective ingredients.
+
+The purpose of this list is to support the *menu screen* of the ordering system by providing representative food items and their configurable ingredient options.
+
+For the purposes of the cafeteria ordering system, only *optional or configurable ingredients* are listed. Base ingredients required for a product to exist (for example, coffee in a cup of coffee or bread in a sandwich) are intentionally omitted to avoid redundancy when creating food items in the database.
+
+== Cafeteria Menu Items
+
+[cols="1,2", options="header"]
+|===
+| Food Item | Ingredients
+
+| Coffee
+| Sugar, Milk
+
+| Ham Sandwich
+| Lettuce, Cheese, Mayonnaise
+
+| Cheeseburger
+| Cheese, Lettuce, Tomato, Ketchup
+
+| Chicken Wrap
+| Lettuce, Tomato, Ranch Dressing
+
+| Caesar Salad
+| Croutons, Parmesan Cheese, Caesar Dressing
+
+| French Fries
+| Salt
+
+| Hot Dog
+| Mustard, Ketchup
+
+| Breakfast Burrito
+| Cheese, Sausage, Salsa
+|===
+
+== Usage and Summary
+
+Eight cafeteria food items were identified and documented, each including configurable or optional ingredients that may vary per order.
+
+Required base ingredients for each product were intentionally omitted to prevent redundancy and simplify the database representation of menu items.
+
+These items can serve as initial seed data for the cafeteria ordering system, supporting features such as:
+
+- menu display
+- ingredient customization
+- ingredient tracking
+- order configuration
