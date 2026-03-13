@@ -1,0 +1,143 @@
+= Performance Testing Strategy for the Cafeteria Ordering System - Lecture Topic Task
+
+== Overview
+
+Performance testing evaluates how a system behaves under different workloads in order to ensure that it maintains acceptable response times, throughput, and stability during operation.
+
+For the Cafeteria Ordering System, performance testing is important because the application will experience periods of high demand, particularly during peak cafeteria hours when many students attempt to place orders simultaneously.
+
+This document defines the performance testing strategy that will be used to evaluate the system's behavior under realistic and extreme usage conditions.
+
+== Performance Testing Types
+
+The performance testing strategy for this project includes several complementary testing approaches.
+
+=== Performance Testing
+
+Performance testing measures the responsiveness and stability of the system under normal expected workloads.
+
+The objective is to verify that typical user activity such as browsing menu items, placing orders, and confirming payments can be handled within acceptable response times.
+
+=== Load Testing
+
+Load testing evaluates how the system behaves when multiple users interact with the system concurrently.
+
+This helps determine whether the infrastructure can support expected levels of usage during busy cafeteria periods.
+
+Load testing scenarios will simulate multiple students placing orders at the same time.
+
+=== Stress Testing
+
+Stress testing intentionally pushes the system beyond its expected capacity in order to identify breaking points and failure conditions.
+
+The goal is to understand how the system behaves when system limits are exceeded and whether it fails gracefully.
+
+=== Soak Testing
+
+Soak testing evaluates the system's stability over long periods of continuous usage.
+
+This helps detect issues such as memory leaks, resource exhaustion, or gradual performance degradation.
+
+== Performance-Critical Modules
+
+Several components of the Cafeteria Ordering System are considered performance-critical because they directly affect the user experience.
+
+=== Ordering Module
+
+The ordering module processes user interactions such as selecting items, updating cart contents, and submitting orders.
+
+This component must remain responsive even when many users are interacting with the system simultaneously.
+
+=== Payment Processing
+
+Payment handling must be efficient and reliable since delays in payment confirmation can negatively impact the ordering experience.
+
+=== OTP Locker
+
+The OTP locker module handles verification mechanisms used during order retrieval or authentication steps. This component must respond quickly to ensure smooth user interaction.
+
+=== Notifications
+
+The notification system delivers updates to users and staff regarding order status. Performance issues in this module could delay important system feedback.
+
+== Performance Metrics
+
+The following metrics will be used to evaluate system performance.
+
+=== Response Time
+
+Response time measures how long the system takes to respond to a user request.
+
+For example:
+
+- loading the menu
+- adding items to a cart
+- confirming an order
+
+=== Throughput
+
+Throughput represents the number of requests the system can process within a given period of time.
+
+This metric helps determine how many simultaneous users the system can support.
+
+=== Latency
+
+Latency measures delays between the initiation of a request and the beginning of the system response.
+
+High latency can degrade the perceived responsiveness of the application.
+
+=== Availability
+
+Availability measures whether the system remains accessible and operational during testing scenarios.
+
+High availability is essential during peak cafeteria hours.
+
+== Performance Targets
+
+To ensure acceptable performance, the system should aim to meet the following targets during typical workloads:
+
+- Menu loading response time: under 2 seconds
+- Order submission response time: under 3 seconds
+- Payment confirmation response time: under 3 seconds
+- System availability during testing: above 99%
+
+These targets help define acceptable performance thresholds for the system.
+
+== Peak Usage Scenarios
+
+Peak usage scenarios simulate realistic situations where many students interact with the system simultaneously.
+
+Example peak scenarios include:
+
+- Multiple students browsing the menu during lunch hours
+- Many users placing orders within a short time window
+- Concurrent order submissions and payment confirmations
+- Staff receiving and processing multiple orders simultaneously
+
+These scenarios help evaluate whether the system can maintain acceptable performance during busy operational periods.
+
+== Performance Testing Tools and Approaches
+
+Performance testing can be conducted using tools capable of simulating concurrent users and generating controlled workloads.
+
+Possible tools include:
+
+- k6
+- Apache JMeter
+- Locust
+
+These tools allow the team to simulate large numbers of users interacting with the system and measure the resulting performance metrics.
+
+== Detecting Performance Regressions
+
+To prevent performance degradation during development, performance benchmarks can be periodically evaluated.
+
+If new changes introduce significant increases in response time or resource usage, those changes can be identified and addressed before deployment.
+
+Maintaining performance baselines allows the team to detect regressions and ensure the system continues to meet its performance targets.
+
+== Conclusion
+
+A structured performance testing strategy helps ensure that the Cafeteria Ordering System remains responsive, reliable, and scalable during periods of high demand.
+
+By defining performance metrics, testing scenarios, and system targets, the development team can systematically evaluate system behavior and identify potential performance issues before deployment.
