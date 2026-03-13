@@ -1,0 +1,171 @@
+= Usability Testing Approach for the Cafeteria Ordering System
+:toc:
+:sectnums:
+
+== Lecture Alignment
+
+Lecture Topic: Usability Testing
+
+This Lecture Topic Task applies usability testing concepts to the Cafeteria Ordering System by defining how user interaction can be evaluated through representative user tasks, usability evaluation criteria, and a structured testing protocol.
+
+== Purpose
+
+Usability testing evaluates how easily users can interact with a system in order to complete their intended tasks efficiently and without confusion.
+
+In the context of the Cafeteria Ordering System, usability testing helps ensure that both students and cafeteria staff can interact with the system effectively during real cafeteria operations. A system that is technically correct but difficult to use can still fail to meet user needs.
+
+This document defines a usability testing approach that can be used to evaluate the interaction between users and the system.
+
+== Role of Usability Testing in Software Quality
+
+Usability testing focuses on the quality of the user experience rather than only technical correctness.
+
+It helps identify:
+
+- confusing interface elements
+- inefficient workflows
+- unclear system feedback
+- potential user errors
+
+By evaluating how real users interact with the system, usability testing supports the improvement of interface design and task efficiency.
+
+== Key User Interactions
+
+The following interactions represent critical tasks that users must perform within the Cafeteria Ordering System.
+
+=== Menu Browsing
+
+Students should be able to easily browse the available menu items and navigate between menu categories.
+
+This interaction evaluates whether users can quickly find the items they are looking for.
+
+=== Order Placement
+
+Students must be able to select items, adjust quantities, and submit an order with a clear and simple workflow.
+
+This interaction evaluates the clarity of the ordering process.
+
+=== Order Confirmation
+
+After placing an order, users should clearly understand whether their order was successfully submitted.
+
+Clear confirmation feedback is important to reduce uncertainty.
+
+=== Order Retrieval Awareness
+
+Students should be able to understand the status of their order and determine when it is ready for pickup.
+
+=== Staff Order Management
+
+Cafeteria staff must be able to review incoming orders and update their status efficiently.
+
+This interaction evaluates whether operational workflows are clear and manageable.
+
+== Usability Testing Scenarios
+
+Usability testing can be conducted using realistic scenarios that represent typical user activities.
+
+=== Scenario 1: Student Browses the Menu
+
+A student accesses the system and navigates through the available menu options to identify food items.
+
+This scenario evaluates:
+
+- ease of navigation
+- clarity of menu structure
+- visibility of available items
+
+=== Scenario 2: Student Places an Order
+
+A student selects food items, adjusts quantities, and confirms the order.
+
+This scenario evaluates:
+
+- simplicity of the ordering process
+- clarity of system feedback
+- potential confusion during checkout
+
+=== Scenario 3: Student Reviews Order Confirmation
+
+After submitting an order, the student verifies whether the order was successfully placed.
+
+This scenario evaluates:
+
+- visibility of confirmation information
+- clarity of order status
+
+=== Scenario 4: Staff Reviews Incoming Orders
+
+A cafeteria staff member views incoming orders and processes them accordingly.
+
+This scenario evaluates:
+
+- readability of order information
+- efficiency of staff workflows
+
+== Usability Evaluation Criteria
+
+The following criteria can be used to evaluate the usability of the system.
+
+=== Task Completion
+
+Users should be able to successfully complete the intended task without assistance.
+
+=== Efficiency
+
+Tasks should be completed in a reasonable number of steps and without unnecessary delays.
+
+=== Learnability
+
+New users should be able to understand how to use the system quickly.
+
+=== Error Prevention
+
+The interface should minimize opportunities for user mistakes and provide understandable feedback when errors occur.
+
+=== User Satisfaction
+
+Users should feel comfortable using the system and perceive the interface as intuitive.
+
+== Proposed Usability Testing Protocol
+
+A basic usability testing protocol for this project may include the following steps:
+
+1. Select representative users such as students and cafeteria staff.
+2. Provide participants with realistic tasks based on common system usage.
+3. Observe how users interact with the system while performing those tasks.
+4. Record points where users hesitate, become confused, or encounter difficulties.
+5. Collect brief feedback from participants after task completion.
+
+This protocol allows the development team to systematically identify usability issues.
+
+== Identified Usability Risks
+
+Potential usability risks for the Cafeteria Ordering System include:
+
+- difficulty finding menu items quickly
+- confusion during the ordering process
+- unclear confirmation or order status messages
+- difficulty for staff identifying and managing active orders
+
+These risks are relevant because they directly affect user efficiency and satisfaction.
+
+== Evidence of Completion
+
+This document serves as a structured artifact describing how usability testing can be applied to evaluate the Cafeteria Ordering System.
+
+It defines representative user interactions, testing scenarios, evaluation criteria, and a proposed usability testing protocol.
+
+== Justification
+
+This task qualifies as a Lecture Topic Task because it directly applies the lecture concept of usability testing to the Cafeteria Ordering System.
+
+The document demonstrates theoretical understanding of user-centered evaluation methods and produces a concrete artifact that can guide future usability evaluation activities.
+
+== Conclusion
+
+Usability testing provides a structured method for evaluating how real users interact with the Cafeteria Ordering System.
+
+By defining representative scenarios, evaluation criteria, and a testing protocol, the development team can identify usability issues and improve the overall user experience.
+
+Applying usability testing principles helps ensure that both students and cafeteria staff can complete their tasks efficiently, contributing to the overall quality and effectiveness of the system.
