@@ -31,9 +31,9 @@ _Pair : <Menu item, List: ingredients>_
 
 _List<Pair> : Pair: (Menu item,List<string>: ingredients)_
 
-== Orders Table example
+== Orders in database
 .Example when an order has more than one items
 image::images/orders-table.jpg[]
 * When inserting order data into the database menu item and ingredients should have their respective columns
-* To avoid conflicts between menu items in a single order, it is suggested to break the menu items into separate orders that share the same id.
+* To avoid conflicts between menu items in a single order, it is suggested to break the menu items and ingredients to an order_items table and link them to an order id in the orders table. With a one-to-many relationship between order and order_items.
 
