@@ -13,6 +13,7 @@ modification methods should only be used by staff members to change ingredients 
 === Order Class
 * Will hold n amount of menu items with the customer selected ingredients 
 * Is in charge of temporarily hold items that will be displayed to customer on the payment screen and will be used to for the query to place order inside database when payment is confirmed successfull.
+* order class references Customer id inside database but this is not necessary when handling orders locally.
 
 == Order class data structure
 
