@@ -2,6 +2,5 @@
 
 [cols="1,3,3", options=header]
 |====
-|ID |Description |Script File Name
-|<insert test case ID> |<insert breif description of the TC> |<insert script file name associated with this test case or 'TBD' if script is not yet implemented>
+|TC-AUTH-03 |User Sign Up with Valid Data - Verify new users can successfully register with valid personal information, including name, email, password, and password confirmation fields |TC-AUTH-03_user_signup.tsx
 |====
