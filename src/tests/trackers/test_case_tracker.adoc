@@ -3,9 +3,10 @@
 [cols="1,3,3", options=header]
 |====
 |ID |Description |Script File Name
-|TC-AUTH-01 |Password verification |TBD [cite: 17]
+|TC-AUTH-01 |Password verification |TBD 
 |TC-PAY-01 |Payment confirmation verification |TBD 
 |TC-AUTH-02 |Email verification |TBD 
 |TC-AUTH-03 |User Sign Up with Valid Data |signup_test_case.tsx
 |TC-AUTH-04 |User Login Functionality Verification |TC-AUTH-04_user_login.tsx
+| TC-AUTH-05 | Password Reset and Recovery Flow Verification | TC-AUTH-05_password_reset.tsx
 |====
