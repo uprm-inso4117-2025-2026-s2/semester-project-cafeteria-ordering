@@ -1,6 +1,6 @@
 /*
 Order Modification TC
-Author: Yadriel Rivera (@YadrielRivera)
+Author: Yadriel Rivera Rodriguez (@YadrielRivera)
 
 Description
 Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults. 
@@ -40,7 +40,7 @@ Notes
 - Ensure that validation logic prevents non-food extras from being added to incompatible meals.
 - If `modIngredients` returns a new order item object rather than modifying in place, adjust test steps to use returned value.
 
-Author: Yadriel Rivera
+Author: Yadriel Rivera Rodriguez
 Reviewer: <reviewer name>
 Date Created: 2026-03-15
 
