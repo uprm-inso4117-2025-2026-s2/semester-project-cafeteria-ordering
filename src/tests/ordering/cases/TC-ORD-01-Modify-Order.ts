@@ -38,7 +38,10 @@ Test Step | Expected Result
 Notes
 - The expected price "newPrice" assume the system uses a mutable base price; if the system treats base price as immutable, adjust the expected results accordingly.
 - Ensure that validation logic prevents non-food extras from being added to incompatible meals.
+- The way the item food class is built prevents adding existing ingredients, so extras for the same ingredient are not allowed
 - If `modIngredients` returns a new order item object rather than modifying in place, adjust test steps to use returned value.
+- run: npx tsx src/tests/ordering/scripts/TC-ORD-01-Mod-Order-UT.ts to execute
+
 
 Author: Yadriel Rivera Rodriguez
 Reviewer: <reviewer name>
