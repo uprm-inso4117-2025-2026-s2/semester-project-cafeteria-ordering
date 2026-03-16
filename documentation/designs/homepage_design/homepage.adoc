@@ -1,0 +1,31 @@
+= Homepage Design
+:toc:
+
+== Overview
+
+This document provides an overview of the final homepage design for the Cafeteria Ordering System. The design was created in Figma based on the approved wireframe and follows the official color palette and typography guidelines defined in the project documentation. The homepage design follows the layout defined in the wireframe from:
+
+- Task #20
+- Pull Request #91
+
+== Main Components
+
+The homepage layout includes:
+
+- Header with logo, greeting, and cart icon
+- Search bar for finding menu items
+- Featured "Best Seller" section
+- Category filters (Rating, Breakfast, Lunch)
+- Menu item cards displaying food information
+- Bottom navigation bar (Home, Favorites, Orders, Profile)
+
+== Final Design
+
+[cols="1,3a", frame=none, grid=none]
+|===
+| *Light Mode*
+| image::Homepage_light_mode.png[Homepage Light Mode, width=250]
+
+| *Dark Mode*
+| image::Homepage_dark_mode.png[Homepage Dark Mode, width=250]
+|===
