@@ -11,13 +11,14 @@ const baseIngredients: IngredientItem[] = [
 const cheeseExtra: IngredientItem = { ingredients_id: 'ing4', ingredients_names: 'cheese', ingredients_price: 2.00 };
 const candyExtra: IngredientItem = { ingredients_id: 'ing5', ingredients_names: 'candy', ingredients_price: 1.00 };
 
-// Helper to create base menu item
+// Helper to create base menu item (deep copy ingredients to avoid test pollution)
 function createBaseMenuItem(): MenuItem {
+  const ingredientsCopy: IngredientItem[] = baseIngredients.map((ing) => ({ ...ing }));
   return new MenuItem(
     'item1',
     'cat1',
     'Spaghetti Bolognese',
-    baseIngredients,
+    ingredientsCopy,
     10.00,
     'image.jpg',
     true,
@@ -76,15 +77,17 @@ function testAddInvalidExtra() {
 
   const item = createBaseMenuItem();
 
-  // add duplicate item that is already part of the meal, it will warn that it is not possible, price should not change
-  console.log('Adding cheese...')
+  // add cheese and price increases to 12
+  item.addIngredient(cheeseExtra);
+
+  // add duplicate, should warn
+  console.log("Adding cheese for the second time...")
   item.addIngredient(cheeseExtra);
   const ingredients = item.getIngredients();
   const cheeseCount = ingredients.filter(i => i.ingredients_names === 'cheese').length;
 
   assert.equal(cheeseCount, 1, 'Duplicate ingredient should not be added');
-  assert.equal(item.getBasePrice(), 10.00, 'Price should not change on duplicate add');
-  
+  assert.equal(item.getBasePrice(), 12.00, 'Price should not change on duplicate add');
   console.log('Test 4 passed: Duplicate extra not added, price unchanged');
 }
 
