@@ -17,15 +17,15 @@ The homepage layout includes:
 - Featured "Best Seller" section
 - Category filters (Rating, Breakfast, Lunch)
 - Menu item cards displaying food information
-- Bottom navigation bar (Home, Favorites, Orders, Profile)
+- Bottom navigation bar (Home, Orders, Profile)
 
 == Final Design
 
 [cols="1,3a", frame=none, grid=none]
 |===
 | *Light Mode*
-| image::Homepage_light_mode.png[Homepage Light Mode, width=250]
+| image::Homepage_Light_Mode.png[Homepage Light Mode, width=250]
 
 | *Dark Mode*
-| image::Homepage_dark_mode.png[Homepage Dark Mode, width=250]
+| image::Homepage_Dark_Mode.png[Homepage Dark Mode, width=250]
 |===
