@@ -1,143 +1,94 @@
-= Performance Testing Strategy for the Cafeteria Ordering System - Lecture Topic Task
+= Applying Property-Based Testing to Core Order Logic
+Aryam Z. Díaz Torres
+:toc:
+:sectnums:
+
+== Lecture Alignment
+
+Lecture Topic Task: LTT-08 — Implement Property-Based Testing  
+Lecture Topic: Property-Based Testing
+
+This Lecture Topic Task applies property-based testing concepts to the Cafeteria Ordering System by identifying system properties that must remain true across many possible input combinations.
 
 == Overview
 
-Performance testing evaluates how a system behaves under different workloads in order to ensure that it maintains acceptable response times, throughput, and stability during operation.
+Property-Based Testing is a testing approach in which general properties of a system are defined and verified across many automatically generated input values.
 
-For the Cafeteria Ordering System, performance testing is important because the application will experience periods of high demand, particularly during peak cafeteria hours when many students attempt to place orders simultaneously.
+Instead of testing only specific examples, property-based testing validates rules that must always hold true regardless of the specific inputs provided.
 
-This document defines the performance testing strategy that will be used to evaluate the system's behavior under realistic and extreme usage conditions.
+This approach is particularly useful for validating core business logic that must behave correctly across many different combinations of inputs.
 
-== Performance Testing Types
+== Relevance to the Cafeteria Ordering System
 
-The performance testing strategy for this project includes several complementary testing approaches.
+The Cafeteria Ordering System allows users to build orders by selecting multiple menu items and specifying quantities.
 
-=== Performance Testing
+Because many different cart configurations are possible, it is important to ensure that key rules always remain valid. Property-based testing allows these rules to be validated across a wide range of automatically generated scenarios.
 
-Performance testing measures the responsiveness and stability of the system under normal expected workloads.
+== Example Property: Order Total Consistency
 
-The objective is to verify that typical user activity such as browsing menu items, placing orders, and confirming payments can be handled within acceptable response times.
+One important system property is that the total order price must always equal the sum of the prices of all items in the cart.
 
-=== Load Testing
+Property:
 
-Load testing evaluates how the system behaves when multiple users interact with the system concurrently.
+*The order total must equal the sum of each item's price multiplied by its quantity.*
 
-This helps determine whether the infrastructure can support expected levels of usage during busy cafeteria periods.
+This property should hold regardless of:
 
-Load testing scenarios will simulate multiple students placing orders at the same time.
+- the number of items in the cart
+- the combination of menu items
+- the quantity selected for each item
 
-=== Stress Testing
+If this property fails, the system's order calculation logic is incorrect.
 
-Stress testing intentionally pushes the system beyond its expected capacity in order to identify breaking points and failure conditions.
+== Example Property: Valid Item Quantities
 
-The goal is to understand how the system behaves when system limits are exceeded and whether it fails gracefully.
+Another important property concerns cart item quantities.
 
-=== Soak Testing
+Property:
 
-Soak testing evaluates the system's stability over long periods of continuous usage.
+*Item quantities must never become negative.*
 
-This helps detect issues such as memory leaks, resource exhaustion, or gradual performance degradation.
+Users may increase or decrease quantities while editing their cart, but the system must always ensure that quantities remain valid.
 
-== Performance-Critical Modules
+If this property fails, the cart logic may produce inconsistent or invalid order states.
 
-Several components of the Cafeteria Ordering System are considered performance-critical because they directly affect the user experience.
+== Example Property: Cart Size After Item Removal
 
-=== Ordering Module
+When an item is removed from the cart, the resulting cart state must remain logically valid.
 
-The ordering module processes user interactions such as selecting items, updating cart contents, and submitting orders.
+Property:
 
-This component must remain responsive even when many users are interacting with the system simultaneously.
+*Removing an item reduces the number of items in the cart or leaves the cart unchanged if the item was not present.*
 
-=== Payment Processing
+This property ensures that cart updates behave consistently during user interactions.
 
-Payment handling must be efficient and reliable since delays in payment confirmation can negatively impact the ordering experience.
+== Future Automation
 
-=== OTP Locker
+Property-based testing could later be automated using testing libraries capable of generating random input combinations.
 
-The OTP locker module handles verification mechanisms used during order retrieval or authentication steps. This component must respond quickly to ensure smooth user interaction.
+Automated tests could generate combinations of:
 
-=== Notifications
+- item prices
+- item quantities
+- cart sizes
+- menu item selections
 
-The notification system delivers updates to users and staff regarding order status. Performance issues in this module could delay important system feedback.
+Each generated input would then be checked against the defined system properties to verify that they always hold.
 
-== Performance Metrics
+This approach would strengthen the reliability of the core order and cart logic.
 
-The following metrics will be used to evaluate system performance.
+== Evidence of Completion
 
-=== Response Time
+This artifact documents how property-based testing concepts apply to the Cafeteria Ordering System by defining representative properties for order totals, cart quantities, and cart updates.
 
-Response time measures how long the system takes to respond to a user request.
+== Justification
 
-For example:
+This task qualifies as a Lecture Topic Task because it directly applies the lecture concept of property-based testing to the Cafeteria Ordering System.
 
-- loading the menu
-- adding items to a cart
-- confirming an order
-
-=== Throughput
-
-Throughput represents the number of requests the system can process within a given period of time.
-
-This metric helps determine how many simultaneous users the system can support.
-
-=== Latency
-
-Latency measures delays between the initiation of a request and the beginning of the system response.
-
-High latency can degrade the perceived responsiveness of the application.
-
-=== Availability
-
-Availability measures whether the system remains accessible and operational during testing scenarios.
-
-High availability is essential during peak cafeteria hours.
-
-== Performance Targets
-
-To ensure acceptable performance, the system should aim to meet the following targets during typical workloads:
-
-- Menu loading response time: under 2 seconds
-- Order submission response time: under 3 seconds
-- Payment confirmation response time: under 3 seconds
-- System availability during testing: above 99%
-
-These targets help define acceptable performance thresholds for the system.
-
-== Peak Usage Scenarios
-
-Peak usage scenarios simulate realistic situations where many students interact with the system simultaneously.
-
-Example peak scenarios include:
-
-- Multiple students browsing the menu during lunch hours
-- Many users placing orders within a short time window
-- Concurrent order submissions and payment confirmations
-- Staff receiving and processing multiple orders simultaneously
-
-These scenarios help evaluate whether the system can maintain acceptable performance during busy operational periods.
-
-== Performance Testing Tools and Approaches
-
-Performance testing can be conducted using tools capable of simulating concurrent users and generating controlled workloads.
-
-Possible tools include:
-
-- k6
-- Apache JMeter
-- Locust
-
-These tools allow the team to simulate large numbers of users interacting with the system and measure the resulting performance metrics.
-
-== Detecting Performance Regressions
-
-To prevent performance degradation during development, performance benchmarks can be periodically evaluated.
-
-If new changes introduce significant increases in response time or resource usage, those changes can be identified and addressed before deployment.
-
-Maintaining performance baselines allows the team to detect regressions and ensure the system continues to meet its performance targets.
+It produces a concrete documentation artifact, demonstrates theoretical understanding of invariant-based testing, and describes how such tests could be implemented in the system.
 
 == Conclusion
 
-A structured performance testing strategy helps ensure that the Cafeteria Ordering System remains responsive, reliable, and scalable during periods of high demand.
+Property-Based Testing provides a powerful method for validating core system behaviors across many possible input combinations.
 
-By defining performance metrics, testing scenarios, and system targets, the development team can systematically evaluate system behavior and identify potential performance issues before deployment.
+By defining system properties that must always hold, the development team can ensure that critical logic such as order calculations and cart management remains consistent and reliable.
