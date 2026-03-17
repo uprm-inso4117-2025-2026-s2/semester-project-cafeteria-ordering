@@ -55,7 +55,7 @@ Notes
 - Ensure that validation logic prevents non-food extras from being added to incompatible meals.
 - The way the item food class is built prevents adding existing ingredients, so extras for the same ingredient are not allowed
 - If `modIngredients` returns a new order item object rather than modifying in place, adjust test steps to use returned value.
-- run: npx tsx src/tests/ordering/scripts/TC-ORD-01-Mod-Order-UT.ts to execute
+- run: npx tsx src/tests/ordering/scripts/UT-OrderModification.ts to execute
 
 
 Author: Yadriel Rivera Rodriguez
