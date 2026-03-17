@@ -14,19 +14,34 @@ Preconditions
 */
 
 //Test Data
-//<insert inputs used during execution> Section must be uncommented code.
-/**
- * Menu Item | Base Price | Base Ingredients
-   Spaghetti Bolognese | 10.00 | ["pasta", "tomato sauce", "meatballs"]
+import { IngredientItem, MenuItem } from '../../../models/food-item-class';
+const baseIngredients: IngredientItem[] = [
+  { ingredients_id: 'ing1', ingredients_names: 'pasta', ingredients_price: 0 },
+  { ingredients_id: 'ing2', ingredients_names: 'tomato sauce', ingredients_price: 0 },
+  { ingredients_id: 'ing3', ingredients_names: 'meatballs', ingredients_price: 0 },
+];
 
-Extra | Price Delta | Valid for Meal?
-"cheese" | +2.00 | yes
-"candy" | +1.00 | no (invalid)
+const cheeseExtra: IngredientItem = { ingredients_id: 'ing4', ingredients_names: 'cheese', ingredients_price: 2.00 };
 
-Ingredient to remove | Expected behavior
-"meatballs" | removed; price adjusts if base price is mutable
- */
 
+// Helper to create base menu item (deep copy ingredients to avoid test pollution)
+function createBaseMenuItem(): MenuItem {
+  const ingredientsCopy: IngredientItem[] = baseIngredients.map((ing) => ({ ...ing }));
+  return new MenuItem(
+    'item1',
+    'cat1',
+    'Spaghetti Bolognese',
+    ingredientsCopy,
+    10.00,
+    'image.jpg',
+    true,
+    [],
+    15,
+    '2023-01-01',
+    '2023-01-01'
+  );
+}
+export{IngredientItem,MenuItem,baseIngredients,cheeseExtra,createBaseMenuItem}
 /*
 Test Step | Expected Result
 1 | Initialize order item with base meal state | `getBasePrice(item)` returns 10.00; `getIngredients(item)` returns ["pasta","tomato sauce","meatballs"]

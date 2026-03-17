@@ -1,33 +1,6 @@
 import { strict as assert } from 'node:assert';
-import { IngredientItem, MenuItem } from '../../../models/food-item-class';
+import { IngredientItem,MenuItem,baseIngredients,cheeseExtra,createBaseMenuItem } from '../cases/TC-ORD-01-Modify-Order'
 
-// Test data setup
-const baseIngredients: IngredientItem[] = [
-  { ingredients_id: 'ing1', ingredients_names: 'pasta', ingredients_price: 0 },
-  { ingredients_id: 'ing2', ingredients_names: 'tomato sauce', ingredients_price: 0 },
-  { ingredients_id: 'ing3', ingredients_names: 'meatballs', ingredients_price: 0 },
-];
-
-const cheeseExtra: IngredientItem = { ingredients_id: 'ing4', ingredients_names: 'cheese', ingredients_price: 2.00 };
-const candyExtra: IngredientItem = { ingredients_id: 'ing5', ingredients_names: 'candy', ingredients_price: 1.00 };
-
-// Helper to create base menu item (deep copy ingredients to avoid test pollution)
-function createBaseMenuItem(): MenuItem {
-  const ingredientsCopy: IngredientItem[] = baseIngredients.map((ing) => ({ ...ing }));
-  return new MenuItem(
-    'item1',
-    'cat1',
-    'Spaghetti Bolognese',
-    ingredientsCopy,
-    10.00,
-    'image.jpg',
-    true,
-    [],
-    15,
-    '2023-01-01',
-    '2023-01-01'
-  );
-}
 
 // Unit Tests for Order Modification
 console.log('Running TC-ORD-01 Unit Tests for Order Modification...');
