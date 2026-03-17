@@ -14,9 +14,32 @@ Preconditions
 */
 
 // Test Data
-// - EXPO_PUBLIC_SUPABASE_URL
-// - EXPO_PUBLIC_SUPABASE_ANON_KEY
-// - Existing Supabase project resources (Auth/DB/Storage)
+export const TC_SUPA_01_INPUT_VALUES = {
+	envVars: {
+		url: 'EXPO_PUBLIC_SUPABASE_URL',
+		anonKey: 'EXPO_PUBLIC_SUPABASE_ANON_KEY',
+	},
+	databaseProbeTable: 'menu_items',
+	databaseProbeColumn: 'id',
+	storageBucket: 'menu-images',
+	storageSampleObject: 'test.jpg',
+} as const;
+
+export const TC_SUPA_01_TEST_DATA = {
+	inputValues: TC_SUPA_01_INPUT_VALUES,
+	env: {
+		urlVarName: TC_SUPA_01_INPUT_VALUES.envVars.url,
+		anonKeyVarName: TC_SUPA_01_INPUT_VALUES.envVars.anonKey,
+	},
+	databaseProbe: {
+		table: TC_SUPA_01_INPUT_VALUES.databaseProbeTable,
+		selectColumn: TC_SUPA_01_INPUT_VALUES.databaseProbeColumn,
+	},
+	storageProbe: {
+		bucket: TC_SUPA_01_INPUT_VALUES.storageBucket,
+		sampleObject: TC_SUPA_01_INPUT_VALUES.storageSampleObject,
+	},
+} as const;
 
 /*
 Test Steps
@@ -36,24 +59,9 @@ This case validates readiness and diagnostics, not business workflow behavior.
 
 */
 
-export const TC_SUPA_01_TEST_DATA = {
-	env: {
-		urlVarName: 'EXPO_PUBLIC_SUPABASE_URL',
-		anonKeyVarName: 'EXPO_PUBLIC_SUPABASE_ANON_KEY',
-	},
-	databaseProbe: {
-		table: 'menu_items',
-		selectColumn: 'id',
-	},
-	storageProbe: {
-		bucket: 'menu-images',
-		sampleObject: 'test.jpg',
-	},
-} as const;
-
 export function getSupabaseCredentialsFromEnv() {
-	const supabaseUrl = process.env[TC_SUPA_01_TEST_DATA.env.urlVarName];
-	const supabaseAnonKey = process.env[TC_SUPA_01_TEST_DATA.env.anonKeyVarName];
+	const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+	const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
 	if (!supabaseUrl || !supabaseAnonKey) {
 		throw new Error(

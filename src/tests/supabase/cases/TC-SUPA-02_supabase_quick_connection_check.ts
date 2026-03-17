@@ -12,8 +12,7 @@ Preconditions
 * Script file `src/tests/supabase/scripts/quick-test.ts` is available.
 
 Test Data
-* EXPO_PUBLIC_SUPABASE_URL
-* EXPO_PUBLIC_SUPABASE_ANON_KEY
+The concrete input values for this case are defined in the uncommented export directly below.
 
 Test Steps
 . Run: `npx tsx src/tests/supabase/scripts/quick-test.ts`.
@@ -33,24 +32,36 @@ Used as a fast regression check after infrastructure or env changes.
 
 */
 
+export const TC_SUPA_02_INPUT_VALUES = {
+	envVars: {
+		url: 'EXPO_PUBLIC_SUPABASE_URL',
+		anonKey: 'EXPO_PUBLIC_SUPABASE_ANON_KEY',
+	},
+	databaseProbeTable: 'menu_items',
+	databaseProbeColumn: 'id',
+	storageBucket: 'menu-images',
+	storageSampleObject: 'test.jpg',
+} as const;
+
 export const TC_SUPA_02_TEST_DATA = {
+	inputValues: TC_SUPA_02_INPUT_VALUES,
 	env: {
-		urlVarName: 'EXPO_PUBLIC_SUPABASE_URL',
-		anonKeyVarName: 'EXPO_PUBLIC_SUPABASE_ANON_KEY',
+		urlVarName: TC_SUPA_02_INPUT_VALUES.envVars.url,
+		anonKeyVarName: TC_SUPA_02_INPUT_VALUES.envVars.anonKey,
 	},
 	databaseProbe: {
-		table: 'menu_items',
-		selectColumn: 'id',
+		table: TC_SUPA_02_INPUT_VALUES.databaseProbeTable,
+		selectColumn: TC_SUPA_02_INPUT_VALUES.databaseProbeColumn,
 	},
 	storageProbe: {
-		bucket: 'menu-images',
-		sampleObject: 'test.jpg',
+		bucket: TC_SUPA_02_INPUT_VALUES.storageBucket,
+		sampleObject: TC_SUPA_02_INPUT_VALUES.storageSampleObject,
 	},
 } as const;
 
 export function getQuickTestEnvValues() {
 	return {
-		supabaseUrl: process.env[TC_SUPA_02_TEST_DATA.env.urlVarName],
-		supabaseAnonKey: process.env[TC_SUPA_02_TEST_DATA.env.anonKeyVarName],
+		supabaseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
+		supabaseAnonKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
 	};
 }

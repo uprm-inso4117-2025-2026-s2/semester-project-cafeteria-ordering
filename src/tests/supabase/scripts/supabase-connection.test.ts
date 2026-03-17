@@ -76,8 +76,8 @@ async function testClientInitialization(): Promise<TestResult> {
 
 async function testEnvironmentVariables(): Promise<TestResult> {
   try {
-    const envUrlValue = process.env[TC_SUPA_01_TEST_DATA.env.urlVarName];
-    const envAnonValue = process.env[TC_SUPA_01_TEST_DATA.env.anonKeyVarName];
+    const envUrlValue = process.env.EXPO_PUBLIC_SUPABASE_URL;
+    const envAnonValue = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!envUrlValue || !envAnonValue) {
       return {
