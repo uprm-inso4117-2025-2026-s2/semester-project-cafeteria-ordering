@@ -3,5 +3,8 @@
 [cols="1,3,3", options=header]
 |====
 |ID |Description |Script File Name
-|TR-ORD-2 |Report that unit test outputs for Order ID generation are correct, including format validation and handling of invalid or undefined values |TR-ORD-2_Place_and_Confirmation_for_Order.adoc
+=======
+|TR-SUPA-01 |Report for Supabase configuration validation execution |src/tests/supabase/scripts/supabase-connection.test.ts
+|TR-SUPA-02 |Report for Supabase quick connection smoke check execution |src/tests/supabase/scripts/quick-test.ts
+|TR-ORD-2 |Report that unit test outputs for Order ID generation are correct, including format validation and handling of invalid or undefined values |
 |====
