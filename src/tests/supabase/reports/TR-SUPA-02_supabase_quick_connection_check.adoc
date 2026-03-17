@@ -1,0 +1,20 @@
+= Supabase Quick Connection Check TR
+Author: Luis J.
+
+*Date:* 2026-03-14
+
+*ID:* TR-SUPA-02
+
+*Issue:* #303
+
+*Test:* TC-SUPA-02 (Smoke / Integration)
+
+*Pass/Fail Status:* PASS
+
+== Description
+Executed the quick Supabase smoke test script and verified environment, client creation, connectivity, auth, and storage checks produced expected output.
+
+The test completed without execution-breaking errors.
+
+== Notes
+Use this report as baseline evidence after migrating tests into the project testing structure.
