@@ -35,3 +35,31 @@ Notes
 This case validates readiness and diagnostics, not business workflow behavior.
 
 */
+
+export const TC_SUPA_01_TEST_DATA = {
+	env: {
+		urlVarName: 'EXPO_PUBLIC_SUPABASE_URL',
+		anonKeyVarName: 'EXPO_PUBLIC_SUPABASE_ANON_KEY',
+	},
+	databaseProbe: {
+		table: 'menu_items',
+		selectColumn: 'id',
+	},
+	storageProbe: {
+		bucket: 'menu-images',
+		sampleObject: 'test.jpg',
+	},
+} as const;
+
+export function getSupabaseCredentialsFromEnv() {
+	const supabaseUrl = process.env[TC_SUPA_01_TEST_DATA.env.urlVarName];
+	const supabaseAnonKey = process.env[TC_SUPA_01_TEST_DATA.env.anonKeyVarName];
+
+	if (!supabaseUrl || !supabaseAnonKey) {
+		throw new Error(
+			`Missing Supabase environment variables. Ensure ${TC_SUPA_01_TEST_DATA.env.urlVarName} and ${TC_SUPA_01_TEST_DATA.env.anonKeyVarName} are set in .env`
+		);
+	}
+
+	return { supabaseUrl, supabaseAnonKey };
+}

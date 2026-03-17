@@ -5,12 +5,15 @@
 
 import { createClient } from '@supabase/supabase-js';
 import * as dotenv from 'dotenv';
+import {
+  TC_SUPA_02_TEST_DATA,
+  getQuickTestEnvValues,
+} from '../cases/TC-SUPA-02_supabase_quick_connection_check';
 
 dotenv.config();
 
 async function runTests() {
-  const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+  const { supabaseUrl, supabaseAnonKey } = getQuickTestEnvValues();
 
   console.log('\n[TEST] Supabase Configuration Tests\n');
 
@@ -18,8 +21,8 @@ async function runTests() {
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error('[FAIL] Missing environment variables!');
     console.log('   Make sure .env file exists with:');
-    console.log('   - EXPO_PUBLIC_SUPABASE_URL');
-    console.log('   - EXPO_PUBLIC_SUPABASE_ANON_KEY');
+    console.log(`   - ${TC_SUPA_02_TEST_DATA.env.urlVarName}`);
+    console.log(`   - ${TC_SUPA_02_TEST_DATA.env.anonKeyVarName}`);
     process.exit(1);
   }
   console.log('[PASS] Environment variables found');
@@ -33,8 +36,8 @@ async function runTests() {
 
     console.log('\n[3/5] Testing database connection...');
     const { error } = await supabase
-      .from('menu_items')
-      .select('id')
+      .from(TC_SUPA_02_TEST_DATA.databaseProbe.table)
+      .select(TC_SUPA_02_TEST_DATA.databaseProbe.selectColumn)
       .limit(1);
 
     if (error) {
@@ -63,7 +66,7 @@ async function runTests() {
     console.log('\n[5/5] Testing storage...');
 
     const { data: files, error: listError } = await supabase.storage
-      .from('menu-images')
+      .from(TC_SUPA_02_TEST_DATA.storageProbe.bucket)
       .list();
 
     if (listError) {
@@ -75,8 +78,8 @@ async function runTests() {
       console.log(`   Files in bucket: ${files?.length || 0}`);
 
       const testUrl = supabase.storage
-        .from('menu-images')
-        .getPublicUrl('test.jpg');
+        .from(TC_SUPA_02_TEST_DATA.storageProbe.bucket)
+        .getPublicUrl(TC_SUPA_02_TEST_DATA.storageProbe.sampleObject);
 
       if (testUrl.data.publicUrl) {
         console.log('[PASS] Public URL generation works');

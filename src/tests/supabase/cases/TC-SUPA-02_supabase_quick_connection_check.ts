@@ -32,3 +32,25 @@ Used as a fast regression check after infrastructure or env changes.
 
 
 */
+
+export const TC_SUPA_02_TEST_DATA = {
+	env: {
+		urlVarName: 'EXPO_PUBLIC_SUPABASE_URL',
+		anonKeyVarName: 'EXPO_PUBLIC_SUPABASE_ANON_KEY',
+	},
+	databaseProbe: {
+		table: 'menu_items',
+		selectColumn: 'id',
+	},
+	storageProbe: {
+		bucket: 'menu-images',
+		sampleObject: 'test.jpg',
+	},
+} as const;
+
+export function getQuickTestEnvValues() {
+	return {
+		supabaseUrl: process.env[TC_SUPA_02_TEST_DATA.env.urlVarName],
+		supabaseAnonKey: process.env[TC_SUPA_02_TEST_DATA.env.anonKeyVarName],
+	};
+}

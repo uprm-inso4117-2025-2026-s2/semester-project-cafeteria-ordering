@@ -1,16 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 import * as dotenv from 'dotenv';
+import {
+  TC_SUPA_01_TEST_DATA,
+  getSupabaseCredentialsFromEnv,
+} from '../cases/TC-SUPA-01_supabase_configuration_validation';
 
 dotenv.config();
 
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    'Missing Supabase environment variables. Ensure EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY are set in .env'
-  );
-}
+const { supabaseUrl, supabaseAnonKey } = getSupabaseCredentialsFromEnv();
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -79,10 +76,10 @@ async function testClientInitialization(): Promise<TestResult> {
 
 async function testEnvironmentVariables(): Promise<TestResult> {
   try {
-    const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+    const envUrlValue = process.env[TC_SUPA_01_TEST_DATA.env.urlVarName];
+    const envAnonValue = process.env[TC_SUPA_01_TEST_DATA.env.anonKeyVarName];
 
-    if (!supabaseUrl || !supabaseAnonKey) {
+    if (!envUrlValue || !envAnonValue) {
       return {
         name: 'Environment Variables',
         passed: false,
@@ -90,7 +87,7 @@ async function testEnvironmentVariables(): Promise<TestResult> {
       };
     }
 
-    if (!supabaseUrl.startsWith('https://') || !supabaseUrl.includes('supabase.co')) {
+    if (!envUrlValue.startsWith('https://') || !envUrlValue.includes('supabase.co')) {
       return {
         name: 'Environment Variables',
         passed: false,
@@ -98,7 +95,7 @@ async function testEnvironmentVariables(): Promise<TestResult> {
       };
     }
 
-    if (!supabaseAnonKey.startsWith('eyJ')) {
+    if (!envAnonValue.startsWith('eyJ')) {
       return {
         name: 'Environment Variables',
         passed: false,
@@ -124,8 +121,8 @@ async function testEnvironmentVariables(): Promise<TestResult> {
 async function testDatabaseConnection(): Promise<TestResult> {
   try {
     const { error } = await supabase
-      .from('menu_items')
-      .select('id')
+      .from(TC_SUPA_01_TEST_DATA.databaseProbe.table)
+      .select(TC_SUPA_01_TEST_DATA.databaseProbe.selectColumn)
       .limit(1);
 
     if (error) {
@@ -176,7 +173,7 @@ async function testAuthConfiguration(): Promise<TestResult> {
 async function testStorageConfiguration(): Promise<TestResult> {
   try {
     const { data, error } = await supabase.storage
-      .from('menu-images')
+      .from(TC_SUPA_01_TEST_DATA.storageProbe.bucket)
       .list();
 
     if (error) {
