@@ -3,5 +3,6 @@
 [cols="1,3,3", options=header]
 |====
 |ID |Description |Script File Name
-|<insert test report ID> |<insert brief description of the TR> |<insert script file name associated with this test report or 'TBD' if script is not yet implemented>
+|TR-SUPA-01 |Report for Supabase configuration validation execution |src/tests/supabase/scripts/supabase-connection.test.ts
+|TR-SUPA-02 |Report for Supabase quick connection smoke check execution |src/tests/supabase/scripts/quick-test.ts
 |====
