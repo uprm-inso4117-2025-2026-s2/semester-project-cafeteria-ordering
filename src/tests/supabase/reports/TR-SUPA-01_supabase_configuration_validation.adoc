@@ -1,0 +1,28 @@
+= Supabase Configuration Validation TR
+Author: Luis J.
+
+*Date:* 2026-03-14
+
+*ID:* TR-SUPA-01
+
+*Issue:* #303
+
+*Test:* TC-SUPA-01 (Integration)
+
+*Pass/Fail Status:* PASS
+
+== Description
+Validated Supabase baseline configuration checks using the configuration validation script.
+
+Passed checks:
+
+* Client initialization
+* Environment variable format validation
+* Database connectivity check execution
+* Authentication configuration check
+* Storage configuration check execution
+
+No runtime errors blocked execution.
+
+== Notes
+This report corresponds to the migrated structure under `src/tests/supabase/` with separate `cases`, `scripts`, and `reports` folders.
