@@ -6,11 +6,13 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  LayoutChangeEvent,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { MenuItem } from '@/models/food-item-class';
+import { Fonts } from '@/constants/theme';
 
 const formatCardNumber = (value: string) => {
   const digits = value.replace(/[^0-9]/g, '').slice(0, 16);
@@ -44,6 +46,8 @@ export default function PaymentScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme() ?? 'light';
   const isDark = colorScheme === 'dark';
+
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   const colors = {
     background: isDark ? '#121212' : '#FAFAFA',
@@ -81,7 +85,7 @@ export default function PaymentScreen() {
         'ItemType?',
         'ItemName',
         [],
-        0, // Should be ItemPrice
+        0, // Should be ItemPrice when determined
         '',
         true,
         [],
@@ -99,7 +103,7 @@ export default function PaymentScreen() {
     0
   );
 
-  // Fill these in later when we get the formula or amount idk
+  // Fill these in later when we get the formula or amount.
   const additionalFees: number | null = null;
   const tax: number | null = null;
 
@@ -132,399 +136,430 @@ export default function PaymentScreen() {
     alert('Payment button pressed');
   };
 
-  return (
-    <ScrollView
-      contentContainerStyle={[
-        styles.container,
-        { backgroundColor: colors.background },
-      ]}>
-      {/* Header: Back button and screen title */}
-      <View style={styles.headerRow}>
-        <TouchableOpacity
-          style={[styles.backButton, { borderColor: colors.greenLight }]}
-          onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color={colors.greenLight} />
-        </TouchableOpacity>
+  const handleHeaderLayout = (event: LayoutChangeEvent) => {
+    const { height } = event.nativeEvent.layout;
+    setHeaderHeight(height);
+  };
 
-        <Text style={[styles.title, { color: colors.primaryText }]}>
-          Order Summary
-        </Text>
+  return (
+    <View style={[styles.screen, { backgroundColor: colors.background }]}>
+      {/* Fixed Header: Back button and screen title */}
+      <View
+        onLayout={handleHeaderLayout}
+        style={[
+          styles.fixedHeader,
+          {
+            backgroundColor: colors.background,
+          },
+        ]}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity
+            style={[styles.backButton, { borderColor: colors.greenLight }]}
+            onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={28} color={colors.greenLight} />
+          </TouchableOpacity>
+
+          <Text style={[styles.title, { color: colors.primaryText }]}>
+            Order Summary
+          </Text>
+        </View>
       </View>
 
-      {/* Order Summary: Nice neat display of cart Items hopefully */}
-      <View style={styles.itemsSection}>
-        {orderItems.map((item) => (
-          <View key={item.menuItem.getId()} style={styles.itemRow}>
-            <Text style={[styles.itemText, { color: colors.primaryText }]}>
-              {item.quantity}x
-            </Text>
+      {/* Scrollable Content: Everything except the Order Summary header */}
+      <ScrollView
+        contentContainerStyle={[
+          styles.container,
+          { backgroundColor: colors.background },
+        ]}
+        showsVerticalScrollIndicator={false}>
+        {/* Spacer so content starts below fixed header */}
+        <View style={{ height: headerHeight + 16 }} />
 
-            <View style={styles.itemInfo}>
+        {/* Order Summary: Nice neat display of cart Items hopefully */}
+        <View style={styles.itemsSection}>
+          {orderItems.map((item) => (
+            <View key={item.menuItem.getId()} style={styles.itemRow}>
               <Text style={[styles.itemText, { color: colors.primaryText }]}>
-                {item.menuItem.getName()}
+                {item.quantity}x
               </Text>
-              <Text style={[styles.subText, { color: colors.mutedText }]}>
-                ${item.menuItem.getTotalPrice().toFixed(2)} each
+
+              <View style={styles.itemInfo}>
+                <Text style={[styles.itemText, { color: colors.primaryText }]}>
+                  {item.menuItem.getName()}
+                </Text>
+                <Text style={[styles.subText, { color: colors.mutedText }]}>
+                  ${item.menuItem.getTotalPrice().toFixed(2)} each
+                </Text>
+              </View>
+
+              <Text style={[styles.itemText, { color: colors.primaryText }]}>
+                ${(item.quantity * item.menuItem.getTotalPrice()).toFixed(2)}
               </Text>
             </View>
+          ))}
+        </View>
 
-            <Text style={[styles.itemText, { color: colors.primaryText }]}>
-              ${(item.quantity * item.menuItem.getTotalPrice()).toFixed(2)}
+        {/* Section Divider: Between item list and totals box */}
+        <View
+          style={[
+            styles.sectionDivider,
+            { borderBottomColor: colors.sectionDivider },
+          ]}
+        />
+
+        {/* Totals Display: Subtotal, fees, tax, and final total */}
+        <View
+          style={[
+            styles.summaryBox,
+            { backgroundColor: colors.summaryBackground },
+          ]}>
+          {/* Number of items */}
+          <View style={styles.summaryRow}>
+            <Text style={[styles.summaryLabel, { color: colors.summaryText }]}>
+              {orderItems.length} Items
+            </Text>
+            <Text style={[styles.summaryValue, { color: colors.summaryText }]}>
+              ${subtotal.toFixed(2)}
             </Text>
           </View>
-        ))}
-      </View>
 
-      {/* Section Divider: Between item list and totals box */}
-      <View
-        style={[
-          styles.sectionDivider,
-          { borderBottomColor: colors.sectionDivider },
-        ]}
-      />
+          {/* Subtotal */}
+          <View style={styles.summaryRow}>
+            <Text style={[styles.summaryLabel, { color: colors.summaryText }]}>
+              Subtotal:
+            </Text>
+            <Text style={[styles.summaryValue, { color: colors.summaryText }]}>
+              ${subtotal.toFixed(2)}
+            </Text>
+          </View>
 
-      {/* Totals Display: Subtotal, fees, tax, and final total */}
-      <View
-        style={[
-          styles.summaryBox,
-          { backgroundColor: colors.summaryBackground },
-        ]}>
-        {/* Number of items */}
-        <View style={styles.summaryRow}>
-          <Text style={[styles.summaryLabel, { color: colors.summaryText }]}>
-            {orderItems.length} Items
-          </Text>
-          <Text style={[styles.summaryValue, { color: colors.summaryText }]}>
-            ${subtotal.toFixed(2)}
-          </Text>
+          {/* Additional fees placeholder */}
+          <View style={styles.summaryRow}>
+            <Text style={[styles.summaryLabel, { color: colors.summaryText }]}>
+              Additional Fees:
+            </Text>
+            <Text style={[styles.summaryValue, { color: colors.summaryText }]}>
+              TBD
+            </Text>
+          </View>
+
+          {/* Tax placeholder */}
+          <View style={styles.summaryRow}>
+            <Text style={[styles.summaryLabel, { color: colors.summaryText }]}>
+              Tax:
+            </Text>
+            <Text style={[styles.summaryValue, { color: colors.summaryText }]}>
+              TBD
+            </Text>
+          </View>
+
+          <View style={styles.totalDivider} />
+
+          {/* Final amount due */}
+          <View style={styles.summaryRow}>
+            <Text style={[styles.totalLabel, { color: colors.summaryText }]}>
+              Total Payment Due:
+            </Text>
+            <Text style={[styles.totalValue, { color: colors.summaryText }]}>
+              ${total.toFixed(2)}
+            </Text>
+          </View>
         </View>
 
-        {/* Subtotal */}
-        <View style={styles.summaryRow}>
-          <Text style={[styles.summaryLabel, { color: colors.summaryText }]}>
-            Subtotal:
-          </Text>
-          <Text style={[styles.summaryValue, { color: colors.summaryText }]}>
-            ${subtotal.toFixed(2)}
-          </Text>
-        </View>
-
-        {/* Additional fees placeholder */}
-        <View style={styles.summaryRow}>
-          <Text style={[styles.summaryLabel, { color: colors.summaryText }]}>
-            Additional Fees:
-          </Text>
-          <Text style={[styles.summaryValue, { color: colors.summaryText }]}>
-            TBD
-          </Text>
-        </View>
-
-        {/* Tax placeholder */}
-        <View style={styles.summaryRow}>
-          <Text style={[styles.summaryLabel, { color: colors.summaryText }]}>
-            Tax:
-          </Text>
-          <Text style={[styles.summaryValue, { color: colors.summaryText }]}>
-            TBD
-          </Text>
-        </View>
-
-        <View style={styles.totalDivider} />
-
-        {/* Final amount due */}
-        <View style={styles.summaryRow}>
-          <Text style={[styles.totalLabel, { color: colors.summaryText }]}>
-            Total Payment Due:
-          </Text>
-          <Text style={[styles.totalValue, { color: colors.summaryText }]}>
-            ${total.toFixed(2)}
-          </Text>
-        </View>
-      </View>
-
-      {/* Section Divider: Between order summary and payment method */}
-      <View
-        style={[
-          styles.sectionDivider,
-          { borderBottomColor: colors.sectionDivider },
-        ]}
-      />
-
-      {/* Payment Method: Section title */}
-      <Text style={[styles.sectionTitle, { color: colors.primaryText }]}>
-        Payment Method
-      </Text>
-
-      {/* Payment Method: Selected card option */}
-      <View style={styles.paymentMethodRow}>
+        {/* Section Divider between order summary and payment method */}
         <View
           style={[
-            styles.radioOuter,
-            { borderColor: isDark ? colors.white : colors.black },
-          ]}>
+            styles.sectionDivider,
+            { borderBottomColor: colors.sectionDivider },
+          ]}
+        />
+
+        <Text style={[styles.sectionTitle, { color: colors.primaryText }]}>
+          Payment Method
+        </Text>
+
+        {/* Payment Method: Selected card option */}
+        <View style={styles.paymentMethodRow}>
           <View
             style={[
-              styles.radioInner,
-              { backgroundColor: isDark ? colors.white : colors.black },
+              styles.radioOuter,
+              { borderColor: isDark ? colors.white : colors.black },
+            ]}>
+            <View
+              style={[
+                styles.radioInner,
+                { backgroundColor: isDark ? colors.white : colors.black },
+              ]}
+            />
+          </View>
+          <Text style={[styles.radioLabel, { color: colors.primaryText }]}>
+            Card
+          </Text>
+        </View>
+
+        <Text style={[styles.label, { color: colors.primaryText }]}>
+          Card Information
+        </Text>
+
+        {/* Card number */}
+        <TextInput
+          style={[
+            styles.input,
+            {
+              backgroundColor: colors.inputBackground,
+              borderColor: colors.inputBorder,
+              color: colors.secondaryText,
+            },
+          ]}
+          placeholder="1234 1234 1234 1234"
+          placeholderTextColor={colors.placeholderText}
+          value={cardNumber}
+          onChangeText={(text) => setCardNumber(formatCardNumber(text))}
+          keyboardType="number-pad"
+          inputMode="numeric"
+          autoCorrect={false}
+          autoCapitalize="none"
+          maxLength={19}
+        />
+
+        {/* Month/Year and CVC */}
+        <View style={styles.row}>
+          {/* Month/Year */}
+          <TextInput
+            style={[
+              styles.input,
+              styles.halfInput,
+              {
+                backgroundColor: colors.inputBackground,
+                borderColor: colors.inputBorder,
+                color: colors.secondaryText,
+              },
             ]}
+            placeholder="MM / YY"
+            placeholderTextColor={colors.placeholderText}
+            value={expiry}
+            onChangeText={(text) => setExpiry(formatExpiry(text))}
+            keyboardType="number-pad"
+            inputMode="numeric"
+            autoCorrect={false}
+            autoCapitalize="none"
+            maxLength={5}
+          />
+
+          {/* CVC */}
+          <TextInput
+            style={[
+              styles.input,
+              styles.halfInput,
+              {
+                backgroundColor: colors.inputBackground,
+                borderColor: colors.inputBorder,
+                color: colors.secondaryText,
+              },
+            ]}
+            placeholder="CVC"
+            placeholderTextColor={colors.placeholderText}
+            value={cvc}
+            onChangeText={(text) => setCvc(formatCvc(text))}
+            keyboardType="number-pad"
+            inputMode="numeric"
+            autoCorrect={false}
+            autoCapitalize="none"
+            maxLength={3}
           />
         </View>
-        <Text style={[styles.radioLabel, { color: colors.primaryText }]}>
-          Card
+
+        <Text style={[styles.label, { color: colors.primaryText }]}>
+          Cardholder Name
         </Text>
-      </View>
 
-      {/* Card Information: Section title */}
-      <Text style={[styles.label, { color: colors.primaryText }]}>
-        Card Information
-      </Text>
-
-      {/* Card Information: Card number */}
-      <TextInput
-        style={[
-          styles.input,
-          {
-            backgroundColor: colors.inputBackground,
-            borderColor: colors.inputBorder,
-            color: colors.secondaryText,
-          },
-        ]}
-        placeholder="1234 1234 1234 1234"
-        placeholderTextColor={colors.placeholderText}
-        value={cardNumber}
-        onChangeText={(text) => setCardNumber(formatCardNumber(text))}
-        keyboardType="number-pad"
-        inputMode="numeric"
-        autoCorrect={false}
-        autoCapitalize="none"
-        maxLength={19}
-      />
-
-      {/* Card Information: Month/Year and CVC */}
-      <View style={styles.row}>
-        {/* Card Information: Month/Year */}
+        {/* Full name on card */}
         <TextInput
           style={[
             styles.input,
-            styles.halfInput,
             {
               backgroundColor: colors.inputBackground,
               borderColor: colors.inputBorder,
               color: colors.secondaryText,
             },
           ]}
-          placeholder="MM / YY"
+          placeholder="Full name on card"
           placeholderTextColor={colors.placeholderText}
-          value={expiry}
-          onChangeText={(text) => setExpiry(formatExpiry(text))}
-          keyboardType="number-pad"
-          inputMode="numeric"
+          value={cardholderName}
+          onChangeText={setCardholderName}
           autoCorrect={false}
-          autoCapitalize="none"
-          maxLength={5}
         />
 
-        {/* Card Information: CVC */}
+        <Text style={[styles.label, { color: colors.primaryText }]}>
+          Billing Address
+        </Text>
+
+        {/* Country */}
         <TextInput
           style={[
             styles.input,
-            styles.halfInput,
             {
               backgroundColor: colors.inputBackground,
               borderColor: colors.inputBorder,
               color: colors.secondaryText,
             },
           ]}
-          placeholder="CVC"
+          placeholder="Country"
           placeholderTextColor={colors.placeholderText}
-          value={cvc}
-          onChangeText={(text) => setCvc(formatCvc(text))}
-          keyboardType="number-pad"
-          inputMode="numeric"
-          autoCorrect={false}
-          autoCapitalize="none"
-          maxLength={3}
+          value={country}
+          onChangeText={setCountry}
         />
-      </View>
 
-      <Text style={[styles.label, { color: colors.primaryText }]}>
-        Cardholder Name
-      </Text>
-
-      {/* Cardholder Name: Full name on card */}
-      <TextInput
-        style={[
-          styles.input,
-          {
-            backgroundColor: colors.inputBackground,
-            borderColor: colors.inputBorder,
-            color: colors.secondaryText,
-          },
-        ]}
-        placeholder="Full name on card"
-        placeholderTextColor={colors.placeholderText}
-        value={cardholderName}
-        onChangeText={setCardholderName}
-        autoCorrect={false}
-      />
-
-      <Text style={[styles.label, { color: colors.primaryText }]}>
-        Billing Address
-      </Text>
-
-      {/* Billing Address: Country */}
-      <TextInput
-        style={[
-          styles.input,
-          {
-            backgroundColor: colors.inputBackground,
-            borderColor: colors.inputBorder,
-            color: colors.secondaryText,
-          },
-        ]}
-        placeholder="Country"
-        placeholderTextColor={colors.placeholderText}
-        value={country}
-        onChangeText={setCountry}
-      />
-
-      {/* Billing Address: Address line 1 */}
-      <TextInput
-        style={[
-          styles.input,
-          {
-            backgroundColor: colors.inputBackground,
-            borderColor: colors.inputBorder,
-            color: colors.secondaryText,
-          },
-        ]}
-        placeholder="Address Line 1"
-        placeholderTextColor={colors.placeholderText}
-        value={address1}
-        onChangeText={setAddress1}
-      />
-
-      {/* Billing Address: Address line 2 */}
-      <TextInput
-        style={[
-          styles.input,
-          {
-            backgroundColor: colors.inputBackground,
-            borderColor: colors.inputBorder,
-            color: colors.secondaryText,
-          },
-        ]}
-        placeholder="Address Line 2"
-        placeholderTextColor={colors.placeholderText}
-        value={address2}
-        onChangeText={setAddress2}
-      />
-
-      {/* Billing Address: City + ZIP */}
-      <View style={styles.row}>
-        {/* Billing Address: City */}
+        {/* Address line 1 */}
         <TextInput
           style={[
             styles.input,
-            styles.halfInput,
             {
               backgroundColor: colors.inputBackground,
               borderColor: colors.inputBorder,
               color: colors.secondaryText,
             },
           ]}
-          placeholder="City"
+          placeholder="Address Line 1"
           placeholderTextColor={colors.placeholderText}
-          value={city}
-          onChangeText={setCity}
+          value={address1}
+          onChangeText={setAddress1}
         />
 
-        {/* Billing Address: ZIP */}
+        {/* Address line 2 */}
         <TextInput
           style={[
             styles.input,
-            styles.halfInput,
             {
               backgroundColor: colors.inputBackground,
               borderColor: colors.inputBorder,
               color: colors.secondaryText,
             },
           ]}
-          placeholder="ZIP"
+          placeholder="Address Line 2"
           placeholderTextColor={colors.placeholderText}
-          value={zip}
-          onChangeText={(text) => setZip(formatZip(text))}
-          keyboardType="number-pad"
-          inputMode="numeric"
-          autoCorrect={false}
-          autoCapitalize="none"
-          maxLength={5}
+          value={address2}
+          onChangeText={setAddress2}
         />
-      </View>
 
-      {/* Save payment information checkbox */}
-      <TouchableOpacity
-        style={styles.checkboxRow}
-        onPress={() => setSavePaymentInfo(!savePaymentInfo)}>
-        <View
-          style={[
-            styles.checkbox,
-            {
-              borderColor: colors.inputBorder,
-              backgroundColor: 'transparent',
-            },
-            savePaymentInfo && styles.checkboxChecked,
-          ]}>
-          {savePaymentInfo && (
-            <Ionicons name="checkmark" size={16} color={colors.white} />
-          )}
+        {/* City and ZIP */}
+        <View style={styles.row}>
+          {/* City */}
+          <TextInput
+            style={[
+              styles.input,
+              styles.halfInput,
+              {
+                backgroundColor: colors.inputBackground,
+                borderColor: colors.inputBorder,
+                color: colors.secondaryText,
+              },
+            ]}
+            placeholder="City"
+            placeholderTextColor={colors.placeholderText}
+            value={city}
+            onChangeText={setCity}
+          />
+
+          {/* ZIP */}
+          <TextInput
+            style={[
+              styles.input,
+              styles.halfInput,
+              {
+                backgroundColor: colors.inputBackground,
+                borderColor: colors.inputBorder,
+                color: colors.secondaryText,
+              },
+            ]}
+            placeholder="ZIP"
+            placeholderTextColor={colors.placeholderText}
+            value={zip}
+            onChangeText={(text) => setZip(formatZip(text))}
+            keyboardType="number-pad"
+            inputMode="numeric"
+            autoCorrect={false}
+            autoCapitalize="none"
+            maxLength={5}
+          />
         </View>
 
-        <Text style={[styles.checkboxLabel, { color: colors.primaryText }]}>
-          Save my payment information
+        {/* Save payment information checkbox */}
+        <TouchableOpacity
+          style={styles.checkboxRow}
+          onPress={() => setSavePaymentInfo(!savePaymentInfo)}>
+          <View
+            style={[
+              styles.checkbox,
+              {
+                borderColor: colors.inputBorder,
+                backgroundColor: 'transparent',
+              },
+              savePaymentInfo && styles.checkboxChecked,
+            ]}>
+            {savePaymentInfo && (
+              <Ionicons name="checkmark" size={16} color={colors.white} />
+            )}
+          </View>
+
+          <Text style={[styles.checkboxLabel, { color: colors.primaryText }]}>
+            Save my payment information
+          </Text>
+        </TouchableOpacity>
+
+        {/* Section Divider before payment action */}
+        <View
+          style={[
+            styles.sectionDivider,
+            { borderBottomColor: colors.sectionDivider },
+          ]}
+        />
+
+        {/* Security Note: Payment encryption message from design */}
+        <Text style={[styles.encryptedText, { color: colors.primaryText }]}>
+          Your payment information is encrypted
         </Text>
-      </TouchableOpacity>
 
-      {/* Section Divider: Before payment action */}
-      <View
-        style={[
-          styles.sectionDivider,
-          { borderBottomColor: colors.sectionDivider },
-        ]}
-      />
+        {/* Submit payment button */}
+        <TouchableOpacity
+          style={[styles.payButton, { backgroundColor: colors.green }]}
+          onPress={handlePayNow}>
+          <Text style={[styles.payButtonText, { color: colors.white }]}>
+            Pay Now
+          </Text>
+        </TouchableOpacity>
 
-      {/* Security Note: Payment encryption message */}
-      <Text style={[styles.encryptedText, { color: colors.primaryText }]}>
-        Your payment information is encrypted
-      </Text>
-
-      {/* Payment Action: Submit payment button */}
-      <TouchableOpacity
-        style={[styles.payButton, { backgroundColor: colors.green }]}
-        onPress={handlePayNow}>
-        <Text style={[styles.payButtonText, { color: colors.white }]}>
-          Pay Now
+        {/* Footer: Payment provider */}
+        <Text style={[styles.poweredText, { color: colors.primaryText }]}>
+          Powered by <Text style={styles.poweredBold}>stripe</Text>
         </Text>
-      </TouchableOpacity>
-
-      {/* Footer: Payment provider */}
-      <Text style={[styles.poweredText, { color: colors.primaryText }]}>
-        Powered by <Text style={styles.poweredBold}>stripe</Text>
-      </Text>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
+  screen: {
+    flex: 1,
+  },
+  fixedHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    paddingHorizontal: 20,
     paddingTop: 60,
+    paddingBottom: 12,
+  },
+  container: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
     flexGrow: 1,
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 26,
   },
   backButton: {
     width: 52,
@@ -538,6 +573,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: '700',
+    fontFamily: Fonts?.serif,
+    letterSpacing: 0.2,
   },
   itemsSection: {
     marginBottom: 8,
@@ -554,11 +591,13 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
+    fontFamily: Fonts?.sans,
   },
   subText: {
     fontSize: 14,
     marginTop: 2,
     fontStyle: 'italic',
+    fontFamily: Fonts?.sans,
   },
   summaryBox: {
     borderRadius: 16,
@@ -572,10 +611,12 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: 16,
+    fontFamily: Fonts?.sans,
   },
   summaryValue: {
     fontSize: 16,
     fontStyle: 'italic',
+    fontFamily: Fonts?.sans,
   },
   totalDivider: {
     borderBottomWidth: 1,
@@ -585,11 +626,13 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontSize: 18,
     fontWeight: '500',
+    fontFamily: Fonts?.sans,
   },
   totalValue: {
     fontSize: 18,
     fontWeight: '500',
     fontStyle: 'italic',
+    fontFamily: Fonts?.sans,
   },
   sectionDivider: {
     borderBottomWidth: 1,
@@ -599,6 +642,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     marginBottom: 14,
+    fontFamily: Fonts?.sans,
   },
   paymentMethodRow: {
     flexDirection: 'row',
@@ -621,11 +665,13 @@ const styles = StyleSheet.create({
   },
   radioLabel: {
     fontSize: 16,
+    fontFamily: Fonts?.sans,
   },
   label: {
     fontSize: 16,
     marginBottom: 8,
     marginTop: 6,
+    fontFamily: Fonts?.sans,
   },
   input: {
     borderWidth: 1,
@@ -634,6 +680,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     fontSize: 16,
     marginBottom: 14,
+    fontFamily: Fonts?.sans,
   },
   row: {
     flexDirection: 'row',
@@ -664,11 +711,13 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     fontSize: 16,
+    fontFamily: Fonts?.sans,
   },
   encryptedText: {
     textAlign: 'center',
     fontSize: 15,
     marginBottom: 16,
+    fontFamily: Fonts?.sans,
   },
   payButton: {
     borderRadius: 20,
@@ -679,14 +728,17 @@ const styles = StyleSheet.create({
   payButtonText: {
     fontSize: 22,
     fontWeight: '700',
+    fontFamily: Fonts?.sans,
   },
   poweredText: {
     textAlign: 'center',
     marginTop: 14,
     marginBottom: 30,
     fontSize: 14,
+    fontFamily: Fonts?.sans,
   },
   poweredBold: {
     fontWeight: '700',
+    fontFamily: Fonts?.sans,
   },
 });
