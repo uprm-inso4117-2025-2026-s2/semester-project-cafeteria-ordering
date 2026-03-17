@@ -5,4 +5,5 @@
 |ID |Description |Script File Name
 |TC-SUPA-01 |Supabase configuration validation |src/tests/supabase/scripts/supabase-connection.test.ts
 |TC-SUPA-02 |Supabase quick connection smoke check |src/tests/supabase/scripts/quick-test.ts
+|TC-AUTH-04 |Account Verification Process - Verify that after registration, users can successfully verify their accounts via email/verification link, including valid token acceptance, invalid/expired token handling, and account status changes from unverified to verified |TC-AUTH-04_account_verification.tsx
 |====
