@@ -1,8 +1,5 @@
 import { supabase } from "./supabase"
 
-/*
-Profile type based on the profiles table
-*/
 export interface Profile {
   id?: string
   user_id: string
@@ -26,9 +23,9 @@ export async function createProfile(profile: Profile) {
 
 //Use the user_id to find a profile
 export async function getProfileByUserId(userId: string) {
-  const { data, error } = await supabase.from("profiles").select("*").eq("user_id", userId).single()
+  const { data, error } = await supabase.from("profiles").select("*").eq("user_id", userId).maybeSingle()
   if (error) {
-    throw new Error(`Error fetching profile: ${error.message}`)
+    throw new Error(`Error finding profile: ${error.message}`)
   }
   return data
 }
