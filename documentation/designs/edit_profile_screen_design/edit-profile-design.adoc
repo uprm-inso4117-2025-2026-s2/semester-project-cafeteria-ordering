@@ -8,17 +8,17 @@ Closes issue: #326
 Design the Edit Profile Screen that allows users to update their personal account information in a clear, intuitive, and secure way. The design ensures consistency with the existing Profile Screen and overall UI design system.
 
 == Final Product:
-Final designs can be found in `docs/design/profile/images/`.
+Final designs can be found in `documentation/designs/edit_profile_screen_design`.
 
 === Design Preview
 
 ==== Dark Mode
 
-image::images/EDIT SCREEN - DARK MODE.png[align=center, width=350]
+image::images/edit-screen_darkmode.png[align=center, width=350]
 
 ==== Light Mode
 
-image::images/EDIT SCREEN - LIGHT MODE.png[align=center, width=350]
+image::images/edit-screen_lightmode.png[align=center, width=350]
 
 --
 Design Description:
