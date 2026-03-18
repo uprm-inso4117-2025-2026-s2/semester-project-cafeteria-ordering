@@ -1,0 +1,78 @@
+= Testing Supabase Connection
+:toc:
+:icons: font
+
+After setting up your `.env` file with actual Supabase credentials, test the connection.
+
+== Quick Test (Recommended)
+
+The fastest way to verify your Supabase setup:
+
+[source,bash]
+----
+npx tsx src/tests/supabase/scripts/quick-test.ts
+----
+
+This will test:
+
+* Environment variables loaded correctly
+* Supabase client initialization
+* Database connection
+* Authentication configuration
+* Storage bucket accessibility
+
+== Prerequisites
+
+. Ensure `.env` file exists in project root with your Supabase credentials:
++
+[source,bash]
+----
+EXPO_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+----
+
+. Install dependencies (if not already done):
++
+[source,bash]
+----
+npm install
+----
+
+== Full Configuration Test
+
+. Start Expo development server:
++
+[source,bash]
+----
+npm start
+----
+
+. In your app's entry point (e.g., `app/_layout.tsx` or `app/index.tsx`), add:
++
+[source,typescript]
+----
+import { useEffect } from 'react';
+import { runSupabaseTests } from '@/tests/supabase/scripts/supabase-connection.test';
+
+export default function App() {
+  useEffect(() => {
+    runSupabaseTests();
+  }, []);
+
+  // Your app component...
+}
+----
+
+. Check the console in Expo Go or your browser for test results.
+
+== Related Test Assets
+
+* Cases: `src/tests/supabase/cases/`
+* Reports: `src/tests/supabase/reports/`
+* Scripts: `src/tests/supabase/scripts/`
+
+== Need Help?
+
+* Setup Guide: `documentation/setup/supabase-setup.adoc`
+* Supabase Dashboard: https://app.supabase.com
+* Credentials: Dashboard -> Your Project -> Settings -> API
