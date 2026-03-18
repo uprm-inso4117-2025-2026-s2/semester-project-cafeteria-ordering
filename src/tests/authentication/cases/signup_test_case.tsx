@@ -21,7 +21,7 @@
 // ============================================================================
 // IMPORTS - Get actual values from the component
 // ============================================================================
-import SignUpScreen, { validate } from '../../app/signup/index'; 
+import SignUpScreen, { validate } from '../../../app/signup/index.tsx; 
 // Path: src/app/signup/index.tsx
 
 // ============================================================================
