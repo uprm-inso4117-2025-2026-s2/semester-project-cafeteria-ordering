@@ -234,7 +234,7 @@ This test plan supports the user-facing value of the Profile & Offline Support f
 The expected deliverables for this task are:
 
 * This AsciiDoc file under `/documentation/QualityAssurance/QualityAssuranceResearch/profile-offline-test-plan.adoc`
-* Associated PR linked to Issue #361
+* Associated PR linked to Issue #362
 * Review comments and revisions, if requested
 
 == References
