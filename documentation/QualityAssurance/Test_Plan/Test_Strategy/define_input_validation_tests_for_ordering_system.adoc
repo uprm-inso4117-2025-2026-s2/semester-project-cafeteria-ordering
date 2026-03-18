@@ -1,0 +1,129 @@
+= Define Input Validation Tests for Ordering System (INSO4117)
+:author: Kian R. Ramos-Vega
+
+== Overview
+
+This document defines input validation tests for the Cafeteria Ordering System. Its purpose is to ensure that invalid, incomplete, or unexpected user inputs are detected early and handled correctly before they affect ordering, payment, authentication, or other critical workflows.
+
+Input validation supports system reliability by preventing invalid data from entering the application and by ensuring that users receive clear feedback when their input does not meet the required format or constraints.
+
+== Critical Input Fields
+
+The following input fields are considered critical for validation within the ordering workflow.
+
+=== Order Quantity
+
+This input determines how many units of an item the user wants to order.
+
+Validation concerns include:
+
+* Negative quantities
+* Zero quantity when not allowed
+* Extremely large quantities
+* Non-numeric values
+
+=== Menu Item Selection
+
+This input identifies which item the user is trying to order.
+
+Validation concerns include:
+
+* Missing item selection
+* Invalid or unknown item ID
+* Item no longer available
+* Empty selection
+
+=== Payment Amount
+
+This input represents the amount to be charged or processed.
+
+Validation concerns include:
+
+* Negative payment values
+* Zero payment when a charge is required
+* Amount mismatch with order total
+* Invalid decimal formats
+* Extremely large values
+
+=== User Input Fields
+
+This includes user provided fields in login, checkout, and other forms.
+
+Examples include:
+
+* Empty email or username
+* Invalid email format
+* Empty password
+* Missing pickup information
+* Invalid coupon or promotion code format
+
+== Validation Rules
+
+The system should enforce the following validation rules.
+
+[cols="1,3",options="header"]
+|===
+| Input Field | Validation Rules
+
+| Order Quantity | Must be numeric, must be greater than 0, must not exceed the allowed maximum quantity.
+| Menu Item Selection | Must correspond to a valid existing menu item, must not be empty, and must not reference unavailable items.
+| Payment Amount | Must be numeric, must be greater than 0 when payment is required, and must match the expected order total.
+| Email / Username | Required field; if email is used it must match valid email format.
+| Password | Required field; must not be empty.
+| Pickup / Checkout Inputs | Required fields must be present and correctly formatted before order submission.
+|===
+
+== Boundary Value Considerations
+
+Boundary value testing is important because many validation defects occur at or near system limits. Here are examples that work as a reference for these boundary testing considerations. A helpful point is to consider what happens at the minimum, maximum and just beyond them.
+
+Examples of relevant boundary values include:
+
+* Order quantity = -1
+* Order quantity = 0
+* Order quantity = 1
+* Order quantity = maximum allowed
+* Order quantity = maximum allowed + 1
+
+* Payment amount = -0.01
+* Payment amount = 0
+* Payment amount = exact order total
+* Payment amount = greater than expected total
+
+== Input Validation Test Cases
+
+The following IDs follow the project’s <type>-<feature>-<num> generation guide.
+Will be using Test Case (TC) as the type.
+
+[cols="1,2,2,2",options="header"]
+|===
+| Test ID | Input / Scenario | Expected Result | Notes
+
+| TC-ORD-01 | Order quantity = -1 / negative number | System triggers isValid = false and displays error. | Prevents negative range.
+| TC-ORD-02 | Order quantity = 0 | System rejects input and prevents submission. | Minimum boundary case.
+| TC-ORD-03 | Order quantity = max + 1 | System triggers limit-related message. | Overflow boundary case.
+| TC-ORD-04 | Menu selection is empty | System blocks submission via validation flag. | Required field check.
+| TC-ORD-05 | Invalid Menu Item ID | System returns structured error object. | Data integrity check.
+| TC-PAY-01 | Payment amount is negative | System rejects input and logs as ERROR. | Invalid range.
+| TC-PAY-02 | Payment = 0 when payment is required for an item  | System prevents checkout. | Minimum boundary case.
+| TC-PAY-03 | Payment amount does not match order total / Payment ≠ total | System rejects and requests correction. | Data consistency.
+| TC-AUTH-01 | Email field is empty | System blocks submission; triggers hasError. | Required field.
+| TC-AUTH-02 | Invalid email format | System rejects input and displays format error. | Format validation.
+| TC-AUTH-03 | Password field is empty | System blocks authentication attempt. | Required field.
+|===
+
+== Error Handling and Reporting
+
+When validation fails, the system must follow the Error Flag Usage Approach:
+
+Trigger Flags: Set isValid = false or hasError = true to stop invalid state propagation.
+
+Structured Results: Return an object containing success: false, an errorCode (e.g., "PAYMENT_FAILED"), and a user friendly message.
+
+Logging: Validation failures caused by system issues must generate a log entry with ERROR level and include context for debugging.
+
+UI Feedback: Display clear, non-sensitive error messages to the user.
+
+== Alignment with Methodology
+
+These tests support the Risk-Based Testing methodology by addressing high-impact failures in order and payment processing. They also facilitate Bottom-Up testing by validating individual utility functions and API responses independently before system-wide integration. Finally, these tests integrate with Continuous Integration (CI) by providing automated pass/fail conditions based on returned status flags.
