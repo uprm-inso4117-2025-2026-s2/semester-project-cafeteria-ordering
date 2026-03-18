@@ -1,0 +1,72 @@
+= Type Safety Guidelines for Order Processing
+
+== Overview
+This document defines the type safety guidelines for the Cafeteria Ordering System. The goal is to ensure that all data handled by the system is consistent, valid, and protected against type related errors.
+
+Types help enforce correctness by defining what kind of data is expected and allowing errors to be detected early during development or execution.
+
+== Key Data Types
+
+The system uses the following core data types:
+
+* *User*
+** id: Integer
+** name: String
+** email: String
+
+* *Item*
+** id: Integer
+** name: String
+** price: Float
+
+* *Order*
+** id: Integer
+** userId: Integer
+** items: List<Item>
+** totalPrice: Float
+
+* *Price*
+** value: Float (must be ≥ 0)
+
+== Type Checking Approach
+
+The system enforces type safety through:
+
+* *Static Type Checking*
+** If using TypeScript, all variables, function parameters, and return values must have defined types.
+** The compiler ensures that incompatible types are not used together.
+
+* *Runtime Validation*
+** Backend validation ensures incoming data (e.g., API requests) matches expected types.
+** Invalid data is rejected before processing.
+
+== Examples
+
+=== Correct Usage
+[source,ts]
+----
+function calculateTotal(items: Item[]): number {
+  return items.reduce((sum, item) => sum + item.price, 0);
+}
+----
+
+=== Incorrect Usage
+[source,ts]
+----
+function calculateTotal(items: Item[]): number {
+  return items.reduce((sum, item) => sum + item.name, 0);
+}
+----
+This example is incorrect because *item.name* is a string, not a number.
+
+== Error Prevention
+
+To prevent type-related errors:
+
+* Always define explicit types for variables and functions.
+* Avoid using generic or loosely typed variables (e.g., `any`).
+* Validate all external inputs (user input, API data).
+* Ensure prices and numeric values are always positive.
+== Conclusion
+
+By enforcing these type safety guidelines, the Cafeteria Ordering System reduces runtime errors, improves maintainability, and ensures reliable order processing.
