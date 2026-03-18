@@ -1,0 +1,13 @@
+= Place and Confirmation Order ID Unit Test
+Gerardo Y. Soto Ríos
+3/17/2026
+:doctype: article
+
+== Test Information
+*ID:* TR-ORD-2 +
+*Issue:* #297 +
+*Type:* Unit Test +
+*Status:* PASS
+
+== Description
+This unit test focuses on validating the generation and integrity of Order IDs. It verifies that each generated ID meets the expected format, is not undefined, and remains consistent across operations. Edge cases involving invalid or missing IDs were also tested. All test cases passed, confirming the reliability of the Order ID implementation.
