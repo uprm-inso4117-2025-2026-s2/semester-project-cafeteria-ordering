@@ -12,7 +12,11 @@ Preconditions
 */
 
 //Test Data
-//<insert inputs used during execution> Section must be uncommented code.
+
+const dummyUsername= " "
+let dummyList: number[] = []
+
+export { dummyUsername, dummyList } //This exports allows the developer to import these fields into the needed test script.
 
 /*
 Test Steps

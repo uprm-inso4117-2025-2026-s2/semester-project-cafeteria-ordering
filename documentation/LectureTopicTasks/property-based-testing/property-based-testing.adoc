@@ -1,0 +1,94 @@
+= Applying Property-Based Testing to Core Order Logic
+Aryam Z. Díaz Torres
+:toc:
+:sectnums:
+
+== Lecture Alignment
+
+Lecture Topic Task: LTT-08 — Implement Property-Based Testing  
+Lecture Topic: Property-Based Testing
+
+This Lecture Topic Task applies property-based testing concepts to the Cafeteria Ordering System by identifying system properties that must remain true across many possible input combinations.
+
+== Overview
+
+Property-Based Testing is a testing approach in which general properties of a system are defined and verified across many automatically generated input values.
+
+Instead of testing only specific examples, property-based testing validates rules that must always hold true regardless of the specific inputs provided.
+
+This approach is particularly useful for validating core business logic that must behave correctly across many different combinations of inputs.
+
+== Relevance to the Cafeteria Ordering System
+
+The Cafeteria Ordering System allows users to build orders by selecting multiple menu items and specifying quantities.
+
+Because many different cart configurations are possible, it is important to ensure that key rules always remain valid. Property-based testing allows these rules to be validated across a wide range of automatically generated scenarios.
+
+== Example Property: Order Total Consistency
+
+One important system property is that the total order price must always equal the sum of the prices of all items in the cart.
+
+Property:
+
+*The order total must equal the sum of each item's price multiplied by its quantity.*
+
+This property should hold regardless of:
+
+- the number of items in the cart
+- the combination of menu items
+- the quantity selected for each item
+
+If this property fails, the system's order calculation logic is incorrect.
+
+== Example Property: Valid Item Quantities
+
+Another important property concerns cart item quantities.
+
+Property:
+
+*Item quantities must never become negative.*
+
+Users may increase or decrease quantities while editing their cart, but the system must always ensure that quantities remain valid.
+
+If this property fails, the cart logic may produce inconsistent or invalid order states.
+
+== Example Property: Cart Size After Item Removal
+
+When an item is removed from the cart, the resulting cart state must remain logically valid.
+
+Property:
+
+*Removing an item reduces the number of items in the cart or leaves the cart unchanged if the item was not present.*
+
+This property ensures that cart updates behave consistently during user interactions.
+
+== Future Automation
+
+Property-based testing could later be automated using testing libraries capable of generating random input combinations.
+
+Automated tests could generate combinations of:
+
+- item prices
+- item quantities
+- cart sizes
+- menu item selections
+
+Each generated input would then be checked against the defined system properties to verify that they always hold.
+
+This approach would strengthen the reliability of the core order and cart logic.
+
+== Evidence of Completion
+
+This artifact documents how property-based testing concepts apply to the Cafeteria Ordering System by defining representative properties for order totals, cart quantities, and cart updates.
+
+== Justification
+
+This task qualifies as a Lecture Topic Task because it directly applies the lecture concept of property-based testing to the Cafeteria Ordering System.
+
+It produces a concrete documentation artifact, demonstrates theoretical understanding of invariant-based testing, and describes how such tests could be implemented in the system.
+
+== Conclusion
+
+Property-Based Testing provides a powerful method for validating core system behaviors across many possible input combinations.
+
+By defining system properties that must always hold, the development team can ensure that critical logic such as order calculations and cart management remains consistent and reliable.
