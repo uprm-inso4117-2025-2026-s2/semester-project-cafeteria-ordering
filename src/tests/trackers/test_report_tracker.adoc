@@ -4,4 +4,6 @@
 |====
 |ID |Description |Script File Name
 |TR-ORD-01 |Test report to inform about the execution of order modification procedures| UT-OrderModification.ts
+|TR-SUPA-01 |Report for Supabase configuration validation execution |src/tests/supabase/scripts/supabase-connection.test.ts
+|TR-SUPA-02 |Report for Supabase quick connection smoke check execution |src/tests/supabase/scripts/quick-test.ts
 |====

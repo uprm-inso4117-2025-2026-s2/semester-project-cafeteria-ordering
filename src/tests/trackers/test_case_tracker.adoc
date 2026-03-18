@@ -2,6 +2,8 @@
 
 [cols="1,3,3", options=header]
 |====
-| TC-ORD-01 | Order Modification - Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults.| TC-ORD-01-Modify-Order
- 
+|TC-ORD-01 | Order Modification - Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults.| TC-ORD-01-Modify-Order
+|TC-SUPA-01 |Supabase configuration validation |src/tests/supabase/scripts/supabase-connection.test.ts
+|TC-SUPA-02 |Supabase quick connection smoke check |src/tests/supabase/scripts/quick-test.ts
+|TC-AUTH-04 |Account Verification Process - Verify that after registration, users can successfully verify their accounts via email/verification link, including valid token acceptance, invalid/expired token handling, and account status changes from unverified to verified |TC-AUTH-04_account_verification.tsx 
 |====
