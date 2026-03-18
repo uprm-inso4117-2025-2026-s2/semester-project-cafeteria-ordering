@@ -14,11 +14,11 @@ Final designs can be found in `documentation/designs/edit_profile_screen_design`
 
 ==== Dark Mode
 
-image::/edit-screen_darkmode.png[align=center, width=350]
+image::edit-screen_darkmode.png[align=center, width=350]
 
 ==== Light Mode
 
-image::/edit-screen_lightmode.png[align=center, width=350]
+image::edit-screen_lightmode.png[align=center, width=350]
 
 --
 Design Description:
