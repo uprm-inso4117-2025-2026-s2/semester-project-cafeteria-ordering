@@ -13,43 +13,28 @@ export default function MenuItemCard({ item, onAddToCart, onPressItem }: Props) 
 
   const handleAddToCart = (e: GestureResponderEvent) => {
     e.stopPropagation();
-    if (item.canOrder()) onAddToCart(item);
-  };
-
-  const handlePressItem = () => {
-    requestAnimationFrame(() => onPressItem(item));
+    if (!item.isAvailable()) return;
+    onAddToCart(item);
   };
 
   return (
-    <Pressable style={styles.card} onPress={handlePressItem}>
+    <Pressable style={styles.card} onPress={() => onPressItem(item)}>
         {item.getImageUrl() && <Image source={{ uri: item.getImageUrl() }} style={styles.image} />}
         <View style={styles.info}>
             <Text style={styles.name}>{item.getName()}</Text>
             <Text style={styles.price}>${item.getTotalPrice().toFixed(2)}</Text>
             <Text style={styles.description}>{descriptionText}</Text>
         </View>
-        <Pressable style={styles.addButton} onPress={handleAddToCart}>
-            <Text style={styles.addButtonText}>Add to Cart</Text>
+        <Pressable 
+            style={[
+                styles.addButton, !item.isAvailable() && styles.disabledButton,
+            ]} onPress={handleAddToCart}
+        >
+            <Text style={styles.addButtonText}>{item.isAvailable() ? "Add to Cart" : "Not Available"}</Text>
         </Pressable>
     </Pressable>
   );
 }
-
-{/* 
-    // <TouchableOpacity style={styles.card} onPress={() => onPressItem(item)}>
-    //   {item.getImageUrl() ? (
-    //     <Image source={{ uri: item.getImageUrl() }} style={styles.image} />
-    //   ) : null}
-    //   <View style={styles.info}>
-    //     <Text style={styles.name}>{item.getName()}</Text>
-    //     <Text style={styles.price}>${item.getTotalPrice().toFixed(2)}</Text>
-    //     <Text style={styles.description}>{descriptionText}</Text>
-    //   </View>
-    //   <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
-    //     <Text style={styles.addButtonText}>Add to Cart</Text>
-    //   </TouchableOpacity>
-    // </TouchableOpacity>
-  ); */}
 
 const styles = StyleSheet.create({
   card: {
@@ -85,6 +70,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 6,
+  },
+  disabledButton: {
+    backgroundColor: "#999",
   },
   addButtonText: {
     color: "#fff",

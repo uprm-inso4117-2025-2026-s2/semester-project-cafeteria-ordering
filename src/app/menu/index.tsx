@@ -8,11 +8,11 @@ export default function MenuScreen() {
   const router = useRouter();
 
   const handleAddToCart = (item: MenuItem) => {
-  console.log(`Added to cart: ${item.getName()} - $${item.getTotalPrice().toFixed(2)}`);
+  console.log("Added to cart:", item);
 };
 
 const handlePressItem = (item: MenuItem) => {
-  console.log(`Navigating to item page: ${item.getName()}`);
+  console.log("Navigating to item page:", item);
   router.push(`/menu/${item.getId()}`); // Placeholder route for item modification view
 };
 

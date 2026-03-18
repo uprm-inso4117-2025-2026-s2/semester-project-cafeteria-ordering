@@ -52,7 +52,7 @@ export const dummyMenuItems: MenuItem[] = [
             
         6.99,
         "https://t3.ftcdn.net/jpg/19/31/67/38/360_F_1931673826_Sc2ngY7eLs14phHdr5f1Tdz9jAPdZR5P.jpg",
-        true,
+        false,
         ["gluten"],
         10,
         new Date().toISOString(),
