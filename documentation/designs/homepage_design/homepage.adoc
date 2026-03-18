@@ -1,5 +1,6 @@
 = Homepage Design
 :toc:
+:imagesdir: .
 
 == Overview
 
@@ -27,5 +28,5 @@ The homepage layout includes:
 | image::Homepage_Light_Mode.png[Homepage Light Mode, width=250]
 
 | *Dark Mode*
-| image::Homepage_Dark_Mode.png[Homepage Dark Mode, width=250]
+| image::Homepage_Dark_Mode.png[Homepage Dark_Mode, width=250]
 |===
