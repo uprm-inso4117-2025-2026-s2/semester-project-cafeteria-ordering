@@ -1,4 +1,4 @@
-import { GestureResponderEvent, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { GestureResponderEvent, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { MenuItem } from "../models/food-item-class";
 
 type Props = {
@@ -8,32 +8,48 @@ type Props = {
 };
 
 export default function MenuItemCard({ item, onAddToCart, onPressItem }: Props) {
-  const descriptionText = [
-    ...item.getIngredients().map((ing) => ing.ingredients_names),
-    // ...(item.getAllergens() || []),
-    ].join(", ") || "No ingredients listed";
+  const descriptionText = item.getIngredients()
+    .map((ing) => ing.ingredients_names).join(", ") || "No ingredients available";
 
   const handleAddToCart = (e: GestureResponderEvent) => {
     e.stopPropagation();
     if (item.canOrder()) onAddToCart(item);
   };
 
+  const handlePressItem = () => {
+    requestAnimationFrame(() => onPressItem(item));
+  };
+
   return (
-    <TouchableOpacity style={styles.card} onPress={() => onPressItem(item)}>
-      {item.getImageUrl() ? (
-        <Image source={{ uri: item.getImageUrl() }} style={styles.image} />
-      ) : null}
-      <View style={styles.info}>
-        <Text style={styles.name}>{item.getName()}</Text>
-        <Text style={styles.price}>${item.getTotalPrice().toFixed(2)}</Text>
-        <Text style={styles.description}>{descriptionText}</Text>
-      </View>
-      <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
-        <Text style={styles.addButtonText}>Add to Cart</Text>
-      </TouchableOpacity>
-    </TouchableOpacity>
+    <Pressable style={styles.card} onPress={handlePressItem}>
+        {item.getImageUrl() && <Image source={{ uri: item.getImageUrl() }} style={styles.image} />}
+        <View style={styles.info}>
+            <Text style={styles.name}>{item.getName()}</Text>
+            <Text style={styles.price}>${item.getTotalPrice().toFixed(2)}</Text>
+            <Text style={styles.description}>{descriptionText}</Text>
+        </View>
+        <Pressable style={styles.addButton} onPress={handleAddToCart}>
+            <Text style={styles.addButtonText}>Add to Cart</Text>
+        </Pressable>
+    </Pressable>
   );
 }
+
+{/* 
+    // <TouchableOpacity style={styles.card} onPress={() => onPressItem(item)}>
+    //   {item.getImageUrl() ? (
+    //     <Image source={{ uri: item.getImageUrl() }} style={styles.image} />
+    //   ) : null}
+    //   <View style={styles.info}>
+    //     <Text style={styles.name}>{item.getName()}</Text>
+    //     <Text style={styles.price}>${item.getTotalPrice().toFixed(2)}</Text>
+    //     <Text style={styles.description}>{descriptionText}</Text>
+    //   </View>
+    //   <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
+    //     <Text style={styles.addButtonText}>Add to Cart</Text>
+    //   </TouchableOpacity>
+    // </TouchableOpacity>
+  ); */}
 
 const styles = StyleSheet.create({
   card: {
