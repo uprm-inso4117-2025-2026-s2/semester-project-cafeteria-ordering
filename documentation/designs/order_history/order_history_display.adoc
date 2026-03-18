@@ -22,6 +22,6 @@ Final designs can be viewed in the `documentation/designs/order_history/images` 
 
 
 .Order History Display Design
-image::images/profile_light_mode.png[]
+image::images/order_history.png[]
 
  
