@@ -1,0 +1,81 @@
+= Debugging Approach - Lecture Topic Task
+:toc:
+:sectnums:
+
+== General Debugging Methodology
+
+Debugging is the systematic process of confirming, one by one, that the assumptions you have about a program are actually true.
+
+A simplified and repeatable workflow that applies to both frontend and backend debugging:
+
+* Reproduce the bug reliably with clear steps, inputs, and environment.
+* Compare expected vs observed behavior and write down a hypothesis about the cause.
+* Localize the problem by adding logs and/or breakpoints along the execution path until you find the first place the program state becomes incorrect.
+* Inspect program state at that point (variables, call stack, inputs, outputs) using a debugger or targeted logging.
+* Identify the root cause, not just the line that crashes, such as missing validation or a wrong assumption about an API.
+* Fix and verify: implement a minimal fix, add or update tests that reproduce the bug, and re-run them to confirm the fix.
+* Document the cause and solution through a discussion in GitHub or in the issue so the team can learn from it.
+
+== Debugging Frontend Applications
+
+Frontend debugging focuses on client-side behavior, such as a browser user interface.
+
+* *Browser developer tools*:
+** Elements/Inspector: inspect and modify DOM and CSS to understand layout or styling bugs.
+** Console: view errors and warnings, print diagnostic information or run quick JavaScript snippets.
+** Sources/Debugger: set breakpoints, step through code, and inspect variables and the call stack.
+** Network panel: inspect HTTP requests/responses, check status codes, payloads, and timing.
+** Application/Storage: inspect cookies, localStorage, and other storage for authentication or caching issues.
+* *Console logging*: Make use of `console.log` or `console.error` to quickly trace values and execution flow. This is useful for simple issues and to understand complex flows.
+* *Breakpoints and conditional breakpoints*: pause execution at critical lines or only when certain conditions are true.
+* *Framework-specific tools*: Some frameworks like Node.js provide devtools to inspect component trees, props/state, and how state changes over time.
+
+== Debugging Backend Systems
+
+Backend debugging focuses on server-side logic, APIs, and integration with databases and external services.
+
+* *Server logs and structured logging*:
+** Use consistent log levels (DEBUG, INFO, WARN, ERROR) with enough context (request IDs, user IDs, parameters).
+** Filter logs to find failing requests or recurring errors.
+* *Stack traces*:
+** Read the call stack to see how the program reached the failure point.
+** Focus on the first frames that point into your application code.
+* *Interactive debuggers*:
+** Compile with the -g flag to include source-level information like variable names and line numbers and use the -O0 flag to disable compiler optimizations that could rearrange instructions and make stepping confusing.
+** Run the server under a debugger, such as inspector for Node.js, or attach to a running process.
+** Set breakpoints in request handlers and core logic.
+** Step line-by-line, examine variables and evaluate expressions.
+* *Controlled environments*:
+** Reproduce production issues locally or in staging where you can enable extra logging and attach debuggers safely.
+** Replay real requests captured from logs to confirm the fix.
+* *Databases and external services*:
+** Verify connection settings and query correctness.
+** Log or trace outgoing requests to third-party services and check their responses.
+
+== Common Debugging Tools
+
+* *Interactive debuggers* (GDB, DDD, IDE debuggers, OCaml debuggers, Python `pdb`, Node.js inspector):
+** Set breakpoints, conditional breakpoints, and watchpoints, step through code, inspect variables and call stacks, evaluate expressions at runtime.
+* *Logging and tracing tools*:
+** Language-specific logging libraries, tracing systems, and log aggregators that store events over time and across services.
+* *Profilers and performance tools*:
+** These focus on performance-related bugs by identifying memory leaks or blocking operations.
+* *Static analysis and linters*:
+** Analyze source code without running it to catch common errors and enforce coding standards before runtime.
+* *Test frameworks*:
+** Automate the reproduction of bugs and allow attaching debuggers to failing tests for faster diagnosis.
+
+== The Importance of Debugging
+
+Debugging is about confirming beliefs about code using systematic methods and tools, such as breakpoints, watchpoints, debuggers, instead of relying on trial and error when confronted with a bug. A disciplined debugging process directly supports higher-quality, more reliable software in all parts of a program.
+
+Debugging improves code quality by:
+
+* Forcing developers to confront and correct wrong assumptions about requirements, data, and design.
+* Leading to refactoring that simplifies complex or fragile code.
+
+It also improves project stability by:
+
+* Ensuring critical defects are fixed at their root cause rather than patched superficially.
+* Producing regression tests that prevent the same bug from returning.
+* Helping teams understand real failure modes in production and respond more quickly.
