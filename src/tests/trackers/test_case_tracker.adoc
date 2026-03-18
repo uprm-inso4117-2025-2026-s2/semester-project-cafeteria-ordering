@@ -6,4 +6,5 @@
 |TC-SUPA-01 |Supabase configuration validation |src/tests/supabase/scripts/supabase-connection.test.ts
 |TC-SUPA-02 |Supabase quick connection smoke check |src/tests/supabase/scripts/quick-test.ts
 |TC-AUTH-03 | User Sign Up Valid Data | src/tests/authentication/cases/signup_test_case.tsx
+|TC-ORD-06  | Test Food item class | src/tests/ordering/cases/menu_item_tests.ts
 |====
