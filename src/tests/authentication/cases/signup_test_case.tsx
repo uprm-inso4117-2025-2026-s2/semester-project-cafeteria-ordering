@@ -21,12 +21,12 @@
 // ============================================================================
 // IMPORTS - Get actual values from the component
 // ============================================================================
-import SignUpScreen, { validate } from '../../../app/signup/index.tsx; 
+import SignUpScreen, { validate } from '../../../app/signup/index.tsx'; 
 // Path: src/app/signup/index.tsx
 
 // ============================================================================
 // TEST DATA - Actual values from the SignUpScreen component
-// ============================================================================:
+// ============================================================================
 
 // Valid user credentials for happy path testing
 export const validUser1 = {
