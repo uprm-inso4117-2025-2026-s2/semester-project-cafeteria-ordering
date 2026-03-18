@@ -25,8 +25,8 @@ The homepage layout includes:
 [cols="1,3a", frame=none, grid=none]
 |===
 | *Light Mode*
-| image::Homepage_Light_Mode.png[Homepage Light Mode, width=250]
+| image::Homepage_light_mode.png[Homepage Light Mode, width=250]
 
 | *Dark Mode*
-| image::Homepage_Dark_Mode.png[Homepage Dark_Mode, width=250]
+| image::Homepage_dark_mode.png[Homepage Dark_Mode, width=250]
 |===
