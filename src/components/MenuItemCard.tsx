@@ -1,36 +1,77 @@
 import { GestureResponderEvent, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { MenuItem } from "../models/food-item-class";
 
+// Props passed to the MenuItemCard component
 type Props = {
-  item: MenuItem;
-  onAddToCart: (item: MenuItem) => void;
-  onPressItem: (item: MenuItem) => void;
+  menuItem: MenuItem; // represents a single menu item object
+  onAddToCart: (item: MenuItem) => void; // Handler to add this item to the cart
+  onPressItem: (item: MenuItem) => void; // Handler for when the user taps the card
 };
 
-export default function MenuItemCard({ item, onAddToCart, onPressItem }: Props) {
-  const descriptionText = item.getIngredients()
+/**
+ * MenuItemCard
+ * A reusable component that displays a single menu item with its name, price, image, ingredients,
+ * and an Add to Cart button. Handles interaction with the item for ordering and navigation
+ * This component does not manage a list of items
+ * It receives a single MenuItem object and manages its rendering and interactions
+ */
+export default function MenuItemCard({ menuItem, onAddToCart, onPressItem }: Props) {
+  // Prepare description text from the menuItem's ingredients
+  // This creates a comma-separated string of ingredient names
+  const descriptionText = menuItem.getIngredients()
     .map((ing) => ing.ingredients_names).join(", ") || "No ingredients available";
 
+
+  /**
+   * handleAddToCart
+   * Prevents the press event from triggering the parent card
+   * Ensures only avaolable items can be added
+   * This component does not store or modify the item
+   * It passes the object upward using onAddToCart(menuItem)
+   * The parent component (in menu/index.tsx) is responsible for:
+   *    - Adding the item to a cart
+   *    - Sending it to a backend
+   */  
   const handleAddToCart = (e: GestureResponderEvent) => {
-    e.stopPropagation();
-    if (!item.isAvailable()) return;
-    onAddToCart(item);
+    e.stopPropagation(); // Prevent the card press from firing
+    if (!menuItem.isAvailable()) return; // Prevent adding unavailable items 
+    onAddToCart(menuItem); // Pass full MenuItem object to handler
   };
 
+  /**
+   * handlePressItem
+   * Triggered when the user taps the card
+   * Send the MenuItem object to the parent handler, allowing navigation using the item's ID
+   */
+  const handlePressItem = () => {
+    onPressItem(menuItem);
+  };
+
+  /**
+   * Interaction with parent handlers:
+   * - onAddToCart and onPressItem are passed from MenuScreen (menu/index.tsx)
+   * - This component calls them ans passes back the MenuItem object
+   * 
+   * This creates a two-way flow:
+   * - Parent -> passes data (menuitem)
+   * - Child -> return data via handlers
+   * 
+   * This keeps UI logic in this component and business logic (cart, navigation) in the parent 
+   */
   return (
-    <Pressable style={styles.card} onPress={() => onPressItem(item)}>
-        {item.getImageUrl() && <Image source={{ uri: item.getImageUrl() }} style={styles.image} />}
+    <Pressable style={styles.card} onPress={handlePressItem}>
+        {menuItem.getImageUrl() && <Image source={{ uri: menuItem.getImageUrl() }} style={styles.image} />}
         <View style={styles.info}>
-            <Text style={styles.name}>{item.getName()}</Text>
-            <Text style={styles.price}>${item.getTotalPrice().toFixed(2)}</Text>
+            <Text style={styles.name}>{menuItem.getName()}</Text>
+            <Text style={styles.price}>${menuItem.getTotalPrice().toFixed(2)}</Text>
             <Text style={styles.description}>{descriptionText}</Text>
         </View>
         <Pressable 
             style={[
-                styles.addButton, !item.isAvailable() && styles.disabledButton,
+                styles.addButton, !menuItem.isAvailable() && styles.disabledButton,
             ]} onPress={handleAddToCart}
         >
-            <Text style={styles.addButtonText}>{item.isAvailable() ? "Add to Cart" : "Not Available"}</Text>
+            <Text style={styles.addButtonText}>{menuItem.isAvailable() ? "Add to Cart" : "Not Available"}</Text>
         </Pressable>
     </Pressable>
   );

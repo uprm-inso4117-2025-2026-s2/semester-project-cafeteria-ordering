@@ -1,5 +1,24 @@
 import { MenuItem } from "../models/food-item-class";
 
+/**
+ * new MenuItem(
+ * - id: unique identifier (used for navigation and lookup)
+ * - categoryId: used for grouping/filtering items
+ * - name: item name displayed in UI
+ * - ingredients: list of ingredient objects
+ * Each ingredient includes:
+    * - ingredients_id: unique ID
+    * - ingredients_names: display name
+    * - ingredients_price: additional cost (0 for now)
+ * - basePrice: base price before modifications
+ * - imageUrl: image displayed in MenuItemCard
+ * - isAvailable: determines if item can be ordered
+ * - allergens: list of allergens (e.g., gluten, dairy)
+ * - prepTime: estimated preparation time (minutes)
+ * - createdAt / updatedAt: timestamps (useful for backend sync)
+ * ),
+ */
+
 export const dummyMenuItems: MenuItem[] = [
     new MenuItem(
     "1",
