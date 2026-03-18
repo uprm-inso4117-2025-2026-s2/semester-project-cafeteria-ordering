@@ -1,0 +1,27 @@
+= Create Order History Page Design
+
+Author: @Lorenzo-PT
+// Issue: #354
+
+== Purpose:{appendix-caption}
+The purpose of this design is to let users freely and clearly see their order history. they can see important factors like the order number, total items purchased, order status and any note the user might have put in the order. there is also a "see details" button that lets users see additional information. users can switch between 4 tabs, where they can see: all the orders they have, orders in progress and any orders that got completed or cancelled.
+
+
+== Final product:
+Final designs can be viewed in the `documentation/designs/order_history/images` folder.
+
+[%unbreakable]
+--
+*Design description:*
+
+- Designs were made with specified ui asets and components from the UI team (see documentation/designs/ui-components)
+- All the necessary information for orders is shown
+- Users can see more details about the order
+- Users can return to the user's profile settings
+- Multiple tabs to help navigate through orders easily
+
+
+.Order History Display Design
+image::images/profile_light_mode.png[]
+
+ 
