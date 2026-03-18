@@ -1,11 +1,12 @@
 import { StyleSheet, Text, type TextProps } from 'react-native';
 
+import { Typography } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
+  type?: 'default' | 'heading' | 'defaultSemiBold' | 'subheading' | 'body' | 'button' | 'link';
 };
 
 export function ThemedText({
@@ -22,9 +23,11 @@ export function ThemedText({
       style={[
         { color },
         type === 'default' ? styles.default : undefined,
-        type === 'title' ? styles.title : undefined,
+        type === 'heading' ? styles.heading : undefined,
         type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
-        type === 'subtitle' ? styles.subtitle : undefined,
+        type === 'subheading' ? styles.subheading : undefined,
+        type === 'body' ? styles.body : undefined,
+        type === 'button' ? styles.button : undefined,
         type === 'link' ? styles.link : undefined,
         style,
       ]}
@@ -43,18 +46,30 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '600',
   },
-  title: {
+  heading: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: '700',
     lineHeight: 32,
+    ...Typography.heading
   },
-  subtitle: {
+  subheading: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '500',
+    ...Typography.subheading
+  },
+  body: {
+    fontSize: 16,
+    fontWeight: "400",
+    ...Typography.body
+  },
+  button: {
+    fontSize: 16,
+    fontWeight: "600",
+    ...Typography.button
   },
   link: {
     lineHeight: 30,
     fontSize: 16,
-    color: '#0a7ea4',
+    textDecorationLine: 'underline'
   },
 });
