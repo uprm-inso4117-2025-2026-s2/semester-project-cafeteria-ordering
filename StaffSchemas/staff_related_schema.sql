@@ -1,54 +1,125 @@
--- Coordination note:
--- Based on feedback from the Authentication team, staff should be managed
--- in a separate table rather than being merged directly with users/auth records.
--- This schema therefore keeps staff as an independent entity.
+-- =====================================
+-- Edit Staff Database Schema
+-- =====================================
+-- This script updates the existing schema for menu_items, orders,
+-- and order_items to match the requested structure while preserving
+-- the current Supabase database design.
 
-create extension if not exists "pgcrypto";
+-- =====================================
+-- MENU ITEMS
+-- Existing columns found:
+-- id, category_id, name, price, image_url, available,
+-- allergens, prep_time_minutes, created_at, updated_at
+-- Required additions/changes:
+-- description, category, quantity, image, is_available
+-- =====================================
 
-create table if not exists staff (
-    id uuid primary key default gen_random_uuid(),
-    full_name text not null,
-    email text not null unique,
-    role text not null check (role in ('admin', 'cashier', 'kitchen', 'manager', 'staff')),
-    is_active boolean not null default true,
-    created_at timestamptz not null default now()
-);
+alter table menu_items
+add column if not exists description text,
+add column if not exists category text,
+add column if not exists quantity integer not null default 0 check (quantity >= 0);
 
-create table if not exists menu (
-    id uuid primary key default gen_random_uuid(),
-    name text not null,
-    description text,
-    category text not null,
-    price numeric(10,2) not null check (price >= 0),
-    is_available boolean not null default true,
-    created_at timestamptz not null default now()
-);
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'menu_items'
+          and column_name = 'available'
+    ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'menu_items'
+          and column_name = 'is_available'
+    ) then
+        alter table menu_items rename column available to is_available;
+    end if;
+end $$;
 
-create table if not exists orders (
-    id uuid primary key default gen_random_uuid(),
-    customer_name text not null,
-    status text not null check (status in ('pending', 'preparing', 'ready', 'completed', 'cancelled')),
-    total_amount numeric(10,2) not null check (total_amount >= 0),
-    handled_by_staff_id uuid,
-    created_at timestamptz not null default now(),
-    constraint fk_orders_staff
-        foreign key (handled_by_staff_id)
-        references staff(id)
-        on delete set null
-);
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'menu_items'
+          and column_name = 'image_url'
+    ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'menu_items'
+          and column_name = 'image'
+    ) then
+        alter table menu_items rename column image_url to image;
+    end if;
+end $$;
 
-create table if not exists order_menu_items (
-    id uuid primary key default gen_random_uuid(),
-    order_id uuid not null,
-    menu_id uuid not null,
-    quantity integer not null check (quantity > 0),
-    unit_price numeric(10,2) not null check (unit_price >= 0),
-    constraint fk_order_menu_items_order
-        foreign key (order_id)
-        references orders(id)
-        on delete cascade,
-    constraint fk_order_menu_items_menu
-        foreign key (menu_id)
-        references menu(id)
-        on delete restrict
-);
+
+-- =====================================
+-- ORDERS
+-- Existing columns found:
+-- order_id, user_id, order_status, total_amount, timestamp,
+-- pickup_code, notes, created_at, updated_at, completed_at, user_name
+-- Required additions/changes:
+-- payment_method, payment_status, customer_note, placed_at
+-- Notes:
+-- Keep user_id instead of customer_id to preserve current schema.
+-- Keep order_status instead of status.
+-- Use notes as the existing customer note field.
+-- =====================================
+
+alter table orders
+add column if not exists payment_method text,
+add column if not exists payment_status text,
+add column if not exists placed_at timestamptz;
+
+update orders
+set placed_at = "timestamp"
+where placed_at is null;
+
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'orders'
+          and column_name = 'notes'
+    ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'orders'
+          and column_name = 'customer_note'
+    ) then
+        alter table orders rename column notes to customer_note;
+    end if;
+end $$;
+
+
+-- =====================================
+-- ORDER ITEMS
+-- Existing columns found:
+-- id, order_id, menu_item_id, quantity, unit_price,
+-- special_instructions, created_at
+-- Required additions/changes:
+-- item_name, subtotal, special_request
+-- =====================================
+
+alter table order_items
+add column if not exists item_name text,
+add column if not exists subtotal numeric(10,2) check (subtotal >= 0);
+
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'order_items'
+          and column_name = 'special_instructions'
+    ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'order_items'
+          and column_name = 'special_request'
+    ) then
+        alter table order_items rename column special_instructions to special_request;
+    end if;
+end $$;
