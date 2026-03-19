@@ -1,0 +1,274 @@
+= Type Constraint Analysis for Order and Menu Models
+
+:project: Cafeteria Ordering
+:issue: 282
+:assignee: @Kaariinaa08
+
+== Summary
+
+This Lecture Topic Task (LTT) analyzes how type constraints can enforce correctness properties in the Cafeteria Ordering System, using the current class diagram and data structure design.
+
+The system models orders as a collection of menu items paired with selected ingredients:
+
+_List<Pair<MenuItem, List<Ingredient>>>_
+
+This document evaluates how this structure can be strengthened using type systems to prevent invalid states and improve system reliability.
+
+This task is based on the lecture topic on _types_, with particular emphasis on refinement and _dependent type_ concepts.
+
+== Objective
+
+Analyze how type constraints can enforce correctness properties within the Ordering System’s data model, particularly focusing on:
+
+* Order
+* MenuItem
+* Ingredient selections
+
+The goal is to identify invariants and determine whether they can be enforced at the type level or require runtime validation.
+
+== System Model Based on Class Diagram
+
+=== MenuItem
+
+Represents a predefined cafeteria product.
+
+* Immutable in the context of an order  
+* Contains default ingredient configuration  
+* Modifiable only by staff systems  
+
+A `MenuItem` used in an order must be treated as a *read-only template*.
+
+=== Order
+
+Represents a temporary collection of selected items before payment.
+
+Structure derived from diagram:
+
+_List<Pair<MenuItem, List<Ingredient>>>_
+
+* Each entry represents a customized menu item  
+* Ingredients are selected per item  
+* Multiple entries can reference the same `MenuItem` with different selections  
+
+=== Ingredient (Selection)
+
+Represents a customization applied to a menu item.
+
+* System ingredient (defined in MenuItem)  
+* Selected ingredient (chosen by user)  
+
+== Refined Data Model
+
+Instead of a generic pair, a stronger typed structure is recommended:
+
+----
+type OrderItem = {
+  menuItem: ReadonlyMenuItem;
+  selectedIngredients: IngredientSelectionList;
+};
+
+type Order = {
+  items: NonEmptyArray<OrderItem>;
+};
+----
+
+This replaces:
+
+----
+List<Pair<MenuItem, List<string>>>
+----
+
+with a more expressive and type-safe model.
+
+== Identified Constraints and Invariants
+
+=== Constraint 1: Order must contain at least one item
+
+*Entity:* Order  
+*Classification:* Type-level  
+
+----
+type NonEmptyArray<T> = [T, ...T[]];
+----
+
+Prevents creation of empty orders.
+
+---
+
+=== Constraint 2: MenuItem must be immutable within an Order
+
+*Entity:* MenuItem  
+*Classification:* Type-level  
+
+----
+type ReadonlyMenuItem = Readonly<MenuItem>;
+----
+
+Prevents unintended mutation across orders.
+
+---
+
+=== Constraint 3: Ingredient selections must belong to the MenuItem
+
+*Entity:* OrderItem  
+*Classification:* Runtime  
+
+Selected ingredients must be a subset of the menu item’s allowed ingredients:
+
+----
+selectedIngredients ⊆ allowedIngredients
+----
+
+This constraint depends on relationships between entities and must be validated at runtime.
+
+---
+
+=== Constraint 4: Ingredients must not be arbitrary strings
+
+*Entity:* Ingredient selection  
+*Classification:* Type-level  
+
+----
+type IngredientId = string & { readonly brand: unique symbol };
+type IngredientSelectionList = IngredientId[];
+----
+
+Replaces unsafe `List<string>` with domain-specific identifiers.
+
+---
+
+=== Constraint 5: Order items must remain independent
+
+*Entity:* Order structure  
+*Classification:* Type-level  
+
+Each customized menu item is stored as a separate entry:
+
+----
+List<OrderItem>
+----
+
+This preserves different ingredient combinations for the same menu item.
+
+---
+
+=== Constraint 6: Ingredient selections must not contain duplicates
+
+*Entity:* IngredientSelectionList  
+*Classification:* Type-level / runtime  
+
+----
+type IngredientSet = Set<IngredientId>;
+----
+
+Prevents invalid duplication (e.g., `"cheese", "cheese"`).
+
+---
+
+=== Constraint 7: Order lifecycle must distinguish temporary vs confirmed states
+
+*Entity:* Order  
+*Classification:* Type-level + runtime  
+
+----
+type DraftOrder = { items: NonEmptyArray<OrderItem> };
+type ConfirmedOrder = DraftOrder & { orderId: OrderId };
+----
+
+Prevents incomplete orders from being treated as finalized.
+
+== Type-Level vs Runtime Classification
+
+[cols="1,3,2", options="header"]
+|===
+| # | Constraint | Category
+
+| 1
+| Order must not be empty
+| Type-level
+
+| 2
+| MenuItem immutability in Order
+| Type-level
+
+| 3
+| Ingredients must belong to MenuItem
+| Runtime
+
+| 4
+| Ingredients must not be raw strings
+| Type-level
+
+| 5
+| Order items remain independent
+| Type-level
+
+| 6
+| No duplicate ingredients
+| Type-level / runtime
+
+| 7
+| Order lifecycle states
+| Type-level + runtime
+|===
+
+== Key Insight: From Pair to Domain Model
+
+Current structure:
+
+----
+List<Pair<MenuItem, List<string>>>
+----
+
+Issues:
+
+* weak typing (strings)  
+* lack of domain meaning  
+* no constraint enforcement  
+
+Improved structure:
+
+----
+type Order = {
+  items: NonEmptyArray<OrderItem>;
+};
+
+type OrderItem = {
+  menuItem: ReadonlyMenuItem;
+  selectedIngredients: IngredientSet;
+};
+----
+
+This transformation reduces invalid states and improves clarity.
+
+== Dependent Types Perspective
+
+In a dependent type system, constraints such as:
+
+* ingredient selections ⊆ allowed ingredients  
+* order totals derived from items  
+
+could be encoded directly in types.
+
+While most production languages do not fully support this, the current model approximates these guarantees through stronger type design.
+
+== Conclusion
+
+The current system design provides a solid structural foundation but relies on loosely typed constructs such as `Pair` and `List<string>`.
+
+By introducing stronger type constraints:
+
+* invalid ingredient selections are reduced  
+* empty orders are prevented  
+* mutation bugs are avoided  
+* system behavior becomes more predictable  
+
+This analysis directly refines the system design by transforming:
+
+----
+List<Pair<MenuItem, List<string>>>
+----
+
+into a structured domain model that better enforces correctness and reflects real-world constraints.
+
+This reinforces the lecture’s main idea: type systems can encode program invariants and prevent invalid states before runtime.
