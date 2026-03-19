@@ -71,74 +71,72 @@
 
 | Developer | Week #1 | Week #2 | Week #3 | Week #4 | Week #5 | Penalty |
 |---|---|---|---|---|---|---|
-| JorgeDeLeonOrama | Yes | Yes | No | No | No | 9.0 |
-| Kaariinaa08 | Yes | Yes | No | No | No | 9.0 |
-| SamarysB | Yes | Yes | No | No | No | 9.0 |
-| andreasegarra | Yes | Yes | No | No | No | 9.0 |
-| TaimaraColon | Yes | Yes | No | No | No | 9.0 |
-| JadStelar | Yes | Yes | No | No | No | 9.0 |
-| Pedro-Juan-Bonilla | Yes | Yes | No | No | No | 9.0 |
-| kian-robert | Yes | Yes | No | No | No | 9.0 |
-| L-A-M-D | Yes | Yes | No | No | No | 9.0 |
-| jonVargas1 | Yes | Yes | No | No | No | 9.0 |
-| devlin-hahn04 | Yes | Yes | No | No | No | 9.0 |
-| aryamdiaz | Yes | Yes | No | No | No | 9.0 |
-| horebcotto21 | Yes | Yes | No | No | No | 9.0 |
-| kevinlara1 | Yes | Yes | No | No | No | 9.0 |
-| jankii03 | Yes | Yes | No | No | No | 9.0 |
-| daniellameleroo | Yes | Yes | No | No | No | 9.0 |
-| Lorenzo-PT | Yes | Yes | No | No | No | 9.0 |
-| Alma-pineiro | Yes | Yes | No | No | No | 9.0 |
-| fernan-castro | Yes | Yes | No | No | No | 9.0 |
-| YandreCaban | Yes | Yes | No | No | No | 9.0 |
-| FabiolaZTorres | Yes | Yes | No | No | No | 9.0 |
-| ernestosoto3 | Yes | Yes | No | No | No | 9.0 |
-| LuisJCruz | Yes | Yes | No | No | No | 9.0 |
-| Osvaldoo1414 | Yes | Yes | No | No | No | 9.0 |
-| Kay9876 | Yes | Yes | No | No | No | 9.0 |
-| YadrielRivera | Yes | Yes | No | No | No | 9.0 |
-| GerardoSotoRios | Yes | Yes | No | No | No | 9.0 |
 | yamilette-alemany | Yes | Yes | No | No | No | 9.0 |
-| reinaldo-martinez1 | Yes | Yes | No | No | No | 9.0 |
+| devlin-hahn04 | Yes | Yes | No | No | No | 9.0 |
+| horebcotto21 | Yes | Yes | No | No | No | 9.0 |
+| Pedro-Juan-Bonilla | Yes | Yes | No | No | No | 9.0 |
+| Kay9876 | Yes | Yes | No | No | No | 9.0 |
+| andreasegarra | Yes | Yes | No | No | No | 9.0 |
+| JorgeDeLeonOrama | Yes | Yes | No | No | No | 9.0 |
+| Alma-pineiro | Yes | Yes | No | No | No | 9.0 |
+| ernestosoto3 | Yes | Yes | No | No | No | 9.0 |
+| Osvaldoo1414 | Yes | Yes | No | No | No | 9.0 |
+| kian-robert | Yes | Yes | No | No | No | 9.0 |
+| LuisJCruz | Yes | Yes | No | No | No | 9.0 |
+| fernan-castro | Yes | Yes | No | No | No | 9.0 |
+| YadrielRivera | Yes | Yes | No | No | No | 9.0 |
+| L-A-M-D | Yes | Yes | No | No | No | 9.0 |
+| TaimaraColon | Yes | Yes | No | No | No | 9.0 |
+| FabiolaZTorres | Yes | Yes | No | No | No | 9.0 |
+| JadStelar | Yes | Yes | No | No | No | 9.0 |
+| kevinlara1 | Yes | Yes | No | No | No | 9.0 |
+| Lorenzo-PT | Yes | Yes | No | No | No | 9.0 |
 | nataliavera6 | Yes | Yes | No | No | No | 9.0 |
+| SamarysB | Yes | Yes | No | No | No | 9.0 |
+| jonVargas1 | Yes | Yes | No | No | No | 9.0 |
+| jankii03 | Yes | Yes | No | No | No | 9.0 |
+| aryamdiaz | Yes | Yes | No | No | No | 9.0 |
+| Kaariinaa08 | Yes | Yes | No | No | No | 9.0 |
+| GerardoSotoRios | Yes | Yes | No | No | No | 9.0 |
+| YandreCaban | Yes | Yes | No | No | No | 9.0 |
+| reinaldo-martinez1 | Yes | Yes | No | No | No | 9.0 |
+| daniellameleroo | Yes | Yes | No | No | No | 9.0 |
 
 ## Point Percent by Label
 
-| Developer | enhancement | High Priority | UI | Profile and Offline Support | Team Lead Approved | Lecture Topic Task | Staff Operations | state: in progress | Quality Assurance | Ordering and Payments | state: concluded | documentation | Central Quality Assurance | Database Implementation | Manager Approved | Authentication and Security |
+| Developer | state: in progress | enhancement | Quality Assurance | UI | High Priority | Lecture Topic Task | Staff Operations | Authentication and Security | Central Quality Assurance | Database Implementation | Team Lead Approved | documentation | Ordering and Payments | Manager Approved | state: concluded | Profile and Offline Support |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| horebcotto21 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| reinaldo-martinez1 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| Kay9876 | 0.0% | 70.6% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 29.4% | 0.0% | 0.0% | 70.6% | 0.0% | 0.0% | 0.0% | 70.6% | 0.0% |
-| JadStelar | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| aryamdiaz | 0.0% | 0.0% | 0.0% | 0.0% | 50.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| fernan-castro | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
-| Kaariinaa08 | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| nataliavera6 | 0.0% | 0.0% | 100.0% | 0.0% | 48.5% | 0.0% | 48.5% | 51.5% | 0.0% | 0.0% | 48.5% | 0.0% | 0.0% | 0.0% | 48.5% | 0.0% |
-| LuisJCruz | 16.2% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 83.8% | 0.0% | 0.0% | 16.2% | 0.0% | 0.0% | 83.8% | 16.2% | 0.0% |
-| YandreCaban | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
-| SamarysB | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| FabiolaZTorres | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| jonVargas1 | 0.0% | 0.0% | 100.0% | 0.0% | 71.3% | 0.0% | 0.0% | 28.7% | 0.0% | 71.3% | 71.3% | 0.0% | 0.0% | 0.0% | 71.3% | 0.0% |
-| andreasegarra | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| yamilette-alemany | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| jankii03 | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 50.0% | 100.0% | 0.0% | 50.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% |
-| Osvaldoo1414 | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
-| ernestosoto3 | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% |
-| Lorenzo-PT | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| YadrielRivera | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| GerardoSotoRios | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| daniellameleroo | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| devlin-hahn04 | 0.0% | 0.0% | 0.0% | 0.0% | 40.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% |
-| kevinlara1 | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| JorgeDeLeonOrama | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 75.2% | 24.8% | 0.0% | 100.0% | 24.8% | 0.0% | 0.0% | 24.8% | 0.0% |
-| L-A-M-D | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| kian-robert | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% | 100.0% | 0.0% |
-| Pedro-Juan-Bonilla | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| horebcotto21 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| reinaldo-martinez1 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| Kay9876 | 29.4% | 0.0% | 0.0% | 100.0% | 70.6% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 70.6% | 70.6% | 0.0% |
+| JadStelar | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| aryamdiaz | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 50.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| fernan-castro | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| Kaariinaa08 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| nataliavera6 | 51.5% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 48.5% | 0.0% | 0.0% | 0.0% | 48.5% | 0.0% | 0.0% | 48.5% | 48.5% | 0.0% |
+| LuisJCruz | 83.8% | 16.2% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 83.8% | 100.0% | 0.0% | 0.0% | 16.2% | 16.2% | 0.0% |
+| YandreCaban | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| SamarysB | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| FabiolaZTorres | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| jonVargas1 | 28.7% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 71.3% | 0.0% | 71.3% | 71.3% | 71.3% | 0.0% |
+| andreasegarra | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% |
+| yamilette-alemany | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| jankii03 | 50.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 50.0% | 0.0% |
+| Osvaldoo1414 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| ernestosoto3 | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% |
+| Lorenzo-PT | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% |
+| YadrielRivera | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| GerardoSotoRios | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% |
+| daniellameleroo | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% |
+| devlin-hahn04 | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 40.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| kevinlara1 | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% |
+| JorgeDeLeonOrama | 75.2% | 0.0% | 24.8% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 24.8% | 0.0% | 24.8% | 100.0% | 0.0% |
+| L-A-M-D | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| kian-robert | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 0.0% |
+| Pedro-Juan-Bonilla | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% |
 # Metrics Generation Logs
 
 | Message |
 | ------- |
 | INFO: Found Project(name='Cafeteria Ordering', number=2, url='https://github.com/orgs/uprm-inso4117-2025-2026-s2/projects/2', public=False) |
 | WARNING: Project visibility is set to private. This can lead to issues not being found if the Personal Access Token doesn't have permissions for viewing private projects. |
-| WARNING: [Issue #361](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/361) does not have the Urgency and/or Difficulty fields populated |
-| WARNING: [Issue #363](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/363) is not associated with a milestone. |
