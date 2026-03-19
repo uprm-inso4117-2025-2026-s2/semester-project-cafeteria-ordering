@@ -1,0 +1,396 @@
+= Staff Operations Test Plan
+:toc:
+:sectnums:
+
+== Purpose
+
+This document defines the test plan for the Staff Operations feature area of the Cafeteria Ordering System.
+
+Its purpose is to identify the test cases, test layers, and validation approach needed to verify that staff users can correctly receive, review, update, and manage cafeteria orders through the staff workflow.
+
+This plan is limited to staff operations and does not attempt to fully define testing for unrelated feature areas except where those areas directly affect staff order handling.
+
+== Scope
+
+This test plan covers validation of the following staff operations areas:
+
+* Receiving newly placed orders
+* Viewing pending and active orders in the staff interface
+* Updating order status through allowed transitions
+* Cancelling orders when cancellation is permitted
+* Preventing invalid order status transitions
+* Updating the orders table after staff actions
+* Reflecting staff actions consistently in the UI and data layer
+* Handling failed updates and recovery behavior
+* Verifying staff workflows through BDD and exploratory testing
+
+This plan is limited to staff operations teams.
+
+== Assumptions and Constraints
+
+The following assumptions and constraints apply to this test plan:
+
+* Staff users have access to a dedicated interface for managing incoming orders.
+* Orders are stored in an orders table or equivalent persistence layer.
+* Order status values follow a defined workflow, even if the exact statuses may evolve.
+* Not all transitions are valid from every state.
+* Some operations may depend on backend/database updates succeeding.
+* If implementation details change, the test cases in this plan must be updated accordingly.
+
+== Test Layers and Tools
+
+The following test layers are included in this plan:
+
+* Unit tests
+** Focus on isolated business logic such as status transition validation, cancellation rules, and mapping order updates.
+
+* Integration tests
+** Focus on interactions between UI, services, state management, and persistence for staff workflows.
+
+* BDD tests
+** Focus on user-facing acceptance behavior using Gherkin/Cucumber scenarios aligned with expected staff workflows.
+
+* Exploratory testing
+** Focus on manually running the application to validate realistic staff behavior, edge cases, and usability concerns not fully captured by scripted tests.
+
+The repository already supports BDD-style testing with Cucumber, so BDD scenarios should align with that workflow.
+
+== Test Objectives
+
+The main objectives of this test plan are:
+
+* Verify that staff can receive and view new orders correctly.
+* Verify that order status updates follow valid transitions only.
+* Verify that cancellations behave according to business rules.
+* Verify that the staff interface reflects order updates correctly.
+* Verify that the underlying orders data is updated consistently.
+* Verify that invalid or failed operations are handled safely and clearly.
+* Provide a baseline set of BDD acceptance scenarios for staff operations.
+* Define exploratory sessions with clear goals for manual validation.
+
+== Unit Test Cases
+
+The following unit test cases should be covered.
+
+[cols="1,3,4",options="header"]
+|===
+|ID |Area |Expected Result
+
+|SO-UNIT-01
+|Order status transition validation
+|A valid transition is accepted.
+
+|SO-UNIT-02
+|Invalid status transition rejection
+|An invalid transition is rejected.
+
+|SO-UNIT-03
+|Transition from pending to in-progress
+|The transition is marked valid when business rules allow it.
+
+|SO-UNIT-04
+|Transition from in-progress to ready
+|The transition is marked valid when business rules allow it.
+
+|SO-UNIT-05
+|Transition from ready to completed/picked up
+|The transition is marked valid when business rules allow it.
+
+|SO-UNIT-06
+|Transition from terminal state
+|No further transition is allowed once the order is completed or cancelled.
+
+|SO-UNIT-07
+|Cancelling an eligible order
+|Cancellation is allowed only when the current state permits it.
+
+|SO-UNIT-08
+|Cancelling a non-eligible order
+|Cancellation is rejected when the order is already completed, picked up, or otherwise locked.
+
+|SO-UNIT-09
+|Order update payload generation
+|The generated update payload contains the correct order id, target status, and metadata.
+
+|SO-UNIT-10
+|Orders list update helper
+|The updated order replaces the correct row in local state without duplicating entries.
+
+|SO-UNIT-11
+|Missing order id handling
+|The function fails safely when the order id is missing or invalid.
+
+|SO-UNIT-12
+|Unknown status handling
+|Unexpected status values are rejected or handled according to project policy.
+
+|SO-UNIT-13
+|No-op update request
+|If the requested new status equals the current status, the logic prevents unnecessary updates.
+
+|SO-UNIT-14
+|Cancellation reason mapping, if implemented
+|Cancellation metadata is stored consistently.
+
+|SO-UNIT-15
+|Timestamp assignment, if implemented
+|Status-change timestamps are assigned consistently and only when appropriate.
+|===
+
+== Integration Test Cases
+
+The following integration test cases should be covered.
+
+[cols="1,3,4",options="header"]
+|===
+|ID |Area |Expected Result
+
+|SO-INT-01
+|Receiving a newly placed order
+|A newly placed order appears in the staff order list.
+
+|SO-INT-02
+|Orders table refresh after new order
+|The staff view reflects the new order data after retrieval or subscription update.
+
+|SO-INT-03
+|Open order details from staff queue
+|Selecting an order loads the correct details for staff review.
+
+|SO-INT-04
+|Update order status successfully
+|The UI triggers the backend update and the order row reflects the new status.
+
+|SO-INT-05
+|Orders table update after status change
+|The updated order status is persisted and displayed consistently across relevant staff views.
+
+|SO-INT-06
+|Cancel order successfully
+|The order is marked cancelled and removed or reclassified according to UI behavior.
+
+|SO-INT-07
+|Reject invalid transition from UI
+|The UI prevents or reports invalid transitions instead of sending inconsistent updates.
+
+|SO-INT-08
+|Backend failure on status update
+|The user receives a clear error and the UI does not show a false successful update.
+
+|SO-INT-09
+|Backend failure on cancellation
+|The cancellation does not appear successful unless persistence succeeds.
+
+|SO-INT-10
+|Concurrent refresh after update
+|Refreshing the staff queue after an update shows the persisted status without duplication.
+
+|SO-INT-11
+|Empty staff queue
+|The UI handles the no-orders state gracefully.
+
+|SO-INT-12
+|Malformed or incomplete order data
+|The staff screen handles incomplete order records without crashing.
+
+|SO-INT-13
+|Slow-loading orders state
+|The UI presents loading feedback and resolves to the correct result once data arrives.
+
+|SO-INT-14
+|Status update reflected in related tables/views
+|Any related order table or dashboard card shows the same final status.
+
+|SO-INT-15
+|Reopen app or screen after update
+|Previously updated orders remain in the correct state after reload.
+|===
+
+== BDD Acceptance Scenarios
+
+The following BDD scenarios should be prepared for staff operations.
+
+=== Scenario 1: Staff receives a newly placed order
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff receives a newly placed order
+    Given a customer has placed a new order
+    When the staff member opens the staff orders view
+    Then the new order should appear in the pending orders list
+----
+
+=== Scenario 2: Staff updates order status through a valid transition
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff updates an order from pending to in progress
+    Given an order is currently marked as "pending"
+    When the staff member changes the order status to "in progress"
+    Then the order status should be updated successfully
+    And the updated status should be shown in the staff orders table
+----
+
+=== Scenario 3: Staff cancels an eligible order
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff cancels an eligible order
+    Given an order is in a cancellable state
+    When the staff member cancels the order
+    Then the order should be marked as cancelled
+    And the staff orders table should reflect the cancellation
+----
+
+=== Scenario 4: Staff attempts an invalid status transition
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff attempts an invalid status transition
+    Given an order is already marked as "completed"
+    When the staff member attempts to change the order status to "in progress"
+    Then the system should reject the update
+    And an appropriate error or validation message should be shown
+----
+
+=== Scenario 5: Staff update fails because persistence fails
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff update fails due to a backend error
+    Given an order is currently marked as "pending"
+    When the staff member updates the order status
+    But the backend update fails
+    Then the system should show an error message
+    And the order should remain in its previous persisted state
+----
+
+== Exploratory Testing
+
+Exploratory testing will be used to validate realistic staff workflows, edge cases, and usability concerns.
+
+=== Session 1: Staff queue management
+
+Objective:
+
+* Evaluate how easily a staff member can identify, open, and process incoming orders.
+
+Charter:
+
+* Review queue ordering, readability, visible status labels, and ease of action selection.
+* Look for confusion when multiple orders arrive close together.
+* Observe whether important order details are easy to locate.
+
+=== Session 2: Status update workflow
+
+Objective:
+
+* Evaluate whether status transitions feel clear, safe, and consistent.
+
+Charter:
+
+* Attempt normal transitions and unusual transition sequences.
+* Check whether the UI makes allowed actions obvious.
+* Look for accidental taps, unclear confirmations, or inconsistent status feedback.
+
+=== Session 3: Cancellation handling
+
+Objective:
+
+* Evaluate how cancellation works in realistic staff scenarios.
+
+Charter:
+
+* Cancel eligible and non-eligible orders.
+* Observe messaging, order list updates, and whether cancellation consequences are clear.
+* Check if cancelled orders remain visible where appropriate.
+
+=== Session 4: Error and recovery behavior
+
+Objective:
+
+* Evaluate system resilience when updates fail or data loads slowly.
+
+Charter:
+
+* Trigger failed updates, delayed loads, and stale data conditions if possible.
+* Observe whether errors are understandable and whether retry paths are clear.
+* Confirm that failed actions do not leave the UI in an inconsistent state.
+
+== Entry Criteria
+
+Testing for staff operations may begin when:
+
+* Staff order-management functionality is available in a testable form.
+* Relevant order statuses and transition rules are defined.
+* The staff team and QA team agree on the expected workflow.
+* At least the basic staff order view can load in a local or test environment.
+
+== Exit Criteria
+
+Testing for this test plan is considered complete when:
+
+* The test plan document has been reviewed by the QA team lead and staff operations team.
+* Unit test cases for core staff logic have been identified.
+* Integration test cases for staff workflows have been identified.
+* BDD acceptance scenarios have been prepared.
+* Exploratory sessions have defined objectives and charters.
+* Critical issues found during execution have been documented for follow-up.
+
+== Risks and Mitigation
+
+[cols="1,3",options="header"]
+|===
+|Risk |Mitigation
+
+|Order workflow rules change during implementation
+|Update the test plan and scenario expectations to reflect the agreed workflow.
+
+|Statuses are not finalized
+|Write tests around transition rules abstractly first, then refine exact status names later.
+
+|Backend behavior differs from UI assumptions
+|Prioritize integration testing of persistence and refresh behavior.
+
+|Limited automation support for some staff flows
+|Use BDD plus exploratory sessions to cover user-facing behavior early.
+
+|Test data inconsistency
+|Define stable seed data or reusable sample orders for staff testing.
+|===
+
+== Deliverables
+
+The following deliverables are expected for this issue:
+
+* Staff operations test plan document
+* Identified unit test cases
+* Identified integration test cases
+* Prepared BDD acceptance scenarios
+* Defined exploratory testing sessions with clear objectives
+
+== Suggested Follow-Up Files
+
+If the team wants to continue implementation after this issue, the following files would fit the current repository structure:
+
+* `features/staff_operations.feature`
+* `src/tests/staff_operations/docs/staff-operations-test-notes.adoc`
+* `src/tests/staff_operations/cases/` for concrete automated case files later
+
+== Review Notes
+
+This document should be reviewed by:
+
+* QA team lead and Project Manager
+
+Any feedback from those reviews should be incorporated before marking the issue as complete.
