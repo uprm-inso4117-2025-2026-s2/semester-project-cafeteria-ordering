@@ -1,7 +1,7 @@
 = Type Constraint Analysis for Order and Menu Models
 
 :project: Cafeteria Ordering
-:issue: 282
+:issue: 292
 :assignee: @Kaariinaa08
 
 == Summary
