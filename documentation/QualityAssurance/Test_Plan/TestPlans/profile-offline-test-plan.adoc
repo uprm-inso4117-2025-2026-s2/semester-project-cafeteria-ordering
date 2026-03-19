@@ -1,0 +1,244 @@
+= Profile & Offline Support Test Plan
+:toc:
+:toclevels: 2
+
+== Purpose
+This document defines the test plan for the *Profile & Offline Support* feature area of the Cafeteria Ordering System. Its purpose is to specify how profile functionality and offline-related behavior will be validated so that users can manage profile data reliably and continue using key application features under unstable or unavailable network conditions.
+
+== Scope
+This test plan covers validation of the following areas:
+
+* Profile information view and edit behavior
+* Profile data persistence across app sessions
+* Offline read behavior for previously available data
+* Offline editing and local persistence
+* Reconnection and synchronization behavior
+* Error handling for connectivity loss, failed synchronization, and conflicting updates
+
+This plan focuses on *Profile & Offline Support* and does not attempt to fully define testing for unrelated modules except where those modules are directly affected by offline behavior.
+
+== Assumptions and Constraints
+The following assumptions and constraints apply to this test plan:
+
+* The application stores at least some previously retrieved user/profile data locally for offline access.
+* The application provides some form of local persistence for offline drafts or pending changes.
+* Connectivity may be lost before, during, or after a user action.
+* Synchronization behavior after reconnection must follow the project's implemented policy.
+* If the final implementation defines more specific sync/conflict rules, these test scenarios must be updated to match them.
+
+== Test Strategy
+
+=== Test Levels
+The following test levels are relevant:
+
+* *Unit testing*: validation of local storage helpers, reducers/state handlers, validation logic, and synchronization helpers.
+* *Integration testing*: validation of interactions between UI, local storage, API services, and synchronization logic.
+* *System / End-to-End testing*: validation of real user flows on device or emulator with network state changes.
+
+=== Test Types
+The following test types are relevant:
+
+* *Functional testing*: verify correct profile view/edit/save behavior.
+* *Negative testing*: verify invalid input, failed save, failed sync, and inconsistent-state handling.
+* *Usability testing*: verify that offline state and sync outcomes are communicated clearly to the user.
+* *Reliability / Resilience testing*: verify correct behavior under connectivity loss and recovery.
+* *Data integrity testing*: verify that profile data, drafts, and pending changes are not silently lost, duplicated, or corrupted.
+
+== Test Scenarios
+
+[cols="1,2,1,3",options="header"]
+|===
+|ID |Area |Mode |Expected Result
+
+|PF-01
+|Profile view
+|Online
+|Profile loads correctly and the edit flow is reachable.
+
+|PF-02
+|Profile edit/save
+|Online
+|Valid profile edits are saved successfully and remain visible after reload.
+
+|PF-03
+|Profile validation
+|Online
+|Invalid inputs are rejected and a clear validation message is shown.
+
+|OS-01
+|Cached read
+|Offline
+|Previously available profile/menu data can still be viewed and the system clearly indicates offline state.
+
+|OS-02
+|Offline profile edit
+|Offline -> Online
+|Profile edits made offline are stored locally and synchronized on reconnect without silent loss.
+
+|OS-03
+|Offline order/profile draft persistence
+|Offline
+|Local draft or pending data is preserved while offline and the application behavior matches the implemented product policy.
+
+|OS-04
+|Reconnect sync
+|Offline -> Online
+|Pending changes synchronize once after reconnection, without duplication, and the user is informed of success or failure.
+
+|OS-05
+|Conflict handling
+|Offline -> Online
+|If server-side data changed while offline, the system resolves the conflict according to implemented policy and communicates the result clearly.
+
+|OS-06
+|App restart while offline
+|Offline
+|Cached data and pending offline edits persist after restart and are not corrupted.
+
+|OS-07
+|Connectivity lost before action
+|Offline before save
+|The application prevents unsupported network-dependent actions gracefully and preserves entered data when applicable.
+
+|OS-08
+|Connectivity lost during action
+|Online -> Offline mid-action
+|The application does not silently lose user changes and reports whether the action failed, was cached, or remains pending.
+
+|OS-09
+|Connectivity restored after failure
+|Offline -> Online after failed attempt
+|The application either retries or allows user recovery according to product behavior, without duplicate submissions.
+|===
+
+== Retesting Workflow
+Re-testing is testing that reruns previously failed test cases to verify that corrective actions were successful. 
+
+The workflow for this feature area is:
+
+. Link the defect fix to the original failing scenario ID.
+. Re-run the same scenario using the same relevant data and environment conditions.
+. If the scenario passes, attach evidence and mark the defect as confirmed fixed.
+. If the scenario fails again, update the issue with new evidence and keep the defect open.
+
+== Regression Strategy
+Regression testing is testing performed after a change to ensure defects have not been introduced or uncovered in unchanged areas, and it is performed when the software or its environment changes. 
+
+This test plan uses a risk-based regression strategy. ISO/IEC/IEEE 29119-2 follows a risk-based approach to testing and supports prioritizing testing around the most important features and functions. 
+
+=== Regression Selection Rubric
+Use:
+
+* *Likelihood (L)*: probability that a change introduces regression
+* *Impact (I)*: severity of the effect on users/operations if the feature breaks
+* *Risk Score = L x I*
+
+Higher scores require broader regression coverage.
+
+[cols="2,1,1,1,3",options="header"]
+|===
+|Change Type |L |I |Score |Regression Set
+
+|UI-only profile text/layout
+|1
+|2
+|2
+|Smoke tests + PF-01
+
+|Profile validation or persistence logic
+|3
+|4
+|12
+|PF-01 to PF-03 + OS-02 + OS-06
+
+|Offline cache/storage layer
+|4
+|5
+|20
+|OS-01 to OS-09 + basic order/profile smoke
+
+|Sync/reconnect logic
+|4
+|5
+|20
+|OS-02 to OS-09 + affected order/profile flows
+
+|Shared checkout/cart/profile state touched
+|3
+|5
+|15
+|Expanded smoke + OS-03 to OS-05
+|===
+
+== Examples: Retest vs Regression
+*Fix:* Offline profile edits disappear after restart.  
+*Retest:* OS-06.  
+*Regression:* PF-01 to PF-03 and OS-02.
+
+*Fix:* Reconnect creates duplicate pending updates.  
+*Retest:* OS-04.  
+*Regression:* OS-03 to OS-05 and related state-display flows.
+
+*Fix:* Cached data is not shown offline.  
+*Retest:* OS-01.  
+*Regression:* OS-03, OS-06, and any other flow depending on cached reads.
+
+== Entry Criteria
+Testing for this feature area may begin when:
+
+* The relevant Profile & Offline Support implementation is available in a testable build.
+* Required test accounts and baseline data are available.
+* The team can simulate or control network connectivity state.
+* Expected behavior for unsupported offline actions is defined.
+
+== Exit Criteria
+Testing for this feature area is considered complete when:
+
+* Planned scenarios for profile functionality and offline behavior have been executed.
+* Critical and high-severity failures have been retested after fixes.
+* Regression coverage has been applied according to the risk-based rubric for modified areas.
+* No open defect remains that makes the feature unusable for its intended purpose.
+
+== Risks and Mitigation
+
+[cols="2,3,3",options="header"]
+|===
+|Risk |Impact |Mitigation
+
+|Offline edits are silently lost
+|High user frustration and data loss
+|Prioritize OS-02, OS-06, and mid-action connectivity-loss tests early
+
+|Reconnect duplicates pending changes
+|Incorrect data/state and possible duplicate operations
+|Prioritize OS-04 and OS-05 with repeated reconnect cycles
+
+|Conflict behavior is undefined or unclear
+|Inconsistent user outcomes and hard-to-debug failures
+|Document actual implementation policy and align scenarios before execution
+
+|Offline state is not clearly communicated
+|Poor usability and incorrect user expectations
+|Include usability checks for banners/messages in all offline scenarios
+|===
+
+== Traceability to User Value
+This test plan supports the user-facing value of the Profile & Offline Support feature area by ensuring that:
+
+* Users can reliably view and update their profile information.
+* Previously available information remains accessible under poor connectivity.
+* User changes are not silently lost during offline use.
+* The application behaves predictably when connectivity is lost or restored.
+
+== Deliverables
+The expected deliverables for this task are:
+
+* This AsciiDoc file under `/documentation/QualityAssurance/QualityAssuranceResearch/profile-offline-test-plan.adoc`
+* Associated PR linked to Issue #362
+* Review comments and revisions, if requested
+
+== References
+* ISO/IEC/IEEE 29119-2: Software and systems engineering — Software testing — Part 2: Test processes.
+* ISO/IEC/IEEE 29119-3: Software and systems engineering — Software testing — Part 3: Test documentation.
+* ISTQB Glossary — Re-Testing.
+* ISTQB Glossary — Regression Testing.
