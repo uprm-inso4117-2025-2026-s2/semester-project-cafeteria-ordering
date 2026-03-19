@@ -1,0 +1,69 @@
+= Cafeteria Ordering System - Design Edit Profile Screen
+
+Author: Andrea Segarra
+username: andreasegarra
+Closes issue: #326
+
+== Purpose:
+Design the Edit Profile Screen that allows users to update their personal account information in a clear, intuitive, and secure way. The design ensures consistency with the existing Profile Screen and overall UI design system.
+
+== Final Product:
+Final designs can be found in `documentation/designs/edit_profile_screen_design`.
+
+=== Design Preview
+
+==== Dark Mode
+
+image::edit-screen_darkmode.png[align=center, width=350]
+
+==== Light Mode
+
+image::edit-screen_lightmode.png[align=center, width=350]
+
+--
+Design Description:
+
+- Includes both light and dark mode designs.
+- Maintains consistency with the Profile Screen layout and design system.
+- Header contains a back navigation arrow and the title "Edit Profile".
+- Profile picture section includes an edit icon to indicate update functionality.
+- "About you" section organizes user information clearly.
+- Editable fields:
+  * Full Name (required)
+  * Username
+  * Email (required)
+  * Phone Number
+  * Password (with "Change" action)
+- Required fields are marked with an asterisk (*).
+- Clear separation of actions:
+  * "Save" (primary action)
+  * "Discard Changes" (secondary action)
+- Layout is mobile-first, clean, and easy to navigate.
+- Input fields are visually distinguishable as editable.
+- Designed to support validation, error states, and success feedback.
+
+--
+
+== Key Constraints:
+- Must follow existing Profile Screen design.
+- Maintain UI design system consistency.
+- Inputs must clearly indicate editable fields.
+- Must include validation and feedback states.
+- Responsive design for mobile and desktop.
+- Accessibility considerations required.
+
+== Dependencies:
+- Requires completed Profile Screen implementation.
+
+== Location:
+- Folder Path: `/docs/design/profile/`
+- Branch Name: `design-edit-profile-screen`
+
+== Acceptance Criteria:
+- Edit Profile Screen design created.
+- Editable fields clearly defined.
+- Profile picture update option included.
+- Save and Discard actions included.
+- Validation and error states defined.
+- Success feedback designed.
+- Design follows UI design system.
