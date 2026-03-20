@@ -13,6 +13,13 @@ export const unstable_settings = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
+  const [fontsLoaded] = useFonts({
+    Bitter: require('../assets/fonts/Bitter-VariableFont_wght.ttf'),
+    Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
@@ -24,7 +31,3 @@ export default function RootLayout() {
   );
 }
 
-const [fontsLoaded] = useFonts({
-  Bitter: require('../assets/fonts/Bitter-VariableFont_wght.ttf'),
-  Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
-});
