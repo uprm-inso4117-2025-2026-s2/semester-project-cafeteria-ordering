@@ -5,7 +5,11 @@
 
 == Purpose 
 
+The purpose of this document is to describe, define, and evaluate the feasibility of type-driven development for the project. This is to ensure that the project artifacts such as source code are developed in a professional, organized, and well thought-of manner. The ability to develop and deploy clean, readable, and maintainable code is a skill that must be develop in order to excel at software engineering.
+
 == Scope
+
+The scope of this evaluation is all of the source code that is created.
 
 == Definitions
 
