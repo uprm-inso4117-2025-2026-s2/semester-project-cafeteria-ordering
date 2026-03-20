@@ -23,6 +23,39 @@ One important thing to mention is that type-driven development is associated wit
 
 ==== Examples of Type-Driven development
 
+Examples provided by `Wim Jongeneel`, see reference [1].
+
+Example of unclear typing, causing confusion of which state is the application in.
+[source, Typescript]
+----
+interface OverviewState {
+  items: Blog[]
+  loading: boolean
+  error?: Error
+}
+
+const ExampleState: OverviewState = {
+  items: [
+    {title: 'Lorem ipsum'}, 
+    {title: 'Lorem ipsum'}
+  ],
+  loading: true,
+  error: new Error('failed to parse data')
+}
+----
+
+Example where state is clear.
+
+[source, Typescript]
+----
+interface OverviewState {
+  items:  
+    | "loading" 
+    | Blog[]
+    | Error
+}
+----
+
 == Usage
 
 === How can Type-Driven Development be applied in Cafeteria Ordering?
