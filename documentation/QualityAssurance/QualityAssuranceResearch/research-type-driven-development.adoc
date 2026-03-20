@@ -13,7 +13,13 @@ The scope of this evaluation is all of the source code that is created.
 
 == Definitions
 
-=== What is Type-Triven Development?
+=== What is Type-Driven Development?
+
+It is a programming style, where the types are developed first, and then methods are extracted from those types. However, it does not end there, proving the correctness of the code is important, and is done with the compiler.
+
+An important step in type driven development is to define domain states. In the domain of Cafeteria Ordering, states like `is_signedIn`, `Ordering`, and `Paying` prevent bugs that could be caused by the overlap of unrelated actions like paying without ordering. These states, along with abstract algebraic data types like `user` aid in the development of clean and testable code.
+
+One important thing to mention is that type-driven development is associated with functional programming languages such as Idris, but most of these concepts can be applied to typed languages such as typescript, c++, or rust.
 
 ==== Examples of Type-Driven development
 
