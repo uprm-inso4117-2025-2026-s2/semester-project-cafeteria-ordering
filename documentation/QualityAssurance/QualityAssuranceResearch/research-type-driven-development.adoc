@@ -5,27 +5,59 @@
 
 == Purpose 
 
-The purpose of this document is to describe, define, and evaluate the feasibility of type-driven development for the project. This is to ensure that the project artifacts such as source code are developed in a professional, organized, and well thought-of manner. The ability to develop and deploy clean, readable, and maintainable code is a skill that must be develop in order to excel at software engineering.
+The purpose of this document is to describe, define, and evaluate the feasibility of type-driven development (TDD) for the Cafeteria Ordering project. We intend to capture the benefits of robust, compiler-enforced correctness and trace the trade-offs in a real student project context.
+
+This report targets the project team and reviewers who want a structured assessment of how type safety techniques can improve maintainability, reduce runtime defects, and speed up reliable refactoring.
 
 == Scope
 
-The scope of this evaluation is all of the source code that is created.
+The scope of this evaluation is all source code modules in the project, with a focus on:
+
+- front-end state management (`src/app`/`src/components`)
+- user and session models
+- order lifecycle, cart and payment processes
+- domain operations that must enforce required state transitions
+
+This assessment is not intended to prescribe full migration to a different language or framework, but to document concrete ideas for TypeScript improvements within the existing stack.
 
 == Definitions
 
 === What is Type-Driven Development?
 
-It is a programming style, where the types are developed first, and then methods are extracted from those types. However, it does not end there, proving the correctness of the code is important, and is done with the compiler.
+Type-driven development is a design process in which the domain model types are defined before implementation details. Behavior and functions are derived from these types, leaving the compiler to validate invariants and disallow invalid states.
 
-An important step in type driven development is to define domain states. In the domain of Cafeteria Ordering, states like `is_signedIn`, `Ordering`, and `Paying` prevent bugs that could be caused by the overlap of unrelated actions like paying without ordering. These states, along with abstract algebraic data types like `user` aid in the development of clean and testable code.
+A strong type system can capture business rules explicitly:
 
-One important thing to mention is that type-driven development is associated with functional programming languages such as Idris, but most of these concepts can be applied to typed languages such as typescript, c++, or rust.
+- user authentication and role information
+- lifecycle of an order (e.g., Draft -> Placed -> Prepared -> Ready -> Completed)
+- status of payment (Pending -> Processing -> Succeeded -> Failed)
 
-==== Examples of Type-Driven development
+In this style, types are used as a communication contract between modules, and the compiler becomes a primary correctness verifier.
 
-Examples provided by `Wim Jongeneel`, see reference [1].
+=== Key concepts
 
-Example of unclear typing, causing confusion of which state is the application in.
+- Domain states and algebraic data types
+- Type guards and narrow types in function bodies
+- Explicit error states instead of runtime exception patterns
+
+=== Why it matters in this project
+
+For Cafeteria Ordering, domain states are especially valuable for preventing invalid transitions such as:
+
+- paying without an active order
+- adding menu items when user is not signed in
+- confirming pickup when order has not been prepared
+
+Type-driven modeling can reduce bugs from incorrect front-end state assumptions and enforce robustness in asynchronous data loading.
+
+== Background and related work
+
+Type-driven development is often linked to dependently typed languages (Idris, Agda, Haskell) but many principles are applicable to TypeScript, C++, or Rust. It emphasizes compiler-assisted correctness, where developers express intent in types and have the runtime machinery follow those constraints.
+
+The examples below are property of `Wim Jongeneel`. These show how precise state modeling can make UI and domain behavior easier to reason about.
+
+=== Example: non-typed vs typed state in TypeScript
+
 [source, Typescript]
 ----
 interface OverviewState {
@@ -44,7 +76,7 @@ const ExampleState: OverviewState = {
 }
 ----
 
-Example where state is clear.
+This style allows inconsistent combinations (loading=true with an error and items present). It leaves semantics implicit and error-prone.
 
 [source, Typescript]
 ----
@@ -56,16 +88,123 @@ interface OverviewState {
 }
 ----
 
-Here we can see that we are either loading, showing the content, or an error occurred, which is easier to debug and test.
+This union type approach encodes exactly one valid state and forces the developer to handle each case.
 
-== Usage
+== Application to Cafeteria Ordering
 
-=== How can Type-Driven Development be applied in Cafeteria Ordering?
+=== Domain state types proposal
 
-==== Examples within the app
+1. Auth states
+- `Unauthenticated`
+- `Authenticated` (with `UserProfile` containing role and permissions)
+
+2. Cart state
+- `EmptyCart`
+- `DraftCart` (line items, totals, validity flags)
+- `CheckoutReady` (payment and pickup info present)
+
+3. Order lifecycle (discriminated union)
+- `OrderDraft`
+- `OrderPlaced`
+- `OrderPreparing`
+- `OrderReady`
+- `OrderCompleted`
+- `OrderCanceled`
+
+4. Payment state
+- `PaymentPending`
+- `PaymentSuccess`
+- `PaymentFailed` (with error reason)
+
+=== Example TypeScript model for order status
+
+[source, Typescript]
+----
+type OrderState =
+  | { tag: 'draft'; orderId: string; items: OrderItem[] }
+  | { tag: 'placed'; orderId: string; placedAt: string }
+  | { tag: 'preparing'; orderId: string; estimatedReady: string }
+  | { tag: 'ready'; orderId: string; pickupLocation: string }
+  | { tag: 'completed'; orderId: string; completedAt: string }
+  | { tag: 'canceled'; orderId: string; canceledAt: string; reason: string }
+
+function canRequestPickup(order: OrderState): boolean {
+  return order.tag === 'ready'
+}
+
+function transitionToPreparing(order: OrderState): OrderState {
+  if (order.tag !== 'placed') {
+    throw new Error('Invalid state transition')
+  }
+  return { ...order, tag: 'preparing' }
+}
+----
+
+=== UI component state example
+
+Using strict states in components avoids mixed conditions.
+
+[source, Typescript]
+----
+type MenuItemsFetch =
+  | { status: 'loading' }
+  | { status: 'success'; items: MenuItem[] }
+  | { status: 'error'; error: Error }
+
+const [menuItems, setMenuItems] = React.useState<MenuItemsFetch>({ status: 'loading' })
+
+useEffect(() => {
+  fetchMenuItems().then(
+    items => setMenuItems({ status: 'success', items }),
+    err => setMenuItems({ status: 'error', error: err })
+  )
+}, [])
+----
+
+=== Testing advantages
+
+- Unit tests can assert each state path, guaranteeing no unhandled branch in a switch.
+- Invariants such as "payment can only be processed when `order.tag === 'placed'`" are easier to encode.
+- Refactoring does not silently break intent, because compiler checks all usage sites.
+
+=== Integration with existing code
+
+Current implementation likely uses loose interfaces (`any`, optional flags) for subsets. A progressive migration path is:
+
+1. Add narrow types for key domain models (`User`, `Cart`, `Order`, `PaymentStatus`).
+2. Replace `any` with concrete types in new modules.
+3. Convert critical states in existing slices or hooks to discriminated unions.
+4. Add regression tests while refactoring.
+
+== Benefits
+
+- improved maintainability by capturing domain constraints in types
+- reduced runtime errors in business logic paths
+- more predictable behavior during UX state transitions
+- enhanced collaborator handoff through explicit contracts
+
+== Practical challenges
+
+- the project timeline (student project, multi-course load) limits major architecture rewrites
+- existing code complexity and partial type coverage requires incremental effort
+- team familiarity varies; learning strict discriminated union patterns may be time-consuming
+- some 3rd-party library types might be missing and add extra work to bridge
+
+== Limitations and risk mitigation
+
+- Without full adoption, mixed typing may temporarily increase overhead. Mitigation: prioritize critical paths (checkout, order confirmation, auth flow).
+- Type-driven design does not replace runtime validation; server-side checks are still essential.
+- Inference can hide errors if types are too broad; therefore prefer explicit type annotations in core modules.
 
 == Conclusion
 
+Type-driven development is clearly beneficial for Cafeteria Ordering. It increases traceability, reduces logic bugs, and provides better testability and documentation through the compiler.
+
+However, in our course project context where multiple academic deadlines exist, full rollout is not feasible within the available time. A pragmatic approach is to apply the strongest type discipline in high-risk and high-visibility modules (order checkout, payment, authentication), and gradually improve more code over time. The technique is valuable and worth adopting where possible, but we must balance ambition with realistic time constraints.
+
 == References
+
+[1] Type Driven Development for Single Page Applications: 
+`https://medium.com/hoppinger/type-driven-development-for-single-page-applications-bf8ee98d48e2`
 
 
