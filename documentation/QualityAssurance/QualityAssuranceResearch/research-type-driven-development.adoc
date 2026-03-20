@@ -1,0 +1,26 @@
+= Evaluating Type-Driven Development
+:sectnums:
+:toc:
+
+
+== Purpose 
+
+== Scope
+
+== Definitions
+
+=== What is Type-Triven Development?
+
+==== Examples of Type-Driven development
+
+== Usage
+
+=== How can Type-Driven Development be applied in Cafeteria Ordering?
+
+==== Examples within the app
+
+== Conclusion
+
+== References
+
+
