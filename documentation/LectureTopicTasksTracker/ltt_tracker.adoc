@@ -166,6 +166,20 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a formal proof of the method that shows that for any state satisfying precondition P, executing testClientInitialization() is guaranteed to produce a state satisfying postcondition Q
 
+==== LTT-18-(issue-292): Type Constraint Analysis for Order and Menu Models
+
+*Lecture Topic:* (Dependent) Types 
+
+*Deliverables:*
+
+- Technical analysis of system entities (Order, MenuItem, Ingredient)
+- Identification and classification of invariants (type-level vs runtime)
+- Refined data model improving type safety over existing structure
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Applies the lecture principle that types encode program properties by identifying system invariants and demonstrating how stronger type design can prevent invalid states and improve system reliability
+
 
 === Reserved Lecture Topic Tasks
 
