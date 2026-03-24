@@ -171,7 +171,7 @@ Sessions are automatically persisted across app restarts using AsyncStorage.
 **What's Configured:**
 
 * Auto-generated REST API for all database operations
-* Row-Level Security (RLS) policies (deployed in next issue)
+* Row-Level Security (RLS) policies (implemented and enforced)
 * Type-safe queries with TypeScript
 * Real-time subscriptions for live data updates
 
@@ -218,15 +218,15 @@ const { data, error } = await supabase
 **Delete Data:**
 [source,typescript]
 ----
-// Delete a draft order (user can only delete their own orders)
+// Delete a placed order (user can only delete their own orders)
 const { error} = await supabase
   .from('orders')
   .delete()
   .eq('id', orderId)
-  .eq('status', 'draft');
+  .eq('status', 'placed');
 ----
 
-**Note**: Database tables will be available after the next issue (Database Schema Implementation) is completed.
+**Note**: Database tables are already deployed and available in the shared Supabase project.
 
 === 3.3 Real-Time Subscriptions
 

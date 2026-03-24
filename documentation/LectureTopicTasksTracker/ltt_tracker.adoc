@@ -200,6 +200,8 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 ==== LTT-17-(issue-140): Define Test-Driven Development Approach (JorgeDeLeonOrama)
 
+==== LTT-19-(issue-387): Backend/Docs Cleanup - (LTT: Test Planning) (LuisJCruz)
+
 === Proposed Lecture Topic Tasks
 
 ==== Template:
