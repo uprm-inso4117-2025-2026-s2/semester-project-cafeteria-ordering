@@ -166,6 +166,19 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a formal proof of the method that shows that for any state satisfying precondition P, executing testClientInitialization() is guaranteed to produce a state satisfying postcondition Q
 
+==== LTT-19-(issue-293): Mutation Testing Analysis for Order Processing Logic
+
+*Lecture Topic:* Mutation Testing
+
+*Deliverables:*
+
+- Structured analysis of mutation testing principles
+- Application of mutation testing to Order Processing Logic
+- Identification of weaknesses revealed by surviving mutants
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* provides a theoretical analysis of mutation testing that demonstrates how introducing small changes in Order Processing Logic can evaluate the sensitivity of the test suite and reveal weaknesses in test coverage
 
 === Reserved Lecture Topic Tasks
 
