@@ -1,0 +1,156 @@
+= Mutation Testing Analysis for Order Processing Logic
+
+:project: Cafeteria Ordering
+:issue: 293
+:assignee: @Kaariinaa08
+
+== Overview
+
+This document analyzes how mutation testing can be used to evaluate the effectiveness of tests covering Order Processing Logic in the Cafeteria Ordering System.
+
+Mutation testing is a technique used to assess the sensitivity of a test suite by introducing small changes into the program. These modified versions of the program are called _mutants_.
+
+This Lecture Topic Task (LTT) was extracted from the *Mutation Testing* topic discussed in class.
+
+The focus of this analysis is theoretical and based on the principles presented in the lecture.
+
+== Purpose of Mutation Testing
+
+The purpose of mutation testing is to _test the tests_.
+
+Rather than only verifying that a program works for given inputs, mutation testing evaluates whether the test suite is sensitive enough to detect small changes in the program.
+
+A strong test suite should fail when a meaningful change is introduced. If tests still pass, it suggests that the test suite may not be strong enough to justify the correctness of the code.
+
+== Mutation Testing Process
+
+Mutation testing follows a structured process:
+
+. Start with a program where all tests pass.
+. Modify one specific part of the source code.
+. Check if the program compiles or runs.
+* If it does not compile, the mutant is eliminated.
+. Run the test suite on the modified program.
+. Evaluate the result:
+* If tests fail, the mutant is *killed*.
+* If all tests pass, the mutant *survives*.
+
+A killed mutant indicates that the test suite detected the change.
+A surviving mutant indicates that the test suite is not sensitive enough to detect the modification.
+
+== Mutation Score
+
+Mutation testing can also be discussed using a metric called the _mutation score_.
+
+The mutation score represents the proportion of mutants that are killed by the test suite out of the total mutants evaluated.
+
+A higher mutation score suggests that the test suite is more effective at detecting changes in the program.
+A lower mutation score suggests that weaknesses may exist in the test suite.
+
+Although mutation score was not the main focus of the lecture, it is a useful way to discuss the effectiveness of mutation testing results.
+
+== Mutation Operations
+
+Mutants are created by applying small changes to the code. These changes simulate realistic mistakes.
+
+Examples of mutation operations discussed in class include:
+
+* Replacing logical operators:
+** logical OR changed to logical AND
+** logical AND changed to logical OR
+* Modifying constants:
+** `x` changed to `x + 1`
+** `x` changed to `x - 1`
+** `x` changed to `0`, `1`, or `-1`
+
+These mutations are useful because they often preserve compilation while altering program behavior in subtle ways.
+
+== Application to Order Processing Logic
+
+Order Processing Logic is a suitable area for mutation testing because it likely contains conditional logic and rules that determine system behavior.
+
+This may include:
+
+* conditions that determine whether an order is accepted
+* logic related to quantities or limits
+* calculations or decision-making rules
+
+Since mutation testing focuses on detecting small changes in logic, applying it to order processing allows us to evaluate whether the test suite properly verifies these behaviors.
+
+== Potential Weakness Areas in Order Processing
+
+Based on mutation testing principles, the following areas in Order Processing Logic are likely to reveal weaknesses:
+
+* conditional checks that determine whether an order is accepted
+* boundary conditions related to quantities or limits
+* arithmetic calculations affecting totals or derived values
+* logical combinations of conditions
+
+If tests do not fail when these areas are mutated, it suggests that the test suite may not fully verify critical system behavior.
+
+== Example Mutations in Order Processing
+
+The following examples illustrate how mutation testing can be applied:
+
+[cols="1,2,2", options="header"]
+|===
+|Mutation Type
+|Original Logic
+|Mutated Version
+
+|Logical operator
+|Condition uses logical AND
+|Replaced with logical OR
+
+|Boundary condition
+|`quantity > 0`
+|Changed to `quantity >= 0`
+
+|Constant modification
+|Uses value `1`
+|Changed to `0` or `2`
+
+|Arithmetic change
+|Uses addition
+|Replaced with subtraction
+|===
+
+If tests fail after these changes, the test suite is sensitive to the logic.
+If tests still pass, the test suite may not be adequately verifying behavior.
+
+For example, if an order is only valid when it contains at least one item, a mutation such as changing `quantity > 0` to `quantity >= 0` could allow empty orders to be accepted.
+
+If existing tests do not fail after this mutation, it suggests that the test suite does not properly verify that orders must contain at least one item.
+
+== What Surviving Mutants Indicate
+
+When a mutant survives, it suggests that the test suite does not detect the introduced change.
+
+This may indicate:
+
+* missing test cases
+* insufficient validation of conditions
+* lack of boundary testing
+* tests that do not fully verify expected behavior
+
+Surviving mutants highlight areas where additional or stronger tests may be needed.
+
+== Practical Considerations
+
+Mutation testing has some practical limitations:
+
+* It can be expensive, since many mutants must be compiled and tested.
+* Allowing arbitrary changes can generate too many invalid mutants.
+* Mutation operations should be carefully chosen to produce meaningful changes.
+
+Because of this, mutation testing is often applied selectively to important parts of a system.
+
+== Conclusion
+
+Mutation testing is a technique used to evaluate how well a test suite detects small changes in a program.
+
+By applying mutation testing concepts to Order Processing Logic in the Cafeteria Ordering System, we can analyze whether the test suite is sensitive enough to detect faults in key behaviors.
+
+This analysis shows how mutation testing can reveal weaknesses in tests and improve confidence in the correctness of the system.
+
+This reinforces the importance of designing tests that not only execute code, but also verify the correctness of critical system behaviors.
