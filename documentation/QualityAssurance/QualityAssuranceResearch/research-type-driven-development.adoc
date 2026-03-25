@@ -206,6 +206,6 @@ However, in our course project context where multiple academic deadlines exist, 
 == References
 
 [1] Type Driven Development for Single Page Applications: 
-`https://medium.com/hoppinger/type-driven-development-for-single-page-applications-bf8ee98d48e2`
+` https://medium.com/hoppinger/type-driven-development-for-single-page-applications-bf8ee98d48e2 `
 
 
