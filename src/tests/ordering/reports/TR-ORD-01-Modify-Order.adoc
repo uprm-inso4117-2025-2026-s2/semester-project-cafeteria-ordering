@@ -1,0 +1,26 @@
+= TR-ORD-01 Modify Order Unit Test Report
+Author: Yadriel Rivera
+
+*Date:* 2026-03-17
+
+*ID:* TR-ORD-01
+
+*Issue:* #257
+
+*Test:* TC-ORD-01-Mod-Order-UT (unit tests for MenuItem order modification methods)
+
+*Pass/Fail Status:* PASS
+
+== Description
+All unit tests executed for order modification logic passed successfully. The test suite validated:
+
+- Base meal initialization returns the expected base price and ingredient list.
+- Adding a valid extra (`cheese`) increases the base price by the extra's price and appends the ingredient.
+- Removing an ingredient removes it from the list and preserves price correctly when the removed ingredient has zero price.
+- Duplicate ingredient additions are prevented and do not change the price.
+- Direct modification of base price using `modBasePrice()` updates the price correctly.
+- Direct replacement of ingredient lists using `modIngredients()` updates the ingredient list without modifying base price.
+
+== Notes
+- To prevent test interference, `createBaseMenuItem()` now clones the base ingredient array for each test instance so modifications do not persist across tests.
+- RUN: npx tsx src/tests/ordering/scripts/UT-OrderModification.ts to execute
