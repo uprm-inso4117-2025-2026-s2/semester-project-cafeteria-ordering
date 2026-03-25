@@ -29,7 +29,7 @@ Type-driven development is a design process in which the domain model types are 
 A strong type system can capture business rules explicitly:
 
 - user authentication and role information
-- lifecycle of an order (e.g., Draft -> Placed -> Prepared -> Ready -> Completed)
+- lifecycle of an order (e.g., Draft -> Placed -> Prepared -> Completed -> PickedUp)
 - status of payment (Pending -> Processing -> Succeeded -> Failed)
 
 In this style, types are used as a communication contract between modules, and the compiler becomes a primary correctness verifier.
