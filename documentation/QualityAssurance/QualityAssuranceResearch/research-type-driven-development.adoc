@@ -123,13 +123,14 @@ This union type approach encodes exactly one valid state and forces the develope
 type OrderState =
   | { tag: 'draft'; orderId: string; items: OrderItem[] }
   | { tag: 'placed'; orderId: string; placedAt: string }
-  | { tag: 'preparing'; orderId: string; estimatedReady: string }
-  | { tag: 'ready'; orderId: string; pickupLocation: string }
-  | { tag: 'completed'; orderId: string; completedAt: string }
   | { tag: 'canceled'; orderId: string; canceledAt: string; reason: string }
+  | { tag: 'preparing'; orderId: string; estimatedReady: string }
+  | { tag: 'completed'; orderId: string; completedAt: string }
+  | { tag: 'pickedUp'; orderId: string; pickupLocation: string }
+  
 
 function canRequestPickup(order: OrderState): boolean {
-  return order.tag === 'ready'
+  return order.tag === 'completed'
 }
 
 function transitionToPreparing(order: OrderState): OrderState {
