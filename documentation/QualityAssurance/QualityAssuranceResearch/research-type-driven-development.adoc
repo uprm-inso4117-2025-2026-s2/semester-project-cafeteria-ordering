@@ -106,10 +106,10 @@ This union type approach encodes exactly one valid state and forces the develope
 3. Order lifecycle (discriminated union)
 - `OrderDraft`
 - `OrderPlaced`
-- `OrderPreparing`
-- `OrderReady`
-- `OrderCompleted`
 - `OrderCanceled`
+- `OrderPreparing`
+- `OrderCompleted`
+- `OrderPickedUp`
 
 4. Payment state
 - `PaymentPending`
