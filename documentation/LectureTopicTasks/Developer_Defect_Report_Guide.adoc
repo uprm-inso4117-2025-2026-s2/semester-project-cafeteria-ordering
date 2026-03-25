@@ -15,7 +15,7 @@ Defect priority and severity must be correctly identified using the document:
 | Field | Description
 | Short Name | Brief descriptive title of defect
 | Date Found | MM/DD/YYYY
-| Team Responsible | Name of the team
+| Team Responsible for defect | Name of the team responsible for the defect found
 | Priority | High/Medium/Low
 | Severity | Blocker/Critical/Major/Minor/Trivial
 | Issue Related | number or link
@@ -25,13 +25,13 @@ Defect priority and severity must be correctly identified using the document:
 
 
 == Example of a Valid Defect Report
-*(Made up, not a current defect)*
+*(This is an example of a valid defect report, it is made up and not a current defect within the project)*
 
 === Incorrect ID Format
 
 *Date:* 03/24/2026
 
-*Team Responsible:* Ordering & Payments  
+*Team Responsible for found defect:* Ordering & Payments  
 
 *Priority:* Medium  
 
