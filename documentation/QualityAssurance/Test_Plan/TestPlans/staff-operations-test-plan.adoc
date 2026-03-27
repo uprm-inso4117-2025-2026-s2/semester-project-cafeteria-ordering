@@ -76,63 +76,63 @@ The following unit test cases should be covered.
 |===
 |ID |Area |Expected Result
 
-|SO-UNIT-01
+|SO-01
 |Order status transition validation
 |A valid transition is accepted.
 
-|SO-UNIT-02
+|SO-02
 |Invalid status transition rejection
 |An invalid transition is rejected.
 
-|SO-UNIT-03
+|SO-03
 |Transition from pending to in-progress
 |The transition is marked valid when business rules allow it.
 
-|SO-UNIT-04
+|SO-04
 |Transition from in-progress to ready
 |The transition is marked valid when business rules allow it.
 
-|SO-UNIT-05
+|SO-05
 |Transition from ready to completed/picked up
 |The transition is marked valid when business rules allow it.
 
-|SO-UNIT-06
+|SO-06
 |Transition from terminal state
 |No further transition is allowed once the order is completed or cancelled.
 
-|SO-UNIT-07
+|SO-07
 |Cancelling an eligible order
 |Cancellation is allowed only when the current state permits it.
 
-|SO-UNIT-08
+|SO-08
 |Cancelling a non-eligible order
 |Cancellation is rejected when the order is already completed, picked up, or otherwise locked.
 
-|SO-UNIT-09
+|SO-09
 |Order update payload generation
 |The generated update payload contains the correct order id, target status, and metadata.
 
-|SO-UNIT-10
+|SO-10
 |Orders list update helper
 |The updated order replaces the correct row in local state without duplicating entries.
 
-|SO-UNIT-11
+|SO-11
 |Missing order id handling
 |The function fails safely when the order id is missing or invalid.
 
-|SO-UNIT-12
+|SO-12
 |Unknown status handling
 |Unexpected status values are rejected or handled according to project policy.
 
-|SO-UNIT-13
+|SO-13
 |No-op update request
 |If the requested new status equals the current status, the logic prevents unnecessary updates.
 
-|SO-UNIT-14
+|SO-14
 |Cancellation reason mapping, if implemented
 |Cancellation metadata is stored consistently.
 
-|SO-UNIT-15
+|SO-15
 |Timestamp assignment, if implemented
 |Status-change timestamps are assigned consistently and only when appropriate.
 |===
@@ -145,63 +145,63 @@ The following integration test cases should be covered.
 |===
 |ID |Area |Expected Result
 
-|SO-INT-01
+|SO-16
 |Receiving a newly placed order
 |A newly placed order appears in the staff order list.
 
-|SO-INT-02
+|SO-17
 |Orders table refresh after new order
 |The staff view reflects the new order data after retrieval or subscription update.
 
-|SO-INT-03
+|SO-18
 |Open order details from staff queue
 |Selecting an order loads the correct details for staff review.
 
-|SO-INT-04
+|SO-19
 |Update order status successfully
 |The UI triggers the backend update and the order row reflects the new status.
 
-|SO-INT-05
+|SO-20
 |Orders table update after status change
 |The updated order status is persisted and displayed consistently across relevant staff views.
 
-|SO-INT-06
+|SO-21
 |Cancel order successfully
 |The order is marked cancelled and removed or reclassified according to UI behavior.
 
-|SO-INT-07
+|SO-22
 |Reject invalid transition from UI
 |The UI prevents or reports invalid transitions instead of sending inconsistent updates.
 
-|SO-INT-08
+|SO-23
 |Backend failure on status update
 |The user receives a clear error and the UI does not show a false successful update.
 
-|SO-INT-09
+|SO-24
 |Backend failure on cancellation
 |The cancellation does not appear successful unless persistence succeeds.
 
-|SO-INT-10
+|SO-25
 |Concurrent refresh after update
 |Refreshing the staff queue after an update shows the persisted status without duplication.
 
-|SO-INT-11
+|SO-26
 |Empty staff queue
 |The UI handles the no-orders state gracefully.
 
-|SO-INT-12
+|SO-27
 |Malformed or incomplete order data
 |The staff screen handles incomplete order records without crashing.
 
-|SO-INT-13
+|SO-28
 |Slow-loading orders state
 |The UI presents loading feedback and resolves to the correct result once data arrives.
 
-|SO-INT-14
+|SO-29
 |Status update reflected in related tables/views
 |Any related order table or dashboard card shows the same final status.
 
-|SO-INT-15
+|SO-30
 |Reopen app or screen after update
 |Previously updated orders remain in the correct state after reload.
 |===
