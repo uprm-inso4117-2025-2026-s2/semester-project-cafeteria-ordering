@@ -1,0 +1,3184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.26">
+<title>Cafeteria Ordering System</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="article">
+<div id="header">
+<h1>Cafeteria Ordering System</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>University of Puerto Rico at Mayagüez<br>
+College of Engineering<br>
+Department of Computer Science and Engineering<br></p>
+</div>
+<div class="paragraph">
+<p>Prof. Marko Schutz<br>
+INSO 4117-060<br>
+Friday, February 27, 2026</p>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_legend">Legend</a></li>
+<li><a href="#_informative_part">Informative Part</a>
+<ul class="sectlevel2">
+<li><a href="#_1_1_team">1.1 Team</a></li>
+<li><a href="#_1_2_current_situation_needs_ideas">1.2 Current Situation, needs, ideas</a></li>
+<li><a href="#_1_3_scope_span_and_synopsis">1.3 Scope, Span and Synopsis</a></li>
+<li><a href="#_1_4_other_activities_than_just_developing_source_code">1.4 Other Activities than just developing source code</a></li>
+<li><a href="#_1_5_derived_goals">1.5 Derived Goals</a></li>
+</ul>
+</li>
+<li><a href="#_descriptive_part">Descriptive Part</a>
+<ul class="sectlevel2">
+<li><a href="#_2_1_domain_description">2.1 Domain Description</a></li>
+<li><a href="#_2_2_requirements">2.2 Requirements</a></li>
+<li><a href="#_2_3_implementation">2.3 Implementation</a></li>
+</ul>
+</li>
+<li><a href="#_analytic_part">Analytic Part</a>
+<ul class="sectlevel2">
+<li><a href="#_3_1_concept_analysis">3.1 Concept Analysis</a></li>
+<li><a href="#_3_2_validation_and_verification">3.2 Validation and Verification</a></li>
+</ul>
+</li>
+<li><a href="#_specific_class_topics">Specific Class Topics</a>
+<ul class="sectlevel2">
+<li><a href="#_4_1_tdd">4.1 TDD</a></li>
+<li><a href="#_4_2_bdd_and_bdd_tool_usage">4.2 BDD and BDD tool usage</a></li>
+<li><a href="#_4_3_use_of_debugging">4.3 Use of Debugging</a></li>
+</ul>
+</li>
+<li><a href="#_appendix_a_ai_disclosure_statement">Appendix A: AI Disclosure Statement</a>
+<ul class="sectlevel2">
+<li><a href="#_tools_and_access_levels">Tools and Access Levels</a></li>
+<li><a href="#_stages_of_ai_usage">Stages of AI Usage</a></li>
+<li><a href="#_human_vs_ai_contributions">Human vs AI Contributions</a></li>
+<li><a href="#_verification_and_conflict_resolution">Verification and Conflict Resolution</a></li>
+<li><a href="#_reflection">Reflection</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_legend">Legend</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Green background</span> - Indicates sections that have been added for the first time into the documentation.</p>
+</li>
+<li>
+<p><span class="yellow-bg">Yellow background</span> - Indicates sections that have been modified from the previous version of the documentation.</p>
+</li>
+<li>
+<p><span class="red-bg line-through">Red background with strikethrough</span> - Indicates sections that have been removed from the previous version of the documentation.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_informative_part">Informative Part</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_1_1_team">1.1 Team</h3>
+<div class="sect3">
+<h4 id="_team_structure">Team Structure</h4>
+<div class="paragraph">
+<p>The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division&#8217;s primary objectives.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_managers">Managers</h4>
+<div class="paragraph">
+<p>The overall coordination of the project is led by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Alma D. Piñero-Calero</p>
+</li>
+<li>
+<p>Taimara P. Colon-Lopez</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The managers oversee progress across all divisions, facilitate communication between teams, and ensure that project milestones and academic requirements are met.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_team_divisions">Team Divisions</h4>
+<div class="sect4">
+<h5 id="_documentation_team">Documentation Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Ensure that the project documentation satisfies all hand-in requirements and aligns with project scope.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Maintain and update project documentation.</p>
+</li>
+<li>
+<p>Ensure clarity, structure, and completeness of required sections.</p>
+</li>
+<li>
+<p>Verify alignment between implementation and written documentation.</p>
+</li>
+<li>
+<p>Coordinate with other teams as needed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Reinaldo J. Martinez-Morales</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Karina Lopez-Rodriguez</p>
+</li>
+<li>
+<p>Jahdiel E. Montero-Alicea</p>
+</li>
+<li>
+<p>Samarys Barreiro-Melendez</p>
+</li>
+<li>
+<p>Lorenzo A. Perez-Torres</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_quality_assurance_team">Quality Assurance Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Identify and implement the initial test suite and configure automated testing using GitHub Actions.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Define testing strategies (unit, integration, etc.).</p>
+</li>
+<li>
+<p>Design test cases based on system requirements.</p>
+</li>
+<li>
+<p>Implement automated tests.</p>
+</li>
+<li>
+<p>Configure and maintain CI workflows using GitHub Actions.</p>
+</li>
+<li>
+<p>Monitor test coverage and reliability.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Jorge L. Deleon-Orama</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Horeb Cotto-Rosado</p>
+</li>
+<li>
+<p>Kevin J. Lara-Rodriguez</p>
+</li>
+<li>
+<p>Kian R. Ramos-Vega</p>
+</li>
+<li>
+<p>Lucas A. Matos-Datiz</p>
+</li>
+<li>
+<p>Januel E. Torres-Marquez</p>
+</li>
+<li>
+<p>Devlin Hahn-Acosta</p>
+</li>
+<li>
+<p>Gerardo Y. Soto-Rios</p>
+</li>
+<li>
+<p>Yadriel Rivera-Rodriguez</p>
+</li>
+<li>
+<p>Aryam Z. Diaz-Torres</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_research_and_set_up_team">Research and Set Up Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Research and establish the technical foundation of the project, including mobile framework selection and backend/database configuration.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set up the initial project structure and development environment.</p>
+</li>
+<li>
+<p>Implement core functionality using React Native.</p>
+</li>
+<li>
+<p>Evaluate and select an appropriate database solution.</p>
+</li>
+<li>
+<p>Define backend requirements and integration approach.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Fernando Castro-Cancel</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Osvaldo F. Figueroa-Canino</p>
+</li>
+<li>
+<p>Yandre Caban-Torres</p>
+</li>
+<li>
+<p>Luis J. Cruz-Cruz</p>
+</li>
+<li>
+<p>Pedro J. Bonilla-Morales</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_ui_team">UI Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Define the application&#8217;s branding, visual identity, and user experience.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Design the application&#8217;s interface and layout.</p>
+</li>
+<li>
+<p>Establish branding guidelines (colors, typography, design system).</p>
+</li>
+<li>
+<p>Define user workflows and navigation structure.</p>
+</li>
+<li>
+<p>Ensure usability and accessibility standards are considered.</p>
+</li>
+<li>
+<p>Collaborate with the development team to implement UI components.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Yamilette C. Alemany-Vazquez</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Daniella I. Melero-Pereira</p>
+</li>
+<li>
+<p>Andrea P. Segarra-Felix</p>
+</li>
+<li>
+<p>Fabiola Z. Torres-Maldonado</p>
+</li>
+<li>
+<p>Natalia S. Vera-Rivera</p>
+</li>
+<li>
+<p>Jon M. Vargas-Torres</p>
+</li>
+<li>
+<p>Kaysha L. Pagan-Lopez</p>
+</li>
+<li>
+<p>Ernesto S. Soto-Rivera</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_partners">Partners</h5>
+<div class="paragraph">
+<p>At this stage of the project, no external partners have been formally integrated. All current partners are internal team members and project managers who have direct responsibility in development and coordination. End users of the application are considered customers rather than partners.</p>
+</div>
+<div class="paragraph">
+<p>If external partners become involved in later phases, their roles and responsibilities will be formally documented here.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_1_2_current_situation_needs_ideas">1.2 Current Situation, needs, ideas</h3>
+<div class="sect3">
+<h4 id="_1_2_1_current_situation">1.2.1 Current Situation</h4>
+<div class="paragraph">
+<p>Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, as there is no existing infrastructure for pre-ordering or remote payment. Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_1_2_2_needs">1.2.2 Needs</h4>
+<div class="paragraph">
+<p>The long wait times at the university cafeteria show unmet needs in food service and campus life, not in any specific system or technology. These needs come from how student schedules, cafeteria operations, and institutional restrictions interact, and as a consequence, they affect many stakeholders.</p>
+</div>
+<div class="sect4">
+<h5 id="_students">Students</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Be able to access meals within limited time windows between classes without risking tardiness or absence.</p>
+</li>
+<li>
+<p>Reduce uncertainty around how long it will take to obtain food, especially during peak cafeteria hours.</p>
+</li>
+<li>
+<p>Maintain consistent access to meals that supports health, focus, and academic performance.</p>
+</li>
+<li>
+<p>Avoid having to choose between basic needs and academic responsibilities.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_cafeteria_staff">Cafeteria Staff</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Handle high volumes of orders efficiently without excessive pressure during peak periods.</p>
+</li>
+<li>
+<p>Maintain a smooth operational flow that minimizes crowding and confusion at service points.</p>
+</li>
+<li>
+<p>Receive clearer signals about when demand will come and the volume of orders. This will help better manage preparation.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_university_staff">University Staff</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Ensure campus services support student retention, wellness, and academic success.</p>
+</li>
+<li>
+<p>Minimize crowds in shared spaces to improve safety and traffic flow.</p>
+</li>
+<li>
+<p>Balance service improvements with resource and staffing constraints.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_system_wide_needs">System-Wide Needs</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Reduced trouble between ordering, preparation, payment, and pickup.</p>
+</li>
+<li>
+<p>Alignment between student schedules and cafeteria service capacity.</p>
+</li>
+<li>
+<p>A food-service process that adapts to peak demand patterns.</p>
+</li>
+<li>
+<p>Meals can be obtained reliably and on time, even during busy periods.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_project_level_needs">Project Level Needs</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>A clear statement of requirements based on stakeholder needs, without reference to any system.</p>
+</li>
+<li>
+<p>A common language used in analysis, design, implementation, and testing to avoid confusion.</p>
+</li>
+<li>
+<p>Planning documents (requirements, architecture, design, and test strategy) to support the solution selected later.</p>
+</li>
+<li>
+<p>A general description of cafeteria operations and how stakeholders interact.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_1_2_3_ideas">1.2.3 Ideas</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Based on the previously discussed needs, a platform where students and staff from the university community can easily order food from the university cafeteria can drastically reduce the waiting time and facilitate staff work. The Cafeteria ordering application can help the aforementioned needs with features such as:</p>
+</li>
+<li>
+<p>Ordering: Now, it&#8217;s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!</p>
+</li>
+<li>
+<p>Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>*Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer&#8217;s order stolen.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>*Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.</p>
+</div>
+<div class="paragraph">
+<p>*Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.</p>
+</div>
+<div class="paragraph">
+<p>*The application can help students mantain an easier routine for their everyday life, cafeteria staff can be more organized and also cuts down on miscommunication when people have orders taken in person.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_1_3_scope_span_and_synopsis">1.3 Scope, Span and Synopsis</h3>
+<div class="sect3">
+<h4 id="_1_3_1_scope_and_span">1.3.1 Scope and Span</h4>
+<div class="paragraph">
+<p><strong>Scope</strong></p>
+</div>
+<div class="paragraph">
+<p>The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.</p>
+</div>
+<div class="paragraph">
+<p>Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in‑person ordering. This includes examining how long wait times affect student health and focus to justify the shift toward modern, digital ordering methods.</p>
+</div>
+<div class="paragraph">
+<p>Requirements Engineering: Define project requirements that allow users to view menus, manage a digital cart, and process remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes.</p>
+</div>
+<div class="paragraph">
+<p>Software Architecture: The architecture will consist of a web front-end for students and staff. It will integrate a backend ordering engine with a physical infrastructure component: a dedicated, locker-style pickup area designed to reduce counter congestion.</p>
+</div>
+<div class="paragraph">
+<p>Software Design Process:  The project will follow an iterative, test‑driven development lifecycle. A standardized process for handling order flows and issues will be defined, and a continuous feedback loop with cafeteria staff and students will be used to refine the user interface, pickup flow, and operational procedures over time.</p>
+</div>
+<div class="paragraph">
+<p><strong>Span</strong></p>
+</div>
+<div class="paragraph">
+<p>The project’s span is focused on creating a localized, high-efficiency solution for the university cafeteria that streamlines the food procurement process.</p>
+</div>
+<div class="paragraph">
+<p>The application provides users with temporal flexibility, allowing for "ASAP" orders or specific scheduled pickup times. It also includes a dedicated pickup zone that requires a unique code for access, addressing the risk of order theft.</p>
+</div>
+<div class="paragraph">
+<p>The target audience are UPRM students and staff at the university cafeteria. However, the project also seeks the possibility to include other campus food vendors and integration with university events, such as Come Colegial.</p>
+</div>
+<div class="paragraph">
+<p>The project will utilize agile development, following its iterative steps, with primary focus on testing, to achieve project completion. In addition, the team will apply a Test-Driven Development approach named red, green, and refactor. Through this approach, developers will write failing tests for small, requirement-derived behaviors before implementing the minimum code needed to pass them, and then refactor the code to improve code quality and maintainability.</p>
+</div>
+<div class="paragraph">
+<p>Success will be tracked through specific metrics: the volume of orders processed, the speed of order pickup, and the measurable reduction in counter wait times. Additionally, the system will provide data analytics to help cafeteria administrators optimize inventory and staffing levels based on peak demand patterns.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_1_3_2_synopsis">1.3.2 Synopsis</h4>
+<div class="paragraph">
+<p>The Cafeteria Ordering System project addresses operational inefficiencies observed in the university cafeteria, particularly during peak service hours. Long waiting times, limited menu visibility, and uncertainty in demand create negative impacts on student well-being and cafeteria workflow. Rather than approaching this situation as a purely technical problem, the project follows a structured software engineering process grounded in domain understanding and systematic analysis.</p>
+</div>
+<div class="paragraph">
+<p>The project begins with a detailed domain description that formalizes observed phenomena within the cafeteria environment. Through domain sketches, terminology definition, and concept analysis, the team establishes a shared vocabulary that reflects real-world entities, actions, events, and behaviors. This foundation ensures clarity and consistency in subsequent requirements engineering activities.</p>
+</div>
+<div class="paragraph">
+<p>Building upon the domain model, stakeholder needs are translated into epics, user stories, and structured requirements. These include domain requirements, interface requirements, and machine requirements with measurable performance, availability, and capacity criteria. By defining explicit constraints and measurable targets, the project ensures that any proposed solution aligns with time-sensitive cafeteria operations and institutional limitations.</p>
+</div>
+<div class="paragraph">
+<p>Early architectural reasoning is incorporated to anticipate system structure and interactions between core components such as ordering, payment processing, notification handling, and pickup coordination. Testing strategies, including Test-Driven Development (TDD) and Behavior-Driven Development (BDD), are integrated into the planned workflow to maintain traceability between requirements and implementation while enabling structured validation and verification.</p>
+</div>
+<div class="paragraph">
+<p>Throughout the project, documentation, milestone planning, and coordinated team roles support alignment across analysis, design, testing, and implementation activities. By combining domain modeling, structured requirements engineering, architectural planning, and systematic testing preparation, the project establishes a comprehensive and well-founded approach to improving cafeteria service efficiency and reliability.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_1_4_other_activities_than_just_developing_source_code">1.4 Other Activities than just developing source code</h3>
+<div class="paragraph">
+<p>Developing a software solution is only one part of this project. Though it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.</p>
+</div>
+<div class="sect3">
+<h4 id="_a_key_activity_for_this_project_is_understanding_and_structuring_the_domain">A key activity for this project is understanding and structuring the domain.</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Cafeteria operations during peak hours rely heavily on manual and informal processes, which makes it difficult to clearly understand how ordering, payment, preparation, and pickup relate to one another.</p>
+</li>
+<li>
+<p>Creating a domain description would help the team form a shared understanding of these workflows and constraints before moving toward any specific solution.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_another_important_activity_is_requirements_engineering_although_the_current_situation_reveals_clear_inefficiencies_and_frustration_there_is_no_formal_description_of_what_an_improved_cafeteria_experience_should_provide_for_its_users">Another important activity is requirements engineering. Although the current situation reveals clear inefficiencies and frustration, there is no formal description of what an improved cafeteria experience should provide for its users.</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Defining requirements helps clarify expectations around functionality, performance, and usage from the perspective of students, staff, and administrators.</p>
+</li>
+<li>
+<p>Having explicit requirements ensures that later design and implementation decisions are guided by stakeholder needs rather than assumptions.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_early_design_and_architectural_reasoning_are_also_necessary_before_any_code_is_written">Early design and architectural reasoning are also necessary before any code is written.</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, system structure and responsibilities cannot be taken from prior solutions.</p>
+</li>
+<li>
+<p>Planning the system architecture and components early helps manage complexity and reduces the risk of poorly structured designs.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_planning_for_testing_and_evaluation_is_another_essential_activity">Planning for testing and evaluation is another essential activity.</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The cafeteria environment is highly time-sensitive, which makes reliability and usability especially important.</p>
+</li>
+<li>
+<p>Thinking ahead about how the system will be evaluated allows the team to measure improvements such as reduced waiting times and smoother order pickup once a solution is in place.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_finally_coordination_and_project_organization_tie_all_project_activities_together">Finally, coordination and project organization tie all project activities together.</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Establishing milestones, documenting decisions, and assigning responsibilities helps keep the team aligned throughout the project.</p>
+</li>
+<li>
+<p>Maintaining communication with stakeholders supports scope management, progress tracking, and preparation for future iterations or expansion.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>By combining domain understanding, requirements definition, design planning, testing preparation, and strong coordination with implementation, the project addresses both the technical and operational factors contributing to the current cafeteria situation.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_1_5_derived_goals">1.5 Derived Goals</h3>
+<div class="paragraph">
+<p>In addition to the primary goal of reducing wait times and improving access to meals in the university cafeteria, the project also pursues several secondary but meaningful outcomes.</p>
+</div>
+<div class="paragraph">
+<p>One derived goal is to contribute to improve student well-being beyond the immediate act of ordering food. By supporting more predictable access to meals, the project may contribute to promoting healthier daily routines, better time management, and reduced stress during peak academic hours. While the primary objective focuses on operational efficiency, this broader impact on student life represents an important secondary benefit.</p>
+</div>
+<div class="paragraph">
+<p>Another goal is to support data-informed decision making within cafeteria operations. Even if not fully implemented in early stages, the structured collection of order and demand information creates the possibility for future analysis of peak times, popular menu items, and service bottlenecks. This can help cafeteria management optimize staffing, preparation strategies, and inventory planning over time.</p>
+</div>
+<div class="paragraph">
+<p>The project also aims to encourage digital transformation within campus services. By introducing a structured, mobile-based ordering approach, the system may serve as a model for how other campus services might modernize their processes. This broader institutional impact extends beyond the cafeteria itself and contributes to a more technology-integrated campus environment.</p>
+</div>
+<div class="paragraph">
+<p>A further derived goal is to strengthen collaboration and coordination among stakeholders. The structured interaction between students, cafeteria staff, and university administration fosters clearer communication channels and more transparent service processes. Even outside the application&#8217;s technical implementation, this improved alignment between stakeholders is a valuable outcome.</p>
+</div>
+<div class="paragraph">
+<p>At the project level, another secondary goal is to develop strong engineering practices within the team. Through domain analysis, requirements engineering, architectural planning, testing strategies, and documentation, the team builds experience in systematic software development. The artifacts produced during this process—such as requirement specifications, design descriptions, and test plans—form a reusable knowledge base for future academic or professional projects.</p>
+</div>
+<div class="paragraph">
+<p>Finally, the project seeks to raise awareness about the importance of aligning campus services with student needs. By formally analyzing the current situation and articulating stakeholder needs, the project highlights the connection between operational systems and academic success. This reflective understanding of service design within the university context represents a broader outcome beyond the immediate functionality of the Cafeteria Ordering System.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_descriptive_part">Descriptive Part</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_2_1_domain_description">2.1 Domain Description</h3>
+<div class="sect3">
+<h4 id="_2_1_1_domain_rough_sketch">2.1.1 Domain Rough Sketch</h4>
+<div class="paragraph">
+<p>The following snippets are raw records of observations and stakeholder experiences within the university cafeteria.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The 10-Minute Dash: A student walks from the Engineering building toward the cafeteria at 12:05 PM. A small group arrives at the cafeteria at the same time to find a line that extends about 15 people toward the hallway. Some people looks at their watch and decide to walk to their next classroom. They are heard muttering that they&#8217;ll just have to wait until 4:00 PM to eat.</p>
+</li>
+<li>
+<p>The Kitchen&#8217;s Blind Spot: The kitchen staff members create multiple big trays which contain the "El colegial special" in the back of the kitchen. The team operates at high speed but maintains uncertainty about whether 10 or 100 students will enter the building within the next ten minutes will order. The staff members display visible pressure when 20 students enter the service area which becomes overlwhelming.</p>
+</li>
+<li>
+<p>The Post-Lunch Fatigue: Multiple students show signs of falling asleep during the 2:00 PM Biology lecture while they try to maintain their attention on the lesson. A student, when exiting the class, states that he skipped the meal because of the long line which may have caused him to miss his class. The student explained that his lack of food would affect his mental focus and academic performance throughout the day.</p>
+</li>
+<li>
+<p>The Payment Bottleneck: A student reaches the front of the line and is told that the payment system is down. The student waits for 3 minutes while the staff tries to fix the issue. Then, the student and every person behind him/her becomes visibly frustrated and expresses concern about being late for their next class.</p>
+</li>
+<li>
+<p>The uncertainty of the menu: A student stands at the back of the line, which has spilled out into the hallway near the exit of the cafeteria. From this distance, he cannot see the daily whiteboard or the steam table. He spends 5 minutes moving forward to only discover what the sides or prices are once they are two people away from the counter.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_1_2_terminology">2.1.2 Terminology</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Student </dt>
+<dd>
+<p>(entity, domain)
+A person enrolled at the university attempting to obtain food from the cafeteria, typically within limited time windows between academic activities or responsibilities.</p>
+</dd>
+<dt class="hdlist1">Cafeteria </dt>
+<dd>
+<p>(entity, domain)
+A food-service environment on campus where meals are prepared, ordered, paid for, and collected.</p>
+</dd>
+<dt class="hdlist1">Cafeteria Staff </dt>
+<dd>
+<p>(entity, domain)
+Staff responsible for preparing meals, handling orders, processing payments, and managing the cafeteria.</p>
+</dd>
+<dt class="hdlist1">Meal </dt>
+<dd>
+<p>(entity, domain)
+A prepared set of food items offered by the cafeteria during operating hours.</p>
+</dd>
+<dt class="hdlist1">Menu </dt>
+<dd>
+<p>(entity, domain)
+A collection of meals and side options available during a specific period.</p>
+</dd>
+<dt class="hdlist1">Order </dt>
+<dd>
+<p>(entity, domain)
+A request made by a student for one or more items from the menu.</p>
+</dd>
+<dt class="hdlist1">Queue </dt>
+<dd>
+<p>(entity, domain)
+An ordered sequence of students waiting to place an order or complete payment.</p>
+</dd>
+<dt class="hdlist1">Service Period </dt>
+<dd>
+<p>(entity, domain)
+A continuous time window during which the cafeteria is open and serving meals.</p>
+</dd>
+<dt class="hdlist1">Order Placement </dt>
+<dd>
+<p>(action, domain)
+The act of selecting menu items and communicating the request to cafeteria staff.</p>
+</dd>
+<dt class="hdlist1">Payment </dt>
+<dd>
+<p>(action, domain)
+The process of transferring money from a student to the cafeteria in exchange for a meal.</p>
+</dd>
+<dt class="hdlist1">Meal Preparation </dt>
+<dd>
+<p>(action, domain)
+The productions of meals in advance or in response to incoming orders.</p>
+</dd>
+<dt class="hdlist1">Meal Pickup </dt>
+<dd>
+<p>(action, domain)
+A student receiving a prepared meal after an order has been completed.</p>
+</dd>
+<dt class="hdlist1">Waiting Time </dt>
+<dd>
+<p>(attribute, domain)
+The elapsed time between a student joining the queue and receiving their meal.</p>
+</dd>
+<dt class="hdlist1">Student Has Just Joined the Queue </dt>
+<dd>
+<p>(event, domain)
+The moment a student enters the line to place an order.</p>
+</dd>
+<dt class="hdlist1">Order Has Just Been Placed </dt>
+<dd>
+<p>(event, domain)
+The moment a student&#8217;s order is communicated to cafeteria staff.</p>
+</dd>
+<dt class="hdlist1">Payment Has Just Failed </dt>
+<dd>
+<p>(event, domain)
+The moment a payment attempt does not complete successfully, causing a delay in service.</p>
+</dd>
+<dt class="hdlist1">Meal Has Just Been Prepared </dt>
+<dd>
+<p>(event, domain)
+The moment a meal becomes ready for pickup.</p>
+</dd>
+<dt class="hdlist1">Student Has Just Left the Queue Without Ordering </dt>
+<dd>
+<p>(event, domain)
+The moment a student abandons the line due to time pressure or other circumstances.</p>
+</dd>
+<dt class="hdlist1">Crowd Surge </dt>
+<dd>
+<p>(behavior, domain)
+A situation that occurs when large numbers of students arrive within a short time spans. This leads to long queues and increased service pressure.</p>
+</dd>
+<dt class="hdlist1">Time-Constrained Decision Making </dt>
+<dd>
+<p>(behavior, domain)
+The moment students decide whether to wait for food based on current waiting time and proximity to their next class.</p>
+</dd>
+<dt class="hdlist1">Uncertain Demand Preparation </dt>
+<dd>
+<p>(behavior, domain)
+A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume.</p>
+</dd>
+<dt class="hdlist1">Service Bottleneck </dt>
+<dd>
+<p>(behavior, domain)
+A recurring slowdown caused by limited capacity in ordering, payment, or preparation.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_1_3_domain_terminology_in_relation_to_domain_rough_sketch">2.1.3 Domain Terminology in Relation to Domain Rough Sketch</h4>
+<div class="paragraph">
+<p>This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.</p>
+</div>
+<div class="paragraph">
+<p>The rough sketch provides raw observations of behaviors, constraints, and interactions within the cafeteria environment. Through analysis, these observations were abstracted into formal domain concepts, entities, actions, events, attributes, and behaviors.</p>
+</div>
+<div class="paragraph">
+<p>The following relationships illustrate how domain terminology originates from observed domain phenomena:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Queue, Waiting Time, and Student Has Just Joined the Queue</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived from <strong>The 10-Minute Dash</strong>, where students encounter a line extending approximately 15 people into the hallway. This observation demonstrates the existence of an ordered sequence of students waiting for service (Queue), measurable delays between joining and receiving service (Waiting Time), and the identifiable moment when a student enters the queue (Student Has Just Joined the Queue).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Student Has Just Left the Queue Without Ordering and Time-Constrained Decision Making</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived from <strong>The 10-Minute Dash</strong> and <strong>The Post-Lunch Fatigue</strong>, where students decide to leave the line due to insufficient available time before their next academic commitment. These observations reveal that students evaluate waiting time against external time constraints, resulting in the observable event of abandoning the queue.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Meal, Meal Preparation, and Batch Preparation Under Unpredictable Circumstances</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived from <strong>The Kitchen&#8217;s Blind Spot</strong>, where cafeteria staff prepare multiple trays of meals without precise knowledge of how many students will arrive. This demonstrates the existence of prepared food units (Meal), the act of producing those meals (Meal Preparation), and the behavior of preparing food under demand uncertainty (Batch Preparation Under Unpredictable Circumstances).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Crowd Surge and Service Bottleneck</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived from <strong>The Kitchen&#8217;s Blind Spot</strong> and <strong>The Payment Bottleneck</strong>, where sudden increases in arriving students create operational pressure and service delays. These observations establish the behavior of rapid increases in student arrival (Crowd Surge) and the resulting slowdown in service processes (Service Bottleneck).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Order, Order Placement, and Order Has Just Been Placed</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived implicitly from all rough sketch scenarios involving students progressing through the cafeteria service process. These observations demonstrate that students communicate requests for meals, resulting in identifiable moments when requests are formally made.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Payment and Payment Has Just Failed</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived from <strong>The Payment Bottleneck</strong>, where the payment system becomes unavailable, preventing students from completing transactions. This observation demonstrates the existence of a monetary exchange process (Payment) and identifiable failure events within that process (Payment Has Just Failed).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Menu and Menu Visibility Constraints</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived from <strong>The Uncertainty of the Menu</strong>, where students are unable to see available meal options or prices until reaching the front of the queue. This establishes the existence of a defined set of available meal options (Menu) and the dependency of student decision-making on access to this information.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Meal Pickup and Meal Has Just Been Prepared</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived from the implicit service flow observed across all rough sketch scenarios, where meals are prepared and subsequently transferred to students. This establishes the existence of a distinct moment when a meal becomes available (Meal Has Just Been Prepared) and the act of receiving that meal (Meal Pickup).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Cafeteria Staff and Operational Pressure Under Demand Variability</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Derived from <strong>The Kitchen&#8217;s Blind Spot</strong> and <strong>The Payment Bottleneck</strong>, where staff members prepare meals and respond to sudden increases in student arrivals and operational disruptions. These observations establish cafeteria staff as active domain entities responsible for food preparation and service execution.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These relationships demonstrate that the terminology defined in Section 2.1.2 is not arbitrary, but rather the result of systematic abstraction and formalization of domain phenomena observed in the rough sketch. This ensures that the terminology accurately reflects the domain environment and provides a reliable conceptual foundation for subsequent domain modeling and requirements analysis.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_1_4_narrative">2.1.4 Narrative</h4>
+<div class="paragraph">
+<p>The university&#8217;s cafeteria functions as one of the primary food services that support the daily nutritional needs of students, staff, and faculty. Often individuals depend on the cafeteria to receive their prepared meals under tight schedules that are most likely caused by multiple classes, team meetings, work responsabilities, or campus activities. Due to the students having similar break periods, demand for the cafeteria&#8217;s services increase exponentially during some hours, most specifically midday or the universal hour on Tuesdays and Thursdays.</p>
+</div>
+<div class="paragraph">
+<p>For the current domain environment, the process begins the moment a customer physically arrives at the cafeteria. Once the customer has arrived, they see the available food options presented by the cafeteria through the menu written on a board, or a handheld menu depending on inventory availability. After reviewing the available options, the customers decide which meals they wish to receive.</p>
+</div>
+<div class="paragraph">
+<p>To receive their meals, customers join a physical queue that forms close to the service counter. This queue advances sequentially as every customer gets attended by the cafeteria staff. When a customer reaches the service point, they communicate their wanted items to the personnel, who are then responsible for preparing the requested food. Some items may be immediately available, while other meals would require short preparation time, making the service duration vary between services.</p>
+</div>
+<div class="paragraph">
+<p>As the requested items are prepared, the customer proceeds to complete the payment method through the established cafeteria payment processes. Confirmation of payment is required before the order is given to the customer. When payment finalizes, the customer receives their prepared meal and exits the service, which then allows the next individual in the queue to be serviced.</p>
+</div>
+<div class="paragraph">
+<p>The arrival rate during peak demand periods frequently exceeds the service capacity of the cafeteria staff, lenghtening queues and increasing waiting times. Customers must often make time sensitive decisions whether to remain in line based on their upcoming academic or work obligations. From the other side, the cafeteria personnel experience increased workload, which can affect the preparation pace, communication, and overall service.</p>
+</div>
+<div class="paragraph">
+<p>From an observational standpoint, this domain includes entities such as customers, cafeteria staff, menu items, orders, payments, preparation, activities, and pickup events. Natural relationships exist among these entities, as customer selects one or more menu items, an order then aggregates the selected items associated with the customer. The cafeteria staff then prepare the items associated with the order, and payment must be completed before the order is released. The availability of menu items could change over time, based on inventory levels and preparations constraints.</p>
+</div>
+<div class="paragraph">
+<p>Environmental factors such as time of day, academic calendar events, present staff, and the physical layout of the cafeteria further influence the service performance and waiting times for the customer. These real world characteristics shape how the cafeteria operations unfold without the support of any software system.</p>
+</div>
+<div class="paragraph">
+<p>Understanding these domain dynamics, including the formation of a queue, the time demand, preparation variability, and capacity limitations, provides the necessary foundation for a further requirement analysis, architectural design, and system development activities.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_1_5_events_actions_and_behaviors">2.1.5 Events, Actions, and Behaviors</h4>
+<div class="paragraph">
+<p>This section distinguishes between <strong>events</strong>, <strong>actions</strong>, and <strong>behaviors</strong> in the cafeteria domain. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an intentional act by an actor (action), and what emerges as a process or recurring pattern over time (behavior).</p>
+</div>
+<div class="paragraph">
+<p>There is a difference between:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the moment from which a student has just become a member of the queue (event),</p>
+</li>
+<li>
+<p>the act of becoming a member of the queue (action),</p>
+</li>
+<li>
+<p>and the process consisting of various smaller actions that together make up "becoming a member" during a service period (behavior).</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_events_observable_moments">Events (Observable Moments)</h5>
+<div class="paragraph">
+<p>An <strong>event</strong> is an observable "just happened" moment: a point in time at which the domain state has changed. Events are useful to describe transitions and to connect domain observations to later requirements and system representations.</p>
+</div>
+<div class="paragraph">
+<p>Examples (from Section 2.1.2):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Student Has Just Joined the Queue</strong> — the moment a student enters the line.</p>
+</li>
+<li>
+<p><strong>Order Has Just Been Placed</strong> — the moment the student&#8217;s request is communicated to staff.</p>
+</li>
+<li>
+<p><strong>Payment Has Just Failed</strong> — the moment a payment attempt does not complete successfully.</p>
+</li>
+<li>
+<p><strong>Meal Has Just Been Prepared</strong> — the moment the meal becomes ready for pickup.</p>
+</li>
+<li>
+<p><strong>Student Has Just Left the Queue Without Ordering</strong> — the moment the student abandons the line.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each event captures a transition moment that can be observed directly in the cafeteria environment.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_actions_acts_performed_by_actors">Actions (Acts Performed by Actors)</h5>
+<div class="paragraph">
+<p>An <strong>action</strong> is an intentional act performed by an actor (student or cafeteria staff) that changes the state of the domain. Actions often lead to events. Multiple actions may be required before a particular event becomes observable.</p>
+</div>
+<div class="paragraph">
+<p>Examples (from Section 2.1.2):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Order Placement</strong> — the act of selecting menu items and communicating the request to cafeteria staff.</p>
+</li>
+<li>
+<p><strong>Payment</strong> — the act of attempting to complete a transaction at the counter.</p>
+</li>
+<li>
+<p><strong>Meal Preparation</strong> — the act of producing meals in advance or in response to incoming orders.</p>
+</li>
+<li>
+<p><strong>Meal Pickup</strong> — the act of receiving the prepared meal.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Actions describe what participants do, while events describe the moment we can observe the outcome of those actions.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_behaviors_processes_and_patterns_over_time">Behaviors (Processes and Patterns Over Time)</h5>
+<div class="paragraph">
+<p>A <strong>behavior</strong> is a process or recurring pattern that unfolds over time and is composed of multiple actions and events. Behaviors describe how the cafeteria operates under certain conditions, especially during peak hours.</p>
+</div>
+<div class="paragraph">
+<p>Examples (from Section 2.1.2):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Crowd Surge</strong> — many students arrive in a short time span, creating long queues and pressure.</p>
+</li>
+<li>
+<p><strong>Time-Constrained Decision Making</strong> — students evaluate waiting time versus their schedules and decide whether to stay or leave.</p>
+</li>
+<li>
+<p><strong>Uncertain Demand Preparation</strong> — staff prepare meals without precise near-term demand information.</p>
+</li>
+<li>
+<p><strong>Service Bottleneck</strong> — recurring slowdowns due to limited capacity in ordering, payment, or preparation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Behavior decomposition example:</p>
+</div>
+<div class="paragraph">
+<p><strong>Behavior:</strong> Service Bottleneck (payment)
+<strong>Actions involved:</strong> Payment attempts, staff troubleshooting, repeated retries
+<strong>Events observed:</strong> Payment Has Just Failed; Student Has Just Left the Queue Without Ordering
+<strong>Outcome:</strong> increased waiting time and reduced service throughput</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_why_this_distinction_matters">Why This Distinction Matters</h5>
+<div class="paragraph">
+<p>This distinction supports later requirements and testing work:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Events identify the exact moments when state changes occur (useful for tracking and notification requirements later).</p>
+</li>
+<li>
+<p>Actions describe what users and staff do (useful for defining system interactions and responsibilities).</p>
+</li>
+<li>
+<p>Behaviors capture the recurring patterns that drive the main problem (long waiting times), especially during peak periods.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_1_6_function_signatures">2.1.6 Function Signatures</h4>
+<div class="paragraph">
+<p>This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>User Registration</strong>
+To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
+<code>registerUser : UserDatabase &gt;&lt; UserDetails &#8594; UserDatabase &gt;&lt; (Option UserProfile)</code></p>
+</li>
+<li>
+<p><strong>Browsing the Menu</strong>
+Retrieving the available food items requires access to the active menu catalog.
+<code>viewMenu : MenuCatalog &#8594; List(MenuItem)</code></p>
+</li>
+<li>
+<p><strong>Managing the Cart</strong>
+When a customer adds an item, the operation alters the local state of their cart rather than the global database, minimizing dependencies.
+<code>addItemToCart : Cart &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; Cart</code></p>
+</li>
+<li>
+<p><strong>Placing an Order</strong>
+Placing an order requires the current cart, the customer details, and the global order records. If items are out of stock or the cart is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
+<code>placeOrder : OrderRecords &gt;&lt; Cart &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
+</li>
+<li>
+<p><strong>Processing Payments</strong>
+This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
+<code>processPayment : PaymentSystem &gt;&lt; Order &gt;&lt; PaymentMethod &#8594; PaymentSystem &gt;&lt; (Option Receipt)</code></p>
+</li>
+<li>
+<p><strong>Updating Order Status</strong>
+As cafeteria staff prepare the food, they update the order&#8217;s progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
+<code>updateOrderStatus : ActiveOrderList &gt;&lt; OrderID &gt;&lt; Status &#8594; ActiveOrderList</code></p>
+</li>
+<li>
+<p><strong>Canceling an Order</strong>
+If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
+<code>cancelOrder : OrderRecords &gt;&lt; OrderID &#8594; OrderRecords &gt;&lt; (Option RefundStatus)</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_2_requirements">2.2 Requirements</h3>
+<div class="sect3">
+<h4 id="_2_2_1_user_stories_epics_and_features">2.2.1 User stories, epics, and features</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_epics">Epics</h4>
+<div class="sect4">
+<h5 id="_student_meal_access">Student Meal Access</h5>
+<div class="paragraph">
+<p>Students need a way to obtain food efficiently during short breaks between classes.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_peak_hour_cafeteria_flow">Peak-Hour Cafeteria Flow</h5>
+<div class="paragraph">
+<p>Cafeteria staff need to handle large numbers of students during peak hours without excessive congestion.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_reliable_cafeteria_service">Reliable Cafeteria Service</h5>
+<div class="paragraph">
+<p>The cafeteria needs consistent operations to reduce delays and improve the overall cafeteria experience.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_stories">User Stories</h4>
+<div class="sect4">
+<h5 id="_as_a_student">As a Student</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>I want to know what food options are available, so that I can decide whether waiting fits my schedule.</p>
+</li>
+<li>
+<p>I want to spend less time waiting for food, so that I can arrive on time to my next class.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_as_a_cafeteria_staff_member">As a Cafeteria Staff Member</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>I want better awareness of incoming demand, so that I can prepare meals more efficiently.</p>
+</li>
+<li>
+<p>I want service to remain steady during busy periods, so that crowds are reduced.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_features">Features</h4>
+<div class="sect4">
+<h5 id="_meal_availability_information">Meal availability information</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Supports students in understanding what meals are offered during a service period.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_order_and_payment_handling">Order and payment handling</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Supports the processing of student meal requests.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_demand_awareness_support">Demand awareness support</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Supports cafeteria staff in anticipating peak-hour service needs and wants.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_service_flow_coordination">Service flow coordination</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Supports smoother movement from ordering to meal pickup.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_2_2_personas">2.2.2 Personas</h4>
+<div class="paragraph">
+<p>Personas are different representative archetypes of the primary users within the cafeteria service domain. They help the development team to mantain a shared understanding of the user&#8217;s needs, behaviors, and constraints when defining user stories, features, and system requirements. The following personas were built with the common characteristics observed among members of the university who regularly interact with the cafeteria.</p>
+</div>
+<div class="sect4">
+<h5 id="_persona_1_carlos_the_time_constrained_student">Persona 1 — Carlos the Time Constrained Student</h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Role:</strong> Undergraduate Student</p>
+</li>
+<li>
+<p><strong>Age Range:</strong> 18-23</p>
+</li>
+<li>
+<p><strong>Primary Goal:</strong> Obtain food quickly between classes</p>
+</li>
+<li>
+<p><strong>Environment:</strong> Busy academic schedule with short breaks</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Carlos is a full time undergraduate student who usually has a tight schedule between classes and university activities. His available time to obtain meals is limited to short time spaces between mentioned classes. During peak hours, Carlos often encounters long cafeteria lines, which creates uncertainty about whether he can get food before his next class begins.</p>
+</div>
+<div class="paragraph">
+<p>Carlos values speed, predictability, and efficiency when acquiring food from a place. Long waiting times or unclear service flow impact his daily routine negatively. He cannot afford a big delay in his schedule, and prefers solutions that help him make quick, informed decisions about getting a prepared meal.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_persona_2_mariana_the_organized_commuter">Persona 2 — Mariana the Organized Commuter</h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Role:</strong> Commuter Student</p>
+</li>
+<li>
+<p><strong>Age Range:</strong> 19-24</p>
+</li>
+<li>
+<p><strong>Primary Goal:</strong> Plan meals around time on campus</p>
+</li>
+<li>
+<p><strong>Environment:</strong> Balances commuting time with academic responsibilities</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Mariana is a student who travels to campus and tries to optimize her time while she is present at the university because she does not remain on campus all day. This student prefers to plan when and where she will obtain food in advance.</p>
+</div>
+<div class="paragraph">
+<p>Uncertainty about the availability and congestion of the cafeteria makes planning difficult for Mariana. She values visibility into the service&#8217;s conditions and prefers predictable food service experiences that allow her to coordinate her meals with her commuting schedule. The inefficiencies in the current process can lead her to skip meals or seek off campus alternatives.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_persona_3_josé_the_cafeteria_staff_member">Persona 3 — José the Cafeteria Staff Member</h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Role:</strong> Cafeteria Personnel</p>
+</li>
+<li>
+<p><strong>Age Range:</strong> 25-55</p>
+</li>
+<li>
+<p><strong>Primary Goal:</strong> Serve customers efficiently while maintaining quality</p>
+</li>
+<li>
+<p><strong>Environment:</strong> High workload during peak hours</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>José is a staff member of the cafeteria that is responsible for preparing and delivering customer orders. His workload fluctuates significantly depending on the time of day and customer congestion. During peak periods, José must manage rapidly the order intake, food preparation, and customer communication all simultaneously.</p>
+</div>
+<div class="paragraph">
+<p>José values a clear order flow which has manageable workload distribution, along with smooth customer interactions. When queues become too long or customer demand suddenly increases, service pressure increases and the chance for a delay or miscomunication rises. Operational improvements that reduce this congestion and improve the workflow directly benefits José&#8217;s ability to mantain the service&#8217;s quality.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_persona_summary">Persona Summary</h5>
+<div class="paragraph">
+<p>Together, these personas capture the primary perspectives within the domain:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Time constrained customers that are seeking fast service</p>
+</li>
+<li>
+<p>Planning oriented customers that seek predictability</p>
+</li>
+<li>
+<p>Personnel managing the operational workload for a good service</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>They will guide the justification of user stories, epics, and functional requirements in subsequent sections of this document.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_2_3_domain_requirements">2.2.3 Domain Requirements</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>DR-01: Order Composition</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Domain Property:</strong> A physical cafeteria order always consists of at least one food or beverage item.</p>
+</li>
+<li>
+<p><strong>Domain Requirement:</strong> The system must associate every order with a non-empty set of menu items.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>DR-02: Item Availability</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Domain Property:</strong> Food ingredients and prepared items in the cafeteria have limited daily physical availability.</p>
+</li>
+<li>
+<p><strong>Domain Requirement:</strong> The system must provide means to prevent a customer from adding an out-of-stock menu item to their order.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>DR-03: Order Ownership</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Domain Property:</strong> Every food order is requested by a specific person in the cafeteria.</p>
+</li>
+<li>
+<p><strong>Domain Requirement:</strong> The system must associate every placed order with the specific customer who initiated it.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>DR-04: Order Preparation Lifecycle</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Domain Property:</strong> The physical preparation of an order progresses through distinct stages in the kitchen.</p>
+</li>
+<li>
+<p><strong>Domain Requirement:</strong> The system must provide means for cafeteria staff to update and track the physical preparation stage of an order.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>DR-05: Pricing and Total Calculation</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Domain Property:</strong> Every physical menu item sold in the cafeteria has an established price, and an order&#8217;s total cost is the sum of these items.</p>
+</li>
+<li>
+<p><strong>Domain Requirement:</strong> The system must provide means to calculate the total price of an order based strictly on the individual prices of the selected menu items.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>DR-06: Order Fulfillment</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Domain Property:</strong> A customer cannot pick up their food until the cafeteria kitchen staff has finished preparing it.</p>
+</li>
+<li>
+<p><strong>Domain Requirement:</strong> The system must provide means to communicate to the customer when their specific order has transitioned to the "ready for pickup" state.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_2_4_interface_requirements">2.2.4 Interface Requirements</h4>
+<div class="paragraph">
+<p>Interface requirements describe how <strong>shared phenomena and concepts</strong> in the cafeteria domain are represented inside the Cafeteria Ordering System, and how those representations are initialized, updated, corrected, and constrained. In other words, they define how the system crosses the boundary between the outside world (the cafeteria domain) and the system&#8217;s internal data model.</p>
+</div>
+<div class="paragraph">
+<p>In this project, key domain concepts that must be represented in the system include: Menu, Meal, Order, Payment choice, Meal Preparation status, and Meal Pickup status (see domain terminology in Section 2.1.2). The interface requirements below capture how these concepts enter the system, how they remain consistent when the domain changes, and what information can or cannot be modified once recorded.</p>
+</div>
+<div class="sect4">
+<h5 id="_interface_requirement_set">Interface Requirement Set</h5>
+<div class="paragraph">
+<p>The requirements in this section use the convention IR-2.2.4-X.</p>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_1_menu_representation_initialization">IR-2.2.4-1 Menu representation initialization</h6>
+<div class="paragraph">
+<p>The system shall provide a means for authorized cafeteria staff to initialize the menu representation inside the system, including creating menu items and assigning prices and categories.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_2_menu_representation_update">IR-2.2.4-2 Menu representation update</h6>
+<div class="paragraph">
+<p>The system shall provide a means for authorized cafeteria staff to update menu item information when the domain changes, including updating price, description, and category.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_3_availability_synchronization">IR-2.2.4-3 Availability synchronization</h6>
+<div class="paragraph">
+<p>The system shall provide a means for authorized cafeteria staff to mark menu items as available or unavailable to reflect real-world availability changes (e.g., sold out, not prepared today).</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_4_customer_menu_visibility">IR-2.2.4-4 Customer menu visibility</h6>
+<div class="paragraph">
+<p>The system shall provide a means for customers to view the current menu representation and availability status through the application interface.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_5_order_creation_from_domain_observation">IR-2.2.4-5 Order creation from domain observation</h6>
+<div class="paragraph">
+<p>The system shall provide a means for a customer to create an order representation by selecting menu items and quantities through the application interface.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_6_order_modification_before_submission">IR-2.2.4-6 Order modification before submission</h6>
+<div class="paragraph">
+<p>The system shall provide a means for a customer to edit an order representation before submission (e.g., add/remove items, change quantities), so incorrect or incomplete entries can be corrected prior to placing the order.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_7_order_submission_and_confirmation">IR-2.2.4-7 Order submission and confirmation</h6>
+<div class="paragraph">
+<p>The system shall provide a means for a customer to submit an order and receive confirmation that the system has recorded the order representation.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_8_payment_method_capture_and_constraints">IR-2.2.4-8 Payment method capture and constraints</h6>
+<div class="paragraph">
+<p>The system shall provide a means for a customer to indicate a payment method option (e.g., pay at register or pay in app, if supported).</p>
+</div>
+<div class="paragraph">
+<p>If an order is submitted, the system shall restrict changes to the recorded payment option unless an explicitly supported correction path exists (e.g., cancellation and re-submission), to preserve consistency and avoid operational confusion.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_9_order_status_synchronization_staff_side">IR-2.2.4-9 Order status synchronization (staff side)</h6>
+<div class="paragraph">
+<p>The system shall provide a means for authorized cafeteria staff to update the internal order status representation to reflect real-world progression (e.g., order is being prepared, order is ready for pickup, order has been picked up, order cancelled).</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_10_order_status_visibility_customer_side">IR-2.2.4-10 Order status visibility (customer side)</h6>
+<div class="paragraph">
+<p>The system shall provide a means for the customer to view the current order status representation through the application interface.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_11_correction_after_submission_controlled_editing">IR-2.2.4-11 Correction after submission (controlled editing)</h6>
+<div class="paragraph">
+<p>After an order is submitted, the system shall either:
+(a) disallow customer edits to order contents, or
+(b) restrict customer edits to explicitly defined operations (e.g., cancellation within an allowed window),
+so the internal representation remains consistent with cafeteria operations.</p>
+</div>
+<div class="paragraph">
+<p>Any staff-side changes to a submitted order representation (if supported) shall be restricted to explicitly defined operations and should be traceable (e.g., include reason or note), to prevent silent corruption of the internal record.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_12_immutable_identifiers_and_record_integrity">IR-2.2.4-12 Immutable identifiers and record integrity</h6>
+<div class="paragraph">
+<p>The system shall assign each submitted order a stable identifier.</p>
+</div>
+<div class="paragraph">
+<p>The system shall ensure core properties of a submitted order record remain stable (at minimum: order identifier and submission timestamp), except through explicitly defined correction operations, to support auditability and coordination between customers and cafeteria staff.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_ir_2_2_4_13_interface_decomposition_note">IR-2.2.4-13 Interface decomposition note</h6>
+<div class="paragraph">
+<p>Some requirements that appear to be interface-only include both interface and non-interface aspects. For example, “the system supports creating an order” includes:
+* An interface requirement aspect: the system provides UI mechanisms for customers to select items and submit an order.
+* A non-interface aspect: the system creates and stores an internal order representation and enforces rules.</p>
+</div>
+<div class="paragraph">
+<p>This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_derived_questions_used_to_identify_interface_requirements">Derived questions used to identify interface requirements</h5>
+<div class="paragraph">
+<p>The interface requirements above were derived by identifying domain concepts that must be represented in the system and then asking:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>How is the internal representation first obtained (who enters it, through what interface)?</p>
+</li>
+<li>
+<p>How is it kept up-to-date when the real-world phenomenon changes (e.g., availability, order status)?</p>
+</li>
+<li>
+<p>What information can be corrected if entered incorrectly or incompletely?</p>
+</li>
+<li>
+<p>What information should be restricted or immutable after submission to preserve integrity?</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_2_5_machine_requirements">2.2.5 Machine Requirements</h4>
+<div class="paragraph">
+<p>This section defines the measurable, technical requirements that the Cafeteria Ordering System must satisfy. Unlike domain requirements (which describe what the system must do from a stakeholder perspective) or interface requirements (which describe how users interact with the system), machine requirements specify the performance, capacity, availability, and technical constraints the implemented system must meet. These requirements are currently under active development and will be refined as the project progresses through design, implementation, and testing phases.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_performance_requirements">Performance Requirements</h4>
+<div class="paragraph">
+<p>The system must satisfy specific performance criteria to ensure students can complete orders within their limited time between classes.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+<th class="tableblock halign-left valign-top">Measurable Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order placement response time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a student submits an order, they receive confirmation within 2 seconds for 95% of attempts during normal system usage</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Menu loading time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">95% of menu loads complete within 1.5 seconds</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Notification delivery</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status updates delivered within 3 seconds of change</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Payment processing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initiation to confirmation within 5 seconds (excluding external gateway)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Menu search</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">90% of searches return results within 1 second</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Normal load</strong> is defined as system usage below 80% of the concurrent user capacity specified below. These measurements assume standard university WiFi with minimum 10 Mbps bandwidth and are measured from user action to interface confirmation.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_availability_and_reliability">Availability and Reliability</h4>
+<div class="paragraph">
+<p>Availability requirements ensure the system remains accessible during critical meal periods.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+<th class="tableblock halign-left valign-top">Measurable Criterion</th>
+<th class="tableblock halign-left valign-top">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Core functionality uptime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">99.5% available during operating hours (M-F, 7AM-6PM)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maintenance windows</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scheduled only outside operating hours with 48hr notice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Crash recovery</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Automatic recovery within 2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data persistence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No confirmed orders lost after payment confirmation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Graceful degradation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Appropriate error messages during partial outages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To be refined</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Criteria for acceptable degradation during partial outages and specific recovery time objectives for various failure scenarios remain to be defined as the project progresses.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_capacity_requirements">Capacity Requirements</h4>
+<div class="paragraph">
+<p>Capacity requirements define the system&#8217;s ability to handle varying user loads.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+<th class="tableblock halign-left valign-top">Measurable Criterion</th>
+<th class="tableblock halign-left valign-top">Clarification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concurrent users</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300 simultaneous users during peak periods</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users active within last 5 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order throughput</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60 orders per minute during peak hours</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Includes validation, payment, updates, notifications</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registered accounts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10,000 total user accounts (~amount of students at UPRM)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Staff concurrent access</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5 simultaneous cafeteria staff sessions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For order management</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Active menu items</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100 items across all categories</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Peak periods</strong> are defined as 11:30 AM - 1:30 PM and 3:00 PM - 5 PM on weekdays during the academic semester.</p>
+</div>
+<div class="paragraph">
+<p><strong>When capacity is exceeded:</strong> The system shall implement request queuing with appropriate user feedback about increased wait times. Users beyond capacity shall receive a friendly message indicating high traffic with suggestions to try again later or proceed to the in-person line. All capacity exceedance events shall be logged for capacity planning and future scaling decisions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_platform_requirements">Platform Requirements</h4>
+<div class="paragraph">
+<p>Platform requirements specify the technical environment for system operation.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+<th class="tableblock halign-left valign-top">Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">iOS support</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">iOS 15 or later</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Android support</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Android 12 or later</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Screen size compatibility</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.7 inches to 6.9 inches</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Network tolerance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Function with intermittent connectivity; cache menu data; allow offline order composition</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Older devices may experience reduced performance but must remain functional for core ordering features. Server specifications will be verified against actual performance during testing.</p>
+</div>
+<div class="paragraph">
+<p>Security requirements protect user data and system integrity.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+<th class="tableblock halign-left valign-top">Measurable Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secure protocols with password hashing and HTTPS for all transmissions</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Payment data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No storage of complete payment card information; PCI-compliant gateways</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Session management</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inactive sessions timeout after 15 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data encryption</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All personally identifiable information encrypted at rest</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access control</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Staff access restricted to order management; students cannot access staff functions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_traceability_to_domain_needs">Traceability to Domain Needs</h4>
+<div class="paragraph">
+<p>The machine requirements above derive directly from domain needs identified in Section 1.2.2.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Domain Need (from 1.2.2)</th>
+<th class="tableblock halign-left valign-top">Related Machine Requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Students need meals within limited time windows</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order placement: 2 sec; Menu loading: 1.5 sec; Throughput: 60 orders/min</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Staff need to handle high volumes efficiently</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Throughput: 60 orders/min; Staff sessions: 15 concurrent; Notifications: 3 sec</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reduce uncertainty around food access</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uptime: 99.5%; Payment processing: 5 sec</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimize crowds and improve safety</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Concurrent users: 300; Remote ordering reduces physical queues</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_requirements_under_investigation">Requirements Under Investigation</h4>
+<div class="paragraph">
+<p>Several machine requirements areas require additional research and stakeholder input before measurable criteria can be established.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Area</th>
+<th class="tableblock halign-left valign-top">Investigation Needed</th>
+<th class="tableblock halign-left valign-top">Target Completion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Extreme load performance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Acceptable performance beyond 300 concurrent users</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone 2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Battery consumption</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum acceptable drain per hour of active use</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone 2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data usage limits</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum acceptable mobile data consumption per month</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone 2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Offline functionality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Which features must work completely offline</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone 2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accessibility compliance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specific WCAG compliance level required</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone 2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cross-platform consistency</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Degree of visual/functional consistency required across iOS and Android</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone 2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_evolution_of_requirements">Evolution of Requirements</h4>
+<div class="paragraph">
+<p>All machine requirements will be validated through prototype performance testing, refined based on stakeholder feedback, and adjusted according to university infrastructure limitations and available resources. Changes to these requirements will be documented, version-controlled, and communicated to the project team to ensure alignment across all development activities.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_3_implementation">2.3 Implementation</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Since the Cafeteria Ordering project is still in early development, the software platform has yet to be fully implemented. This means that pseudocode may also be used to help describe an implementation, but as the project continues getting programmed in the future, the selected fragment&#8217;s codes might change.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The Cafeteria Ordering project implements a client-server architecture using TypeScript as the programming language for the application layer, and React Native as the framework for it since it better fit the vision for the application. As for the backend and database layers, they are managed using Supabase and PostgreSQL for storing information like user accounts, menu items, all the orders and their status, among other items. Additionally, the application handles notifications using the Expo Notifications API, primarily notifying the users of important status information about their orders.</p>
+</div>
+<div class="sect3">
+<h4 id="_2_3_1_selected_fragments_of_the_implementation">2.3.1 Selected Fragments of the implementation</h4>
+<div class="paragraph">
+<p>To further add to the implementation of the project, the following selected fragments of the project were selected as  crucial parts of the application that will be explained using source code, diagrams and pseudocode explinations.</p>
+</div>
+<div class="paragraph">
+<p><strong>Order Creation and Validation</strong></p>
+</div>
+<div class="paragraph">
+<p>As said in the name, ordering is the core part of the Cafeteria Ordering App. Therefore, our system must validate a list of processes that ultimately validates the user&#8217;s order.</p>
+</div>
+<div class="paragraph">
+<p>The following code can help illustrate how the system currently handles this order processing logic:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">export async function createOrder(order: Order) {
+  const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
+
+  if (error) {
+    console.error('Error when creating order:', error.message)
+    return null
+  }
+
+  await Notifications.scheduleNotificationAsync({
+  content: {
+    title: 'Order Confirmed',
+    body: 'Your order has been successfully placed.',
+  },
+  trigger: null,
+})
+
+  return data
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this brief source code, createOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. If there is an error such as the item not being in stock, an error will be displayed signaling that the order could not be completed, if it was completed, then the order will be placed!</p>
+</div>
+<div class="paragraph">
+<p><strong>Pickup Code/ Order Security</strong></p>
+</div>
+<div class="paragraph">
+<p>Along with our order creation and confirmation, to increase security and reduce or eliminate the possibility of order theft, the system will have a pickup code generator, shown with this pseudocode:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">function generateCode(order: Order)
+    code= randomnumberBetween (0001,9999)
+    order.update(id, {
+        pickupCode: code
+    })
+    return code</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order.</p>
+</div>
+<div class="paragraph">
+<p><strong>UI Design</strong></p>
+</div>
+<div class="paragraph">
+<p>The team designed all of the UI components for the project in a software designing platform called Figma.</p>
+</div>
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="imageblock">
+<div class="content">
+<img src="designs/login_design/Login_light_mode.png" alt="Light Mode" width="180" height="400">
+</div>
+<div class="title">Figure 1. Login Light mode</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="imageblock">
+<div class="content">
+<img src="designs/login_design/Login_dark_mode.png" alt="Dark mode" width="180" height="400">
+</div>
+<div class="title">Figure 2. Login Dark mode</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The project counts on a light mode and a dark mode, for personal preference, as seen in the images above, which is also the Log in page for the application.</p>
+</div>
+<div class="paragraph">
+<p><strong><em>Staff View</em></strong></p>
+</div>
+<div class="paragraph">
+<p>To show how the staff mode will work on the application, here are the current designs of the staff pages:</p>
+</div>
+<table class="tableblock frame-none grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="imageblock">
+<div class="content">
+<img src="designs/staff_view_order_design/images/opened_orders_page.png" alt="Light Mode" width="348" height="586">
+</div>
+<div class="title">Figure 3. Opened orders Page for Staff</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="imageblock">
+<div class="content">
+<img src="designs/staff_view_order_design/images/unread_order_expanded.png" alt="Dark mode" width="348" height="586">
+</div>
+<div class="title">Figure 4. Staff Unread order</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In Figure 3, all orders that are open and currently being worked on appear on this page. This UI is similar to the unread and finished orders page, having this simple and straightforward design for all the orders helps the staff without complicating processes.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, in Figure 4, we can see how the staff can see the order details once an order is submitted, and can open or close the order due to any particular reason.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_analytic_part">Analytic Part</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_3_1_concept_analysis">3.1 Concept Analysis</h3>
+<div class="paragraph">
+<p>The following concepts were sourced from the rough domain sketch, that was created from user scenarios and the team&#8217;s understanding of the domain as it currently stands.</p>
+</div>
+<div class="sect3">
+<h4 id="_concepts"><strong>Concepts</strong></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>employee:</strong> person who works in the cafeteria, takes order from customer. (e.g. cafeteria staff member from the uncertainty of the menu, 10min dash, payment bottleneck and post lunch fatigue in section 2.1.1)</p>
+</li>
+<li>
+<p><strong>student:</strong> person who is a student from the university campus and places and order on the cafeteria. (e.g. student coming from Engineering building in 10min dash scenario in section 2.1.1)</p>
+</li>
+<li>
+<p><strong>customer:</strong> person who places orders in the cafeteria. Concept indirectly birthed out of, it captures a more general group of people who order inside the cafeteria. (e.g. from 10 min dash, payment bottleneck, post lunch fatigue scenarios in section 2.1.1)</p>
+</li>
+<li>
+<p><strong>order:</strong> an item or a group of items from the cafeteria associated to a customer.</p>
+</li>
+<li>
+<p><strong>queue:</strong> a list of orders or a line of customers. (e.g. post lunch fatigue from section 2.1.1)</p>
+</li>
+<li>
+<p><strong>menu:</strong> a group of items a customer can order. (e.g. from uncertainty of the menu in section 2.1.1)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_concept_conflicts">Concept Conflicts</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>student / customer:</strong> these terms reference a person, who goes to the cafeteria to order/buy an item(s). If the term student is used, they are a customer who is also a student.</p>
+</li>
+<li>
+<p><strong>queue:</strong> can refer to the line inside the cafeteria or the order queue for a customer.</p>
+</li>
+<li>
+<p><strong>order:</strong> can be viewed as the action that a customer performs, an item(?) an employee reads and delivers.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conflicts_resolutions">Conflicts resolutions</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>customer:</strong> must be the term used when referring to the person who orders from the cafeteria. The person being a student can be the state of the customer. Other states may be present for specific customers who have a discount either by being an employee or having athletic student discount.</p>
+</li>
+<li>
+<p><strong>queue:</strong> for this term, qualifiers must be added to separate them from each other. If referring to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise, if referring to the position of the order a customer placed, order queue must be used.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_2_validation_and_verification">3.2 Validation and Verification</h3>
+<div class="sect3">
+<h4 id="_3_2_1_validation">3.2.1 Validation</h4>
+<div class="paragraph">
+<p><strong>Scenario Walkthroughs (Ongoing)</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The team will walkthrough some scenarios with prospective stakeholders (students and cafeteria staff) to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>After walkthroughs, any mismatches or missing steps will lead to updated domain concepts and requirements.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Terminology and Concept Validation (Ongoing)</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Through internal reviews and discussions we have already identified and resolved terminology conflicts (for example, student vs. customer, and customer queue vs. order queue).</p>
+</li>
+<li>
+<p>Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Use of Research (Ongoing)</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Existing and future research on technologies and cafeteria operations serves on ensuring that proposed solutions such as pre‑ordering and remote payment are realistic and are then incorporated into future scenarios for stakeholder feedback.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_3_2_2_verification">3.2.2 Verification</h4>
+<div class="paragraph">
+<p><strong>Consistency and Completeness Reviews (Ongoing)</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Reviews will be done by Documentation Team Leader and Managers to verify that:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Requirements and user stories only use defined terms or introduce new ones deliberately.</p>
+</li>
+<li>
+<p>Each requirement supports at least one stakeholder need or goal stated earlier in the document.</p>
+</li>
+<li>
+<p>All key flows from the rough sketch (ordering, payment, preparation, pickup, leaving the queue) appear in at least one user story or feature.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Peer review by other team members will also be used to verify that the documentation is clear, consistent, and complete.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Test Planning and Documentation Verification (Ongoing)</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The defined test types, such as unit, integration, system, acceptance, non‑functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.</p>
+</li>
+<li>
+<p>Risk-based testing will be used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.</p>
+</li>
+<li>
+<p>Documentation testing will compare implemented behavior against requirements and acceptance criteria.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Automated Verification via Continuous Integration (Ongoing)</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For the current testing phase, continuous integration will focus on build validation to ensure the repository installs and builds successfully on every pull request.</p>
+</li>
+<li>
+<p>As unit and integration tests are added, they will be included in the Auto‑Test Suite so that breaking changes cannot be merged into the main branch.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_specific_class_topics">Specific Class Topics</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_4_1_tdd">4.1 TDD</h3>
+<div class="paragraph">
+<p>This section demonstrates the application of Test-Driven Development (TDD)
+to incrementally construct a unit derived from the domain model.</p>
+</div>
+<div class="paragraph">
+<p>Selected Unit:
+<code>processPayment : PaymentSystem &gt;&lt; Order &gt;&lt; PaymentMethod &#8594; PaymentSystem &gt;&lt; (Option Receipt)</code></p>
+</div>
+<div class="paragraph">
+<p>This operation corresponds to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Action:</strong> Payment</p>
+</li>
+<li>
+<p><strong>Events:</strong> Payment Has Just Failed / Payment Has Just Been Processed Successfully</p>
+</li>
+<li>
+<p><strong>Behavior:</strong> Service Bottleneck caused by repeated failed payments</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_initial_informal_specification">Initial Informal Specification</h4>
+<div class="paragraph">
+<p>The function processes a customer&#8217;s payment attempt.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the payment is approved, a receipt must be produced.</p>
+</li>
+<li>
+<p>If the payment fails, no receipt is returned.</p>
+</li>
+<li>
+<p>The system must record the outcome of the attempt.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Inputs:
+<code>PaymentSystem</code>, <code>Order</code>, <code>PaymentMethod</code></p>
+</div>
+<div class="paragraph">
+<p>Outputs:
+Updated <code>PaymentSystem</code> and <code>Option Receipt</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_test_1_a_successful_payment_produces_a_result">Test 1 — A Successful Payment Produces a Result</h4>
+<div class="paragraph">
+<p>A developer first checks that an approved payment produces <strong>some</strong> receipt.</p>
+</div>
+<div class="paragraph">
+<p>Test:
+Given an approving payment gateway,
+calling <code>processPayment</code> should return <code>Some(receipt)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Dummy Implementation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>return (ps, None)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Result:
+Test fails.</p>
+</div>
+<div class="paragraph">
+<p>Minimal Implementation Change:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>return (ps, Some(dummyReceipt))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Test now passes.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_test_2_the_receipt_must_belong_to_the_correct_order">Test 2 — The Receipt Must Belong to the Correct Order</h4>
+<div class="paragraph">
+<p>The first solution is too weak (it always returns a dummy receipt).
+The developer refines the behavior.</p>
+</div>
+<div class="paragraph">
+<p>Test:
+The returned receipt must reference <code>order.id</code>.</p>
+</div>
+<div class="paragraph">
+<p>Current implementation fails because it returns a constant receipt.</p>
+</div>
+<div class="paragraph">
+<p>Implementation Update:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>receipt = Receipt(order.id, order.total)
+return (ps, Some(receipt))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Tests 1–2 now pass.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_test_3_failed_payments_return_none">Test 3 — Failed Payments Return None</h4>
+<div class="paragraph">
+<p>Next, failure behavior is introduced.</p>
+</div>
+<div class="paragraph">
+<p>Test:
+If the gateway rejects the transaction,
+the function must return <code>None</code>.</p>
+</div>
+<div class="paragraph">
+<p>Current implementation always succeeds → test fails.</p>
+</div>
+<div class="paragraph">
+<p>Implementation Update:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>if gateway.approve(order, method):
+    receipt = Receipt(order.id, order.total)
+    return (ps, Some(receipt))
+else:
+    return (ps, None)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Tests 1–3 now pass.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_test_4_the_system_must_record_successful_payments">Test 4 — The System Must Record Successful Payments</h4>
+<div class="paragraph">
+<p>To make payment outcomes observable, the system must log successes.</p>
+</div>
+<div class="paragraph">
+<p>Test:
+After a successful payment, the updated <code>PaymentSystem</code>
+must contain a <code>"SUCCESS"</code> record for the order.</p>
+</div>
+<div class="paragraph">
+<p>Current implementation does not modify system state → test fails.</p>
+</div>
+<div class="paragraph">
+<p>Implementation Update:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>if gateway.approve(order, method):
+    ps2 = ps.addPaymentRecord(order.id, "SUCCESS")
+    receipt = Receipt(order.id, order.total)
+    return (ps2, Some(receipt))
+else:
+    return (ps, None)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Tests 1–4 now pass.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_test_5_failed_attempts_must_also_be_recorded">Test 5 — Failed Attempts Must Also Be Recorded</h4>
+<div class="paragraph">
+<p>To support analysis of repeated failures (service bottlenecks),
+failed attempts must also be logged.</p>
+</div>
+<div class="paragraph">
+<p>Test:
+If payment fails, <code>PaymentSystem</code> must record <code>"FAILED"</code>.</p>
+</div>
+<div class="paragraph">
+<p>Current implementation does not record failures → test fails.</p>
+</div>
+<div class="paragraph">
+<p>Implementation Update:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>if gateway.approve(order, method):
+    ps2 = ps.addPaymentRecord(order.id, "SUCCESS")
+    receipt = Receipt(order.id, order.total)
+    return (ps2, Some(receipt))
+else:
+    ps2 = ps.addPaymentRecord(order.id, "FAILED")
+    return (ps2, None)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All five tests now pass simultaneously.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_refactoring">Refactoring</h4>
+<div class="paragraph">
+<p>With the behavior stabilized by tests, duplication is removed safely.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>def recordAndReturn(ps, orderId, status, receiptOpt):
+    ps2 = ps.addPaymentRecord(orderId, status)
+    return (ps2, receiptOpt)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This refactoring does not change observable behavior.
+All tests remain passing, confirming correctness.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_result">Result</h4>
+<div class="paragraph">
+<p>Through five incremental tests:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The function evolved from a stub into meaningful behavior.</p>
+</li>
+<li>
+<p>Each change was driven by a failing test.</p>
+</li>
+<li>
+<p>Earlier tests continued to pass as new ones were added.</p>
+</li>
+<li>
+<p>The final unit now reflects the domain:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>successful payments generate receipts,</p>
+</li>
+<li>
+<p>failures are observable events,</p>
+</li>
+<li>
+<p>repeated failures can be analyzed as part of service bottlenecks.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This demonstrates the use of TDD to construct functionality
+through verifiable, incremental behavior.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_2_bdd_and_bdd_tool_usage">4.2 BDD and BDD tool usage</h3>
+<div class="paragraph">
+<p>Behavior-Driven Development (BDD) is applied in the Cafeteria Ordering System project to bridge business requirements and technical implementation through shared, verifiable behavior specifications expressed in the client’s domain.</p>
+</div>
+<div class="paragraph">
+<p>The team follows a structured transformation process:</p>
+</div>
+<div class="paragraph">
+<p>User Story (client domain) &#8594; Acceptance Criteria (client domain) &#8594; Specification Examples (Given–When–Then) &#8594; Automation using a BDD tool.</p>
+</div>
+<div class="sect3">
+<h4 id="_from_user_story_to_acceptance_criteria">From User Story to Acceptance Criteria</h4>
+<div class="paragraph">
+<p>User Story (client domain):</p>
+</div>
+<div class="paragraph">
+<p>As a student, I want to place an order from the cafeteria menu so that I can avoid waiting in line and arrive on time to my next class.</p>
+</div>
+<div class="paragraph">
+<p>Derived Acceptance Criteria (client domain):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The student must be authenticated before placing an order.</p>
+</li>
+<li>
+<p>The student must be able to select available menu items.</p>
+</li>
+<li>
+<p>The student must be able to add selected items to a cart.</p>
+</li>
+<li>
+<p>The student must be able to proceed to checkout and choose a pickup option.</p>
+</li>
+<li>
+<p>The system must confirm successful order placement.</p>
+</li>
+<li>
+<p>The cafeteria staff must be notified of new orders.</p>
+</li>
+<li>
+<p>The student must receive an order confirmation message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These acceptance criteria remain expressed in stakeholder language and do not reference technical implementation details.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_specification_examples_givenwhenthen">Specification Examples (Given–When–Then)</h4>
+<div class="paragraph">
+<p>The following examples translate acceptance criteria into structured behavioral specifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Successful Log-in with Valid Credentials</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-gherkin" data-lang="gherkin">Scenario: Successful log-in with valid credentials
+    Given the student has valid credentials
+    And the student is on the log-in page
+    When the student enters their credentials and clicks the log-in button
+    Then the student should be redirected to the dashboard/home screen</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Successful Order Placement</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-gherkin" data-lang="gherkin">Scenario: Successful order placement
+    Given the student is logged in and on the menu page
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"
+    And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process
+    Then the system should confirm the order
+    And the cafeteria staff should be notified of the new order
+    And the student should receive an order confirmation message</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Secure Order Pickup</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-gherkin" data-lang="gherkin">Scenario: Secure order pickup
+    Given the student has placed an order
+    And the student receives confirmation that the order is ready for pickup
+    And the system provides a unique pickup code
+    When the student provides the pickup code to cafeteria staff
+    And staff validates the code in the system
+    Then the student should be able to securely pick up the order
+    And the system should mark the order as "picked up"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These specification examples have been formalized as Gherkin feature files (.feature) and committed to the project repository under the Cucumber testing setup branch.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bdd_tool_integration_cucumber">BDD Tool Integration (Cucumber)</h4>
+<div class="paragraph">
+<p>The project integrates Cucumber (cucumber-js) as the selected BDD tool. Cucumber has been configured in the repository, and corresponding <code>.feature</code> files have been created for the scenarios described above.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Tool: Cucumber (cucumber-js)</p>
+</li>
+<li>
+<p>Specification format: Gherkin (<code>.feature</code> files)</p>
+</li>
+<li>
+<p>Execution: via the configured npm script in the project setup</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The existing setup enables execution of Gherkin scenarios through the Cucumber runner, demonstrating integration of a BDD tool into the development workflow as required by the course guideline.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_automation_status_in_milestone_1">Automation Status in Milestone 1</h4>
+<div class="paragraph">
+<p>At this milestone, the Cucumber environment and Gherkin specification files are fully configured. However, step definitions binding these scenarios to implemented application behavior have not yet been developed.</p>
+</div>
+<div class="paragraph">
+<p>This is intentional and aligned with milestone sequencing. Milestone 1 focuses on domain modeling, requirements engineering, documentation, and preparation of testing infrastructure. Full behavioral binding and executable verification against implemented functionality will be completed in Milestone 2, once core application features are available.</p>
+</div>
+<div class="paragraph">
+<p>The current configuration demonstrates that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A BDD tool is integrated into the project.</p>
+</li>
+<li>
+<p>Behavioral specifications are written in Gherkin.</p>
+</li>
+<li>
+<p>Scenarios are structured for automated execution.</p>
+</li>
+<li>
+<p>The testing infrastructure is prepared for future implementation binding.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_summary">Summary</h4>
+<div class="paragraph">
+<p>By applying BDD and integrating Cucumber into the repository, the project establishes a clear path from stakeholder requirements to executable behavioral specifications. Even though full step-definition implementation will occur in Milestone 2, the current setup ensures alignment between requirements, documentation, and automated testing infrastructure, satisfying the academic requirements for BDD tool integration.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_3_use_of_debugging">4.3 Use of Debugging</h3>
+<div class="paragraph">
+<p>For the purposes of demonstrating the use of debugger in the project we ran the project template that was created by the setup team at this first stage of the project as the team has not yet started coding features and is focusing on domain knowlegde aquisition, requirements and creating the test plan and strategies that will be the foundation of the project. Nevertheless, we still tested core functionality that has been worked on, the best example of this is the connection to the database.</p>
+</div>
+<div class="sect3">
+<h4 id="_use_of_debugging_in_supabase_connection">Use of debugging in supabase connection</h4>
+<div class="sect4">
+<h5 id="_environment_variables"><strong>Environment variables</strong></h5>
+<div class="paragraph">
+<p>We used the debugger to verify that the enviroment variables (database url and key) named <strong><em>supaAnonKey</em></strong> and <strong><em>supaBaseUrl</em></strong> are being read correctly with the script created by the research and setup team. We expected them to be read correctly and as presented in the following image the test database key and URL are read and stored temporarily for this test.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images-m1/Supabase-test-debug-1a.png" alt="Supabase credentials">
+</div>
+<div class="title">Figure 5. Image of vscode debugger watching variables supaAnonKey and supaBaseUrl</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_session"><strong>Session</strong></h4>
+<div class="paragraph">
+<p>For this next value we expect it to be null, as the database has not been filled for it to have users. In the image below we can see the value of "session" in the watch section of the debugger is null, which is what we expect. Proving there are no "users/clients" connected to this database system right now.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images-m1/Supabase-test-debug-1c.png" alt="Supabase test debug 1c">
+</div>
+<div class="title">Figure 6. Debugger watching for the value of session variable to verify number of users connected at the time</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_use_of_debugging_in_ui_elements">Use of debugging in UI elements</h4>
+<div class="sect4">
+<h5 id="_before_activating_component"><strong>Before activating component</strong></h5>
+<div class="paragraph">
+<p>For the UI elements we examined that the collapsible title component was changing states as it&#8217;s supposed to. We added a conditional breakpoint to the collapsible component function and specified to only break when the title had the value "filter-based routing", this means that only when clicking a collapsible element with this title will activate the breakpoint and stop the execution of the application; To understand the function of this component further we added <strong><em>isOpen</em></strong> boolean variable to the watchpoint list of the debugger. We hypothesize that the value would be false when title is collapsed and true when value is set to true. In the example image below, we can see that the value of <strong><em>isOpen</em></strong> is set to false and a visual inspection of it shows that it is currently "closed".</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images-m1/UI-debug-example1a.png" alt="UI debug example1a">
+</div>
+<div class="title">Figure 7. Debugger with a conditional breakpoint on collapsible title watching for the value of the attribute isOpen</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_after_activating_component"><strong>After activating component</strong></h5>
+<div class="paragraph">
+<p>After activating the collapsible title component with the correct title, the function executes and we notice that the value of the variable <strong><em>isOpen</em></strong> is now set to true. This is the value we expect when the collapsible title is expanded. An image of this value in the debugger and the application running presented below.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images-m1/UI-debug-example1b.png" alt="UI debug example1b">
+</div>
+<div class="title">Figure 8. Using debugger to watch for the isOpen attribute value to change to 'true'</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appendix_a_ai_disclosure_statement">Appendix A: AI Disclosure Statement</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_tools_and_access_levels">Tools and Access Levels</h3>
+<div class="paragraph">
+<p>Our team utilized several Generative AI tools to support the project&#8217;s technical and documentation requirements. The tools used include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>ChatGPT (5.2 and Plus tier)</strong>: Primarily used for architectural  brainstorming.</p>
+</li>
+<li>
+<p><strong>GitHub Copilot</strong>: Assisted in code generation and refine technical phasing.</p>
+</li>
+<li>
+<p><strong>Claude 3.5 Sonnet</strong>: Refactored research data into documentation.</p>
+</li>
+<li>
+<p><strong>Google Gemini (2.5 and 3.1)</strong>: Used for technical writing and refactoring research data into documentation.</p>
+</li>
+<li>
+<p><strong>DeepSeek</strong>: Used specifically for syntax transcription.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The systems delivered multiple research methods which allowed developers to create new code and organize their respective research materials.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stages_of_ai_usage">Stages of AI Usage</h3>
+<div class="paragraph">
+<p>AI tools were integrated into various stages which extended from initial brainstorming to final technical review.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Research and Learning</strong>: Tools assisted in troubleshooting the code environment setups which included configuring the VS Code debugger for Expo and React Native.</p>
+</li>
+<li>
+<p><strong>Brainstorming</strong>: Generating UI design ideas and "skeletal" code outlines to identify potential redundancies.</p>
+</li>
+<li>
+<p><strong>Structuring and Refinement</strong>: We used AI to help structure test automation frameworks which included defining reporting standards and enhancing technical language for system logging and error flags. We also used AI to help structure our ideas and information for documentation.</p>
+</li>
+<li>
+<p><strong>Documentation</strong>: Structuring AsciiDoc files, drafting issues to ensure they were descriptive and proofreading documentation for clarity.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_human_vs_ai_contributions">Human vs AI Contributions</h3>
+<div class="paragraph">
+<p>Artificial Intelligence provided templates and initial drafts which required human users to create the main analysis and core logical framework. The team avoided AI use for some architectural tasks like Defect Management (Issue #35). All visual assets like logos, color palettes, and code logic were created entirely by the team. For example, while the AI suggested general UI components, the team manually developed the unique navigation structure and branding. AI, in general, provided initial verbal explanations and document structures while the team was responsible for the final content, design, and technical implementation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verification_and_conflict_resolution">Verification and Conflict Resolution</h3>
+<div class="paragraph">
+<p>We enforced a strong verification process to ensure the accuracy of our documentation and code. For example, while AI generated drafts for the QA Test Plan proposed scope limits restricted to frontend requirements, the team identified conflicts with our quality standards. We manually revised the scope to include backend and integration testing.</p>
+</div>
+<div class="paragraph">
+<p>All AI-generated content was reviewed by the team by researching websites, libraries, and documentation to ensure the accuracy of the information.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reflection">Reflection</h3>
+<div class="paragraph">
+<p>AI use enhanced our productivity by providing quick access to complex information and generating initial drafts. However, we recognized, for example, a dependency risk for AsciiDoc formatting that resulted in some formatting errors or inability to memorize specific syntax. Finally, the project taught us that AI is most effective as a supportive tool for speed and clarification, provided it is guided by human verification process.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2026-03-27 21:15:07 -0400
+</div>
+</div>
+</body>
+</html>
