@@ -13,8 +13,15 @@ jobs:
         steps:
         - name: Check-out repo
           uses: actions/checkout@v4
+        - name: Setup Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+            cache: 'npm'
         - name: install dependencies
           run: npm install
+        - name: Compile TypeScript CI scripts
+          run: npm run build:tests
         - name: Auto Test Suite
           run: npm run ci-check
             
