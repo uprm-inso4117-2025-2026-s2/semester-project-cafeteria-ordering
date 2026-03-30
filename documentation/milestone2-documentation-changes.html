@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.26">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>Cafeteria Ordering System</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -116,6 +116,7 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 :not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
 pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
 em em{font-style:normal}
 strong strong{font-weight:400}
@@ -218,7 +219,6 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
 .literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
 .listingblock>.content{position:relative}
-.listingblock pre>code{display:block}
 .listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
 .listingblock:hover code[data-lang]::before{display:block}
 .listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
@@ -461,7 +461,6 @@ Friday, February 27, 2026</p>
 <li><a href="#_1_1_team">1.1 Team</a></li>
 <li><a href="#_1_2_current_situation_needs_ideas">1.2 Current Situation, needs, ideas</a></li>
 <li><a href="#_1_3_scope_span_and_synopsis">1.3 Scope, Span and Synopsis</a></li>
-<li><a href="#_1_4_other_activities_than_just_developing_source_code">1.4 Other Activities than just developing source code</a></li>
 <li><a href="#_1_5_derived_goals">1.5 Derived Goals</a></li>
 </ul>
 </li>
@@ -494,6 +493,7 @@ Friday, February 27, 2026</p>
 <li><a href="#_reflection">Reflection</a></li>
 </ul>
 </li>
+<li><a href="#_logbook">Logbook</a></li>
 </ul>
 </div>
 </div>
@@ -931,16 +931,16 @@ Define the application&#8217;s branding, visual identity, and user experience.</
 <p>The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.</p>
 </div>
 <div class="paragraph">
-<p>Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in‑person ordering. This includes examining how long wait times affect student health and focus to justify the shift toward modern, digital ordering methods.</p>
+<p><span class="yellow-bg">Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in-person ordering. This includes examining how long wait times affect student health and focus, as well as structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.</span></p>
 </div>
 <div class="paragraph">
-<p>Requirements Engineering: Define project requirements that allow users to view menus, manage a digital cart, and process remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes.</p>
+<p><span class="yellow-bg">Requirements Engineering: Define project requirements that allow users to view menus, manage a digital cart, and process remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes. These requirements must be made explicit from the perspective of students, staff, and administrators so that later design and implementation decisions are guided by stakeholder needs rather than assumptions.</span></p>
 </div>
 <div class="paragraph">
-<p>Software Architecture: The architecture will consist of a web front-end for students and staff. It will integrate a backend ordering engine with a physical infrastructure component: a dedicated, locker-style pickup area designed to reduce counter congestion.</p>
+<p><span class="yellow-bg">Software Architecture: The architecture will consist of a web front-end for students and staff. It will integrate a backend ordering engine with a physical infrastructure component: a dedicated, locker-style pickup area designed to reduce counter congestion. Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, early architectural planning is necessary to define responsibilities clearly and reduce the risk of poorly structured design decisions.</span></p>
 </div>
 <div class="paragraph">
-<p>Software Design Process:  The project will follow an iterative, test‑driven development lifecycle. A standardized process for handling order flows and issues will be defined, and a continuous feedback loop with cafeteria staff and students will be used to refine the user interface, pickup flow, and operational procedures over time.</p>
+<p><span class="yellow-bg">Software Design Process: The project will follow an iterative, test-driven development lifecycle. A standardized process for handling order flows and issues will be defined, and a continuous feedback loop with cafeteria staff and students will be used to refine the user interface, pickup flow, and operational procedures over time. The process will also include early planning for testing and evaluation so that improvements such as reduced waiting times, smoother pickup, reliability, and usability can be assessed in a structured way.</span></p>
 </div>
 <div class="paragraph">
 <p><strong>Span</strong></p>
@@ -976,81 +976,53 @@ Define the application&#8217;s branding, visual identity, and user experience.</
 <p>Early architectural reasoning is incorporated to anticipate system structure and interactions between core components such as ordering, payment processing, notification handling, and pickup coordination. Testing strategies, including Test-Driven Development (TDD) and Behavior-Driven Development (BDD), are integrated into the planned workflow to maintain traceability between requirements and implementation while enabling structured validation and verification.</p>
 </div>
 <div class="paragraph">
-<p>Throughout the project, documentation, milestone planning, and coordinated team roles support alignment across analysis, design, testing, and implementation activities. By combining domain modeling, structured requirements engineering, architectural planning, and systematic testing preparation, the project establishes a comprehensive and well-founded approach to improving cafeteria service efficiency and reliability.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_1_4_other_activities_than_just_developing_source_code">1.4 Other Activities than just developing source code</h3>
-<div class="paragraph">
-<p>Developing a software solution is only one part of this project. Though it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.</p>
-</div>
-<div class="sect3">
-<h4 id="_a_key_activity_for_this_project_is_understanding_and_structuring_the_domain">A key activity for this project is understanding and structuring the domain.</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Cafeteria operations during peak hours rely heavily on manual and informal processes, which makes it difficult to clearly understand how ordering, payment, preparation, and pickup relate to one another.</p>
-</li>
-<li>
-<p>Creating a domain description would help the team form a shared understanding of these workflows and constraints before moving toward any specific solution.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_another_important_activity_is_requirements_engineering_although_the_current_situation_reveals_clear_inefficiencies_and_frustration_there_is_no_formal_description_of_what_an_improved_cafeteria_experience_should_provide_for_its_users">Another important activity is requirements engineering. Although the current situation reveals clear inefficiencies and frustration, there is no formal description of what an improved cafeteria experience should provide for its users.</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Defining requirements helps clarify expectations around functionality, performance, and usage from the perspective of students, staff, and administrators.</p>
-</li>
-<li>
-<p>Having explicit requirements ensures that later design and implementation decisions are guided by stakeholder needs rather than assumptions.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_early_design_and_architectural_reasoning_are_also_necessary_before_any_code_is_written">Early design and architectural reasoning are also necessary before any code is written.</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, system structure and responsibilities cannot be taken from prior solutions.</p>
-</li>
-<li>
-<p>Planning the system architecture and components early helps manage complexity and reduces the risk of poorly structured designs.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_planning_for_testing_and_evaluation_is_another_essential_activity">Planning for testing and evaluation is another essential activity.</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>The cafeteria environment is highly time-sensitive, which makes reliability and usability especially important.</p>
-</li>
-<li>
-<p>Thinking ahead about how the system will be evaluated allows the team to measure improvements such as reduced waiting times and smoother order pickup once a solution is in place.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_finally_coordination_and_project_organization_tie_all_project_activities_together">Finally, coordination and project organization tie all project activities together.</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Establishing milestones, documenting decisions, and assigning responsibilities helps keep the team aligned throughout the project.</p>
-</li>
-<li>
-<p>Maintaining communication with stakeholders supports scope management, progress tracking, and preparation for future iterations or expansion.</p>
-</li>
-</ul>
+<p><span class="yellow-bg">Throughout the project, documentation, milestone planning, coordinated team roles, ongoing stakeholder communication, progress tracking, and preparation for future iterations or expansion support alignment across analysis, design, testing, and implementation activities. By combining domain modeling, structured requirements engineering, architectural planning, systematic testing preparation, and strong project coordination, the project establishes a comprehensive and well-founded approach to improving cafeteria service efficiency and reliability.</span></p>
 </div>
 <div class="paragraph">
-<p>By combining domain understanding, requirements definition, design planning, testing preparation, and strong coordination with implementation, the project addresses both the technical and operational factors contributing to the current cafeteria situation.</p>
+<p><span class="red-bg line-through">=== 1.4 Other Activities than just developing source code</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">Developing a software solution is only one part of this project. Though it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">==== A key activity for this project is understanding and structuring the domain.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Cafeteria operations during peak hours rely heavily on manual and informal processes, which makes it difficult to clearly understand how ordering, payment, preparation, and pickup relate to one another.</span>
+<span class="red-bg line-through">* Creating a domain description would help the team form a shared understanding of these workflows and constraints before moving toward any specific solution.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">==== Another important activity is requirements engineering. Although the current situation reveals clear inefficiencies and frustration, there is no formal description of what an improved cafeteria experience should provide for its users.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Defining requirements helps clarify expectations around functionality, performance, and usage from the perspective of students, staff, and administrators.</span>
+<span class="red-bg line-through">* Having explicit requirements ensures that later design and implementation decisions are guided by stakeholder needs rather than assumptions.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">==== Early design and architectural reasoning are also necessary before any code is written.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, system structure and responsibilities cannot be taken from prior solutions.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Planning the system architecture and components early helps manage complexity and reduces the risk of poorly structured designs.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">==== Planning for testing and evaluation is another essential activity.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* The cafeteria environment is highly time-sensitive, which makes reliability and usability especially important.</span>
+<span class="red-bg line-through">* Thinking ahead about how the system will be evaluated allows the team to measure improvements such as reduced waiting times and smoother order pickup once a solution is in place.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">==== Finally, coordination and project organization tie all project activities together.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Establishing milestones, documenting decisions, and assigning responsibilities helps keep the team aligned throughout the project.</span>
+<span class="red-bg line-through">* Maintaining communication with stakeholders supports scope management, progress tracking, and preparation for future iterations or expansion.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">By combining domain understanding, requirements definition, design planning, testing preparation, and strong coordination with implementation, the project addresses both the technical and operational factors contributing to the current cafeteria situation.</span></p>
 </div>
 </div>
 </div>
@@ -3174,10 +3146,39 @@ through verifiable, incremental behavior.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_logbook">Logbook</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 28.5714%;">
+<col style="width: 42.8571%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Section</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">GitHub Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@Kaariinaa08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.4 - Other Activities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed Section 1.4 and redistributed it&#8217;s information to Sections 1.3.1 and 1.3.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-03-27 21:15:07 -0400
+Last updated 2026-03-30 19:11:58 -0400
 </div>
 </div>
 </body>
