@@ -13,11 +13,25 @@ function runStep(stepName, command){
     console.log("\n///////////////////////////////////////////////////////////////////////\n")
 }
 
+//Verify that compiled JavaScript files can be imported cleanly into ci-check.js
+function runInternalCheck(stepName, checkLogic) {
+    console.log(`\nTest: ${stepName}`);
+    console.log(`\nAction: Internal JavaScript Verification`);
+    checkLogic(); // Execute the logic
+    console.log("\n///////////////////////////////////////////////////////////////////////\n");
+}
+
 function main(){
     banner("AUTO TEST SUITE RUNNING");
 
     runStep("Lint (Expo ESLint)", "npm run lint");
     runStep("Build Export (Expo export)", "npm run test:build");
+
+    //Ensure that auto_test_suite.js file was properly created in build folder
+    runInternalCheck("Verify Compiled TS Suite", () => {
+        const tsSuite = require('../build/ci-build/auto_test_suite.js');
+        console.log(`Successfully integrated: ${tsSuite.testSuiteMetadata.name}`);
+    });
 
     //(UNCOMMENT TO USE)
     //Test to verify the FAILED tests are correctly logged.
