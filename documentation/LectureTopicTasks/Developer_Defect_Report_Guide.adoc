@@ -1,0 +1,52 @@
+= Define and establish Developer Defect Reports
+
+*By: Gerardo Y. Soto Ríos*
+
+== Introduction
+Establishing a proper developer defect report allows for a quicker resolution of issues that may affect the project in the long term. By having a detailed and professional document that captures unintended outputs found during development or inspection, we ensure that the responsible team is well informed and able to resolve issues in an efficient manner.
+
+Defect priority and severity must be correctly identified using the document:
+`documentation/QualityAssurance/Test_Plan/test_strategy/testing_defects.adoc`
+
+== Defect Report Structure
+
+[cols="2,3", options="header"]
+|===
+| Field | Description
+| Short Name | Brief descriptive title of defect
+| Date Found | MM/DD/YYYY
+| Team Responsible for defect | Name of the team responsible for the defect found
+| Priority | High/Medium/Low
+| Severity | Blocker/Critical/Major/Minor/Trivial
+| Issue Related | number or link
+| Description | Detailed explanation with example
+| Steps to Reproduce | Step-by-step guide
+|===
+
+
+== Example of a Valid Defect Report
+*(This is an example of a valid defect report, it is made up and not a current defect within the project)*
+
+=== Incorrect ID Format
+
+*Date:* 03/24/2026
+
+*Team Responsible for found defect:* Ordering & Payments  
+
+*Priority:* Medium  
+
+*Severity:* Major  
+
+*Issue related:* #number 
+
+The IDs from the confirmed orders are returned in nulled or invalid values, this prevents the tracking of any order. The correct ID should be in a valid UUID format.
+
+==== Step by Step
+
+. Create a new order
+. Navigate to the order confirmation section
+. Locate the order ID field
+. Observe that the ID is null or invalid
+
+== Conclusion
+By using this developer defect report structure, teams ensure that defect issues are clearly documented and efficiently communicated. This approach supports consistent tracking and faster resolution of defects throughout the development process. Ultimately, it helps maintain project stability and ensures progress aligns with defined milestone goals.
