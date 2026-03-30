@@ -180,6 +180,20 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a theoretical analysis of mutation testing that demonstrates how introducing small changes in Order Processing Logic can evaluate the sensitivity of the test suite and reveal weaknesses in test coverage
 
+==== LTT-20-(issue-291): Mutation Testing Prioritization Strategy for the Cafeteria Ordering System
+
+*Lecture Topic:* Mutation Testing
+
+*Deliverables:*
+
+- System-wide analysis of components relevant to mutation testing
+- Defined prioritization strategy for applying mutation testing
+- Justification of component prioritization based on impact, complexity, and test sensitivity
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* provides a strategic analysis of mutation testing application that identifies which components of the Cafeteria Ordering System should be prioritized, demonstrating how cost and test sensitivity considerations guide effective use of mutation testing
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
