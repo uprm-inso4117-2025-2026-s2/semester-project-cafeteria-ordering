@@ -51,21 +51,21 @@ export default function ForgotPassword() {
       
       {/* Email input field */}
       <ThemedText type='body' style={styles.fieldLabel}>Email</ThemedText>
-      <InputField value={email} onChangeText={setEmail} width={Dimensions.get('window').width - 100} inputStyle={styles.inputField}></InputField>
+      <InputField value={email} onChangeText={setEmail} width={Dimensions.get('window').width - 100} height={50} inputStyle={styles.inputField}></InputField>
 
       {/* Error message */}
       {errors.email && (
         <ThemedText style={{ color: errorColor, alignSelf: 'flex-start' }}>{errors.email}</ThemedText>
       )}
 
-      <PrimaryButton title='Send recovery link' width={170} height={40} onPress={handleRecoveryLinkSend} style={{marginTop: 60}}></PrimaryButton>
+      <PrimaryButton title='Send recovery link' width={170} height={50} onPress={handleRecoveryLinkSend} style={{marginTop: 60}}></PrimaryButton>
 
       {/* Popup card */}
       <PopupCard visible={showPopup} width={Dimensions.get('window').width - 70} height={300} style={{alignContent: 'center', justifyContent: 'center'}}>
         <PrimaryButton title='x' onPress={() => setShowPopup(!showPopup)} backgroundColor='#00000000' textColor={errorColor} style={styles.popupX} textStyle={{fontSize: 20}} height={15} width={15}></PrimaryButton>
         <ThemedText type='heading' style={[styles.heading, {textAlign: 'center'}]}>Check your email</ThemedText>
         <ThemedText type='body' style={[styles.body, {textAlign: 'center', paddingTop: 5}]}>Password reset link has been sent to your email</ThemedText>
-        <PrimaryButton title='Return to Login' width={170} height={40} style={{marginVertical: 20}}></PrimaryButton>
+        <PrimaryButton title='Return to Login' width={170} height={50} style={{marginVertical: 20}}></PrimaryButton>
       </PopupCard>
     </ThemedView>
   );

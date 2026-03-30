@@ -65,7 +65,7 @@ export default function ResetPassword() {
         if (errors.newPassword) { 
           setErrors((prev) => ({ ...prev, newPassword: '' }));
         }}}
-        width={Dimensions.get('window').width - 100} inputStyle={styles.inputField}></InputField>
+        width={Dimensions.get('window').width - 100} height={50} inputStyle={styles.inputField}></InputField>
       
       {/* New Password error message */}
       {errors.newPassword && (
@@ -79,14 +79,14 @@ export default function ResetPassword() {
         if (errors.confirm) { 
           setErrors((prev) => ({ ...prev, confirm: '' }));
         }}}
-        width={Dimensions.get('window').width - 100} inputStyle={styles.inputField}></InputField>
+        width={Dimensions.get('window').width - 100} height={50} inputStyle={styles.inputField}></InputField>
       
       {/* Confirm Password error message */}
       {errors.confirm && (
         <ThemedText type='body' style={{ color: errorColor, alignSelf: 'flex-start' }}>{errors.confirm}</ThemedText>
       )}
 
-      <PrimaryButton title='Reset password' width={170} height={40} style={styles.submitButton} onPress={handlePasswordReset}></PrimaryButton>
+      <PrimaryButton title='Reset password' width={170} height={50} style={styles.submitButton} onPress={handlePasswordReset}></PrimaryButton>
 
       {/* Popup card */}
       <PopupCard visible={showPopup} width={Dimensions.get('window').width - 70} height={250} style={{alignContent: 'center', justifyContent: 'center'}}>
@@ -114,7 +114,7 @@ function PasswordChecklist({ newPassword, }: { newPassword: string;}) {
         <ThemedView key={c.value} style={styles.checklistRow}>
 
           {/* Checkmarks change from default text color to green to indicate password met particular criteria */}
-          <ThemedText type='body' style={{fontSize: 14, color: c.met ? Colors.primaryGreen : defaultColor }}>✔</ThemedText> 
+          <ThemedText type='body' style={{fontSize: 14, color: c.met ? Colors.primaryGreen : defaultColor }}>✓</ThemedText> 
           <ThemedText type='body'>{' '}{c.value}</ThemedText>
         </ThemedView>
       ))}
