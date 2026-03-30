@@ -1,0 +1,43 @@
+= Testing Supabase Login Backend
+:toc:
+:icons: font
+
+This test validates backend login behavior independently from the frontend login screen.
+
+== Quick Run
+
+[source,bash]
+----
+npm run test:login-backend
+----
+
+This script validates:
+
+* Email/password sign-in
+* Session creation after login
+* Sign-out behavior
+* Session cleanup after logout
+
+== Prerequisites
+
+. Ensure `.env` has Supabase credentials and test account credentials:
++
+[source,bash]
+----
+EXPO_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+SUPABASE_TEST_LOGIN_EMAIL=test-user@example.com
+SUPABASE_TEST_LOGIN_PASSWORD=your-test-password
+----
+
+. Ensure the test account is confirmed in Supabase Auth.
+
+== Related Test Assets
+
+* Case: `src/tests/supabase/cases/TC-SUPA-03_login_backend_validation.ts`
+* Script: `src/tests/supabase/scripts/login-backend.test.ts`
+* Report: `src/tests/supabase/reports/TR-SUPA-03_login_backend_validation.adoc`
+
+== Purpose
+
+Run this test before UI integration so login screen development only needs to wire frontend events to backend logic.

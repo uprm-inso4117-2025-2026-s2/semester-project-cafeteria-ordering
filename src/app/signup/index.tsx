@@ -1,10 +1,9 @@
+import { supabase } from '@/lib/supabase';
 import { Ionicons } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
-import { Link } from 'expo-router';
-import { useState } from 'react';
+import { Link, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
   AccessibilityInfo,
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -186,14 +185,7 @@ export default function SignUpScreen() {
   const scheme = useColorScheme();
   const isDark = scheme === 'dark';
   const colors = isDark ? Colors.dark : Colors.light;
-
-  // Load Inter + Bitter directly from Google Fonts — no new packages needed
-  const [fontsLoaded] = useFonts({
-    Inter_400Regular: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
-    Inter_500Medium: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiJ-Ek-_EeA.woff2',
-    Inter_600SemiBold: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKSH3W5Kp8Ec5tA.woff2',
-    Bitter_600SemiBold: 'https://fonts.gstatic.com/s/bitter/v32/raxhHiqOu8IVPmnRc6SY1KXhnF_Y8fbeCL_-QYQi.woff2',
-  });
+  const router = useRouter();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -202,14 +194,53 @@ export default function SignUpScreen() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authMessage, setAuthMessage] = useState<string | null>(null);
 
-  // Show spinner while fonts load
-  if (!fontsLoaded) {
-    return (
-      <View style={[styles.flex, styles.centered, { backgroundColor: colors.background }]}>
-        <ActivityIndicator size="large" color={Colors.primary} />
-      </View>
-    );
+  useEffect(() => {
+    let isMounted = true;
+
+    async function guardAuthenticatedUsers() {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+      if (!isMounted) return;
+
+      if (!error && session?.user) {
+        router.replace('/menu');
+      }
+    }
+
+    guardAuthenticatedUsers();
+
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        router.replace('/menu');
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.subscription.unsubscribe();
+    };
+  }, [router]);
+
+  function mapSignUpError(message: string) {
+    const normalized = message.toLowerCase();
+
+    if (normalized.includes('already registered') || normalized.includes('already exists')) {
+      return 'This email is already registered. Try logging in instead.';
+    }
+
+    if (normalized.includes('password')) {
+      return 'Your password does not meet the required security rules.';
+    }
+
+    if (normalized.includes('invalid email')) {
+      return 'Please enter a valid email address.';
+    }
+
+    return 'Unable to create your account right now. Please try again.';
   }
 
   const handleSignUp = async () => {
@@ -222,11 +253,46 @@ export default function SignUpScreen() {
       return;
     }
     setErrors({});
+    setAuthMessage(null);
     setIsSubmitting(true);
     try {
-      // TODO: wire up Supabase auth — e.g.:
-      // await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName } } });
-      console.log('Sign up:', { fullName, email, phone });
+      const { data, error } = await supabase.auth.signUp({
+        email: email.trim(),
+        password,
+        options: {
+          data: {
+            full_name: fullName.trim(),
+            phone: phone.trim() || null,
+          },
+        },
+      });
+
+      if (error) {
+        const message = mapSignUpError(error.message);
+        setAuthMessage(message);
+        AccessibilityInfo.announceForAccessibility(message);
+        return;
+      }
+
+      const createdUser = data.user?.email ?? email.trim();
+      if (data.session?.user) {
+        const successMessage = `Account created for ${createdUser}.`;
+        setAuthMessage(successMessage);
+        AccessibilityInfo.announceForAccessibility(successMessage);
+        router.replace('/menu');
+        return;
+      }
+
+      const pendingMessage =
+        'This email may already be registered or needs email confirmation. Try logging in or check your inbox.';
+      setAuthMessage(pendingMessage);
+      AccessibilityInfo.announceForAccessibility(pendingMessage);
+
+      // Keep email so users can see which account was created.
+      setFullName('');
+      setPhone('');
+      setPassword('');
+      setAgreedToTerms(false);
     } finally {
       setIsSubmitting(false);
     }
@@ -365,6 +431,19 @@ export default function SignUpScreen() {
           </Text>
         </TouchableOpacity>
 
+        {authMessage && (
+          <Text
+            style={[
+              styles.authMessage,
+              { color: authMessage.toLowerCase().includes('account created') ? Colors.primary : colors.errorText },
+            ]}>
+            {authMessage}
+          </Text>
+        )}
+        {authMessage && __DEV__ && authMessage.toLowerCase().includes('unable to create') && (
+          <Text style={[styles.authMessage, { color: colors.subtext }]}>Check Metro logs for the Supabase error message.</Text>
+        )}
+
         {/* ── Log In Link ── */}
         <View style={styles.loginLinkRow}>
           <Text style={[styles.loginLinkText, { color: colors.subtext }]}>
@@ -477,4 +556,11 @@ const styles = StyleSheet.create({
   },
   loginLinkText: { fontFamily: 'Inter_400Regular', fontSize: 16 },
   loginLink: { fontFamily: 'Inter_500Medium', fontSize: 16, fontWeight: '500' },
+  authMessage: {
+    marginTop: 8,
+    fontFamily: 'Inter_400Regular',
+    fontSize: 14,
+    textAlign: 'center',
+    maxWidth: 480,
+  },
 });
