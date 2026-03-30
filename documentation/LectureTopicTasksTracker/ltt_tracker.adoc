@@ -180,6 +180,21 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* Applies the lecture principle that types encode program properties by identifying system invariants and demonstrating how stronger type design can prevent invalid states and improve system reliability
 
+==== LTT-19-(issue-324): Evaluating Type-Driven Development 
+
+*Lecture Topic:* Type-Driven Development
+
+*Deliverables:*
+
+- Definitions and examples
+- Evaluation on the feasibility of the methodology
+- Recommendations for the project
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Evaluates if the methodology is feasible at this timeframe in the project and brings insight into how it could be useful
+
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
