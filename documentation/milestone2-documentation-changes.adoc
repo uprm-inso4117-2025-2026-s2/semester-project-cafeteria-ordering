@@ -1470,4 +1470,9 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @Kaariinaa08 | Section 2.1.3 - Domain Terminology in Relation to Rough Sketch | Removed Section 2.1.3 and redistributed it's information to Sections 2.1.2 and 3.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398
 | @Kaariinaa08 | Section 1.4 - Other Activities | Removed Section 1.4 and redistributed its information to Sections 1.3.1 and 1.3.2 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397
 
+| @SamarysB | Section 2.1.2 - Terminology | Updated terminology to introduce "Customer" as a general entity, revised definitions, and ensured consistency with concept analysis. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/412
+| @SamarysB | Section 2.2.1 - User Stories, Epics, and Features | Reframed epics as high-level feature groups, rewrote user stories to be system-oriented, and expanded feature descriptions to clarify their role and relationships. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/413
+| @SamarysB | Section 3.2.1 - Validation | Clarified that scenario walkthroughs are planned but not yet conducted, and expanded the research section to include sources and conclusions. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/436
+| @SamarysB | Section 3.2.2 - Verification | Rewrote verification activities to reflect completed work, added coverage analysis and traceability checks, and expanded verification results and CI validation details. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/437
+
 |===
