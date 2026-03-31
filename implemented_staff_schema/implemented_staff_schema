@@ -1,0 +1,196 @@
+-- =====================================
+-- Implement Staff Database Schema
+-- Issue #266
+-- =====================================
+-- This migration updates the existing Supabase schema
+-- to align with the required staff-related database structure.
+
+begin;
+
+-- =====================================
+-- MENU ITEMS
+-- Existing table: menu_items
+-- Goal: ensure required fields exist and naming is aligned
+-- =====================================
+
+alter table if exists menu_items
+add column if not exists description text,
+add column if not exists category text,
+add column if not exists quantity integer not null default 0 check (quantity >= 0);
+
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'menu_items'
+          and column_name = 'available'
+    ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'menu_items'
+          and column_name = 'is_available'
+    ) then
+        alter table menu_items rename column available to is_available;
+    end if;
+end $$;
+
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'menu_items'
+          and column_name = 'image_url'
+    ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'menu_items'
+          and column_name = 'image'
+    ) then
+        alter table menu_items rename column image_url to image;
+    end if;
+end $$;
+
+-- =====================================
+-- ORDERS
+-- Existing table: orders
+-- Goal: support required order lifecycle fields
+-- Keep current project consistency:
+-- - use existing user_id
+-- - keep order_status
+-- =====================================
+
+alter table if exists orders
+add column if not exists payment_method text,
+add column if not exists payment_status text,
+add column if not exists placed_at timestamptz;
+
+update orders
+set placed_at = timestamp
+where placed_at is null;
+
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'orders'
+          and column_name = 'notes'
+    ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'orders'
+          and column_name = 'customer_note'
+    ) then
+        alter table orders rename column notes to customer_note;
+    end if;
+end $$;
+
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'orders'
+          and column_name = 'order_status'
+    ) then
+        begin
+            alter table orders
+            add constraint orders_order_status_check
+            check (order_status in ('pending', 'preparing', 'ready', 'completed', 'cancelled'));
+        exception
+            when duplicate_object then null;
+        end;
+    end if;
+end $$;
+
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'orders'
+          and column_name = 'payment_status'
+    ) then
+        begin
+            alter table orders
+            add constraint orders_payment_status_check
+            check (payment_status in ('pending', 'paid', 'failed', 'refunded'));
+        exception
+            when duplicate_object then null;
+        end;
+    end if;
+end $$;
+
+-- =====================================
+-- ORDER ITEMS
+-- Existing table: order_items
+-- Goal: ensure all required item-level order fields exist
+-- =====================================
+
+alter table if exists order_items
+add column if not exists item_name text,
+add column if not exists subtotal numeric(10,2) check (subtotal >= 0);
+
+do $$
+begin
+    if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'order_items'
+          and column_name = 'special_instructions'
+    ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'order_items'
+          and column_name = 'special_request'
+    ) then
+        alter table order_items rename column special_instructions to special_request;
+    end if;
+end $$;
+
+-- =====================================
+-- FOREIGN KEYS
+-- Ensure foreign key relationships exist
+-- =====================================
+
+do $$
+begin
+    if not exists (
+        select 1
+        from information_schema.table_constraints
+        where table_name = 'order_items'
+          and constraint_type = 'FOREIGN KEY'
+          and constraint_name = 'fk_order_items_order'
+    ) then
+        alter table order_items
+        add constraint fk_order_items_order
+        foreign key (order_id)
+        references orders(order_id)
+        on delete cascade;
+    end if;
+exception
+    when duplicate_object then null;
+end $$;
+
+do $$
+begin
+    if not exists (
+        select 1
+        from information_schema.table_constraints
+        where table_name = 'order_items'
+          and constraint_type = 'FOREIGN KEY'
+          and constraint_name = 'fk_order_items_menu_item'
+    ) then
+        alter table order_items
+        add constraint fk_order_items_menu_item
+        foreign key (menu_item_id)
+        references menu_items(id)
+        on delete restrict;
+    end if;
+exception
+    when duplicate_object then null;
+end $$;
+
+commit;
