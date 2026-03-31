@@ -1,0 +1,120 @@
+= Design and Evaluation of Test Data Generators in Property-Based Testing
+:toc:
+:toclevels: 2
+
+== Introduction
+
+Property-Based Testing (PBT) is a testing approach where system properties are verified using automatically generated inputs. Instead of writing individual test cases, developers define general properties that should always hold.
+
+A key component of this approach is the *test data generator*, which produces the inputs used during testing. The effectiveness of Property-Based Testing strongly depends on how well these generators are designed.
+
+== Problem Statement
+
+Poorly designed generators can lead to:
+
+- Limited coverage of the input space
+- Bias toward certain values
+- Missing important edge cases
+
+This can result in false confidence, where tests pass but defects remain undetected.
+
+== Test Data Generators
+
+Test data generators automatically create input values used to validate system properties.
+
+Examples include:
+- Random numbers
+- Strings of varying length
+- Lists of items (e.g., cafeteria orders)
+
+Generators should aim to explore a wide and meaningful range of inputs to ensure effective testing.
+
+== Common Issues
+
+=== 1. Biased Data Generation
+
+Generators may produce certain values more frequently than others.
+
+Example:
+- Small numbers generated more often than large ones
+- Short strings more common than long ones
+
+This reduces the likelihood of discovering defects in less frequent scenarios.
+
+=== 2. Poor Coverage
+
+If the generator does not sufficiently explore the input space, important scenarios may be missed.
+
+Example:
+- Only generating valid inputs
+- Not testing boundary values
+
+=== 3. Missing Edge Cases
+
+Edge cases are critical for uncovering defects.
+
+Example:
+- Empty inputs
+- Minimum and maximum values
+- Invalid or unexpected formats
+
+If generators do not include these cases, defects may go undetected.
+
+== Techniques for Improving Generators
+
+=== 1. Input Classification
+
+Group inputs into categories to ensure better coverage.
+
+Example:
+- Small, medium, large values
+- Valid vs invalid inputs
+
+=== 2. Statistical Analysis
+
+Track how often different inputs are generated.
+
+This helps identify:
+- Bias in distribution
+- Missing categories of inputs
+
+=== 3. Balanced Generators
+
+Design generators that produce a more uniform and representative distribution of values.
+
+Example:
+- Equal probability for edge cases and normal cases
+- Weighted randomness to include rare scenarios
+
+== Example: Cafeteria Ordering System
+
+Consider testing an order system.
+
+Property:
+The total price of an order should always be greater than or equal to zero.
+
+Generator inputs:
+- Number of items
+- Item prices
+- Quantity
+
+Potential issues:
+- Only generating positive values
+- Not testing zero or empty orders
+- Missing large orders
+
+Improved generator:
+- Includes zero items
+- Includes very large quantities
+- Mix of valid and invalid inputs
+
+== Conclusion
+
+Test data generators are a critical component of Property-Based Testing.
+
+A well-designed generator:
+- Improves test coverage
+- Reduces bias
+- Helps detect edge cases
+
+Without proper generator design, Property-Based Testing can become ineffective. Therefore, careful design and evaluation of generators is essential for reliable and effective testing.
