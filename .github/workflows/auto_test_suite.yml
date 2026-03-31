@@ -24,6 +24,9 @@ jobs:
           run: npm run build:tests
         - name: Auto Test Suite
           run: npm run ci-check
+          env:
+            EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
+            EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
             
 
 
