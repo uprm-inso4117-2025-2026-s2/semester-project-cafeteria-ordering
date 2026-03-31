@@ -131,7 +131,6 @@ export const testMenuItems: MenuItem[] = [
 
 /*
 Test Steps
-<insert sequence of steps that will take place when executing the test>
 
 . Attemp creation of menu items
 . use menu item addingredient, remove ingredient functions with 4 different states, no errors, errors in price, error in  ingredient id, error in ingredient name
@@ -153,7 +152,4 @@ Date Created: 2026-16-03
 Reviewed By
 <reviewer(s) fill this part>
 
-====
-*NOTE:* if there are any uncertainties, refer to the document in found within the following directory: `../../documentation/QualityAssurance/Test_Plan/test_strategy/define_test_case_design.adoc`. DO NOT INCLUDE THIS NOTE IN THE PRODUCED FILE.
-====
 */
