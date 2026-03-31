@@ -533,49 +533,49 @@ If a customer or staff member cancels an order, the system must reverse the tran
 
 ==== Epics
 
-===== Student Meal Access
+[.yellow-bg]#===== Meal Ordering and Access
+A high-level feature area focused on supporting customers in selecting, ordering, and obtaining food efficiently during limited time windows. This epic connects to features such as menu visibility, order placement, and meal pickup coordination.# 
 
-Students need a way to obtain food efficiently during short breaks between classes.
+[.green-bg]#===== Payment Processing
+A high-level feature area focused on enabling reliable and flexible payment options for customers. This includes handling transactions, managing failures, and supporting different payment moments within the service flow.# 
 
-===== Peak-Hour Cafeteria Flow
+[.yellow-bg]#===== Peak-Hour Flow Management
+A high-level feature area focused on helping cafeteria staff manage large numbers of customers during peak hours. This includes reducing congestion, improving queue handling, and supporting smoother service flow.# 
 
-Cafeteria staff need to handle large numbers of students during peak hours without excessive congestion.
-
-===== Reliable Cafeteria Service
-
-The cafeteria needs consistent operations to reduce delays and improve the overall cafeteria experience.
+[.yellow-bg]#===== Service Reliability and Coordination
+A high-level feature area focused on maintaining consistent cafeteria operations. This includes minimizing delays, handling disruptions, and ensuring coordination between ordering, preparation, and pickup.# 
 
 ==== User Stories
 
-===== As a Student 
+===== As a Customer 
 
-* I want to know what food options are available, so that I can decide whether waiting fits my schedule.
+[.yellow-bg]#* I want to see available food and drink options before ordering, so that I can decide whether waiting fits my schedule.# 
 
-* I want to spend less time waiting for food, so that I can arrive on time to my next class.
+[.yellow-bg]#* I want to know when my order is ready for pickup, so that I can minimize the time I spend waiting.# 
 
 ===== As a Cafeteria Staff Member
 
-* I want better awareness of incoming demand, so that I can prepare meals more efficiently.
+[.yellow-bg]#* I want to have visibility into incoming orders, so that I can prepare meals more efficiently.# 
 
-* I want service to remain steady during busy periods, so that crowds are reduced.
+[.yellow-bg]#* I want to manage service flow during busy periods, so that congestion and delays are reduced.# 
 
 ==== Features
 
-===== Meal availability information
+===== Meal Availability Information
 
-* Supports students in understanding what meals are offered during a service period.
+[.yellow-bg]#Provides customers with visibility into available meals and beverages during a service period. This feature supports the Meal Ordering and Access epic and enables user stories related to decision-making before joining the queue.# 
 
-===== Order and payment handling
+===== Order and Payment Handling
 
-* Supports the processing of student meal requests.
+[.yellow-bg]#Supports the creation and processing of customer orders, including the handling of payments and potential payment failures. This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic, ensuring that orders move correctly through the system.# 
 
-===== Demand awareness support
+===== Demand Awareness Support
 
-* Supports cafeteria staff in anticipating peak-hour service needs and wants.
+[.green-bg]#Provides cafeteria staff with information about incoming orders and expected demand. This feature supports the Peak-Hour Flow Management epic and helps staff prepare meals under uncertain demand conditions.# 
 
-===== Service flow coordination
+===== Service Flow Coordination
 
-* Supports smoother movement from ordering to meal pickup.
+[.yellow-bg]#Coordinates the progression from order placement to meal preparation and pickup. This feature supports the Service Reliability and Coordination epic and ensures smoother transitions between service stages.# 
 
 ==== 2.2.2 Personas
 

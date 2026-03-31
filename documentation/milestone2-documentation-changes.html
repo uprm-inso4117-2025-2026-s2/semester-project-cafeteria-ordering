@@ -1473,94 +1473,68 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 <div class="sect3">
 <h4 id="_epics">Epics</h4>
-<div class="sect4">
-<h5 id="_student_meal_access">Student Meal Access</h5>
 <div class="paragraph">
-<p>Students need a way to obtain food efficiently during short breaks between classes.</p>
+<p><span class="yellow-bg">===== Meal Ordering and Access
+A high-level feature area focused on supporting customers in selecting, ordering, and obtaining food efficiently during limited time windows. This epic connects to features such as menu visibility, order placement, and meal pickup coordination.</span></p>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_peak_hour_cafeteria_flow">Peak-Hour Cafeteria Flow</h5>
 <div class="paragraph">
-<p>Cafeteria staff need to handle large numbers of students during peak hours without excessive congestion.</p>
+<p><span class="green-bg">===== Payment Processing
+A high-level feature area focused on enabling reliable and flexible payment options for customers. This includes handling transactions, managing failures, and supporting different payment moments within the service flow.</span></p>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_reliable_cafeteria_service">Reliable Cafeteria Service</h5>
 <div class="paragraph">
-<p>The cafeteria needs consistent operations to reduce delays and improve the overall cafeteria experience.</p>
+<p><span class="yellow-bg">===== Peak-Hour Flow Management
+A high-level feature area focused on helping cafeteria staff manage large numbers of customers during peak hours. This includes reducing congestion, improving queue handling, and supporting smoother service flow.</span></p>
 </div>
+<div class="paragraph">
+<p><span class="yellow-bg">===== Service Reliability and Coordination
+A high-level feature area focused on maintaining consistent cafeteria operations. This includes minimizing delays, handling disruptions, and ensuring coordination between ordering, preparation, and pickup.</span></p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_user_stories">User Stories</h4>
 <div class="sect4">
-<h5 id="_as_a_student">As a Student</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>I want to know what food options are available, so that I can decide whether waiting fits my schedule.</p>
-</li>
-<li>
-<p>I want to spend less time waiting for food, so that I can arrive on time to my next class.</p>
-</li>
-</ul>
+<h5 id="_as_a_customer">As a Customer</h5>
+<div class="paragraph">
+<p><span class="yellow-bg">* I want to see available food and drink options before ordering, so that I can decide whether waiting fits my schedule.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="yellow-bg">* I want to know when my order is ready for pickup, so that I can minimize the time I spend waiting.</span></p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_as_a_cafeteria_staff_member">As a Cafeteria Staff Member</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>I want better awareness of incoming demand, so that I can prepare meals more efficiently.</p>
-</li>
-<li>
-<p>I want service to remain steady during busy periods, so that crowds are reduced.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p><span class="yellow-bg">* I want to have visibility into incoming orders, so that I can prepare meals more efficiently.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="yellow-bg">* I want to manage service flow during busy periods, so that congestion and delays are reduced.</span></p>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_features">Features</h4>
 <div class="sect4">
-<h5 id="_meal_availability_information">Meal availability information</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Supports students in understanding what meals are offered during a service period.</p>
-</li>
-</ul>
+<h5 id="_meal_availability_information">Meal Availability Information</h5>
+<div class="paragraph">
+<p><span class="yellow-bg">Provides customers with visibility into available meals and beverages during a service period. This feature supports the Meal Ordering and Access epic and enables user stories related to decision-making before joining the queue.</span></p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_order_and_payment_handling">Order and payment handling</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Supports the processing of student meal requests.</p>
-</li>
-</ul>
+<h5 id="_order_and_payment_handling">Order and Payment Handling</h5>
+<div class="paragraph">
+<p><span class="yellow-bg">Supports the creation and processing of customer orders, including the handling of payments and potential payment failures. This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic, ensuring that orders move correctly through the system.</span></p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_demand_awareness_support">Demand awareness support</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Supports cafeteria staff in anticipating peak-hour service needs and wants.</p>
-</li>
-</ul>
+<h5 id="_demand_awareness_support">Demand Awareness Support</h5>
+<div class="paragraph">
+<p><span class="green-bg">Provides cafeteria staff with information about incoming orders and expected demand. This feature supports the Peak-Hour Flow Management epic and helps staff prepare meals under uncertain demand conditions.</span></p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_service_flow_coordination">Service flow coordination</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Supports smoother movement from ordering to meal pickup.</p>
-</li>
-</ul>
+<h5 id="_service_flow_coordination">Service Flow Coordination</h5>
+<div class="paragraph">
+<p><span class="yellow-bg">Coordinates the progression from order placement to meal preparation and pickup. This feature supports the Service Reliability and Coordination epic and ensures smoother transitions between service stages.</span></p>
 </div>
 </div>
 </div>
@@ -3134,7 +3108,7 @@ through verifiable, incremental behavior.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-03-31 15:47:27 -0400
+Last updated 2026-03-31 16:16:26 -0400
 </div>
 </div>
 </body>
