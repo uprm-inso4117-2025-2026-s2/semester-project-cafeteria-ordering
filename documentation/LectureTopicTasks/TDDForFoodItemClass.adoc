@@ -32,23 +32,85 @@ This operation corresponds to:
 * If a valid `MenuItemRow` and ingredient list are provided, a `MenuItem` must be returned with all fields correctly mapped.
 * The returned item's `id`, `name`, and `price` must exactly match the values in the source row.
 * The returned item's `available` flag must be correctly reflected by `isAvailable()` and `canOrder()`.
+* If the ingredient list is empty, the item must still be constructed successfully.
+* The returned ingredient list must be a defensive copy, mutations to it must not affect internal state.
 
-== 3. TDD Test Cases — Incremental Construction
+== 3. TDD Test Cases Incremental Construction
 
-=== Test 1 — A Valid Row Produces a MenuItem Instance
+=== Test 1: A Valid Row Produces a MenuItem Instance
 
 *Test:* Given a valid `MenuItemRow` and `IngredientItem[]`, calling
-`MenuItem.fromDatabaseRow(row, ingredients)` should return a `MenuItem` instance.
+`MenuItem.fromDatabaseRow(row, ingredients)` should return a `MenuItem` instance
+(not null, not undefined).
 
 *Dummy Implementation:*
 [source, typescript]
 ----
 static fromDatabaseRow(row: MenuItemRow, ingredients: IngredientItem[]): MenuItem {
-  return new MenuItem(); // blank constructor — returns empty item
+  return new MenuItem(); // blank constructor returns empty item
 }
 ----
 
-*Result:* Test fails — the returned object exists but no fields are mapped from the row.
+*Result:* Test fails, the returned object is a blank `MenuItem` with no fields mapped.
+
+*Minimal Implementation:*
+[source, typescript]
+----
+static fromDatabaseRow(row: MenuItemRow, ingredients: IngredientItem[]): MenuItem {
+  return new MenuItem(
+    row.id, "", "", [], 0, "", false, [], 0, "", ""
+  );
+}
+----
+
+Test 1 now passes, an instance is returned. No other fields are mapped yet.
+
+---
+
+=== Test 2: The Returned Item Must Correctly Map name
+
+The previous implementation returns an instance but ignores all row data.
+The developer now asserts that `name` is correctly mapped.
+
+*Test:* The value returned by `getName()` must exactly match `row.name`.
+
+[source, typescript]
+----
+const item = MenuItem.fromDatabaseRow(row, []);
+assert(item.getName() === "Chicken Wrap");
+----
+
+*Result:* Test fails, current implementation always returns an empty string for `name`.
+
+*Minimal Implementation:*
+[source, typescript]
+----
+static fromDatabaseRow(row: MenuItemRow, ingredients: IngredientItem[]): MenuItem {
+  return new MenuItem(
+    row.id, "", row.name, [], 0, "", false, [], 0, "", ""
+  );
+}
+----
+
+Tests 1-2 now pass.
+
+---
+
+=== Test 3: The Returned Item Must Correctly Map id and price
+
+With `name` now mapped, the developer asserts that `id` and `price` are also correctly mapped.
+
+*Test:* The values returned by `getId()` and `getBasePrice()` must exactly
+match `row.id` and `row.price` respectively.
+
+[source, typescript]
+----
+const item = MenuItem.fromDatabaseRow(row, []);
+assert(item.getId() === "1e7578f3-ad2c-4085-8c23-ef600e8d4c93");
+assert(item.getBasePrice() === 10);
+----
+
+*Result:* Test fails, `id` is partially mapped but `price` is still hardcoded to `0`.
 
 *Minimal Implementation:*
 [source, typescript]
@@ -62,32 +124,11 @@ static fromDatabaseRow(row: MenuItemRow, ingredients: IngredientItem[]): MenuIte
 }
 ----
 
-Test 1 now passes.
+Tests 1-3 now pass.
 
 ---
 
-=== Test 2 — The Returned Item Must Correctly Map id, name, and price
-
-The first test only confirmed that an instance is returned. Now we check that data is actually mapped correctly from the source row.
-
-*Test:* The values returned by `getId()`, `getName()`, and `getBasePrice()` must exactly
-match `row.id`, `row.name`, and `row.price` respectively.
-
-[source, typescript]
-----
-const item = MenuItem.fromDatabaseRow(row, []);
-assert(item.getId() === "1e7578f3-ad2c-4085-8c23-ef600e8d4c93");
-assert(item.getName() === "Chicken Wrap");
-assert(item.getBasePrice() === 10);
-----
-
-*Result:* Tests pass — field mapping is correctly handled by the full constructor.
-
-Tests 1–2 now pass.
-
----
-
-=== Test 3 — An Unavailable Item Is Correctly Reflected by isAvailable() and canOrder()
+=== Test 4: An Unavailable Item Is Correctly Reflected by isAvailable() and canOrder()
 
 The business rule that unavailable items must not be orderable by customers is now enforced.
 
@@ -102,9 +143,10 @@ assert(item.isAvailable() === false);
 assert(item.canOrder() === false);
 ----
 
-*Result:* Test passes — `available` is mapped directly from the row and `canOrder()`
-checks `this.available` internally:
+*Result:* Test fails. Current implementation hardcodes `available` to `false` in the
+constructor but `canOrder()` does not yet check it correctly.
 
+*Minimal Implementation:*
 [source, typescript]
 ----
 canOrder(): boolean {
@@ -116,7 +158,42 @@ canOrder(): boolean {
 }
 ----
 
-Tests 1–3 now pass.
+Tests 1-4 now pass.
+
+---
+
+=== Test 5: getIngredients() Returns a Defensive Copy
+
+To protect internal state, mutations to the array returned by `getIngredients()` must not
+affect the item's internal ingredient list.
+
+*Test:* Pushing a new ingredient into the array returned by `getIngredients()` must not
+change the result of a subsequent call to `getIngredients()`.
+
+[source, typescript]
+----
+const ingredients: IngredientItem[] = [
+  { ingredients_id: "9ad836fb-054c-444e-be78-07296f83599f", ingredients_names: "Milk", ingredients_price: 0.5 },
+  { ingredients_id: "09be5079-6518-47ff-a94c-5deec91d8100", ingredients_names: "Mayonnaise", ingredients_price: 0.35 }
+];
+const item = MenuItem.fromDatabaseRow(row, ingredients);
+const copy = item.getIngredients();
+copy.push({ ingredients_id: "ing-999", ingredients_names: "Extra", ingredients_price: 1.0 });
+assert(item.getIngredients().length === 2); // must still be 2, not 3
+----
+
+*Result:* Test fails, `getIngredients()` returns the internal array directly,
+allowing external mutation.
+
+*Minimal Implementation:*
+[source, typescript]
+----
+getIngredients(): IngredientItem[] {
+  return [...this.ingredients];
+}
+----
+
+All five tests now pass simultaneously.
 
 == 4. Refactoring Analysis
 
@@ -162,11 +239,13 @@ addIngredient(ingredient: IngredientItem): void {
 
 == 5. Result
 
-Through three incremental tests:
+Through five incremental tests:
 
-* `fromDatabaseRow` evolved from a blank stub into a fully verified construction pipeline.
+* `fromDatabaseRow` evolved from returning a blank stub into a fully verified construction pipeline.
 * Each change was driven by a failing test.
-* The final unit now reflects the domain rules of the Cafeteria Ordering System:
+* Earlier tests continued to pass as new ones were added.
+* The final unit now reflects the domain rules:
 ** Valid rows are fully mapped with all fields accessible through typed getters.
 ** Unavailable items are correctly rejected at the `canOrder()` boundary.
+** Ingredient lists are protected from external mutation through defensive copying.
 ** Internal duplication was safely eliminated through refactoring without breaking any test.
