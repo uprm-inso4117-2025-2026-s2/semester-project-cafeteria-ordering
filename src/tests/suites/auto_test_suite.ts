@@ -1,10 +1,15 @@
 // src/tests/suites/auto_test_suite.ts
 /**
- * Placeholder for the TypeScript-based Auto Test Suite logic.
- * This file will eventually house the Customer Ordering and Payment test integrations.
+ * This file houses the Customer Ordering and Payment test integrations.
+ * For instance it contains Auto Test Suite logic for Customer Ordering, Payment, and Security.
  */
 export const testSuiteMetadata = {
-  name: "Automated TS Test Suite",
-  version: "1.0.0",
-  status: "initialized"
+  name: "Automated TS Auth, Security & Ordering Test Suite",
+  version: "1.1.0",
+  status: "initialized",
+  modules: {
+    authentication: ["TC-AUTH-03", "TC-AUTH-04"],
+    security: ["TC-SUPA-01", "TC-SUPA-02"],
+    ordering: ["TC-ORD-01", "TC-ORD-02"]
+  }
 };
