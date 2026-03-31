@@ -377,6 +377,8 @@ Uncertain Demand Preparation :: (behavior, domain)
 Service Bottleneck :: (behavior, domain)
 [.yellow-bg]#A recurring slowdown caused by limited capacity in ordering, payment, or preparation, often becoming most visible during demand surges or operational failures.#
 
+[.yellow-bg]#The domain description above also establishes several important properties of the cafeteria environment that motivate the domain requirements. In this domain, every order contains at least one menu item and is associated with a specific customer. Menu items may become unavailable during a service period due to inventory limitations or preparation constraints. Orders progress through distinct preparation stages before they are eligible for pickup. Each menu item has an established price that contributes to the total cost of the order, and an order may only be released once preparation has been completed. The domain also includes the possibility of order cancellation before fulfillment, payment obligations that must be satisfied before release, customers who are not limited to students, and preparation times that may vary according to the order and current kitchen conditions.#
+
 [.red-bg.line-through]#==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch#
 
 [.red-bg.line-through]#This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.#
@@ -626,29 +628,38 @@ They will guide the justification of user stories, epics, and functional require
 
 ==== 2.2.3 Domain Requirements
 
+[.yellow-bg]#The following requirements are derived from the domain description in Section 2.1. They define what the system must represent, enforce, or communicate in order to remain consistent with the cafeteria ordering domain.#
+
 * **DR-01: Order Composition**
-** *Domain Property:* A physical cafeteria order always consists of at least one food or beverage item.
-** *Domain Requirement:* The system must associate every order with a non-empty set of menu items.
+** [.yellow-bg]#The system must associate every order with a non-empty set of menu items.#
 
 * **DR-02: Item Availability**
-** *Domain Property:* Food ingredients and prepared items in the cafeteria have limited daily physical availability.
-** *Domain Requirement:* The system must provide means to prevent a customer from adding an out-of-stock menu item to their order.
+** [.yellow-bg]#The system must prevent a customer from adding an unavailable menu item to an order.#
+** [.yellow-bg]#The system must track and expose whether each menu item is currently available for ordering.#
 
 * **DR-03: Order Ownership**
-** *Domain Property:* Every food order is requested by a specific person in the cafeteria.
-** *Domain Requirement:* The system must associate every placed order with the specific customer who initiated it.
+** [.yellow-bg]#The system must associate every placed order with the specific customer who initiated it.#
 
 * **DR-04: Order Preparation Lifecycle**
-** *Domain Property:* The physical preparation of an order progresses through distinct stages in the kitchen.
-** *Domain Requirement:* The system must provide means for cafeteria staff to update and track the physical preparation stage of an order.
+** [.yellow-bg]#The system must allow cafeteria staff to update and track the preparation stage of an order.#
 
 * **DR-05: Pricing and Total Calculation**
-** *Domain Property:* Every physical menu item sold in the cafeteria has an established price, and an order's total cost is the sum of these items.
-** *Domain Requirement:* The system must provide means to calculate the total price of an order based strictly on the individual prices of the selected menu items.
+** [.yellow-bg]#The system must calculate the total price of an order based on the prices of the selected menu items.#
 
 * **DR-06: Order Fulfillment**
-** *Domain Property:* A customer cannot pick up their food until the cafeteria kitchen staff has finished preparing it.
-** *Domain Requirement:* The system must provide means to communicate to the customer when their specific order has transitioned to the "ready for pickup" state.
+** [.yellow-bg]#The system must communicate to the customer when the customer's specific order has transitioned to the ready-for-pickup state.#
+
+* [.green-bg]#**DR-07: Order Cancellation**#
+** [.green-bg]#The system must support the handling of order cancellations and notify cafeteria staff when an order has been canceled.#
+
+* [.green-bg]#**DR-08: Payment Confirmation Before Release**#
+** [.green-bg]#The system must represent the payment status of an order and must distinguish orders that are pending payment from those whose payment has been completed before the order is released to the customer.#
+
+* [.green-bg]#**DR-09: Customer Scope**#
+** [.green-bg]#The system must support order placement by cafeteria customers and must not assume that all customers are students.#
+
+* [.green-bg]#**DR-10: Preparation Time Variability**#
+** [.green-bg]#The system must represent preparation time as a variable property of an order rather than as a fixed constant for all orders.#
 
 ==== 2.2.4 Interface Requirements
 
@@ -1469,6 +1480,7 @@ AI use enhanced our productivity by providing quick access to complex informatio
 
 | @Kaariinaa08 | Section 2.1.3 - Domain Terminology in Relation to Rough Sketch | Removed Section 2.1.3 and redistributed it's information to Sections 2.1.2 and 3.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398
 | @Kaariinaa08 | Section 1.4 - Other Activities | Removed Section 1.4 and redistributed its information to Sections 1.3.1 and 1.3.2 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397
+| @Kaariinaa08 | Section 2.2.3 - Domain Requirements | Reworked Section 2.2.3 and distributed some of it's information to Section 2.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434
 
 | @SamarysB | Section 2.1.2 - Terminology | Updated terminology to introduce "Customer" as a general entity, revised definitions, and ensured consistency with concept analysis. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/412
 | @SamarysB | Section 2.2.1 - User Stories, Epics, and Features | Reframed epics as high-level feature groups, rewrote user stories to be system-oriented, and expanded feature descriptions to clarify their role and relationships. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/413
