@@ -16,4 +16,5 @@
 |TC-ORD-01 | Order Modification - Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults.| TC-ORD-01-Modify-Order
 |TC-ORD-02 |Validate Order ID format and correctness of generated values for place and confirm order feature. | UT-ORD-2_Place_and_Confirmation_for_Order.ts
 |TC-PAY-01 |Payment confirmation verification |TBD 
+|TC-ORD-03 | Menu item attribute validation tests | src/tests/ordering/scrips/TC-ORD-03-menu-item-script.ts
 |====

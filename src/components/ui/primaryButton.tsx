@@ -18,7 +18,7 @@ Component usage examples:
 
 
 import { Colors, Typography } from "@/constants/theme";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, TextStyle, ViewStyle } from "react-native";
 
 type Props = {
   title: string;
@@ -29,14 +29,17 @@ type Props = {
   textColor?: string;
   width?: number;
   height?: number;
+
+  style?: ViewStyle;
+  textStyle?: TextStyle;
 };
 
-export default function PrimaryButton({ title, onPress, backgroundColor, textColor, width, height }: Props) {
+export default function PrimaryButton({ title, onPress, backgroundColor, textColor, width, height, style, textStyle }: Props) {
   return (
     <Pressable style={[styles.button, {
-        backgroundColor: backgroundColor ?? Colors.primaryGreen, width, height: height ?? 40}]} 
+        backgroundColor: backgroundColor ?? Colors.primaryGreen, width, height: height ?? 40}, style]} 
         onPress={onPress}>
-      <Text style={[styles.text, {color: textColor ?? Colors.light.secondaryText}]}>{title}</Text>
+      <Text style={[styles.text, {color: textColor ?? Colors.light.secondaryText}, textStyle]}>{title}</Text>
     </Pressable>
   );
 }
