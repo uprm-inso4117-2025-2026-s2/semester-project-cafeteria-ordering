@@ -308,8 +308,11 @@ The following snippets are raw records of observations and stakeholder experienc
 
 [.yellow-bg]#The terminology defined in this section is derived from recurring phenomena observed in the domain rough sketch. These terms are not arbitrary labels; rather, they represent abstractions of stakeholder experiences, operational constraints, and observable interactions within the cafeteria environment. Together, they establish a shared vocabulary for subsequent concept analysis and requirements work.#
 
+Customer :: (entity, domain)
+[.green-bg]#A person who obtains food or beverages from the cafeteria, including students, faculty, staff, or visitors.#
+
 Student :: (entity, domain)
-A person enrolled at the university attempting to obtain food from the cafeteria, typically within limited time windows between academic activities or responsibilities.
+[.yellow-bg]#A person enrolled at the university who may act as a customer when obtaining food or beverages from the cafeteria, typically within limited time windows between academic activities or responsibilities.#
 
 Cafeteria :: (entity, domain)
 A food-service environment on campus where meals are prepared, ordered, paid for, and collected.
@@ -318,13 +321,13 @@ Cafeteria Staff :: (entity, domain)
 Staff responsible for preparing meals, handling orders, processing payments, and managing the cafeteria.
 
 Meal :: (entity, domain)
-A prepared set of food items offered by the cafeteria during operating hours.
+[.yellow-bg]#A set of food and/or beverage items offered by the cafeteria during operating hours, including prepared items (e.g., hot dishes) as well as non-prepared items (e.g., bottled drinks, water, or packaged goods).#
 
 Menu :: (entity, domain)
 [.yellow-bg]#A collection of meals and side options available during a specific period, whose visibility and accessibility may affect student decision-making before ordering.#
 
 Order :: (entity, domain)
-A request made by a student for one or more items from the menu.
+[.yellow-bg]#A request made by a customer for one or more items from the menu.#
 
 Queue :: (entity, domain)
 [.yellow-bg]#An ordered sequence of students waiting to place an order or complete payment, especially visible during peak periods when lines extend beyond the primary service area.#
@@ -333,25 +336,25 @@ Service Period :: (entity, domain)
 A continuous time window during which the cafeteria is open and serving meals.
 
 Order Placement :: (action, domain)
-The act of selecting menu items and communicating the request to cafeteria staff.
+[.yellow-bg]#The act of selecting menu items and communicating the request to cafeteria staff.#
 
 Payment :: (action, domain)
-[.yellow-bg]#The process of transferring money from a student to the cafeteria in exchange for a meal, including the possibility of service disruption when payment processing fails.#
+[.yellow-bg]#The process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of service disruption when payment processing fails. In the current domain, payment may occur at or after receiving the meal (e.g., upon tray pickup), rather than strictly at order placement. This behavior may change once the system is introduced.#
 
 Meal Preparation :: (action, domain)
-[.yellow-bg]#The production of meals in advance or in response to incoming orders, often under uncertainty about near-term student demand.#
+[.yellow-bg]#The production of meals in advance or in response to incoming orders, often under uncertainty about near-term customer demand.#
 
 Meal Pickup :: (action, domain)
-A student receiving a prepared meal after an order has been completed.
+[.yellow-bg]#A customer receiving prepared or selected items after an order has been completed.#
 
 Waiting Time :: (attribute, domain)
-[.yellow-bg]#The elapsed time between a student joining the queue and receiving their meal, often influencing whether the student remains in line or leaves due to time pressure.#
+[.yellow-bg]#The elapsed time between a customer joining the queue and receiving their meal, often influencing whether the customer remains in line or leaves due to time pressure.#
 
 Student Has Just Joined the Queue :: (event, domain)
 The moment a student enters the line to place an order.
 
 Order Has Just Been Placed :: (event, domain)
-The moment a student's order is communicated to cafeteria staff.
+[.yellow-bg]#The moment a customer's order is communicated to cafeteria staff.#
 
 Payment Has Just Failed :: (event, domain)
 The moment a payment attempt does not complete successfully, causing a delay in service.
@@ -366,10 +369,10 @@ Crowd Surge :: (behavior, domain)
 A situation that occurs when large numbers of students arrive within a short time spans. This leads to long queues and increased service pressure.
 
 Time-Constrained Decision Making :: (behavior, domain)
-[.yellow-bg]#A behavior in which students evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next academic responsibility.#
+[.yellow-bg]#A behavior in which customers evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next responsibility.#
 
 Uncertain Demand Preparation :: (behavior, domain)
-[.yellow-bg]#A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden student arrival.#
+[.yellow-bg]#A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden customer arrival.#
 
 Service Bottleneck :: (behavior, domain)
 [.yellow-bg]#A recurring slowdown caused by limited capacity in ordering, payment, or preparation, often becoming most visible during demand surges or operational failures.#

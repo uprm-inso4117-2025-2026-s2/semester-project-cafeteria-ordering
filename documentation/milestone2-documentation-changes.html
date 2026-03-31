@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.22">
 <title>Cafeteria Ordering System</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -1089,10 +1089,15 @@ Define the application&#8217;s branding, visual identity, and user experience.</
 </div>
 <div class="dlist">
 <dl>
+<dt class="hdlist1">Customer </dt>
+<dd>
+<p>(entity, domain)
+<span class="green-bg">A person who obtains food or beverages from the cafeteria, including students, faculty, staff, or visitors.</span></p>
+</dd>
 <dt class="hdlist1">Student </dt>
 <dd>
 <p>(entity, domain)
-A person enrolled at the university attempting to obtain food from the cafeteria, typically within limited time windows between academic activities or responsibilities.</p>
+<span class="yellow-bg">A person enrolled at the university who may act as a customer when obtaining food or beverages from the cafeteria, typically within limited time windows between academic activities or responsibilities.</span></p>
 </dd>
 <dt class="hdlist1">Cafeteria </dt>
 <dd>
@@ -1107,7 +1112,7 @@ Staff responsible for preparing meals, handling orders, processing payments, and
 <dt class="hdlist1">Meal </dt>
 <dd>
 <p>(entity, domain)
-A prepared set of food items offered by the cafeteria during operating hours.</p>
+<span class="yellow-bg">A set of food and/or beverage items offered by the cafeteria during operating hours, including prepared items (e.g., hot dishes) as well as non-prepared items (e.g., bottled drinks, water, or packaged goods).</span></p>
 </dd>
 <dt class="hdlist1">Menu </dt>
 <dd>
@@ -1117,7 +1122,7 @@ A prepared set of food items offered by the cafeteria during operating hours.</p
 <dt class="hdlist1">Order </dt>
 <dd>
 <p>(entity, domain)
-A request made by a student for one or more items from the menu.</p>
+<span class="yellow-bg">A request made by a customer for one or more items from the menu.</span></p>
 </dd>
 <dt class="hdlist1">Queue </dt>
 <dd>
@@ -1132,27 +1137,27 @@ A continuous time window during which the cafeteria is open and serving meals.</
 <dt class="hdlist1">Order Placement </dt>
 <dd>
 <p>(action, domain)
-The act of selecting menu items and communicating the request to cafeteria staff.</p>
+<span class="yellow-bg">The act of selecting menu items and communicating the request to cafeteria staff.</span></p>
 </dd>
 <dt class="hdlist1">Payment </dt>
 <dd>
 <p>(action, domain)
-<span class="yellow-bg">The process of transferring money from a student to the cafeteria in exchange for a meal, including the possibility of service disruption when payment processing fails.</span></p>
+<span class="yellow-bg">The process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of service disruption when payment processing fails. In the current domain, payment may occur at or after receiving the meal (e.g., upon tray pickup), rather than strictly at order placement. This behavior may change once the system is introduced.</span></p>
 </dd>
 <dt class="hdlist1">Meal Preparation </dt>
 <dd>
 <p>(action, domain)
-<span class="yellow-bg">The production of meals in advance or in response to incoming orders, often under uncertainty about near-term student demand.</span></p>
+<span class="yellow-bg">The production of meals in advance or in response to incoming orders, often under uncertainty about near-term customer demand.</span></p>
 </dd>
 <dt class="hdlist1">Meal Pickup </dt>
 <dd>
 <p>(action, domain)
-A student receiving a prepared meal after an order has been completed.</p>
+<span class="yellow-bg">A customer receiving prepared or selected items after an order has been completed.</span></p>
 </dd>
 <dt class="hdlist1">Waiting Time </dt>
 <dd>
 <p>(attribute, domain)
-<span class="yellow-bg">The elapsed time between a student joining the queue and receiving their meal, often influencing whether the student remains in line or leaves due to time pressure.</span></p>
+<span class="yellow-bg">The elapsed time between a customer joining the queue and receiving their meal, often influencing whether the customer remains in line or leaves due to time pressure.</span></p>
 </dd>
 <dt class="hdlist1">Student Has Just Joined the Queue </dt>
 <dd>
@@ -1162,7 +1167,7 @@ The moment a student enters the line to place an order.</p>
 <dt class="hdlist1">Order Has Just Been Placed </dt>
 <dd>
 <p>(event, domain)
-The moment a student&#8217;s order is communicated to cafeteria staff.</p>
+<span class="yellow-bg">The moment a customer&#8217;s order is communicated to cafeteria staff.</span></p>
 </dd>
 <dt class="hdlist1">Payment Has Just Failed </dt>
 <dd>
@@ -1187,12 +1192,12 @@ A situation that occurs when large numbers of students arrive within a short tim
 <dt class="hdlist1">Time-Constrained Decision Making </dt>
 <dd>
 <p>(behavior, domain)
-<span class="yellow-bg">A behavior in which students evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next academic responsibility.</span></p>
+<span class="yellow-bg">A behavior in which customers evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next responsibility.</span></p>
 </dd>
 <dt class="hdlist1">Uncertain Demand Preparation </dt>
 <dd>
 <p>(behavior, domain)
-<span class="yellow-bg">A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden student arrival.</span></p>
+<span class="yellow-bg">A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden customer arrival.</span></p>
 </dd>
 <dt class="hdlist1">Service Bottleneck </dt>
 <dd>
@@ -3115,8 +3120,11 @@ through verifiable, incremental behavior.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.3 - Domain Terminology in Relation to Rough Sketch</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Removed Section 2.1.3 and redistributed it&#8217;s information to Sections 2.1.2 and 3.1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@Kaariinaa08</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.4 - Other Activities</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Removed Section 1.4 and redistributed it&#8217;s information to Sections 1.3.1 and 1.3.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed Section 1.4 and redistributed its information to Sections 1.3.1 and 1.3.2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397</a></p></td>
 </tr>
 </tbody>
@@ -3126,7 +3134,7 @@ through verifiable, incremental behavior.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-03-30 19:17:50 -0400
+Last updated 2026-03-31 15:47:27 -0400
 </div>
 </div>
 </body>
