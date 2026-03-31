@@ -1,0 +1,113 @@
+= Defining Baselines and Test Evidence in the Cafeteria Ordering System
+:author: @TaimaraColon
+
+:toc:
+:sectnums:
+
+== Overview
+
+In software development, maintaining a stable and reliable system while continuously adding new features is a challenge. Two important concepts that help achieve this are *baselines* and *tests as evidence of progress*. Understanding these ideas allows teams to develop without breaking existing functionality.
+
+== What is a Baseline?
+
+A *baseline* is a stable version of the system where all tests pass. It represents a known good state of the project that developers can rely on.
+
+Baselines are important because they:
+
+* Ensure the system is functioning correctly at a given point in development
+* Provide a safe reference for future development
+* Prevent introducing changes that break existing working features
+
+A key property of a baseline is that it satisfies an invariant: *all tests must pass*.
+
+== Why Baselines Matter
+
+Teams rely on baselines to maintain system stability during development. As multiple developers work on different features, the baseline acts as a checkpoint that guarantees the system still works as expected.
+
+Without baselines:
+
+* Bugs can accumulate unnoticed
+* Features may break each other
+* The system becomes unreliable and harder to maintain
+
+With baselines:
+
+* Bugs can be detected early
+* Developers can confidently build on top of stable software
+* Collaboration becomes safer and more efficient
+
+== Tests as Evidence of Progress
+
+Tests are not just for finding bugs, they also serve as evidence of progress.
+
+This means:
+
+* Every new feature or change should include new tests
+* These tests should **fail before the change** is implemented
+* These tests should **pass after the change** is implemented
+
+This ensures that:
+
+* The change is meaningful and verifiable
+* The system’s behavior is clearly defined
+* Future regressions can be detected automatically
+
+Using tests as evidence of progress ensures that the system evolves in a controlled manner.
+
+Together, baselines and testing create a feedback loop:
+
+1. Developers introduce changes with tests
+2. Tests validate the changes
+3. The system returns to a new stable baseline
+
+== Cafeteria Ordering System Example
+
+Currently, our cafeteria ordering system already allows users to *remove ingredients* from their orders (e.g., no onions).
+
+Let's suppose a new feature is introduced: *allowing users to add extra ingredients (e.g., extra cheese)*.
+
+A developer implements this feature along with a corresponding test that verifies that extra ingredients are correctly added to an order and reflected in the final result.
+
+== Automated Testing with GitHub Actions
+
+Using a tool like GitHub Actions will help enforce the concept of baselines and tests as evidence of progress.
+
+GitHub Actions can automatically run the full test suite whenever changes are pushed to the repository. 
+
+This ensures that:
+
+* All tests must pass before pull requests are accepted
+* The system remains in a valid baseline state regardless
+* New features are always validated through tests before merging
+
+== Cafeteria Ordering System with Automation
+
+Continuing the previous example:
+
+1. A developer adds a new feature: allowing users to add extra ingredients (e.g., extra cheese)
+2. The developer also adds a test that verifies this functionality
+3. The changes are pushed to the repository
+
+At this point, GitHub Actions automatically:
+
+* Runs all existing tests (including the base automated test suite)
+* Runs the new test for order customization
+
+Possible outcomes:
+
+* If any test fails → the change is rejected or flagged
+* If all tests pass → the system reaches a new valid baseline
+
+This automated testing process ensures that only changes that pass all tests can be integrated into the system baseline. In practice, this concept is enforced through branch protection policies, which require tests to pass before allowing changes to be merged.
+
+== Importance for System Reliability
+
+Baselines and automated testing are essential for maintaining system reliability.
+
+By ensuring that all tests pass before changes are accepted, the system avoids introducing regressions or breaking existing features.
+
+Requiring tests for new features ensures that every change is validated and documented through test cases and test reports, making the system easier to maintain.
+
+== Conclusion
+
+Baselines and tests as evidence of progress are essential for maintaining reliability in the cafeteria ordering system. Baselines provide stability, while tests ensure that every change is verifiable.
