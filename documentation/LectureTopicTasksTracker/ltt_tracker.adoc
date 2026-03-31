@@ -180,6 +180,22 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a theoretical analysis of mutation testing that demonstrates how introducing small changes in Order Processing Logic can evaluate the sensitivity of the test suite and reveal weaknesses in test coverage
 
+
+==== LTT-20-(issue-399): Hoare Logic Specification for Stripe Payment Workflow
+
+*Lecture Topic:* Hoare Logic Specification for Stripe Payment Workflow
+
+*Deliverables:*
+
+- Hoare Logic specification of Stripe payment functions (initiate_payment, confirm_payment, finalize_order, cancel_order)
+- Dafny implementation for the payment workflow with method-level preconditions, postconditions, and state transitions
+- Formal verification proofs showing partial and total correctness
+
+*Evidence:* Associated AsciiDoc file (`hoare-payment-spec.adoc`) and Dafny source file (`PaymentWorkflow.dfy`) 
+
+*Justification:* Demonstrates formal verification of the payment workflow to ensure orders are only confirmed after successful payment, failed or pending payments cannot confirm orders, and cancelled orders remain consistent. This also provides a reference model for reasoning about system correctness using Hoare Logic.
+
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
