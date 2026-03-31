@@ -1084,6 +1084,9 @@ Define the application&#8217;s branding, visual identity, and user experience.</
 </div>
 <div class="sect3">
 <h4 id="_2_1_2_terminology">2.1.2 Terminology</h4>
+<div class="paragraph">
+<p><span class="yellow-bg">The terminology defined in this section is derived from recurring phenomena observed in the domain rough sketch. These terms are not arbitrary labels; rather, they represent abstractions of stakeholder experiences, operational constraints, and observable interactions within the cafeteria environment. Together, they establish a shared vocabulary for subsequent concept analysis and requirements work.</span></p>
+</div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Student </dt>
@@ -1109,7 +1112,7 @@ A prepared set of food items offered by the cafeteria during operating hours.</p
 <dt class="hdlist1">Menu </dt>
 <dd>
 <p>(entity, domain)
-A collection of meals and side options available during a specific period.</p>
+<span class="yellow-bg">A collection of meals and side options available during a specific period, whose visibility and accessibility may affect student decision-making before ordering.</span></p>
 </dd>
 <dt class="hdlist1">Order </dt>
 <dd>
@@ -1119,7 +1122,7 @@ A request made by a student for one or more items from the menu.</p>
 <dt class="hdlist1">Queue </dt>
 <dd>
 <p>(entity, domain)
-An ordered sequence of students waiting to place an order or complete payment.</p>
+<span class="yellow-bg">An ordered sequence of students waiting to place an order or complete payment, especially visible during peak periods when lines extend beyond the primary service area.</span></p>
 </dd>
 <dt class="hdlist1">Service Period </dt>
 <dd>
@@ -1134,12 +1137,12 @@ The act of selecting menu items and communicating the request to cafeteria staff
 <dt class="hdlist1">Payment </dt>
 <dd>
 <p>(action, domain)
-The process of transferring money from a student to the cafeteria in exchange for a meal.</p>
+<span class="yellow-bg">The process of transferring money from a student to the cafeteria in exchange for a meal, including the possibility of service disruption when payment processing fails.</span></p>
 </dd>
 <dt class="hdlist1">Meal Preparation </dt>
 <dd>
 <p>(action, domain)
-The productions of meals in advance or in response to incoming orders.</p>
+<span class="yellow-bg">The production of meals in advance or in response to incoming orders, often under uncertainty about near-term student demand.</span></p>
 </dd>
 <dt class="hdlist1">Meal Pickup </dt>
 <dd>
@@ -1149,7 +1152,7 @@ A student receiving a prepared meal after an order has been completed.</p>
 <dt class="hdlist1">Waiting Time </dt>
 <dd>
 <p>(attribute, domain)
-The elapsed time between a student joining the queue and receiving their meal.</p>
+<span class="yellow-bg">The elapsed time between a student joining the queue and receiving their meal, often influencing whether the student remains in line or leaves due to time pressure.</span></p>
 </dd>
 <dt class="hdlist1">Student Has Just Joined the Queue </dt>
 <dd>
@@ -1184,128 +1187,70 @@ A situation that occurs when large numbers of students arrive within a short tim
 <dt class="hdlist1">Time-Constrained Decision Making </dt>
 <dd>
 <p>(behavior, domain)
-The moment students decide whether to wait for food based on current waiting time and proximity to their next class.</p>
+<span class="yellow-bg">A behavior in which students evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next academic responsibility.</span></p>
 </dd>
 <dt class="hdlist1">Uncertain Demand Preparation </dt>
 <dd>
 <p>(behavior, domain)
-A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume.</p>
+<span class="yellow-bg">A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden student arrival.</span></p>
 </dd>
 <dt class="hdlist1">Service Bottleneck </dt>
 <dd>
 <p>(behavior, domain)
-A recurring slowdown caused by limited capacity in ordering, payment, or preparation.</p>
+<span class="yellow-bg">A recurring slowdown caused by limited capacity in ordering, payment, or preparation, often becoming most visible during demand surges or operational failures.</span></p>
 </dd>
 </dl>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_2_1_3_domain_terminology_in_relation_to_domain_rough_sketch">2.1.3 Domain Terminology in Relation to Domain Rough Sketch</h4>
 <div class="paragraph">
-<p>This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.</p>
+<p><span class="red-bg line-through">==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch</span></p>
 </div>
 <div class="paragraph">
-<p>The rough sketch provides raw observations of behaviors, constraints, and interactions within the cafeteria environment. Through analysis, these observations were abstracted into formal domain concepts, entities, actions, events, attributes, and behaviors.</p>
+<p><span class="red-bg line-through">This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.</span></p>
 </div>
 <div class="paragraph">
-<p>The following relationships illustrate how domain terminology originates from observed domain phenomena:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Queue, Waiting Time, and Student Has Just Joined the Queue</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived from <strong>The 10-Minute Dash</strong>, where students encounter a line extending approximately 15 people into the hallway. This observation demonstrates the existence of an ordered sequence of students waiting for service (Queue), measurable delays between joining and receiving service (Waiting Time), and the identifiable moment when a student enters the queue (Student Has Just Joined the Queue).</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Student Has Just Left the Queue Without Ordering and Time-Constrained Decision Making</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived from <strong>The 10-Minute Dash</strong> and <strong>The Post-Lunch Fatigue</strong>, where students decide to leave the line due to insufficient available time before their next academic commitment. These observations reveal that students evaluate waiting time against external time constraints, resulting in the observable event of abandoning the queue.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Meal, Meal Preparation, and Batch Preparation Under Unpredictable Circumstances</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived from <strong>The Kitchen&#8217;s Blind Spot</strong>, where cafeteria staff prepare multiple trays of meals without precise knowledge of how many students will arrive. This demonstrates the existence of prepared food units (Meal), the act of producing those meals (Meal Preparation), and the behavior of preparing food under demand uncertainty (Batch Preparation Under Unpredictable Circumstances).</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Crowd Surge and Service Bottleneck</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived from <strong>The Kitchen&#8217;s Blind Spot</strong> and <strong>The Payment Bottleneck</strong>, where sudden increases in arriving students create operational pressure and service delays. These observations establish the behavior of rapid increases in student arrival (Crowd Surge) and the resulting slowdown in service processes (Service Bottleneck).</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Order, Order Placement, and Order Has Just Been Placed</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived implicitly from all rough sketch scenarios involving students progressing through the cafeteria service process. These observations demonstrate that students communicate requests for meals, resulting in identifiable moments when requests are formally made.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Payment and Payment Has Just Failed</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived from <strong>The Payment Bottleneck</strong>, where the payment system becomes unavailable, preventing students from completing transactions. This observation demonstrates the existence of a monetary exchange process (Payment) and identifiable failure events within that process (Payment Has Just Failed).</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Menu and Menu Visibility Constraints</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived from <strong>The Uncertainty of the Menu</strong>, where students are unable to see available meal options or prices until reaching the front of the queue. This establishes the existence of a defined set of available meal options (Menu) and the dependency of student decision-making on access to this information.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Meal Pickup and Meal Has Just Been Prepared</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived from the implicit service flow observed across all rough sketch scenarios, where meals are prepared and subsequently transferred to students. This establishes the existence of a distinct moment when a meal becomes available (Meal Has Just Been Prepared) and the act of receiving that meal (Meal Pickup).</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Cafeteria Staff and Operational Pressure Under Demand Variability</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Derived from <strong>The Kitchen&#8217;s Blind Spot</strong> and <strong>The Payment Bottleneck</strong>, where staff members prepare meals and respond to sudden increases in student arrivals and operational disruptions. These observations establish cafeteria staff as active domain entities responsible for food preparation and service execution.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
+<p><span class="red-bg line-through">The rough sketch provides raw observations of behaviors, constraints, and interactions within the cafeteria environment. Through analysis, these observations were abstracted into formal domain concepts, entities, actions, events, attributes, and behaviors.</span></p>
 </div>
 <div class="paragraph">
-<p>These relationships demonstrate that the terminology defined in Section 2.1.2 is not arbitrary, but rather the result of systematic abstraction and formalization of domain phenomena observed in the rough sketch. This ensures that the terminology accurately reflects the domain environment and provides a reliable conceptual foundation for subsequent domain modeling and requirements analysis.</p>
+<p><span class="red-bg line-through">The following relationships illustrate how domain terminology originates from observed domain phenomena:</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Queue, Waiting Time, and Student Has Just Joined the Queue</span>
+<span class="red-bg line-through">- Derived from <strong>The 10-Minute Dash</strong>, where students encounter a line extending approximately 15 people into the hallway. This observation demonstrates the existence of an ordered sequence of students waiting for service (Queue), measurable delays between joining and receiving service (Waiting Time), and the identifiable moment when a student enters the queue (Student Has Just Joined the Queue).</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Student Has Just Left the Queue Without Ordering and Time-Constrained Decision Making</span>
+<span class="red-bg line-through">- Derived from <strong>The 10-Minute Dash</strong> and <strong>The Post-Lunch Fatigue</strong>, where students decide to leave the line due to insufficient available time before their next academic commitment. These observations reveal that students evaluate waiting time against external time constraints, resulting in the observable event of abandoning the queue.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Meal, Meal Preparation, and Batch Preparation Under Unpredictable Circumstances</span>
+<span class="red-bg line-through">- Derived from <strong>The Kitchen&#8217;s Blind Spot</strong>, where cafeteria staff prepare multiple trays of meals without precise knowledge of how many students will arrive. This demonstrates the existence of prepared food units (Meal), the act of producing those meals (Meal Preparation), and the behavior of preparing food under demand uncertainty (Batch Preparation Under Unpredictable Circumstances).</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Crowd Surge and Service Bottleneck</span>
+<span class="red-bg line-through">- Derived from <strong>The Kitchen&#8217;s Blind Spot</strong> and <strong>The Payment Bottleneck</strong>, where sudden increases in arriving students create operational pressure and service delays. These observations establish the behavior of rapid increases in student arrival (Crowd Surge) and the resulting slowdown in service processes (Service Bottleneck).</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Order, Order Placement, and Order Has Just Been Placed</span>
+<span class="red-bg line-through">- Derived implicitly from all rough sketch scenarios involving students progressing through the cafeteria service process. These observations demonstrate that students communicate requests for meals, resulting in identifiable moments when requests are formally made.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Payment and Payment Has Just Failed</span>
+<span class="red-bg line-through">- Derived from <strong>The Payment Bottleneck</strong>, where the payment system becomes unavailable, preventing students from completing transactions. This observation demonstrates the existence of a monetary exchange process (Payment) and identifiable failure events within that process (Payment Has Just Failed).</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Menu and Menu Visibility Constraints</span>
+<span class="red-bg line-through">- Derived from <strong>The Uncertainty of the Menu</strong>, where students are unable to see available meal options or prices until reaching the front of the queue. This establishes the existence of a defined set of available meal options (Menu) and the dependency of student decision-making on access to this information.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Meal Pickup and Meal Has Just Been Prepared</span>
+<span class="red-bg line-through">- Derived from the implicit service flow observed across all rough sketch scenarios, where meals are prepared and subsequently transferred to students. This establishes the existence of a distinct moment when a meal becomes available (Meal Has Just Been Prepared) and the act of receiving that meal (Meal Pickup).</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Cafeteria Staff and Operational Pressure Under Demand Variability</span>
+<span class="red-bg line-through">- Derived from <strong>The Kitchen&#8217;s Blind Spot</strong> and <strong>The Payment Bottleneck</strong>, where staff members prepare meals and respond to sudden increases in student arrivals and operational disruptions. These observations establish cafeteria staff as active domain entities responsible for food preparation and service execution.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">These relationships demonstrate that the terminology defined in Section 2.1.2 is not arbitrary, but rather the result of systematic abstraction and formalization of domain phenomena observed in the rough sketch. This ensures that the terminology accurately reflects the domain environment and provides a reliable conceptual foundation for subsequent domain modeling and requirements analysis.</span></p>
 </div>
 </div>
 <div class="sect3">
@@ -2409,7 +2354,7 @@ so the internal representation remains consistent with cafeteria operations.</p>
 <div class="sect2">
 <h3 id="_3_1_concept_analysis">3.1 Concept Analysis</h3>
 <div class="paragraph">
-<p>The following concepts were sourced from the rough domain sketch, that was created from user scenarios and the team&#8217;s understanding of the domain as it currently stands.</p>
+<p><span class="yellow-bg">The following concepts are derived from recurring observations in the domain rough sketch presented in Section 2.1.1. These concepts formalize entities, actions, and relationships identified through stakeholder scenarios and the team’s current understanding of cafeteria operations. Their purpose is to provide a structured conceptual basis for identifying ambiguities, resolving conflicts in terminology, and supporting later requirements analysis.</span></p>
 </div>
 <div class="sect3">
 <h4 id="_concepts"><strong>Concepts</strong></h4>
@@ -3167,6 +3112,9 @@ through verifiable, incremental behavior.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@Kaariinaa08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.3 - Domain Terminology in Relation to Rough Sketch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed Section 2.1.3 and redistributed it&#8217;s information to Sections 2.1.2 and 3.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.4 - Other Activities</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Removed Section 1.4 and redistributed it&#8217;s information to Sections 1.3.1 and 1.3.2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397</a></p></td>
@@ -3178,7 +3126,7 @@ through verifiable, incremental behavior.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-03-30 19:11:58 -0400
+Last updated 2026-03-30 19:17:50 -0400
 </div>
 </div>
 </body>
