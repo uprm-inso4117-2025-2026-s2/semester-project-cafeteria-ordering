@@ -1072,22 +1072,40 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 
 *Consistency and Completeness Reviews (Ongoing)* 
 
-* Reviews will be done by Documentation Team Leader and Managers to verify that:  
+* [.yellow-bg]#Reviews have been conducted by Documentation Team Leader and Managers to verify that:#  
 ** Requirements and user stories only use defined terms or introduce new ones deliberately.  
 ** Each requirement supports at least one stakeholder need or goal stated earlier in the document.  
-** All key flows from the rough sketch (ordering, payment, preparation, pickup, leaving the queue) appear in at least one user story or feature.
-* Peer review by other team members will also be used to verify that the documentation is clear, consistent, and complete.
+** All key flows from the rough sketch (ordering, payment, preparation, pickup, leaving the queue) appear in at least one user story or feature.  
+
+* [.green-bg]#These reviews confirmed that terminology is used consistently across Sections 2.1.2 and 2.2.1, and that no undefined terms are used without explanation.#  
+
+* Peer review by other team members will also be used to verify that the documentation is clear, consistent, and complete.  
+
+* [.green-bg]#Minor inconsistencies (such as the use of “student” vs. “customer”) were identified and corrected.#  
+
+* [.green-bg]#Coverage analysis confirmed that all major domain activities (ordering, payment, preparation, and pickup) are represented by at least one epic, user story, and feature.#  
+
+* [.green-bg]#Traceability checks confirmed that each user story is linked to at least one epic and that each feature supports one or more user stories.#  
 
 *Test Planning and Documentation Verification (Ongoing)*
 
-* The defined test types, such as unit, integration, system, acceptance, non‑functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.
-* Risk-based testing will be used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.
-* Documentation testing will compare implemented behavior against requirements and acceptance criteria.
+* The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.  
+
+* [.yellow-bg]#Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.#  
+
+* [.green-bg]#Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).#  
+
+* [.green-bg]#Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.#  
 
 *Automated Verification via Continuous Integration (Ongoing)*
 
 * For the current testing phase, continuous integration will focus on build validation to ensure the repository installs and builds successfully on every pull request.  
-* As unit and integration tests are added, they will be included in the Auto‑Test Suite so that breaking changes cannot be merged into the main branch.
+
+* As unit and integration tests are added, they will be included in the Auto-Test Suite so that breaking changes cannot be merged into the main branch.  
+
+* [.green-bg]#Initial CI verification results show that the project builds successfully and that no blocking errors are present in the current codebase.#  
+
+* [.green-bg]#Future CI updates will include automated test execution and reporting to further strengthen verification coverage.#  
 
 
 == Specific Class Topics
