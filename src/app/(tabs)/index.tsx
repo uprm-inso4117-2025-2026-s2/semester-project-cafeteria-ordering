@@ -17,6 +17,10 @@ import {
 import darkLogo from '../../../documentation/branding/images/Dark-Mode-Logo.png';
 import lightLogo from '../../../documentation/branding/images/Light-Mode-Logo.png';
 
+import MenuItemCard from '@/components/MenuItemCard';
+import { MenuItem } from '@/models/food-item-class';
+
+
 //UI categories 
 const categories = ['Rating', 'Breakfast', 'Lunch'];
 
@@ -61,6 +65,14 @@ export default function HomeScreen() {
       return matchesSearch && matchesCategory;
     });
   }, [search, selectedCategory]);
+
+  const handleAddToCart = (menuItem: MenuItem) => {
+    console.log('Added to cart:', menuItem);
+  };
+
+  const handlePressItem = (menuItem: MenuItem) => {
+    router.push(`/menu/${menuItem.getId()}`);
+  };
 
   //best seller is just the first item for now!!!!!
 
@@ -233,29 +245,13 @@ export default function HomeScreen() {
 
       {/* menu items list*/}
       <View style={styles.list}>
-        {filteredItems.map((item) => (
-          <Pressable
-            key={item.getId()}
-            style={[styles.menuCard, { backgroundColor: Colors.primaryGreen }]}
-            onPress={() => router.push(`/menu/${item.getId()}`)}
-          >
-            <Image
-              source={{ uri: item.getImageUrl() }}
-              style={styles.menuImage}
-              contentFit="cover"
-            />
-
-            <View style={styles.menuInfo}>
-              <Text style={styles.menuTitle}>{item.getName()}</Text>
-              <View style={styles.metaRow}>
-                <Ionicons name="star" size={16} color={Colors.pastelPeach} />
-                <Text style={styles.metaText}>4.9</Text>
-                <Text style={styles.metaText}>
-                  ${item.getTotalPrice().toFixed(2)}
-                </Text>
-              </View>
-            </View>
-          </Pressable>
+        {filteredItems.map((menuItem) => (
+          <MenuItemCard
+            key={menuItem.getId()}
+            menuItem={menuItem}
+            onAddToCart={handleAddToCart}
+            onPressItem={handlePressItem}
+          />
         ))}
       </View>
     </ScrollView>
@@ -367,30 +363,6 @@ const styles = StyleSheet.create({
   chipText: {
     ...Typography.button,
     fontSize: 16,
-    fontWeight: '500',
-  },
-  list: {
-    gap: 14,
-  },
-  menuCard: {
-    borderRadius: 12,
-    padding: 10,
-  },
-  menuImage: {
-    width: '100%',
-    height: 120,
-    borderRadius: 12,
-    marginBottom: 10,
-  },
-  menuInfo: {
-    paddingHorizontal: 6,
-    paddingBottom: 4,
-  },
-  menuTitle: {
-    ...Typography.subheading,
-    fontSize: 16,
-    color: Colors.light.secondaryText,
-    marginBottom: 8,
     fontWeight: '500',
   },
   metaRow: {
