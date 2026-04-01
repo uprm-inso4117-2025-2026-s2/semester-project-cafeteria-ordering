@@ -27,11 +27,21 @@ function main(){
     runStep("Lint (Expo ESLint)", "npm run lint");
     runStep("Build Export (Expo export)", "npm run test:build");
 
+    //Security & Infrastructure Check
+    //Requieres user to have proper .env file set up for local testing
+    runStep("Supabase Security Check (TC-SUPA-02)", "npx tsx src/tests/supabase/scripts/quick-test.ts");
+
+    //Authentication Logic Check
     //Ensure that auto_test_suite.js file was properly created in build folder
     runInternalCheck("Verify Compiled TS Suite", () => {
         const tsSuite = require('../build/ci-build/auto_test_suite.js');
         console.log(`Successfully integrated: ${tsSuite.testSuiteMetadata.name}`);
+        console.log(`Active Modules: ${Object.keys(tsSuite.testSuiteMetadata.modules).join(", ")}`);
     });
+
+    //Ordering & Payment Flow Verification
+    //Assuming these scripts exist as per the TC-ORD files
+    runStep("Ordering Flow (TC-ORD-02)", "npx tsx src/tests/ordering/scripts/UT-ORD-2_Place_and_Confirmation_for_Order.ts");
 
     //(UNCOMMENT TO USE)
     //Test to verify the FAILED tests are correctly logged.

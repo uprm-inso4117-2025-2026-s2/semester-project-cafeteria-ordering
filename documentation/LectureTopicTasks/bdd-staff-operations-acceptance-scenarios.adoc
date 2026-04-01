@@ -1,0 +1,197 @@
+= BDD Acceptance Scenarios for Staff Operations
+:toc:
+:sectnums:
+
+== Purpose
+
+This document defines Behavior-Driven Development (BDD) acceptance scenarios for the Staff Operations feature area of the Cafeteria Ordering System.
+
+Its purpose is to translate key staff workflows into clear, behavior-focused scenarios that can be used to validate expected system behavior from a user perspective. These scenarios build upon the existing Staff Operations Test Plan and serve as an acceptance-level complement to the previously identified unit, integration, and exploratory testing activities.
+
+This document does not redefine the staff operations test plan. Instead, it focuses specifically on BDD-style scenarios for validating important staff workflows.
+
+== Scope
+
+This document covers BDD acceptance scenarios for the following staff operations behaviors:
+
+* Receiving newly placed orders in the staff interface
+* Viewing pending and active orders
+* Updating order status through valid transitions
+* Rejecting invalid status transitions
+* Cancelling eligible orders
+* Handling failed staff updates safely
+* Reflecting staff actions consistently in the UI and data layer
+
+This document is limited to the staff operations feature area.
+
+== Relationship to Existing Test Plan
+
+These scenarios are based on the existing Staff Operations Test Plan and should remain consistent with its assumptions, scope, and workflow expectations.
+
+This document is not intended to replace the broader test plan. Instead, it provides a structured BDD layer focused on acceptance behavior using Given-When-Then scenarios.
+
+== BDD Objectives
+
+The objectives of these BDD scenarios are:
+
+* Verify that staff-facing workflows match expected user behavior
+* Express critical system behavior in a clear acceptance format
+* Support future Cucumber or Gherkin-based implementation
+* Improve traceability between workflow expectations and acceptance validation
+* Provide a reusable baseline for staff operations acceptance testing
+
+== BDD Acceptance Scenarios
+
+=== Scenario 1: Staff receives a newly placed order
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff receives a newly placed order
+    Given a customer has placed a new order
+    When the staff member opens the staff orders view
+    Then the new order should appear in the pending orders list
+----
+
+=== Scenario 2: Staff views active orders in the staff interface
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff views active orders
+    Given there are orders currently being processed
+    When the staff member opens the active orders section
+    Then all active orders should be displayed with their current statuses
+----
+
+=== Scenario 3: Staff updates an order through a valid transition
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff updates an order from pending to in progress
+    Given an order is currently marked as "pending"
+    When the staff member changes the order status to "in progress"
+    Then the order status should be updated successfully
+    And the updated status should be shown in the staff orders table
+----
+
+=== Scenario 4: Staff completes an order through a valid transition
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff updates an order from ready to completed
+    Given an order is currently marked as "ready"
+    When the staff member changes the order status to "completed"
+    Then the order status should be updated successfully
+    And the order should appear as completed in the staff interface
+----
+
+=== Scenario 5: Staff cancels an eligible order
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff cancels an eligible order
+    Given an order is in a cancellable state
+    When the staff member cancels the order
+    Then the order should be marked as cancelled
+    And the staff orders table should reflect the cancellation
+----
+
+=== Scenario 6: Staff attempts an invalid status transition
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff attempts an invalid status transition
+    Given an order is already marked as "completed"
+    When the staff member attempts to change the order status to "in progress"
+    Then the system should reject the update
+    And an appropriate validation message should be shown
+----
+
+=== Scenario 7: Staff update fails because persistence fails
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff update fails due to a backend error
+    Given an order is currently marked as "pending"
+    When the staff member updates the order status
+    But the backend update fails
+    Then the system should show an error message
+    And the order should remain in its previous persisted state
+----
+
+=== Scenario 8: Staff sees an empty queue gracefully
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff sees no pending orders
+    Given there are no pending orders in the system
+    When the staff member opens the pending orders view
+    Then the interface should display an empty state message
+    And no broken or incomplete UI should be shown
+----
+
+=== Scenario 9: Staff opens the details of a selected order
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff opens order details
+    Given a pending order exists in the staff queue
+    When the staff member selects that order
+    Then the correct order details should be displayed
+    And the displayed details should match the selected order
+----
+
+=== Scenario 10: Staff refreshes the queue after an update
+
+[source,gherkin]
+----
+Feature: Staff operations
+
+  Scenario: Staff refreshes the orders queue after a status change
+    Given an order status was updated successfully
+    When the staff member refreshes the orders view
+    Then the order should appear with the persisted updated status
+    And no duplicate order entries should appear
+----
+
+== Notes for Future Implementation
+
+These scenarios are intended to support future BDD automation using the repository's Cucumber-compatible workflow.
+
+If automated BDD implementation is pursued later, these scenarios can be migrated into a `.feature` file while preserving the same acceptance intent.
+
+== Deliverables
+
+The following deliverables are covered by this document:
+
+* Defined BDD acceptance scenarios for staff operations
+* Scenario coverage of critical staff workflows
+* Given-When-Then structured acceptance behavior
+* A reusable basis for future Cucumber or Gherkin-based automation
+
+== Review Notes
+
+This document should be reviewed by:
+
+* QA team lead
+* Staff operations team lead
+* Project manager, if required
+
+Any feedback should be incorporated before marking the related Lecture Topic Task as complete.
