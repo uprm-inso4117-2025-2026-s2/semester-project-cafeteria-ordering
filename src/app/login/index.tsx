@@ -76,7 +76,7 @@ function InputField({
             <Ionicons
               name={hidden ? 'eye-off-outline' : 'eye-outline'}
               size={16}
-              color={Colors.mutedGray}
+              color={Colors.light.text}
             />
           </TouchableOpacity>
         )}
