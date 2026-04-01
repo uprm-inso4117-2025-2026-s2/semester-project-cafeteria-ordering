@@ -1,53 +1,21 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import {
     AccessibilityInfo,
-    ActivityIndicator,
     Image,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
     StyleSheet,
-    Text,
     TextInput,
     TouchableOpacity,
-    useColorScheme,
     View,
 } from 'react-native';
 
-// ─── Design Tokens (from color-palette.adoc) ─────────────────────────────────
-const Colors = {
-  primary: '#2E7D32',
-  primaryDisabled: '#A5D6A7',
-  light: {
-    background: '#FAFAFA',
-    text: '#424242',
-    subtext: '#BDBDBD',
-    inputBackground: '#A5D6A7',
-    inputText: '#424242',
-    inputPlaceholder: '#BDBDBD',
-    errorText: '#C62828',
-    forgotText: '#424242',
-    bottomText: '#BDBDBD',
-    bottomLink: '#424242',
-    buttonText: '#FAFAFA',
-  },
-  dark: {
-    background: '#1C1C1C',
-    text: '#FFFFFF',
-    subtext: '#BDBDBD',
-    inputBackground: '#A5D6A7',
-    inputText: '#424242',
-    inputPlaceholder: '#BDBDBD',
-    errorText: '#FFCCBC',
-    forgotText: '#BDBDBD',
-    bottomText: '#BDBDBD',
-    bottomLink: '#BDBDBD',
-    buttonText: '#FAFAFA',
-  },
-};
+import { ThemedText } from '@/components/themed-text';
+import { Colors } from '@/constants/theme';
+import { useThemeColor } from '@/hooks/use-theme-color';
 
 // ─── Logo Assets ──────────────────────────────────────────────────────────────
 const LightModeLogo = require('../../../documentation/branding/images/Light-Mode-Logo.png');
@@ -67,7 +35,6 @@ interface InputFieldProps {
   keyboardType?: 'default' | 'email-address';
   accessibilityLabel?: string;
   errorText?: string;
-  colors: typeof Colors.light;
 }
 
 // ─── InputField Component ─────────────────────────────────────────────────────
@@ -81,23 +48,23 @@ function InputField({
   keyboardType = 'default',
   accessibilityLabel,
   errorText,
-  colors,
 }: InputFieldProps) {
   const [hidden, setHidden] = useState(secureTextEntry);
+  const textColor = useThemeColor({}, 'text');
 
   return (
     <View style={styles.fieldContainer}>
-      <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
-      <View style={[styles.inputWrapper, { backgroundColor: colors.inputBackground }]}>
+      <ThemedText type="body" style={styles.label}>{label}</ThemedText>
+      <View style={[styles.inputWrapper, { backgroundColor: Colors.pastelSage }]}>
         <TextInput
           value={value}
           onChangeText={onChangeText}
-          placeholderTextColor={colors.inputPlaceholder}
+          placeholderTextColor={Colors.mutedGray}
           secureTextEntry={hidden}
           autoCapitalize={autoCapitalize}
           keyboardType={keyboardType}
           accessibilityLabel={accessibilityLabel ?? label}
-          style={[styles.input, { color: colors.inputText, flex: 1 }]}
+          style={[styles.input, { color: textColor, flex: 1 }]}
         />
         {isPassword && (
           <TouchableOpacity
@@ -109,19 +76,20 @@ function InputField({
             <Ionicons
               name={hidden ? 'eye-off-outline' : 'eye-outline'}
               size={16}
-              color={colors.inputPlaceholder}
+              color={Colors.mutedGray}
             />
           </TouchableOpacity>
         )}
       </View>
       {errorText ? (
-        <Text
-          style={[styles.errorText, { color: colors.errorText }]}
+        <ThemedText
+          type="body"
+          style={styles.errorText}
           accessibilityRole="alert"
           accessibilityLiveRegion="assertive"
         >
           {errorText}
-        </Text>
+        </ThemedText>
       ) : null}
     </View>
   );
@@ -141,31 +109,13 @@ function validate(fields: { emailOrUsername: string; password: string }) {
 
 // ─── LoginScreen ──────────────────────────────────────────────────────────────
 export default function LoginScreen() {
-  const scheme = useColorScheme();
-  const isDark = scheme === 'dark';
-  const colors = isDark ? Colors.dark : Colors.light;
-
-  const [fontsLoaded] = useFonts({
-    Inter_400Regular:
-      'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
-    Inter_500Medium:
-      'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiJ-Ek-_EeA.woff2',
-    Bitter_600SemiBold:
-      'https://fonts.gstatic.com/s/bitter/v32/raxhHiqOu8IVPmnRc6SY1KXhnF_Y8fbeCL_-QYQi.woff2',
-  });
+  const backgroundColor = useThemeColor({}, 'background');
+  const isDark = backgroundColor === Colors.dark.background;
 
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  if (!fontsLoaded) {
-    return (
-      <View style={[styles.flex, styles.centered, { backgroundColor: colors.background }]}>
-        <ActivityIndicator size="large" color={Colors.primary} />
-      </View>
-    );
-  }
 
   const handleSignIn = async () => {
     const validationErrors = validate({ emailOrUsername, password });
@@ -193,7 +143,7 @@ export default function LoginScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={[styles.flex, { backgroundColor: colors.background }]}
+      style={[styles.flex, { backgroundColor }]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView
@@ -208,12 +158,12 @@ export default function LoginScreen() {
           accessibilityLabel="Cafeteria ordering system logo"
         />
 
-        <Text style={[styles.title, { color: colors.text }]} accessibilityRole="header">
+        <ThemedText type="heading" style={styles.title} accessibilityRole="header">
           Welcome back!
-        </Text>
-        <Text style={[styles.subtitle, { color: colors.text }]}>
-          Please enter your credentials{'\n'}to log into your account.
-        </Text>
+        </ThemedText>
+        <ThemedText type="body" style={styles.subtitle}>
+          {"Please enter your credentials\nto log into your account."}
+        </ThemedText>
 
         <View style={styles.form}>
           <InputField
@@ -227,7 +177,6 @@ export default function LoginScreen() {
             keyboardType="email-address"
             errorText={errors.emailOrUsername}
             accessibilityLabel="Email or username"
-            colors={colors}
           />
 
           <InputField
@@ -242,7 +191,6 @@ export default function LoginScreen() {
             autoCapitalize="none"
             errorText={errors.password}
             accessibilityLabel="Password"
-            colors={colors}
           />
 
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
@@ -252,9 +200,9 @@ export default function LoginScreen() {
               accessibilityRole="link"
               accessibilityLabel="Forgot password?"
             >
-              <Text style={[styles.forgotPasswordLink, { color: colors.forgotText }]}>
+              <ThemedText type="link" style={styles.forgotPasswordLink}>
                 Forgot password?
-              </Text>
+              </ThemedText>
             </TouchableOpacity>
           </Link>
         </View>
@@ -267,13 +215,17 @@ export default function LoginScreen() {
           accessibilityState={{ disabled: isSubmitting }}
           style={[
             styles.signInButton,
-            { backgroundColor: isSubmitting ? Colors.primaryDisabled : Colors.primary },
+            { backgroundColor: isSubmitting ? Colors.pastelSage : Colors.primaryGreen },
           ]}
           activeOpacity={0.85}
         >
-          <Text style={[styles.buttonText, { color: colors.buttonText }]}>
+          <ThemedText
+            type="button"
+            lightColor={Colors.light.secondaryText}
+            darkColor={Colors.light.secondaryText}
+          >
             {isSubmitting ? 'Signing in…' : 'Sign in'}
-          </Text>
+          </ThemedText>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -283,19 +235,25 @@ export default function LoginScreen() {
           style={styles.googleButton}
           activeOpacity={0.85}
         >
-          <Text style={[styles.buttonText, { color: colors.buttonText }]}>
+          <ThemedText
+            type="button"
+            lightColor={Colors.light.secondaryText}
+            darkColor={Colors.light.secondaryText}
+          >
             Sign in with Google
-          </Text>
+          </ThemedText>
         </TouchableOpacity>
 
         <View style={styles.signUpLinkRow}>
-          <Text style={[styles.signUpLinkText, { color: colors.bottomText }]}>
-            Don't have an account?{' '}
-          </Text>
+          <ThemedText type="body" style={styles.signUpLinkText}>
+            {"Don't have an account? "}
+          </ThemedText>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           <Link href={'/signup' as any} asChild>
             <TouchableOpacity accessibilityRole="link" accessibilityLabel="Sign up">
-              <Text style={[styles.signUpLink, { color: colors.bottomLink }]}>Sign up</Text>
+              <ThemedText type="link" style={styles.signUpLink}>
+                Sign up
+              </ThemedText>
             </TouchableOpacity>
           </Link>
         </View>
@@ -307,7 +265,6 @@ export default function LoginScreen() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  centered: { alignItems: 'center', justifyContent: 'center' },
   scrollContent: {
     flexGrow: 1,
     alignItems: 'center',
@@ -321,14 +278,11 @@ const styles = StyleSheet.create({
     marginBottom: -8,
   },
   title: {
-    fontFamily: 'Bitter_600SemiBold',
     fontSize: 26,
-    fontWeight: '600',
     textAlign: 'center',
     marginBottom: 4,
   },
   subtitle: {
-    fontFamily: 'Inter_400Regular',
     fontSize: 14,
     textAlign: 'center',
     lineHeight: 20,
@@ -340,7 +294,6 @@ const styles = StyleSheet.create({
   },
   fieldContainer: { marginBottom: 8 },
   label: {
-    fontFamily: 'Inter_500Medium',
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 4,
@@ -353,7 +306,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   input: {
-    fontFamily: 'Inter_400Regular',
     fontSize: 14,
     padding: 0,
   },
@@ -365,8 +317,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   errorText: {
-    fontFamily: 'Inter_400Regular',
     fontSize: 11,
+    color: '#C62828',
     marginTop: 3,
     marginLeft: 4,
   },
@@ -375,9 +327,8 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   forgotPasswordLink: {
-    fontFamily: 'Inter_400Regular',
     fontSize: 12,
-    textDecorationLine: 'underline',
+    lineHeight: 16,
   },
   signInButton: {
     width: 190,
@@ -397,23 +348,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#2E7D32',
     marginBottom: 24,
   },
-  buttonText: {
-    fontFamily: 'Inter_500Medium',
-    fontSize: 14,
-    fontWeight: '500',
-  },
   signUpLinkRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   signUpLinkText: {
-    fontFamily: 'Inter_400Regular',
     fontSize: 12,
   },
   signUpLink: {
-    fontFamily: 'Inter_400Regular',
     fontSize: 12,
-    textDecorationLine: 'underline',
+    lineHeight: 16,
   },
 });
