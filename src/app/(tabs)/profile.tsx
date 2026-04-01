@@ -11,7 +11,6 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -126,7 +125,6 @@ AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
 
 
   const borderColor = colorScheme === "dark" ? "#333333" : Colors.softGray;
-  const cardBg = colorScheme === "dark" ? "#2A2A2A" : theme.background;
   const txt = (extra?: object) => [{ color: theme.text }, Typography.body, extra];
   const muted = (extra?: object) => [{ color: Colors.mutedGray }, Typography.body, extra];
 
