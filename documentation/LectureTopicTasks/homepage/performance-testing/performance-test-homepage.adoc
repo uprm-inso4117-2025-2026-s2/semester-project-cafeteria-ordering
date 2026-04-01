@@ -1,23 +1,34 @@
-# Homepage Performance Testing
+# Homepage Load & Performance Testing
 
 ## Test Setup
-- Increased the dummy dataset from 5 items to 100 items and tested the homepage with the larger dataset
+- Increased the dummy dataset from 5 menu items to 100 menu items to simulate higher frontend load  
 
-## Actions Performed
-- I scrolled through the menu item list
-- Switched between category filters (Breakfast, Lunch, Rating)
-- Used the search bar to filter items by name like "latte" and "Burger"
-- Opened item details from the homepage
+## Load Simulation Strategy
+Simulated load by interacting with the app continuously by:
+
+  - Rapid scrolling through the menu item list  
+  - Switching between category filters multiple times  
+  - Performing multiple search queries in sequence (for example: "latte", "burger")  
+  - Opening item details repeatedly  
+
+## Alignment with Performance Requirements
+This test checks how the system behaves under increased data and repeated interactions by focusing on:
+
+- Menu loading responsiveness with more data  
+- Search response time during repeated use  
+- UI stability during continuous interaction  
+- Responsiveness of category filtering  
 
 ## Observations
-- A slight delay was noticed during the initial load when rendering the larger dataset
-- After loading however, scrolling remained smooth
-- Switching between categories was responsive and consistent
-- Search functionality worked correctly without noticeable delay (It was more responsive than expected)
-- No crashes or major UI issues were observed
+- A slight delay (initial render time increase) was noticed when loading the larger dataset  
+- After the initial load, scrolling remained smooth  
+- Switching between categories was responsive and consistent  
+- Search functionality worked without noticeable delay  
+- Opening item details was responsive  
+- No crashes or major UI issues were observed  
 
 ## Conclusion
-The homepage handled the increased dataset well. While there was a small delay during the initial load, overall performance remained stable and interactions continued to function as expected.
+The homepage handled the increased dataset well. While there was a small delay during the initial load, all other interactions remained smooth and consistent.
 
 ## Evidence (Chrome page zoom set to 50%)
 
