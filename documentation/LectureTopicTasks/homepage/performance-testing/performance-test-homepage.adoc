@@ -1,0 +1,40 @@
+# Homepage Performance Testing
+
+## Test Setup
+- Increased the dummy dataset from 5 items to 100 items and tested the homepage with the larger dataset
+
+## Actions Performed
+- I scrolled through the menu item list
+- Switched between category filters (Breakfast, Lunch, Rating)
+- Used the search bar to filter items by name like "latte" and "Burger"
+- Opened item details from the homepage
+
+## Observations
+- A slight delay was noticed during the initial load when rendering the larger dataset
+- After loading however, scrolling remained smooth
+- Switching between categories was responsive and consistent
+- Search functionality worked correctly without noticeable delay (It was more responsive than expected)
+- No crashes or major UI issues were observed
+
+## Conclusion
+The homepage handled the increased dataset well. While there was a small delay during the initial load, overall performance remained stable and interactions continued to function as expected.
+
+## Evidence (Chrome page zoom set to 50%)
+
+[cols="1,2", options="header"]
+|===
+| Test Case | Evidence
+
+| Search Burger Test
+a| image::SearchBurgerTest.png[Search Burger Test, width=300]
+
+| Category Filter Test (Latte is the only item in the Breakfast category)
+a| image::CategoryFilterTest.png[Category Filter Test, width=300]
+
+| Category Filter Lunch Test
+a| image::CategoryFilterTest2.png[Category Filter Test 2, width=300]
+
+| Opening Item Details Test
+a| image::ItemDetailsTest.png[Item Details Test, width=300]
+
+|===
