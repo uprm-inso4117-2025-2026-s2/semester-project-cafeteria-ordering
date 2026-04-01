@@ -580,38 +580,55 @@ The cafeteria needs consistent operations to reduce delays and improve the overa
 
 Personas are different representative archetypes of the primary users within the cafeteria service domain. They help the development team to mantain a shared understanding of the user's needs, behaviors, and constraints when defining user stories, features, and system requirements. The following personas were built with the common characteristics observed among members of the university who regularly interact with the cafeteria.
 
-===== Persona 1 — Carlos the Time Constrained Student
+===== Persona 1 — Carlos [.green-bg]#Santiago# the Time Constrained Student
 
 - *Role:* Undergraduate Student  
-- *Age Range:* 18-23  
+- *Age Range:* [.yellow-bg]#19#  
 - *Primary Goal:* Obtain food quickly between classes  
 - *Environment:* Busy academic schedule with short breaks
 
-Carlos is a full time undergraduate student who usually has a tight schedule between classes and university activities. His available time to obtain meals is limited to short time spaces between mentioned classes. During peak hours, Carlos often encounters long cafeteria lines, which creates uncertainty about whether he can get food before his next class begins.
+[.green-bg]#Carlos Santiago is a second year English major who has a passion for poetry and literature. Growing up he had always enjoyed writing and reciting poetry. His all time favorite poet is Edgar Allan Poe, of which his favorite works are "For Annie" and "The Raven". In Carlos' senior year of high school, he did not know what he wanted to study; he was contemplating between Electrical Engineering and Industrial Engineering due to his parent's influence. Despite this, after having multiple conversations with his high school English teachers, he decided to pursue his interest in literature and was able to persuade his parents. While studying, he enjoys writing poetry centered around environmental and political issues. Alongside this, he enjoys going to the local bar for a slam poetry competition every week on Thursdays nights.#
+
+Carlos [.red-bg.line-through]#is a full time undergraduate student who# usually has a tight schedule between classes and university activities. His available time to obtain meals is limited to short time spaces between mentioned classes. During peak hours, Carlos often encounters long cafeteria lines, which creates uncertainty about whether he can get food before his next class begins.
 
 Carlos values speed, predictability, and efficiency when acquiring food from a place. Long waiting times or unclear service flow impact his daily routine negatively. He cannot afford a big delay in his schedule, and prefers solutions that help him make quick, informed decisions about getting a prepared meal.    
 
-===== Persona 2 — Mariana the Organized Commuter
+===== Persona 2 — Mariana [.green-bg]#Fernandez# the Organized Commuter
 
 - *Role:* Commuter Student
-- *Age Range:* 19-24
+- *Age Range:* [.yellow-bg]#21#
 - *Primary Goal:* Plan meals around time on campus
 - *Environment:* Balances commuting time with academic responsibilities
+
+[.green-bg]#Mariana Fernandez is an Agronomy student in her third year. Mariana is a first generation student who decided to study Agronomy because she has always been interested in agriculture. She grew up in her grandparent's small plantain farm in Adjuntas, where she has had to help with weeding, pruning trees, and harvesting plantains. Outside of class, she spends time in the campus greenhouse, participates in a student organization focused on sustainable agriculture, and applying the farming methods she has learned in her grandparent's farm.#
 
 Mariana is a student who travels to campus and tries to optimize her time while she is present at the university because she does not remain on campus all day. This student prefers to plan when and where she will obtain food in advance.
 
 Uncertainty about the availability and congestion of the cafeteria makes planning difficult for Mariana. She values visibility into the service's conditions and prefers predictable food service experiences that allow her to coordinate her meals with her commuting schedule. The inefficiencies in the current process can lead her to skip meals or seek off campus alternatives.
 
-===== Persona 3 — José the Cafeteria Staff Member
+===== Persona 3 — José [.green-bg]#Gonzalez# the Cafeteria Staff Member
 
 - *Role:* Cafeteria Personnel  
-- *Age Range:* 25-55  
+- *Age Range:* [.yellow-bg]#32#  
 - *Primary Goal:* Serve customers efficiently while maintaining quality  
 - *Environment:* High workload during peak hours
 
-José is a staff member of the cafeteria that is responsible for preparing and delivering customer orders. His workload fluctuates significantly depending on the time of day and customer congestion. During peak periods, José must manage rapidly the order intake, food preparation, and customer communication all simultaneously.
+[.green-bg]#José Gonzalez is a staff member of the cafeteria who has been working there for 7 years. He is originally from Ponce, where he lived with his family and worked in a local restaurant before moving to Mayaguez for better job opportunities after Hurricane María. José has a strong work ethic and takes pride in providing good service to customers. He enjoys interacting with students and with other cafeteria personnel. Outside of work, José spends time with his family, enjoys cooking at home, and is an avid basketball fan who follows local teams closely.#
+
+José [.red-bg.line-through]#is a staff member of the cafeteria that# is responsible for preparing and delivering customer orders. His workload fluctuates significantly depending on the time of day and customer congestion. During peak periods, José must manage rapidly the order intake, food preparation, and customer communication all simultaneously.
 
 José values a clear order flow which has manageable workload distribution, along with smooth customer interactions. When queues become too long or customer demand suddenly increases, service pressure increases and the chance for a delay or miscomunication rises. Operational improvements that reduce this congestion and improve the workflow directly benefits José's ability to mantain the service's quality.
+
+===== [.green-bg]#Persona 3 — Roberto Cartagena the Cafeteria Manager#
+
+- [.green-bg]#*Role:* Cafeteria Manager#
+- [.green-bg]#*Age Range:* 45#
+- [.green-bg]#*Primary Goal:* Ensure efficient cafeteria operations and customer satisfaction#
+- [.green-bg]#*Environment:* Oversees staff and manages resources during peak hours#
+
+[.green-bg]#Roberto Cartagena is the manager of the university cafeteria. He has been in this role for 10 years and has previously worked as a Hilton hotel manager, where he managed all hotel employees and guest relations. Outside of work, Roberto enjoys spending time with his family, hiking, and going to the beach. He recently started surfing and has spent several weekends taking lessons and practicing at local surf spots.#
+
+[.green-bg]#Roberto is responsible for managing the overall operations of the cafeteria, including staffing, inventory, and customer service. His biggest challenge is managing unpredictable demand during peak hours, where long lines, delayed service, and occasional food shortages can lead to student dissatisfaction and loss of customers. At the same time, anticipating these high demand services can lead to over preparing of food and monetary losses. Roberto values operational efficiency, customer satisfaction, and staff well-being. He seeks solutions that can help him better manage resources, anticipate demand surges, and maintain a high level of service quality, all while they are simple to use and do not disrupt existing workflows.#
 
 ===== Persona Summary
 
@@ -1456,5 +1473,6 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @Kaariinaa08 | Section 2.1.3 - Domain Terminology in Relation to Rough Sketch | Removed Section 2.1.3 and redistributed it's information to Sections 2.1.2 and 3.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398
 | @Kaariinaa08 | Section 1.4 - Other Activities | Removed Section 1.4 and redistributed its information to Sections 1.3.1 and 1.3.2 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397
 | @Kaariinaa08 | Section 2.2.3 - Domain Requirements | Reworked Section 2.2.3 and distributed some of it's information to Section 2.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434
+| @JadStelar | Section 2.2.2 - Personas | Added more detailed backgrounds for existing persona and added new persona for non-user | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/410
 
 |===
