@@ -65,7 +65,6 @@ function ConfirmModal({
 }
 
 
-// ── Screen ──────────────────────────────────────────────────────────────────
 export default function ProfileScreen() {
   const colorScheme = useColorScheme() ?? "light";
   const theme = Colors[colorScheme];
@@ -103,8 +102,6 @@ export default function ProfileScreen() {
   function toggleReq(req: string) {
     setSelectedReqs((prev) => prev.includes(req) ? prev.filter((r) => r !== req) : [...prev, req]);
   }
-  const [supportModal, setSupportModal] = useState(false);
-
   useEffect(() => {
     AsyncStorage.getItem("@profile_info").then((v) => {
       if (!v) return;
@@ -113,7 +110,7 @@ export default function ProfileScreen() {
       setEmail(p.email ?? "");
       setPhone(p.phone ?? "");
     });
-AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
+    AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
   }, []);
 
   function handleSave() {
@@ -229,33 +226,6 @@ AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
 
       </ScrollView>
 
-      {/* Support Bottom Sheet */}
-      <Modal visible={supportModal} transparent animationType="slide" onRequestClose={() => setSupportModal(false)}>
-        <Pressable style={s.overlay} onPress={() => setSupportModal(false)} />
-        <View style={[s.bottomSheet, { backgroundColor: theme.background }]}>
-          <View style={s.sheetHeader}>
-            <Text style={[s.sectionTitle, { color: theme.text, ...Typography.heading }]}>Help & Support</Text>
-            <TouchableOpacity onPress={() => setSupportModal(false)}>
-              <Text style={{ fontSize: 22, color: Colors.mutedGray }}>✕</Text>
-            </TouchableOpacity>
-          </View>
-          {[
-            { icon: "💬", label: "Chat with support", sub: "Mon–Fri, 8am–6pm" },
-            { icon: "📧", label: "Email us", sub: "cafeteria-support@uprm.edu" },
-            { icon: "📋", label: "FAQs", sub: "Browse common questions" },
-          ].map(({ icon, label, sub }) => (
-            <TouchableOpacity key={label} style={[s.supportRow, { borderBottomColor: borderColor }]}>
-              <Text style={{ fontSize: 20 }}>{icon}</Text>
-              <View>
-                <Text style={[{ fontSize: 14, fontWeight: "500", color: theme.text }, Typography.subheading]}>{label}</Text>
-                <Text style={muted({ fontSize: 11 })}>{sub}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </Modal>
-
-      
       <ConfirmModal
         visible={logoutModal} onClose={() => setLogoutModal(false)}
         onConfirm={() => { setLogoutModal(false); Alert.alert("Logged out"); }}
@@ -310,7 +280,6 @@ const s = StyleSheet.create({
   backBtn: { padding: 4 },
   headerTitleWrapper: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, alignItems: "center", justifyContent: "center", paddingTop: 32 },
   headerTitle: { fontSize: 26, fontWeight: "700", textAlign: "center" },
-  supportBtn: { width: 30, height: 30, borderRadius: 15, backgroundColor: "rgba(255,255,255,0.25)", alignItems: "center", justifyContent: "center" },
   headerLogo: { width: 80, height: 80, marginVertical: -12 },
   scroll: { paddingBottom: 48 },
   avatarSection: { alignItems: "center", paddingVertical: 28, gap: 4 },
@@ -327,18 +296,12 @@ const s = StyleSheet.create({
   divider: { height: 1, marginVertical: 20, marginHorizontal: 16 },
   section: { paddingHorizontal: 16, marginBottom: 4, gap: 10 },
   sectionTitle: { fontSize: 15, fontWeight: "600", marginBottom: 4 },
-  paymentCard: { borderRadius: 10, borderWidth: 1.5, padding: 14, flexDirection: "row", alignItems: "center", gap: 12 },
-  cardChip: { width: 28, height: 20, borderRadius: 4 },
-  cardInfo: { flex: 1 },
-  addCardBtn: { borderRadius: 10, borderWidth: 1.5, borderStyle: "dashed", padding: 14, flexDirection: "row", alignItems: "center", justifyContent: "center" },
-  prefRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 6 },
-  goldBtn: { borderWidth: 1.5, borderRadius: 50, padding: 14, alignItems: "center", backgroundColor: "transparent" },
+goldBtn: { borderWidth: 1.5, borderRadius: 50, padding: 14, alignItems: "center", backgroundColor: "transparent" },
   logoutBtn: { borderRadius: 50, padding: 14, alignItems: "center" },
   outlineBtn: { borderWidth: 1.5, borderRadius: 50, padding: 14, alignItems: "center" },
   overlay: { flex: 1, backgroundColor: "rgba(0,0,0,0.4)" },
   bottomSheet: { borderTopLeftRadius: 16, borderTopRightRadius: 16, padding: 24, paddingBottom: Platform.OS === "ios" ? 40 : 24 },
   sheetHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 16 },
-  supportRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 14, borderBottomWidth: 0.5 },
   modalOverlay: { flex: 1, backgroundColor: "rgba(0,0,0,0.4)", alignItems: "center", justifyContent: "center" },
   modalBox: { borderRadius: 16, padding: 28, width: 300, alignItems: "center" },
   modalTitle: { fontSize: 16, fontWeight: "600", marginBottom: 8, textAlign: "center" },
