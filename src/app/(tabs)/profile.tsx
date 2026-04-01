@@ -124,7 +124,7 @@ AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
     setTimeout(() => setSaved(false), 2500);
   }
 
-// ── Style shortcuts ──────────────────────────────────────────────────────
+
   const borderColor = colorScheme === "dark" ? "#333333" : Colors.softGray;
   const cardBg = colorScheme === "dark" ? "#2A2A2A" : theme.background;
   const txt = (extra?: object) => [{ color: theme.text }, Typography.body, extra];
@@ -257,14 +257,14 @@ AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
         </View>
       </Modal>
 
-      {/* Logout + Special Status — shared modal component */}
+      
       <ConfirmModal
         visible={logoutModal} onClose={() => setLogoutModal(false)}
         onConfirm={() => { setLogoutModal(false); Alert.alert("Logged out"); }}
         title="Log out?" body="Are you sure you want to log out?"
         confirmLabel="Log out" bgColor={Colors.pastelPeach} confirmTextColor={Colors.light.alternateText}
       />
-      {/* Special Requirements Modal */}
+      
       <Modal visible={statusModal} transparent animationType="slide" onRequestClose={() => setStatusModal(false)}>
         <Pressable style={[s.overlay, { backgroundColor: "transparent" }]} onPress={() => setStatusModal(false)} />
         <View style={[s.bottomSheet, { backgroundColor: theme.background }]}>
