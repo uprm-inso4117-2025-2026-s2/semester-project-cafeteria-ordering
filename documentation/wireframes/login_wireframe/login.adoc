@@ -15,7 +15,7 @@ Final wireframe can be viewed in the documentation/Wireframes and documentation/
 --
 *Wireframe description:*
 
-- Users will enter their credentials into "Email or username" and "Password" fields and then press the "Sign In" button submit this information and begin their session.
+- Users will enter their credentials into "Email" and "Password" fields and then press the "Sign In" button submit this information and begin their session.
 - "Sign In with Google" button allows users alternate methods for signing in. More methods can be added in the future in this way (e.g. Facebook, Apple).
 - "Forgot password?" and "Sign up" links allow users to access those functionalities directly; the bolded and underlined letters represent said links.
 
