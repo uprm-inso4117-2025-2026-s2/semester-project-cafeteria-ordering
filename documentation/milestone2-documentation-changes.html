@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.26">
 <title>Cafeteria Ordering System</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -116,7 +116,6 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 :not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
-pre>code{display:block}
 pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
 em em{font-style:normal}
 strong strong{font-weight:400}
@@ -219,6 +218,7 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
 .literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
 .listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
 .listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
 .listingblock:hover code[data-lang]::before{display:block}
 .listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
@@ -1202,7 +1202,7 @@ A situation that occurs when large numbers of students arrive within a short tim
 </dl>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">The domain description above also establishes several important properties of the cafeteria environment that motivate the domain requirements. In this domain, every order corresponds to at least one menu item, each order is associated with a specific customer, menu items may become unavailable during a service period, orders progress through preparation stages before pickup, each menu item has an established price that contributes to the order total, and pickup can only occur after preparation is complete. The domain also admits possible order cancellation before fulfillment, payment obligations tied to accepted orders, customers who are not necessarily students, and preparation times that may vary according to the order and kitchen conditions.</span></p>
+<p><span class="yellow-bg">The domain description above also establishes several important properties of the cafeteria environment that motivate the domain requirements. In this domain, every order contains at least one menu item and is associated with a specific customer. Menu items may become unavailable during a service period due to inventory limitations or preparation constraints. Orders progress through distinct preparation stages before they are eligible for pickup. Each menu item has an established price that contributes to the total cost of the order, and an order may only be released once preparation has been completed. The domain also includes the possibility of order cancellation before fulfillment, payment obligations that must be satisfied before release, customers who are not limited to students, and preparation times that may vary according to the order and current kitchen conditions.</span></p>
 </div>
 <div class="paragraph">
 <p><span class="red-bg line-through">==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch</span></p>
@@ -1710,7 +1710,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
-<p><span class="yellow-bg">The system must provide means for cafeteria staff to update and track the preparation stage of an order.</span></p>
+<p><span class="yellow-bg">The system must allow cafeteria staff to update and track the preparation stage of an order.</span></p>
 </li>
 </ul>
 </div>
@@ -1740,17 +1740,17 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
-<p><span class="green-bg">The system must define and support valid order cancellation conditions before an order has been fulfilled.</span></p>
+<p><span class="green-bg">The system must support the handling of order cancellations and notify cafeteria staff when an order has been canceled.</span></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><span class="green-bg"><strong>DR-08: Payment Obligation</strong></span></p>
+<p><span class="green-bg"><strong>DR-08: Payment Confirmation Before Release</strong></span></p>
 <div class="ulist">
 <ul>
 <li>
-<p><span class="green-bg">The system must represent when payment is required for an order and must distinguish unpaid orders from paid orders.</span></p>
+<p><span class="green-bg">The system must represent the payment status of an order and must distinguish orders that are pending payment from those whose payment has been completed before the order is released to the customer.</span></p>
 </li>
 </ul>
 </div>
@@ -1760,7 +1760,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
-<p><span class="green-bg">The system must support order placement by authorized cafeteria customers and must not assume that all customers are students.</span></p>
+<p><span class="green-bg">The system must support order placement by cafeteria customers and must not assume that all customers are students.</span></p>
 </li>
 </ul>
 </div>
@@ -1770,7 +1770,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
-<p><span class="green-bg">The system must support the representation or estimation of preparation time as a variable property of an order rather than as a fixed constant for all orders.</span></p>
+<p><span class="green-bg">The system must represent preparation time as a variable property of an order rather than as a fixed constant for all orders.</span></p>
 </li>
 </ul>
 </div>
@@ -2834,12 +2834,22 @@ through verifiable, incremental behavior.</p>
 <p>As a student, I want to place an order from the cafeteria menu so that I can avoid waiting in line and arrive on time to my next class.</p>
 </div>
 <div class="paragraph">
+<p><span class="green-bg">Precondition (client domain):</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">The student must be authenticated before placing an order.</span></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
 <p>Derived Acceptance Criteria (client domain):</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The student must be authenticated before placing an order.</p>
+<p><span class="red-bg line-through">The student must be authenticated before placing an order.</span></p>
 </li>
 <li>
 <p>The student must be able to select available menu items.</p>
@@ -3159,6 +3169,12 @@ through verifiable, incremental behavior.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Reworked Section 2.2.3 and distributed some of it&#8217;s information to Section 2.1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434</a></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.2 - BDD and BDD Tool Usage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reclassified "The student must be authenticated before placing an order" as a precondition instead of an acceptance criterion. Updated the feature file to use a Gherkin Background block for the authentication step.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/443" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/443</a></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3166,7 +3182,7 @@ through verifiable, incremental behavior.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-03-30 21:09:42 -0400
+Last updated 2026-04-01 17:31:44 -0400
 </div>
 </div>
 </body>

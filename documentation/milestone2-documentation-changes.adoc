@@ -1286,9 +1286,13 @@ User Story (client domain):
 
 As a student, I want to place an order from the cafeteria menu so that I can avoid waiting in line and arrive on time to my next class.
 
+[.green-bg]#Precondition (client domain):#
+
+* [.green-bg]#The student must be authenticated before placing an order.#
+
 Derived Acceptance Criteria (client domain):
 
-* The student must be authenticated before placing an order.
+* [.red-bg.line-through]#The student must be authenticated before placing an order.#
 * The student must be able to select available menu items.
 * The student must be able to add selected items to a cart.
 * The student must be able to proceed to checkout and choose a pickup option.
@@ -1456,5 +1460,6 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @Kaariinaa08 | Section 2.1.3 - Domain Terminology in Relation to Rough Sketch | Removed Section 2.1.3 and redistributed it's information to Sections 2.1.2 and 3.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398
 | @Kaariinaa08 | Section 1.4 - Other Activities | Removed Section 1.4 and redistributed its information to Sections 1.3.1 and 1.3.2 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397
 | @Kaariinaa08 | Section 2.2.3 - Domain Requirements | Reworked Section 2.2.3 and distributed some of it's information to Section 2.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434
+| @reinaldo-martinez1 | Section 4.2 - BDD and BDD Tool Usage | Reclassified "The student must be authenticated before placing an order" as a precondition instead of an acceptance criterion. Updated the feature file to use a Gherkin Background block for the authentication step. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/443
 
 |===
