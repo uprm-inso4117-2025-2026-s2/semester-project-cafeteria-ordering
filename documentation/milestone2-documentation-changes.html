@@ -116,7 +116,6 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 :not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
-pre>code{display:block}
 pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
 em em{font-style:normal}
 strong strong{font-weight:400}
@@ -219,6 +218,7 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
 .literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
 .listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
 .listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
 .listingblock:hover code[data-lang]::before{display:block}
 .listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
@@ -786,7 +786,7 @@ Define the application&#8217;s branding, visual identity, and user experience.</
 <div class="sect3">
 <h4 id="_1_2_1_current_situation">1.2.1 Current Situation</h4>
 <div class="paragraph">
-<p>Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, as there is no existing infrastructure for pre-ordering or remote payment. Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.</p>
+<p>Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, <span class="yellow-bg">leading to delays during peak demand periods.</span> <span class="red-bg line-through">Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.</span> <span class="green-bg">On a typical visit to the current cafeteria, a student walks to the cafeteria, checks the daily menu posted at the counter, and decides what to eat. To obtain the food, the student joins a single line that leads to the service counter. When the student reaches the counter, they state their order, the student pays for their order at the counter, cafeteria staff serve the food or start preparing it, and then the student picks up the meal when it is ready. Every student must pass through the same sequence of events: join the queue, order, pay, wait for preparation, and pick up the meal. The lack of a structured ordering system leads to long queues, increased waiting times, and operational inefficiencies that affect both students and cafeteria staff.</span></p>
 </div>
 </div>
 <div class="sect3">
@@ -846,20 +846,84 @@ Define the application&#8217;s branding, visual identity, and user experience.</
 </div>
 </div>
 <div class="sect4">
-<h5 id="_system_wide_needs">System-Wide Needs</h5>
+<h5 id="_ordering"><span class="green-bg">Ordering</span></h5>
 <div class="ulist">
 <ul>
 <li>
-<p>Reduced trouble between ordering, preparation, payment, and pickup.</p>
+<p><span class="green-bg">Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.</span></p>
 </li>
 <li>
-<p>Alignment between student schedules and cafeteria service capacity.</p>
+<p><span class="green-bg">Customers need confidence that what they request can actually be fulfilled at the moment of ordering.</span></p>
 </li>
 <li>
-<p>A food-service process that adapts to peak demand patterns.</p>
+<p><span class="green-bg">Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_paying"><span class="green-bg">Paying</span></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment</span></p>
 </li>
 <li>
-<p>Meals can be obtained reliably and on time, even during busy periods.</p>
+<p><span class="green-bg">Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_preparing"><span class="green-bg">Preparing</span></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_pickup"><span class="green-bg">Pickup</span></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Customers need a pickup process that is orderly and time-efficient.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_system_wide_needs"><span class="red-bg line-through">System-Wide Needs</span></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="red-bg line-through">Reduced trouble between ordering, preparation, payment, and pickup.</span></p>
+</li>
+<li>
+<p><span class="red-bg line-through">Alignment between student schedules and cafeteria service capacity.</span></p>
+</li>
+<li>
+<p><span class="red-bg line-through">A food-service process that adapts to peak demand patterns.</span></p>
+</li>
+<li>
+<p><span class="red-bg line-through">Meals can be obtained reliably and on time, even during busy periods.</span></p>
 </li>
 </ul>
 </div>
@@ -3166,6 +3230,16 @@ through verifiable, incremental behavior.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434</a></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.2.1 - Current Situation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed possible ideas from this section and replaced it with workflow of the current situation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.2.2 - Needs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed System-Wide Needs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.2 - Terminology</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Updated terminology to introduce "Customer" as a general entity, revised definitions, and ensured consistency with concept analysis.</p></td>
@@ -3196,7 +3270,7 @@ through verifiable, incremental behavior.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-04-01 20:11:41 -0400
+Last updated 2026-04-01 22:06:50 -0400
 </div>
 </div>
 </body>
