@@ -194,6 +194,21 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a strategic analysis of mutation testing application that identifies which components of the Cafeteria Ordering System should be prioritized, demonstrating how cost and test sensitivity considerations guide effective use of mutation testing
 
+==== LTT-21-(issue-396): BDD Specification for Menu Browsing Flow
+
+*Lecture Topic:* Behavior-Driven Specification
+
+*Deliverables:*
+
+- Five BDD acceptance scenarios covering core and edge behaviors
+- Requirement-to-scenario traceability mapping
+- Clearly defined acceptance criteria
+- A reusable structure for future automated testing
+
+*Evidence:* Associated Gherkin files and AsciiDoc file and pull request linked to issue
+
+*Justification:* Applies Behavior-Driven Development by defining clear, user-centered acceptance scenarios for the Menu Browsing Flow, ensuring alignment between requirements and implementation while supporting traceability and future automated testing.
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
