@@ -14,8 +14,10 @@ import {
   View,
 } from 'react-native';
 
+import { ThemedText } from '@/components/themed-text';
 import darkLogo from '../../../documentation/branding/images/Dark-Mode-Logo.png';
 import lightLogo from '../../../documentation/branding/images/Light-Mode-Logo.png';
+import { useAuth } from '../authContext';
 
 //UI categories 
 const categories = ['Rating', 'Breakfast', 'Lunch'];
@@ -25,6 +27,9 @@ export default function HomeScreen() {
   const router = useRouter();
   const isDark = colorScheme === 'dark';
   const theme = Colors[colorScheme];
+
+  // Authentication and session state variables
+  const { user, loggedIn } = useAuth();
 
   //search input and seleted category state
   const [search, setSearch] = useState('');
@@ -87,9 +92,14 @@ export default function HomeScreen() {
             style={styles.logo}
             contentFit="contain"
           />
-          <Text style={[styles.greeting, { color: theme.text }]}>
-            Hi, User!
-          </Text>
+          {/* If user is logged in a personalized greeting is shown, otherwise application shows generic greeting */}
+          {loggedIn ? (
+            <>
+            <ThemedText style={[styles.greeting]}>Welcome {user?.fullName}!</ThemedText>
+            </>
+          ) : (
+            <ThemedText style={[styles.greeting, { color: theme.text }]}>Hi, User!</ThemedText>
+          )}
           <Text
             style={[
               styles.subGreeting,
