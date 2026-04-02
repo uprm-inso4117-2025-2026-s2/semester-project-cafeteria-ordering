@@ -142,7 +142,7 @@ If external partners become involved in later phases, their roles and responsibi
 
 ==== 1.2.1 Current Situation
 
-Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, as there is no existing infrastructure for pre-ordering or remote payment. Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.
+Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, [.yellow-bg]#leading to delays during peak demand periods.# [.red-bg.line-through]#Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.# [.green-bg]#On a typical visit to the current cafeteria, a student walks to the cafeteria, checks the daily menu posted at the counter, and decides what to eat. To obtain the food, the student joins a single line that leads to the service counter. When the student reaches the counter, they state their order, the student pays for their order at the counter, cafeteria staff serve the food or start preparing it, and then the student picks up the meal when it is ready. Every student must pass through the same sequence of events: join the queue, order, pay, wait for preparation, and pick up the meal. The lack of a structured ordering system leads to long queues, increased waiting times, and operational inefficiencies that affect both students and cafeteria staff.#
 
 ==== 1.2.2 Needs
 
@@ -167,12 +167,36 @@ The long wait times at the university cafeteria show unmet needs in food service
 * Minimize crowds in shared spaces to improve safety and traffic flow.
 * Balance service improvements with resource and staffing constraints.
 
-===== System-Wide Needs
+===== [.green-bg]#Ordering#
 
-* Reduced trouble between ordering, preparation, payment, and pickup.
-* Alignment between student schedules and cafeteria service capacity.
-* A food-service process that adapts to peak demand patterns.
-* Meals can be obtained reliably and on time, even during busy periods.
+* [.green-bg]#Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.#
+* [.green-bg]#Customers need confidence that what they request can actually be fulfilled at the moment of ordering.#
+* [.green-bg]#Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.#
+
+===== [.green-bg]#Paying#
+
+* [.green-bg]#Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment#
+* [.green-bg]#Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.#
+* [.green-bg]#Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.#
+
+===== [.green-bg]#Preparing#
+
+* [.green-bg]#Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.#
+* [.green-bg]#Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.#
+* [.green-bg]#The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.#
+
+===== [.green-bg]#Pickup#
+
+* [.green-bg]#Customers need a pickup process that is orderly and time-efficient.#
+* [.green-bg]#Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.#
+* [.green-bg]#Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.#
+
+===== [.red-bg.line-through]#System-Wide Needs#
+
+* [.red-bg.line-through]#Reduced trouble between ordering, preparation, payment, and pickup.#
+* [.red-bg.line-through]#Alignment between student schedules and cafeteria service capacity.#
+* [.red-bg.line-through]#A food-service process that adapts to peak demand patterns.#
+* [.red-bg.line-through]#Meals can be obtained reliably and on time, even during busy periods.#
 
 ===== Project Level Needs
 
@@ -1481,6 +1505,8 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @Kaariinaa08 | Section 2.1.3 - Domain Terminology in Relation to Rough Sketch | Removed Section 2.1.3 and redistributed it's information to Sections 2.1.2 and 3.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398
 | @Kaariinaa08 | Section 1.4 - Other Activities | Removed Section 1.4 and redistributed its information to Sections 1.3.1 and 1.3.2 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397
 | @Kaariinaa08 | Section 2.2.3 - Domain Requirements | Reworked Section 2.2.3 and distributed some of it's information to Section 2.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434
+| @JadStelar | Section 1.2.1 - Current Situation | Removed possible ideas from this section and replaced it with workflow of the current situation | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408
+| @JadStelar | Section 1.2.2 - Needs | Removed System-Wide Needs | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408
 
 | @SamarysB | Section 2.1.2 - Terminology | Updated terminology to introduce "Customer" as a general entity, revised definitions, and ensured consistency with concept analysis. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/412
 | @SamarysB | Section 2.2.1 - User Stories, Epics, and Features | Reframed epics as high-level feature groups, rewrote user stories to be system-oriented, and expanded feature descriptions to clarify their role and relationships. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/413
