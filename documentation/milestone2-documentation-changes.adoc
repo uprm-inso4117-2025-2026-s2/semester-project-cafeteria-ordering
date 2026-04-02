@@ -619,7 +619,7 @@ José [.red-bg.line-through]#is a staff member of the cafeteria that# is respons
 
 José values a clear order flow which has manageable workload distribution, along with smooth customer interactions. When queues become too long or customer demand suddenly increases, service pressure increases and the chance for a delay or miscomunication rises. Operational improvements that reduce this congestion and improve the workflow directly benefits José's ability to mantain the service's quality.
 
-===== [.green-bg]#Persona 3 — Roberto Cartagena the Cafeteria Manager#
+===== [.green-bg]#Persona 4 — Roberto Cartagena the Cafeteria Manager#
 
 - [.green-bg]#*Role:* Cafeteria Manager#
 - [.green-bg]#*Age Range:* 45#
