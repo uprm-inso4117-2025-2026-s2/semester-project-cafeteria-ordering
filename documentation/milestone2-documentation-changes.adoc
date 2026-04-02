@@ -167,6 +167,30 @@ The long wait times at the university cafeteria show unmet needs in food service
 * Minimize crowds in shared spaces to improve safety and traffic flow.
 * Balance service improvements with resource and staffing constraints.
 
+===== [.green-bg]#Ordering#
+
+* [.green-bg]#Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.#
+* [.green-bg]#Customers need confidence that what they request can actually be fulfilled at the moment of ordering.#
+* [.green-bg]#Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.#
+
+===== [.green-bg]#Paying#
+
+* [.green-bg]#Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment#
+* [.green-bg]#Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.#
+* [.green-bg]#Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.#
+
+===== [.green-bg]#Preparing#
+
+* [.green-bg]#Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.#
+* [.green-bg]#Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.#
+* [.green-bg]#The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.#
+
+===== [.green-bg]#Pickup#
+
+* [.green-bg]#Customers need a pickup process that is orderly and time-efficient.#
+* [.green-bg]#Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.#
+* [.green-bg]#Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.#
+
 ===== [.red-bg.line-through]#System-Wide Needs#
 
 * [.red-bg.line-through]#Reduced trouble between ordering, preparation, payment, and pickup.#
