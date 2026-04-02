@@ -7,7 +7,7 @@
 |TC-AUTH-02 |Email verification |TBD 
 |TC-AUTH-04 |User Login Functionality Verification |TC-AUTH-04_user_login.tsx
 |TC-AUTH-03 | User Sign Up Valid Data | src/tests/authentication/cases/signup_test_case.tsx
-| TC-AUTH-05 | Password Reset and Recovery Flow Verification | TC-AUTH-05_password_reset.tsx
+|TC-AUTH-05 |Password reset and recovery backend validation |src/tests/authentication/scripts/TC-AUTH-05_password_recovery_backend.test.ts
 |TC-AUTH-06 |Account Verification Process - Verify that after registration, users can successfully verify their accounts via email/verification link, including valid token acceptance, invalid/expired token handling, and account status changes from unverified to verified |TC-AUTH-04_account_verification.tsx
 |TC-SUPA-01 |Supabase configuration validation |src/tests/supabase/scripts/supabase-connection.test.ts
 |TC-SUPA-02 |Supabase quick connection smoke check |src/tests/supabase/scripts/quick-test.ts

@@ -166,6 +166,32 @@ await signOut();
 
 Sessions are automatically persisted across app restarts using AsyncStorage.
 
+=== 3.1.1 Password Recovery Redirect Configuration
+
+Password reset links require allowed redirect URLs in the Supabase dashboard.
+
+Configure these values before testing password recovery:
+
+1. Open Supabase Dashboard > Authentication > URL Configuration.
+2. In **Site URL**, keep your normal app/site value.
+3. In **Redirect URLs**, add your mobile deep-link route:
++
+[source,text]
+----
+semesterprojectcafeteriaordering://PasswordRecovery/resetPassword
+----
+4. If you use a custom redirect value in local development, add that URL too.
+5. Save changes, then trigger a reset email and confirm the link opens the app route.
+
+Optional environment variable:
+
+[source,text]
+----
+EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO=semesterprojectcafeteriaordering://PasswordRecovery/resetPassword
+----
+
+If this variable is not set, the backend helper falls back to the same deep-link route above.
+
 === 3.2 Database Access
 
 **What's Configured:**

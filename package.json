@@ -10,6 +10,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "test:build": "npx expo export",
+    "test:auth:password-recovery-backend": "npx tsx src/tests/authentication/scripts/TC-AUTH-05_password_recovery_backend.test.ts",
     "ci-check": "node ./scripts/ci-check.js",
     "test": "cucumber-js",
     "build:tests": "tsc src/tests/suites/auto_test_suite.ts --outDir build/ci-build --module commonjs --target es6"
