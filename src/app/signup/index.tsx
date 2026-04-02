@@ -1,55 +1,21 @@
-import { supabase } from '@/lib/supabase';
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   AccessibilityInfo,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 
-// ─── Design Tokens ────────────────────────────────────────────────────────────
-const Colors = {
-  primary: '#2E7D32',           // Primary Green — buttons, CTA
-  primaryDisabled: '#A5D6A7',   // Pastel Sage — disabled state
-  light: {
-    background: '#FAFAFA',       // Off White — light bg
-    text: '#424242',             // Charcoal — primary text
-    subtext: '#BDBDBD',          // Muted Gray — secondary text
-    inputBackground: '#A5D6A7',  // Pastel Sage — input fills
-    inputText: '#424242',        // Charcoal — input text
-    inputPlaceholder: '#BDBDBD', // Muted Gray — placeholder
-    errorText: '#C62828',        // Error red (standard, not in palette)
-    checkmark: '#2E7D32',        // Primary Green — met criteria
-    checklistText: '#424242',    // Charcoal — checklist text
-    border: '#BDBDBD',           // Muted Gray — borders
-    avatarBorder: '#BDBDBD',     // Muted Gray — avatar ring
-    termsText: '#424242',        // Charcoal — terms body
-    termsLink: '#2E7D32',        // Primary Green — terms links
-  },
-  dark: {
-    background: '#1C1C1C',       // Dark Charcoal — dark bg
-    text: '#FFFFFF',             // White — primary text
-    subtext: '#BDBDBD',          // Muted Gray — secondary text
-    inputBackground: '#424242',  // Charcoal — input fills in dark
-    inputText: '#FFFFFF',        // White — input text
-    inputPlaceholder: '#BDBDBD', // Muted Gray — placeholder
-    errorText: '#FFCCBC',        // Pastel Peach — error in dark mode
-    checkmark: '#A5D6A7',        // Pastel Sage — met criteria
-    checklistText: '#FFFFFF',    // White — checklist text
-    border: '#BDBDBD',           // Muted Gray — borders
-    avatarBorder: '#BDBDBD',     // Muted Gray — avatar ring
-    termsText: '#BDBDBD',        // Muted Gray — terms body
-    termsLink: '#A5D6A7',        // Pastel Sage — terms links
-  },
-};
+import { ThemedText } from '@/components/themed-text';
+import { Colors } from '@/constants/theme';
+import { useThemeColor } from '@/hooks/use-theme-color';
+import { useAuth } from '../authContext';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface InputFieldProps {
@@ -57,6 +23,7 @@ interface InputFieldProps {
   required?: boolean;
   value: string;
   onChangeText: (text: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   secureTextEntry?: boolean;
   isPassword?: boolean;
@@ -64,7 +31,6 @@ interface InputFieldProps {
   keyboardType?: 'default' | 'email-address' | 'phone-pad';
   accessibilityLabel?: string;
   errorText?: string;
-  colors: typeof Colors.light;
 }
 
 // ─── InputField Component ─────────────────────────────────────────────────────
@@ -73,6 +39,7 @@ function InputField({
   required = false,
   value,
   onChangeText,
+  onBlur,
   placeholder,
   secureTextEntry = false,
   isPassword = false,
@@ -80,27 +47,28 @@ function InputField({
   keyboardType = 'default',
   accessibilityLabel,
   errorText,
-  colors,
 }: InputFieldProps) {
   const [hidden, setHidden] = useState(secureTextEntry);
+  const textColor = useThemeColor({}, 'text');
 
   return (
     <View style={styles.fieldContainer}>
-      <Text style={[styles.label, { color: colors.text }]}>
+      <ThemedText type="body" style={styles.label}>
         {label}
-        {required && <Text style={{ color: '#C62828' }}> *</Text>}
-      </Text>
-      <View style={[styles.inputWrapper, { backgroundColor: colors.inputBackground }]}>
+        {required && <ThemedText style={{ color: '#C62828' }}> *</ThemedText>}
+      </ThemedText>
+      <View style={[styles.inputWrapper, { backgroundColor: Colors.pastelSage }]}>
         <TextInput
           value={value}
           onChangeText={onChangeText}
+          onBlur={onBlur}
           placeholder={placeholder}
-          placeholderTextColor={colors.inputPlaceholder}
+          placeholderTextColor={Colors.mutedGray}
           secureTextEntry={hidden}
           autoCapitalize={autoCapitalize}
           keyboardType={keyboardType}
           accessibilityLabel={accessibilityLabel ?? label}
-          style={[styles.input, { color: colors.inputText, flex: 1 }]}
+          style={[styles.input, { color: textColor, flex: 1 }]}
         />
         {isPassword && (
           <TouchableOpacity
@@ -112,28 +80,27 @@ function InputField({
             <Ionicons
               name={hidden ? 'eye-off-outline' : 'eye-outline'}
               size={20}
-              color={colors.inputPlaceholder}
+              color={Colors.light.text}
             />
           </TouchableOpacity>
         )}
       </View>
       {errorText ? (
-        <Text style={[styles.errorText, { color: colors.errorText }]}>{errorText}</Text>
+        <ThemedText type="body" style={styles.errorText}>
+          {errorText}
+        </ThemedText>
       ) : null}
     </View>
   );
 }
 
 // ─── PasswordChecklist ────────────────────────────────────────────────────────
-function PasswordChecklist({
-  password,
-  colors,
-}: {
-  password: string;
-  colors: typeof Colors.light;
-}) {
+function PasswordChecklist({ password }: { password: string }) {
+  const textColor = useThemeColor({}, 'text');
+  const defaultColor = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text');
   const checks = [
     { label: 'At least 8 characters', met: password.length >= 8 },
+    { label: 'At least 1 lowercase', met: /[a-z]/.test(password) },
     { label: 'At least 1 uppercase', met: /[A-Z]/.test(password) },
     { label: 'At least 1 number', met: /[0-9]/.test(password) },
   ];
@@ -141,12 +108,21 @@ function PasswordChecklist({
     <View style={styles.checklistContainer}>
       {checks.map((c) => (
         <View key={c.label} style={styles.checklistRow}>
-          <Text style={{ color: c.met ? colors.checkmark : colors.subtext, fontSize: 16 }}>
-            ✔
-          </Text>
-          <Text style={[styles.checklistText, { color: c.met ? colors.checklistText : colors.subtext }]}>
+          <ThemedText 
+            type="body" 
+            style={{ 
+              fontSize: 14, 
+              color: c.met ? Colors.primaryGreen : defaultColor 
+            }}
+          >
+            ✓
+          </ThemedText>
+          <ThemedText
+            type="body"
+            style={[styles.checklistText, { color: textColor }]}
+          >
             {' '}{c.label}
-          </Text>
+          </ThemedText>
         </View>
       ))}
     </View>
@@ -158,6 +134,7 @@ function validate(fields: {
   fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
   agreedToTerms: boolean;
 }) {
   const errors: Record<string, string> = {};
@@ -171,10 +148,15 @@ function validate(fields: {
     errors.password = 'Password is required.';
   } else if (fields.password.length < 8) {
     errors.password = 'Password must be at least 8 characters.';
+  } else if (!/[a-z]/.test(fields.password)) {
+    errors.password = 'Password must contain at least 1 lowercase letter.';
   } else if (!/[A-Z]/.test(fields.password)) {
     errors.password = 'Password must contain at least 1 uppercase letter.';
   } else if (!/[0-9]/.test(fields.password)) {
     errors.password = 'Password must contain at least 1 number.';
+  }
+  if (fields.confirmPassword && fields.password !== fields.confirmPassword) {
+    errors.confirmPassword = 'Passwords do not match.';
   }
   if (!fields.agreedToTerms) errors.terms = 'You must agree to the Terms and Privacy Policy.';
   return errors;
@@ -182,69 +164,22 @@ function validate(fields: {
 
 // ─── SignUpScreen ─────────────────────────────────────────────────────────────
 export default function SignUpScreen() {
-  const scheme = useColorScheme();
-  const isDark = scheme === 'dark';
-  const colors = isDark ? Colors.dark : Colors.light;
-  const router = useRouter();
+  const backgroundColor = useThemeColor({}, 'background');
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [authMessage, setAuthMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function guardAuthenticatedUsers() {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-      if (!isMounted) return;
-
-      if (!error && session?.user) {
-        router.replace('/menu');
-      }
-    }
-
-    guardAuthenticatedUsers();
-
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        router.replace('/menu');
-      }
-    });
-
-    return () => {
-      isMounted = false;
-      subscription.subscription.unsubscribe();
-    };
-  }, [router]);
-
-  function mapSignUpError(message: string) {
-    const normalized = message.toLowerCase();
-
-    if (normalized.includes('already registered') || normalized.includes('already exists')) {
-      return 'This email is already registered. Try logging in instead.';
-    }
-
-    if (normalized.includes('password')) {
-      return 'Your password does not meet the required security rules.';
-    }
-
-    if (normalized.includes('invalid email')) {
-      return 'Please enter a valid email address.';
-    }
-
-    return 'Unable to create your account right now. Please try again.';
-  }
+  const { login } = useAuth();
+  const router = useRouter();
 
   const handleSignUp = async () => {
-    const validationErrors = validate({ fullName, email, password, agreedToTerms });
+    const validationErrors = validate({ fullName, email, password, confirmPassword, agreedToTerms });
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       AccessibilityInfo.announceForAccessibility(
@@ -256,43 +191,11 @@ export default function SignUpScreen() {
     setAuthMessage(null);
     setIsSubmitting(true);
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
-        options: {
-          data: {
-            full_name: fullName.trim(),
-            phone: phone.trim() || null,
-          },
-        },
-      });
-
-      if (error) {
-        const message = mapSignUpError(error.message);
-        setAuthMessage(message);
-        AccessibilityInfo.announceForAccessibility(message);
-        return;
-      }
-
-      const createdUser = data.user?.email ?? email.trim();
-      if (data.session?.user) {
-        const successMessage = `Account created for ${createdUser}.`;
-        setAuthMessage(successMessage);
-        AccessibilityInfo.announceForAccessibility(successMessage);
-        router.replace('/menu');
-        return;
-      }
-
-      const pendingMessage =
-        'This email may already be registered or needs email confirmation. Try logging in or check your inbox.';
-      setAuthMessage(pendingMessage);
-      AccessibilityInfo.announceForAccessibility(pendingMessage);
-
-      // Keep email so users can see which account was created.
-      setFullName('');
-      setPhone('');
-      setPassword('');
-      setAgreedToTerms(false);
+      // TODO: wire up Supabase auth
+      console.log('Sign up:', { fullName, email, phone });
+      console.log('Form submitted');
+      login({ fullName, email });
+      router.push('/(tabs)');
     } finally {
       setIsSubmitting(false);
     }
@@ -300,7 +203,7 @@ export default function SignUpScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={[styles.flex, { backgroundColor: colors.background }]}
+      style={[styles.flex, { backgroundColor }]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView
@@ -309,13 +212,13 @@ export default function SignUpScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* ── Header ── */}
-        <Text style={[styles.title, { color: colors.text }]} accessibilityRole="header">
+        <ThemedText type="heading" style={styles.title} accessibilityRole="header">
           Create Your Account
-        </Text>
+        </ThemedText>
 
         {/* ── Avatar ── */}
-        <View style={[styles.avatarContainer, { borderColor: colors.avatarBorder }]}>
-          <Ionicons name="person-circle-outline" size={60} color={colors.avatarBorder} />
+        <View style={[styles.avatarContainer, { borderColor: Colors.mutedGray }]}>
+          <Ionicons name="person-circle-outline" size={60} color={Colors.mutedGray} />
         </View>
 
         {/* ── Fields ── */}
@@ -328,10 +231,13 @@ export default function SignUpScreen() {
               setFullName(t);
               if (errors.fullName) setErrors((e) => ({ ...e, fullName: '' }));
             }}
+            onBlur={() => {
+              const err = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+              setErrors((prev) => ({ ...prev, fullName: err.fullName || '' }));
+            }}
             autoCapitalize="words"
             errorText={errors.fullName}
             accessibilityLabel="Full Name"
-            colors={colors}
           />
 
           <InputField
@@ -342,11 +248,14 @@ export default function SignUpScreen() {
               setEmail(t);
               if (errors.email) setErrors((e) => ({ ...e, email: '' }));
             }}
+            onBlur={() => {
+              const err = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+              setErrors((prev) => ({ ...prev, email: err.email || '' }));
+            }}
             autoCapitalize="none"
             keyboardType="email-address"
             errorText={errors.email}
             accessibilityLabel="Email address"
-            colors={colors}
           />
 
           <InputField
@@ -356,7 +265,6 @@ export default function SignUpScreen() {
             autoCapitalize="none"
             keyboardType="phone-pad"
             accessibilityLabel="Phone number"
-            colors={colors}
           />
 
           <InputField
@@ -367,15 +275,37 @@ export default function SignUpScreen() {
               setPassword(t);
               if (errors.password) setErrors((e) => ({ ...e, password: '' }));
             }}
+            onBlur={() => {
+              const err = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+              setErrors((prev) => ({ ...prev, password: err.password || '' }));
+            }}
             secureTextEntry
             isPassword
             autoCapitalize="none"
             errorText={errors.password}
             accessibilityLabel="Password"
-            colors={colors}
           />
 
-          <PasswordChecklist password={password} colors={colors} />
+          <PasswordChecklist password={password} />
+
+          <InputField
+            label="Confirm Password"
+            required
+            value={confirmPassword}
+            onChangeText={(t) => {
+              setConfirmPassword(t);
+              if (errors.confirmPassword) setErrors((e) => ({ ...e, confirmPassword: '' }));
+            }}
+            onBlur={() => {
+              const err = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+              setErrors((prev) => ({ ...prev, confirmPassword: err.confirmPassword || '' }));
+            }}
+            secureTextEntry
+            isPassword
+            autoCapitalize="none"
+            errorText={errors.confirmPassword}
+            accessibilityLabel="Confirm Password"
+          />
 
           {/* ── Terms Checkbox ── */}
           <TouchableOpacity
@@ -392,24 +322,28 @@ export default function SignUpScreen() {
               style={[
                 styles.checkbox,
                 {
-                  borderColor: errors.terms ? '#C62828' : colors.border,
-                  backgroundColor: agreedToTerms ? Colors.primary : 'transparent',
+                  borderColor: errors.terms ? '#C62828' : Colors.mutedGray,
+                  backgroundColor: agreedToTerms ? Colors.primaryGreen : 'transparent',
                 },
               ]}
             >
               {agreedToTerms && (
-                <Text style={{ color: '#FFFFFF', fontSize: 10, fontWeight: '700' }}>✓</Text>
+                <ThemedText style={{ color: '#FFFFFF', fontSize: 10, fontWeight: '700' }}>✓</ThemedText>
               )}
             </View>
-            <Text style={[styles.termsText, { color: colors.termsText }]}>
-              I agree on all{' '}
-              <Text style={{ color: colors.termsLink, textDecorationLine: 'underline' }}>Terms</Text>
-              {' '}and{' '}
-              <Text style={{ color: colors.termsLink, textDecorationLine: 'underline' }}>Privacy Policy</Text>
-            </Text>
+            <ThemedText type="body" style={styles.termsText}>
+              {'I agree on all '}
+              <ThemedText type="link" lightColor={Colors.primaryGreen} darkColor={Colors.pastelSage}>
+                Terms
+              </ThemedText>
+              {' and '}
+              <ThemedText type="link" lightColor={Colors.primaryGreen} darkColor={Colors.pastelSage}>
+                Privacy Policy
+              </ThemedText>
+            </ThemedText>
           </TouchableOpacity>
           {errors.terms && (
-            <Text style={[styles.errorText, { color: colors.errorText }]}>{errors.terms}</Text>
+            <ThemedText type="body" style={styles.errorText}>{errors.terms}</ThemedText>
           )}
         </View>
 
@@ -422,13 +356,17 @@ export default function SignUpScreen() {
           accessibilityState={{ disabled: isSubmitting }}
           style={[
             styles.primaryButton,
-            { backgroundColor: isSubmitting ? Colors.primaryDisabled : Colors.primary },
+            { backgroundColor: isSubmitting ? Colors.pastelSage : Colors.primaryGreen },
           ]}
           activeOpacity={0.85}
         >
-          <Text style={[styles.primaryButtonText, { color: '#FFFFFF' }]}>
+          <ThemedText
+            type="button"
+            lightColor={Colors.light.secondaryText}
+            darkColor={Colors.light.secondaryText}
+          >
             {isSubmitting ? 'Creating Account…' : 'Sign up'}
-          </Text>
+          </ThemedText>
         </TouchableOpacity>
 
         {authMessage && (
@@ -446,15 +384,15 @@ export default function SignUpScreen() {
 
         {/* ── Log In Link ── */}
         <View style={styles.loginLinkRow}>
-          <Text style={[styles.loginLinkText, { color: colors.subtext }]}>
+          <ThemedText type="body" style={styles.loginLinkText} lightColor={Colors.mutedGray}>
             Already have an account?{' '}
-          </Text>
+          </ThemedText>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           <Link href={'/login' as any} asChild>
             <TouchableOpacity accessibilityRole="link" accessibilityLabel="Log in">
-              <Text style={[styles.loginLink, { color: colors.text, textDecorationLine: 'underline' }]}>
+              <ThemedText type="link" style={styles.loginLink}>
                 Log in
-              </Text>
+              </ThemedText>
             </TouchableOpacity>
           </Link>
         </View>
@@ -466,7 +404,6 @@ export default function SignUpScreen() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  centered: { alignItems: 'center', justifyContent: 'center' },
   scrollContent: {
     flexGrow: 1,
     alignItems: 'center',
@@ -475,7 +412,6 @@ const styles = StyleSheet.create({
     paddingBottom: 48,
   },
   title: {
-    fontFamily: 'Inter_500Medium',
     fontSize: 32,
     fontWeight: '600',
     textAlign: 'center',
@@ -495,7 +431,6 @@ const styles = StyleSheet.create({
   form: { width: '100%', maxWidth: 480 },
   fieldContainer: { marginBottom: 16 },
   label: {
-    fontFamily: 'Inter_500Medium',
     fontSize: 16,
     fontWeight: '500',
     marginBottom: 6,
@@ -508,20 +443,19 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   input: {
-    fontFamily: 'Inter_400Regular',
     fontSize: 16,
     padding: 0,
   },
   eyeButton: { paddingLeft: 8 },
   errorText: {
-    fontFamily: 'Inter_400Regular',
     fontSize: 12,
+    color: '#C62828',
     marginTop: 4,
     marginLeft: 4,
   },
   checklistContainer: { marginBottom: 20, marginLeft: 4 },
   checklistRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
-  checklistText: { fontFamily: 'Inter_400Regular', fontSize: 16 },
+  checklistText: { fontSize: 16 },
   termsRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
   checkbox: {
     width: 18,
@@ -532,7 +466,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  termsText: { fontFamily: 'Inter_400Regular', fontSize: 16, flex: 1 },
+  termsText: { fontSize: 16, flex: 1 },
   primaryButton: {
     width: '100%',
     maxWidth: 480,
@@ -543,24 +477,12 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 16,
   },
-  primaryButtonText: {
-    fontFamily: 'Inter_500Medium',
-    fontSize: 16,
-    fontWeight: '500',
-  },
   loginLinkRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 8,
   },
-  loginLinkText: { fontFamily: 'Inter_400Regular', fontSize: 16 },
-  loginLink: { fontFamily: 'Inter_500Medium', fontSize: 16, fontWeight: '500' },
-  authMessage: {
-    marginTop: 8,
-    fontFamily: 'Inter_400Regular',
-    fontSize: 14,
-    textAlign: 'center',
-    maxWidth: 480,
-  },
+  loginLinkText: { fontSize: 16 },
+  loginLink: { fontSize: 16, fontWeight: '500' },
 });
