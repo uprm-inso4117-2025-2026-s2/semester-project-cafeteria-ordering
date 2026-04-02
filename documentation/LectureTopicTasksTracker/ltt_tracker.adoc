@@ -180,6 +180,20 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a theoretical analysis of mutation testing that demonstrates how introducing small changes in Order Processing Logic can evaluate the sensitivity of the test suite and reveal weaknesses in test coverage
 
+==== LTT-20-(issue-414): Design of Possible Mutants for Stripe Payment Workflow
+
+*Lecture Topic:* Design of Possible Mutants for Stripe Payment Workflow
+
+*Deliverables:*
+
+- Document describing the Stripe payment workflow.
+- List of possible mutants with their expected detection.
+- Suggested test cases for edge cases, failures, and invalid states.
+
+*Evidence:* Associated Asciidoc file and pull request linked to issue
+
+*Justification:* provides a structured approach to identify potential faults in the Stripe payment workflow, ensuring payment validation, payment confirmation, and error handling are correctly implemented and reliably tested.
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
