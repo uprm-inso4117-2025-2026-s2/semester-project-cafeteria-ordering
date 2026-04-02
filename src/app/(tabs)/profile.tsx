@@ -2,12 +2,16 @@
 
 import { StyleSheet, Text, View } from 'react-native';
 
+import { ThemedText } from '@/components/themed-text';
+import PrimaryButton from '@/components/ui/primaryButton';
 import { Colors, Typography } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useAuth } from '../authContext';
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme() ?? 'light';
   const theme = Colors[colorScheme];
+  const { user, loggedIn, logout } = useAuth();
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -25,6 +29,15 @@ export default function ProfileScreen() {
       >
         Manage your account details here.
       </Text>
+      {loggedIn ? (
+        <>
+        <ThemedText type='body'>Name: {user?.fullName}</ThemedText>
+        <ThemedText type='body'>Email: {user?.email}</ThemedText>
+        <PrimaryButton title='Log out' onPress={logout}></PrimaryButton>
+        </>
+      ) : (
+        <ThemedText type='body'>Please log in</ThemedText>
+      )}
     </View>
   );
 }

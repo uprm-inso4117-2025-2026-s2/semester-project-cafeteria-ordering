@@ -332,8 +332,11 @@ The following snippets are raw records of observations and stakeholder experienc
 
 [.yellow-bg]#The terminology defined in this section is derived from recurring phenomena observed in the domain rough sketch. These terms are not arbitrary labels; rather, they represent abstractions of stakeholder experiences, operational constraints, and observable interactions within the cafeteria environment. Together, they establish a shared vocabulary for subsequent concept analysis and requirements work.#
 
+Customer :: (entity, domain)
+[.green-bg]#A person who obtains food or beverages from the cafeteria, including students, faculty, staff, or visitors.#
+
 Student :: (entity, domain)
-A person enrolled at the university attempting to obtain food from the cafeteria, typically within limited time windows between academic activities or responsibilities.
+[.yellow-bg]#A person enrolled at the university who may act as a customer when obtaining food or beverages from the cafeteria, typically within limited time windows between academic activities or responsibilities.#
 
 Cafeteria :: (entity, domain)
 A food-service environment on campus where meals are prepared, ordered, paid for, and collected.
@@ -342,13 +345,13 @@ Cafeteria Staff :: (entity, domain)
 Staff responsible for preparing meals, handling orders, processing payments, and managing the cafeteria.
 
 Meal :: (entity, domain)
-A prepared set of food items offered by the cafeteria during operating hours.
+[.yellow-bg]#A set of food and/or beverage items offered by the cafeteria during operating hours, including prepared items (e.g., hot dishes) as well as non-prepared items (e.g., bottled drinks, water, or packaged goods).#
 
 Menu :: (entity, domain)
 [.yellow-bg]#A collection of meals and side options available during a specific period, whose visibility and accessibility may affect student decision-making before ordering.#
 
 Order :: (entity, domain)
-A request made by a student for one or more items from the menu.
+[.yellow-bg]#A request made by a customer for one or more items from the menu.#
 
 Queue :: (entity, domain)
 [.yellow-bg]#An ordered sequence of students waiting to place an order or complete payment, especially visible during peak periods when lines extend beyond the primary service area.#
@@ -357,25 +360,25 @@ Service Period :: (entity, domain)
 A continuous time window during which the cafeteria is open and serving meals.
 
 Order Placement :: (action, domain)
-The act of selecting menu items and communicating the request to cafeteria staff.
+[.yellow-bg]#The act of selecting menu items and communicating the request to cafeteria staff.#
 
 Payment :: (action, domain)
-[.yellow-bg]#The process of transferring money from a student to the cafeteria in exchange for a meal, including the possibility of service disruption when payment processing fails.#
+[.yellow-bg]#The process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of service disruption when payment processing fails. In the current domain, payment may occur at or after receiving the meal (e.g., upon tray pickup), rather than strictly at order placement. This behavior may change once the system is introduced.#
 
 Meal Preparation :: (action, domain)
-[.yellow-bg]#The production of meals in advance or in response to incoming orders, often under uncertainty about near-term student demand.#
+[.yellow-bg]#The production of meals in advance or in response to incoming orders, often under uncertainty about near-term customer demand.#
 
 Meal Pickup :: (action, domain)
-A student receiving a prepared meal after an order has been completed.
+[.yellow-bg]#A customer receiving prepared or selected items after an order has been completed.#
 
 Waiting Time :: (attribute, domain)
-[.yellow-bg]#The elapsed time between a student joining the queue and receiving their meal, often influencing whether the student remains in line or leaves due to time pressure.#
+[.yellow-bg]#The elapsed time between a customer joining the queue and receiving their meal, often influencing whether the customer remains in line or leaves due to time pressure.#
 
 Student Has Just Joined the Queue :: (event, domain)
 The moment a student enters the line to place an order.
 
 Order Has Just Been Placed :: (event, domain)
-The moment a student's order is communicated to cafeteria staff.
+[.yellow-bg]#The moment a customer's order is communicated to cafeteria staff.#
 
 Payment Has Just Failed :: (event, domain)
 The moment a payment attempt does not complete successfully, causing a delay in service.
@@ -390,10 +393,10 @@ Crowd Surge :: (behavior, domain)
 A situation that occurs when large numbers of students arrive within a short time spans. This leads to long queues and increased service pressure.
 
 Time-Constrained Decision Making :: (behavior, domain)
-[.yellow-bg]#A behavior in which students evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next academic responsibility.#
+[.yellow-bg]#A behavior in which customers evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next responsibility.#
 
 Uncertain Demand Preparation :: (behavior, domain)
-[.yellow-bg]#A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden student arrival.#
+[.yellow-bg]#A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden customer arrival.#
 
 Service Bottleneck :: (behavior, domain)
 [.yellow-bg]#A recurring slowdown caused by limited capacity in ordering, payment, or preparation, often becoming most visible during demand surges or operational failures.#
@@ -556,49 +559,49 @@ If a customer or staff member cancels an order, the system must reverse the tran
 
 ==== Epics
 
-===== Student Meal Access
+[.yellow-bg]#===== Meal Ordering and Access
+A high-level feature area focused on supporting customers in selecting, ordering, and obtaining food efficiently during limited time windows. This epic connects to features such as menu visibility, order placement, and meal pickup coordination.# 
 
-Students need a way to obtain food efficiently during short breaks between classes.
+[.green-bg]#===== Payment Processing
+A high-level feature area focused on enabling reliable and flexible payment options for customers. This includes handling transactions, managing failures, and supporting different payment moments within the service flow.# 
 
-===== Peak-Hour Cafeteria Flow
+[.yellow-bg]#===== Peak-Hour Flow Management
+A high-level feature area focused on helping cafeteria staff manage large numbers of customers during peak hours. This includes reducing congestion, improving queue handling, and supporting smoother service flow.# 
 
-Cafeteria staff need to handle large numbers of students during peak hours without excessive congestion.
-
-===== Reliable Cafeteria Service
-
-The cafeteria needs consistent operations to reduce delays and improve the overall cafeteria experience.
+[.yellow-bg]#===== Service Reliability and Coordination
+A high-level feature area focused on maintaining consistent cafeteria operations. This includes minimizing delays, handling disruptions, and ensuring coordination between ordering, preparation, and pickup.# 
 
 ==== User Stories
 
-===== As a Student 
+===== As a Customer 
 
-* I want to know what food options are available, so that I can decide whether waiting fits my schedule.
+[.yellow-bg]#* I want to see available food and drink options before ordering, so that I can decide whether waiting fits my schedule.# 
 
-* I want to spend less time waiting for food, so that I can arrive on time to my next class.
+[.yellow-bg]#* I want to know when my order is ready for pickup, so that I can minimize the time I spend waiting.# 
 
 ===== As a Cafeteria Staff Member
 
-* I want better awareness of incoming demand, so that I can prepare meals more efficiently.
+[.yellow-bg]#* I want to have visibility into incoming orders, so that I can prepare meals more efficiently.# 
 
-* I want service to remain steady during busy periods, so that crowds are reduced.
+[.yellow-bg]#* I want to manage service flow during busy periods, so that congestion and delays are reduced.# 
 
 ==== Features
 
-===== Meal availability information
+===== Meal Availability Information
 
-* Supports students in understanding what meals are offered during a service period.
+[.yellow-bg]#Provides customers with visibility into available meals and beverages during a service period. This feature supports the Meal Ordering and Access epic and enables user stories related to decision-making before joining the queue.# 
 
-===== Order and payment handling
+===== Order and Payment Handling
 
-* Supports the processing of student meal requests.
+[.yellow-bg]#Supports the creation and processing of customer orders, including the handling of payments and potential payment failures. This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic, ensuring that orders move correctly through the system.# 
 
-===== Demand awareness support
+===== Demand Awareness Support
 
-* Supports cafeteria staff in anticipating peak-hour service needs and wants.
+[.green-bg]#Provides cafeteria staff with information about incoming orders and expected demand. This feature supports the Peak-Hour Flow Management epic and helps staff prepare meals under uncertain demand conditions.# 
 
-===== Service flow coordination
+===== Service Flow Coordination
 
-* Supports smoother movement from ordering to meal pickup.
+[.yellow-bg]#Coordinates the progression from order placement to meal preparation and pickup. This feature supports the Service Reliability and Coordination epic and ensures smoother transitions between service stages.# 
 
 ==== 2.2.2 Personas
 
@@ -1080,42 +1083,64 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 ==== 3.2.1 Validation
 
 *Scenario Walkthroughs (Ongoing)*
- 
-* The team will walkthrough some scenarios with prospective stakeholders (students and cafeteria staff) to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:
+
+* [.yellow-bg]#The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:#
 
 ** Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.
 
-* After walkthroughs, any mismatches or missing steps will lead to updated domain concepts and requirements.
+* [.yellow-bg]#After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.#
 
 *Terminology and Concept Validation (Ongoing)*  
 
-* Through internal reviews and discussions we have already identified and resolved terminology conflicts (for example, student vs. customer, and customer queue vs. order queue).  
+* Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).  
 * Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.
 
 *Use of Research (Ongoing)*  
 
-* Existing and future research on technologies and cafeteria operations serves on ensuring that proposed solutions such as pre‑ordering and remote payment are realistic and are then incorporated into future scenarios for stakeholder feedback.
+* [.yellow-bg]#Research has been conducted on common cafeteria operations and existing food ordering systems to ensure that proposed solutions are realistic.#  
+
+* [.green-bg]#Sources include observations from the domain rough sketch, informal discussions with customers about cafeteria usage, and general knowledge of mobile ordering systems used in similar environments.#  
+
+* [.yellow-bg]#From this research, we concluded that features such as pre-ordering, menu visibility before arrival, and flexible payment timing are feasible and align with real-world practices. These findings are incorporated into future scenarios for stakeholder feedback.#   
 
 ==== 3.2.2 Verification
 
 *Consistency and Completeness Reviews (Ongoing)* 
 
-* Reviews will be done by Documentation Team Leader and Managers to verify that:  
+* [.yellow-bg]#Reviews have been conducted by Documentation Team Leader and Managers to verify that:#  
 ** Requirements and user stories only use defined terms or introduce new ones deliberately.  
 ** Each requirement supports at least one stakeholder need or goal stated earlier in the document.  
-** All key flows from the rough sketch (ordering, payment, preparation, pickup, leaving the queue) appear in at least one user story or feature.
-* Peer review by other team members will also be used to verify that the documentation is clear, consistent, and complete.
+** All key flows from the rough sketch (ordering, payment, preparation, pickup, leaving the queue) appear in at least one user story or feature.  
+
+* [.green-bg]#These reviews confirmed that terminology is used consistently across Sections 2.1.2 and 2.2.1, and that no undefined terms are used without explanation.#  
+
+* Peer review by other team members will also be used to verify that the documentation is clear, consistent, and complete.  
+
+* [.green-bg]#Minor inconsistencies (such as the use of “student” vs. “customer”) were identified and corrected.#  
+
+* [.green-bg]#Coverage analysis confirmed that all major domain activities (ordering, payment, preparation, and pickup) are represented by at least one epic, user story, and feature.#  
+
+* [.green-bg]#Traceability checks confirmed that each user story is linked to at least one epic and that each feature supports one or more user stories.#  
 
 *Test Planning and Documentation Verification (Ongoing)*
 
-* The defined test types, such as unit, integration, system, acceptance, non‑functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.
-* Risk-based testing will be used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.
-* Documentation testing will compare implemented behavior against requirements and acceptance criteria.
+* The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.  
+
+* [.yellow-bg]#Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.#  
+
+* [.green-bg]#Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).#  
+
+* [.green-bg]#Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.#  
 
 *Automated Verification via Continuous Integration (Ongoing)*
 
 * For the current testing phase, continuous integration will focus on build validation to ensure the repository installs and builds successfully on every pull request.  
-* As unit and integration tests are added, they will be included in the Auto‑Test Suite so that breaking changes cannot be merged into the main branch.
+
+* As unit and integration tests are added, they will be included in the Auto-Test Suite so that breaking changes cannot be merged into the main branch.  
+
+* [.green-bg]#Initial CI verification results show that the project builds successfully and that no blocking errors are present in the current codebase.#  
+
+* [.green-bg]#Future CI updates will include automated test execution and reporting to further strengthen verification coverage.#  
 
 
 == Specific Class Topics
@@ -1482,5 +1507,10 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @Kaariinaa08 | Section 2.2.3 - Domain Requirements | Reworked Section 2.2.3 and distributed some of it's information to Section 2.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434
 | @JadStelar | Section 1.2.1 - Current Situation | Removed possible ideas from this section and replaced it with workflow of the current situation | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408
 | @JadStelar | Section 1.2.2 - Needs | Removed System-Wide Needs | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408
+
+| @SamarysB | Section 2.1.2 - Terminology | Updated terminology to introduce "Customer" as a general entity, revised definitions, and ensured consistency with concept analysis. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/412
+| @SamarysB | Section 2.2.1 - User Stories, Epics, and Features | Reframed epics as high-level feature groups, rewrote user stories to be system-oriented, and expanded feature descriptions to clarify their role and relationships. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/413
+| @SamarysB | Section 3.2.1 - Validation | Clarified that scenario walkthroughs are planned but not yet conducted, and expanded the research section to include sources and conclusions. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/436
+| @SamarysB | Section 3.2.2 - Verification | Rewrote verification activities to reflect completed work, added coverage analysis and traceability checks, and expanded verification results and CI validation details. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/437
 
 |===
