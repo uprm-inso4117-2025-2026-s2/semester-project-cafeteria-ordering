@@ -51,5 +51,5 @@ export default function RootIndexRedirect() {
     );
   }
 
-  return <Redirect href={isAuthenticated ? '/menu' : '/signup'} />;
+  return <Redirect href={isAuthenticated ? '/(tabs)' : '/signup'} />;
 }

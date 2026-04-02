@@ -11,8 +11,6 @@
 |TC-AUTH-06 |Account Verification Process - Verify that after registration, users can successfully verify their accounts via email/verification link, including valid token acceptance, invalid/expired token handling, and account status changes from unverified to verified |TC-AUTH-04_account_verification.tsx
 |TC-SUPA-01 |Supabase configuration validation |src/tests/supabase/scripts/supabase-connection.test.ts
 |TC-SUPA-02 |Supabase quick connection smoke check |src/tests/supabase/scripts/quick-test.ts
-|TC-SUPA-03 |Supabase backend login validation without frontend dependency |src/tests/supabase/scripts/login-backend.test.ts
-|TC-SUPA-04 |Supabase backend signup validation without frontend dependency |src/tests/supabase/scripts/signup-backend.test.ts
 |TC-ORD-01 | Order Modification - Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults.| TC-ORD-01-Modify-Order
 |TC-ORD-02 |Validate Order ID format and correctness of generated values for place and confirm order feature. | UT-ORD-2_Place_and_Confirmation_for_Order.ts
 |TC-PAY-01 |Payment confirmation verification |TBD 

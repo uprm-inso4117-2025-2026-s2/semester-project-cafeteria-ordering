@@ -31,7 +31,7 @@ export function mapSignUpError(message: string): string {
     return 'Too many signup attempts. Please wait and try again.';
   }
 
-  return `Unable to create account right now. ${message}`;
+  return 'Unable to create account right now. Please try again.';
 }
 
 export function mapLoginError(message: string): string {
