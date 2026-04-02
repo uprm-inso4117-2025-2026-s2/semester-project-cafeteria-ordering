@@ -142,7 +142,7 @@ If external partners become involved in later phases, their roles and responsibi
 
 ==== 1.2.1 Current Situation
 
-Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, as there is no existing infrastructure for pre-ordering or remote payment. Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.
+Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, [.yellow-bg]#leading to delays during peak demand periods.# [.red-bg.line-through]#Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.# [.green-bg]#On a typical visit to the current cafeteria, a student walks to the cafeteria, checks the daily menu posted at the counter, and decides what to eat. To obtain the food, the student joins a single line that leads to the service counter. When the student reaches the counter, they state their order, the student pays for their order at the counter, cafeteria staff serve the food or start preparing it, and then the student picks up the meal when it is ready. Every student must pass through the same sequence of events: join the queue, order, pay, wait for preparation, and pick up the meal. The lack of a structured ordering system leads to long queues, increased waiting times, and operational inefficiencies that affect both students and cafeteria staff.#
 
 ==== 1.2.2 Needs
 
@@ -167,12 +167,36 @@ The long wait times at the university cafeteria show unmet needs in food service
 * Minimize crowds in shared spaces to improve safety and traffic flow.
 * Balance service improvements with resource and staffing constraints.
 
-===== System-Wide Needs
+===== [.green-bg]#Ordering#
 
-* Reduced trouble between ordering, preparation, payment, and pickup.
-* Alignment between student schedules and cafeteria service capacity.
-* A food-service process that adapts to peak demand patterns.
-* Meals can be obtained reliably and on time, even during busy periods.
+* [.green-bg]#Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.#
+* [.green-bg]#Customers need confidence that what they request can actually be fulfilled at the moment of ordering.#
+* [.green-bg]#Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.#
+
+===== [.green-bg]#Paying#
+
+* [.green-bg]#Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment#
+* [.green-bg]#Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.#
+* [.green-bg]#Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.#
+
+===== [.green-bg]#Preparing#
+
+* [.green-bg]#Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.#
+* [.green-bg]#Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.#
+* [.green-bg]#The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.#
+
+===== [.green-bg]#Pickup#
+
+* [.green-bg]#Customers need a pickup process that is orderly and time-efficient.#
+* [.green-bg]#Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.#
+* [.green-bg]#Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.#
+
+===== [.red-bg.line-through]#System-Wide Needs#
+
+* [.red-bg.line-through]#Reduced trouble between ordering, preparation, payment, and pickup.#
+* [.red-bg.line-through]#Alignment between student schedules and cafeteria service capacity.#
+* [.red-bg.line-through]#A food-service process that adapts to peak demand patterns.#
+* [.red-bg.line-through]#Meals can be obtained reliably and on time, even during busy periods.#
 
 ===== Project Level Needs
 
@@ -183,21 +207,23 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 ==== 1.2.3 Ideas
 
-* Based on the previously discussed needs, a platform where students and staff from the university community can easily order food from the university cafeteria can drastically reduce the waiting time and facilitate staff work. The Cafeteria ordering application can help the aforementioned needs with features such as:
+Based on the previously discussed needs, a platform where students and staff from the university community can easily order food from the university cafeteria can drastically reduce the waiting time and facilitate staff work. The Cafeteria ordering application can help the aforementioned needs with features such as:
 
 * Ordering: Now, it's easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
 
+* [.green-bg]#Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it's ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn't pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.#
+
 * Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
 
-*Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.
+* Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.
 
 * Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer's order stolen.
 
-*Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.
+* Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.
 
-*Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.
+* Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.
 
-*The application can help students mantain an easier routine for their everyday life, cafeteria staff can be more organized and also cuts down on miscommunication when people have orders taken in person. 
+The application can help students mantain an easier routine for their everyday life, cafeteria staff can be more organized and also cuts down on miscommunication when people have orders taken in person. 
 
 === 1.3 Scope, Span and Synopsis
 
@@ -1499,6 +1525,9 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @Kaariinaa08 | Section 1.4 - Other Activities | Removed Section 1.4 and redistributed its information to Sections 1.3.1 and 1.3.2 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397
 | @Kaariinaa08 | Section 2.2.3 - Domain Requirements | Reworked Section 2.2.3 and distributed some of it's information to Section 2.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434
 | @JadStelar | Section 2.2.2 - Personas | Added more detailed backgrounds for existing persona and added new persona for non-user | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/410
+| @JadStelar | Section 1.2.3 - Ideas | Added section pertaining to payment at register vs on the platform and corrected formatting of the whole section | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/409
+| @JadStelar | Section 1.2.1 - Current Situation | Removed possible ideas from this section and replaced it with workflow of the current situation | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408
+| @JadStelar | Section 1.2.2 - Needs | Removed System-Wide Needs | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408
 
 | @SamarysB | Section 2.1.2 - Terminology | Updated terminology to introduce "Customer" as a general entity, revised definitions, and ensured consistency with concept analysis. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/412
 | @SamarysB | Section 2.2.1 - User Stories, Epics, and Features | Reframed epics as high-level feature groups, rewrote user stories to be system-oriented, and expanded feature descriptions to clarify their role and relationships. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/413
