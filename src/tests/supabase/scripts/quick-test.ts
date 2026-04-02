@@ -23,7 +23,7 @@ async function runTests() {
     console.log('   Make sure .env file exists with:');
     console.log(`   - ${TC_SUPA_02_TEST_DATA.env.urlVarName}`);
     console.log(`   - ${TC_SUPA_02_TEST_DATA.env.anonKeyVarName}`);
-    process.exit(1);
+    throw new Error('Checking environment variables test Failed');
   }
   console.log('[PASS] Environment variables found');
   console.log(`   URL: ${supabaseUrl}`);
@@ -42,6 +42,7 @@ async function runTests() {
 
     if (error) {
       console.log('[FAIL] Database query error:', error.message);
+      throw new Error('Database connection Failed');
     } else {
       console.log('[PASS] Database connection successful');
     }
@@ -54,6 +55,7 @@ async function runTests() {
 
     if (authError) {
       console.log('[FAIL] Auth error:', authError.message);
+      throw new Error('Testing Authentication Failed');
     } else {
       console.log('[PASS] Authentication configured');
       if (session) {
@@ -72,6 +74,8 @@ async function runTests() {
     if (listError) {
       console.log('[FAIL] Storage error:', listError.message);
       console.log('   The menu-images bucket might not exist or has wrong permissions');
+      throw new Error('Testing Storage Failed');
+
     } else {
       console.log('[PASS] Storage accessible');
       console.log('[PASS] menu-images bucket exists and is accessible');
@@ -90,7 +94,7 @@ async function runTests() {
     console.log('\n[SUCCESS] All tests passed! Supabase is configured correctly.\n');
   } catch (error: any) {
     console.error('[ERROR]', error.message);
-    process.exit(1);
+    throw error;
   }
 }
 

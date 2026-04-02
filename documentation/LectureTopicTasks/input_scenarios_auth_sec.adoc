@@ -1,0 +1,266 @@
+== Authentication & Security Input Scenarios
+
+=== 1. User Login
+
+[cols="1,2,2"]
+|===
+| Input Type | Example | Expected Behavior
+
+| Valid
+| Correct email + correct password
+| User is successfully logged in
+
+| Invalid
+| Correct email + incorrect password
+| System rejects login attempt with error message: +
+  "Password is incorrect"
+
+| Invalid
+| Unregistered email
+| System rejects login attempt with error message: +
+  "Please enter a valid email address"
+
+| Invalid
+| Invalid email format
+| System rejects login attempt with error message: +
+  "Please enter a valid email address"
+
+| Invalid
+| One or more fields empty
+| System rejects login attempt with error message: +
+  "This field is required" (for each empty field)
+
+| Edge
+| Multiple failed login attempts (e.g., 5 times)
+| Account is temporarily locked or flagged
+
+| Edge
+| Email entered with different casing (e.g., USER@email.com)
+| System treats email as case-insensitive and logs user in if credentials are correct
+
+| Edge
+| Email/password with leading or trailing spaces
+| System trims input and processes correctly
+
+|===
+
+
+=== 2. User Registration (Sign Up)
+
+[cols="1,2,2"]
+|===
+| Input Type | Example | Expected Behavior
+
+| Valid
+| Valid email + strong password + all required fields filled
+| Account is successfully created
+
+| Invalid
+| Email already exists
+| System rejects registration and shows error: +
+  "Email is already registered"
+
+| Invalid
+| Invalid email format
+| System rejects registration and shows error: +
+  "Please enter a valid email address"
+
+| Invalid
+| Password has under 8 characters
+| System rejects registration with error message: +
+  "Password must be at least 8 characters"
+
+| Invalid
+| Password has no uppercase letters
+| System rejects registration with error message: +
+  "Password must contain at least 1 uppercase letter"
+
+| Invalid
+| Password has no lowercase letters
+| System rejects registration with error message: +
+  "Password must contain at least 1 lowercase letter"
+
+| Invalid
+| Password has no numbers
+| System rejects registration with error message: +
+  "Password must contain at least 1 number"
+
+| Invalid
+| New Password and Confirm Password do not match
+| System rejects registration with error message: +
+  "Passwords don't match"
+
+| Invalid
+| One or more fields empty
+| System rejects registration with error message: +
+  "This field is required" (for each empty field)
+
+| Invalid
+| Terms and Privacy Policy not agreed to
+| System rejects registration with error message: +
+  "You must agree to the Terms and Privacy Policy"
+
+| Edge
+| Extremely long input in name/email fields
+| System handles input safely without crashing
+
+| Edge
+| Script or SQL injection input (e.g., <script>alert(1)</script>)
+| System sanitizes input and prevents execution
+
+|===
+
+
+=== 3. Password Reset
+
+[cols="1,2,2"]
+|===
+| Input Type | Example | Expected Behavior
+
+| Valid
+| Registered email submitted for reset
+| Password reset link is sent
+
+| Valid
+| New Password meets minimum requirements + Confirm Password matches New Password
+| Password is reset successfully
+
+| Invalid
+| Unregistered email submitted
+| System displays generic message: +
+  "If an account exists, a reset link will be sent"
+
+| Invalid
+| Invalid email format
+| System does not send recovery email and displays error message: +
+  "Please enter a valid email address"
+
+| Invalid
+| Field is left empty
+| System does not send recovery email and displays error message: +
+  "Email is required"
+
+| Invalid
+| Password has under 8 characters
+| System rejects password reset with error message: +
+  "Password must be at least 8 characters"
+
+| Invalid
+| Password has no uppercase letters
+| System rejects password reset with error message: +
+  "Password must contain at least 1 uppercase letter"
+
+| Invalid
+| Password has no lowercase letters
+| System rejects password reset with error message: +
+  "Password must contain at least 1 lowercase letter"
+
+| Invalid
+| Password has no numbers
+| System rejects password reset with error message: +
+  "Password must contain at least 1 number"
+
+| Invalid
+| New Password and Confirm Password do not match
+| System rejects password reset with error message: +
+  "Passwords don't match"
+
+| Invalid
+| One or more fields empty
+| System rejects password reset with error message: +
+  "This field is required" (for each empty field)
+
+| Edge
+| Expired reset token used (past 24h)
+| System rejects request and asks user to request a new link
+
+| Edge
+| Reusing reset token
+| System rejects request and asks user to request a new link; tokens may only be used once
+
+| Edge
+| Rapid repeated requests
+| Rate limiting triggered
+
+| Edge
+| User is already logged in and attempts password reset
+| System allows reset but may require re-authentication
+
+|===
+
+
+=== 4. Account Verification
+
+[cols="1,2,2"]
+|===
+| Input Type | Example | Expected Behavior
+
+| Valid
+| User verifies account with valid token
+| Account status changes to "verified"
+
+| Valid
+| User verifies account with valid token after token resend
+| Account status changes to "verified"
+
+| Invalid
+| Invalid token used
+| System rejects verification attempt with message: +
+  "Invalid verification link"
+
+| Invalid
+| Random token used
+| System rejects verification attempt with message: +
+  "Token not found"
+
+| Invalid
+| Expired token used 
+| System rejects verification attempt with message: +
+  "Verification link has expired"
+
+| Invalid
+| User reused token
+| System rejects verification attempt with message: +
+  "Account already verified" or "Token already used"
+
+| Invalid
+| Tampered token used (modified signature)
+| System rejects verification attempt with message: +
+  "Verification link is invalid"
+
+| Invalid
+| Empty/missing token used 
+| System rejects verification attempt with message: +
+  "Verification link is invalid"
+
+| Invalid
+| Account is already verified 
+| System rejects verification attempt with message: +
+  "Account is already verified"
+
+|===
+
+
+=== 5. Session Management
+
+[cols="1,2,2"]
+|===
+| Input Type | Example | Expected Behavior
+
+| Edge
+| User inactive for extended period
+| Session expires and user is logged out
+
+| Edge
+| User logs out
+| Session is terminated and access is revoked
+
+| Edge
+| Using expired session token
+| System rejects request and redirects to login
+
+| Edge
+| User logs in from another device/browser
+| Previous session remains active or is invalidated based on system policy
+
+|===

@@ -22,32 +22,35 @@ Component usage examples:
 
 import { Colors, Typography } from "@/constants/theme";
 import React from 'react';
-import { StyleSheet, TextInput } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, TextInput, TextStyle } from "react-native";
 
 type Props = {
+  label?: string;
+  value?: string;
+  onChangeText?: (text: string) => void;
+
   // Optional customization properties
   backgroundColor?: string;
   textColor?: string;
   width?: number;
   height?: number;
   placeholderText?: string;
+
+  inputStyle?: TextStyle;
 };
 
-export default function InputField({ backgroundColor, textColor, width, height, placeholderText: placeholderText }: Props) {
-    const [text, onChangeText] = React.useState('');
-
+export default function InputField({ label, value, onChangeText: onChangeTextProp, backgroundColor, textColor, width, height, placeholderText: placeholderText, inputStyle }: Props) {
     return (
-      <SafeAreaProvider>
-        <SafeAreaView>
-          <TextInput style={[styles.input, {
-            backgroundColor: backgroundColor ?? Colors.pastelSage, 
-            color: textColor ?? Colors.light.alternateText,
-            width: width ?? 300, 
-            height: height ?? 40,}]} 
-            onChangeText={onChangeText} value={text} placeholder={placeholderText ?? ''}/>
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <TextInput style={[styles.input, {
+        backgroundColor: backgroundColor ?? Colors.pastelSage, 
+        color: textColor ?? Colors.light.alternateText,
+        width: width ?? 300, 
+        height: height ?? 40,}, inputStyle]} 
+        value={value}
+        onChangeText={(value) => {
+          if (onChangeTextProp) onChangeTextProp(value);
+        }}
+        placeholder={placeholderText ?? ''} nativeID={label ?? ''}/>
     );
 }
 
