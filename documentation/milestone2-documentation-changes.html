@@ -950,37 +950,36 @@ Define the application&#8217;s branding, visual identity, and user experience.</
 </div>
 <div class="sect3">
 <h4 id="_1_2_3_ideas">1.2.3 Ideas</h4>
+<div class="paragraph">
+<p>Based on the previously discussed needs, a platform where students and staff from the university community can easily order food from the university cafeteria can drastically reduce the waiting time and facilitate staff work. The Cafeteria ordering application can help the aforementioned needs with features such as:</p>
+</div>
 <div class="ulist">
 <ul>
-<li>
-<p>Based on the previously discussed needs, a platform where students and staff from the university community can easily order food from the university cafeteria can drastically reduce the waiting time and facilitate staff work. The Cafeteria ordering application can help the aforementioned needs with features such as:</p>
-</li>
 <li>
 <p>Ordering: Now, it&#8217;s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!</p>
 </li>
 <li>
+<p><span class="green-bg">Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</span></p>
+</li>
+<li>
 <p>Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.</p>
 </li>
-</ul>
-</div>
-<div class="paragraph">
-<p>*Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.</p>
-</div>
-<div class="ulist">
-<ul>
+<li>
+<p>Notification system: The project will include notifications for both the user and the cafeteria staff to keep them informed about the status of an order, to improve communication and help coordinate order preparation and pickup.</p>
+</li>
 <li>
 <p>Order security: when the user wants to pick up an order in the designated pick-up station, the user will be given a code that they have to confirm with the staff to then be able to pick up their order, vastly reducing the possibility of having a customer&#8217;s order stolen.</p>
 </li>
+<li>
+<p>Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.</p>
+</li>
+<li>
+<p>Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
-<p>*Cafeteria mode: For the staff to monitor the orders, an “admin mode” will be integrated so that all the orders along with their pickup time will be displayed for the cafeteria staff, as well as notify them for order cancellations, any notes from the orders, etc. The staff will be able to input when an order is being processed, and when the order has been completed.</p>
-</div>
-<div class="paragraph">
-<p>*Feedback: The app will ask the users for any feedback after an order has been processed and confirmed, this way, the team can make improvements and tweaks to the application and make the service better.</p>
-</div>
-<div class="paragraph">
-<p>*The application can help students mantain an easier routine for their everyday life, cafeteria staff can be more organized and also cuts down on miscommunication when people have orders taken in person.</p>
+<p>The application can help students mantain an easier routine for their everyday life, cafeteria staff can be more organized and also cuts down on miscommunication when people have orders taken in person.</p>
 </div>
 </div>
 </div>
@@ -1611,14 +1610,14 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 <p>Personas are different representative archetypes of the primary users within the cafeteria service domain. They help the development team to mantain a shared understanding of the user&#8217;s needs, behaviors, and constraints when defining user stories, features, and system requirements. The following personas were built with the common characteristics observed among members of the university who regularly interact with the cafeteria.</p>
 </div>
 <div class="sect4">
-<h5 id="_persona_1_carlos_the_time_constrained_student">Persona 1 — Carlos the Time Constrained Student</h5>
+<h5 id="_persona_1_carlos_santiago_the_time_constrained_student">Persona 1 — Carlos <span class="green-bg">Santiago</span> the Time Constrained Student</h5>
 <div class="ulist">
 <ul>
 <li>
 <p><strong>Role:</strong> Undergraduate Student</p>
 </li>
 <li>
-<p><strong>Age Range:</strong> 18-23</p>
+<p><strong>Age Range:</strong> <span class="yellow-bg">19</span></p>
 </li>
 <li>
 <p><strong>Primary Goal:</strong> Obtain food quickly between classes</p>
@@ -1629,21 +1628,24 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 </ul>
 </div>
 <div class="paragraph">
-<p>Carlos is a full time undergraduate student who usually has a tight schedule between classes and university activities. His available time to obtain meals is limited to short time spaces between mentioned classes. During peak hours, Carlos often encounters long cafeteria lines, which creates uncertainty about whether he can get food before his next class begins.</p>
+<p><span class="green-bg">Carlos Santiago is a second year English major who has a passion for poetry and literature. Growing up he had always enjoyed writing and reciting poetry. His all time favorite poet is Edgar Allan Poe, of which his favorite works are "For Annie" and "The Raven". In Carlos' senior year of high school, he did not know what he wanted to study; he was contemplating between Electrical Engineering and Industrial Engineering due to his parent&#8217;s influence. Despite this, after having multiple conversations with his high school English teachers, he decided to pursue his interest in literature and was able to persuade his parents. While studying, he enjoys writing poetry centered around environmental and political issues. Alongside this, he enjoys going to the local bar for a slam poetry competition every week on Thursdays nights.</span></p>
+</div>
+<div class="paragraph">
+<p>Carlos <span class="red-bg line-through">is a full time undergraduate student who</span> usually has a tight schedule between classes and university activities. His available time to obtain meals is limited to short time spaces between mentioned classes. During peak hours, Carlos often encounters long cafeteria lines, which creates uncertainty about whether he can get food before his next class begins.</p>
 </div>
 <div class="paragraph">
 <p>Carlos values speed, predictability, and efficiency when acquiring food from a place. Long waiting times or unclear service flow impact his daily routine negatively. He cannot afford a big delay in his schedule, and prefers solutions that help him make quick, informed decisions about getting a prepared meal.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_persona_2_mariana_the_organized_commuter">Persona 2 — Mariana the Organized Commuter</h5>
+<h5 id="_persona_2_mariana_fernandez_the_organized_commuter">Persona 2 — Mariana <span class="green-bg">Fernandez</span> the Organized Commuter</h5>
 <div class="ulist">
 <ul>
 <li>
 <p><strong>Role:</strong> Commuter Student</p>
 </li>
 <li>
-<p><strong>Age Range:</strong> 19-24</p>
+<p><strong>Age Range:</strong> <span class="yellow-bg">21</span></p>
 </li>
 <li>
 <p><strong>Primary Goal:</strong> Plan meals around time on campus</p>
@@ -1654,6 +1656,9 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 </ul>
 </div>
 <div class="paragraph">
+<p><span class="green-bg">Mariana Fernandez is an Agronomy student in her third year. Mariana is a first generation student who decided to study Agronomy because she has always been interested in agriculture. She grew up in her grandparent&#8217;s small plantain farm in Adjuntas, where she has had to help with weeding, pruning trees, and harvesting plantains. Outside of class, she spends time in the campus greenhouse, participates in a student organization focused on sustainable agriculture, and applying the farming methods she has learned in her grandparent&#8217;s farm.</span></p>
+</div>
+<div class="paragraph">
 <p>Mariana is a student who travels to campus and tries to optimize her time while she is present at the university because she does not remain on campus all day. This student prefers to plan when and where she will obtain food in advance.</p>
 </div>
 <div class="paragraph">
@@ -1661,14 +1666,14 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 </div>
 </div>
 <div class="sect4">
-<h5 id="_persona_3_josé_the_cafeteria_staff_member">Persona 3 — José the Cafeteria Staff Member</h5>
+<h5 id="_persona_3_josé_gonzalez_the_cafeteria_staff_member">Persona 3 — José <span class="green-bg">Gonzalez</span> the Cafeteria Staff Member</h5>
 <div class="ulist">
 <ul>
 <li>
 <p><strong>Role:</strong> Cafeteria Personnel</p>
 </li>
 <li>
-<p><strong>Age Range:</strong> 25-55</p>
+<p><strong>Age Range:</strong> <span class="yellow-bg">32</span></p>
 </li>
 <li>
 <p><strong>Primary Goal:</strong> Serve customers efficiently while maintaining quality</p>
@@ -1679,10 +1684,38 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 </ul>
 </div>
 <div class="paragraph">
-<p>José is a staff member of the cafeteria that is responsible for preparing and delivering customer orders. His workload fluctuates significantly depending on the time of day and customer congestion. During peak periods, José must manage rapidly the order intake, food preparation, and customer communication all simultaneously.</p>
+<p><span class="green-bg">José Gonzalez is a staff member of the cafeteria who has been working there for 7 years. He is originally from Ponce, where he lived with his family and worked in a local restaurant before moving to Mayaguez for better job opportunities after Hurricane María. José has a strong work ethic and takes pride in providing good service to customers. He enjoys interacting with students and with other cafeteria personnel. Outside of work, José spends time with his family, enjoys cooking at home, and is an avid basketball fan who follows local teams closely.</span></p>
+</div>
+<div class="paragraph">
+<p>José <span class="red-bg line-through">is a staff member of the cafeteria that</span> is responsible for preparing and delivering customer orders. His workload fluctuates significantly depending on the time of day and customer congestion. During peak periods, José must manage rapidly the order intake, food preparation, and customer communication all simultaneously.</p>
 </div>
 <div class="paragraph">
 <p>José values a clear order flow which has manageable workload distribution, along with smooth customer interactions. When queues become too long or customer demand suddenly increases, service pressure increases and the chance for a delay or miscomunication rises. Operational improvements that reduce this congestion and improve the workflow directly benefits José&#8217;s ability to mantain the service&#8217;s quality.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_persona_3_roberto_cartagena_the_cafeteria_manager"><span class="green-bg">Persona 3 — Roberto Cartagena the Cafeteria Manager</span></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg"><strong>Role:</strong> Cafeteria Manager</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Age Range:</strong> 45</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Primary Goal:</strong> Ensure efficient cafeteria operations and customer satisfaction</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Environment:</strong> Oversees staff and manages resources during peak hours</span></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Roberto Cartagena is the manager of the university cafeteria. He has been in this role for 10 years and has previously worked as a Hilton hotel manager, where he managed all hotel employees and guest relations. Outside of work, Roberto enjoys spending time with his family, hiking, and going to the beach. He recently started surfing and has spent several weekends taking lessons and practicing at local surf spots.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Roberto is responsible for managing the overall operations of the cafeteria, including staffing, inventory, and customer service. His biggest challenge is managing unpredictable demand during peak hours, where long lines, delayed service, and occasional food shortages can lead to student dissatisfaction and loss of customers. At the same time, anticipating these high demand services can lead to over preparing of food and monetary losses. Roberto values operational efficiency, customer satisfaction, and staff well-being. He seeks solutions that can help him better manage resources, anticipate demand surges, and maintain a high level of service quality, all while they are simple to use and do not disrupt existing workflows.</span></p>
 </div>
 </div>
 <div class="sect4">
@@ -3231,6 +3264,12 @@ through verifiable, incremental behavior.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.2.2 - Personas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added more detailed backgrounds for existing persona and added new persona for non-user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/410" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/410</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.2.3 - Ideas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added section pertaining to payment at register vs on the platform and corrected formatting of the whole section</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/409" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/409</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.2.1 - Current Situation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Removed possible ideas from this section and replaced it with workflow of the current situation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408</a></p></td>
