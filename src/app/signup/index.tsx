@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   AccessibilityInfo,
@@ -15,6 +15,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { useAuth } from '../authContext';
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const Colors = {
@@ -58,6 +59,7 @@ interface InputFieldProps {
   required?: boolean;
   value: string;
   onChangeText: (text: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   secureTextEntry?: boolean;
   isPassword?: boolean;
@@ -74,6 +76,7 @@ function InputField({
   required = false,
   value,
   onChangeText,
+  onBlur,
   placeholder,
   secureTextEntry = false,
   isPassword = false,
@@ -95,6 +98,7 @@ function InputField({
         <TextInput
           value={value}
           onChangeText={onChangeText}
+          onBlur={onBlur}
           placeholder={placeholder}
           placeholderTextColor={colors.inputPlaceholder}
           secureTextEntry={hidden}
@@ -135,6 +139,7 @@ function PasswordChecklist({
 }) {
   const checks = [
     { label: 'At least 8 characters', met: password.length >= 8 },
+    { label: 'At least 1 lowercase', met: /[a-z]/.test(password) },
     { label: 'At least 1 uppercase', met: /[A-Z]/.test(password) },
     { label: 'At least 1 number', met: /[0-9]/.test(password) },
   ];
@@ -159,6 +164,7 @@ function validate(fields: {
   fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
   agreedToTerms: boolean;
 }) {
   const errors: Record<string, string> = {};
@@ -172,10 +178,15 @@ function validate(fields: {
     errors.password = 'Password is required.';
   } else if (fields.password.length < 8) {
     errors.password = 'Password must be at least 8 characters.';
+  } else if (!/[a-z]/.test(fields.password)) {
+    errors.password = 'Password must contain at least 1 lowercase letter.';
   } else if (!/[A-Z]/.test(fields.password)) {
     errors.password = 'Password must contain at least 1 uppercase letter.';
   } else if (!/[0-9]/.test(fields.password)) {
     errors.password = 'Password must contain at least 1 number.';
+  }
+  if (fields.confirmPassword && fields.password !== fields.confirmPassword) {
+    errors.confirmPassword = 'Passwords do not match.';
   }
   if (!fields.agreedToTerms) errors.terms = 'You must agree to the Terms and Privacy Policy.';
   return errors;
@@ -199,9 +210,13 @@ export default function SignUpScreen() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
 
   // Show spinner while fonts load
   if (!fontsLoaded) {
@@ -213,7 +228,7 @@ export default function SignUpScreen() {
   }
 
   const handleSignUp = async () => {
-    const validationErrors = validate({ fullName, email, password, agreedToTerms });
+    const validationErrors = validate({ fullName, email, password, confirmPassword, agreedToTerms });
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       AccessibilityInfo.announceForAccessibility(
@@ -227,6 +242,9 @@ export default function SignUpScreen() {
       // TODO: wire up Supabase auth — e.g.:
       // await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName } } });
       console.log('Sign up:', { fullName, email, phone });
+      console.log("Form submitted");
+      login({fullName, email});
+      router.push('/(tabs)');
     } finally {
       setIsSubmitting(false);
     }
@@ -262,6 +280,10 @@ export default function SignUpScreen() {
               setFullName(t);
               if (errors.fullName) setErrors((e) => ({ ...e, fullName: '' }));
             }}
+            onBlur={() => {
+              const err = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+              setErrors((prev) => ({ ...prev, fullName: err.fullName || '' }));
+            }}
             autoCapitalize="words"
             errorText={errors.fullName}
             accessibilityLabel="Full Name"
@@ -275,6 +297,10 @@ export default function SignUpScreen() {
             onChangeText={(t) => {
               setEmail(t);
               if (errors.email) setErrors((e) => ({ ...e, email: '' }));
+            }}
+            onBlur={() => {
+              const err = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+              setErrors((prev) => ({ ...prev, email: err.email || '' }));
             }}
             autoCapitalize="none"
             keyboardType="email-address"
@@ -301,6 +327,10 @@ export default function SignUpScreen() {
               setPassword(t);
               if (errors.password) setErrors((e) => ({ ...e, password: '' }));
             }}
+            onBlur={() => {
+              const err = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+              setErrors((prev) => ({ ...prev, password: err.password || '' }));
+            }}
             secureTextEntry
             isPassword
             autoCapitalize="none"
@@ -310,6 +340,26 @@ export default function SignUpScreen() {
           />
 
           <PasswordChecklist password={password} colors={colors} />
+
+          <InputField
+            label="Confirm Password"
+            required
+            value={confirmPassword}
+            onChangeText={(t) => {
+              setConfirmPassword(t);
+              if (errors.confirmPassword) setErrors((e) => ({ ...e, confirmPassword: '' }));
+            }}
+            onBlur={() => {
+              const err = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+              setErrors((prev) => ({ ...prev, confirmPassword: err.confirmPassword || '' }));
+            }}
+            secureTextEntry
+            isPassword
+            autoCapitalize="none"
+            errorText={errors.confirmPassword}
+            accessibilityLabel="Confirm Password"
+            colors={colors}
+          />
 
           {/* ── Terms Checkbox ── */}
           <TouchableOpacity
