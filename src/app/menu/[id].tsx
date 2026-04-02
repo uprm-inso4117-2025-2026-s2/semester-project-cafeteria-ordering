@@ -150,7 +150,7 @@ export default function ItemPage() {
                         ]}
                         onPress={() => setCount(Math.max(1, count - 1))}
                         >
-                            <Text style={styles.btnText}>-</Text>
+                            <Text style={styles.circleBtnText}>-</Text>
                         </Pressable>
                         <Text style={[styles.body, { color: colors.textPrimary }]}>
                             {count}
@@ -170,7 +170,7 @@ export default function ItemPage() {
                         ]}
                         onPress={() => setCount(count + 1)}
                         >
-                            <Text style={styles.btnText}>+</Text>
+                            <Text style={styles.circleBtnText}>+</Text>
                         </Pressable>
                     </View>
                     {/* Add to Cart Button */}
@@ -211,7 +211,7 @@ export default function ItemPage() {
                                 { backgroundColor: isSelected ? colors.primary : colors.secondary },
                                 ]}
                                 >
-                                    <Text style={[styles.body,{ color: isSelected ? "#FAFAFA" : colors.textPrimary },]}>
+                                    <Text style={[styles.body,{ color: isSelected ? "#FAFAFA" : "#424242" },]}>
                                         {addon.name} (+${addon.price.toFixed(2)})
                                     </Text>
                                 </Pressable>
@@ -231,7 +231,7 @@ const lightColors = {
     secondary: "#A5D6A7",
     accent: "#FFCCBC",
     textPrimary: "#424242",
-    textSecondary: "#BDBDBD",
+    textSecondary: "#424242",
     border: "#FFCCBC",
 };
 
@@ -289,7 +289,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "400",
         fontFamily: "Inter",
-        marginBottom: 8,
     },
     divider: {
         height: 1,
@@ -308,7 +307,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    btnText: {
+    circleBtnText: {
         fontSize: 20,
         fontFamily: "Inter",
         fontWeight: "500",
@@ -337,6 +336,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginRight: 8,
         marginBottom: 8,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
 
