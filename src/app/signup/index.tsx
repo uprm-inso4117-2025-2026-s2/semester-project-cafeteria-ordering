@@ -97,6 +97,7 @@ function InputField({
 // ─── PasswordChecklist ────────────────────────────────────────────────────────
 function PasswordChecklist({ password }: { password: string }) {
   const textColor = useThemeColor({}, 'text');
+  const defaultColor = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text');
   const checks = [
     { label: 'At least 8 characters', met: password.length >= 8 },
     { label: 'At least 1 lowercase', met: /[a-z]/.test(password) },
@@ -107,12 +108,18 @@ function PasswordChecklist({ password }: { password: string }) {
     <View style={styles.checklistContainer}>
       {checks.map((c) => (
         <View key={c.label} style={styles.checklistRow}>
-          <ThemedText style={{ color: c.met ? Colors.primaryGreen : Colors.mutedGray, fontSize: 16 }}>
-            ✔
+          <ThemedText 
+            type="body" 
+            style={{ 
+              fontSize: 14, 
+              color: c.met ? Colors.primaryGreen : defaultColor 
+            }}
+          >
+            ✓
           </ThemedText>
           <ThemedText
             type="body"
-            style={[styles.checklistText, { color: c.met ? textColor : Colors.mutedGray }]}
+            style={[styles.checklistText, { color: textColor }]}
           >
             {' '}{c.label}
           </ThemedText>
