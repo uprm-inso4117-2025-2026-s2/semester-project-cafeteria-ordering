@@ -18,12 +18,13 @@ Project cafeteria_ordering_system {
 // ============================================
 
 Table profiles {
-  id uuid [pk, default: `uuid_generate_v4()`]
-  user_id uuid [ref: - auth.users.id, not null, unique, note: 'Links to Supabase auth.users']
+  id uuid [pk, ref: - auth.users.id, note: 'Profile ID aligned to Supabase auth.users.id']
+  user_id uuid [ref: - auth.users.id, unique, note: 'Optional explicit link to Supabase auth.users']
   student_id varchar(20) [unique, note: 'University student ID']
-  full_name varchar(255) [not null]
+  full_name text
   phone varchar(20)
-  role varchar(20) [not null, default: 'student', note: 'student, staff, or admin']
+  role text [not null, default: 'student', note: 'student, athlete, staff, or admin']
+  expo_push_token text [note: 'Expo push token (legacy profile-level storage)']
   created_at timestamp [not null, default: `now()`]
   updated_at timestamp [not null, default: `now()`]
   
@@ -96,7 +97,7 @@ Table menu_items {
 
 Table orders {
   id uuid [pk, default: `uuid_generate_v4()`]
-  user_id uuid [ref: > profiles.user_id, not null]
+  user_id uuid [ref: > auth.users.id, not null]
   status varchar(20) [not null, default: 'placed', note: 'placed, confirmed, preparing, ready, completed, cancelled']
   total_amount decimal(10,2) [not null, note: 'Total order cost']
   pickup_time timestamp [note: 'Scheduled pickup time (null = ASAP)']
@@ -140,7 +141,7 @@ Table order_status_history {
   order_id uuid [ref: > orders.id, not null, note: 'ON DELETE CASCADE']
   previous_status varchar(20) [note: 'Status before change']
   new_status varchar(20) [not null]
-  changed_by uuid [ref: > profiles.user_id, note: 'Staff member who made change']
+  changed_by uuid [ref: > auth.users.id, note: 'Staff member who made change']
   changed_at timestamp [not null, default: `now()`]
   notes text [note: 'Reason for status change']
   
@@ -160,9 +161,9 @@ Table payments {
   id uuid [pk, default: `uuid_generate_v4()`]
   order_id uuid [ref: - orders.id, not null, unique, note: 'One payment per order']
   amount decimal(10,2) [not null]
-  payment_method varchar(50) [not null, note: 'credit_card, mobile_payment, university_account']
+  payment_method varchar(50) [not null, note: 'credit_card, debit_card, mobile_payment, university_account']
   provider_transaction_id varchar(255) [unique, note: 'Stripe/PayPal transaction ID']
-  status varchar(20) [not null, default: 'pending', note: 'pending, completed, failed, refunded']
+  status varchar(20) [not null, default: 'pending', note: 'pending, processing, completed, failed, refunded']
   processed_at timestamp
   created_at timestamp [not null, default: `now()`]
   
@@ -181,9 +182,9 @@ Table payments {
 
 Table notifications {
   id uuid [pk, default: `uuid_generate_v4()`]
-  user_id uuid [ref: > profiles.user_id, not null]
+  user_id uuid [ref: > auth.users.id, not null]
   order_id uuid [ref: > orders.id, note: 'Related order if applicable']
-  type varchar(50) [not null, note: 'order_placed, order_ready, order_completed, system_message']
+  type varchar(50) [not null, note: 'order_placed, order_confirmed, order_ready, order_completed, order_cancelled, system_message']
   title varchar(255) [not null]
   message text [not null]
   sent_at timestamp [not null, default: `now()`]
@@ -200,7 +201,7 @@ Table notifications {
 
 Table push_notification_tokens {
   id uuid [pk, default: `uuid_generate_v4()`]
-  user_id uuid [ref: > profiles.user_id, not null]
+  user_id uuid [ref: > auth.users.id, not null]
   token text [not null, unique, note: 'Expo push notification token']
   platform varchar(10) [not null, note: 'ios or android']
   registered_at timestamp [not null, default: `now()`]
@@ -224,7 +225,7 @@ Table cafeteria_settings {
   value jsonb [not null]
   description text
   updated_at timestamp [not null, default: `now()`]
-  updated_by uuid [ref: > profiles.user_id]
+  updated_by uuid [ref: > auth.users.id]
   
   indexes {
     key [unique]
@@ -241,25 +242,26 @@ Table cafeteria_settings {
 // ============================================
 
 // User Management:
-// - profiles.user_id -> auth.users.id (1:1)
+// - profiles.id -> auth.users.id (1:1 primary mapping)
+// - profiles.user_id -> auth.users.id (optional explicit mapping)
 
 // Menu Structure:
 // - menu_items.category_id -> menu_categories.id (N:1)
 
 // Order Flow:
-// - orders.user_id -> profiles.user_id (N:1) - User can have many orders
+// - orders.user_id -> auth.users.id (N:1) - User can have many orders
 // - order_items.order_id -> orders.id (N:1) - Order has many items
 // - order_items.menu_item_id -> menu_items.id (N:1) - Each item references a menu item
 // - order_status_history.order_id -> orders.id (N:1) - Order has many status changes
-// - order_status_history.changed_by -> profiles.user_id (N:1) - Staff member tracking
+// - order_status_history.changed_by -> auth.users.id (N:1) - Staff member tracking
 
 // Payment:
 // - payments.order_id -> orders.id (1:1) - One payment per order
 
 // Notifications:
-// - notifications.user_id -> profiles.user_id (N:1) - User receives many notifications
+// - notifications.user_id -> auth.users.id (N:1) - User receives many notifications
 // - notifications.order_id -> orders.id (N:1) - Notifications can be order-specific
-// - push_notification_tokens.user_id -> profiles.user_id (N:1) - User can have multiple devices
+// - push_notification_tokens.user_id -> auth.users.id (N:1) - User can have multiple devices
 
 // Configuration:
-// - cafeteria_settings.updated_by -> profiles.user_id (N:1) - Track who changed settings
+// - cafeteria_settings.updated_by -> auth.users.id (N:1) - Track who changed settings

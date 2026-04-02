@@ -34,7 +34,7 @@ AS PERMISSIVE
 FOR SELECT
 TO authenticated
 USING (
-  auth.uid() = customer_id
+  auth.uid() = user_id
 );
 ----
 
