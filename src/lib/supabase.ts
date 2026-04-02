@@ -2,6 +2,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
 import 'react-native-url-polyfill/auto';
 
+// AsyncStorage v2 accesses `window` internally, which doesn't exist in
+// Node.js (Expo Router static rendering). This adapter guards against that.
+const ssrSafeStorage = {
+  getItem: async (key: string): Promise<string | null> => {
+    if (typeof window === 'undefined') return null;
+    return AsyncStorage.getItem(key);
+  },
+  setItem: async (key: string, value: string): Promise<void> => {
+    if (typeof window === 'undefined') return;
+    return AsyncStorage.setItem(key, value);
+  },
+  removeItem: async (key: string): Promise<void> => {
+    if (typeof window === 'undefined') return;
+    return AsyncStorage.removeItem(key);
+  },
+};
+
 // Supabase configuration from environment variables
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
@@ -55,7 +72,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     // Use AsyncStorage for session persistence (required for React Native)
-    storage: AsyncStorage,
+    storage: ssrSafeStorage,
     
     // Automatically refresh tokens when they expire
     autoRefreshToken: true,

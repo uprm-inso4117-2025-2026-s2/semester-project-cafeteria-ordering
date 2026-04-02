@@ -132,13 +132,13 @@ Extended user profile information linked to Supabase authentication.
 
 | id
 | UUID
-| PRIMARY KEY, DEFAULT uuid_generate_v4()
-| Internal profile ID
+| PRIMARY KEY, FK → auth.users.id (ON DELETE CASCADE)
+| Profile ID (aligned with Supabase auth user ID)
 
 | user_id
 | UUID
-| NOT NULL, UNIQUE, FK → auth.users.id
-| Reference to Supabase auth user
+| UNIQUE, FK → auth.users.id (ON DELETE CASCADE)
+| Optional explicit reference to Supabase auth user
 
 | student_id
 | VARCHAR(20)
@@ -146,8 +146,8 @@ Extended user profile information linked to Supabase authentication.
 | University student ID number
 
 | full_name
-| VARCHAR(255)
-| NOT NULL
+| TEXT
+| 
 | User's full name
 
 | phone
@@ -156,9 +156,14 @@ Extended user profile information linked to Supabase authentication.
 | Contact phone number
 
 | role
-| VARCHAR(20)
+| TEXT
 | NOT NULL, DEFAULT 'student', CHECK
-| User role: student, staff, or admin
+| User role: student, athlete, staff, or admin
+
+| expo_push_token
+| TEXT
+| 
+| Expo push token for notification delivery
 
 | created_at
 | TIMESTAMP
@@ -179,7 +184,7 @@ Extended user profile information linked to Supabase authentication.
 
 **Business Rules:**
 
-* Role must be one of: 'student', 'staff', 'admin'
+* Role must be one of: 'student', 'athlete', 'staff', 'admin'
 * One profile per Supabase auth user (enforced by UNIQUE constraint)
 * Student_id is optional (staff and admins may not have one)
 * Profile automatically created when user signs up (trigger on auth.users)
