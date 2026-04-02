@@ -1060,24 +1060,24 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 
 *Scenario Walkthroughs (Ongoing)*
 
-[.yellow-bg]#* The team has planned scenario walkthroughs with prospective stakeholders (students and cafeteria staff), but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:#
+* [.yellow-bg]#The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:#
 
 ** Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.
 
-[.yellow-bg]#* After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.#
+* [.yellow-bg]#After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.#
 
 *Terminology and Concept Validation (Ongoing)*  
 
-* Through internal reviews and discussions we have already identified and resolved terminology conflicts (for example, student vs. customer, and customer queue vs. order queue).  
+* Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).  
 * Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.
 
 *Use of Research (Ongoing)*  
 
-[.yellow-bg]#* Research has been conducted on common cafeteria operations and existing food ordering systems to ensure that proposed solutions are realistic.#  
+* [.yellow-bg]#Research has been conducted on common cafeteria operations and existing food ordering systems to ensure that proposed solutions are realistic.#  
 
-[.green-bg]#* Sources include observations from the domain rough sketch, informal discussions with students about cafeteria usage, and general knowledge of mobile ordering systems used in similar environments.#  
+* [.green-bg]#Sources include observations from the domain rough sketch, informal discussions with customers about cafeteria usage, and general knowledge of mobile ordering systems used in similar environments.#  
 
-[.yellow-bg]#* From this research, we concluded that features such as pre-ordering, menu visibility before arrival, and flexible payment timing are feasible and align with real-world practices. These findings are incorporated into future scenarios for stakeholder feedback.#  
+* [.yellow-bg]#From this research, we concluded that features such as pre-ordering, menu visibility before arrival, and flexible payment timing are feasible and align with real-world practices. These findings are incorporated into future scenarios for stakeholder feedback.#   
 
 ==== 3.2.2 Verification
 

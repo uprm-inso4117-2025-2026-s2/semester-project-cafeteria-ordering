@@ -1207,7 +1207,7 @@ A situation that occurs when large numbers of students arrive within a short tim
 </dl>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">The domain description above also establishes several important properties of the cafeteria environment that motivate the domain requirements. In this domain, every order corresponds to at least one menu item, each order is associated with a specific customer, menu items may become unavailable during a service period, orders progress through preparation stages before pickup, each menu item has an established price that contributes to the order total, and pickup can only occur after preparation is complete. The domain also admits possible order cancellation before fulfillment, payment obligations tied to accepted orders, customers who are not necessarily students, and preparation times that may vary according to the order and kitchen conditions.</span></p>
+<p><span class="yellow-bg">The domain description above also establishes several important properties of the cafeteria environment that motivate the domain requirements. In this domain, every order contains at least one menu item and is associated with a specific customer. Menu items may become unavailable during a service period due to inventory limitations or preparation constraints. Orders progress through distinct preparation stages before they are eligible for pickup. Each menu item has an established price that contributes to the total cost of the order, and an order may only be released once preparation has been completed. The domain also includes the possibility of order cancellation before fulfillment, payment obligations that must be satisfied before release, customers who are not limited to students, and preparation times that may vary according to the order and current kitchen conditions.</span></p>
 </div>
 <div class="paragraph">
 <p><span class="red-bg line-through">==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch</span></p>
@@ -1689,7 +1689,7 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 <div class="ulist">
 <ul>
 <li>
-<p><span class="yellow-bg">The system must provide means for cafeteria staff to update and track the preparation stage of an order.</span></p>
+<p><span class="yellow-bg">The system must allow cafeteria staff to update and track the preparation stage of an order.</span></p>
 </li>
 </ul>
 </div>
@@ -1719,17 +1719,17 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 <div class="ulist">
 <ul>
 <li>
-<p><span class="green-bg">The system must define and support valid order cancellation conditions before an order has been fulfilled.</span></p>
+<p><span class="green-bg">The system must support the handling of order cancellations and notify cafeteria staff when an order has been canceled.</span></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><span class="green-bg"><strong>DR-08: Payment Obligation</strong></span></p>
+<p><span class="green-bg"><strong>DR-08: Payment Confirmation Before Release</strong></span></p>
 <div class="ulist">
 <ul>
 <li>
-<p><span class="green-bg">The system must represent when payment is required for an order and must distinguish unpaid orders from paid orders.</span></p>
+<p><span class="green-bg">The system must represent the payment status of an order and must distinguish orders that are pending payment from those whose payment has been completed before the order is released to the customer.</span></p>
 </li>
 </ul>
 </div>
@@ -1739,7 +1739,7 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 <div class="ulist">
 <ul>
 <li>
-<p><span class="green-bg">The system must support order placement by authorized cafeteria customers and must not assume that all customers are students.</span></p>
+<p><span class="green-bg">The system must support order placement by cafeteria customers and must not assume that all customers are students.</span></p>
 </li>
 </ul>
 </div>
@@ -1749,7 +1749,7 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 <div class="ulist">
 <ul>
 <li>
-<p><span class="green-bg">The system must support the representation or estimation of preparation time as a variable property of an order rather than as a fixed constant for all orders.</span></p>
+<p><span class="green-bg">The system must represent preparation time as a variable property of an order rather than as a fixed constant for all orders.</span></p>
 </li>
 </ul>
 </div>
@@ -2428,9 +2428,10 @@ so the internal representation remains consistent with cafeteria operations.</p>
 <div class="paragraph">
 <p><strong>Scenario Walkthroughs (Ongoing)</strong></p>
 </div>
-<div class="paragraph">
-<p><span class="yellow-bg">* The team has planned scenario walkthroughs with prospective stakeholders (students and cafeteria staff), but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:</span></p>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="yellow-bg">The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:</span></p>
 <div class="ulist">
 <ul>
 <li>
@@ -2438,8 +2439,11 @@ so the internal representation remains consistent with cafeteria operations.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p><span class="yellow-bg">* After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.</span></p>
+</li>
+<li>
+<p><span class="yellow-bg">After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.</span></p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p><strong>Terminology and Concept Validation (Ongoing)</strong></p>
@@ -2447,7 +2451,7 @@ so the internal representation remains consistent with cafeteria operations.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Through internal reviews and discussions we have already identified and resolved terminology conflicts (for example, student vs. customer, and customer queue vs. order queue).</p>
+<p>Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).</p>
 </li>
 <li>
 <p>Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.</p>
@@ -2457,14 +2461,18 @@ so the internal representation remains consistent with cafeteria operations.</p>
 <div class="paragraph">
 <p><strong>Use of Research (Ongoing)</strong></p>
 </div>
-<div class="paragraph">
-<p><span class="yellow-bg">* Research has been conducted on common cafeteria operations and existing food ordering systems to ensure that proposed solutions are realistic.</span></p>
-</div>
-<div class="paragraph">
-<p><span class="green-bg">* Sources include observations from the domain rough sketch, informal discussions with students about cafeteria usage, and general knowledge of mobile ordering systems used in similar environments.</span></p>
-</div>
-<div class="paragraph">
-<p><span class="yellow-bg">* From this research, we concluded that features such as pre-ordering, menu visibility before arrival, and flexible payment timing are feasible and align with real-world practices. These findings are incorporated into future scenarios for stakeholder feedback.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="yellow-bg">Research has been conducted on common cafeteria operations and existing food ordering systems to ensure that proposed solutions are realistic.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Sources include observations from the domain rough sketch, informal discussions with customers about cafeteria usage, and general knowledge of mobile ordering systems used in similar environments.</span></p>
+</li>
+<li>
+<p><span class="yellow-bg">From this research, we concluded that features such as pre-ordering, menu visibility before arrival, and flexible payment timing are feasible and align with real-world practices. These findings are incorporated into future scenarios for stakeholder feedback.</span></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -3152,6 +3160,12 @@ through verifiable, incremental behavior.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397</a></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@Kaariinaa08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.2.3 - Domain Requirements</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reworked Section 2.2.3 and distributed some of it&#8217;s information to Section 2.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434</a></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.2 - Terminology</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Updated terminology to introduce "Customer" as a general entity, revised definitions, and ensured consistency with concept analysis.</p></td>
@@ -3182,7 +3196,7 @@ through verifiable, incremental behavior.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-03-31 17:12:49 -0400
+Last updated 2026-04-01 20:11:41 -0400
 </div>
 </div>
 </body>
