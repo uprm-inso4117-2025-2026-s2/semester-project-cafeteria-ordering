@@ -1,0 +1,476 @@
+= Hoare Logic Specification for Stripe Payment Workflow
+:toc:
+:sectnums:
+:stem:
+
+== Overview of Hoare Logic
+
+=== Definition and Form
+*Hoare Logic* is a formal method used to reason the correctness of a program by expressing its behavior using logical assertions. These assertions are called *Hoare triples*. Hoare triple is used to specify what must be true before a statement executes and what must be true after the statement executes. This allows program correctness to be verified mathematically. 
+
+Hoare triples are expressed using the following form:
+
+[.text-center]
+*{ P } S { Q }*
+
+Where:
+
+- *P* is the Precondition: Condition before execution  
+- *S* is the Statement: Program operation  
+- *Q* is the Postcondition: Condition after execution  
+
+=== Partial Correctness and Total Correctness
+*Partial Correctness* means that if a program terminates, then it produces correct results that satisfy the postcondition, assuming the precondition is true. This does not guarantee that the program will terminate (e.g, the program may enter an infinite loop).  
+
+*Total Correctness* means that a program produces correct results and is guaranteed to terminate. 
+
+Total correctness can be expressed as the following:
+
+[.text-center]
+*Total Correctness = Partial Correctness + Termination*
+
+
+
+
+
+
+
+
+
+
+
+
+== System State Definitions
+
+Using the previous definitions and expressions the Stripe payment workflow is modeled with the following state variables to represent the preconditions and postconditions for the Hoare Logic:
+
+----
+order_exists : Boolean
+payment_initiated : Boolean
+payment_pending : Boolean
+payment_success : Boolean
+payment_failed : Boolean
+order_confirmed : Boolean
+order_cancelled : Boolean
+payment_id : String ∪ {null}
+confirmation_id : String ∪ {null}
+----
+
+=== Initial State
+Using these state variables we consider the following initial states for the payment workflow.
+
+----
+order_exists = true
+payment_initiated = false
+payment_pending = false
+payment_success = false
+payment_failed = false
+order_confirmed = false
+order_cancelled = false
+payment_id = null
+confirmation_id = null
+----
+
+
+
+
+
+
+
+
+
+== Function Specifications
+Using the previous state variables we consider the following functions for the payment workflow.
+
+- initiate_payment()
+- confirm_payment()
+- finalize_order()
+- cancel_order()
+
+=== initiate_payment()
+This function initiates the payment process for a placed order.
+
+Preconditions:
+
+ - order_exists = true
+ - payment_initiated = false
+
+State Transition:
+
+ - payment_initiated = true
+ - payment_pending = true 
+ - payment_id ≠ null
+
+=== confirm_payment()
+This function starts the confirmation process after the payment initialization.
+
+Preconditions:
+
+ - payment_initiated = true
+ - payment_pending = true
+
+State Transition (Success Scenario):
+
+ - payment_success = true
+ - payment_pending = false
+ - payment_failed = false
+
+State Transition (Failure Scenario):
+
+ - payment_success = false
+ - payment_pending = true
+ - payment_failed = true
+
+=== finalize_order()
+This function finalizes the order after the confirmation and payment process.
+
+Preconditions:
+
+ - payment_success = true
+ - order_confirmed = false
+ - order_cancelled = false
+
+State Transition:
+
+ - order_confirmed = true
+ - confirmation_id ≠ null
+
+=== cancel_order()
+This function cancels the order if payment fails or the order is removed and if the order is not confirmed.
+
+Preconditions:
+
+ - (payment_failed = true OR payment_pending = true)
+ - order_confirmed = false
+
+State Transition:
+
+ - order_cancelled = true
+ - confirmation_id = null
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Hoare Triples for Payment Workflow
+Using the previous state variables and functions we consider the following Hoare Logic.
+
+===  Payment Initiation
+
+----
+{ order_exists = true ∧ payment_initiated = false }
+initiate_payment()
+{ payment_initiated = true ∧ payment_pending = true ∧ payment_id ≠ null}
+----
+
+=== Payment Confirmation
+
+==== Success Scenario
+
+----
+{ payment_initiated = true ∧ payment_pending = true }
+confirm_payment()
+{ payment_success = true ∧ payment_pending = false ∧ payment_failed = false }
+----
+
+==== Failure Scenario
+
+----
+{ payment_initiated = true ∧ payment_pending = true }
+confirm_payment()
+{ payment_success = false ∧ payment_pending = true ∧ payment_failed = true }
+----
+
+=== Order Finalization
+
+----
+{ payment_success = true ∧ order_confirmed = false ∧ order_cancelled = false }
+finalize_order()
+{ order_confirmed = true ∧ confirmation_id ≠ null }
+----
+
+=== Invalid State Prevention
+
+----
+{ (payment_failed = true ∨ payment_pending = true) ∧ order_confirmed = false }
+cancel_order()
+{ order_cancelled = true ∧ confirmation_id = null}
+----
+
+
+
+
+
+
+
+
+
+
+
+== Correctness Analysis
+
+=== Partial Correctness
+Each function is partially correct, meaning that if it terminates, its postcondition holds:
+
+- `initiate_payment()` this ensures that the payment process initiates, that the payment is pending and that the payment id is generated.
+
+- `confirm_payment()` this ensures the payment result, whether it is successful or failure, reflects the Stripe payment response.
+
+- `finalize_order()` this ensures that the order confirmation comes after a successful payment.  
+
+- `cancel_order()` this ensures that the order is cancelled if the payment is unsuccessful or the payment is pending and if the order is not confirmed.
+
+=== Total Correctness
+The termination of the payment system is guaranteed under the following assumptions:
+
+- Each function performs a finite number of operations.
+- Stripe API responses are received within bounded time.
+- Database operations complete deterministically.
+
+
+
+
+
+
+
+
+
+
+
+== Formal Verification Using Hoare Logic
+The following proofs illustrate examples using Hoare Logic for the Stripe payment workflow. These proofs will demostrate how preconditions and postconditions can be formally verified.
+
+=== Proof of Payment Initiation
+----
+{ order_exists = true ∧ payment_initiated = false }
+initiate_payment()
+{ payment_initiated = true ∧ payment_pending = true ∧ payment_id ≠ null}
+----
+
+*Proof Sketch:*
+The preconditions ensure that the order exists and that payment hasn't started.
+
+The function:
+
+   - sets `payment_initiated` to `true`
+   - sets `payment_pending` to `true`  
+   - generates an ID for `payment_id`  
+
+Therefore, the postcondition holds. 
+
+=== Proof of Payment Confirmation
+
+==== Success
+----
+{ payment_initiated = true ∧ payment_pending = true }
+confirm_payment()
+{ payment_success = true ∧ payment_pending = false ∧ payment_failed = false }
+----
+
+*Proof Sketch:*
+The preconditions ensure that the payment was initiated and that it's still pending.
+
+The function:
+
+   - sets `payment_success` to `true`
+   - sets `payment_pending` to `false`  
+   - sets `payment_failed` to `false`  
+
+Therefore, the postcondition holds. 
+
+==== Failure
+----
+{ payment_initiated = true ∧ payment_pending = true }
+confirm_payment()
+{ payment_success = false ∧ payment_pending = true ∧ payment_failed = true }
+----
+
+*Proof Sketch:*
+The preconditions ensure that the payment was initiated and that it's still pending.
+
+The function:
+
+   - sets `payment_success` to `false`
+   - leaves `payment_pending` to `true`  
+   - sets `payment_failed` to `true`  
+
+Therefore, the postcondition holds. 
+
+
+=== Proof of Payment Finalization
+----
+{ payment_success = true ∧ order_confirmed = false ∧ order_cancelled = false }
+finalize_order()
+{ order_confirmed = true ∧ confirmation_id ≠ null }
+----
+
+*Proof Sketch:*
+The preconditions ensure that the payment was successful and that the order is not yet confirmed.
+
+The function:
+
+   - sets `order_confirmed` to `true`
+   - generates an ID for `confirmation_id`  
+
+Therefore, the postcondition holds. 
+
+=== Safety Properties
+The following safety properties constraint the workflow of the Stripe payment workflow to ensure a reliable payment system.
+*Properties:* 
+
+- Orders cannot be confirmed without payment:
+----
+payment_success = false ⇒ order_confirmed = false
+----
+
+- Payment cannot succeed before initiation:
+----
+payment_initiated = false ⇒ payment_success = false
+----
+
+- Cancelled orders cannot be finalized/confirmed:
+----
+order_cancelled = true ⇒ order_confirmed = false
+----
+
+- Payment cannot be confirmed twice:
+----
+payment_success = true ⇒ confirm_payment() does not change system state
+----
+
+- Pending payment means that order cannot be finalized:
+----
+payment_pending = true ⇒ order_confirmed = false
+----
+
+- Failed payment cannot generate a confirmation ID:
+----
+payment_failed = true ⇒ confirmation_id = null
+----
+
+=== Sequential Composition
+The following shows the sequential execution of the Stripe payment workflow.
+----
+{ order_exists = true }
+initiate_payment();
+confirm_payment();
+finalize_order();
+{ order_confirmed = true }
+----
+
+
+
+
+
+== Hoare Logic Specification Using Dafny
+
+=== Code
+[source,dafny]
+----
+class PaymentWorkflow {
+
+  var order_exists: bool
+  var payment_initiated: bool
+  var payment_pending: bool
+  var payment_success: bool
+  var payment_failed: bool
+  var order_confirmed: bool
+  var order_cancelled: bool
+  var payment_id: int
+  var confirmation_id: int
+
+  constructor ()
+    ensures order_exists == true
+    ensures !payment_initiated
+    ensures !payment_pending
+    ensures !payment_success
+    ensures !payment_failed
+    ensures !order_confirmed
+    ensures !order_cancelled
+    ensures payment_id == 0
+    ensures confirmation_id == 0
+  {
+    order_exists := true;
+    payment_initiated := false;
+    payment_pending := false;
+    payment_success := false;
+    payment_failed := false;
+    order_confirmed := false;
+    order_cancelled := false;
+    payment_id := 0;
+    confirmation_id := 0;
+  }
+
+  
+  method initiate_payment()
+    requires order_exists && !payment_initiated
+    modifies this
+    ensures payment_initiated
+    ensures payment_pending
+    ensures payment_id != 0
+  {
+    payment_initiated := true;
+    payment_pending := true;
+    payment_id := 1;
+  }
+
+  method confirm_payment()
+    requires payment_initiated && payment_pending
+    modifies this
+    ensures payment_success
+    ensures !payment_pending
+    ensures !payment_failed
+  {
+    payment_success := true;
+    payment_pending := false;
+    payment_failed := false;
+  }
+
+  method finalize_order()
+    requires payment_success && !order_confirmed && !order_cancelled
+    modifies this
+    ensures order_confirmed
+    ensures confirmation_id != 0
+  {
+    order_confirmed := true;
+    confirmation_id := 1;
+  }
+
+  method cancel_order()
+    requires (payment_failed || payment_pending) && !order_confirmed
+    modifies this
+    ensures order_cancelled
+    ensures !order_confirmed
+    ensures confirmation_id == 0
+  {
+    order_cancelled := true;
+    confirmation_id := 0;
+  }
+
+}
+
+----
+
+For full context, the complete implementation can be found in the file `PaymentWorkflow.dfy`.
+
+
+
+== Conclusion
+The Stripe payment workflow has been formally specified and verified using Hoare Logic. This verification demostrates: 
+
+- Orders are only confirmed after a successful payment.  
+- Payment failures/pending payments do not allow the confirmation of orders.
+- Cancelled orders cannot be confirmed.
+- Failed payments do not generate a confirmation ID.
+- All system states remain consistent and valid throughout execution.
+- Sequential execution of functions that satisfies their respective preconditions and postconditions, confirming the overall system workflow.
+
+
