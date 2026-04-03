@@ -5,7 +5,6 @@
 |ID |Description |Script File Name
 |TR-SUPA-01 |Report for Supabase configuration validation execution |src/tests/supabase/scripts/supabase-connection.test.ts
 |TR-SUPA-02 |Report for Supabase quick connection smoke check execution |src/tests/supabase/scripts/quick-test.ts
-|TR-AUTH-05 |Report for password recovery backend validation execution |src/tests/authentication/reports/TR-AUTH-05_password_recovery_backend.adoc
 |TR-ORD-01 |Test report to inform about the execution of order modification procedures| UT-OrderModification.ts
 |TR-ORD-2 |Report that unit test outputs for Order ID generation are correct, including format validation and handling of invalid or undefined values |
 |====
