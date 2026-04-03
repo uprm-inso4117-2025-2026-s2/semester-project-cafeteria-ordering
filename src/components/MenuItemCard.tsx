@@ -1,4 +1,6 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { GestureResponderEvent, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Colors } from "../constants/theme";
 import { MenuItem } from "../models/food-item-class";
 
 // Props passed to the MenuItemCard component
@@ -60,69 +62,85 @@ export default function MenuItemCard({ menuItem, onAddToCart, onPressItem }: Pro
    */
   return (
     <Pressable style={styles.card} onPress={handlePressItem}>
-        {menuItem.getImageUrl() && <Image source={{ uri: menuItem.getImageUrl() }} style={styles.image} />}
-        <View style={styles.info}>
-            <Text style={styles.name}>{menuItem.getName()}</Text>
-            <Text style={styles.price}>${menuItem.getTotalPrice().toFixed(2)}</Text>
-            <Text style={styles.description}>{descriptionText}</Text>
+      {menuItem.getImageUrl() && (
+        <Image source={{ uri: menuItem.getImageUrl() }} style={styles.image} />
+      )}
+
+      <View style={styles.info}>
+        <Text style={styles.name}>{menuItem.getName()}</Text>
+
+        <View style={styles.metaRow}>
+          <Ionicons name="star" size={16} color={Colors.pastelPeach} />
+          <Text style={styles.metaText}>4.9</Text>
+          <Text style={styles.metaText}>
+            ${menuItem.getTotalPrice().toFixed(2)}
+          </Text>
         </View>
-        <Pressable 
-            style={[
-                styles.addButton, !menuItem.isAvailable() && styles.disabledButton,
-            ]} onPress={handleAddToCart}
+
+        <Pressable
+          style={[
+            styles.addButton,
+            !menuItem.isAvailable() && styles.disabledButton,
+          ]}
+          onPress={handleAddToCart}
         >
-            <Text style={styles.addButtonText}>{menuItem.isAvailable() ? "Add to Cart" : "Not Available"}</Text>
+          <Text style={styles.addButtonText}>
+            {menuItem.isAvailable() ? "Add to Cart" : "Not Available"}
+          </Text>
         </Pressable>
+      </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    padding: 16,
     marginVertical: 8,
-    marginHorizontal: 16,
-    backgroundColor: "#fff",
-    borderRadius: 8,
+    backgroundColor: Colors.primaryGreen,
+    borderRadius: 12,
+    padding: 12,
     elevation: 2,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
   info: {
-    flex: 1,
-    paddingRight: 12,
+    paddingHorizontal: 2,
+    paddingBottom: 2,
   },
   name: {
     fontSize: 18,
     fontWeight: "bold",
-    },
-  price: {
-    fontSize: 16,
-    color: "#4CAF50",
-    marginVertical: 4,
-  },
-  description: {
-    fontSize: 14,
-    color: "#555",
+    color: Colors.light.secondaryText,
+    marginBottom: 6,
   },
   addButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: Colors.pastelPeach,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    borderRadius: 6,
+    borderRadius: 8,
+    alignSelf: "flex-start",
+    marginTop: 10,
   },
   disabledButton: {
-    backgroundColor: "#999",
+    backgroundColor: Colors.mutedGray,
   },
   addButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: Colors.light.alternateText,
+    fontWeight: "600",
+    fontSize: 13,
   },
   image: {
-    width: 60,
-    height: 60,
-    borderRadius: 6,
-    marginRight: 8,
+    width: "100%",
+    height: 120,
+    borderRadius: 12,
+    marginBottom: 10,
+  },
+  metaRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  },
+  metaText: {
+    fontSize: 14,
+    color: Colors.light.secondaryText,
+    fontWeight: "500",
+    marginLeft: 6,
   },
 });
