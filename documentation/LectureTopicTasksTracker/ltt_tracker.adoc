@@ -194,6 +194,23 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a strategic analysis of mutation testing application that identifies which components of the Cafeteria Ordering System should be prioritized, demonstrating how cost and test sensitivity considerations guide effective use of mutation testing
 
+==== LTT-22-(issue-415): Load and Performance Testing of Payment Screen
+
+*Lecture Topic:* Load and Performance Testing
+
+*Deliverables:*
+
+- json document with testing approach and results of load and performance testing of the payment screen, includes:
+- Description of testing setup using a mock payment service to simulate backend behavior
+- Explanation of test scenarios (single-user, expected load, and stress conditions)
+- Collected metrics including response time, latency, throughput, and failure rate
+- Observations on system responsiveness, reliability, and behavior under increasing load
+- Identification of any delays, failures, or performance degradation
+
+*Evidence:* Associated AsciiDoc report and pull request linked to issue
+
+*Justification:* Evaluates how the payment system behaves under different levels of usage to ensure it remains responsive and reliable during typical cafeteria operations and identifies potential limitations under high load conditions
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
