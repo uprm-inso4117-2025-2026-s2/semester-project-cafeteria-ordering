@@ -1,17 +1,56 @@
-//THIS IS A PLACEHOLDER (replace later)
-
-import { StyleSheet, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import PrimaryButton from '@/components/ui/primaryButton';
 import { Colors, Typography } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useAuth } from '../authContext';
+import { supabase } from '@/lib/supabase';
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme() ?? 'light';
   const theme = Colors[colorScheme];
-  const { user, loggedIn, logout } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [email, setEmail] = useState<string | null>(null);
+  const [authMessage, setAuthMessage] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadSession() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!mounted) return;
+      setEmail(session?.user?.email ?? null);
+      setIsLoading(false);
+    }
+
+    loadSession();
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setEmail(session?.user?.email ?? null);
+      setIsLoading(false);
+    });
+
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      setAuthMessage('Session cleared.');
+    } catch {
+      setAuthMessage('Unable to clear session right now. Try again.');
+    }
+    router.replace('/login' as any);
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -29,15 +68,21 @@ export default function ProfileScreen() {
       >
         Manage your account details here.
       </Text>
-      {loggedIn ? (
-        <>
-        <ThemedText type='body'>Name: {user?.fullName}</ThemedText>
-        <ThemedText type='body'>Email: {user?.email}</ThemedText>
-        <PrimaryButton title='Log out' onPress={logout}></PrimaryButton>
-        </>
+
+      {isLoading ? (
+        <ActivityIndicator size="small" color={theme.text} />
+      ) : email ? (
+        <ThemedText type="body">Email: {email}</ThemedText>
       ) : (
-        <ThemedText type='body'>Please log in</ThemedText>
+        <ThemedText type="body">Please log in</ThemedText>
       )}
+
+      <PrimaryButton
+        title={email ? 'Log out' : 'Reset session and go to login'}
+        onPress={handleSignOut}
+      ></PrimaryButton>
+
+      {authMessage && <ThemedText type="body">{authMessage}</ThemedText>}
     </View>
   );
 }

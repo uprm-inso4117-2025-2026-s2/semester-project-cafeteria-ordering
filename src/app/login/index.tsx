@@ -1,21 +1,23 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
-    AccessibilityInfo,
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-    View,
+  AccessibilityInfo,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { mapLoginError } from '@/lib/auth';
+import { supabase } from '@/lib/supabase';
 
 // ─── Logo Assets ──────────────────────────────────────────────────────────────
 const LightModeLogo = require('../../../documentation/branding/images/Light-Mode-Logo.png');
@@ -99,7 +101,9 @@ function InputField({
 function validate(fields: { emailOrUsername: string; password: string }) {
   const errors: Record<string, string> = {};
   if (!fields.emailOrUsername.trim()) {
-    errors.emailOrUsername = 'Email or username is required.';
+    errors.emailOrUsername = 'Email is required.';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.emailOrUsername)) {
+    errors.emailOrUsername = 'Please enter a valid email address.';
   }
   if (!fields.password) {
     errors.password = 'Password is required.';
@@ -111,10 +115,12 @@ function validate(fields: { emailOrUsername: string; password: string }) {
 export default function LoginScreen() {
   const backgroundColor = useThemeColor({}, 'background');
   const isDark = backgroundColor === Colors.dark.background;
+  const router = useRouter();
 
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSignIn = async () => {
@@ -127,18 +133,32 @@ export default function LoginScreen() {
       return;
     }
     setErrors({});
+    setAuthMessage(null);
     setIsSubmitting(true);
     try {
-      // TODO: wire up Supabase auth
-      console.log('Sign in:', { emailOrUsername });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: emailOrUsername.trim(),
+        password,
+      });
+
+      if (error) {
+        setAuthMessage(mapLoginError(error.message));
+        return;
+      }
+
+      if (!data.session || !data.user) {
+        setAuthMessage('Unable to log in right now. Please try again.');
+        return;
+      }
+
+      router.replace('/(tabs)');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleSignInWithGoogle = async () => {
-    // TODO: wire up Google OAuth
-    console.log('Sign in with Google');
+    setAuthMessage('Google sign-in is not enabled yet. Please sign in with email and password.');
   };
 
   return (
@@ -167,7 +187,7 @@ export default function LoginScreen() {
 
         <View style={styles.form}>
           <InputField
-            label="Email or username"
+            label="Email"
             value={emailOrUsername}
             onChangeText={(t) => {
               setEmailOrUsername(t);
@@ -176,7 +196,7 @@ export default function LoginScreen() {
             autoCapitalize="none"
             keyboardType="email-address"
             errorText={errors.emailOrUsername}
-            accessibilityLabel="Email or username"
+            accessibilityLabel="Email"
           />
 
           <InputField
@@ -194,7 +214,7 @@ export default function LoginScreen() {
           />
 
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <Link href={'/forgot-password' as any} asChild>
+          <Link href={'/PasswordRecovery' as any} asChild>
             <TouchableOpacity
               style={styles.forgotPasswordRow}
               accessibilityRole="link"
@@ -243,6 +263,20 @@ export default function LoginScreen() {
             Sign in with Google
           </ThemedText>
         </TouchableOpacity>
+
+        {authMessage && (
+          <ThemedText
+            type="body"
+            style={[
+              styles.authMessage,
+              {
+                color: authMessage.toLowerCase().includes('enabled yet') ? Colors.mutedGray : '#C62828',
+              },
+            ]}
+          >
+            {authMessage}
+          </ThemedText>
+        )}
 
         <View style={styles.signUpLinkRow}>
           <ThemedText type="body" style={styles.signUpLinkText}>
@@ -359,5 +393,11 @@ const styles = StyleSheet.create({
   signUpLink: {
     fontSize: 12,
     lineHeight: 16,
+  },
+  authMessage: {
+    fontSize: 12,
+    textAlign: 'center',
+    marginBottom: 16,
+    maxWidth: CONTENT_MAX_WIDTH,
   },
 });

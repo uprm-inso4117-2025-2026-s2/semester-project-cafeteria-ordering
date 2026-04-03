@@ -29,7 +29,7 @@ export const dummyMenuItems: MenuItem[] = [
             {ingredients_id: "ing2", ingredients_names: "Lettuce",ingredients_price: 0},
             {ingredients_id: "ing3", ingredients_names: "Tomato",ingredients_price: 0},
             {ingredients_id: "ing4", ingredients_names: "Cheese",ingredients_price: 0},
-            {ingredients_id: "ing15", ingredients_names: "Bun",ingredients_price: 0},
+            {ingredients_id: "ing8", ingredients_names: "Onion",ingredients_price: 0},
         ],
         8.99,
         "https://thumbs.dreamstime.com/b/home-big-classic-burger-wooden-table-close-up-120662126.jpg",
@@ -44,10 +44,10 @@ export const dummyMenuItems: MenuItem[] = [
         "cat1",
         "Veggie Pizza",
         [
-            {ingredients_id: "ing5", ingredients_names: "Bell Peppers",ingredients_price: 0},
+            {ingredients_id: "ing5", ingredients_names: "Bell Pepper",ingredients_price: 0},
             {ingredients_id: "ing6", ingredients_names: "Spinach",ingredients_price: 0},
-            {ingredients_id: "ing7", ingredients_names: "Mushrooms",ingredients_price: 0},
-            {ingredients_id: "ing8", ingredients_names: "Onions",ingredients_price: 0},
+            {ingredients_id: "ing7", ingredients_names: "Mushroom",ingredients_price: 0},
+            {ingredients_id: "ing8", ingredients_names: "Onion",ingredients_price: 0},
             {ingredients_id: "ing4", ingredients_names: "Cheese",ingredients_price: 0},
         ],
         12.99,
@@ -64,9 +64,9 @@ export const dummyMenuItems: MenuItem[] = [
         "Tuna Sandwich",
         [
             {ingredients_id: "ing9", ingredients_names: "Tuna",ingredients_price: 0},
-            {ingredients_id: "ing10", ingredients_names: "Bread",ingredients_price: 0},
             {ingredients_id: "ing2", ingredients_names: "Lettuce",ingredients_price: 0},
             {ingredients_id: "ing3", ingredients_names: "Tomato",ingredients_price: 0},
+            {ingredients_id: "ing15", ingredients_names: "Mayonnaise",ingredients_price: 0},
         ],
             
         6.99,
@@ -99,8 +99,8 @@ export const dummyMenuItems: MenuItem[] = [
         "Chicken Wrap",
         [
             {ingredients_id: "ing13", ingredients_names: "Chicken",ingredients_price: 0},
-            {ingredients_id: "ing14", ingredients_names: "Tortilla",ingredients_price: 0},
             {ingredients_id: "ing2", ingredients_names: "Lettuce",ingredients_price: 0},
+            {ingredients_id: "ing16", ingredients_names: "Caesar Dressing",ingredients_price: 0},
         ],
         8.99,
         "https://media.istockphoto.com/id/589124512/photo/chicken-caesar-salad-sandwich-wraps.jpg?s=612x612&w=0&k=20&c=T3aHb8mKEaFz72HPti5Ep2WPxpZgqFpF962gntN99MY=",

@@ -53,3 +53,9 @@ export function useAuth() {
   
   return context;
 }
+
+// This file lives under app/ and is discovered as a route by Expo Router.
+// Export a no-op component to prevent route warnings while keeping context exports.
+export default function AuthContextRoutePlaceholder() {
+  return null;
+}
