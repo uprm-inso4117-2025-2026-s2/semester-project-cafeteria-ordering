@@ -1,0 +1,333 @@
+= Authentication Requirements to Existing Test Cases Mapping
+:toc:
+:icons: font
+
+== Purpose
+
+This document maps current Authentication and Security requirements to the existing authentication-related test cases in the repository. Its purpose is to make current coverage easier to review by showing which requirement areas are already covered, only partially covered, or not yet clearly covered.
+
+This artifact is for mapping and coverage analysis only. It does not create new test cases or execute any tests.
+
+== Scope
+
+The mapping focuses only on Authentication and Security areas currently discussed in the project artifacts:
+
+* User Login
+* User Sign Up
+* Password Reset
+* Account Verification
+* Supporting authentication/security behaviors such as validation, token handling, and authentication-related backend checks.
+
+== Coverage Labels
+
+[cols="1,3", options="header"]
+|====
+| Label | Meaning
+
+| Covered
+| Existing test case(s) clearly validate the requirement or expected behavior.
+
+| Partially Covered
+| Existing test case(s) cover part of the requirement, but important conditions, implementation alignment, or related behaviors are still weak, missing, or inconsistent.
+
+| Not Yet Covered
+| No current test case clearly validates the requirement or expected behavior.
+|====
+
+== Existing Authentication-Related Test Assets Reviewed
+
+[cols="1,3,3", options="header"]
+|====
+| ID | Title / Description | Notes
+
+| TC-AUTH-03
+| User Sign Up with Valid Data
+| Sign up test case with UI and validation focus.
+
+| TC-AUTH-04
+| User Login Functionality Verification
+| Login test case covering valid and invalid login flows, including Google OAuth.
+
+| TC-AUTH-05
+| Password Reset and Recovery Flow Verification
+| Password recovery and reset test case.
+
+| TC-AUTH-04
+| Account Verification Process
+| Account verification test artifact currently labeled with the same ID as login.
+
+| TC-SUPA-03
+| Supabase backend login validation without frontend dependency
+| Backend login validation helper/test asset.
+
+| TC-SUPA-04
+| Supabase backend signup validation without frontend dependency
+| Backend signup validation helper/test asset.
+|====
+
+== Authentication Requirements to Test Case Mapping
+
+[cols="2,3,2,4", options="header"]
+|====
+| Requirement / Expected Behavior | Related Test Case(s) | Coverage Status | Notes
+
+| User can log in with valid email and password
+| TC-AUTH-04, TC-SUPA-03
+| Covered
+| Login test case validates successful login with valid credentials, and backend login validation confirms email/password authentication and session creation.
+
+| Login rejects incorrect password
+| TC-AUTH-04
+| Covered
+| Login test case includes wrong-password behavior with expected rejection.
+
+| Login rejects unregistered email
+| TC-AUTH-04
+| Covered
+| Login test case includes unregistered email rejection.
+
+| Login rejects invalid email format
+| TC-AUTH-04
+| Partially Covered
+| The login test case expects invalid email-format rejection, but the current login frontend file only checks whether the field is empty and still labels the field as "Email or username," while aligned docs/backend indicate Email + Password should be the intended behavior. This weakens alignment between requirement, UI, and test artifact.
+
+| Login rejects empty required fields
+| TC-AUTH-04
+| Covered
+| Login test case includes empty-field validation behavior.
+
+| User can sign up successfully with valid required data
+| TC-AUTH-03, TC-SUPA-04
+| Covered
+| Sign up test case covers the UI/validation flow for valid user registration, and Supabase backend signup validation confirms successful new-user signup behavior.
+
+| Sign up rejects invalid email format
+| TC-AUTH-03
+| Covered
+| Signup test artifact includes invalid email validation expectations.
+
+| Sign up rejects password shorter than 8 characters
+| TC-AUTH-03
+| Covered
+| Signup test artifact includes short-password validation.
+
+| Sign up rejects password without uppercase letter
+| TC-AUTH-03
+| Covered
+| Signup test artifact includes missing-uppercase validation.
+
+| Sign up rejects password without lowercase letter
+| TC-AUTH-03
+| Covered
+| Signup test artifact includes missing-lowercase validation.
+
+| Sign up rejects password without number
+| TC-AUTH-03
+| Covered
+| Signup test artifact includes missing-number validation.
+
+| Sign up rejects empty required fields
+| TC-AUTH-03
+| Covered
+| Signup test artifact includes empty full name, empty email, empty password, and terms-not-agreed validation expectations.
+
+| Sign up requires Terms and Privacy Policy acceptance
+| TC-AUTH-03
+| Covered
+| Signup test artifact explicitly checks terms acceptance validation.
+
+| Sign up rejects duplicate email / already registered email
+| TC-SUPA-04
+| Partially Covered
+| Backend signup validation covers duplicate signup handling, but the main UI-focused signup test artifact is centered more on field validation than full duplicate-account behavior. Coverage exists, but it is split and stronger in backend testing than in auth UI testing.
+
+| Sign up persists metadata such as full name and phone
+| TC-SUPA-04
+| Covered
+| Backend signup validation explicitly checks signup metadata flow and profile persistence path.
+
+| User can request password reset with registered email
+| TC-AUTH-05
+| Covered
+| Password reset test case covers successful recovery-link request for a valid registered user.
+
+| Password reset request rejects invalid email format
+| TC-AUTH-05
+| Covered
+| Password reset test case includes invalid email-format behavior.
+
+| Password reset request rejects empty email field
+| TC-AUTH-05
+| Covered
+| Password reset test case includes empty email validation.
+
+| Password reset request avoids email enumeration for unregistered email
+| TC-AUTH-05
+| Covered
+| Password reset test case explicitly expects a generic response for unknown email addresses.
+
+| User can reset password with valid new password and matching confirmation
+| TC-AUTH-05
+| Covered
+| Password reset test case includes successful new-password submission with matching confirmation.
+
+| Password reset rejects password below minimum security rules
+| TC-AUTH-05
+| Partially Covered
+| TC-AUTH-05 clearly checks minimum-length and mismatch behavior, but the broader auth scenario document expects lowercase/uppercase/number checks as well. The implemented reset-password screen does enforce those rules, so requirement support exists, but the shared test case description is stronger on some rules than others.
+
+| Password reset rejects mismatched confirmation password
+| TC-AUTH-05
+| Covered
+| Password reset test case explicitly checks confirm-password mismatch.
+
+| Password reset rejects expired reset token
+| TC-AUTH-05
+| Partially Covered
+| Password reset test case and auth scenarios mention expired token behavior, and the hardening issue requires safe handling of expired/invalid recovery sessions. However, the hardening implementation issue was still described as work to be implemented, so coverage is documented but not fully stabilized.
+
+| Password reset rejects reused reset token
+| TC-AUTH-05
+| Partially Covered
+| The auth scenarios document includes token reuse rejection, but the shared password reset test artifact emphasizes reset flow success and core validation more than explicit token-reuse execution detail.
+
+| Password reset is rate-limited or safely handled under repeated requests
+| None clearly mapped
+| Not Yet Covered
+| The auth scenarios mention rapid repeated requests and rate limiting, but no shared dedicated authentication test case clearly validates this behavior.
+
+| User can verify account with valid verification token
+| Account Verification Process test artifact
+| Covered
+| Account verification test artifact includes positive verification with a valid token and account state update to verified.
+
+| User can verify account with valid resent token
+| Account Verification Process test artifact
+| Covered
+| Account verification artifact includes resend-token success flow.
+
+| Account verification rejects invalid/random token
+| Account Verification Process test artifact
+| Covered
+| Account verification artifact includes invalid/random token handling.
+
+| Account verification rejects expired token
+| Account Verification Process test artifact
+| Covered
+| Account verification artifact includes expired-token behavior and expiration-boundary testing.
+
+| Account verification rejects already used token
+| Account Verification Process test artifact
+| Covered
+| Account verification artifact includes already-used-token handling.
+
+| Account verification rejects tampered token
+| Account Verification Process test artifact
+| Covered
+| Account verification artifact includes tampered-token handling.
+
+| Account verification rejects missing token
+| Account Verification Process test artifact
+| Covered
+| Account verification artifact includes empty/missing token handling.
+
+| Account verification handles already verified account safely
+| Account Verification Process test artifact
+| Covered
+| Account verification artifact explicitly includes already-verified-account handling.
+
+| Verified account can log in after verification
+| Account Verification Process test artifact, TC-AUTH-04
+| Partially Covered
+| The account verification artifact expects verified users to log in successfully, and login coverage exists separately, but this end-to-end dependency is split across multiple artifacts rather than validated as one clearly linked traceability chain.
+
+| Backend login creates session and logout clears session
+| TC-SUPA-03
+| Covered
+| Backend login validation explicitly checks session creation and cleanup.
+
+| Signup may require email confirmation before active session exists
+| TC-SUPA-04
+| Covered
+| Backend signup docs and tests explicitly note that signup may return no active session when email confirmation is enabled.
+
+| Client-facing auth errors should remain generic and non-sensitive
+| TC-AUTH-04, TC-AUTH-05, hardening requirements
+| Partially Covered
+| Login and password reset artifacts expect generic user-facing errors in several places, and the hardening issue explicitly requires generic client-facing error messages and no sensitive logging. However, there is no dedicated current test case specifically validating leaked-internals prevention or log-safety behavior end-to-end.
+
+| No sensitive auth values should be logged
+| None clearly mapped
+| Not Yet Covered
+| The hardening issue explicitly requires that no passwords, tokens, or raw auth payloads be logged, but no shared test artifact clearly validates that requirement yet.
+
+| Multiple failed login attempts should trigger temporary lock or flagging
+| None clearly mapped
+| Not Yet Covered
+| The auth input scenarios mention this as an edge case, but no shared authentication test case clearly covers it.
+
+| Session expiration should log the user out / redirect safely
+| None clearly mapped
+| Not Yet Covered
+| Session management expectations are documented in the auth scenarios, but no dedicated test case was shared for session-expiration behavior.
+
+| Expired session token should be rejected
+| None clearly mapped
+| Not Yet Covered
+| This expectation appears in the auth scenarios but not in a clearly mapped current test case.
+|====
+
+== Coverage Summary by Core Requirement Area
+
+[cols="2,1,4", options="header"]
+|====
+| Requirement Area | Overall Status | Notes
+
+| User Login
+| Partially Covered
+| Core positive and negative login flows are covered, but there is still misalignment between the current login UI wording/validation and the backend-aligned Email + Password assumption.
+
+| User Sign Up
+| Covered
+| Main required-field and password-validation behaviors are well represented, with backend support for metadata and duplicate signup handling.
+
+| Password Reset
+| Partially Covered
+| Core request and reset flows are covered, but token hardening, reuse, rate limiting, and invalid recovery-session handling are not yet equally strong across all shared artifacts.
+
+| Account Verification
+| Partially Covered
+| The verification artifact itself is strong, but traceability is weakened by ID inconsistency between the login and account-verification assets.
+|====
+
+== Weak or Missing Coverage Areas
+
+[cols="2,4", options="header"]
+|====
+| Area | Notes
+
+| Login throttling / account lock behavior
+| Mentioned in auth scenarios, but not clearly mapped to a current dedicated auth test case.
+
+| Session expiration / expired session token handling
+| Mentioned in auth scenarios, but no dedicated shared test case was identified.
+
+| No sensitive auth data in logs
+| Explicitly required in password recovery/auth hardening, but not clearly mapped to a current test case.
+
+| Reset-flow rate limiting
+| Mentioned in auth scenarios, but not clearly mapped to a current test case.
+
+| End-to-end verification-to-login traceability
+| Covered indirectly through separate artifacts, but not strongly linked as one continuous test chain.
+|====
+
+== Traceability Risks / Inconsistencies
+
+The current authentication test assets include an ID inconsistency that should be corrected for cleaner traceability. The login test case is labeled `TC-AUTH-04`, while the account verification artifact shared here is also labeled `TC-AUTH-04`. In the tracker content shared earlier, account verification was effectively treated as a later auth ID. This duplication can make requirement-to-test mapping harder to review and maintain.
+
+There is also a flow-alignment inconsistency in the login area. Some older UI/test artifacts still refer to "Email or username," while the backend-aligned documentation and current Supabase login helper indicate Email + Password as the intended authentication model. This should be normalized so requirement statements, UI labels, and tests describe the same behavior.
+
+== Conclusion
+
+This mapping shows that the project already has meaningful authentication test coverage for the four main areas of login, sign up, password reset, and account verification. The strongest current gaps are in session-management behavior, login throttling/lock behavior, reset-rate limiting, and explicit log-safety/security-hardening validation. The artifact is usable as a planning reference for future authentication test cleanup, coverage expansion, and traceability improvement.
