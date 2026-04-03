@@ -1,0 +1,116 @@
+= Payment Screen Load and Performance Testing Report
+
+== Introduction
+
+This report presents the results of testing conducted on the payment screen of the Cafeteria Ordering System. The goal was to understand how the system behaves under different levels of user activity and whether it remains responsive and reliable during both normal and peak usage.
+
+To do this, three types of tests were performed: performance testing with a single user, load testing with a realistic number of users, and stress testing with higher-than-expected usage.
+
+== Testing Approach
+
+The testing process was designed to simulate realistic user behavior when submitting a payment. Since the payment screen is not yet connected to a real backend, a mock payment service was used to imitate how a real system would respond.
+
+Three different scenarios were tested:
+- A single-user scenario to measure baseline performance
+- A moderate multi-user scenario to represent typical usage
+- A high-load scenario to push the system beyond normal limits
+
+For each scenario, the same key metrics were collected so the results could be compared.
+
+== Metrics Collected
+
+The following metrics were used to evaluate performance:
+
+- *Response Time*: how long it takes for a payment request to be processed
+- *Latency*: the delay between sending a request and receiving a response
+- *Throughput*: how many payments are processed per second
+- *Failure Rate*: the percentage of requests that fail
+
+These metrics help give a clear picture of both speed and reliability.
+
+== Test Scenarios and Results
+
+=== Performance Test (Single User)
+
+This test measured how the system performs when only one user is submitting payments at a time.
+
+[cols="2,1"]
+|===
+| Metric | Value
+
+| Average Response Time
+| 493.33 ms
+
+| P95 Response Time
+| 601.91 ms
+
+| Throughput
+| 1.39 requests/second
+
+| Failure Rate
+| 0.00%
+|===
+
+The system performed consistently under these conditions, with stable response times and no failures.
+
+=== Load Test (Expected Usage)
+
+This test simulated multiple users submitting payments at the same time to represent typical cafeteria demand.
+
+[cols="2,1"]
+|===
+| Metric | Value
+
+| Average Response Time
+| 412.70 ms
+
+| P95 Response Time
+| 576.03 ms
+
+| Throughput
+| 16.13 requests/second
+
+| Failure Rate
+| 0.78%
+|===
+
+Under expected load, the system handled requests efficiently. Response times stayed low, and only a small number of failures occurred.
+
+=== Stress Test (High Usage)
+
+This test pushed the system beyond expected usage levels by increasing the number of concurrent users.
+
+[cols="2,1"]
+|===
+| Metric | Value
+
+| Average Response Time
+| 411.12 ms
+
+| P95 Response Time
+| 590.25 ms
+
+| Throughput
+| 47.00 requests/second
+
+| Failure Rate
+| 2.39%
+|===
+
+Even under heavy load, the system continued processing requests quickly. However, the higher failure rate shows that reliability starts to drop as the system is pushed further.
+
+== Analysis
+
+Overall, the system performs well under normal and expected usage conditions. The performance test shows that response times are consistent when only one user is active, which suggests the system is stable at a basic level.
+
+During the load test, the system scaled effectively, handling multiple users without a major impact on response time. The small increase in failures is noticeable but still within a reasonable range.
+
+The stress test shows what happens when the system is pushed beyond its intended capacity. While it continues to process requests at a high rate, the increase in failures indicates that the system begins to struggle under extreme conditions. This is expected behavior and helps identify where improvements may be needed.
+
+== Conclusion
+
+The payment screen demonstrates strong performance under normal and moderately high usage. It is able to handle expected levels of traffic while maintaining fast response times and low failure rates.
+
+Under extreme conditions, the system continues to function but shows signs of reduced reliability. This suggests that while the current implementation is sufficient for typical use, further improvements could be made to better handle peak demand.
+
+Future work includes validating these results against the fully integrated application once backend is fully implemented.
