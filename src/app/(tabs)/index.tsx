@@ -14,8 +14,14 @@ import {
   View,
 } from 'react-native';
 
+import { ThemedText } from '@/components/themed-text';
 import darkLogo from '../../../documentation/branding/images/Dark-Mode-Logo.png';
 import lightLogo from '../../../documentation/branding/images/Light-Mode-Logo.png';
+import { useAuth } from '../authContext';
+
+import MenuItemCard from '@/components/MenuItemCard';
+import { MenuItem } from '@/models/food-item-class';
+
 
 //UI categories 
 const categories = ['Rating', 'Breakfast', 'Lunch'];
@@ -25,6 +31,9 @@ export default function HomeScreen() {
   const router = useRouter();
   const isDark = colorScheme === 'dark';
   const theme = Colors[colorScheme];
+
+  // Authentication and session state variables
+  const { user, loggedIn } = useAuth();
 
   //search input and seleted category state
   const [search, setSearch] = useState('');
@@ -62,6 +71,14 @@ export default function HomeScreen() {
     });
   }, [search, selectedCategory]);
 
+  const handleAddToCart = (menuItem: MenuItem) => {
+    console.log('Added to cart:', menuItem);
+  };
+
+  const handlePressItem = (menuItem: MenuItem) => {
+    router.push(`/menu/${menuItem.getId()}`);
+  };
+
   //best seller is just the first item for now!!!!!
 
   const bestSeller = dummyMenuItems[0];
@@ -87,9 +104,14 @@ export default function HomeScreen() {
             style={styles.logo}
             contentFit="contain"
           />
-          <Text style={[styles.greeting, { color: theme.text }]}>
-            Hi, User!
-          </Text>
+          {/* If user is logged in a personalized greeting is shown, otherwise application shows generic greeting */}
+          {loggedIn ? (
+            <>
+            <ThemedText style={[styles.greeting]}>Welcome {user?.fullName}!</ThemedText>
+            </>
+          ) : (
+            <ThemedText style={[styles.greeting, { color: theme.text }]}>Hi, User!</ThemedText>
+          )}
           <Text
             style={[
               styles.subGreeting,
@@ -233,29 +255,13 @@ export default function HomeScreen() {
 
       {/* menu items list*/}
       <View style={styles.list}>
-        {filteredItems.map((item) => (
-          <Pressable
-            key={item.getId()}
-            style={[styles.menuCard, { backgroundColor: Colors.primaryGreen }]}
-            onPress={() => router.push(`/menu/${item.getId()}`)}
-          >
-            <Image
-              source={{ uri: item.getImageUrl() }}
-              style={styles.menuImage}
-              contentFit="cover"
-            />
-
-            <View style={styles.menuInfo}>
-              <Text style={styles.menuTitle}>{item.getName()}</Text>
-              <View style={styles.metaRow}>
-                <Ionicons name="star" size={16} color={Colors.pastelPeach} />
-                <Text style={styles.metaText}>4.9</Text>
-                <Text style={styles.metaText}>
-                  ${item.getTotalPrice().toFixed(2)}
-                </Text>
-              </View>
-            </View>
-          </Pressable>
+        {filteredItems.map((menuItem) => (
+          <MenuItemCard
+            key={menuItem.getId()}
+            menuItem={menuItem}
+            onAddToCart={handleAddToCart}
+            onPressItem={handlePressItem}
+          />
         ))}
       </View>
     </ScrollView>
@@ -367,30 +373,6 @@ const styles = StyleSheet.create({
   chipText: {
     ...Typography.button,
     fontSize: 16,
-    fontWeight: '500',
-  },
-  list: {
-    gap: 14,
-  },
-  menuCard: {
-    borderRadius: 12,
-    padding: 10,
-  },
-  menuImage: {
-    width: '100%',
-    height: 120,
-    borderRadius: 12,
-    marginBottom: 10,
-  },
-  menuInfo: {
-    paddingHorizontal: 6,
-    paddingBottom: 4,
-  },
-  menuTitle: {
-    ...Typography.subheading,
-    fontSize: 16,
-    color: Colors.light.secondaryText,
-    marginBottom: 8,
     fontWeight: '500',
   },
   metaRow: {

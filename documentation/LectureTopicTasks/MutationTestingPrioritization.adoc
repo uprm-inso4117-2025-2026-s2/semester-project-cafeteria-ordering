@@ -1,0 +1,141 @@
+= Mutation Testing Prioritization Strategy for the Cafeteria Ordering System
+
+:project: Cafeteria Ordering
+:issue: 291
+:assignee: @Kaariinaa08
+
+== Overview
+
+This document defines a prioritization strategy for applying mutation testing across the Cafeteria Ordering System.
+
+Rather than focusing on a single component, this analysis evaluates the system as a whole to determine where mutation testing would provide the most value.
+
+The focus of this analysis is on decision-making and prioritization, identifying which components should be tested first based on their importance, complexity, and potential to expose weaknesses in the test suite.
+
+== Purpose of the Strategy
+
+Mutation testing is a powerful technique used to evaluate the sensitivity of a test suite by introducing small changes in the program.
+
+However, applying mutation testing across an entire system can be expensive and time-consuming.
+
+For this reason, it is important to define a strategy that prioritizes the most critical components of the system, ensuring that mutation testing efforts are focused where they will provide the greatest benefit.
+
+== System Components Overview
+
+For the purpose of this analysis, the Cafeteria Ordering System can be examined in terms of the following key components:
+
+* Order Processing Logic
+* Menu Management
+* Ingredient Handling
+* Pricing and Calculation Logic
+
+These components represent logical groupings of system behavior rather than exact implementation modules.
+
+Each of these components plays a role in system behavior, but not all contribute equally to system correctness or testing risk.
+
+== Evaluation Criteria for Prioritization
+
+To determine which components should be prioritized, the following criteria are considered:
+
+* *Impact on correctness:* How critical the component is to system functionality
+* *Complexity of logic:* The amount of conditional or computational logic present
+* *Likelihood of subtle errors:* Whether small changes could alter behavior in non-obvious ways
+* *Test sensitivity requirements:* How important it is for tests to detect small deviations
+
+Components that score high across these criteria are stronger candidates for mutation testing.
+
+== Component Analysis
+
+=== Order Processing Logic
+
+This component determines how orders are validated, processed, and accepted.
+
+It is highly critical because it directly affects whether the system behaves correctly when handling user input.
+
+It typically contains conditional logic, boundary checks, and decision-making rules, making it highly sensitive to small mutations.
+
+*Priority:* High
+
+---
+
+=== Pricing and Calculation Logic
+
+This component is responsible for computing totals, subtotals, or derived values.
+
+Even small changes in arithmetic operations or constants can produce incorrect results while still allowing the system to function.
+
+If tests do not validate computed values precisely, these errors may go undetected.
+
+*Priority:* High
+
+---
+
+=== Ingredient Handling
+
+This component manages how ingredients or options are selected and associated with orders.
+
+While important, it may involve simpler logic depending on implementation.
+
+Mutations in this area can still reveal weaknesses, particularly in validation or combination rules.
+
+*Priority:* Medium
+
+---
+
+=== Menu Management
+
+This component handles the structure and availability of menu items.
+
+It may involve less complex logic compared to order processing or pricing.
+
+While mutation testing can still be applied, it is likely to provide less value compared to more logic-heavy components.
+
+*Priority:* Low
+
+== Prioritization Strategy
+
+Based on the analysis, mutation testing should be applied in the following order:
+
+. Order Processing Logic
+. Pricing and Calculation Logic
+. Ingredient Handling
+. Menu Management
+
+This ordering ensures that mutation testing is first applied to components where:
+
+* correctness is critical
+* logic is complex
+* small changes are likely to go undetected by weak tests
+
+By focusing on these areas first, the system gains the greatest improvement in test effectiveness with minimal unnecessary cost.
+
+== Trade-offs and Practical Considerations
+
+Mutation testing is computationally expensive, as it requires generating and executing multiple modified versions of the program.
+
+Applying mutation testing indiscriminately across all components may not be practical.
+
+This strategy helps reduce cost by:
+
+* focusing only on high-impact components first
+* avoiding unnecessary mutation testing on low-risk areas
+* ensuring that effort is aligned with testing value
+
+There is also a trade-off between thoroughness and efficiency. While testing every component provides broader coverage, prioritization ensures that the most critical behaviors are validated first.
+
+== Benefits of This Approach
+
+This prioritization strategy provides several advantages:
+
+* improves efficiency by focusing testing efforts where they matter most
+* increases confidence in critical system behavior
+* helps identify weaknesses in areas most likely to contain subtle bugs
+* aligns mutation testing with practical development constraints
+
+== Conclusion
+
+Mutation testing is an effective way to evaluate the sensitivity of a test suite, but its cost requires careful application.
+
+By prioritizing components such as Order Processing and Pricing Logic, this strategy ensures that mutation testing is applied where it can provide the greatest benefit.
+
+This system-wide approach demonstrates how mutation testing can be used not only as a testing technique, but also as a decision-making tool for improving test quality across a software system.

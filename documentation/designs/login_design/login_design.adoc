@@ -15,7 +15,7 @@ Final designs can be viewed in the `documentation/designs/login_design/` folder.
 
 - Designs were created for both light and dark mode.
 - All elements were designed following the defined branding and typography guidelines.
-- Users will enter their credentials into "Email or username" and "Password" fields and then press the "Sign In" button to submit this information and begin their session.
+- Users will enter their credentials into "Email" and "Password" fields and then press the "Sign In" button to submit this information and begin their session.
 - "Sign In with Google" button allows users alternate methods for signing in. More methods can be added in the future following the same format (e.g. Facebook, Apple).
 - "Forgot password?" and "Sign up" links allow users to access those functionalities directly; the bolded and underlined letters represent said links.
 
