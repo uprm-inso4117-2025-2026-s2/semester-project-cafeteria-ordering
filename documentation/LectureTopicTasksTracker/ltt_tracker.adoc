@@ -180,37 +180,19 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a theoretical analysis of mutation testing that demonstrates how introducing small changes in Order Processing Logic can evaluate the sensitivity of the test suite and reveal weaknesses in test coverage
 
+==== LTT-20-(issue-414): Design of Possible Mutants for Stripe Payment Workflow
 
-==== LTT-20-(issue-399): Hoare Logic Specification for Stripe Payment Workflow
-
-*Lecture Topic:* Hoare Logic Specification for Stripe Payment Workflow
-
-*Deliverables:*
-
-- Hoare Logic specification of Stripe payment functions (initiate_payment, confirm_payment, finalize_order, cancel_order)
-- Dafny implementation for the payment workflow with method-level preconditions, postconditions, and state transitions
-- Formal verification proofs showing partial and total correctness
-
-*Evidence:* Associated AsciiDoc file (`hoare-payment-spec.adoc`) and Dafny source file (`PaymentWorkflow.dfy`) 
-
-*Justification:* Demonstrates formal verification of the payment workflow to ensure orders are only confirmed after successful payment, failed or pending payments cannot confirm orders, and cancelled orders remain consistent. This also provides a reference model for reasoning about system correctness using Hoare Logic.
-
-
-==== LTT-09-(issue-395): Mutation Testing Analysis for Profile Management Logic
-
-*Lecture Topic:* Mutation Testing as a Test Design Strategy for Profile Management Logic
+*Lecture Topic:* Design of Possible Mutants for Stripe Payment Workflow
 
 *Deliverables:*
 
-- Explanation of mutation testing concepts and lifecycle
-- Identification of mutation risks across profile creation, updates, validation, and retrieval
-- Example of mutants and tests designed to kill them
-- Mutation score interpretation as a design guideline
-- Analysis of benefits and limitations
+- Document describing the Stripe payment workflow.
+- List of possible mutants with their expected detection.
+- Suggested test cases for edge cases, failures, and invalid states.
 
-*Evidence:* Associated AsciiDoc file and pull request linked to issue
+*Evidence:* Associated Asciidoc file and pull request linked to issue
 
-*Justification:* Demonstrates how mutation testing can guide test case design beyond coverage metrics, ensuring tests are semantically sensitive to real logic faults in profile management operations
+*Justification:* provides a structured approach to identify potential faults in the Stripe payment workflow, ensuring payment validation, payment confirmation, and error handling are correctly implemented and reliably tested.
 
 === Reserved Lecture Topic Tasks
 
