@@ -163,7 +163,7 @@ State-based workflows often introduce edge cases that must be tested to ensure s
 * Dashboard displaying outdated order state information.
 * System refresh occurring during a state transition.
 
-These scenarios must be considered to ensure workflow consistency and prevent race conditions or inconsistent system states.
+These scenarios must be considered to ensure workflow consistency.
 
 == 9. Workflow Integrity and System Consistency
 
