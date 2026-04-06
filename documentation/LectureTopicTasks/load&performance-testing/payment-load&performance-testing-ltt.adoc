@@ -2,13 +2,15 @@
 
 == Introduction
 
-This report presents the results of testing conducted on the payment screen of the Cafeteria Ordering System. The goal was to understand how the system behaves under different levels of user activity and whether it remains responsive and reliable during both normal and peak usage.
+This report presents the results of testing conducted on the payment flow of the Cafeteria Ordering System, based on the design of the payment screen. The goal was to understand how the system behaves under different levels of user activity and whether it remains responsive and reliable during both normal and peak usage.
 
 To do this, three types of tests were performed: performance testing with a single user, load testing with a realistic number of users, and stress testing with higher-than-expected usage.
 
 == Testing Approach
 
-The testing process was designed to simulate realistic user behavior when submitting a payment. Since the payment screen is not yet connected to a real backend, a mock payment service was used to imitate how a real system would respond.
+The testing process was designed to simulate realistic user behavior when submitting a payment. Since the payment screen is not yet connected to a real backend and full UI-based testing was not configured, a mock payment service and request-based scripts were used to replicate the expected behavior of the payment process.
+
+These scripts simulate how the payment screen would send data to a backend, using the same structure and inputs defined in the payment screen implementation.
 
 Three different scenarios were tested:
 - A single-user scenario to measure baseline performance
@@ -109,8 +111,8 @@ The stress test shows what happens when the system is pushed beyond its intended
 
 == Conclusion
 
-The payment screen demonstrates strong performance under normal and moderately high usage. It is able to handle expected levels of traffic while maintaining fast response times and low failure rates.
+The payment flow demonstrates strong performance under normal and moderately high usage. It is able to handle expected levels of traffic while maintaining fast response times and low failure rates.
 
 Under extreme conditions, the system continues to function but shows signs of reduced reliability. This suggests that while the current implementation is sufficient for typical use, further improvements could be made to better handle peak demand.
 
-Future work includes validating these results against the fully integrated application once backend is fully implemented.
+Future work includes validating these results against the fully integrated application once backend connectivity and UI-level testing are fully implemented.
