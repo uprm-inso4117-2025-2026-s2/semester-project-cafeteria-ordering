@@ -1,4 +1,7 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+
+import { supabase } from '@/lib/supabase';
 
 
 // User object
@@ -21,6 +24,71 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Wraps the app and provides global authentication state
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+
+  const syncProfileFromMetadata = async (supabaseUser: SupabaseUser) => {
+    const metadata = (supabaseUser.user_metadata ?? {}) as {
+      full_name?: string;
+      phone?: string;
+    };
+
+    const fallbackName = supabaseUser.email?.split('@')[0] || 'User';
+
+    const { error } = await supabase.from('profiles').upsert(
+      {
+        id: supabaseUser.id,
+        user_id: supabaseUser.id,
+        full_name: metadata.full_name?.trim() || fallbackName,
+        phone: metadata.phone?.trim() || null,
+      },
+      { onConflict: 'user_id' }
+    );
+
+    if (error) {
+      console.warn('Unable to sync profile from auth metadata:', error.message);
+    }
+  };
+
+  const mapSupabaseUserToAppUser = (supabaseUser: SupabaseUser): User => {
+    const metadata = (supabaseUser.user_metadata ?? {}) as { full_name?: string };
+    const fallbackName = supabaseUser.email?.split('@')[0] || 'User';
+
+    return {
+      fullName: metadata.full_name?.trim() || fallbackName,
+      email: supabaseUser.email ?? '',
+    };
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function initializeUser() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!isMounted) return;
+
+      if (session?.user) {
+        await syncProfileFromMetadata(session.user);
+      }
+
+      setUser(session?.user ? mapSupabaseUserToAppUser(session.user) : null);
+    }
+
+    initializeUser();
+
+    const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user && (event === 'SIGNED_IN' || event === 'USER_UPDATED' || event === 'INITIAL_SESSION')) {
+        void syncProfileFromMetadata(session.user);
+      }
+      setUser(session?.user ? mapSupabaseUserToAppUser(session.user) : null);
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.subscription.unsubscribe();
+    };
+  }, []);
 
   const login = (userData: User) => {
     setUser(userData);

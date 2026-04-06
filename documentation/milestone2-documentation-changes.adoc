@@ -320,15 +320,15 @@ Finally, the project seeks to raise awareness about the importance of aligning c
 
 The following snippets are raw records of observations and stakeholder experiences within the university cafeteria.
 
-* The 10-Minute Dash: A student walks from the Engineering building toward the cafeteria at 12:05 PM. A small group arrives at the cafeteria at the same time to find a line that extends about 15 people toward the hallway. Some people looks at their watch and decide to walk to their next classroom. They are heard muttering that they'll just have to wait until 4:00 PM to eat.
+* The 10-Minute Dash: [.yellow-bg]#Carlos Rivera, a 20-year-old Civil Engineering sophomore,# walks from the Engineering building toward the cafeteria at 12:05 PM. [.yellow-bg]#A group of 4 students# arrives at the cafeteria at the same time to find a line that extends about 15 people toward the hallway. [.yellow-bg]#3 of them# look at their watches and decide to walk to their next classroom. They are heard muttering that they'll just have to wait until 4:00 PM to eat.
 
-* The Kitchen's Blind Spot: The kitchen staff members create multiple big trays which contain the "El colegial special" in the back of the kitchen. The team operates at high speed but maintains uncertainty about whether 10 or 100 students will enter the building within the next ten minutes will order. The staff members display visible pressure when 20 students enter the service area which becomes overlwhelming.
+* The Kitchen's Blind Spot: The kitchen staff members create [.yellow-bg]#6# big trays which contain the "El colegial special" in the back of the kitchen. The team operates at high speed but maintains uncertainty about whether 10 or 100 students will enter the building within the next ten minutes will order. The staff members display visible pressure when 20 students enter the service area [.yellow-bg]#all at once, which becomes overwhelming.#
 
-* The Post-Lunch Fatigue: Multiple students show signs of falling asleep during the 2:00 PM Biology lecture while they try to maintain their attention on the lesson. A student, when exiting the class, states that he skipped the meal because of the long line which may have caused him to miss his class. The student explained that his lack of food would affect his mental focus and academic performance throughout the day.
+* The Post-Lunch Fatigue: [.yellow-bg]#7 students# show signs of falling asleep during the 2:00 PM Biology lecture while they try to maintain their attention on the lesson. [.yellow-bg]#Marcos Delgado, a 19-year-old Biology freshman,# when exiting the class, states that he skipped the meal because of the long line which may have caused him to miss his class. [.yellow-bg]#Marcos# explained that his lack of food would affect his mental focus and academic performance throughout the day.
 
-* The Payment Bottleneck: A student reaches the front of the line and is told that the payment system is down. The student waits for 3 minutes while the staff tries to fix the issue. Then, the student and every person behind him/her becomes visibly frustrated and expresses concern about being late for their next class.
+* The Payment Bottleneck: [.yellow-bg]#Valeria Ortiz, a 21-year-old Industrial Engineering junior,# reaches the front of the line and is told that the payment system is down. [.yellow-bg]#Valeria# waits for 3 minutes while the staff tries to fix the issue. Then, [.yellow-bg]#Valeria and the 12 people behind her# become visibly frustrated and express concern about being late for their next class.
 
-* The uncertainty of the menu: A student stands at the back of the line, which has spilled out into the hallway near the exit of the cafeteria. From this distance, he cannot see the daily whiteboard or the steam table. He spends 5 minutes moving forward to only discover what the sides or prices are once they are two people away from the counter.
+* The uncertainty of the menu: [.yellow-bg]#Diego Morales, a 22-year-old Computer Science senior,# stands at the back of the line, which has spilled out into the hallway near the exit of the cafeteria. From this distance, he cannot see the daily whiteboard or the steam table. He spends 5 minutes moving forward to only discover what the sides or prices are once [.yellow-bg]#he is# two people away from the counter.
 
 ==== 2.1.2 Terminology
 
@@ -444,21 +444,21 @@ Service Bottleneck :: (behavior, domain)
 
 ==== 2.1.4 Narrative
 
-The university's cafeteria functions as one of the primary food services that support the daily nutritional needs of students, staff, and faculty. Often individuals depend on the cafeteria to receive their prepared meals under tight schedules that are most likely caused by multiple classes, team meetings, work responsabilities, or campus activities. Due to the students having similar break periods, demand for the cafeteria's services increase exponentially during some hours, most specifically midday or the universal hour on Tuesdays and Thursdays.
+[.yellow-bg]#The university's cafeteria functions as one of the primary food services that support the daily nutritional needs of students, staff, and faculty. Often individuals depend on the cafeteria to receive their prepared meals under tight schedules caused by multiple classes, team meetings, work responsibilities, or campus activities. Due to students having similar break periods, demand for the cafeteria's services concentrates significantly around certain peak periods, most notably midday or the universal hour on Tuesdays and Thursdays.#
 
-For the current domain environment, the process begins the moment a customer physically arrives at the cafeteria. Once the customer has arrived, they see the available food options presented by the cafeteria through the menu written on a board, or a handheld menu depending on inventory availability. After reviewing the available options, the customers decide which meals they wish to receive.
+[.yellow-bg]#The service process begins when a customer accesses the cafeteria and reviews available food options through the cafeteria's menu. After reviewing the available options, the customer decides which meals they wish to receive.#
 
-To receive their meals, customers join a physical queue that forms close to the service counter. This queue advances sequentially as every customer gets attended by the cafeteria staff. When a customer reaches the service point, they communicate their wanted items to the personnel, who are then responsible for preparing the requested food. Some items may be immediately available, while other meals would require short preparation time, making the service duration vary between services.
+[.yellow-bg]#To receive their meals, customers enter a service queue and await their turn at the service point. When a customer reaches the front of the queue, an order is placed by communicating the requested items to cafeteria staff, who are then responsible for fulfilling those requests. Some items may be immediately available, while others require preparation time, causing service duration to vary between orders.#
 
-As the requested items are prepared, the customer proceeds to complete the payment method through the established cafeteria payment processes. Confirmation of payment is required before the order is given to the customer. When payment finalizes, the customer receives their prepared meal and exits the service, which then allows the next individual in the queue to be serviced.
+[.yellow-bg]#Once the prepared items are presented to the customer, the customer proceeds to complete payment through the established cafeteria payment processes at the cashier station. Payment finalizes the transaction, and the customer exits the service, allowing the next individual in the queue to be served.#
 
 The arrival rate during peak demand periods frequently exceeds the service capacity of the cafeteria staff, lenghtening queues and increasing waiting times. Customers must often make time sensitive decisions whether to remain in line based on their upcoming academic or work obligations. From the other side, the cafeteria personnel experience increased workload, which can affect the preparation pace, communication, and overall service.
 
-From an observational standpoint, this domain includes entities such as customers, cafeteria staff, menu items, orders, payments, preparation, activities, and pickup events. Natural relationships exist among these entities, as customer selects one or more menu items, an order then aggregates the selected items associated with the customer. The cafeteria staff then prepare the items associated with the order, and payment must be completed before the order is released. The availability of menu items could change over time, based on inventory levels and preparations constraints.
+[.yellow-bg]#From an observational standpoint, this domain includes entities such as customers, cafeteria staff, menu items, orders, payments, preparation activities, and pickup events. Natural relationships exist among these entities: a customer selects one or more menu items, and an order aggregates the selected items associated with that customer. Cafeteria staff prepare the items associated with the order, and upon receiving the prepared items, the customer completes payment to finalize the transaction. The availability of menu items may change over time based on inventory levels and preparation constraints.#
 
 Environmental factors such as time of day, academic calendar events, present staff, and the physical layout of the cafeteria further influence the service performance and waiting times for the customer. These real world characteristics shape how the cafeteria operations unfold without the support of any software system.
 
-Understanding these domain dynamics, including the formation of a queue, the time demand, preparation variability, and capacity limitations, provides the necessary foundation for a further requirement analysis, architectural design, and system development activities.
+[.red-bg.line-through]#Understanding these domain dynamics, including the formation of a queue, the time demand, preparation variability, and capacity limitations, provides the necessary foundation for a further requirement analysis, architectural design, and system development activities.#
 
 ==== 2.1.5 Events, Actions, and Behaviors
 
@@ -1354,9 +1354,13 @@ User Story (client domain):
 
 As a student, I want to place an order from the cafeteria menu so that I can avoid waiting in line and arrive on time to my next class.
 
+[.green-bg]#Precondition (client domain):#
+
+* [.green-bg]#The student must be authenticated before placing an order.#
+
 Derived Acceptance Criteria (client domain):
 
-* The student must be authenticated before placing an order.
+* [.red-bg.line-through]#The student must be authenticated before placing an order.#
 * The student must be able to select available menu items.
 * The student must be able to add selected items to a cart.
 * The student must be able to proceed to checkout and choose a pickup option.
@@ -1524,6 +1528,9 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @Kaariinaa08 | Section 2.1.3 - Domain Terminology in Relation to Rough Sketch | Removed Section 2.1.3 and redistributed it's information to Sections 2.1.2 and 3.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/398
 | @Kaariinaa08 | Section 1.4 - Other Activities | Removed Section 1.4 and redistributed its information to Sections 1.3.1 and 1.3.2 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/397
 | @Kaariinaa08 | Section 2.2.3 - Domain Requirements | Reworked Section 2.2.3 and distributed some of it's information to Section 2.1 | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/434
+| @reinaldo-martinez1 | Section 4.2 - BDD and BDD Tool Usage | Reclassified "The student must be authenticated before placing an order" as a precondition instead of an acceptance criterion. Updated the feature file to use a Gherkin Background block for the authentication step. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/443
+| @reinaldo-martinez1 | Section 2.1.1 - Domain Rough Sketch | Added names, ages, programs, and specific quantities to all five scenarios; clarified 20-student surge as simultaneous; applied yellow-bg markup | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/441
+| @reinaldo-martinez1 | Section 2.1.4 - Narrative | Revised narrative to replace imprecise growth claim, abstract the process description away from the manual implementation, correct payment timing to reflect post-fulfillment payment at the cashier, and removed non-substantive closing paragraph | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/442
 | @JadStelar | Section 2.2.2 - Personas | Added more detailed backgrounds for existing persona and added new persona for non-user | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/410
 | @JadStelar | Section 1.2.3 - Ideas | Added section pertaining to payment at register vs on the platform and corrected formatting of the whole section | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/409
 | @JadStelar | Section 1.2.1 - Current Situation | Removed possible ideas from this section and replaced it with workflow of the current situation | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408
