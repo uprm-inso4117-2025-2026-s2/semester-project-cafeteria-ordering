@@ -194,6 +194,21 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a structured approach to identify potential faults in the Stripe payment workflow, ensuring payment validation, payment confirmation, and error handling are correctly implemented and reliably tested.
 
+==== LTT-21-(issue-401): Performance Testing of Homepage Rendering with Increased Data
+
+*Lecture Topic:* Performance Testing
+
+*Deliverables:*
+
+- Performance testing documentation for homepage under increased dataset
+- Description of load simulation strategy (larger dataset, repeated interactions)
+- Observations on UI responsiveness, filtering, scrolling, and search behavior
+- Identification of any delays, lag, or inconsistencies
+
+*Evidence:* Associated AsciiDoc file and pull request linked to issue
+
+*Justification:* Evaluates system behavior under increased frontend load to ensure the homepage remains responsive and stable when handling more items and user interactions than usual
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
