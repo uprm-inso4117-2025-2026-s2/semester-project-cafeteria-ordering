@@ -1,0 +1,189 @@
+= Mutation Testing Design for Stripe Payment Workflow
+
+== 1. Workflow Definition
+In order to make an effective and reliable payment workflow for the Cafeteria Ordering system, it must follow a well-defined sequence of steps that will ensure security and correctness. The workflow consists of the following stages:
+
+- Payment Initiation 
+- Payment Confirmation
+- Payment Finalization
+
+
+
+=== Payment Initiation
+This stage executes the following steps:
+
+- The user submits an order through the Cafeteria Ordering system.
+- The system verifies that the order exists and that the payment has not been initiated.
+- The system initiates the payment process using the Stripe API.
+- The system generates and stores a unique identifier for the payment transaction (payment ID).
+- The system marks the payment as initiated and pending.
+- The system proceeds with the Payment Confirmation.
+
+
+
+=== Payment Confirmation
+This stage executes the following steps after the Payment Initiation:
+
+- The system verifies that the payment has been initiated and is currently pending.
+- Stripe processes the payment request for the transaction.
+- The system will evaluate if the payment response from Stripe was successful or failed.
+- The system updates the payment state: 
+
+    It marks successful if the transaction was approved.
+    It marks failed if the transaction was rejected.
+
+- The system proceeds to the Payment Finalization.
+
+
+
+=== Payment Finalization
+This stage executes the following steps after Payment Confirmation:
+
+The system verifies the payment status and performs the following:
+
+- If the payment was successful:
+
+  The system confirms the order in the database.
+  The system generates a unique identifier for the confirmation (confirmation ID).
+  The system ensures the order is marked as confirmed once.
+  The system returns the confirmation ID to the user. 
+
+- If the payment has failed or is still pending:
+
+  The system ensures the order is not confirmed.
+  The system will allow the user to try again or mark the order as failed.
+  The confirmation ID is not generated.
+  
+
+
+
+
+
+
+== 2. Design of Possible Mutants
+The following are the possible mutants that can be used based on the Stripe payment workflow. Each mutant represents a potential fault that could occur during the payment system implementation.
+
+
+
+=== Mutant 1: Skip Payment Validation
+- *Step affected:* Payment Confirmation.
+- *Original expected behavior:* The system validates the payment response before updating the payment status.
+- *Mutated behavior:* The system skips the payment validation and proceeds to update the payment status to successful.
+- *Type of mutation:* Missing validation.
+
+
+=== Mutant 2: Premature Order Confirmation
+- *Step affected:* Payment Finalization.
+- *Original expected behavior:* The system confirms the order after the payment was successful.
+- *Mutated behavior:* The order is confirmed before the payment status is verified.
+- *Type of mutation:* Incorrect execution order.
+
+
+=== Mutant 3: Incorrect Payment Status Handling
+- *Step affected:* Payment Confirmation.
+- *Original expected behavior:* The system distinguishes between successful and failed attemps of payment. 
+- *Mutated behavior:* The system cannot distinguish the difference between failed payment/pending payment and successful payment.
+- *Type of mutation:* Logical condition error.
+
+
+=== Mutant 4: Confirmation ID Generated on Failed Payment
+- *Step affected:* Payment Finalization.
+- *Original expected behavior:* After the system verifies that the payment status is successful it confirms the order and generates a confirmation ID.
+- *Mutated behavior:* The system does not verify that the payment was successful and proceeds to generate a confirmation ID without confirming the order.
+- *Type of mutation:* Invalid state handling.
+
+
+=== Mutant 5: Order Confirmed While Payment Pending
+- *Step affected:* Payment Finalization.
+- *Original expected behavior:* The orders cannot be confirmed if the payment is still pending.
+- *Mutated behavior:* The system confirms the order while the payment is still pending.
+- *Type of mutation:* State inconsistency.
+
+
+
+
+
+
+
+
+
+
+
+== 3. Expected Detection
+The previous mutants produce incorrect behavior according to the Stripe payment workflow. When implementing a test suite these should be the detected faults:
+
+*Skip Payment Validation:*
+
+- *Description:* Tests must ensure that the system does not update the payment status before the payment response is validated.
+- *Type of test:* Unit tests and integration tests. 
+
+
+
+*Premature Order Confirmation:* 
+
+- *Description:* Tests must ensure that the system does not confirm the order before the payment status is validated as successful.
+- *Type of test:* Integration tests.
+
+
+*Incorrect Payment Status Handling:* 
+
+- *Description:* Tests must ensure that the system can distinguish between a successful payment and a failed/pending payment.
+- *Type of test:* Unit tests.
+
+
+*Confirmation ID Generated on Failed Payment:* 
+
+- *Description:* Tests must ensure that the system does not generate a confirmation ID before validating the payment status as successful.
+- *Type of test:* Integration tests.
+
+
+*Order Confirmed While Payment Pending:* 
+
+- *Description:* Tests must ensure that the system does not confirm orders while the payment status is pending.
+- *Type of test:* Integration tests.
+
+
+
+
+
+
+
+
+
+
+== 4. Testing Implications
+To prevent faults/bugs by introducing the previously defined mutants, the following tests cases should be considered when implementing the test suite.
+
+=== Edge Cases
+
+- Test multiple payment attempts for the same order to verify that the order is only confirmed once.
+- Test delayed payment attempts (pending payment) to verify that the system correctly handles late confirmations.
+- Test duplicate payment responses to ensure that the system does not process the same payment transaction multiple times.
+
+
+=== Failure Scenarios
+
+- Test payment rejection to ensure that the order does not receive confirmation.
+- Test invalid/failed payment response to ensure that the system does not update the payment status incorrectly.
+- Test API/network failures to ensure that the system handles payment errors without confirming the order. 
+
+
+=== Invalid States
+
+- Test that the system does not allow order confirmation without a successful payment. 
+- Test that the system does not generate a confirmation ID without a successful payment. 
+- Test that the system does not confirm orders with pending payments. 
+
+
+
+
+
+
+== 5. Summary
+This document identifies the possible mutants for the Stripe payment workflow and describes how they can be detected and prevented through testing. 
+
+By identifying these mutants, the system ensures: 
+
+- Orders are confirmed after a successful payment. 
+- Payment failures/pending payments are correctly handled. 
+- Consistency across all the valid states during execution.
