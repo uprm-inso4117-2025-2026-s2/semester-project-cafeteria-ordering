@@ -7,4 +7,5 @@
 |TR-SUPA-02 |Report for Supabase quick connection smoke check execution |src/tests/supabase/scripts/quick-test.ts
 |TR-ORD-01 |Test report to inform about the execution of order modification procedures| UT-OrderModification.ts
 |TR-ORD-2 |Report that unit test outputs for Order ID generation are correct, including format validation and handling of invalid or undefined values |
+|TR-AUTH-03 |Test report for User Sign Up functionality with valid data, including UI verification, happy path, negative test scenarios, form recovery, and optional phone number validation |src/tests/authentication/scripts/signup_valid_data.test.tsx
 |====

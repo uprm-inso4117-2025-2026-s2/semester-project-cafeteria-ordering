@@ -7,10 +7,13 @@ import PopupCard from '@/components/ui/popupCard';
 import PrimaryButton from '@/components/ui/primaryButton';
 import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { requestPasswordReset } from '@/lib/password-recovery';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
 
 export default function ForgotPassword() {
+  const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -33,11 +36,14 @@ export default function ForgotPassword() {
 
     setErrors({});
     setIsSubmitting(true);
-    setShowPopup(true);
 
     try {
-      // TODO: send recovery link to email
-      console.log('Password recovery:', { email });
+      await requestPasswordReset(email);
+      setShowPopup(true);
+      AccessibilityInfo.announceForAccessibility('Check your email. Password reset link has been sent.');
+    } catch (error: any) {
+      setErrors({ submit: error?.message || 'Unable to send password reset email right now. Please try again.' });
+      AccessibilityInfo.announceForAccessibility('Unable to send password reset email right now. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -58,14 +64,35 @@ export default function ForgotPassword() {
         <ThemedText style={{ color: errorColor, alignSelf: 'flex-start' }}>{errors.email}</ThemedText>
       )}
 
-      <PrimaryButton title='Send recovery link' width={170} height={50} onPress={handleRecoveryLinkSend} style={{marginTop: 60}}></PrimaryButton>
+      {errors.submit && (
+        <ThemedText type='body' style={{ color: errorColor, alignSelf: 'flex-start', textAlign: 'left' }}>
+          {errors.submit}
+        </ThemedText>
+      )}
+
+      <PrimaryButton
+        title={isSubmitting ? 'Sending...' : 'Send recovery link'}
+        width={170}
+        height={50}
+        onPress={isSubmitting ? undefined : handleRecoveryLinkSend}
+        style={{marginTop: 60}}
+      ></PrimaryButton>
 
       {/* Popup card */}
       <PopupCard visible={showPopup} width={Dimensions.get('window').width - 70} height={300} style={{alignContent: 'center', justifyContent: 'center'}}>
         <PrimaryButton title='x' onPress={() => setShowPopup(!showPopup)} backgroundColor='#00000000' textColor={errorColor} style={styles.popupX} textStyle={{fontSize: 20}} height={15} width={15}></PrimaryButton>
         <ThemedText type='heading' style={[styles.heading, {textAlign: 'center'}]}>Check your email</ThemedText>
         <ThemedText type='body' style={[styles.body, {textAlign: 'center', paddingTop: 5}]}>Password reset link has been sent to your email</ThemedText>
-        <PrimaryButton title='Return to Login' width={170} height={50} style={{marginVertical: 20}}></PrimaryButton>
+        <PrimaryButton
+          title='Return to Login'
+          width={170}
+          height={50}
+          style={{marginVertical: 20}}
+          onPress={() => {
+            setShowPopup(false);
+            router.replace('/login' as any);
+          }}
+        ></PrimaryButton>
       </PopupCard>
     </ThemedView>
   );

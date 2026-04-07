@@ -7,10 +7,13 @@ import PopupCard from '@/components/ui/popupCard';
 import PrimaryButton from '@/components/ui/primaryButton';
 import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { updateRecoveredPassword } from '@/lib/password-recovery';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
 
 export default function ResetPassword() {
+  const router = useRouter();
 
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -40,11 +43,18 @@ export default function ResetPassword() {
 
     setErrors({});
     setIsSubmitting(true);
-    setShowPopup(true);
 
     try {
-        // TODO: reset password in supabase
-      console.log('New password:', { newPassword });
+      await updateRecoveredPassword(newPassword);
+      setNewPassword('');
+      setConfirmPassword('');
+      setShowPopup(true);
+      AccessibilityInfo.announceForAccessibility('Password reset complete.');
+    } catch (error: any) {
+      setErrors({ submit: error?.message || 'Unable to update password right now. Please try again.' });
+      AccessibilityInfo.announceForAccessibility(
+        'Unable to update password right now. Please review and try again.'
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -86,12 +96,34 @@ export default function ResetPassword() {
         <ThemedText type='body' style={{ color: errorColor, alignSelf: 'flex-start' }}>{errors.confirm}</ThemedText>
       )}
 
-      <PrimaryButton title='Reset password' width={170} height={50} style={styles.submitButton} onPress={handlePasswordReset}></PrimaryButton>
+      {/* Submission-level error message */}
+      {errors.submit && (
+        <ThemedText type='body' style={{ color: errorColor, alignSelf: 'flex-start', textAlign: 'left' }}>
+          {errors.submit}
+        </ThemedText>
+      )}
+
+      <PrimaryButton
+        title={isSubmitting ? 'Resetting...' : 'Reset password'}
+        width={170}
+        height={50}
+        style={styles.submitButton}
+        onPress={isSubmitting ? undefined : handlePasswordReset}
+      ></PrimaryButton>
 
       {/* Popup card */}
       <PopupCard visible={showPopup} width={Dimensions.get('window').width - 70} height={250} style={{alignContent: 'center', justifyContent: 'center'}}>
         <ThemedText type='heading' style={[styles.heading, {textAlign: 'center'}]}>Password reset complete</ThemedText>
         <ThemedText type='body' style={[styles.body, {textAlign: 'center'}]}>Return to app and log in</ThemedText>
+        <PrimaryButton
+          title='Back to sign up'
+          width={170}
+          height={45}
+          onPress={() => {
+            setShowPopup(false);
+            router.replace('/signup');
+          }}
+        ></PrimaryButton>
       </PopupCard>
     </ThemedView>
   );
