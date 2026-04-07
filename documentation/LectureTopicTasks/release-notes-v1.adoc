@@ -4,8 +4,10 @@
 :assignee: @Lorenzo-PT
 
 == Release Notes : Cafeteria ordering v0.0
+
 ***
 This project is currently in it's *second* milestone/phase, meaning that these release notes are a placeholder until the project officially releases.
+
 ***
 
 === Delivery Items
