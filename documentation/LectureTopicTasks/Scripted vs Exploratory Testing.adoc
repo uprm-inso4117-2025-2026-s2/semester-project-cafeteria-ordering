@@ -1,0 +1,176 @@
+= Scripted vs Exploratory Testing — Comparative Analysis
+:author: @daniellameleroo
+:toc:
+:toclevels: 2
+
+== 1. Introduction
+
+Software testing plays a crucial role in ensuring the quality, reliability, and usability of software systems. Different testing approaches are used depending on the system requirements, development stage, and risk level. Two fundamental testing strategies discussed in Lecture 3 are *Scripted Testing* and *Exploratory Testing (Unscripted Testing)*.
+
+This document presents a comparative analysis of both approaches and evaluates their application within the *Cafeteria Ordering*. Additionally, it provides a recommendation for the most effective testing strategy and discusses the role of Session-Based Testing.
+
+== 2. Definitions
+
+=== 2.1 Scripted Testing
+
+Scripted Testing is a structured testing approach in which test cases are *designed, documented, and executed in advance*. Testers follow predefined steps, inputs, and expected outputs to verify system functionality.
+
+This method focuses on *validation and consistency*, ensuring that the system behaves according to requirements.
+
+=== 2.2 Exploratory Testing
+
+Exploratory Testing is an *unscripted and dynamic approach* where testers simultaneously learn about the system, design tests, and execute them. Instead of following predefined steps, testers rely on their experience and intuition.
+
+This approach emphasizes *discovery, adaptability, and critical thinking*.
+
+== 3. Comparison of Scripted vs Exploratory Testing
+
+[cols="1,1,1", options="header"]
+|===
+|Aspect |Scripted Testing |Exploratory Testing
+
+|Structure
+|Highly structured
+|Flexible and adaptive
+
+|Documentation
+|Detailed test cases required
+|Minimal documentation
+
+|Execution
+|Predefined steps
+|Real-time decision making
+
+|Repeatability
+|High
+|Low
+
+|Creativity
+|Limited
+|High
+
+|Learning
+|Limited during execution
+|Continuous learning
+
+|Best Use Case
+|Stable systems, regression testing
+|New features, unknown areas
+|===
+
+== 4. Advantages and Disadvantages
+
+=== 4.1 Scripted Testing
+
+*Advantages:*
+* Consistent and repeatable results
+* Ensures requirement coverage
+* Ideal for regression testing
+* Easy to track progress
+
+*Disadvantages:*
+* Time-consuming to create
+* Less flexible to changes
+* May miss unexpected bugs
+* Limits creativity
+
+=== 4.2 Exploratory Testing
+
+*Advantages:*
+* Encourages creativity and critical thinking
+* Finds hidden or unexpected defects
+* Faster setup
+* Adapts to changes easily
+
+*Disadvantages:*
+* Hard to reproduce issues
+* Coverage may be inconsistent
+* Depends on tester skill
+* Difficult to measure progress
+
+== 5. Application to Cafeteria Ordering System
+
+=== 5.1 User Sign-Up and Login
+
+*Scripted Testing:*
+* Validates inputs and authentication
+* Checks error handling
+
+*Exploratory Testing:*
+* Tests edge cases
+* Evaluates usability
+
+*Best Approach:* Hybrid
+
+=== 5.2 Order Placement System
+
+*Scripted Testing:*
+* Verifies order flow
+* Checks calculations
+
+*Exploratory Testing:*
+* Tests unexpected user actions
+* Evaluates interaction flow
+
+*Best Approach:* Exploratory-focused
+
+=== 5.3 Payment Processing
+
+*Scripted Testing:*
+* Ensures transaction accuracy
+* Validates security
+
+*Exploratory Testing:*
+* Tests failures and interruptions
+
+*Best Approach:* Scripted-focused
+
+=== 5.4 Staff Order Management Dashboard
+
+*Scripted Testing:*
+* Validates filtering and status updates
+
+*Exploratory Testing:*
+* Tests real-world usage scenarios
+
+*Best Approach:* Hybrid
+
+== 6. Recommendation
+
+A *hybrid testing strategy* is recommended for the Cafeteria Ordering System.
+
+*Scripted Testing should be used for:*
+* Core functionalities
+* Payment systems
+* Regression testing
+
+*Exploratory Testing should be used for:*
+* User experience testing
+* Edge cases
+* Early-stage features
+
+*Justification:*
+
+This approach combines the *reliability of scripted testing* with the *flexibility of exploratory testing*, resulting in better overall software quality.
+
+== 7. Exploratory Testing and Session-Based Testing
+
+Exploratory Testing is closely related to *Session-Based Testing (SBT)*.
+
+Session-Based Testing introduces structure by:
+* Using time-boxed sessions
+* Defining a testing goal (charter)
+* Documenting findings after each session
+
+This method maintains flexibility while improving *organization, accountability, and traceability*.
+
+== 8. Conclusion
+
+Scripted and Exploratory Testing are both essential approaches in software testing. Scripted Testing ensures *accuracy and repeatability*, while Exploratory Testing enhances *adaptability and defect discovery*.
+
+A *hybrid approach supported by Session-Based Testing* provides the most effective strategy for the Cafeteria Ordering System.
+
+== 9. References
+
+* Lecture 3 Slides – Software Testing Approaches
+* https://reqtest.com/en/knowledgebase/exploratory-testing-vs-scripted-testing/

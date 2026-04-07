@@ -194,6 +194,38 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a structured approach to identify potential faults in the Stripe payment workflow, ensuring payment validation, payment confirmation, and error handling are correctly implemented and reliably tested.
 
+==== LTT-21-(issue-396): BDD Specification for Menu Browsing Flow
+
+*Lecture Topic:* Behavior-Driven Specification
+
+*Deliverables:*
+
+- Five BDD acceptance scenarios covering core and edge behaviors
+- Requirement-to-scenario traceability mapping
+- Clearly defined acceptance criteria
+- A reusable structure for future automated testing
+
+*Evidence:* Associated Gherkin files and AsciiDoc file and pull request linked to issue
+
+*Justification:* Applies Behavior-Driven Development by defining clear, user-centered acceptance scenarios for the Menu Browsing Flow, ensuring alignment between requirements and implementation while supporting traceability and future automated testing.
+
+==== LTT-22-(issue-415): Load and Performance Testing of Payment Screen
+
+*Lecture Topic:* Load and Performance Testing
+
+*Deliverables:*
+
+- json document with testing approach and results of load and performance testing of the payment screen, includes:
+- Description of testing setup using a mock payment service to simulate backend behavior
+- Explanation of test scenarios (single-user, expected load, and stress conditions)
+- Collected metrics including response time, latency, throughput, and failure rate
+- Observations on system responsiveness, reliability, and behavior under increasing load
+- Identification of any delays, failures, or performance degradation
+
+*Evidence:* Associated AsciiDoc report and pull request linked to issue
+
+*Justification:* Evaluates how the payment system behaves under different levels of usage to ensure it remains responsive and reliable during typical cafeteria operations and identifies potential limitations under high load conditions
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)
