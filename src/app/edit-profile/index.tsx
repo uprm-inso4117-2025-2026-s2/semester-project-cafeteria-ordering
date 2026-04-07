@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     gap: 18,
   },
   saveButton: {
-    backgroundColor: '#A8D3A4',
+    // backgroundColor: '#A8D3A4',
     borderWidth: 2,
     borderColor: '#3E8E41',
     borderRadius: 24,
@@ -268,10 +268,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   saveButtonText: {
+    color: '#327534',
     fontSize: 17,
   },
   discardButton: {
-    backgroundColor: '#D7D7D7',
+    // backgroundColor: '#D7D7D7',
     borderWidth: 2,
     borderColor: '#F0B49F',
     borderRadius: 24,
