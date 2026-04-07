@@ -1,5 +1,3 @@
-:docinfo: shared
-
 = Cafeteria Ordering System
 :toc: macro
 
@@ -13,19 +11,13 @@ Friday, February 27, 2026
 
 toc::[]
 
-== Legend
-
-* [.green-bg]#Green background# - Indicates sections that have been added for the first time into the documentation.
-* [.yellow-bg]#Yellow background# - Indicates sections that have been modified from the previous version of the documentation.
-* [.red-bg.line-through]#Red background with strikethrough# - Indicates sections that have been removed from the previous version of the documentation.
-
 == Informative Part
 
 === 1.1 Team
 
 ==== Team Structure
 
-[.yellow-bg]#The project team is organized into six functional divisions: one Documentation team and five feature-based implementation teams. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division's primary objectives.#
+The project team is organized into six functional divisions: one Documentation team and five feature-based implementation teams. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division's primary objectives.
 
 ==== Managers
 
@@ -193,7 +185,7 @@ If external partners become involved in later phases, their roles and responsibi
 
 ==== 1.2.1 Current Situation
 
-Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, [.yellow-bg]#leading to delays during peak demand periods.# [.red-bg.line-through]#Consequently, the absence of a streamlined, digital alternative to the manual counter process remains a major hurdle to both student well-being and cafeteria operational efficiency.# [.green-bg]#On a typical visit to the current cafeteria, a student walks to the cafeteria, checks the daily menu posted at the counter, and decides what to eat. To obtain the food, the student joins a single line that leads to the service counter. When the student reaches the counter, they state their order, the student pays for their order at the counter, cafeteria staff serve the food or start preparing it, and then the student picks up the meal when it is ready. Every student must pass through the same sequence of events: join the queue, order, pay, wait for preparation, and pick up the meal. The lack of a structured ordering system leads to long queues, increased waiting times, and operational inefficiencies that affect both students and cafeteria staff.#
+Eating at the university cafeteria is a necessity for many students, yet the current environment at the cafeteria is incapable of adequately meeting its high demand. The university cafeteria consistently experiences long lines and heavy traffic, particularly during peak hours. This inefficiency creates a recurring dilemma where students must choose between securing a meal or arriving on time for their next academic commitment. When students are forced to skip meals due to these waiting times, it can result in a substantial negative impact on their overall health, mental focus, and academic performance. The primary cause of this issue is an outdated manual, in-person ordering system that is simply not capable of handling a high volume of students in a short time frame. Currently in the cafeteria, every order and payment transaction is processed manually at the counter, leading to delays during peak demand periods. On a typical visit to the current cafeteria, a student walks to the cafeteria, checks the daily menu posted at the counter, and decides what to eat. To obtain the food, the student joins a single line that leads to the service counter. When the student reaches the counter, they state their order, the student pays for their order at the counter, cafeteria staff serve the food or start preparing it, and then the student picks up the meal when it is ready. Every student must pass through the same sequence of events: join the queue, order, pay, wait for preparation, and pick up the meal. The lack of a structured ordering system leads to long queues, increased waiting times, and operational inefficiencies that affect both students and cafeteria staff.
 
 ==== 1.2.2 Needs
 
@@ -218,36 +210,29 @@ The long wait times at the university cafeteria show unmet needs in food service
 * Minimize crowds in shared spaces to improve safety and traffic flow.
 * Balance service improvements with resource and staffing constraints.
 
-===== [.green-bg]#Ordering#
+===== Ordering
 
-* [.green-bg]#Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.#
-* [.green-bg]#Customers need confidence that what they request can actually be fulfilled at the moment of ordering.#
-* [.green-bg]#Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.#
+* Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.
+* Customers need confidence that what they request can actually be fulfilled at the moment of ordering.
+* Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.
 
-===== [.green-bg]#Paying#
+===== Paying
 
-* [.green-bg]#Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment#
-* [.green-bg]#Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.#
-* [.green-bg]#Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.#
+* Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment
+* Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.
+* Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.
 
-===== [.green-bg]#Preparing#
+===== Preparing
 
-* [.green-bg]#Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.#
-* [.green-bg]#Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.#
-* [.green-bg]#The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.#
+* Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.
+* Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.
+* The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.
 
-===== [.green-bg]#Pickup#
+===== Pickup
 
-* [.green-bg]#Customers need a pickup process that is orderly and time-efficient.#
-* [.green-bg]#Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.#
-* [.green-bg]#Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.#
-
-===== [.red-bg.line-through]#System-Wide Needs#
-
-* [.red-bg.line-through]#Reduced trouble between ordering, preparation, payment, and pickup.#
-* [.red-bg.line-through]#Alignment between student schedules and cafeteria service capacity.#
-* [.red-bg.line-through]#A food-service process that adapts to peak demand patterns.#
-* [.red-bg.line-through]#Meals can be obtained reliably and on time, even during busy periods.#
+* Customers need a pickup process that is orderly and time-efficient.
+* Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.
+* Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.
 
 ===== Project Level Needs
 
@@ -262,7 +247,7 @@ Based on the previously discussed needs, a platform where students and staff fro
 
 * Ordering: Now, it's easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
 
-* [.green-bg]#Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it's ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn't pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.#
+* Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it's ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn't pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.
 
 * Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
 
@@ -281,15 +266,15 @@ The application can help students mantain an easier routine for their everyday l
 ==== 1.3.1 Scope and Span
 *Scope*
 
-[.yellow-bg]#While anyone at the university is welcome to purchase from the cafeteria, this application is primarily intended for students, who represent the cafeteria's largest customer group and face the most significant challenges described in this document. The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.#
+While anyone at the university is welcome to purchase from the cafeteria, this application is primarily intended for students, who represent the cafeteria's largest customer group and face the most significant challenges described in this document. The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.
 
-[.yellow-bg]#Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in-person ordering. This involves structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.#
+Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in-person ordering. This involves structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.
 
-[.yellow-bg]#Requirements Engineering: Discover what prospective users need from the system and capture those findings as prescriptions for system behavior. This includes eliciting user expectations around viewing menus, managing a digital cart, and processing remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes. These prescriptions must be made explicit from the perspective of students, staff, and administrators so that later design and implementation decisions are guided by stakeholder needs rather than assumptions.#
+Requirements Engineering: Discover what prospective users need from the system and capture those findings as prescriptions for system behavior. This includes eliciting user expectations around viewing menus, managing a digital cart, and processing remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes. These prescriptions must be made explicit from the perspective of students, staff, and administrators so that later design and implementation decisions are guided by stakeholder needs rather than assumptions.
 
-[.yellow-bg]#Software Architecture: The architecture will consist of a web front-end for students and staff. It will integrate a backend ordering engine with a simulation environment in place of a physical infrastructure component: cafeteria workers, pickup areas, and order states will be simulated to enable end-to-end testing without requiring physical deployment. Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, early architectural planning is necessary to define responsibilities clearly and reduce the risk of poorly structured design decisions.#
+Software Architecture: The architecture will consist of a web front-end for students and staff. It will integrate a backend ordering engine with a simulation environment in place of a physical infrastructure component: cafeteria workers, pickup areas, and order states will be simulated to enable end-to-end testing without requiring physical deployment. Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, early architectural planning is necessary to define responsibilities clearly and reduce the risk of poorly structured design decisions.
 
-[.yellow-bg]#Software Design Process: The project will follow an iterative, test-driven development lifecycle. A standardized process for handling order flows and issues will be defined, and a continuous feedback loop with cafeteria staff and students will be used to refine the user interface, pickup flow, and operational procedures over time. The process will also include early planning for testing and evaluation so that improvements such as reduced waiting times, smoother pickup, reliability, and usability can be assessed in a structured way.#
+Software Design Process: The project will follow an iterative, test-driven development lifecycle. A standardized process for handling order flows and issues will be defined, and a continuous feedback loop with cafeteria staff and students will be used to refine the user interface, pickup flow, and operational procedures over time. The process will also include early planning for testing and evaluation so that improvements such as reduced waiting times, smoother pickup, reliability, and usability can be assessed in a structured way.
 
 *Span*
 
@@ -313,41 +298,9 @@ Building upon the domain model, stakeholder needs are translated into epics, use
 
 Early architectural reasoning is incorporated to anticipate system structure and interactions between core components such as ordering, payment processing, notification handling, and pickup coordination. Testing strategies, including Test-Driven Development (TDD) and Behavior-Driven Development (BDD), are integrated into the planned workflow to maintain traceability between requirements and implementation while enabling structured validation and verification.
 
-[.yellow-bg]#Throughout the project, documentation, milestone planning, coordinated team roles, ongoing stakeholder communication, progress tracking, and preparation for future iterations or expansion support alignment across analysis, design, testing, and implementation activities. By combining domain modeling, structured requirements engineering, architectural planning, systematic testing preparation, and strong project coordination, the project establishes a comprehensive and well-founded approach to improving cafeteria service efficiency and reliability.#
+Throughout the project, documentation, milestone planning, coordinated team roles, ongoing stakeholder communication, progress tracking, and preparation for future iterations or expansion support alignment across analysis, design, testing, and implementation activities. By combining domain modeling, structured requirements engineering, architectural planning, systematic testing preparation, and strong project coordination, the project establishes a comprehensive and well-founded approach to improving cafeteria service efficiency and reliability.
 
-[.red-bg.line-through]#=== 1.4 Other Activities than just developing source code#
-
-[.red-bg.line-through]#Developing a software solution is only one part of this project. Though it may seem that way, the issues in the university cafeteria are not purely technical. They come from operational complexity, limited time between classes, and the interactions of stakeholders. Because of this, the project requires several supporting activities other than implementation to ensure that any future solution is effective and sustainable.#
-
-[.red-bg.line-through]#==== A key activity for this project is understanding and structuring the domain.#
-
-[.red-bg.line-through]#* Cafeteria operations during peak hours rely heavily on manual and informal processes, which makes it difficult to clearly understand how ordering, payment, preparation, and pickup relate to one another.#
-[.red-bg.line-through]#* Creating a domain description would help the team form a shared understanding of these workflows and constraints before moving toward any specific solution.#
-
-[.red-bg.line-through]#==== Another important activity is requirements engineering. Although the current situation reveals clear inefficiencies and frustration, there is no formal description of what an improved cafeteria experience should provide for its users.#
-
-[.red-bg.line-through]#* Defining requirements helps clarify expectations around functionality, performance, and usage from the perspective of students, staff, and administrators.#
-[.red-bg.line-through]#* Having explicit requirements ensures that later design and implementation decisions are guided by stakeholder needs rather than assumptions.#
-
-[.red-bg.line-through]#==== Early design and architectural reasoning are also necessary before any code is written.#
-
-[.red-bg.line-through]#* Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, system structure and responsibilities cannot be taken from prior solutions.#
-
-[.red-bg.line-through]#* Planning the system architecture and components early helps manage complexity and reduces the risk of poorly structured designs.#
-
-[.red-bg.line-through]#==== Planning for testing and evaluation is another essential activity.#
-
-[.red-bg.line-through]#* The cafeteria environment is highly time-sensitive, which makes reliability and usability especially important.#
-[.red-bg.line-through]#* Thinking ahead about how the system will be evaluated allows the team to measure improvements such as reduced waiting times and smoother order pickup once a solution is in place.#
-
-[.red-bg.line-through]#==== Finally, coordination and project organization tie all project activities together.#
-
-[.red-bg.line-through]#* Establishing milestones, documenting decisions, and assigning responsibilities helps keep the team aligned throughout the project.#
-[.red-bg.line-through]#* Maintaining communication with stakeholders supports scope management, progress tracking, and preparation for future iterations or expansion.#
-
-[.red-bg.line-through]#By combining domain understanding, requirements definition, design planning, testing preparation, and strong coordination with implementation, the project addresses both the technical and operational factors contributing to the current cafeteria situation.#
-
-=== 1.5 Derived Goals
+=== 1.4 Derived Goals
 
 In addition to the primary goal of reducing wait times and improving access to meals in the university cafeteria, the project also pursues several secondary but meaningful outcomes.
 
@@ -371,25 +324,25 @@ Finally, the project seeks to raise awareness about the importance of aligning c
 
 The following snippets are raw records of observations and stakeholder experiences within the university cafeteria.
 
-* The 10-Minute Dash: [.yellow-bg]#Carlos Rivera, a 20-year-old Civil Engineering sophomore,# walks from the Engineering building toward the cafeteria at 12:05 PM. [.yellow-bg]#A group of 4 students# arrives at the cafeteria at the same time to find a line that extends about 15 people toward the hallway. [.yellow-bg]#3 of them# look at their watches and decide to walk to their next classroom. They are heard muttering that they'll just have to wait until 4:00 PM to eat.
+* The 10-Minute Dash: Carlos Rivera, a 20-year-old Civil Engineering sophomore, walks from the Engineering building toward the cafeteria at 12:05 PM. A group of 4 students arrives at the cafeteria at the same time to find a line that extends about 15 people toward the hallway. 3 of them look at their watches and decide to walk to their next classroom. They are heard muttering that they'll just have to wait until 4:00 PM to eat.
 
-* The Kitchen's Blind Spot: The kitchen staff members create [.yellow-bg]#6# big trays which contain the "El colegial special" in the back of the kitchen. The team operates at high speed but maintains uncertainty about whether 10 or 100 students will enter the building within the next ten minutes will order. The staff members display visible pressure when 20 students enter the service area [.yellow-bg]#all at once, which becomes overwhelming.#
+* The Kitchen's Blind Spot: The kitchen staff members create 6 big trays which contain the "El colegial special" in the back of the kitchen. The team operates at high speed but maintains uncertainty about whether 10 or 100 students will enter the building within the next ten minutes will order. The staff members display visible pressure when 20 students enter the service area all at once, which becomes overwhelming.
 
-* The Post-Lunch Fatigue: [.yellow-bg]#7 students# show signs of falling asleep during the 2:00 PM Biology lecture while they try to maintain their attention on the lesson. [.yellow-bg]#Marcos Delgado, a 19-year-old Biology freshman,# when exiting the class, states that he skipped the meal because of the long line which may have caused him to miss his class. [.yellow-bg]#Marcos# explained that his lack of food would affect his mental focus and academic performance throughout the day.
+* The Post-Lunch Fatigue: 7 students show signs of falling asleep during the 2:00 PM Biology lecture while they try to maintain their attention on the lesson. Marcos Delgado, a 19-year-old Biology freshman, when exiting the class, states that he skipped the meal because of the long line which may have caused him to miss his class. Marcos explained that his lack of food would affect his mental focus and academic performance throughout the day.
 
-* The Payment Bottleneck: [.yellow-bg]#Valeria Ortiz, a 21-year-old Industrial Engineering junior,# reaches the front of the line and is told that the payment system is down. [.yellow-bg]#Valeria# waits for 3 minutes while the staff tries to fix the issue. Then, [.yellow-bg]#Valeria and the 12 people behind her# become visibly frustrated and express concern about being late for their next class.
+* The Payment Bottleneck: Valeria Ortiz, a 21-year-old Industrial Engineering junior, reaches the front of the line and is told that the payment system is down. Valeria waits for 3 minutes while the staff tries to fix the issue. Then, Valeria and the 12 people behind her become visibly frustrated and express concern about being late for their next class.
 
-* The uncertainty of the menu: [.yellow-bg]#Diego Morales, a 22-year-old Computer Science senior,# stands at the back of the line, which has spilled out into the hallway near the exit of the cafeteria. From this distance, he cannot see the daily whiteboard or the steam table. He spends 5 minutes moving forward to only discover what the sides or prices are once [.yellow-bg]#he is# two people away from the counter.
+* The uncertainty of the menu: Diego Morales, a 22-year-old Computer Science senior, stands at the back of the line, which has spilled out into the hallway near the exit of the cafeteria. From this distance, he cannot see the daily whiteboard or the steam table. He spends 5 minutes moving forward to only discover what the sides or prices are once he is two people away from the counter.
 
 ==== 2.1.2 Terminology
 
-[.yellow-bg]#The terminology defined in this section is derived from recurring phenomena observed in the domain rough sketch. These terms are not arbitrary labels; rather, they represent abstractions of stakeholder experiences, operational constraints, and observable interactions within the cafeteria environment. Together, they establish a shared vocabulary for subsequent concept analysis and requirements work.#
+The terminology defined in this section is derived from recurring phenomena observed in the domain rough sketch. These terms are not arbitrary labels; rather, they represent abstractions of stakeholder experiences, operational constraints, and observable interactions within the cafeteria environment. Together, they establish a shared vocabulary for subsequent concept analysis and requirements work.
 
 Customer :: (entity, domain)
-[.green-bg]#A person who obtains food or beverages from the cafeteria, including students, faculty, staff, or visitors.#
+A person who obtains food or beverages from the cafeteria, including students, faculty, staff, or visitors.
 
 Student :: (entity, domain)
-[.yellow-bg]#A person enrolled at the university who may act as a customer when obtaining food or beverages from the cafeteria, typically within limited time windows between academic activities or responsibilities.#
+A person enrolled at the university who may act as a customer when obtaining food or beverages from the cafeteria, typically within limited time windows between academic activities or responsibilities.
 
 Cafeteria :: (entity, domain)
 A food-service environment on campus where meals are prepared, ordered, paid for, and collected.
@@ -398,43 +351,43 @@ Cafeteria Staff :: (entity, domain)
 Staff responsible for preparing meals, handling orders, processing payments, and managing the cafeteria.
 
 Meal :: (entity, domain)
-[.yellow-bg]#A set of food and/or beverage items offered by the cafeteria during operating hours, including prepared items (e.g., hot dishes) as well as non-prepared items (e.g., bottled drinks, water, or packaged goods).#
+A set of food and/or beverage items offered by the cafeteria during operating hours, including prepared items (e.g., hot dishes) as well as non-prepared items (e.g., bottled drinks, water, or packaged goods).
 
 Menu :: (entity, domain)
-[.yellow-bg]#A collection of meals and side options available during a specific period, whose visibility and accessibility may affect student decision-making before ordering.#
+A collection of meals and side options available during a specific period, whose visibility and accessibility may affect student decision-making before ordering.
 
 Order :: (entity, domain)
-[.yellow-bg]#A request made by a customer for one or more items from the menu.#
+A request made by a customer for one or more items from the menu.
 
 Pickup Code :: (entity, domain)
-[.green-bg]#A short numeric code generated at the time an order is placed, assigned to that order, and presented to the customer. The code is used at the pickup counter to verify that the correct customer is collecting the order, reducing the risk of incorrect handoff or order theft.#
+A short numeric code generated at the time an order is placed, assigned to that order, and presented to the customer. The code is used at the pickup counter to verify that the correct customer is collecting the order, reducing the risk of incorrect handoff or order theft.
 
 Queue :: (entity, domain)
-[.yellow-bg]#An ordered sequence of students waiting to place an order or complete payment, especially visible during peak periods when lines extend beyond the primary service area.#
+An ordered sequence of students waiting to place an order or complete payment, especially visible during peak periods when lines extend beyond the primary service area.
 
 Service Period :: (entity, domain)
 A continuous time window during which the cafeteria is open and serving meals.
 
 Order Placement :: (action, domain)
-[.yellow-bg]#The act of selecting menu items and communicating the request to cafeteria staff.#
+The act of selecting menu items and communicating the request to cafeteria staff.
 
 Payment :: (action, domain)
-[.yellow-bg]#The process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of service disruption when payment processing fails. In the current domain, payment may occur at or after receiving the meal (e.g., upon tray pickup), rather than strictly at order placement. This behavior may change once the system is introduced.#
+The process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of service disruption when payment processing fails. In the current domain, payment may occur at or after receiving the meal (e.g., upon tray pickup), rather than strictly at order placement. This behavior may change once the system is introduced.
 
 Meal Preparation :: (action, domain)
-[.yellow-bg]#The production of meals in advance or in response to incoming orders, often under uncertainty about near-term customer demand.#
+The production of meals in advance or in response to incoming orders, often under uncertainty about near-term customer demand.
 
 Meal Pickup :: (action, domain)
-[.yellow-bg]#A customer receiving prepared or selected items after an order has been completed.#
+A customer receiving prepared or selected items after an order has been completed.
 
 Waiting Time :: (attribute, domain)
-[.yellow-bg]#The elapsed time between a customer joining the queue and receiving their meal, often influencing whether the customer remains in line or leaves due to time pressure.#
+The elapsed time between a customer joining the queue and receiving their meal, often influencing whether the customer remains in line or leaves due to time pressure.
 
 Student Has Just Joined the Queue :: (event, domain)
 The moment a student enters the line to place an order.
 
 Order Has Just Been Placed :: (event, domain)
-[.yellow-bg]#The moment a customer's order is communicated to cafeteria staff.#
+The moment a customer's order is communicated to cafeteria staff.
 
 Payment Has Just Failed :: (event, domain)
 The moment a payment attempt does not complete successfully, causing a delay in service.
@@ -449,74 +402,35 @@ Crowd Surge :: (behavior, domain)
 A situation that occurs when large numbers of students arrive within a short time spans. This leads to long queues and increased service pressure.
 
 Time-Constrained Decision Making :: (behavior, domain)
-[.yellow-bg]#A behavior in which customers evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next responsibility.#
+A behavior in which customers evaluate whether to wait for food based on current queue conditions, expected waiting time, and proximity to their next responsibility.
 
 Uncertain Demand Preparation :: (behavior, domain)
-[.yellow-bg]#A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden customer arrival.#
+A pattern where cafeteria staff prepare meals without precise knowledge of near-term demand volume, creating pressure in periods of sudden customer arrival.
 
 Service Bottleneck :: (behavior, domain)
-[.yellow-bg]#A recurring slowdown caused by limited capacity in ordering, payment, or preparation, often becoming most visible during demand surges or operational failures.#
+A recurring slowdown caused by limited capacity in ordering, payment, or preparation, often becoming most visible during demand surges or operational failures.
 
-[.yellow-bg]#The domain description above also establishes several important properties of the cafeteria environment that motivate the domain requirements. In this domain, every order contains at least one menu item and is associated with a specific customer. Menu items may become unavailable during a service period due to inventory limitations or preparation constraints. Orders progress through distinct preparation stages before they are eligible for pickup. Each menu item has an established price that contributes to the total cost of the order, and an order may only be released once preparation has been completed. The domain also includes the possibility of order cancellation before fulfillment, payment obligations that must be satisfied before release, customers who are not limited to students, and preparation times that may vary according to the order and current kitchen conditions.#
+The domain description above also establishes several important properties of the cafeteria environment that motivate the domain requirements. In this domain, every order contains at least one menu item and is associated with a specific customer. Menu items may become unavailable during a service period due to inventory limitations or preparation constraints. Orders progress through distinct preparation stages before they are eligible for pickup. Each menu item has an established price that contributes to the total cost of the order, and an order may only be released once preparation has been completed. The domain also includes the possibility of order cancellation before fulfillment, payment obligations that must be satisfied before release, customers who are not limited to students, and preparation times that may vary according to the order and current kitchen conditions.
 
-[.red-bg.line-through]#==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch#
+==== 2.1.3 Narrative
 
-[.red-bg.line-through]#This section relates the defined domain terminology (Section 2.1.2) to specific observations documented in the domain rough sketch (Section 2.1.1). The terminology presented here represents processed and abstracted concepts derived from real-world domain phenomena observed in stakeholder experiences and operational conditions.#
+The university's cafeteria functions as one of the primary food services that support the daily nutritional needs of students, staff, and faculty. Often individuals depend on the cafeteria to receive their prepared meals under tight schedules caused by multiple classes, team meetings, work responsibilities, or campus activities. Due to students having similar break periods, demand for the cafeteria's services concentrates significantly around certain peak periods, most notably midday or the universal hour on Tuesdays and Thursdays.
 
-[.red-bg.line-through]#The rough sketch provides raw observations of behaviors, constraints, and interactions within the cafeteria environment. Through analysis, these observations were abstracted into formal domain concepts, entities, actions, events, attributes, and behaviors.#
+The service process begins when a customer accesses the cafeteria and reviews available food options through the cafeteria's menu. After reviewing the available options, the customer decides which meals they wish to receive.
 
-[.red-bg.line-through]#The following relationships illustrate how domain terminology originates from observed domain phenomena:#
+To receive their meals, customers enter a service queue and await their turn at the service point. When a customer reaches the front of the queue, an order is placed by communicating the requested items to cafeteria staff, who are then responsible for fulfilling those requests. Some items may be immediately available, while others require preparation time, causing service duration to vary between orders.
 
-[.red-bg.line-through]#* Queue, Waiting Time, and Student Has Just Joined the Queue#
-[.red-bg.line-through]#- Derived from *The 10-Minute Dash*, where students encounter a line extending approximately 15 people into the hallway. This observation demonstrates the existence of an ordered sequence of students waiting for service (Queue), measurable delays between joining and receiving service (Waiting Time), and the identifiable moment when a student enters the queue (Student Has Just Joined the Queue).#
-
-[.red-bg.line-through]#* Student Has Just Left the Queue Without Ordering and Time-Constrained Decision Making#
-[.red-bg.line-through]#- Derived from *The 10-Minute Dash* and *The Post-Lunch Fatigue*, where students decide to leave the line due to insufficient available time before their next academic commitment. These observations reveal that students evaluate waiting time against external time constraints, resulting in the observable event of abandoning the queue.#
-
-[.red-bg.line-through]#* Meal, Meal Preparation, and Batch Preparation Under Unpredictable Circumstances#
-[.red-bg.line-through]#- Derived from *The Kitchen's Blind Spot*, where cafeteria staff prepare multiple trays of meals without precise knowledge of how many students will arrive. This demonstrates the existence of prepared food units (Meal), the act of producing those meals (Meal Preparation), and the behavior of preparing food under demand uncertainty (Batch Preparation Under Unpredictable Circumstances).#
-
-[.red-bg.line-through]#* Crowd Surge and Service Bottleneck#
-[.red-bg.line-through]#- Derived from *The Kitchen's Blind Spot* and *The Payment Bottleneck*, where sudden increases in arriving students create operational pressure and service delays. These observations establish the behavior of rapid increases in student arrival (Crowd Surge) and the resulting slowdown in service processes (Service Bottleneck).#
-
-[.red-bg.line-through]#* Order, Order Placement, and Order Has Just Been Placed#
-[.red-bg.line-through]#- Derived implicitly from all rough sketch scenarios involving students progressing through the cafeteria service process. These observations demonstrate that students communicate requests for meals, resulting in identifiable moments when requests are formally made.#
-
-[.red-bg.line-through]#* Payment and Payment Has Just Failed#
-[.red-bg.line-through]#- Derived from *The Payment Bottleneck*, where the payment system becomes unavailable, preventing students from completing transactions. This observation demonstrates the existence of a monetary exchange process (Payment) and identifiable failure events within that process (Payment Has Just Failed).#
-
-[.red-bg.line-through]#* Menu and Menu Visibility Constraints#
-[.red-bg.line-through]#- Derived from *The Uncertainty of the Menu*, where students are unable to see available meal options or prices until reaching the front of the queue. This establishes the existence of a defined set of available meal options (Menu) and the dependency of student decision-making on access to this information.#
-
-[.red-bg.line-through]#* Meal Pickup and Meal Has Just Been Prepared#
-[.red-bg.line-through]#- Derived from the implicit service flow observed across all rough sketch scenarios, where meals are prepared and subsequently transferred to students. This establishes the existence of a distinct moment when a meal becomes available (Meal Has Just Been Prepared) and the act of receiving that meal (Meal Pickup).#
-
-[.red-bg.line-through]#* Cafeteria Staff and Operational Pressure Under Demand Variability#
-[.red-bg.line-through]#- Derived from *The Kitchen's Blind Spot* and *The Payment Bottleneck*, where staff members prepare meals and respond to sudden increases in student arrivals and operational disruptions. These observations establish cafeteria staff as active domain entities responsible for food preparation and service execution.#
-
-[.red-bg.line-through]#These relationships demonstrate that the terminology defined in Section 2.1.2 is not arbitrary, but rather the result of systematic abstraction and formalization of domain phenomena observed in the rough sketch. This ensures that the terminology accurately reflects the domain environment and provides a reliable conceptual foundation for subsequent domain modeling and requirements analysis.#
-
-==== 2.1.4 Narrative
-
-[.yellow-bg]#The university's cafeteria functions as one of the primary food services that support the daily nutritional needs of students, staff, and faculty. Often individuals depend on the cafeteria to receive their prepared meals under tight schedules caused by multiple classes, team meetings, work responsibilities, or campus activities. Due to students having similar break periods, demand for the cafeteria's services concentrates significantly around certain peak periods, most notably midday or the universal hour on Tuesdays and Thursdays.#
-
-[.yellow-bg]#The service process begins when a customer accesses the cafeteria and reviews available food options through the cafeteria's menu. After reviewing the available options, the customer decides which meals they wish to receive.#
-
-[.yellow-bg]#To receive their meals, customers enter a service queue and await their turn at the service point. When a customer reaches the front of the queue, an order is placed by communicating the requested items to cafeteria staff, who are then responsible for fulfilling those requests. Some items may be immediately available, while others require preparation time, causing service duration to vary between orders.#
-
-[.yellow-bg]#Once the prepared items are presented to the customer, the customer proceeds to complete payment through the established cafeteria payment processes at the cashier station. Payment finalizes the transaction, and the customer exits the service, allowing the next individual in the queue to be served.#
+Once the prepared items are presented to the customer, the customer proceeds to complete payment through the established cafeteria payment processes at the cashier station. Payment finalizes the transaction, and the customer exits the service, allowing the next individual in the queue to be served.
 
 The arrival rate during peak demand periods frequently exceeds the service capacity of the cafeteria staff, lenghtening queues and increasing waiting times. Customers must often make time sensitive decisions whether to remain in line based on their upcoming academic or work obligations. From the other side, the cafeteria personnel experience increased workload, which can affect the preparation pace, communication, and overall service.
 
-[.yellow-bg]#From an observational standpoint, this domain includes entities such as customers, cafeteria staff, menu items, orders, payments, preparation activities, and pickup events. Natural relationships exist among these entities: a customer selects one or more menu items, and an order aggregates the selected items associated with that customer. Cafeteria staff prepare the items associated with the order, and upon receiving the prepared items, the customer completes payment to finalize the transaction. The availability of menu items may change over time based on inventory levels and preparation constraints.#
+From an observational standpoint, this domain includes entities such as customers, cafeteria staff, menu items, orders, payments, preparation activities, and pickup events. Natural relationships exist among these entities: a customer selects one or more menu items, and an order aggregates the selected items associated with that customer. Cafeteria staff prepare the items associated with the order, and upon receiving the prepared items, the customer completes payment to finalize the transaction. The availability of menu items may change over time based on inventory levels and preparation constraints.
 
 Environmental factors such as time of day, academic calendar events, present staff, and the physical layout of the cafeteria further influence the service performance and waiting times for the customer. These real world characteristics shape how the cafeteria operations unfold without the support of any software system.
 
-[.red-bg.line-through]#Understanding these domain dynamics, including the formation of a queue, the time demand, preparation variability, and capacity limitations, provides the necessary foundation for a further requirement analysis, architectural design, and system development activities.#
+==== 2.1.4 Events, Actions, and Behaviors
 
-==== 2.1.5 Events, Actions, and Behaviors
-
-This section [.yellow-bg]#catalogs the# *events*, *actions*, and *behaviors* [.yellow-bg]#present in# the cafeteria domain, [.yellow-bg]#grouped alongside their related domain entities rather than organized by type alone#. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an [.yellow-bg]#act by a human or non-human actor# (action), and what emerges as a process or recurring pattern over time (behavior).
+This section catalogs the *events*, *actions*, and *behaviors* present in the cafeteria domain, grouped alongside their related domain entities rather than organized by type alone. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an act by a human or non-human actor (action), and what emerges as a process or recurring pattern over time (behavior).
 
 There is a difference between:
 
@@ -524,92 +438,35 @@ There is a difference between:
 * the act of becoming a member of the queue (action),
 * and the process consisting of various smaller actions that together make up "becoming a member" during a service period (behavior).
 
-[.green-bg]#Actions may be performed by human actors (students or cafeteria staff) or by non-human actors such as equipment or automated processes.#
+Actions may be performed by human actors (students or cafeteria staff) or by non-human actors such as equipment or automated processes.
 
-[.red-bg.line-through]#===== Events (Observable Moments)#
-
-[.red-bg.line-through]#An *event* is an observable "just happened" moment: a point in time at which the domain state has changed. Events are useful to describe transitions and to connect domain observations to later requirements and system representations.#
-
-[.red-bg.line-through]#Examples (from Section 2.1.2):#
-
-[.red-bg.line-through]#* *Student Has Just Joined the Queue* — the moment a student enters the line.#
-[.red-bg.line-through]#* *Order Has Just Been Placed* — the moment the student's request is communicated to staff.#
-[.red-bg.line-through]#* *Payment Has Just Failed* — the moment a payment attempt does not complete successfully.#
-[.red-bg.line-through]#* *Meal Has Just Been Prepared* — the moment the meal becomes ready for pickup.#
-[.red-bg.line-through]#* *Student Has Just Left the Queue Without Ordering* — the moment the student abandons the line.#
-
-[.red-bg.line-through]#Each event captures a transition moment that can be observed directly in the cafeteria environment.#
-
-[.red-bg.line-through]#===== Actions (Acts Performed by Actors)#
-
-[.red-bg.line-through]#An *action* is an intentional act performed by an actor (student or cafeteria staff) that changes the state of the domain. Actions often lead to events. Multiple actions may be required before a particular event becomes observable.#
-
-[.red-bg.line-through]#Examples (from Section 2.1.2):#
-
-[.red-bg.line-through]#* *Order Placement* — the act of selecting menu items and communicating the request to cafeteria staff.#
-[.red-bg.line-through]#* *Payment* — the act of attempting to complete a transaction at the counter.#
-[.red-bg.line-through]#* *Meal Preparation* — the act of producing meals in advance or in response to incoming orders.#
-[.red-bg.line-through]#* *Meal Pickup* — the act of receiving the prepared meal.#
-
-[.red-bg.line-through]#Actions describe what participants do, while events describe the moment we can observe the outcome of those actions.#
-
-[.red-bg.line-through]#===== Behaviors (Processes and Patterns Over Time)#
-
-[.red-bg.line-through]#A *behavior* is a process or recurring pattern that unfolds over time and is composed of multiple actions and events. Behaviors describe how the cafeteria operates under certain conditions, especially during peak hours.#
-
-[.red-bg.line-through]#Examples (from Section 2.1.2):#
-
-[.red-bg.line-through]#* *Crowd Surge* — many students arrive in a short time span, creating long queues and pressure.#
-[.red-bg.line-through]#* *Time-Constrained Decision Making* — students evaluate waiting time versus their schedules and decide whether to stay or leave.#
-[.red-bg.line-through]#* *Uncertain Demand Preparation* — staff prepare meals without precise near-term demand information.#
-[.red-bg.line-through]#* *Service Bottleneck* — recurring slowdowns due to limited capacity in ordering, payment, or preparation.#
-
-[.red-bg.line-through]#Behavior decomposition example:#
-
-[.red-bg.line-through]#*Behavior:* Service Bottleneck (payment)#
-[.red-bg.line-through]#*Actions involved:* Payment attempts, staff troubleshooting, repeated retries#
-[.red-bg.line-through]#*Events observed:* Payment Has Just Failed; Student Has Just Left the Queue Without Ordering#
-[.red-bg.line-through]#*Outcome:* increased waiting time and reduced service throughput#
-
-[.red-bg.line-through]#===== Why This Distinction Matters#
-
-[.red-bg.line-through]#This distinction supports later requirements and testing work:#
-
-[.red-bg.line-through]#* Events identify the exact moments when state changes occur (useful for tracking and notification requirements later).#
-[.red-bg.line-through]#* Actions describe what users and staff do (useful for defining system interactions and responsibilities).#
-[.red-bg.line-through]#* Behaviors capture the recurring patterns that drive the main problem (long waiting times), especially during peak periods.#
-
-[.green-bg]
 ===== Queue and Customer Arrival
 
-* [.green-bg]#*Joining a Queue (action)* — the act of a student entering the service line to await their turn.#
-* [.green-bg]#*Student Has Just Joined the Queue (event)* — the moment a student enters the line to place an order.#
-* [.green-bg]#*Student Has Just Left the Queue Without Ordering (event)* — the moment a student abandons the line due to time pressure or other circumstances.#
-* [.green-bg]#*Crowd Surge (behavior)* — Actions involved: Joining a Queue (performed by many students in a short time span). Events observed: Student Has Just Joined the Queue (repeated rapidly). Outcome: long queues and increased service pressure.#
-* [.green-bg]#*Time-Constrained Decision Making (behavior)* — Actions involved: Joining a Queue; abandoning the queue before ordering. Events observed: Student Has Just Left the Queue Without Ordering. Pattern: customers weigh estimated waiting time against remaining time before their next obligation and decide whether to remain.#
+* *Joining a Queue (action)* — the act of a student entering the service line to await their turn.
+* *Student Has Just Joined the Queue (event)* — the moment a student enters the line to place an order.
+* *Student Has Just Left the Queue Without Ordering (event)* — the moment a student abandons the line due to time pressure or other circumstances.
+* *Crowd Surge (behavior)* — Actions involved: Joining a Queue (performed by many students in a short time span). Events observed: Student Has Just Joined the Queue (repeated rapidly). Outcome: long queues and increased service pressure.
+* *Time-Constrained Decision Making (behavior)* — Actions involved: Joining a Queue; abandoning the queue before ordering. Events observed: Student Has Just Left the Queue Without Ordering. Pattern: customers weigh estimated waiting time against remaining time before their next obligation and decide whether to remain.
 
-[.green-bg]
 ===== Order
 
-* [.green-bg]#*Order Placement (action)* — the act of selecting menu items and communicating the request to cafeteria staff.#
-* [.green-bg]#*Order Has Just Been Placed (event)* — the moment a customer's order is communicated to cafeteria staff.#
+* *Order Placement (action)* — the act of selecting menu items and communicating the request to cafeteria staff.
+* *Order Has Just Been Placed (event)* — the moment a customer's order is communicated to cafeteria staff.
 
-[.green-bg]
 ===== Payment
 
-* [.green-bg]#*Payment (action)* — the process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of disruption when payment processing fails.#
-* [.green-bg]#*Payment Has Just Failed (event)* — the moment a payment attempt does not complete successfully, causing a delay in service.#
-* [.green-bg]#*Service Bottleneck (behavior)* — Actions involved: Payment (repeated attempts); staff troubleshooting. Events observed: Payment Has Just Failed; Student Has Just Left the Queue Without Ordering. Outcome: increased waiting time and reduced service throughput.#
+* *Payment (action)* — the process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of disruption when payment processing fails.
+* *Payment Has Just Failed (event)* — the moment a payment attempt does not complete successfully, causing a delay in service.
+* *Service Bottleneck (behavior)* — Actions involved: Payment (repeated attempts); staff troubleshooting. Events observed: Payment Has Just Failed; Student Has Just Left the Queue Without Ordering. Outcome: increased waiting time and reduced service throughput.
 
-[.green-bg]
 ===== Meal Preparation and Pickup
 
-* [.green-bg]#*Meal Preparation (action)* — the production of meals in advance or in response to incoming orders, often under uncertainty about near-term demand.#
-* [.green-bg]#*Meal Has Just Been Prepared (event)* — the moment a meal becomes ready for pickup.#
-* [.green-bg]#*Meal Pickup (action)* — a customer receiving prepared or selected items after an order has been completed.#
-* [.green-bg]#*Uncertain Demand Preparation (behavior)* — Actions involved: Meal Preparation (performed in advance). Events observed: Meal Has Just Been Prepared (occurring before confirmed demand). Pattern: staff produce meals without precise knowledge of near-term order volume, leading to potential over- or under-preparation.#
+* *Meal Preparation (action)* — the production of meals in advance or in response to incoming orders, often under uncertainty about near-term demand.
+* *Meal Has Just Been Prepared (event)* — the moment a meal becomes ready for pickup.
+* *Meal Pickup (action)* — a customer receiving prepared or selected items after an order has been completed.
+* *Uncertain Demand Preparation (behavior)* — Actions involved: Meal Preparation (performed in advance). Events observed: Meal Has Just Been Prepared (occurring before confirmed demand). Pattern: staff produce meals without precise knowledge of near-term order volume, leading to potential over- or under-preparation.
 
-==== 2.1.6 Function Signatures
+==== 2.1.5 Function Signatures
 
 This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.
 
@@ -649,105 +506,105 @@ If a customer or staff member cancels an order, the system must reverse the tran
 
 ===== Meal Ordering and Access
 
-[.yellow-bg]#A high-level feature area focused on supporting customers in selecting, ordering, and obtaining food efficiently during limited time windows. This epic connects to features such as menu visibility, order placement, and meal pickup coordination.#
+A high-level feature area focused on supporting customers in selecting, ordering, and obtaining food efficiently during limited time windows. This epic connects to features such as menu visibility, order placement, and meal pickup coordination.
 
 ===== Payment Processing
 
-[.green-bg]#A high-level feature area focused on enabling reliable and flexible payment options for customers. This includes handling transactions, managing failures, and supporting different payment moments within the service flow.#
+A high-level feature area focused on enabling reliable and flexible payment options for customers. This includes handling transactions, managing failures, and supporting different payment moments within the service flow.
 
 ===== Peak-Hour Flow Management
 
-[.yellow-bg]#A high-level feature area focused on helping cafeteria staff manage large numbers of customers during peak hours. This includes reducing congestion, improving queue handling, and supporting smoother service flow.#
+A high-level feature area focused on helping cafeteria staff manage large numbers of customers during peak hours. This includes reducing congestion, improving queue handling, and supporting smoother service flow.
 
 ===== Service Reliability and Coordination
 
-[.yellow-bg]#A high-level feature area focused on maintaining consistent cafeteria operations. This includes minimizing delays, handling disruptions, and ensuring coordination between ordering, preparation, and pickup.# 
+A high-level feature area focused on maintaining consistent cafeteria operations. This includes minimizing delays, handling disruptions, and ensuring coordination between ordering, preparation, and pickup. 
 
 ==== User Stories
 
 ===== As a Customer 
 
-* [.yellow-bg]#I want to see available food and drink options before ordering, so that I can decide whether waiting fits my schedule.# 
+* I want to see available food and drink options before ordering, so that I can decide whether waiting fits my schedule. 
 
-* [.yellow-bg]#I want to know when my order is ready for pickup, so that I can minimize the time I spend waiting.# 
+* I want to know when my order is ready for pickup, so that I can minimize the time I spend waiting. 
 
 ===== As a Cafeteria Staff Member
 
-* [.yellow-bg]#I want to have visibility into incoming orders, so that I can prepare meals more efficiently.# 
+* I want to have visibility into incoming orders, so that I can prepare meals more efficiently. 
 
-* [.yellow-bg]#I want to manage service flow during busy periods, so that congestion and delays are reduced.# 
+* I want to manage service flow during busy periods, so that congestion and delays are reduced. 
 
 ==== Features
 
 ===== Meal Availability Information
 
-[.yellow-bg]#Provides customers with visibility into available meals and beverages during a service period. This feature supports the Meal Ordering and Access epic and enables user stories related to decision-making before joining the queue.# 
+Provides customers with visibility into available meals and beverages during a service period. This feature supports the Meal Ordering and Access epic and enables user stories related to decision-making before joining the queue. 
 
 ===== Order and Payment Handling
 
-[.yellow-bg]#Supports the creation and processing of customer orders, including the handling of payments and potential payment failures. This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic, ensuring that orders move correctly through the system.# 
+Supports the creation and processing of customer orders, including the handling of payments and potential payment failures. This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic, ensuring that orders move correctly through the system. 
 
 ===== Demand Awareness Support
 
-[.green-bg]#Provides cafeteria staff with information about incoming orders and expected demand. This feature supports the Peak-Hour Flow Management epic and helps staff prepare meals under uncertain demand conditions.# 
+Provides cafeteria staff with information about incoming orders and expected demand. This feature supports the Peak-Hour Flow Management epic and helps staff prepare meals under uncertain demand conditions. 
 
 ===== Service Flow Coordination
 
-[.yellow-bg]#Coordinates the progression from order placement to meal preparation and pickup. This feature supports the Service Reliability and Coordination epic and ensures smoother transitions between service stages.# 
+Coordinates the progression from order placement to meal preparation and pickup. This feature supports the Service Reliability and Coordination epic and ensures smoother transitions between service stages. 
 
 ==== 2.2.2 Personas
 
 Personas are different representative archetypes of the primary users within the cafeteria service domain. They help the development team to mantain a shared understanding of the user's needs, behaviors, and constraints when defining user stories, features, and system requirements. The following personas were built with the common characteristics observed among members of the university who regularly interact with the cafeteria.
 
-===== Persona 1 — Carlos [.green-bg]#Santiago# the Time Constrained Student
+===== Persona 1 — Carlos Santiago the Time Constrained Student
 
 - *Role:* Undergraduate Student  
-- *Age Range:* [.yellow-bg]#19#  
+- *Age Range:* 19  
 - *Primary Goal:* Obtain food quickly between classes  
 - *Environment:* Busy academic schedule with short breaks
 
-[.green-bg]#Carlos Santiago is a second year English major who has a passion for poetry and literature. Growing up he had always enjoyed writing and reciting poetry. His all time favorite poet is Edgar Allan Poe, of which his favorite works are "For Annie" and "The Raven". In Carlos' senior year of high school, he did not know what he wanted to study; he was contemplating between Electrical Engineering and Industrial Engineering due to his parent's influence. Despite this, after having multiple conversations with his high school English teachers, he decided to pursue his interest in literature and was able to persuade his parents. While studying, he enjoys writing poetry centered around environmental and political issues. Alongside this, he enjoys going to the local bar for a slam poetry competition every week on Thursdays nights.#
+Carlos Santiago is a second year English major who has a passion for poetry and literature. Growing up he had always enjoyed writing and reciting poetry. His all time favorite poet is Edgar Allan Poe, of which his favorite works are "For Annie" and "The Raven". In Carlos' senior year of high school, he did not know what he wanted to study; he was contemplating between Electrical Engineering and Industrial Engineering due to his parent's influence. Despite this, after having multiple conversations with his high school English teachers, he decided to pursue his interest in literature and was able to persuade his parents. While studying, he enjoys writing poetry centered around environmental and political issues. Alongside this, he enjoys going to the local bar for a slam poetry competition every week on Thursdays nights.
 
-Carlos [.red-bg.line-through]#is a full time undergraduate student who# usually has a tight schedule between classes and university activities. His available time to obtain meals is limited to short time spaces between mentioned classes. During peak hours, Carlos often encounters long cafeteria lines, which creates uncertainty about whether he can get food before his next class begins.
+Carlos usually has a tight schedule between classes and university activities. His available time to obtain meals is limited to short time spaces between mentioned classes. During peak hours, Carlos often encounters long cafeteria lines, which creates uncertainty about whether he can get food before his next class begins.
 
 Carlos values speed, predictability, and efficiency when acquiring food from a place. Long waiting times or unclear service flow impact his daily routine negatively. He cannot afford a big delay in his schedule, and prefers solutions that help him make quick, informed decisions about getting a prepared meal.    
 
-===== Persona 2 — Mariana [.green-bg]#Fernandez# the Organized Commuter
+===== Persona 2 — Mariana Fernandez the Organized Commuter
 
 - *Role:* Commuter Student
-- *Age Range:* [.yellow-bg]#21#
+- *Age Range:* 21
 - *Primary Goal:* Plan meals around time on campus
 - *Environment:* Balances commuting time with academic responsibilities
 
-[.green-bg]#Mariana Fernandez is an Agronomy student in her third year. Mariana is a first generation student who decided to study Agronomy because she has always been interested in agriculture. She grew up in her grandparent's small plantain farm in Adjuntas, where she has had to help with weeding, pruning trees, and harvesting plantains. Outside of class, she spends time in the campus greenhouse, participates in a student organization focused on sustainable agriculture, and applying the farming methods she has learned in her grandparent's farm.#
+Mariana Fernandez is an Agronomy student in her third year. Mariana is a first generation student who decided to study Agronomy because she has always been interested in agriculture. She grew up in her grandparent's small plantain farm in Adjuntas, where she has had to help with weeding, pruning trees, and harvesting plantains. Outside of class, she spends time in the campus greenhouse, participates in a student organization focused on sustainable agriculture, and applying the farming methods she has learned in her grandparent's farm.
 
 Mariana is a student who travels to campus and tries to optimize her time while she is present at the university because she does not remain on campus all day. This student prefers to plan when and where she will obtain food in advance.
 
 Uncertainty about the availability and congestion of the cafeteria makes planning difficult for Mariana. She values visibility into the service's conditions and prefers predictable food service experiences that allow her to coordinate her meals with her commuting schedule. The inefficiencies in the current process can lead her to skip meals or seek off campus alternatives.
 
-===== Persona 3 — José [.green-bg]#Gonzalez# the Cafeteria Staff Member
+===== Persona 3 — José Gonzalez the Cafeteria Staff Member
 
 - *Role:* Cafeteria Personnel  
-- *Age Range:* [.yellow-bg]#32#  
+- *Age Range:* 32  
 - *Primary Goal:* Serve customers efficiently while maintaining quality  
 - *Environment:* High workload during peak hours
 
-[.green-bg]#José Gonzalez is a staff member of the cafeteria who has been working there for 7 years. He is originally from Ponce, where he lived with his family and worked in a local restaurant before moving to Mayaguez for better job opportunities after Hurricane María. José has a strong work ethic and takes pride in providing good service to customers. He enjoys interacting with students and with other cafeteria personnel. Outside of work, José spends time with his family, enjoys cooking at home, and is an avid basketball fan who follows local teams closely.#
+José Gonzalez is a staff member of the cafeteria who has been working there for 7 years. He is originally from Ponce, where he lived with his family and worked in a local restaurant before moving to Mayaguez for better job opportunities after Hurricane María. José has a strong work ethic and takes pride in providing good service to customers. He enjoys interacting with students and with other cafeteria personnel. Outside of work, José spends time with his family, enjoys cooking at home, and is an avid basketball fan who follows local teams closely.
 
-José [.red-bg.line-through]#is a staff member of the cafeteria that# is responsible for preparing and delivering customer orders. His workload fluctuates significantly depending on the time of day and customer congestion. During peak periods, José must manage rapidly the order intake, food preparation, and customer communication all simultaneously.
+José is responsible for preparing and delivering customer orders. His workload fluctuates significantly depending on the time of day and customer congestion. During peak periods, José must manage rapidly the order intake, food preparation, and customer communication all simultaneously.
 
 José values a clear order flow which has manageable workload distribution, along with smooth customer interactions. When queues become too long or customer demand suddenly increases, service pressure increases and the chance for a delay or miscomunication rises. Operational improvements that reduce this congestion and improve the workflow directly benefits José's ability to mantain the service's quality.
 
-===== [.green-bg]#Persona 4 — Roberto Cartagena the Cafeteria Manager#
+===== Persona 4 — Roberto Cartagena the Cafeteria Manager
 
-- [.green-bg]#*Role:* Cafeteria Manager#
-- [.green-bg]#*Age Range:* 45#
-- [.green-bg]#*Primary Goal:* Ensure efficient cafeteria operations and customer satisfaction#
-- [.green-bg]#*Environment:* Oversees staff and manages resources during peak hours#
+- *Role:* Cafeteria Manager
+- *Age Range:* 45
+- *Primary Goal:* Ensure efficient cafeteria operations and customer satisfaction
+- *Environment:* Oversees staff and manages resources during peak hours
 
-[.green-bg]#Roberto Cartagena is the manager of the university cafeteria. He has been in this role for 10 years and has previously worked as a Hilton hotel manager, where he managed all hotel employees and guest relations. Outside of work, Roberto enjoys spending time with his family, hiking, and going to the beach. He recently started surfing and has spent several weekends taking lessons and practicing at local surf spots.#
+Roberto Cartagena is the manager of the university cafeteria. He has been in this role for 10 years and has previously worked as a Hilton hotel manager, where he managed all hotel employees and guest relations. Outside of work, Roberto enjoys spending time with his family, hiking, and going to the beach. He recently started surfing and has spent several weekends taking lessons and practicing at local surf spots.
 
-[.green-bg]#Roberto is responsible for managing the overall operations of the cafeteria, including staffing, inventory, and customer service. His biggest challenge is managing unpredictable demand during peak hours, where long lines, delayed service, and occasional food shortages can lead to student dissatisfaction and loss of customers. At the same time, anticipating these high demand services can lead to over preparing of food and monetary losses. Roberto values operational efficiency, customer satisfaction, and staff well-being. He seeks solutions that can help him better manage resources, anticipate demand surges, and maintain a high level of service quality, all while they are simple to use and do not disrupt existing workflows.#
+Roberto is responsible for managing the overall operations of the cafeteria, including staffing, inventory, and customer service. His biggest challenge is managing unpredictable demand during peak hours, where long lines, delayed service, and occasional food shortages can lead to student dissatisfaction and loss of customers. At the same time, anticipating these high demand services can lead to over preparing of food and monetary losses. Roberto values operational efficiency, customer satisfaction, and staff well-being. He seeks solutions that can help him better manage resources, anticipate demand surges, and maintain a high level of service quality, all while they are simple to use and do not disrupt existing workflows.
 
 ===== Persona Summary
 
@@ -761,41 +618,41 @@ They will guide the justification of user stories, epics, and functional require
 
 ==== 2.2.3 Domain Requirements
 
-[.yellow-bg]#The following requirements are derived from the domain description in Section 2.1. They define what the system must represent, enforce, or communicate in order to remain consistent with the cafeteria ordering domain.#
+The following requirements are derived from the domain description in Section 2.1. They define what the system must represent, enforce, or communicate in order to remain consistent with the cafeteria ordering domain.
 
 * **DR-01: Order Composition**
-** [.yellow-bg]#The system must associate every order with a non-empty set of menu items.#
+** The system must associate every order with a non-empty set of menu items.
 
 * **DR-02: Item Availability**
-** [.yellow-bg]#The system must prevent a customer from adding an unavailable menu item to an order.#
-** [.yellow-bg]#The system must track and expose whether each menu item is currently available for ordering.#
+** The system must prevent a customer from adding an unavailable menu item to an order.
+** The system must track and expose whether each menu item is currently available for ordering.
 
 * **DR-03: Order Ownership**
-** [.yellow-bg]#The system must associate every placed order with the specific customer who initiated it.#
+** The system must associate every placed order with the specific customer who initiated it.
 
 * **DR-04: Order Preparation Lifecycle**
-** [.yellow-bg]#The system must allow cafeteria staff to update and track the preparation stage of an order.#
+** The system must allow cafeteria staff to update and track the preparation stage of an order.
 
 * **DR-05: Pricing and Total Calculation**
-** [.yellow-bg]#The system must calculate the total price of an order based on the prices of the selected menu items.#
+** The system must calculate the total price of an order based on the prices of the selected menu items.
 
 * **DR-06: Order Fulfillment**
-** [.yellow-bg]#The system must communicate to the customer when the customer's specific order has transitioned to the ready-for-pickup state.#
+** The system must communicate to the customer when the customer's specific order has transitioned to the ready-for-pickup state.
 
-* [.green-bg]#**DR-07: Order Cancellation**#
-** [.green-bg]#The system must support the handling of order cancellations and notify cafeteria staff when an order has been canceled.#
+* **DR-07: Order Cancellation**
+** The system must support the handling of order cancellations and notify cafeteria staff when an order has been canceled.
 
-* [.green-bg]#**DR-08: Payment Confirmation Before Release**#
-** [.green-bg]#The system must represent the payment status of an order and must distinguish orders that are pending payment from those whose payment has been completed before the order is released to the customer.#
+* **DR-08: Payment Confirmation Before Release**
+** The system must represent the payment status of an order and must distinguish orders that are pending payment from those whose payment has been completed before the order is released to the customer.
 
-* [.green-bg]#**DR-09: Customer Scope**#
-** [.green-bg]#The system must support order placement by cafeteria customers and must not assume that all customers are students.#
+* **DR-09: Customer Scope**
+** The system must support order placement by cafeteria customers and must not assume that all customers are students.
 
-* [.green-bg]#**DR-10: Preparation Time Variability**#
-** [.green-bg]#The system must represent preparation time as a variable property of an order rather than as a fixed constant for all orders.#
+* **DR-10: Preparation Time Variability**
+** The system must represent preparation time as a variable property of an order rather than as a fixed constant for all orders.
 
-* [.green-bg]#**DR-11: Pickup Code Assignment and Verification**#
-** [.green-bg]#The system must assign a unique pickup code to each placed order and make that code available to the ordering customer. The system must support cafeteria staff in verifying a customer-provided pickup code against the order's recorded code before releasing the order.#
+* **DR-11: Pickup Code Assignment and Verification**
+** The system must assign a unique pickup code to each placed order and make that code available to the ordering customer. The system must support cafeteria staff in verifying a customer-provided pickup code against the order's recorded code before releasing the order.
 
 ==== 2.2.4 Interface Requirements
 
@@ -872,12 +729,11 @@ Some requirements that appear to be interface-only include both interface and no
 
 This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.
 
-[.green-bg]
 ====== IR-2.2.4-14 Pickup code generation and display
 
-[.green-bg]#The system shall generate a 4-digit numeric pickup code for each submitted order. A 4-digit code provides 10,000 possible values (0001–9999), sufficient to ensure a low probability of collision within a single service period while remaining short enough for a customer to recall and communicate verbally to cafeteria staff. The system shall display the assigned pickup code to the customer upon order confirmation.#
+The system shall generate a 4-digit numeric pickup code for each submitted order. A 4-digit code provides 10,000 possible values (0001–9999), sufficient to ensure a low probability of collision within a single service period while remaining short enough for a customer to recall and communicate verbally to cafeteria staff. The system shall display the assigned pickup code to the customer upon order confirmation.
 
-[.green-bg]#The system shall provide a means for cafeteria staff to enter or verify a customer-provided pickup code against the order's recorded code before releasing the order to that customer.#
+The system shall provide a means for cafeteria staff to enter or verify a customer-provided pickup code against the order's recorded code before releasing the order to that customer.
 
 ===== Derived questions used to identify interface requirements
 
@@ -1115,7 +971,7 @@ export async function persistOrder(order: Order) {
   return data
 }
 ----
-In this brief source code, [.yellow-bg]#persistOrder# takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. [.yellow-bg]#The function inserts this fully-formed record directly into the database. Note that the current implementation does not check item availability or stock levels before insertion; stock validation is a known gap that must be enforced before this function is called or added here explicitly if it is intended as a system constraint.#
+In this brief source code, persistOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. The function inserts this fully-formed record directly into the database. Note that the current implementation does not check item availability or stock levels before insertion; stock validation is a known gap that must be enforced before this function is called or added here explicitly if it is intended as a system constraint.
 
 *Pickup Code/ Order Security*
 
@@ -1167,39 +1023,37 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 
 === 3.1 Concept Analysis
 
-[.yellow-bg]#The following concepts are derived from recurring observations in the domain rough sketch presented in Section 2.1.1. These concepts formalize entities, actions, and relationships identified through stakeholder scenarios and the team’s current understanding of cafeteria operations. Their purpose is to provide a structured conceptual basis for identifying ambiguities, resolving conflicts in terminology, and supporting later requirements analysis.#
+The following concepts are derived from recurring observations in the domain rough sketch presented in Section 2.1.1. These concepts formalize entities, actions, and relationships identified through stakeholder scenarios and the team’s current understanding of cafeteria operations. Their purpose is to provide a structured conceptual basis for identifying ambiguities, resolving conflicts in terminology, and supporting later requirements analysis.
 
 ==== *Concepts*
 
 * *employee:* person who works in the cafeteria, takes order from customer. (e.g. cafeteria staff member from the uncertainty of the menu, 10min dash, payment bottleneck and post lunch fatigue in section 2.1.1)
-** [.green-bg]#Origin: Observed in the rough sketch as the people operating the counter and in the kitchen by taking requests, preparing food, and responding to disruptions. Can be found in the following rough sketches: The Kitchen’s Blind Spot, The Payment Bottleneck, and The uncertainty of the menu.#
-** [.green-bg]#Reasoning: This concept captures the role of cafeteria staff in the ordering process. It is important to distinguish employees from customers to clarify who performs certain actions and who experiences certain events in the domain.#
+** Origin: Observed in the rough sketch as the people operating the counter and in the kitchen by taking requests, preparing food, and responding to disruptions. Can be found in the following rough sketches: The Kitchen’s Blind Spot, The Payment Bottleneck, and The uncertainty of the menu.
+** Reasoning: This concept captures the role of cafeteria staff in the ordering process. It is important to distinguish employees from customers to clarify who performs certain actions and who experiences certain events in the domain.
 
 * *student:* person who is a student from the university campus and places and order on the cafeteria. (e.g. student coming from Engineering building in 10min dash scenario in section 2.1.1)
-** [.green-bg]#Origin: Repeatedly observed as the primary actors in the cafeteria scenarios; each rough sketch snippet names students and describes their constraints. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, The Payment Bottleneck, and The uncertainty of the menu.#
-** [.green-bg]#Reasoning: This concept captures the primary user group of the cafeteria service. While all students are customers, not all customers may be students, such as faculty, staff, or visitors. It is important to maintain this distinction to ensure that requirements and features can accommodate a broader range of users if needed.#
+** Origin: Repeatedly observed as the primary actors in the cafeteria scenarios; each rough sketch snippet names students and describes their constraints. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, The Payment Bottleneck, and The uncertainty of the menu.
+** Reasoning: This concept captures the primary user group of the cafeteria service. While all students are customers, not all customers may be students, such as faculty, staff, or visitors. It is important to maintain this distinction to ensure that requirements and features can accommodate a broader range of users if needed.
 
 * *customer:* person who places orders in the cafeteria. Concept indirectly birthed out of, it captures a more general group of people who order inside the cafeteria. (e.g. from 10 min dash, payment bottleneck, post lunch fatigue scenarios in section 2.1.1)
-** [.green-bg]#Origin: Derived by abstracting the repeatedly observed “students obtaining food” into a role-based concept: the person receiving cafeteria service. Can be found in the following rough sketches: The The 10-Minute Dash, The Kitchen's Blind Spot, The Post-Lunch Fatigue, The Payment Bottleneck, and The uncertainty of the menu.#
-** [.green-bg]#Reasoning: This concept captures the broader group of individuals who use the cafeteria service. While students are a significant portion of customers, there may be other users who also need to be accommodated. Using "customer" allows for more inclusive requirements and avoids assumptions that all users are students.#
+** Origin: Derived by abstracting the repeatedly observed “students obtaining food” into a role-based concept: the person receiving cafeteria service. Can be found in the following rough sketches: The The 10-Minute Dash, The Kitchen's Blind Spot, The Post-Lunch Fatigue, The Payment Bottleneck, and The uncertainty of the menu.
+** Reasoning: This concept captures the broader group of individuals who use the cafeteria service. While students are a significant portion of customers, there may be other users who also need to be accommodated. Using "customer" allows for more inclusive requirements and avoids assumptions that all users are students.
 
 * *order:* an item or a group of items from the cafeteria associated to a customer.
-** [.green-bg]#Origin: Observed and inferred from situations where customers intend to obtain specific food items and staff anticipate/handle ordering activity. Can be found in the following rough sketches: The Kitchen's Blind Spot, The Payment Bottleneck, and The uncertainty of the menu.#
-** [.green-bg]#Reasoning: This concept captures the core entity that the system will manage. Orders are central to the cafeteria service, and understanding what constitutes an order is essential for defining requirements around order processing, tracking, and fulfillment.#
+** Origin: Observed and inferred from situations where customers intend to obtain specific food items and staff anticipate/handle ordering activity. Can be found in the following rough sketches: The Kitchen's Blind Spot, The Payment Bottleneck, and The uncertainty of the menu.
+** Reasoning: This concept captures the core entity that the system will manage. Orders are central to the cafeteria service, and understanding what constitutes an order is essential for defining requirements around order processing, tracking, and fulfillment.
 
 * *queue:* a list of orders or a line of customers. (e.g. post lunch fatigue from section 2.1.1)
-** [.green-bg]#Origin: Directly observed as a physical line in multiple scenarios. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.#
-** [.green-bg]#Reasoning: This concept captures the idea of waiting and processing order flow.#
+** Origin: Directly observed as a physical line in multiple scenarios. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.
+** Reasoning: This concept captures the idea of waiting and processing order flow.
 
 * *menu:* a group of items a customer can order. (e.g. from uncertainty of the menu in section 2.1.1)
-** [.green-bg]#Origin: Observed as the domain artifact that customers need to see to decide what to order and whether waiting is worthwhile. Can be found in the following rough sketch: The uncertainty of the menu.#
-** [.green-bg]#Reasoning: This concept captures the selection of items that customers can choose from. It is important for defining requirements around menu management, item availability, and customer decision making.#
+** Origin: Observed as the domain artifact that customers need to see to decide what to order and whether waiting is worthwhile. Can be found in the following rough sketch: The uncertainty of the menu.
+** Reasoning: This concept captures the selection of items that customers can choose from. It is important for defining requirements around menu management, item availability, and customer decision making.
 
 ==== Concept Conflicts
 
 * *student / customer:* these terms reference a person, who goes to the cafeteria to order/buy an item(s). If the term student is used, they are a customer who is also a student.
-
-* [.red-bg.line-through]#*queue:* can refer to the line inside the cafeteria or the order queue for a customer.#
 
 * *order:* can be viewed as the action that a customer performs, an item(?) an employee reads and delivers.
 
@@ -1207,19 +1061,17 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 
 * *customer:* must be the term used when referring to the person who orders from the cafeteria. The person being a student can be the state of the customer. Other states may be present for specific customers who have a discount either by being an employee or having athletic student discount.
 
-* [.red-bg.line-through]#*queue:* for this term, qualifiers must be added to separate them from each other. If referring to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise, if referring to the position of the order a customer placed, order queue must be used.#
-
 === 3.2 Validation and Verification
 
 ==== 3.2.1 Validation
 
 *Scenario Walkthroughs (Ongoing)*
 
-* [.yellow-bg]#The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:#
+* The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:
 
 ** Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.
 
-* [.yellow-bg]#After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.#
+* After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.
 
 *Terminology and Concept Validation (Ongoing)*  
 
@@ -1228,40 +1080,40 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 
 *Use of Research (Ongoing)*  
 
-* [.yellow-bg]#Research has been conducted on common cafeteria operations and existing food ordering systems to ensure that proposed solutions are realistic.#  
+* Research has been conducted on common cafeteria operations and existing food ordering systems to ensure that proposed solutions are realistic.  
 
-* [.green-bg]#Sources include observations from the domain rough sketch, informal discussions with customers about cafeteria usage, and general knowledge of mobile ordering systems used in similar environments.#  
+* Sources include observations from the domain rough sketch, informal discussions with customers about cafeteria usage, and general knowledge of mobile ordering systems used in similar environments.  
 
-* [.yellow-bg]#From this research, we concluded that features such as pre-ordering, menu visibility before arrival, and flexible payment timing are feasible and align with real-world practices. These findings are incorporated into future scenarios for stakeholder feedback.#   
+* From this research, we concluded that features such as pre-ordering, menu visibility before arrival, and flexible payment timing are feasible and align with real-world practices. These findings are incorporated into future scenarios for stakeholder feedback.   
 
 ==== 3.2.2 Verification
 
 *Consistency and Completeness Reviews (Ongoing)* 
 
-* [.yellow-bg]#Reviews have been conducted by Documentation Team Leader and Managers to verify that:#  
+* Reviews have been conducted by Documentation Team Leader and Managers to verify that:  
 ** Requirements and user stories only use defined terms or introduce new ones deliberately.  
 ** Each requirement supports at least one stakeholder need or goal stated earlier in the document.  
 ** All key flows from the rough sketch (ordering, payment, preparation, pickup, leaving the queue) appear in at least one user story or feature.  
 
-* [.green-bg]#These reviews confirmed that terminology is used consistently across Sections 2.1.2 and 2.2.1, and that no undefined terms are used without explanation.#  
+* These reviews confirmed that terminology is used consistently across Sections 2.1.2 and 2.2.1, and that no undefined terms are used without explanation.  
 
 * Peer review by other team members will also be used to verify that the documentation is clear, consistent, and complete.  
 
-* [.green-bg]#Minor inconsistencies (such as the use of “student” vs. “customer”) were identified and corrected.#  
+* Minor inconsistencies (such as the use of “student” vs. “customer”) were identified and corrected.  
 
-* [.green-bg]#Coverage analysis confirmed that all major domain activities (ordering, payment, preparation, and pickup) are represented by at least one epic, user story, and feature.#  
+* Coverage analysis confirmed that all major domain activities (ordering, payment, preparation, and pickup) are represented by at least one epic, user story, and feature.  
 
-* [.green-bg]#Traceability checks confirmed that each user story is linked to at least one epic and that each feature supports one or more user stories.#  
+* Traceability checks confirmed that each user story is linked to at least one epic and that each feature supports one or more user stories.  
 
 *Test Planning and Documentation Verification (Ongoing)*
 
 * The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.  
 
-* [.yellow-bg]#Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.#  
+* Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.  
 
-* [.green-bg]#Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).#  
+* Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).  
 
-* [.green-bg]#Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.#  
+* Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.  
 
 *Automated Verification via Continuous Integration (Ongoing)*
 
@@ -1269,17 +1121,15 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 
 * As unit and integration tests are added, they will be included in the Auto-Test Suite so that breaking changes cannot be merged into the main branch.  
 
-* [.green-bg]#Initial CI verification results show that the project builds successfully and that no blocking errors are present in the current codebase.#  
+* Initial CI verification results show that the project builds successfully and that no blocking errors are present in the current codebase.  
 
-* [.green-bg]#Future CI updates will include automated test execution and reporting to further strengthen verification coverage.#  
-
+* Future CI updates will include automated test execution and reporting to further strengthen verification coverage.  
 
 == Specific Class Topics
 
 === 4.1 TDD
 This section demonstrates the application of Test-Driven Development (TDD)
 to incrementally construct a unit derived from the domain model.
-
 
 Selected Unit:
 `processPayment : PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
@@ -1466,13 +1316,12 @@ User Story (client domain):
 
 As a student, I want to place an order from the cafeteria menu so that I can avoid waiting in line and arrive on time to my next class.
 
-[.green-bg]#Precondition (client domain):#
+Precondition (client domain):
 
-* [.green-bg]#The student must be authenticated before placing an order.#
+* The student must be authenticated before placing an order.
 
 Derived Acceptance Criteria (client domain):
 
-* [.red-bg.line-through]#The student must be authenticated before placing an order.#
 * The student must be able to select available menu items.
 * The student must be able to add selected items to a cart.
 * The student must be able to proceed to checkout and choose a pickup option.
@@ -1563,7 +1412,6 @@ For the purposes of demonstrating the use of debugger in the project we ran the 
 
 We used the debugger to verify that the enviroment variables (database url and key) named *_supaAnonKey_* and *_supaBaseUrl_* are being read correctly with the script created by the research and setup team. We expected them to be read correctly and as presented in the following image the test database key and URL are read and stored temporarily for this test.
 
-
 .Image of vscode debugger watching variables supaAnonKey and supaBaseUrl
 image::images-m1/Supabase-test-debug-1a.png[Supabase credentials]
 
@@ -1580,7 +1428,6 @@ image::images-m1/Supabase-test-debug-1c.png[]
 
 For the UI elements we examined that the collapsible title component was changing states as it's supposed to. We added a conditional breakpoint to the collapsible component function and specified to only break when the title had the value "filter-based routing", this means that only when clicking a collapsible element with this title will activate the breakpoint and stop the execution of the application; To understand the function of this component further we added *_isOpen_* boolean variable to the watchpoint list of the debugger. We hypothesize that the value would be false when title is collapsed and true when value is set to true. In the example image below, we can see that the value of *_isOpen_* is set to false and a visual inspection of it shows that it is currently "closed".
 
-
 .Debugger with a conditional breakpoint on collapsible title watching for the value of the attribute isOpen
 image::images-m1/UI-debug-example1a.png[]
 
@@ -1591,62 +1438,62 @@ After activating the collapsible title component with the correct title, the fun
 .Using debugger to watch for the isOpen attribute value to change to 'true'
 image::images-m1/UI-debug-example1b.png[]
 
-=== [.green-bg]#4.4 Load Testing#
+=== 4.4 Load Testing
 
-[.green-bg]#This section documents the load testing performed for the Payment Screen of the Cafeteria Ordering System. The objective was to evaluate responsiveness and reliability under expected usage using repeatable automated runs and consistent metrics.#
+This section documents the load testing performed for the Payment Screen of the Cafeteria Ordering System. The objective was to evaluate responsiveness and reliability under expected usage using repeatable automated runs and consistent metrics.
 
-==== [.green-bg]#Tool and Test Target#
+==== Tool and Test Target
 
-[.green-bg]#*Tool used:* Grafana k6 load testing tool. The test is implemented as a k6 JavaScript script in `documentation/LectureTopicTasks/load&performance-testing/tests/payment.load.test.js` using `k6/http`, and k6 metrics.#
+*Tool used:* Grafana k6 load testing tool. The test is implemented as a k6 JavaScript script in `documentation/LectureTopicTasks/load&performance-testing/tests/payment.load.test.js` using `k6/http`, and k6 metrics.
 
-[.green-bg]#*Test target:* the payment submission flow as currently implemented in the client layer.  
-Because the payment screen is not yet connected to the real backend or payment gateway, the tests use a mock payment service that emulates how a real system would behave, such as having a processing delay. This allows us to measure system behavior under controlled conditions and to establish a baseline before integrating real infrastructure.#
+*Test target:* the payment submission flow as currently implemented in the client layer.
+Because the payment screen is not yet connected to the real backend or payment gateway, the tests use a mock payment service that emulates how a real system would behave, such as having a processing delay. This allows us to measure system behavior under controlled conditions and to establish a baseline before integrating real infrastructure.
 
-==== [.green-bg]#Load Expectations#
+==== Load Expectations
 
-[.green-bg]#The expected usage assumptions are derived from the machine requirements in Section 2.2.5:#
+The expected usage assumptions are derived from the machine requirements in Section 2.2.5:
 
-* [.green-bg]#Peak periods: 11:30 AM–1:30 PM and 3:00 PM–5:00 PM.#
-* [.green-bg]#Target order throughput: at least 60 orders/min during peak hours.#
-* [.green-bg]#Concurrent users: up to 300 active users within a 5-minute window.#
+* Peak periods: 11:30 AM–1:30 PM and 3:00 PM–5:00 PM.
+* Target order throughput: at least 60 orders/min during peak hours.
+* Concurrent users: up to 300 active users within a 5-minute window.
 
-[.green-bg]#For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.#
+For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.
 
-==== [.green-bg]#Usage Scenario Used for Load Testing#
+==== Usage Scenario Used for Load Testing
 
-[.green-bg]#*User behavior modeled:* “Submit payment from the payment screen”.#
+*User behavior modeled:* “Submit payment from the payment screen”.
 
-[.green-bg]#This corresponds to the user completing checkout and triggering the payment submission button. Load testing was used to simulate concurrent submissions representing typical peak activity.#
+This corresponds to the user completing checkout and triggering the payment submission button. Load testing was used to simulate concurrent submissions representing typical peak activity.
 
-==== [.green-bg]#Load Testing Setup#
+==== Load Testing Setup
 
-[.green-bg]#The load is generated using k6’s `ramping-vus` executor with the following stages:#
+The load is generated using k6’s `ramping-vus` executor with the following stages:
 
-* [.green-bg]#30s to 5 virtual users#
-* [.green-bg]#1m to 15 virtual users#
-* [.green-bg]#1m to 25 virtual users#
-* [.green-bg]#30s down to 0 virtual users#
+* 30s to 5 virtual users
+* 1m to 15 virtual users
+* 1m to 25 virtual users
+* 30s down to 0 virtual users
 
-[.green-bg]#The test also defines thresholds to reflect acceptable behavior during load:#
+The test also defines thresholds to reflect acceptable behavior during load:
 
-* [.green-bg]#`http_req_failed` rate < 0.10#
-* [.green-bg]#`http_req_duration` P95 < 2500 ms#
-* [.green-bg]#`payment_success_rate` > 0.90#
+* `http_req_failed` rate < 0.10
+* `http_req_duration` P95 < 2500 ms
+* `payment_success_rate` > 0.90
 
-==== [.green-bg]#Metrics Collected#
+==== Metrics Collected
 
-[.green-bg]#The load testing collects:#
+The load testing collects:
 
-* [.green-bg]#*Response Time (ms):* measures how long a payment request takes from the moment it is sent until a response is received.#
-* [.green-bg]#*Latency (ms):* measures the time observed around the payment submission call, which helps approximate the request/response delay seen by the client#
-* [.green-bg]#*Throughput (req/s):* measures how many payment submissions are completed per second during the run.#
-* [.green-bg]#*Failure Rate (%):* measures the fraction of requests that fail at the HTTP level.#
-* [.green-bg]#*Success Rate (%):* measures the fraction of requests that pass the test checks.#
-* [.green-bg]#*Payments processed:* total number of successful payment submissions counted by the test.#
+* *Response Time (ms):* measures how long a payment request takes from the moment it is sent until a response is received.
+* *Latency (ms):* measures the time observed around the payment submission call, which helps approximate the request/response delay seen by the client
+* *Throughput (req/s):* measures how many payment submissions are completed per second during the run.
+* *Failure Rate (%):* measures the fraction of requests that fail at the HTTP level.
+* *Success Rate (%):* measures the fraction of requests that pass the test checks.
+* *Payments processed:* total number of successful payment submissions counted by the test.
 
-==== [.green-bg]#Results Observed#
+==== Results Observed
 
-[.green-bg]#The following results were recorded by the test script in `documentation/LectureTopicTasks/load&performance-testing/combined-test-results.json`.#
+The following results were recorded by the test script in `documentation/LectureTopicTasks/load&performance-testing/combined-test-results.json`.
 
 |===
 | Scenario | Avg Response (ms) | P95 Response (ms) | Avg Latency (ms) | P95 Latency (ms) | Throughput (req/s) | Failure Rate | Success Rate | Payments Processed
@@ -1662,21 +1509,20 @@ Because the payment screen is not yet connected to the real backend or payment g
 | 1533
 |===
 
-==== [.green-bg]#Interpretation and Discussion of Results#
+==== Interpretation and Discussion of Results
 
-[.green-bg]#Under expected load, the system handled requests efficiently and response times stayed low. Although there is a failure rate of 2.67%, the success rate at 97.33% suggests that the system can still handle expected usage reasonably well. The overall results suggest that the current implementation is capable of supporting typical cafeteria usage and can remain responsive even under heavier demand.#
+Under expected load, the system handled requests efficiently and response times stayed low. Although there is a failure rate of 2.67%, the success rate at 97.33% suggests that the system can still handle expected usage reasonably well. The overall results suggest that the current implementation is capable of supporting typical cafeteria usage and can remain responsive even under heavier demand.
 
-=== [.green-bg]#4.5 Hoare Logic Testing#
+=== 4.5 Hoare Logic Testing
 
-[.green-bg]#The project applies Hoare Logic to the Stripe payment workflow, one of the system's core features. Because the project is implemented in TypeScript and React Native, for which no Hoare-logic verifier exists, the workflow was rewritten in *Dafny* to obtain tool-supported verification. Dafny encodes preconditions and postconditions directly as `requires` and `ensures` clauses and statically verifies them using the Z3 SMT solver. The full specification is maintained in `documentation/LectureTopicTasks/Hoare Payment Workflow/hoare-payment-spec.adoc`.#
+The project applies Hoare Logic to the Stripe payment workflow, one of the system's core features. Because the project is implemented in TypeScript and React Native, for which no Hoare-logic verifier exists, the workflow was rewritten in *Dafny* to obtain tool-supported verification. Dafny encodes preconditions and postconditions directly as `requires` and `ensures` clauses and statically verifies them using the Z3 SMT solver. The full specification is maintained in `documentation/LectureTopicTasks/Hoare Payment Workflow/hoare-payment-spec.adoc`.
 
-==== [.green-bg]#Focus Function: `initiate_payment()`#
+==== Focus Function: `initiate_payment()`
 
-[.green-bg]#`initiate_payment()` is the entry point of the payment workflow. It transitions the system from a pre-payment state to an active payment state by marking the payment as initiated, setting the pending flag, and generating a payment identifier. Errors in this transition,such as initiating payment twice or generating no identifier, would corrupt every downstream step, making it an important function to verify formally.#
+`initiate_payment()` is the entry point of the payment workflow. It transitions the system from a pre-payment state to an active payment state by marking the payment as initiated, setting the pending flag, and generating a payment identifier. Errors in this transition,such as initiating payment twice or generating no identifier, would corrupt every downstream step, making it an important function to verify formally.
 
-[.green-bg]#The system state relevant to this function is:#
+The system state relevant to this function is:
 
-[.green-bg]
 ----
 order_exists      : Boolean
 payment_initiated : Boolean
@@ -1684,22 +1530,20 @@ payment_pending   : Boolean
 payment_id        : Integer  (0 = absent)
 ----
 
-[.green-bg]#The Hoare triple for `initiate_payment()` is:#
+The Hoare triple for `initiate_payment()` is:
 
-[.green-bg]
 ----
 { order_exists = true ∧ payment_initiated = false }
   initiate_payment()
 { payment_initiated = true ∧ payment_pending = true ∧ payment_id ≠ 0 }
 ----
 
-[.green-bg]#The precondition enforces that an order exists and that payment has not already been started. The postcondition guarantees that all three state flags are correctly set after the call.#
+The precondition enforces that an order exists and that payment has not already been started. The postcondition guarantees that all three state flags are correctly set after the call.
 
-==== [.green-bg]#Proof of `initiate_payment()`#
+==== Proof of `initiate_payment()`
 
-[.green-bg]#The body of `initiate_payment()` is a sequence of three assignments. Applying the assignment rule (A1) backwards from the postcondition through each statement derives the required precondition:#
+The body of `initiate_payment()` is a sequence of three assignments. Applying the assignment rule (A1) backwards from the postcondition through each statement derives the required precondition:
 
-[.green-bg]
 ----
 { order_exists = true ∧ payment_initiated = false }
   ⟹ { true }                                           -- precondition implies true
@@ -1716,13 +1560,13 @@ payment_id        : Integer  (0 = absent)
 { payment_initiated = true ∧ payment_pending = true ∧ payment_id ≠ 0 }
 ----
 
-[.green-bg]#Since the precondition implies `true`, the triple is totally correct: the function always terminates and always establishes the postcondition when called in a valid state.#
+Since the precondition implies `true`, the triple is totally correct: the function always terminates and always establishes the postcondition when called in a valid state.
 
-==== [.green-bg]#Dafny Implementation and Verification#
+==== Dafny Implementation and Verification
 
-[.green-bg]#The function was encoded in Dafny as part of a `PaymentWorkflow` class covering the full workflow. The `initiate_payment` method and the class constructor are shown below:#
+The function was encoded in Dafny as part of a `PaymentWorkflow` class covering the full workflow. The `initiate_payment` method and the class constructor are shown below:
 
-[source.green-bg,dafny]
+[source,dafny]
 ----
 class PaymentWorkflow {
 
@@ -1790,9 +1634,8 @@ class PaymentWorkflow {
 }
 ----
 
-[.green-bg]#Dafny's verifier accepts the class without errors, confirming that every `requires`/`ensures` pair is satisfied by the implementation. The sequential composition of the happy path also holds:#
+Dafny's verifier accepts the class without errors, confirming that every `requires`/`ensures` pair is satisfied by the implementation. The sequential composition of the happy path also holds:
 
-[.green-bg]
 ----
 { order_exists = true }
   initiate_payment();
@@ -1801,11 +1644,10 @@ class PaymentWorkflow {
 { order_confirmed = true }
 ----
 
-==== [.green-bg]#Safety Properties#
+==== Safety Properties
 
-[.green-bg]#The verification also confirms the following system-wide invariants, which prevent the workflow from reaching inconsistent states:#
+The verification also confirms the following system-wide invariants, which prevent the workflow from reaching inconsistent states:
 
-[.green-bg]
 ----
 payment_success   = false  ⇒  order_confirmed  = false
 payment_initiated = false  ⇒  payment_success  = false
@@ -1813,85 +1655,82 @@ order_cancelled   = true   ⇒  order_confirmed  = false
 payment_failed    = true   ⇒  confirmation_id  = 0
 ----
 
-=== [.green-bg]#4.6 Mutation Testing#
+=== 4.6 Mutation Testing
 
-[.green-bg]#The project uses Stryker (stryker-mutator.io) as its main testing tool to conduct mutation tests on all essential system elements. Stryker serves as the optimal testing solution for TypeScript and React Native systems because it provides direct integration with Jest and handles all essential mutation operators used in the codebase through its logical operator replacement and arithmetic operator replacement and constant boundary shift capabilities while generating per module mutation score reports. The complete mutation testing evaluation exists in four LTT documents that are stored in documentation/LectureTopicTasks/.#
+The project uses Stryker (stryker-mutator.io) as its main testing tool to conduct mutation tests on all essential system elements. Stryker serves as the optimal testing solution for TypeScript and React Native systems because it provides direct integration with Jest and handles all essential mutation operators used in the codebase through its logical operator replacement and arithmetic operator replacement and constant boundary shift capabilities while generating per module mutation score reports. The complete mutation testing evaluation exists in four LTT documents that are stored in documentation/LectureTopicTasks/.
 
-==== [.green-bg]#Component Prioritization#
+==== Component Prioritization
 
-[.green-bg]#Before applying Stryker, the team defined a prioritization order for mutation testing based on three factors: criticality to system correctness, complexity of conditional logic, and the likelihood that weak assertions would allow mutants to survive. The resulting priority order is:#
+Before applying Stryker, the team defined a prioritization order for mutation testing based on three factors: criticality to system correctness, complexity of conditional logic, and the likelihood that weak assertions would allow mutants to survive. The resulting priority order is:
 
-[.green-bg]
 . Order Processing Logic — *High priority.* Contains conditional checks, boundary conditions, and decision-making rules that directly determine whether user orders are accepted or rejected.
 . Pricing and Calculation Logic — *High priority.* Arithmetic mutations (e.g., replacing `+` with `-`, shifting constants by ±1) produce incorrect totals that can pass undetected if tests only verify that a value is returned rather than verifying its exact amount.
 . Ingredient Handling — *Medium priority.* Simpler logic, but combination-rule mutations and validation-guard removals can still expose test gaps.
 . Menu Management — *Low priority.* Relatively static logic; mutation testing provides the least incremental value here compared to higher-complexity components.
 
-==== [.green-bg]#Mutation Operators Applied#
+==== Mutation Operators Applied
 
-[.green-bg]#In line with the mutation operators identified in the team's analyses, Stryker is configured to apply the following operator classes:#
+In line with the mutation operators identified in the team's analyses, Stryker is configured to apply the following operator classes:
 
 [cols="1,2,2", options="header"]
 |===
-| [.green-bg]#Operator Class# | [.green-bg]#Example (Original → Mutant)# | [.green-bg]#Target Area#
+| Operator Class | Example (Original → Mutant) | Target Area
 
-| [.green-bg]#Logical operator swap# | [.green-bg]#`\|\|` → `&&`# | [.green-bg]#Order validation guards, payment state checks#
-| [.green-bg]#Arithmetic operator swap# | [.green-bg]#`+` → `-`# | [.green-bg]#Pricing calculations, quantity computations#
-| [.green-bg]#Boundary shift# | [.green-bg]#`quantity > 0` → `quantity >= 0`# | [.green-bg]#Order Processing boundary conditions#
-| [.green-bg]#Constant replacement# | [.green-bg]#`x` → `0`, `1`, `-1`# | [.green-bg]#Payment IDs, confirmation IDs, computed totals#
-| [.green-bg]#Return value removal# | [.green-bg]#`return data` → `return null`# | [.green-bg]#Profile retrieval, payment state propagation#
-| [.green-bg]#Validation guard removal# | [.green-bg]#Remove error check entirely# | [.green-bg]#Supabase error guards, Stripe response validation#
+| Logical operator swap | `\|\|` → `&&` | Order validation guards, payment state checks
+| Arithmetic operator swap | `+` → `-` | Pricing calculations, quantity computations
+| Boundary shift | `quantity > 0` → `quantity >= 0` | Order Processing boundary conditions
+| Constant replacement | `x` → `0`, `1`, `-1` | Payment IDs, confirmation IDs, computed totals
+| Return value removal | `return data` → `return null` | Profile retrieval, payment state propagation
+| Validation guard removal | Remove error check entirely | Supabase error guards, Stripe response validation
 |===
 
-==== [.green-bg]#Results by Component#
+==== Results by Component
 
-===== [.green-bg]#Profile Management#
+===== Profile Management
 
-[.green-bg]#The mutation analysis for Profile Management Logic (`MutationTestingProfiles.adoc`) identified six high-risk mutation classes. The primary surviving-mutant risk is in functions that return `data` from a Supabase insert or update: tests that only assert `resolves.not.toThrow()` cannot kill a `return null` mutant. The analysis produced a canonical test design showing that assertions must verify specific field values on the returned record — not merely that no exception was thrown.#
+The mutation analysis for Profile Management Logic (`MutationTestingProfiles.adoc`) identified six high-risk mutation classes. The primary surviving-mutant risk is in functions that return `data` from a Supabase insert or update: tests that only assert `resolves.not.toThrow()` cannot kill a `return null` mutant. The analysis produced a canonical test design showing that assertions must verify specific field values on the returned record — not merely that no exception was thrown.
 
-[.green-bg]#Key mutants designed and their kill conditions:#
+Key mutants designed and their kill conditions:
 
-[.green-bg]
 * *`return data` → `return null`* in `createProfile` — killed by asserting `result.user_id` equals the input value.
 * *Missing `user_id` in insert* — killed by asserting the persisted record links to the authenticated user.
 * *Wrong field updated* (e.g., writing `full_name` when `phone` was intended) — killed by asserting the correct field changed and the other did not.
 * *Removed Supabase error guard* — killed by asserting that a simulated error causes the function to throw rather than return silently.
 
-===== [.green-bg]#Order Processing Logic#
+===== Order Processing Logic
 
-[.green-bg]#The analysis for Order Processing (`MutationTestingOrder.adoc`) found that the highest-risk mutations are those that alter boundary conditions. A representative case is changing `quantity > 0` to `quantity >= 0`, which allows orders with zero items to be accepted. If existing tests do not assert that zero-item orders are explicitly rejected, this mutant survives. The analysis recommends parameterized boundary tests that supply quantities of `-1`, `0`, and `1` and assert distinct outcomes for each.#
+The analysis for Order Processing (`MutationTestingOrder.adoc`) found that the highest-risk mutations are those that alter boundary conditions. A representative case is changing `quantity > 0` to `quantity >= 0`, which allows orders with zero items to be accepted. If existing tests do not assert that zero-item orders are explicitly rejected, this mutant survives. The analysis recommends parameterized boundary tests that supply quantities of `-1`, `0`, and `1` and assert distinct outcomes for each.
 
-===== [.green-bg]#Stripe Payment Workflow#
+===== Stripe Payment Workflow
 
-[.green-bg]#The most detailed mutation analysis covers the Stripe payment workflow (`payment-mutation-testing-design.adoc`). Five specific mutants were designed across the three workflow stages (initiation, confirmation, finalization):#
+The most detailed mutation analysis covers the Stripe payment workflow (`payment-mutation-testing-design.adoc`). Five specific mutants were designed across the three workflow stages (initiation, confirmation, finalization):
 
 [cols="1,2,2,1", options="header"]
 |===
-| [.green-bg]#Mutant# | [.green-bg]#Stage# | [.green-bg]#Mutated Behavior# | [.green-bg]#Test Type#
+| Mutant | Stage | Mutated Behavior | Test Type
 
-| [.green-bg]#M1: Skip Payment Validation# | [.green-bg]#Confirmation# | [.green-bg]#Status set to successful without validating Stripe response# | [.green-bg]#Unit + Integration#
-| [.green-bg]#M2: Premature Order Confirmation# | [.green-bg]#Finalization# | [.green-bg]#Order confirmed before payment status verified# | [.green-bg]#Integration#
-| [.green-bg]#M3: Incorrect Status Handling# | [.green-bg]#Confirmation# | [.green-bg]#Failed/pending payment treated as successful# | [.green-bg]#Unit#
-| [.green-bg]#M4: Confirmation ID on Failed Payment# | [.green-bg]#Finalization# | [.green-bg]#Confirmation ID generated without verifying success# | [.green-bg]#Integration#
-| [.green-bg]#M5: Order Confirmed While Pending# | [.green-bg]#Finalization# | [.green-bg]#Order confirmed while payment still pending# | [.green-bg]#Integration#
+| M1: Skip Payment Validation | Confirmation | Status set to successful without validating Stripe response | Unit + Integration
+| M2: Premature Order Confirmation | Finalization | Order confirmed before payment status verified | Integration
+| M3: Incorrect Status Handling | Confirmation | Failed/pending payment treated as successful | Unit
+| M4: Confirmation ID on Failed Payment | Finalization | Confirmation ID generated without verifying success | Integration
+| M5: Order Confirmed While Pending | Finalization | Order confirmed while payment still pending | Integration
 |===
 
-[.green-bg]#All five mutants must be killed by the test suite. M3 is the highest-priority target for unit testing; M1, M2, M4, and M5 require integration-level tests that simulate Stripe API responses.#
+All five mutants must be killed by the test suite. M3 is the highest-priority target for unit testing; M1, M2, M4, and M5 require integration-level tests that simulate Stripe API responses.
 
-==== [.green-bg]#Mutation Score Guidance#
+==== Mutation Score Guidance
 
-[.green-bg]#The team uses the following mutation score thresholds to guide test improvement, as established in the profile analysis:#
+The team uses the following mutation score thresholds to guide test improvement, as established in the profile analysis:
 
 [cols="1,2", options="header"]
 |===
-| [.green-bg]#Score Range# | [.green-bg]#Interpretation and Action#
+| Score Range | Interpretation and Action
 
-| [.green-bg]#0–60%# | [.green-bg]#Critical gaps. Add tests for all core operations before any further feature work.#
-| [.green-bg]#60–80%# | [.green-bg]#Basic behaviors covered. Add parameterized boundary tests and combined-condition assertions.#
-| [.green-bg]#80–90%# | [.green-bg]#Good coverage. Investigate surviving mutants individually; strengthen assertions.#
-| [.green-bg]#90–100%# | [.green-bg]#Target range. Focus on test readability and maintainability rather than chasing final mutants.#
+| 0–60% | Critical gaps. Add tests for all core operations before any further feature work.
+| 60–80% | Basic behaviors covered. Add parameterized boundary tests and combined-condition assertions.
+| 80–90% | Good coverage. Investigate surviving mutants individually; strengthen assertions.
+| 90–100% | Target range. Focus on test readability and maintainability rather than chasing final mutants.
 |===
-
 
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
@@ -1931,7 +1770,6 @@ All AI-generated content was reviewed by the team by researching websites, libra
 === Reflection
 
 AI use enhanced our productivity by providing quick access to complex information and generating initial drafts. However, we recognized, for example, a dependency risk for AsciiDoc formatting that resulted in some formatting errors or inability to memorize specific syntax. Finally, the project taught us that AI is most effective as a supportive tool for speed and clarification, provided it is guided by human verification process.
-
 
 == Appendix B: Log of Changes
 
