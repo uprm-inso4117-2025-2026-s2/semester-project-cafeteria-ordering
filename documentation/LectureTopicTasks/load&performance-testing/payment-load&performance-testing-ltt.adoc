@@ -2,7 +2,7 @@
 
 == Introduction
 
-This report presents the results of testing conducted on the payment flow of the Cafeteria Ordering System, based on the design of the payment screen. The goal was to understand how the system behaves under different levels of user activity and whether it remains responsive and reliable during both normal and peak usage.
+This report presents the results of testing conducted on the payment flow of the Cafeteria Ordering System, based on the design of the payment screen. The goal was to understand how the system behaves under different levels of user activity and whether it remains responsive and reliable during normal and peak usage.
 
 To do this, three types of tests were performed: performance testing with a single user, load testing with a realistic number of users, and stress testing with higher-than-expected usage.
 
@@ -41,16 +41,28 @@ This test measured how the system performs when only one user is submitting paym
 | Metric | Value
 
 | Average Response Time
-| 493.33 ms
+| 453.6 ms
 
 | P95 Response Time
-| 601.91 ms
+| 582 ms
+
+| Average Latency
+| 453.6 ms
+
+| P95 Latency
+| 582 ms
 
 | Throughput
-| 1.39 requests/second
+| 2.2 requests/second
 
 | Failure Rate
 | 0.00%
+
+| Success Rate
+| 100.00%
+
+| Payments Processed
+| 10
 |===
 
 The system performed consistently under these conditions, with stable response times and no failures.
@@ -64,19 +76,31 @@ This test simulated multiple users submitting payments at the same time to repre
 | Metric | Value
 
 | Average Response Time
-| 412.70 ms
+| 409.54 ms
 
 | P95 Response Time
-| 576.03 ms
+| 592.2 ms
+
+| Average Latency
+| 409.59 ms
+
+| P95 Latency
+| 592 ms
 
 | Throughput
-| 16.13 requests/second
+| 8.72 requests/second
 
 | Failure Rate
-| 0.78%
+| 2.67%
+
+| Success Rate
+| 97.33%
+
+| Payments Processed
+| 1533
 |===
 
-Under expected load, the system handled requests efficiently. Response times stayed low, and only a small number of failures occurred.
+Under expected load, the system handled requests efficiently. Response times stayed low, and the success rate remained high even with many more requests being processed.
 
 === Stress Test (High Usage)
 
@@ -87,32 +111,50 @@ This test pushed the system beyond expected usage levels by increasing the numbe
 | Metric | Value
 
 | Average Response Time
-| 411.12 ms
+| 408.66 ms
 
 | P95 Response Time
-| 590.25 ms
+| 590.61 ms
+
+| Average Latency
+| 408.7 ms
+
+| P95 Latency
+| 591 ms
 
 | Throughput
-| 47.00 requests/second
+| 62.35 requests/second
 
 | Failure Rate
-| 2.39%
+| 2.06%
+
+| Success Rate
+| 97.94%
+
+| Payments Processed
+| 11012
 |===
 
-Even under heavy load, the system continued processing requests quickly. However, the higher failure rate shows that reliability starts to drop as the system is pushed further.
+Even under heavy load, the system continued processing requests quickly. The response times remained stable, and the system was still able to process a large number of payments successfully.
 
 == Analysis
 
-Overall, the system performs well under normal and expected usage conditions. The performance test shows that response times are consistent when only one user is active, which suggests the system is stable at a basic level.
+Overall, the results show that the payment flow remained stable across all three testing scenarios. In the performance test, response times were consistent and there were no failures, which suggests that the system behaves well under basic conditions.
 
-During the load test, the system scaled effectively, handling multiple users without a major impact on response time. The small increase in failures is noticeable but still within a reasonable range.
+During the load test, the system handled a much larger number of requests while still keeping response time and latency near the same range as the performance test. Although the failure rate increased to 2.67%, the success rate remained at 97.33%, which suggests that the system can still handle expected usage reasonably well.
 
-The stress test shows what happens when the system is pushed beyond its intended capacity. While it continues to process requests at a high rate, the increase in failures indicates that the system begins to struggle under extreme conditions. This is expected behavior and helps identify where improvements may be needed.
+The stress test produced the highest throughput. Even so, the average response time stayed close to the other scenarios and the success rate remained high at 97.94%. This suggests that the mock payment flow scaled well during testing, although the presence of some failures still shows that reliability can begin to drop as load increases.
+
+One notable observation is that the failure rate in the stress test is slightly lower than in the load test, even though the system is under heavier load. This is likely due to the randomness of the mock simulation rather than an indication that the system performs better under stress.
 
 == Conclusion
 
-The payment flow demonstrates strong performance under normal and moderately high usage. It is able to handle expected levels of traffic while maintaining fast response times and low failure rates.
+The payment flow demonstrates strong performance under normal, expected, and high-usage conditions. It is able to handle increasing levels of traffic while maintaining relatively fast response times and high success rates.
 
-Under extreme conditions, the system continues to function but shows signs of reduced reliability. This suggests that while the current implementation is sufficient for typical use, further improvements could be made to better handle peak demand.
+Although some failures appeared during the load and stress tests, the overall results suggest that the current implementation is capable of supporting typical cafeteria usage and can remain responsive even under heavier demand.
 
 Future work includes validating these results against the fully integrated application once backend connectivity and UI-level testing are fully implemented.
+
+== AI Disclosure
+
+The test scripts and mock testing setup used in this task were generated with the assistance of AI. The execution of the tests, collection of results, and analysis presented in this report were compiled by @SamarysB.
