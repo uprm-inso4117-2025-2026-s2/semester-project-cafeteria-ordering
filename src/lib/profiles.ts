@@ -1,5 +1,3 @@
-import { supabase } from "./supabase"
-
 export interface Profile {
   id?: string
   user_id: string
@@ -12,8 +10,15 @@ export interface Profile {
   updated_at?: string
 }
 
+async function resolveClient(client?: any) {
+  if (client) return client;
+  const { supabase } = await import("./supabase");
+  return supabase;
+}
+
 //Create a new profile
-export async function createProfile(profile: Profile) {
+export async function createProfile(profile: Profile, client?: any) {
+  const supabase = await resolveClient(client)
   const { data, error } = await supabase.from("profiles").insert([profile]).select().single()
   if (error) {
     throw new Error(`Error creating profile: ${error.message}`)
@@ -22,7 +27,8 @@ export async function createProfile(profile: Profile) {
 }
 
 //Use the user_id to find a profile
-export async function getProfileByUserId(userId: string) {
+export async function getProfileByUserId(userId: string, client?: any) {
+  const supabase = await resolveClient(client)
   const { data, error } = await supabase.from("profiles").select("*").eq("user_id", userId).maybeSingle()
   if (error) {
     throw new Error(`Error finding profile: ${error.message}`)
@@ -31,8 +37,9 @@ export async function getProfileByUserId(userId: string) {
 }
 
 //Update the name of a profile
-export async function updateProfileName(userId: string, fullName: string) {
-  const { data, error } = await supabase.from("profiles").update({full_name: fullName}).eq("user_id", userId).select().single()
+export async function updateProfileName(userId: string, fullName: string, client?: any) {
+  const supabase = await resolveClient(client)
+  const { data, error } = await supabase.from("profiles").update({ full_name: fullName }).eq("user_id", userId).select().single()
   if (error) {
     throw new Error(`Error updating name: ${error.message}`)
   }
@@ -40,16 +47,18 @@ export async function updateProfileName(userId: string, fullName: string) {
 }
 
 //Update the phone of a profile
-export async function updateProfilePhone(userId: string, phone: string) {
-  const { data, error } = await supabase.from("profiles").update({phone: phone}).eq("user_id", userId).select().single()
+export async function updateProfilePhone(userId: string, phone: string, client?: any) {
+  const supabase = await resolveClient(client)
+  const { data, error } = await supabase.from("profiles").update({ phone: phone }).eq("user_id", userId).select().single()
   if (error) {
     throw new Error(`Error updating phone: ${error.message}`)
   }
   return data
 }
 
-//  kill a profile
-export async function deleteProfile(userId: string) {
+//Delete a profile
+export async function deleteProfile(userId: string, client?: any) {
+  const supabase = await resolveClient(client)
   const { error } = await supabase.from("profiles").delete().eq("user_id", userId)
   if (error) {
     throw new Error(`Error deleting profile: ${error.message}`)
