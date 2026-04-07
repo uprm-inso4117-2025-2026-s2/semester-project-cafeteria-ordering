@@ -4,7 +4,7 @@
 
 == Purpose ==
 
-This document defines Behavior-Driven Development (BDD) scenarios for the Menu Browsing Flow of the Cafeteria Mobile Ordering System. The gial is to formalize how users interact with the menu interface by expressing expected behaviors in a structured, scenario-driven format. These scenarios help ensure that the implemented functionality aligns with user expectations and supports validation from an acceptance test perspective.
+This document defines Behavior-Driven Development (BDD) scenarios for the Menu Browsing Flow of the Cafeteria Mobile Ordering System. The goal is to formalize how users interact with the menu interface by expressing expected behaviors in a structured, scenario-driven format. These scenarios help ensure that the implemented functionality aligns with user expectations and supports validation from an acceptance test perspective.
 
 == Scope == 
 
@@ -12,7 +12,7 @@ The scenarios in this document cover the following behaviors within the Menu Pag
 
 * Loading and displaying menu items
 * Presenting menu data in a structured format
-* Allowing users to select menu utems
+* Allowing users to select menu items
 * Displaying accurate item details
 * Handling empty or missing data states
 * Handling unavailable items
@@ -21,7 +21,7 @@ This document is limited to the menu browsing experience and does not include or
 
 == Context and Alignment == 
 
-These BDD scenarios are derived from the currrent implementation of the Menu Page and its associated dummy data sources.
+These BDD scenarios are derived from the current implementation of the Menu Page and its associated dummy data sources.
 
 They are intended to:
 
@@ -32,7 +32,7 @@ They are intended to:
 
 == BDD Goals ==
 
-The primry goals of this specification are:
+The primary goals of this specification are:
 
 * Describe user interaction in a clear, testable format
 * Define expected system responses to user actions
@@ -77,7 +77,7 @@ Feature: Menu browsing
 ----
 Feature: Menu browsing
 
-    Scenario: Selecting a menu item displayed its details and interaction options
+    Scenario: Selecting a menu item displays its details and interaction options
         Given the user is viewing the list of menu items
         When the user taps on a specific menu item
         Then the system should navigate to or display the item detail view
@@ -99,7 +99,7 @@ Feature: Menu browsing
 Feature: Menu browsing
 
     Scenario: Menu page displays empty state
-        Given the menu dataset it empty
+        Given the menu dataset its empty
         When the user opens the menu page
         Then the system should display an empty state message
         And the interface should not display broken or incomplete components
