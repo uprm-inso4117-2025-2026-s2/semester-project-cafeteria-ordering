@@ -180,19 +180,51 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a theoretical analysis of mutation testing that demonstrates how introducing small changes in Order Processing Logic can evaluate the sensitivity of the test suite and reveal weaknesses in test coverage
 
-==== LTT-20-(issue-291): Mutation Testing Prioritization Strategy for the Cafeteria Ordering System
+==== LTT-20-(issue-414): Design of Possible Mutants for Stripe Payment Workflow
 
-*Lecture Topic:* Mutation Testing
+*Lecture Topic:* Design of Possible Mutants for Stripe Payment Workflow
 
 *Deliverables:*
 
-- System-wide analysis of components relevant to mutation testing
-- Defined prioritization strategy for applying mutation testing
-- Justification of component prioritization based on impact, complexity, and test sensitivity
+- Document describing the Stripe payment workflow.
+- List of possible mutants with their expected detection.
+- Suggested test cases for edge cases, failures, and invalid states.
 
-*Evidence:* Associated AsciiDoc file and pull request linked to issue
+*Evidence:* Associated Asciidoc file and pull request linked to issue
 
-*Justification:* provides a strategic analysis of mutation testing application that identifies which components of the Cafeteria Ordering System should be prioritized, demonstrating how cost and test sensitivity considerations guide effective use of mutation testing
+*Justification:* provides a structured approach to identify potential faults in the Stripe payment workflow, ensuring payment validation, payment confirmation, and error handling are correctly implemented and reliably tested.
+
+==== LTT-21-(issue-396): BDD Specification for Menu Browsing Flow
+
+*Lecture Topic:* Behavior-Driven Specification
+
+*Deliverables:*
+
+- Five BDD acceptance scenarios covering core and edge behaviors
+- Requirement-to-scenario traceability mapping
+- Clearly defined acceptance criteria
+- A reusable structure for future automated testing
+
+*Evidence:* Associated Gherkin files and AsciiDoc file and pull request linked to issue
+
+*Justification:* Applies Behavior-Driven Development by defining clear, user-centered acceptance scenarios for the Menu Browsing Flow, ensuring alignment between requirements and implementation while supporting traceability and future automated testing.
+
+==== LTT-22-(issue-415): Load and Performance Testing of Payment Screen
+
+*Lecture Topic:* Load and Performance Testing
+
+*Deliverables:*
+
+- json document with testing approach and results of load and performance testing of the payment screen, includes:
+- Description of testing setup using a mock payment service to simulate backend behavior
+- Explanation of test scenarios (single-user, expected load, and stress conditions)
+- Collected metrics including response time, latency, throughput, and failure rate
+- Observations on system responsiveness, reliability, and behavior under increasing load
+- Identification of any delays, failures, or performance degradation
+
+*Evidence:* Associated AsciiDoc report and pull request linked to issue
+
+*Justification:* Evaluates how the payment system behaves under different levels of usage to ensure it remains responsive and reliable during typical cafeteria operations and identifies potential limitations under high load conditions
 
 === Reserved Lecture Topic Tasks
 
