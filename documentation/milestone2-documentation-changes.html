@@ -527,7 +527,7 @@ Friday, February 27, 2026</p>
 <div class="sect3">
 <h4 id="_team_structure">Team Structure</h4>
 <div class="paragraph">
-<p>The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division&#8217;s primary objectives.</p>
+<p><span class="yellow-bg">The project team is organized into six functional divisions: one Documentation team and five feature-based implementation teams. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division&#8217;s primary objectives.</span></p>
 </div>
 </div>
 <div class="sect3">
@@ -600,10 +600,10 @@ Ensure that the project documentation satisfies all hand-in requirements and ali
 </div>
 </div>
 <div class="sect4">
-<h5 id="_quality_assurance_team">Quality Assurance Team</h5>
+<h5 id="_authentication_security_team">Authentication &amp; Security Team</h5>
 <div class="paragraph">
 <p><strong>Objective:</strong><br>
-Identify and implement the initial test suite and configure automated testing using GitHub Actions.</p>
+Implement and secure the authentication and authorization infrastructure of the system.</p>
 </div>
 <div class="paragraph">
 <p><strong>Responsibilities:</strong></p>
@@ -611,19 +611,268 @@ Identify and implement the initial test suite and configure automated testing us
 <div class="ulist">
 <ul>
 <li>
-<p>Define testing strategies (unit, integration, etc.).</p>
+<p>Login and Sign Up implementation</p>
 </li>
 <li>
-<p>Design test cases based on system requirements.</p>
+<p>Continue as guest feature implementation</p>
 </li>
 <li>
-<p>Implement automated tests.</p>
+<p>Password encryption and validation</p>
 </li>
 <li>
-<p>Configure and maintain CI workflows using GitHub Actions.</p>
+<p>Role-Based Access Control (Customer vs Staff)</p>
 </li>
 <li>
-<p>Monitor test coverage and reliability.</p>
+<p>Row-Level Security (RLS) implementation in Supabase</p>
+</li>
+<li>
+<p>Secure Pickup Verification logic</p>
+</li>
+<li>
+<p>Enforcement of access restrictions across all features</p>
+</li>
+<li>
+<p>Authentication-related error handling</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Devlin Hahn-Acosta</p>
+</div>
+<div class="paragraph">
+<p><strong>Co-Lead:</strong> Januel E. Torres-Marquez</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fabiola Z. Torres-Maldonado</p>
+</li>
+<li>
+<p>Ernesto S. Soto-Rivera</p>
+</li>
+<li>
+<p>Luis J. Cruz-Cruz</p>
+</li>
+<li>
+<p>Jahdiel E. Montero-Alicea</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_customer_ordering_payments_team">Customer Ordering &amp; Payments Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Implement the full customer ordering workflow from browsing the menu to completing payment.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Home screen with dynamic menu display</p>
+</li>
+<li>
+<p>Cart management system</p>
+</li>
+<li>
+<p>Order creation and cancellation logic</p>
+</li>
+<li>
+<p>Stripe payment integration</p>
+</li>
+<li>
+<p>Payment confirmation handling</p>
+</li>
+<li>
+<p>Order lifecycle tracking</p>
+</li>
+<li>
+<p>Integration with real-time updates</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Horeb Cotto-Rosado</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Kaysha L. Pagan-Lopez</p>
+</li>
+<li>
+<p>Jon M. Vargas-Torres</p>
+</li>
+<li>
+<p>Yandre Caban-Torres</p>
+</li>
+<li>
+<p>Fernando Castro-Cancel</p>
+</li>
+<li>
+<p>Gerardo Y. Soto-Rios</p>
+</li>
+<li>
+<p>Yadriel Rivera-Rodriguez</p>
+</li>
+<li>
+<p>Karina Lopez-Rodriguez</p>
+</li>
+<li>
+<p>Samarys Barreiro-Melendez</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_staff_operations_real_time_team">Staff Operations &amp; Real-Time Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Handle staff-facing functionality and real-time order management.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Staff dashboard implementation</p>
+</li>
+<li>
+<p>View active orders</p>
+</li>
+<li>
+<p>Mark orders as completed</p>
+</li>
+<li>
+<p>Cancel orders</p>
+</li>
+<li>
+<p>Real-time order updates</p>
+</li>
+<li>
+<p>Push notification logic</p>
+</li>
+<li>
+<p>Order state transitions and integrity validation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Reinaldo J. Martinez-Morales</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Yamilette C. Alemany-Vazquez</p>
+</li>
+<li>
+<p>Natalia S. Vera-Rivera</p>
+</li>
+<li>
+<p>Osvaldo F. Figueroa-Canino</p>
+</li>
+<li>
+<p>Aryam Z. Diaz-Torres</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_profile_offline_support_team">Profile &amp; Offline Support Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Manage user profile functionality and offline capabilities.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Profile screen implementation</p>
+</li>
+<li>
+<p>Profile data persistence</p>
+</li>
+<li>
+<p>Editing and updating user information</p>
+</li>
+<li>
+<p>Order history display</p>
+</li>
+<li>
+<p>Offline data caching</p>
+</li>
+<li>
+<p>Offline-to-online synchronization logic</p>
+</li>
+<li>
+<p>Conflict resolution validation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Andrea P. Segarra-Felix</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Daniella I. Melero-Pereira</p>
+</li>
+<li>
+<p>Pedro J. Bonilla-Morales</p>
+</li>
+<li>
+<p>Kevin J. Lara-Rodriguez</p>
+</li>
+<li>
+<p>Lorenzo A. Perez-Torres</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_central_qa_automation_core">Central QA Automation Core</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Oversee system-wide quality and automation.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Maintain GitHub Actions CI/CD pipeline</p>
+</li>
+<li>
+<p>Expand automated regression suite</p>
+</li>
+<li>
+<p>Monitor test coverage</p>
+</li>
+<li>
+<p>Enforce entry/exit testing criteria</p>
+</li>
+<li>
+<p>Generate milestone-level QA reports</p>
+</li>
+<li>
+<p>Ensure integration testing across teams</p>
 </li>
 </ul>
 </div>
@@ -636,139 +885,10 @@ Identify and implement the initial test suite and configure automated testing us
 <div class="ulist">
 <ul>
 <li>
-<p>Horeb Cotto-Rosado</p>
-</li>
-<li>
-<p>Kevin J. Lara-Rodriguez</p>
-</li>
-<li>
 <p>Kian R. Ramos-Vega</p>
 </li>
 <li>
 <p>Lucas A. Matos-Datiz</p>
-</li>
-<li>
-<p>Januel E. Torres-Marquez</p>
-</li>
-<li>
-<p>Devlin Hahn-Acosta</p>
-</li>
-<li>
-<p>Gerardo Y. Soto-Rios</p>
-</li>
-<li>
-<p>Yadriel Rivera-Rodriguez</p>
-</li>
-<li>
-<p>Aryam Z. Diaz-Torres</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_research_and_set_up_team">Research and Set Up Team</h5>
-<div class="paragraph">
-<p><strong>Objective:</strong><br>
-Research and establish the technical foundation of the project, including mobile framework selection and backend/database configuration.</p>
-</div>
-<div class="paragraph">
-<p><strong>Responsibilities:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Set up the initial project structure and development environment.</p>
-</li>
-<li>
-<p>Implement core functionality using React Native.</p>
-</li>
-<li>
-<p>Evaluate and select an appropriate database solution.</p>
-</li>
-<li>
-<p>Define backend requirements and integration approach.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Team Lead:</strong> Fernando Castro-Cancel</p>
-</div>
-<div class="paragraph">
-<p><strong>Members:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Osvaldo F. Figueroa-Canino</p>
-</li>
-<li>
-<p>Yandre Caban-Torres</p>
-</li>
-<li>
-<p>Luis J. Cruz-Cruz</p>
-</li>
-<li>
-<p>Pedro J. Bonilla-Morales</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_ui_team">UI Team</h5>
-<div class="paragraph">
-<p><strong>Objective:</strong><br>
-Define the application&#8217;s branding, visual identity, and user experience.</p>
-</div>
-<div class="paragraph">
-<p><strong>Responsibilities:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Design the application&#8217;s interface and layout.</p>
-</li>
-<li>
-<p>Establish branding guidelines (colors, typography, design system).</p>
-</li>
-<li>
-<p>Define user workflows and navigation structure.</p>
-</li>
-<li>
-<p>Ensure usability and accessibility standards are considered.</p>
-</li>
-<li>
-<p>Collaborate with the development team to implement UI components.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Team Lead:</strong> Yamilette C. Alemany-Vazquez</p>
-</div>
-<div class="paragraph">
-<p><strong>Members:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Daniella I. Melero-Pereira</p>
-</li>
-<li>
-<p>Andrea P. Segarra-Felix</p>
-</li>
-<li>
-<p>Fabiola Z. Torres-Maldonado</p>
-</li>
-<li>
-<p>Natalia S. Vera-Rivera</p>
-</li>
-<li>
-<p>Jon M. Vargas-Torres</p>
-</li>
-<li>
-<p>Kaysha L. Pagan-Lopez</p>
-</li>
-<li>
-<p>Ernesto S. Soto-Rivera</p>
 </li>
 </ul>
 </div>
@@ -1190,9 +1310,9 @@ Staff responsible for preparing meals, handling orders, processing payments, and
 <p>(entity, domain)
 <span class="yellow-bg">A request made by a customer for one or more items from the menu.</span></p>
 </dd>
-<dt class="hdlist1">[.green-bg]#Pickup Code </dt>
+<dt class="hdlist1">Pickup Code </dt>
 <dd>
-<p>(entity, domain)#
+<p>(entity, domain)
 <span class="green-bg">A short numeric code generated at the time an order is placed, assigned to that order, and presented to the customer. The code is used at the pickup counter to verify that the correct customer is collecting the order, reducing the risk of incorrect handoff or order theft.</span></p>
 </dd>
 <dt class="hdlist1">Queue </dt>
@@ -4059,7 +4179,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-04-07 19:02:27 -0400
+Last updated 2026-04-07 19:31:52 -0400
 </div>
 </div>
 </body>

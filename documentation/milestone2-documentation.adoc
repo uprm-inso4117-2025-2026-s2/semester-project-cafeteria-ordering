@@ -17,7 +17,7 @@ toc::[]
 
 ==== Team Structure
 
-The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division's primary objectives.
+The project team is organized into six functional divisions: one Documentation team and five feature-based implementation teams. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division's primary objectives.
 
 ==== Managers
 
@@ -51,78 +51,129 @@ Ensure that the project documentation satisfies all hand-in requirements and ali
 * Samarys Barreiro-Melendez
 * Lorenzo A. Perez-Torres
 
-===== Quality Assurance Team
+===== Authentication & Security Team
 
 *Objective:* +
-Identify and implement the initial test suite and configure automated testing using GitHub Actions.
+Implement and secure the authentication and authorization infrastructure of the system.
 
 *Responsibilities:*
 
-* Define testing strategies (unit, integration, etc.).
-* Design test cases based on system requirements.
-* Implement automated tests.
-* Configure and maintain CI workflows using GitHub Actions.
-* Monitor test coverage and reliability.
+* Login and Sign Up implementation
+* Continue as guest feature implementation
+* Password encryption and validation
+* Role-Based Access Control (Customer vs Staff)
+* Row-Level Security (RLS) implementation in Supabase
+* Secure Pickup Verification logic
+* Enforcement of access restrictions across all features
+* Authentication-related error handling
+
+*Team Lead:* Devlin Hahn-Acosta
+
+*Co-Lead:* Januel E. Torres-Marquez
+
+*Members:*
+
+* Fabiola Z. Torres-Maldonado
+* Ernesto S. Soto-Rivera
+* Luis J. Cruz-Cruz
+* Jahdiel E. Montero-Alicea
+
+===== Customer Ordering & Payments Team
+
+*Objective:* +
+Implement the full customer ordering workflow from browsing the menu to completing payment.
+
+*Responsibilities:*
+
+* Home screen with dynamic menu display
+* Cart management system
+* Order creation and cancellation logic
+* Stripe payment integration
+* Payment confirmation handling
+* Order lifecycle tracking
+* Integration with real-time updates
+
+*Team Lead:* Horeb Cotto-Rosado
+
+*Members:*
+
+* Kaysha L. Pagan-Lopez
+* Jon M. Vargas-Torres
+* Yandre Caban-Torres
+* Fernando Castro-Cancel
+* Gerardo Y. Soto-Rios
+* Yadriel Rivera-Rodriguez
+* Karina Lopez-Rodriguez
+* Samarys Barreiro-Melendez
+
+===== Staff Operations & Real-Time Team
+
+*Objective:* +
+Handle staff-facing functionality and real-time order management.
+
+*Responsibilities:*
+
+* Staff dashboard implementation
+* View active orders
+* Mark orders as completed
+* Cancel orders
+* Real-time order updates
+* Push notification logic
+* Order state transitions and integrity validation
+
+*Team Lead:* Reinaldo J. Martinez-Morales
+
+*Members:*
+
+* Yamilette C. Alemany-Vazquez
+* Natalia S. Vera-Rivera
+* Osvaldo F. Figueroa-Canino
+* Aryam Z. Diaz-Torres
+
+===== Profile & Offline Support Team
+
+*Objective:* +
+Manage user profile functionality and offline capabilities.
+
+*Responsibilities:*
+
+* Profile screen implementation
+* Profile data persistence
+* Editing and updating user information
+* Order history display
+* Offline data caching
+* Offline-to-online synchronization logic
+* Conflict resolution validation
+
+*Team Lead:* Andrea P. Segarra-Felix
+
+*Members:*
+
+* Daniella I. Melero-Pereira
+* Pedro J. Bonilla-Morales
+* Kevin J. Lara-Rodriguez
+* Lorenzo A. Perez-Torres
+
+===== Central QA Automation Core
+
+*Objective:* +
+Oversee system-wide quality and automation.
+
+*Responsibilities:*
+
+* Maintain GitHub Actions CI/CD pipeline
+* Expand automated regression suite
+* Monitor test coverage
+* Enforce entry/exit testing criteria
+* Generate milestone-level QA reports
+* Ensure integration testing across teams
 
 *Team Lead:* Jorge L. Deleon-Orama
 
 *Members:*
 
-* Horeb Cotto-Rosado
-* Kevin J. Lara-Rodriguez
 * Kian R. Ramos-Vega
 * Lucas A. Matos-Datiz
-* Januel E. Torres-Marquez
-* Devlin Hahn-Acosta
-* Gerardo Y. Soto-Rios
-* Yadriel Rivera-Rodriguez
-* Aryam Z. Diaz-Torres
-
-===== Research and Set Up Team
-
-*Objective:* +
-Research and establish the technical foundation of the project, including mobile framework selection and backend/database configuration.
-
-*Responsibilities:*
-
-* Set up the initial project structure and development environment.
-* Implement core functionality using React Native.
-* Evaluate and select an appropriate database solution.
-* Define backend requirements and integration approach.
-
-*Team Lead:* Fernando Castro-Cancel
-
-*Members:*
-
-* Osvaldo F. Figueroa-Canino
-* Yandre Caban-Torres
-* Luis J. Cruz-Cruz
-* Pedro J. Bonilla-Morales
-
-===== UI Team
-
-*Objective:* +
-Define the application's branding, visual identity, and user experience.
-
-*Responsibilities:*
-
-* Design the application's interface and layout.
-* Establish branding guidelines (colors, typography, design system).
-* Define user workflows and navigation structure.
-* Ensure usability and accessibility standards are considered.
-* Collaborate with the development team to implement UI components.
-
-*Team Lead:* Yamilette C. Alemany-Vazquez
-
-*Members:*
-
-* Daniella I. Melero-Pereira
-* Andrea P. Segarra-Felix
-* Fabiola Z. Torres-Maldonado
-* Natalia S. Vera-Rivera
-* Jon M. Vargas-Torres
-* Kaysha L. Pagan-Lopez
-* Ernesto S. Soto-Rivera
 
 ===== Partners
 
