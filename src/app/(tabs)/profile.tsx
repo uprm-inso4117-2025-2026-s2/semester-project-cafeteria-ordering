@@ -1,7 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Colors, Typography } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { supabase } from "@/lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -16,8 +19,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Colors, Typography } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 
 
 function ConfirmModal({
@@ -96,6 +97,19 @@ export default function ProfileScreen() {
   const [statusModal, setStatusModal] = useState(false);
   const [selectedReqs, setSelectedReqs] = useState<string[]>([]);
   const [reqNote, setReqNote] = useState("");
+
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+
+    setLogoutModal(false);
+
+    if (error) {
+      Alert.alert("Logout failed", "Please try again.");
+      return;
+    }
+
+    router.replace("/signup");
+  }
 
   const REQUIREMENTS = ["Severe Allergy", "Time Restriction", "Medical Diet", "Religious / Cultural Diet", "Other"];
 
@@ -219,7 +233,7 @@ export default function ProfileScreen() {
 
       <ConfirmModal
         visible={logoutModal} onClose={() => setLogoutModal(false)}
-        onConfirm={() => { setLogoutModal(false); Alert.alert("Logged out"); }}
+        onConfirm={handleLogout}
         title="Log out?" body="Are you sure you want to log out?"
         confirmLabel="Log out" bgColor={Colors.pastelPeach} confirmTextColor={Colors.light.alternateText}
       />
