@@ -1,0 +1,193 @@
+= Evaluating Property-Based Testing for Order Pricing Reliability
+:author: @Alma-pineiro
+:toc:
+:sectnums:
+
+== Objective
+
+Evaluate whether Property-Based Testing (PBT) is a feasible and beneficial
+testing strategy for validating pricing logic, discounts, taxes,
+and order evaluation consistency in the Cafeteria Ordering System.
+
+The goal is to determine if PBT would significantly improve:
+
+* Financial correctness
+* Edge-case detection
+* Long-term architectural reliability
+* Scalability of future business logic
+
+== What is Property-Based Testing?
+
+Property-Based Testing (PBT) is a methodology where developers:
+
+* Define system properties (invariants)
+* Generate random inputs automatically
+* Verify that properties hold for all generated cases
+
+If a failure occurs, the framework shrinks the failing input
+to the smallest reproducible case.
+
+Example properties for pricing:
+
+* Total must never be negative.
+* Discounts must never increase the total.
+* Interpreter and compiled evaluators must produce identical totals.
+
+== Comparison with Other Testing Approaches
+
+=== Traditional Unit Testing
+
+Traditional unit testing:
+
+* Uses predefined inputs
+* Validates expected outputs
+* Is easy to debug
+
+Limitations:
+
+* Limited edge-case coverage
+* High maintenance when rules expand
+
+PBT complements unit testing by exploring thousands of combinations automatically.
+
+=== Fuzzing
+
+Fuzzing:
+
+* Generates malformed or unexpected inputs
+* Focuses on crashes and runtime failures
+
+PBT differs because it validates logical correctness,
+not just system stability.
+
+=== Model Checking
+
+Model checking:
+
+* Formally verifies all possible states
+* Is exhaustive but computationally expensive
+
+PBT provides probabilistic exploration
+with lower implementation cost.
+
+== Applying PBT to the Cafeteria Ordering System
+
+=== Random Order Generators
+
+Generators should create:
+
+* Random item lists
+* Boundary quantities (0, 1, very large)
+* Empty orders
+* Mixed taxable and non-taxable items
+
+Properties:
+
+* Total >= 0
+* Removing an item never increases total
+* Adding an item increases total appropriately
+
+=== Nested Combo Generators
+
+Generators must support:
+
+* Combos containing items
+* Combos containing other combos
+* Deep nesting
+* Prevention of cyclic references
+
+Properties:
+
+* Combo total equals evaluated components
+* No double-application of discounts
+
+=== Tax and Discount Scenarios
+
+Generators vary:
+
+* Percentage discounts (0–100%)
+* Fixed discounts
+* Stacked discounts
+* Regional taxes
+
+Critical properties:
+
+* Tax is applied only once
+* Order total = subtotal - discounts + taxes
+* No negative totals
+
+== Interpreter vs Compiled Execution Agreement
+
+Given the stack-based pricing architecture,
+a key property is:
+
+"Both execution modes must always produce identical totals."
+
+PBT is well-suited to verify architectural consistency.
+
+== Importance of Shrinking
+
+Shrinking reduces failing inputs to minimal cases.
+
+Benefits:
+
+* Faster debugging
+* Clear defect isolation
+* Easier reproduction
+
+== Risks and Limitations
+
+* Learning curve for writing properties
+* Generator complexity
+* Increased CI execution time
+* Poorly defined properties reduce effectiveness
+
+== Required Changes
+
+=== To Be Created
+
+* Property definitions
+* Order generators
+* Combo generators
+* Tax/discount generators
+* Parity validation suite
+
+=== To Be Modified
+
+* Test architecture
+* CI configuration
+
+=== To Be Reviewed
+
+* Discount stacking rules
+* Tax calculation assumptions
+* Existing pricing tests
+
+== Key Constraints
+
+* CI runtime limits
+* Deterministic seeding required
+* Generator depth must be bounded
+* Must follow AsciiDoc formatting standards
+
+== Final Recommendation
+
+Recommendation: *Partially Adopt (Pricing Logic Only)*
+
+Adopt PBT for:
+
+* Order evaluation
+* Discount stacking
+* Tax calculations
+* Interpreter vs compiled parity
+
+Maintain traditional unit tests for:
+
+* Specific business rules
+* Regression testing
+
+== Conclusion
+
+Property-Based Testing provides strong benefits for the Cafeteria Ordering Project because it increases financial correctness, improves resilience to complex edge cases, and enhances the long-term scalability and maintainability of the pricing and order evaluation architecture.
+By systematically validating pricing invariants across a wide range of automatically generated scenarios, PBT reduces the risk of hidden calculation errors, discount stacking inconsistencies, and tax misapplications. It also strengthens confidence in interpreter and compiled execution agreement within the stack-based pricing engine.
+For these reasons, adopting Property-Based Testing for pricing logic and order evaluation is a strategic investment that improves reliability, supports future business rule expansion, and ensures consistent financial behavior as the system evolves.

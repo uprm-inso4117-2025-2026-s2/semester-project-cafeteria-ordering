@@ -15,6 +15,7 @@ import { Colors, Typography } from '@/constants/theme';
 import { deleteMenuItem, fetchAllMenuItems, fetchMenuCategories, MenuCategory, MenuItemData } from '@/lib/menu';
 import NewMenuItemModal from '@/components/NewMenuItemModal';
 import StaffMenuItemRow from '@/components/StaffMenuItemRow';
+import BaseDrawer from "@/components/StaffNavDrawer";
 
 type Section = {
   title: string;
@@ -96,21 +97,32 @@ export default function StaffMenuScreen() {
     [items, categories, buildSections]
   );
 
-  return (
-    <>
-      <Stack.Screen options={{ headerShown: false }} />
+return (
+  <>
+    <Stack.Screen options={{ headerShown: false }} />
+
+    <BaseDrawer>
       <View style={styles.container}>
         {/* Header */}
         <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
-          <Pressable onPress={() => router.back()} style={styles.backButton} hitSlop={8}>
+          <Pressable
+            onPress={() => router.back()}
+            style={styles.backButton}
+            hitSlop={8}
+          >
             <Text style={styles.backArrow}>←</Text>
           </Pressable>
+
           <Image
-            source={require('../../assets/images/icon.png')}
+            source={require("../../../../documentation/branding/images/Light-Mode-Logo.png")}
             style={styles.logo}
             resizeMode="contain"
           />
-          <Pressable style={styles.newItemButton} onPress={() => setShowNewItemModal(true)}>
+
+          <Pressable
+            style={styles.newItemButton}
+            onPress={() => setShowNewItemModal(true)}
+          >
             <Text style={styles.newItemText}>+ New Item</Text>
           </Pressable>
         </View>
@@ -145,7 +157,11 @@ export default function StaffMenuScreen() {
             sections={sections}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <StaffMenuItemRow item={item} onPress={() => {}} onDelete={handleDelete} />
+              <StaffMenuItemRow
+                item={item}
+                onPress={() => {}}
+                onDelete={handleDelete}
+              />
             )}
             renderSectionHeader={({ section }) => (
               <View style={styles.sectionHeader}>
@@ -158,14 +174,16 @@ export default function StaffMenuScreen() {
           />
         )}
       </View>
-      <NewMenuItemModal
-        visible={showNewItemModal}
-        categories={categories}
-        onClose={() => setShowNewItemModal(false)}
-        onCreated={handleCreated}
-      />
-    </>
-  );
+    </BaseDrawer>
+
+    <NewMenuItemModal
+      visible={showNewItemModal}
+      categories={categories}
+      onClose={() => setShowNewItemModal(false)}
+      onCreated={handleCreated}
+    />
+  </>
+);
 }
 
 const styles = StyleSheet.create({

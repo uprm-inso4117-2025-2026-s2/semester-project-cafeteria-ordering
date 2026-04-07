@@ -1,0 +1,156 @@
+= Mutation Testing Analysis for Profile Management Logic
+:project: Cafeteria Ordering
+:issue: 395
+:assignee: @Pedro-Juan-Bonilla
+
+
+== Introduction
+The purpose of this document is to analyze the application of mutation testing to the Profile Management Logic of the Cafeteria Ordering System. More specifically, this analysis uses mutation testing as a specification tool. By enumerating likely mutants for Profile Management Logic before writing tests, we can derive exactly what each test must assert, and why. This approach produces test exists because it kills at least one meaningful mutant. this is a more rigorous design process than writing tests based on requirements alone, which can lead to gaps in coverage and untested edge cases.
+
+== What Is Mutation Testing?
+
+=== Purpose
+
+Mutation testing is a fault-based software testing technique in which small, deliberate changes, mutants, are injected into the source code one at a time. The resulting mutated program is then executed against the existing test suite. If a test fails when run against the mutant, the mutant is said to be killed. If all tests still pass despite the code change, the mutant survives, it reveals a gap in the test suite. Mutation testing measures whether tests are semantically sensitive to the logic they exercise. A test that covers a validation block but does not assert on the result of that validation will not kill a mutant that disables it.
+
+=== The Mutation Testing Lifecycle
+
+. Generate: mutants from the original source using mutation operators.
+. Execute: the test suite against each mutant independently.
+. Classify results: killed test detected the change or survived test missed it.
+. Analyze: survivors to understand what the tests fail to assert.
+. Design: new tests that target the surviving behaviors.
+
+=== The Design Loop
+
+For each profile operation:
+  1. Identify the critical code path
+  2. List applicable mutation operators
+  3. For each mutant:
+     a. What input exercises the mutated line?
+     b. What output or side effect changes?
+     c. What assertion detects the change?
+  4. Write test that satisfy (c)
+  5. Confirm test kills the mutant
+
+
+== Profile Management Logic: Key Behaviors
+
+Profile creation, profile updates, profile validation, and profile retrieval are the areas Profile Management Logic that are analyzed for mutation risk.
+
+=== Profile Creation
+
+The Profile creation function inserts a new row into the profiles Supabase table using the authenticated user's user_id as the primary key. The function accepts a Profile object and delegates persistence Supabase. The primary mutation risks are the following:
+
+* The user_id field being missing or undefined, creating an orphaned record not linked to any auth user.
+* The Supabase error response being ignored.
+* The function returns undefined instead of the saved record.
+* A duplicate user_id insert is not caught, relying solely on the database unique constraint without surfacing a clear error.
+
+=== Profile Updates
+
+For profiles updates we have two funcitons updateProfileName and updateProfilePhone, both of them filter by user_id and return the updated row. Because both follow the same pattern, they share the same mutation risk profile. Mutation risks focus on the following:
+
+* Using the wrong user_id in the filter, updating a different user's record
+* Updating the wrong field e.g., writing full_name when phone was intended
+* Skipping the error guard, silently ignoring a failed update
+* Returning old data instead of the freshly updated row
+
+=== Data Validation
+
+Since we are using Supabase for the persistence we dont have inline validation logic, the validation is enforced at two levels: the database schema and any caller-side checks applied before invoking these functions. Mutation testing here targets the assumptions those callers make. The highest-risk mutations are those that remove or weaken guards that prevent bad data from reaching the insert/update calls. For example, if there is a guard that checks for a valid email format before calling createProfile, a mutation that removes this guard would allow invalid emails to be inserted. Tests must be designed to assert that invalid data is rejected and that the correct exceptions are thrown.
+
+=== Data Retrieval
+
+Data retrieval is handled by getProfileByUserId, which uses a filter that returns null if no match is found. Mutation risks center on the filter being wrong, the null case being ignored, or the error guard being removed. 
+
+== Designing Tests That Kill Mutants
+
+=== The Anatomy of a Mutant-Killing Test
+
+A test that kills a mutant must satisfy three conditions:
+
+. Reach: the test input must execute the mutated line.
+. Infect: the mutation must cause the program state to differ from the original.
+. Propagate: the changed state must affect an observable output or exception.
+
+.Test that does NOT kill Mutation
+----
+it("createProfile does not crash", async () => {
+
+  const profile: Profile = { user_id: "user-abc", full_name: "Alice" }
+
+  await expect(createProfile(profile)).resolves.not.toThrow()
+
+  // PROBLEM: resolves.not.toThrow() passes even if return value is null
+
+  // Mutation (return data replaced with return null) survives this test
+})
+----
+
+.Test that DOES kill Mutation
+----
+it("createProfile returns the persisted profile with correct fields", async () => {
+
+  const profile: Profile = { user_id: "user-abc", full_name: "Alice", phone: "787-000-0000" }
+
+  const result = await createProfile(profile)
+
+  // Reach: createProfile is called → line C (return data) is exercised
+
+  // Infect: mutant returns null instead of data
+
+  // Propagate: these assertions fail when result is null and thus the mutant is killed
+
+  expect(result).not.toBeNull()
+
+  expect(result.user_id).toBe("user-abc")
+
+  expect(result.full_name).toBe("Alice")
+})
+----
+
+== Mutation Score as a Design Guideline
+
+Mutation Score = (Killed Mutants / Total Non-Equivalent Mutants) × 100%
+
+|===
+| Score Range
+| Interpretation and Design Action
+
+| 0 to 60%
+| Many behaviors are untested leading to critical gaps. Focus on adding tests for core operations is needed.
+
+| 60 to 80%
+| Basic behaviors are covered but it's likely missing boundary conditions and combined-condition assertions. Add parameterized tests at edge cases is needed.
+
+| 80 to 90%
+| Good coverage, but it's still required to investigate surviving mutants carefully since many will expose implicit assumptions. Strengthen assertions.
+
+| 90 to 100%
+| Focus on test readability and maintainability rather than chasing the last mutants.
+|===
+
+== Benefits of Mutation Testing for Test Design
+
+* Precision: Tests are designed with explicit reference to fault classes, not inferred from requirements alone. Leading to each test having a clear purpose.
+* Regression Confidence: A suite that kills mutants will catch real bugs of the same class, as those mutants represent the most common category of logic errors.
+* Documentation: Mutant-based tests are self-documenting. The test name and assertion make clear what specific behavior the test defends.
+* Specification Completeness: Enumerating mutants for a module often reveals cases not mentioned in the specification.
+
+== Limitations of Mutation Testing for Test Design
+
+* Equivalent Mutants: Some mutations do not change behavior for any input. Identifying them requires manual analysis.
+* Scope Blindness: Mutation testing only covers the logic that already exists. It cannot identify missing features or requirements not yet implemented.
+* False Security: A high mutation score does not guarantee correct behavior — only that the test suite can detect the mutations the tool generates. Tests must still be grounded in correct specifications.
+* Integration Gaps: Mutation testing typically targets unit-level logic. It may not catch bugs that only manifest at the integration level (e.g., a correct validation function that is called in the wrong order).
+
+== Summary
+
+This analysis has demonstrated how mutation testing can be used as a proactive test design strategy for Profile Management Logic. By enumerating mutants and designing tests to kill them, we can ensure that our test suite is sensitive to the most common and critical errors.
+
+The key takeaways are:
+
+. Mutation testing elevates test design from coverage-based to behavior-sensitive.
+. Tests that only assert on exception existence, without checking the specific type, message, or state are the most common cause of surviving mutants.
+. Surviving mutants are actionable design feedback, not just an evaluation metric.

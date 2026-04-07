@@ -19,7 +19,11 @@ import darkLogo from '../../../documentation/branding/images/Dark-Mode-Logo.png'
 import lightLogo from '../../../documentation/branding/images/Light-Mode-Logo.png';
 import { useAuth } from '../authContext';
 
-// UI categories 
+import MenuItemCard from '@/components/MenuItemCard';
+import { MenuItem } from '@/models/food-item-class';
+
+
+//UI categories 
 const categories = ['Rating', 'Breakfast', 'Lunch'];
 
 export default function HomeScreen() {
@@ -28,17 +32,21 @@ export default function HomeScreen() {
   const isDark = colorScheme === 'dark';
   const theme = Colors[colorScheme];
 
+  // Authentication and session state variables
   const { user, loggedIn } = useAuth();
 
+  //search input and seleted category state
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Rating');
 
+  //mapping UI category names to actual category IDs in the menu data
   const categoryMap: Record<string, string> = {
     Rating: 'all',
     Breakfast: 'cat2',
     Lunch: 'cat1',
   };
 
+  //filter items based on category and search
   const filteredItems = useMemo(() => {
     const query = search.trim().toLowerCase();
 
@@ -63,6 +71,16 @@ export default function HomeScreen() {
     });
   }, [search, selectedCategory]);
 
+  const handleAddToCart = (menuItem: MenuItem) => {
+    console.log('Added to cart:', menuItem);
+  };
+
+  const handlePressItem = (menuItem: MenuItem) => {
+    router.push(`/menu/${menuItem.getId()}`);
+  };
+
+  //best seller is just the first item for now!!!!!
+
   const bestSeller = dummyMenuItems[0];
 
   return (
@@ -78,7 +96,7 @@ export default function HomeScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      {/* Header */}
+      {/* Header*/}
       <View style={styles.header}>
         <View style={styles.headerTextBlock}>
           <Image
@@ -86,17 +104,14 @@ export default function HomeScreen() {
             style={styles.logo}
             contentFit="contain"
           />
-
+          {/* If user is logged in a personalized greeting is shown, otherwise application shows generic greeting */}
           {loggedIn ? (
-            <ThemedText style={styles.greeting}>
-              Welcome {user?.fullName}!
-            </ThemedText>
+            <>
+            <ThemedText style={[styles.greeting]}>Welcome {user?.fullName}!</ThemedText>
+            </>
           ) : (
-            <ThemedText style={[styles.greeting, { color: theme.text }]}>
-              Hi, User!
-            </ThemedText>
+            <ThemedText style={[styles.greeting, { color: theme.text }]}>Hi, User!</ThemedText>
           )}
-
           <Text
             style={[
               styles.subGreeting,
@@ -111,31 +126,20 @@ export default function HomeScreen() {
           </Text>
         </View>
 
-        {/* 👇 THIS IS THE IMPORTANT PART */}
-        <View style={{ flexDirection: 'row', gap: 10 }}>
-          {/* Edit Profile Button */}
-          <Pressable
-            style={styles.cartButton}
-            onPress={() => router.push('/edit-profile')}
-          >
-            <Ionicons name="person-outline" size={30} color={theme.text} />
-          </Pressable>
-
-          {/* Cart Button */}
-          <Pressable
-            style={styles.cartButton}
-            onPress={() => router.push('/cart')}
-          >
-            <Ionicons
-              name="cart-outline"
-              size={30}
-              color={isDark ? Colors.dark.text : Colors.light.text}
-            />
-          </Pressable>
-        </View>
+        {/* Cart button leads to placeholder*/}
+        <Pressable
+          style={styles.cartButton}
+          onPress={() => router.push('/cart')}
+        >
+          <Ionicons
+            name="cart-outline"
+            size={30}
+            color={isDark ? Colors.dark.text : Colors.light.text}
+          />
+        </Pressable>
       </View>
 
-      {/* Search bar */}
+      {/* search bar*/}
       <View
         style={[
           styles.searchBar,
@@ -154,7 +158,7 @@ export default function HomeScreen() {
         />
       </View>
 
-      {/* Best Seller */}
+      {/* best seller card*/}
       {bestSeller && (
         <Pressable
           style={[
@@ -164,8 +168,20 @@ export default function HomeScreen() {
           onPress={() => router.push(`/menu/${bestSeller.getId()}`)}
         >
           <View style={styles.bestSellerText}>
-            <Text style={styles.bestSellerLabel}>Best Seller</Text>
-            <Text style={styles.bestSellerTitle}>
+            <Text
+              style={[
+                styles.bestSellerLabel,
+                { color: Colors.light.secondaryText },
+              ]}
+            >
+              Best Seller
+            </Text>
+            <Text
+              style={[
+                styles.bestSellerTitle,
+                { color: Colors.light.secondaryText },
+              ]}
+            >
               {bestSeller.getName()}
             </Text>
             <View style={styles.metaRow}>
@@ -184,8 +200,7 @@ export default function HomeScreen() {
           />
         </Pressable>
       )}
-
-      {/* Categories */}
+      {/* category section*/}
       <Text style={[styles.sectionTitle, { color: theme.text }]}>
         Category
       </Text>
@@ -208,83 +223,166 @@ export default function HomeScreen() {
                   backgroundColor: active
                     ? Colors.primaryGreen
                     : Colors.pastelSage,
+                  opacity: active ? 1 : 0.95,
                 },
               ]}
             >
-              <Text style={styles.chipText}>{category}</Text>
-              <Ionicons name="chevron-down" size={16} />
+              <Text
+                style={[
+                  styles.chipText,
+                  {
+                    color: active
+                      ? Colors.light.secondaryText
+                      : Colors.light.alternateText,
+                  },
+                ]}
+              >
+                {category}
+              </Text>
+              <Ionicons
+                name="chevron-down"
+                size={16}
+                color={
+                  active
+                    ? Colors.light.secondaryText
+                    : Colors.light.alternateText
+                }
+              />
             </Pressable>
           );
         })}
       </ScrollView>
 
-      {/* Menu items */}
+      {/* menu items list*/}
       <View style={styles.list}>
-        {filteredItems.map((item) => (
-          <Pressable
-            key={item.getId()}
-            style={[styles.menuCard, { backgroundColor: Colors.primaryGreen }]}
-            onPress={() => router.push(`/menu/${item.getId()}`)}
-          >
-            <Image
-              source={{ uri: item.getImageUrl() }}
-              style={styles.menuImage}
-              contentFit="cover"
-            />
-
-            <View style={styles.menuInfo}>
-              <Text style={styles.menuTitle}>{item.getName()}</Text>
-              <View style={styles.metaRow}>
-                <Ionicons name="star" size={16} color={Colors.pastelPeach} />
-                <Text style={styles.metaText}>4.9</Text>
-                <Text style={styles.metaText}>
-                  ${item.getTotalPrice().toFixed(2)}
-                </Text>
-              </View>
-            </View>
-          </Pressable>
+        {filteredItems.map((menuItem) => (
+          <MenuItemCard
+            key={menuItem.getId()}
+            menuItem={menuItem}
+            onAddToCart={handleAddToCart}
+            onPressItem={handlePressItem}
+          />
         ))}
       </View>
     </ScrollView>
   );
 }
 
+// styles for the home screen
 const styles = StyleSheet.create({
-  screen: { flex: 1 },
-  content: { paddingHorizontal: 16, paddingTop: 24, paddingBottom: 32 },
+  screen: {
+    flex: 1,
+  },
+  content: {
+    paddingHorizontal: 16,
+    paddingTop: 24,
+    paddingBottom: 32,
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 20,
   },
-  headerTextBlock: { flex: 1 },
-  logo: { width: 92, height: 92, alignSelf: 'center' },
-  greeting: { ...Typography.heading, fontSize: 32 },
-  subGreeting: { ...Typography.subheading, fontSize: 20 },
-  cartButton: { padding: 8 },
+  headerTextBlock: {
+    flex: 1,
+  },
+  logo: {
+    width: 92,
+    height: 92,
+    marginBottom: 8,
+    alignSelf: 'center',
+  },
+  greeting: {
+    ...Typography.heading,
+    fontSize: 32,
+    fontWeight: '600',
+  },
+  subGreeting: {
+    ...Typography.subheading,
+    fontSize: 20,
+    fontWeight: '500',
+    marginTop: 4,
+  },
+  cartButton: {
+    padding: 8,
+    marginBottom: 6,
+  },
   searchBar: {
     height: 56,
     borderRadius: 28,
     paddingHorizontal: 18,
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
+    marginBottom: 20,
+    gap: 10,
   },
-  searchInput: { flex: 1 },
-  bestSellerCard: { borderRadius: 12, padding: 16, flexDirection: 'row' },
-  bestSellerText: { flex: 1 },
-  bestSellerLabel: { fontSize: 16 },
-  bestSellerTitle: { fontSize: 24 },
-  bestSellerImage: { width: 128, height: 128 },
-  sectionTitle: { fontSize: 20, marginVertical: 12 },
-  chipRow: { flexDirection: 'row', gap: 12 },
-  chip: { padding: 12, borderRadius: 999, flexDirection: 'row' },
-  chipText: { fontSize: 16 },
-  list: { gap: 14 },
-  menuCard: { borderRadius: 12, padding: 10 },
-  menuImage: { width: '100%', height: 120 },
-  menuInfo: { padding: 6 },
-  menuTitle: { fontSize: 16 },
-  metaRow: { flexDirection: 'row', gap: 10 },
-  metaText: { fontSize: 16 },
+  searchInput: {
+    flex: 1,
+    ...Typography.body,
+    fontSize: 16,
+    color: '#424242',
+  },
+  bestSellerCard: {
+    borderRadius: 12,
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 18,
+  },
+  bestSellerText: {
+    flex: 1,
+    paddingRight: 12,
+  },
+  bestSellerLabel: {
+    ...Typography.body,
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  bestSellerTitle: {
+    ...Typography.heading,
+    fontSize: 24,
+    fontWeight: '600',
+    marginBottom: 10,
+  },
+  bestSellerImage: {
+    width: 128,
+    height: 128,
+    borderRadius: 16,
+  },
+  sectionTitle: {
+    ...Typography.heading,
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  chipRow: {
+    gap: 12,
+    paddingBottom: 12,
+    marginBottom: 8,
+  },
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 999,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    gap: 6,
+  },
+  chipText: {
+    ...Typography.button,
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  metaText: {
+    ...Typography.body,
+    fontSize: 16,
+    color: Colors.light.secondaryText,
+  },
 });
