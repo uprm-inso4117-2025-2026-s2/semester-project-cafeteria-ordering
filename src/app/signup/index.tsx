@@ -131,7 +131,7 @@ function PasswordChecklist({ password }: { password: string }) {
 }
 
 // ─── Validation ───────────────────────────────────────────────────────────────
-function validate(fields: {
+export function validate(fields: {
   fullName: string;
   email: string;
   password: string;
