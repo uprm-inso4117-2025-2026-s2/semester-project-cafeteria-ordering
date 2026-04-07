@@ -1,0 +1,51 @@
+= Sync Feedback Banner — Design Spec
+Cafeteria Ordering App
+@username
+:doctype: article
+:toc: left
+:sectnums:
+
+---
+
+== Overview
+
+This document describes the design of the *Sync Feedback Banner* for the Cafeteria Ordering app. The banner appears at the top of the Profile screen when the app transitions from offline back to online mode, communicating the sync status to the user.
+
+---
+
+== Banner states
+
+Three states were designed, each with a distinct color and icon:
+
+[cols="1,1,1,2", options="header"]
+|===
+| State
+| Color
+| Icon
+| Behavior
+
+| Syncing
+| Blue (#E6F1FB / #378ADD border)
+| Animated spinner
+| Appears when sync starts — stays until resolved
+
+| Success
+| Green (#E1F5EE / #1D9E75 border)
+| Checkmark circle
+| Auto-dismisses after 3 seconds — X to dismiss early
+
+| Error
+| Red (#FCEBEB / #E24B4A border)
+| X circle + Retry button
+| Persists until user taps Retry or it resolves
+|===
+
+---
+
+== Design decisions
+
+* All three states pair an icon with text, never color alone. To meet accessibility standards.
+* The banner is non-blocking — the rest of the screen stays fully usable during sync.
+* The error state includes a *Retry* button directly in the banner so the user does not need to navigate elsewhere.
+* Success auto-dismisses after 3 seconds to avoid cluttering the UI once sync is complete.
+

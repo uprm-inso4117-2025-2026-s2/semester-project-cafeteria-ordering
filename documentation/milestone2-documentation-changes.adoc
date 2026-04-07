@@ -1072,22 +1072,34 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 ==== *Concepts*
 
 * *employee:* person who works in the cafeteria, takes order from customer. (e.g. cafeteria staff member from the uncertainty of the menu, 10min dash, payment bottleneck and post lunch fatigue in section 2.1.1)
+** [.green-bg]#Origin: Observed in the rough sketch as the people operating the counter and in the kitchen by taking requests, preparing food, and responding to disruptions. Can be found in the following rough sketches: The Kitchen’s Blind Spot, The Payment Bottleneck, and The uncertainty of the menu.#
+** [.green-bg]#Reasoning: This concept captures the role of cafeteria staff in the ordering process. It is important to distinguish employees from customers to clarify who performs certain actions and who experiences certain events in the domain.#
 
 * *student:* person who is a student from the university campus and places and order on the cafeteria. (e.g. student coming from Engineering building in 10min dash scenario in section 2.1.1)
+** [.green-bg]#Origin: Repeatedly observed as the primary actors in the cafeteria scenarios; each rough sketch snippet names students and describes their constraints. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, The Payment Bottleneck, and The uncertainty of the menu.#
+** [.green-bg]#Reasoning: This concept captures the primary user group of the cafeteria service. While all students are customers, not all customers may be students, such as faculty, staff, or visitors. It is important to maintain this distinction to ensure that requirements and features can accommodate a broader range of users if needed.#
 
 * *customer:* person who places orders in the cafeteria. Concept indirectly birthed out of, it captures a more general group of people who order inside the cafeteria. (e.g. from 10 min dash, payment bottleneck, post lunch fatigue scenarios in section 2.1.1)
+** [.green-bg]#Origin: Derived by abstracting the repeatedly observed “students obtaining food” into a role-based concept: the person receiving cafeteria service. Can be found in the following rough sketches: The The 10-Minute Dash, The Kitchen's Blind Spot, The Post-Lunch Fatigue, The Payment Bottleneck, and The uncertainty of the menu.#
+** [.green-bg]#Reasoning: This concept captures the broader group of individuals who use the cafeteria service. While students are a significant portion of customers, there may be other users who also need to be accommodated. Using "customer" allows for more inclusive requirements and avoids assumptions that all users are students.#
 
 * *order:* an item or a group of items from the cafeteria associated to a customer.
+** [.green-bg]#Origin: Observed and inferred from situations where customers intend to obtain specific food items and staff anticipate/handle ordering activity. Can be found in the following rough sketches: The Kitchen's Blind Spot, The Payment Bottleneck, and The uncertainty of the menu.#
+** [.green-bg]#Reasoning: This concept captures the core entity that the system will manage. Orders are central to the cafeteria service, and understanding what constitutes an order is essential for defining requirements around order processing, tracking, and fulfillment.#
 
 * *queue:* a list of orders or a line of customers. (e.g. post lunch fatigue from section 2.1.1)
+** [.green-bg]#Origin: Directly observed as a physical line in multiple scenarios. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.#
+** [.green-bg]#Reasoning: This concept captures the idea of waiting and processing order flow.#
 
 * *menu:* a group of items a customer can order. (e.g. from uncertainty of the menu in section 2.1.1)
+** [.green-bg]#Origin: Observed as the domain artifact that customers need to see to decide what to order and whether waiting is worthwhile. Can be found in the following rough sketch: The uncertainty of the menu.#
+** [.green-bg]#Reasoning: This concept captures the selection of items that customers can choose from. It is important for defining requirements around menu management, item availability, and customer decision making.#
 
 ==== Concept Conflicts
 
 * *student / customer:* these terms reference a person, who goes to the cafeteria to order/buy an item(s). If the term student is used, they are a customer who is also a student.
 
-* *queue:* can refer to the line inside the cafeteria or the order queue for a customer.
+* [.red-bg.line-through]#*queue:* can refer to the line inside the cafeteria or the order queue for a customer.#
 
 * *order:* can be viewed as the action that a customer performs, an item(?) an employee reads and delivers.
 
@@ -1095,7 +1107,7 @@ Additionally, in Figure 4, we can see how the staff can see the order details on
 
 * *customer:* must be the term used when referring to the person who orders from the cafeteria. The person being a student can be the state of the customer. Other states may be present for specific customers who have a discount either by being an employee or having athletic student discount.
 
-* *queue:* for this term, qualifiers must be added to separate them from each other. If referring to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise, if referring to the position of the order a customer placed, order queue must be used.
+* [.red-bg.line-through]#*queue:* for this term, qualifiers must be added to separate them from each other. If referring to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise, if referring to the position of the order a customer placed, order queue must be used.#
 
 === 3.2 Validation and Verification
 
@@ -1540,5 +1552,5 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @SamarysB | Section 2.2.1 - User Stories, Epics, and Features | Reframed epics as high-level feature groups, rewrote user stories to be system-oriented, and expanded feature descriptions to clarify their role and relationships. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/413
 | @SamarysB | Section 3.2.1 - Validation | Clarified that scenario walkthroughs are planned but not yet conducted, and expanded the research section to include sources and conclusions. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/436
 | @SamarysB | Section 3.2.2 - Verification | Rewrote verification activities to reflect completed work, added coverage analysis and traceability checks, and expanded verification results and CI validation details. | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/437
-
+| @JadStelar | Section 3.1 - Concept Analysis | Added traceability and reasoning to each concept | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/438
 |===
