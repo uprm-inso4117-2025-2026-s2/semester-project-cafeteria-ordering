@@ -482,6 +482,7 @@ Friday, February 27, 2026</p>
 <li><a href="#_4_1_tdd">4.1 TDD</a></li>
 <li><a href="#_4_2_bdd_and_bdd_tool_usage">4.2 BDD and BDD tool usage</a></li>
 <li><a href="#_4_3_use_of_debugging">4.3 Use of Debugging</a></li>
+<li><a href="#_4_4_load_testing"><span class="green-bg">4.4 Load Testing</span></a></li>
 <li><a href="#_4_5_hoare_logic_testing"><span class="green-bg">4.5 Hoare Logic Testing</span></a></li>
 <li><a href="#_4_6_mutation_testing"><span class="green-bg">4.6 Mutation Testing</span></a></li>
 </ul>
@@ -3293,6 +3294,170 @@ through verifiable, incremental behavior.</p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_4_4_load_testing"><span class="green-bg">4.4 Load Testing</span></h3>
+<div class="paragraph">
+<p><span class="green-bg">This section documents the load testing performed for the Payment Screen of the Cafeteria Ordering System. The objective was to evaluate responsiveness and reliability under expected usage using repeatable automated runs and consistent metrics.</span></p>
+</div>
+<div class="sect3">
+<h4 id="_tool_and_test_target"><span class="green-bg">Tool and Test Target</span></h4>
+<div class="paragraph">
+<p><span class="green-bg"><strong>Tool used:</strong> Grafana k6 load testing tool. The test is implemented as a k6 JavaScript script in <code>documentation/LectureTopicTasks/load&amp;performance-testing/tests/payment.load.test.js</code> using <code>k6/http</code>, and k6 metrics.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg"><strong>Test target:</strong> the payment submission flow as currently implemented in the client layer.
+Because the payment screen is not yet connected to the real backend or payment gateway, the tests use a mock payment service that emulates how a real system would behave, such as having a processing delay. This allows us to measure system behavior under controlled conditions and to establish a baseline before integrating real infrastructure.</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_load_expectations"><span class="green-bg">Load Expectations</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The expected usage assumptions are derived from the machine requirements in Section 2.2.5:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Peak periods: 11:30 AM–1:30 PM and 3:00 PM–5:00 PM.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Target order throughput: at least 60 orders/min during peak hours.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Concurrent users: up to 300 active users within a 5-minute window.</span></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usage_scenario_used_for_load_testing"><span class="green-bg">Usage Scenario Used for Load Testing</span></h4>
+<div class="paragraph">
+<p><span class="green-bg"><strong>User behavior modeled:</strong> “Submit payment from the payment screen”.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">This corresponds to the user completing checkout and triggering the payment submission button. Load testing was used to simulate concurrent submissions representing typical peak activity.</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_load_testing_setup"><span class="green-bg">Load Testing Setup</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The load is generated using k6’s <code>ramping-vus</code> executor with the following stages:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">30s to 5 virtual users</span></p>
+</li>
+<li>
+<p><span class="green-bg">1m to 15 virtual users</span></p>
+</li>
+<li>
+<p><span class="green-bg">1m to 25 virtual users</span></p>
+</li>
+<li>
+<p><span class="green-bg">30s down to 0 virtual users</span></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">The test also defines thresholds to reflect acceptable behavior during load:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg"><code>http_req_failed</code> rate &lt; 0.10</span></p>
+</li>
+<li>
+<p><span class="green-bg"><code>http_req_duration</code> P95 &lt; 2500 ms</span></p>
+</li>
+<li>
+<p><span class="green-bg"><code>payment_success_rate</code> &gt; 0.90</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_metrics_collected"><span class="green-bg">Metrics Collected</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The load testing collects:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg"><strong>Response Time (ms):</strong> measures how long a payment request takes from the moment it is sent until a response is received.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Latency (ms):</strong> measures the time observed around the payment submission call, which helps approximate the request/response delay seen by the client</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Throughput (req/s):</strong> measures how many payment submissions are completed per second during the run.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Failure Rate (%):</strong> measures the fraction of requests that fail at the HTTP level.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Success Rate (%):</strong> measures the fraction of requests that pass the test checks.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Payments processed:</strong> total number of successful payment submissions counted by the test.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_results_observed"><span class="green-bg">Results Observed</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The following results were recorded by the test script in <code>documentation/LectureTopicTasks/load&amp;performance-testing/combined-test-results.json</code>.</span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Scenario</th>
+<th class="tableblock halign-left valign-top">Avg Response (ms)</th>
+<th class="tableblock halign-left valign-top">P95 Response (ms)</th>
+<th class="tableblock halign-left valign-top">Avg Latency (ms)</th>
+<th class="tableblock halign-left valign-top">P95 Latency (ms)</th>
+<th class="tableblock halign-left valign-top">Throughput (req/s)</th>
+<th class="tableblock halign-left valign-top">Failure Rate</th>
+<th class="tableblock halign-left valign-top">Success Rate</th>
+<th class="tableblock halign-left valign-top">Payments Processed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load Test</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409.54</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">592.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409.59</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">592</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8.72</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.67%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">97.33%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1533</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_interpretation_and_discussion_of_results"><span class="green-bg">Interpretation and Discussion of Results</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">Under expected load, the system handled requests efficiently and response times stayed low. Although there is a failure rate of 2.67%, the success rate at 97.33% suggests that the system can still handle expected usage reasonably well. The overall results suggest that the current implementation is capable of supporting typical cafeteria usage and can remain responsive even under heavier demand.</span></p>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_4_5_hoare_logic_testing"><span class="green-bg">4.5 Hoare Logic Testing</span></h3>
 <div class="paragraph">
 <p><span class="green-bg">The project applies Hoare Logic to the Stripe payment workflow, one of the system&#8217;s core features. Because the project is implemented in TypeScript and React Native, for which no Hoare-logic verifier exists, the workflow was rewritten in <strong>Dafny</strong> to obtain tool-supported verification. Dafny encodes preconditions and postconditions directly as <code>requires</code> and <code>ensures</code> clauses and statically verifies them using the Z3 SMT solver. The full specification is maintained in <code>documentation/LectureTopicTasks/Hoare Payment Workflow/hoare-payment-spec.adoc</code>.</span></p>
@@ -3849,43 +4014,26 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/438" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/438</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.5 - Hoare Logic Testing</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added Section 4.5 applying Hoare Logic to the Stripe payment workflow using Dafny, including focus function specification, formal proof of initiate_payment(), full Dafny implementation, and safety property verification.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.6 - Mutation Testing</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Added Section 4.6 documenting the project&#8217;s use of Stryker for mutation testing. Covers component prioritization order, mutation operators applied, results by component (Profile Management, Order Processing, Stripe Payment Workflow), and mutation score thresholds. Synthesized from four LTT documents: MutationTestingProfiles, MutationTestingOrder, MutationTestingPrioritization, and payment-mutation-testing-design.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.3.1 - Scope</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Introduced student-focus framing at the start of Scope; removed health/focus motivation from Domain Engineering description; replaced "Define project requirements" with discovery-oriented language in Requirements Engineering; replaced physical locker deployment with a simulation environment in Software Architecture</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.5 - Events, Actions, and Behaviors</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Restructured from type-based subsections to entity-grouped catalog; added explicit type labels to all entries; acknowledged non-human actors and added Dishwasher Cleaning Dishes example; added Joining a Queue action; revised behaviors to make constituent events and actions explicit; removed Why This Distinction Matters subsection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sections 2.1.2, 2.2.3, 2.2.4, 2.3.1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Renamed createOrder to persistOrder to reflect that it performs database insertion of a fully-formed object; added stock validation gap note; introduced Pickup Code term in terminology, DR-11 in domain requirements, and IR-2.2.4-14 in interface requirements with 4-digit code justification</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.4 - Load Testing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Documented load testing performed on Payment Screen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/486" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/486</a></p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>| @reinaldo-martinez1 | Section 4.5 - Hoare Logic Testing | Added Section 4.5 applying Hoare Logic to the Stripe payment workflow using Dafny, including focus function specification, formal proof of initiate_payment(), full Dafny implementation, and safety property verification. | N/A
+| @reinaldo-martinez1 | Section 4.6 - Mutation Testing | Added Section 4.6 documenting the project&#8217;s use of Stryker for mutation testing. Covers component prioritization order, mutation operators applied, results by component (Profile Management, Order Processing, Stripe Payment Workflow), and mutation score thresholds. Synthesized from four LTT documents: MutationTestingProfiles, MutationTestingOrder, MutationTestingPrioritization, and payment-mutation-testing-design. | N/A
+| @reinaldo-martinez1 | Section 1.3.1 - Scope | Introduced student-focus framing at the start of Scope; removed health/focus motivation from Domain Engineering description; replaced "Define project requirements" with discovery-oriented language in Requirements Engineering; replaced physical locker deployment with a simulation environment in Software Architecture | N/A
+| @reinaldo-martinez1 | Section 2.1.5 - Events, Actions, and Behaviors | Restructured from type-based subsections to entity-grouped catalog; added explicit type labels to all entries; acknowledged non-human actors and added Dishwasher Cleaning Dishes example; added Joining a Queue action; revised behaviors to make constituent events and actions explicit; removed Why This Distinction Matters subsection | N/A
+| @reinaldo-martinez1 | Sections 2.1.2, 2.2.3, 2.2.4, 2.3.1 | Renamed createOrder to persistOrder to reflect that it performs database insertion of a fully-formed object; added stock validation gap note; introduced Pickup Code term in terminology, DR-11 in domain requirements, and IR-2.2.4-14 in interface requirements with 4-digit code justification | N/A</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-04-07 17:34:43 -0400
+Last updated 2026-04-07 18:22:26 -0400
 </div>
 </div>
 </body>

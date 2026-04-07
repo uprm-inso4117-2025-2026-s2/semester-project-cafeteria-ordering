@@ -1540,6 +1540,81 @@ After activating the collapsible title component with the correct title, the fun
 .Using debugger to watch for the isOpen attribute value to change to 'true'
 image::images-m1/UI-debug-example1b.png[]
 
+=== [.green-bg]#4.4 Load Testing#
+
+[.green-bg]#This section documents the load testing performed for the Payment Screen of the Cafeteria Ordering System. The objective was to evaluate responsiveness and reliability under expected usage using repeatable automated runs and consistent metrics.#
+
+==== [.green-bg]#Tool and Test Target#
+
+[.green-bg]#*Tool used:* Grafana k6 load testing tool. The test is implemented as a k6 JavaScript script in `documentation/LectureTopicTasks/load&performance-testing/tests/payment.load.test.js` using `k6/http`, and k6 metrics.#
+
+[.green-bg]#*Test target:* the payment submission flow as currently implemented in the client layer.  
+Because the payment screen is not yet connected to the real backend or payment gateway, the tests use a mock payment service that emulates how a real system would behave, such as having a processing delay. This allows us to measure system behavior under controlled conditions and to establish a baseline before integrating real infrastructure.#
+
+==== [.green-bg]#Load Expectations#
+
+[.green-bg]#The expected usage assumptions are derived from the machine requirements in Section 2.2.5:#
+
+* [.green-bg]#Peak periods: 11:30 AM–1:30 PM and 3:00 PM–5:00 PM.#
+* [.green-bg]#Target order throughput: at least 60 orders/min during peak hours.#
+* [.green-bg]#Concurrent users: up to 300 active users within a 5-minute window.#
+
+[.green-bg]#For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.#
+
+==== [.green-bg]#Usage Scenario Used for Load Testing#
+
+[.green-bg]#*User behavior modeled:* “Submit payment from the payment screen”.#
+
+[.green-bg]#This corresponds to the user completing checkout and triggering the payment submission button. Load testing was used to simulate concurrent submissions representing typical peak activity.#
+
+==== [.green-bg]#Load Testing Setup#
+
+[.green-bg]#The load is generated using k6’s `ramping-vus` executor with the following stages:#
+
+* [.green-bg]#30s to 5 virtual users#
+* [.green-bg]#1m to 15 virtual users#
+* [.green-bg]#1m to 25 virtual users#
+* [.green-bg]#30s down to 0 virtual users#
+
+[.green-bg]#The test also defines thresholds to reflect acceptable behavior during load:#
+
+* [.green-bg]#`http_req_failed` rate < 0.10#
+* [.green-bg]#`http_req_duration` P95 < 2500 ms#
+* [.green-bg]#`payment_success_rate` > 0.90#
+
+==== [.green-bg]#Metrics Collected#
+
+[.green-bg]#The load testing collects:#
+
+* [.green-bg]#*Response Time (ms):* measures how long a payment request takes from the moment it is sent until a response is received.#
+* [.green-bg]#*Latency (ms):* measures the time observed around the payment submission call, which helps approximate the request/response delay seen by the client#
+* [.green-bg]#*Throughput (req/s):* measures how many payment submissions are completed per second during the run.#
+* [.green-bg]#*Failure Rate (%):* measures the fraction of requests that fail at the HTTP level.#
+* [.green-bg]#*Success Rate (%):* measures the fraction of requests that pass the test checks.#
+* [.green-bg]#*Payments processed:* total number of successful payment submissions counted by the test.#
+
+==== [.green-bg]#Results Observed#
+
+[.green-bg]#The following results were recorded by the test script in `documentation/LectureTopicTasks/load&performance-testing/combined-test-results.json`.#
+
+|===
+| Scenario | Avg Response (ms) | P95 Response (ms) | Avg Latency (ms) | P95 Latency (ms) | Throughput (req/s) | Failure Rate | Success Rate | Payments Processed
+
+| Load Test
+| 409.54
+| 592.2
+| 409.59
+| 592
+| 8.72
+| 2.67%
+| 97.33%
+| 1533
+|===
+
+==== [.green-bg]#Interpretation and Discussion of Results#
+
+[.green-bg]#Under expected load, the system handled requests efficiently and response times stayed low. Although there is a failure rate of 2.67%, the success rate at 97.33% suggests that the system can still handle expected usage reasonably well. The overall results suggest that the current implementation is capable of supporting typical cafeteria usage and can remain responsive even under heavier demand.#
+
 === [.green-bg]#4.5 Hoare Logic Testing#
 
 [.green-bg]#The project applies Hoare Logic to the Stripe payment workflow, one of the system's core features. Because the project is implemented in TypeScript and React Native, for which no Hoare-logic verifier exists, the workflow was rewritten in *Dafny* to obtain tool-supported verification. Dafny encodes preconditions and postconditions directly as `requires` and `ensures` clauses and statically verifies them using the Z3 SMT solver. The full specification is maintained in `documentation/LectureTopicTasks/Hoare Payment Workflow/hoare-payment-spec.adoc`.#
@@ -1766,6 +1841,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0
 | [.green-bg]#90–100%# | [.green-bg]#Target range. Focus on test readability and maintainability rather than chasing final mutants.#
 |===
 
+
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
 
@@ -1833,4 +1909,5 @@ AI use enhanced our productivity by providing quick access to complex informatio
 | @reinaldo-martinez1 | Section 1.3.1 - Scope | Introduced student-focus framing at the start of Scope; removed health/focus motivation from Domain Engineering description; replaced "Define project requirements" with discovery-oriented language in Requirements Engineering; replaced physical locker deployment with a simulation environment in Software Architecture | N/A
 | @reinaldo-martinez1 | Section 2.1.5 - Events, Actions, and Behaviors | Restructured from type-based subsections to entity-grouped catalog; added explicit type labels to all entries; acknowledged non-human actors and added Dishwasher Cleaning Dishes example; added Joining a Queue action; revised behaviors to make constituent events and actions explicit; removed Why This Distinction Matters subsection | N/A
 | @reinaldo-martinez1 | Sections 2.1.2, 2.2.3, 2.2.4, 2.3.1 | Renamed createOrder to persistOrder to reflect that it performs database insertion of a fully-formed object; added stock validation gap note; introduced Pickup Code term in terminology, DR-11 in domain requirements, and IR-2.2.4-14 in interface requirements with 4-digit code justification | N/A
+| @JadStelar | Section 4.4 - Load Testing | Documented load testing performed on Payment Screen | https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/486
 |===
