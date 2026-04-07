@@ -1,0 +1,71 @@
+= Test Report: TC-AUTH-03 - User Sign Up with Valid Data
+Author: Devlin Hahn
+Date: 2026-04-06
+ID: TR-AUTH-03-001
+Issue: #273
+Test: User Sign Up Functionality Verification
+Pass/Fail Status: PASS
+
+== Description
+
+All 19 test cases passed successfully. The SignUpScreen component correctly validates user input, handles form submission, and interacts with the Supabase authentication service as expected.
+
+=== Test Results Summary
+
+[cols="2,1", options="header"]
+|===
+| Test Step | Status
+| Step 1: Navigate to Sign Up page | ✅ PASS
+| Step 2: Verify UI elements | ✅ PASS
+| Steps 3-10: Happy Path - Valid Data Submission | ✅ PASS
+| Step 11: Negative Test Scenarios | ✅ PASS
+| Step 12: Correct all errors and submit | ✅ PASS
+| Step 13: Phone number is optional | ✅ PASS
+|===
+
+=== Detailed Results
+
+==== Step 2 - UI Elements Verified
+
+* Title "Create Your Account" displays correctly
+* All fields (Full Name, Email, Phone Number, Password, Confirm Password) are present
+* Password checklist shows all 4 requirements
+* Terms text, button text, and login link display correctly
+
+==== Steps 3-10 - Happy Path
+
+* Successfully signed up with validUser1 (John Doe)
+* Successfully signed up with validUser2 (María Sánchez)
+* Successfully signed up with validUser3 (Lee Chen)
+
+==== Step 11 - Negative Test Scenarios (All 7 NEG tests passed)
+
+[cols="1,1,2", options="header"]
+|===
+| Test ID | Input | Expected Error
+| NEG-01 | Invalid email format | "Please enter a valid email address."
+| NEG-02 | Password too short | "Password must be at least 8 characters."
+| NEG-03 | Missing uppercase | "Password must contain at least 1 uppercase letter."
+| NEG-04 | Missing lowercase | "Password must contain at least 1 lowercase letter."
+| NEG-05 | Missing number | "Password must contain at least 1 number."
+| NEG-06 | Passwords don't match | "Passwords do not match."
+| NEG-07 | Empty form submission | Shows all required field errors
+|===
+
+==== Step 12 - Form Recovery
+
+* Successfully recovered from validation errors and submitted after correcting all fields
+
+==== Step 13 - Optional Field
+
+* Successfully signed up without providing a phone number
+
+== Notes
+
+* All 19 test assertions passed
+* Test execution time: 2.789 seconds
+* No console errors were detected during test execution
+* The validate() function correctly checks all required fields: fullName, email, password, confirmPassword, agreedToTerms
+* Phone number correctly handled as optional (passed as null when empty)
+* Password checklist correctly displays 4 items including the lowercase requirement
+* Supabase authentication mock worked correctly for all test scenarios

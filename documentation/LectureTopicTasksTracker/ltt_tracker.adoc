@@ -226,6 +226,23 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* Evaluates how the payment system behaves under different levels of usage to ensure it remains responsive and reliable during typical cafeteria operations and identifies potential limitations under high load conditions
 
+==== LTT-21-(issue-380): Testing Order State Transition Validity in Staff Operations
+
+*Lecture Topic:* Order State Transition Testing
+
+*Deliverables:*
+- Identification of all possible order states
+- Definition of state transitions (valid and invalid)
+- Creation of a state transition table
+- Design of test cases covering all transitions
+- Boundary and edge case scenarios
+- Discussion of workflow consistency and system integrity
+- Evaluation of testing challenges related to state-based systems
+
+*Evidence:* Associated AsciiDoc file (LectureTopicTasks/OrderStateTransitionTesting.adoc) and pull request linked to issue
+
+*Justification:* Ensures that the order lifecycle is consistent and adheres to defined workflow rules, preventing invalid state transitions and maintaining system integrity in the Staff Operations context of the Cafeteria Ordering System.
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)

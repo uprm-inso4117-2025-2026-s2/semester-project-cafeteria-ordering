@@ -1,0 +1,464 @@
+= Authentication Input Equivalence Partitions
+:toc:
+:icons: font
+
+== Purpose
+
+This document defines equivalence partitions for the main Authentication and Security inputs used in the current system. Its purpose is to support future test case design by organizing valid, invalid, and boundary-related input classes for the implemented authentication flows.
+
+This document is for test design support only. It does not create or execute test cases.
+
+== Scope
+
+The analysis covers the following authentication flows:
+
+* Login
+* Sign Up
+* Password Reset
+* Account Verification
+
+The analysis focuses on the main authentication-related inputs currently used across those flows:
+
+* Email
+* Password
+* Confirm Password
+* Full Name
+* Terms Acceptance
+* Verification Token / Recovery Link Token
+
+Where applicable, boundary-related partitions are included.
+
+== Current Authentication Flow Notes
+
+Based on the current project implementation and aligned documentation:
+
+* Login is intended to use Email + Password.
+* Sign Up uses Full Name, Email, Phone Number, Password, Confirm Password, and Terms acceptance.
+* Phone Number is currently optional.
+* Password policy currently requires:
+** at least 8 characters
+** at least 1 lowercase letter
+** at least 1 uppercase letter
+** at least 1 number
+* Password Reset includes both forgot-password email submission and reset-password entry of a new password.
+* Account Verification is token/link-based according to current planning and test artifacts.
+
+== 1. Email Input
+
+=== Relevant Flows
+
+* Login
+* Sign Up
+* Forgot Password
+
+=== Valid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-EMAIL-V1
+| Properly formatted email address
+| Represents the normal accepted email input class.
+
+| EP-EMAIL-V2
+| Properly formatted email with mixed casing
+| Helps verify email handling remains correct when users enter uppercase or mixed-case letters.
+
+| EP-EMAIL-V3
+| Properly formatted email with leading/trailing spaces that are trimmed
+| Important because current auth/backend flow trims email before submission.
+|===
+
+=== Invalid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-EMAIL-I1
+| Empty email
+| Required-field validation must reject missing input.
+
+| EP-EMAIL-I2
+| Email with invalid format
+| Ensures malformed email input is rejected before or during auth handling.
+
+| EP-EMAIL-I3
+| Email missing local part, domain, or `@`
+| Covers incomplete email structures that belong to the invalid class.
+
+| EP-EMAIL-I4
+| Email already registered during Sign Up
+| Important business-rule partition for duplicate account prevention.
+
+| EP-EMAIL-I5
+| Unregistered email in Forgot Password
+| Important security partition because the system should return a generic recovery response to avoid account enumeration.
+
+| EP-EMAIL-I6
+| Unregistered email in Login
+| Important credential-validation partition because authentication must fail safely for unknown accounts.
+|===
+
+=== Boundary / Edge Related Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-EMAIL-B1
+| Very long email input
+| Ensures long but syntactically valid or near-valid values do not crash or break validation.
+
+| EP-EMAIL-B2
+| Email entered with different casing
+| Important because auth artifacts expect case-insensitive treatment for email matching.
+
+| EP-EMAIL-B3
+| Email with leading/trailing spaces
+| Important because system behavior should consistently trim and process email input correctly.
+|===
+
+== 2. Password Input
+
+=== Relevant Flows
+
+* Login
+* Sign Up
+* Reset Password
+
+=== Valid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-PASSWORD-V1
+| Password meeting all required policy rules
+| Represents the standard valid password class.
+
+| EP-PASSWORD-V2
+| Password exactly 8 characters with required lowercase, uppercase, and number
+| Confirms the minimum valid boundary is accepted.
+
+| EP-PASSWORD-V3
+| Strong password above minimum length with all required character classes
+| Confirms normal successful handling beyond the lower boundary.
+|===
+
+=== Invalid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-PASSWORD-I1
+| Empty password
+| Required-field validation must reject missing passwords.
+
+| EP-PASSWORD-I2
+| Password under 8 characters
+| Verifies enforcement of the minimum length rule.
+
+| EP-PASSWORD-I3
+| Password with no lowercase letter
+| Verifies one required password rule independently.
+
+| EP-PASSWORD-I4
+| Password with no uppercase letter
+| Verifies one required password rule independently.
+
+| EP-PASSWORD-I5
+| Password with no number
+| Verifies one required password rule independently.
+
+| EP-PASSWORD-I6
+| Incorrect password during Login
+| Important auth partition because a syntactically acceptable password can still be invalid for authentication.
+|===
+
+=== Boundary / Edge Related Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-PASSWORD-B1
+| Password length = 7
+| Confirms rejection immediately below the minimum boundary.
+
+| EP-PASSWORD-B2
+| Password length = 8 with all required rules met
+| Confirms acceptance at the exact lower boundary.
+
+| EP-PASSWORD-B3
+| Very long password input
+| Ensures large input is handled safely without crash or truncation issues.
+
+| EP-PASSWORD-B4
+| Password with leading/trailing spaces
+| Useful to verify whether spaces are preserved, rejected, or normalized consistently.
+|===
+
+== 3. Confirm Password Input
+
+=== Relevant Flows
+
+* Sign Up
+* Reset Password
+
+=== Valid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-CONFIRM-V1
+| Confirm Password exactly matches Password
+| This is the normal accepted equivalence class for confirmation fields.
+|===
+
+=== Invalid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-CONFIRM-I1
+| Confirm Password does not match Password
+| Ensures mismatch validation is enforced.
+
+| EP-CONFIRM-I2
+| Confirm Password empty while Password is filled
+| Important because confirmation is required by the UI flow and should be validated clearly.
+
+| EP-CONFIRM-I3
+| Confirm Password differs only by casing
+| Ensures exact-value comparison is enforced.
+
+| EP-CONFIRM-I4
+| Confirm Password differs only by whitespace
+| Ensures user-visible matching behavior is consistent and explicit.
+|===
+
+=== Boundary / Edge Related Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-CONFIRM-B1
+| Matching minimum-valid password at 8 characters
+| Confirms confirmation logic works at the lower password boundary.
+
+| EP-CONFIRM-B2
+| Matching very long password
+| Confirms confirmation logic still works for large but valid password values.
+|===
+
+== 4. Full Name Input
+
+=== Relevant Flows
+
+* Sign Up
+
+=== Valid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-NAME-V1
+| Non-empty full name with normal alphabetic characters
+| Represents the standard accepted class for required name input.
+
+| EP-NAME-V2
+| Full name with spaces between words
+| Covers realistic multi-word names.
+|===
+
+=== Invalid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-NAME-I1
+| Empty full name
+| Required-field validation must reject missing name input.
+
+| EP-NAME-I2
+| Full name containing only spaces
+| Important because current validation trims name input before checking emptiness.
+|===
+
+=== Boundary / Edge Related Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-NAME-B1
+| Extremely long full name
+| Ensures long input is handled safely without UI or validation failure.
+
+| EP-NAME-B2
+| Script or injection-like input
+| Important security-related edge partition to confirm safe handling of hostile-looking text input.
+|===
+
+== 5. Terms Acceptance Input
+
+=== Relevant Flows
+
+* Sign Up
+
+=== Valid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-TERMS-V1
+| Terms checkbox selected
+| Required business-rule condition for successful account creation.
+|===
+
+=== Invalid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-TERMS-I1
+| Terms checkbox not selected
+| Sign Up must fail when user has not accepted Terms and Privacy Policy.
+|===
+
+=== Boundary / Edge Related Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-TERMS-B1
+| User toggles checkbox on and off before submit
+| Useful to verify stable final-state validation behavior.
+|===
+
+== 6. Verification Token / Recovery Token Input
+
+=== Relevant Flows
+
+* Account Verification
+* Password Reset
+
+=== Valid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-TOKEN-V1
+| Valid token/link used within allowed validity period
+| Represents the normal accepted verification/recovery class.
+
+| EP-TOKEN-V2
+| Valid token after resend flow
+| Important because current verification scenarios explicitly include resend handling.
+|===
+
+=== Invalid Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-TOKEN-I1
+| Invalid token
+| Ensures malformed or unknown verification attempts are rejected.
+
+| EP-TOKEN-I2
+| Random token not found by the system
+| Verifies rejection of tokens that do not map to any valid flow.
+
+| EP-TOKEN-I3
+| Expired token
+| Critical security partition for both verification and recovery links.
+
+| EP-TOKEN-I4
+| Reused token
+| Important because recovery and verification tokens should not remain reusable.
+
+| EP-TOKEN-I5
+| Tampered token
+| Important security partition to ensure modified link content is rejected.
+
+| EP-TOKEN-I6
+| Missing or empty token
+| Ensures requests without required token data fail safely.
+
+| EP-TOKEN-I7
+| Token for already verified account
+| Important account-state partition because a token can be structurally valid while no longer valid for use.
+|===
+
+=== Boundary / Edge Related Partitions
+
+[cols="1,3,4"]
+|===
+| ID | Partition | Why It Matters
+
+| EP-TOKEN-B1
+| Token used just before expiration
+| Helps validate correct handling near time-based validity boundary.
+
+| EP-TOKEN-B2
+| Token used after expiration
+| Helps validate correct failure behavior after validity window ends.
+
+| EP-TOKEN-B3
+| Rapid repeated reset requests
+| Useful for checking rate-limit or repeated-request handling.
+
+| EP-TOKEN-B4
+| Recovery attempt with invalid/expired recovery session
+| Important because password update should only succeed when a valid recovery session exists.
+|===
+
+== Cross-Field Notes
+
+The following cross-field relationships are especially important for future test design:
+
+* Email + Password in Login:
+** valid email + wrong password
+** unregistered email + any password
+** empty email + filled password
+** filled email + empty password
+
+* Password + Confirm Password in Sign Up / Reset Password:
+** valid password + matching confirm password
+** valid password + mismatching confirm password
+** valid password + empty confirm password
+
+* Email + Terms in Sign Up:
+** valid data but terms unchecked must still fail
+
+* Token + Account State in Verification:
+** valid token + already verified account
+** resent token + successful verification
+** missing token + blocked verification
+
+== Reuse Guidance for Future Test Design
+
+This partition set is reusable for future test case creation because it:
+
+* separates valid, invalid, and boundary classes by input type
+* aligns with the current implemented and documented auth flows
+* highlights both validation behavior and security-related behavior
+* helps derive positive, negative, and edge test cases without relying on only a few sample values
+
+== Summary
+
+This document provides a structured equivalence-partition view of the current Authentication and Security inputs. It supports stronger future test design for Login, Sign Up, Password Reset, and Account Verification by identifying the most meaningful input classes and the main boundary/security conditions associated with each one.
