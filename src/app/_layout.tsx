@@ -4,6 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+
+import SyncBanner from '@/components/offline-sync-feedback-ui';
 import { useFonts } from 'expo-font';
 import { AuthProvider } from './authContext';
 
@@ -31,6 +33,8 @@ export default function RootLayout() {
           <Stack.Screen name="PasswordRecovery" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>
+        
+        <SyncBanner />
         <StatusBar style="auto" />
       </ThemeProvider>
     </AuthProvider>

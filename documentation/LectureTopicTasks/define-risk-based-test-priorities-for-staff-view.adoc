@@ -1,0 +1,136 @@
+= Define Risk-Based Test Priorities for Staff View
+
+== Purpose
+Apply risk-based testing to the Staff View of the Cafeteria Ordering System. Focus on staff-facing functions whose failure would most disrupt operations, create inconsistent data, or reduce trust. For each function, record Likelihood and Impact, calculate a Risk Score (`L x I`), and define the resulting test focus.
+
+This follows the lecture idea that testing resources are limited and tests should be prioritized according to risk, with the goal of finding high-cost defects first. :contentReference[oaicite:0]{index=0}
+
+== Scoring Rubric
+*Likelihood (L) 1-5:* Probability of a defect occurring (`1 = Rare` … `5 = Very Likely`)  
+*Impact (I) 1-5:* Severity if the function fails (`1 = Negligible` … `5 = Critical`)  
+*Risk Score:* `L x I` (`1-25`); higher means higher priority.
+
+== Risk Register
+[cols="1,2,1,1,1,1,3,3", options="header"]
+|===
+|ID|Risk Statement|Category|L|I|Score|Mitigation|Test Planning Consequence
+
+|SV-01
+|Viewing orders shows missing, stale, or incorrect order data, causing staff to miss active work or act on wrong information.
+
+Importance to operation: High +
+Frequency of use: High +
+Likelihood of defects: High +
+Impact of failure: High +
+User-facing visibility: High
+|Operational
+|4
+|5
+|20
+|Verify data retrieval and refresh logic; validate mapping between backend order state and displayed values.
+|Prioritize integration and system tests for order visibility, refresh behavior, sorting/filtering, and consistency with backend data.
+
+|SV-02
+|Closing orders fails, does not persist correctly, or leaves orders stuck in an open state.
+
+Importance to operation: High +
+Frequency of use: High +
+Likelihood of defects: High +
+Impact of failure: High +
+User-facing visibility: High
+|Operational
+|5
+|5
+|25
+|Validate order-state transition logic; check persistence and API update flows; verify successful close confirmation in UI.
+|Test first across unit, integration, and system levels; focus on state transitions, persistence, retries, and full close-order workflows.
+
+|SV-03
+|Viewing menu items shows missing or outdated item information, confusing staff during operation.
+
+Importance to operation: Medium +
+Frequency of use: Medium +
+Likelihood of defects: Medium +
+Impact of failure: Medium +
+User-facing visibility: High
+|Data / UI
+|3
+|3
+|9
+|Verify displayed name, price, availability, and description against stored values.
+|Cover with functional system tests after highest-risk order features; verify correctness and consistency of menu display.
+
+|SV-04
+|Adding menu items stores incomplete, duplicate, or inconsistent data, or fails to make new items visible where expected.
+
+Importance to operation: Medium +
+Frequency of use: Medium +
+Likelihood of defects: Medium +
+Impact of failure: High +
+User-facing visibility: Medium
+|Data Integrity
+|3
+|4
+|12
+|Enforce field validation and save checks; verify new items propagate correctly to relevant views.
+|Prioritize integration and system tests for validation, persistence, and visibility of newly added items.
+
+|SV-05
+|Editing menu items corrupts existing live data such as price, availability, or item details, causing inconsistencies between views.
+
+Importance to operation: High +
+Frequency of use: Medium +
+Likelihood of defects: High +
+Impact of failure: High +
+User-facing visibility: High
+|Data Integrity
+|4
+|4
+|16
+|Validate edit rules, field constraints, and persistence behavior; verify updated values everywhere affected.
+|Prioritize tests for update workflows, cross-view consistency, and persistence; treat as one of the first data-modification features to test.
+|===
+
+== Top Risks (Summary)
+[cols="1,2,4", options="header"]
+|===
+|ID|Risk (short)|Test-Planning Consequence
+
+|SV-02
+|Closing orders fails or does not persist
+|Test first at all levels; emphasize order-state transitions, backend updates, and complete workflow execution.
+
+|SV-01
+|Order list is missing, stale, or inconsistent
+|Prioritize system and integration tests for correct retrieval, refresh, and display of order information.
+
+|SV-05
+|Editing menu items corrupts live data
+|Prioritize tests for validation, persistence, and consistency across all affected views.
+|===
+
+== Testing Priority Groups
+*High Priority:* Closing orders, Viewing orders, Editing menu items  
+*Medium Priority:* Adding menu items, Viewing menu items  
+*Low Priority:* None in scope
+
+== Example Failure Consequences
+* Staff unable to close orders  
+* Incorrect menu updates  
+* Missing or outdated item information  
+* Data inconsistencies between views  
+
+== How Priorities Guide Testing Order
+High-risk functions should be tested first across levels identified in the lecture: unit, integration, and system testing. :contentReference[oaicite:1]{index=1}
+
+* Unit testing should start with `Closing orders` and `Editing menu items`, focusing on transition logic, validation, and update behavior.
+* Integration testing should next focus on `Closing orders`, `Viewing orders`, and `Editing menu items`, especially where UI, backend, and persistence interact.
+* System testing should execute end-to-end scenarios in this order:
+. Closing orders
+. Viewing orders
+. Editing menu items
+. Adding menu items
+. Viewing menu items
+
+== Reference
+* Lecture 2 Test Planning: risk-oriented prioritization, expected cost of defects, and testing levels. :contentReference[oaicite:2]{index=2}

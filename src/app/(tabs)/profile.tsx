@@ -74,8 +74,8 @@ export default function ProfileScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [editing, setEditing] = useState(false);
-  const [saved, setSaved] = useState(false);
+  // const [editing, setEditing] = useState(false);
+  // const [saved, setSaved] = useState(false);
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
 
   async function pickAvatar() {
@@ -127,12 +127,12 @@ export default function ProfileScreen() {
     AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
   }, []);
 
-  function handleSave() {
-    setEditing(false);
-    setSaved(true);
-    AsyncStorage.setItem("@profile_info", JSON.stringify({ name, email, phone }));
-    setTimeout(() => setSaved(false), 2500);
-  }
+  // function handleSave() {
+  //   setEditing(false);
+  //   setSaved(true);
+  //   AsyncStorage.setItem("@profile_info", JSON.stringify({ name, email, phone }));
+  //   setTimeout(() => setSaved(false), 2500);
+  // }
 
 
   const borderColor = colorScheme === "dark" ? "#333333" : Colors.softGray;
@@ -188,33 +188,24 @@ export default function ProfileScreen() {
             <View key={label} style={s.fieldWrapper}>
               <Text style={muted({ fontSize: 12, marginBottom: 4 })}>{label}</Text>
               <TextInput
-                value={value} onChangeText={setter} editable={editing}
+                value={value} onChangeText={setter} editable={false}
                 keyboardType={keyboard as any} autoCapitalize="none"
                 autoCorrect={false} autoComplete="off"
                 textContentType="none" importantForAutofill="no"
-                placeholder={editing ? `Enter your ${label.toLowerCase()}` : "—"}
+                placeholder={false ? `Enter your ${label.toLowerCase()}` : "—"}
                 placeholderTextColor={Colors.mutedGray}
-                style={[s.fieldInput, { color: theme.text, ...Typography.body, borderBottomColor: editing ? theme.tint : borderColor }]}
+                style={[s.fieldInput, { color: theme.text, ...Typography.body, borderBottomColor: false ? theme.tint : borderColor }]}
               />
             </View>
           ))}
           <View style={s.editRow}>
-            {saved ? (
-              <Text style={[{ color: Colors.primaryGreen, fontSize: 15 }, Typography.button]}>Saved!</Text>
-            ) : (
-              <>
-                <TouchableOpacity onPress={() => editing ? handleSave() : setEditing(true)}>
-                  <Text style={[s.editBtnText, { color: Colors.primaryGreen, ...Typography.button }]}>{editing ? "Save" : "Edit"}</Text>
+               <TouchableOpacity onPress={() => router.push('/edit-profile')}>
+                  <Text style={[s.editBtnText, { color: Colors.primaryGreen, ...Typography.button }]}>
+                    Edit
+                  </Text>
                 </TouchableOpacity>
-                {editing && (
-                  <TouchableOpacity onPress={() => setEditing(false)} style={{ marginLeft: 16 }}>
-                    <Text style={muted({ fontSize: 14, ...Typography.button })}>Cancel</Text>
-                  </TouchableOpacity>
-                )}
-              </>
-            )}
+            </View>
           </View>
-        </View>
 
         <View style={[s.divider, { backgroundColor: borderColor }]} />
 

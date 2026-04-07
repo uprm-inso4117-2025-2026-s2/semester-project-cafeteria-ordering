@@ -1,0 +1,51 @@
+# Homepage Load & Performance Testing
+
+## Test Setup
+- Increased the dummy dataset from 5 menu items to 100 menu items to simulate higher frontend load  
+
+## Load Simulation Strategy
+Simulated load by interacting with the app continuously by:
+
+  - Rapid scrolling through the menu item list  
+  - Switching between category filters multiple times  
+  - Performing multiple search queries in sequence (for example: "latte", "burger")  
+  - Opening item details repeatedly  
+
+## Alignment with Performance Requirements
+This test checks how the system behaves under increased data and repeated interactions by focusing on:
+
+- Menu loading responsiveness with more data  
+- Search response time during repeated use  
+- UI stability during continuous interaction  
+- Responsiveness of category filtering  
+
+## Observations
+- A slight delay (initial render time increase) was noticed when loading the larger dataset  
+- After the initial load, scrolling remained smooth  
+- Switching between categories was responsive and consistent  
+- Search functionality worked without noticeable delay  
+- Opening item details was responsive  
+- No crashes or major UI issues were observed  
+
+## Conclusion
+The homepage handled the increased dataset well. While there was a small delay during the initial load, all other interactions remained smooth and consistent.
+
+## Evidence (Chrome page zoom set to 50%)
+
+[cols="1,2", options="header"]
+|===
+| Test Case | Evidence
+
+| Search Burger Test
+a| image::SearchBurgerTest.png[Search Burger Test, width=300]
+
+| Category Filter Test (Latte is the only item in the Breakfast category)
+a| image::CategoryFilterTest.png[Category Filter Test, width=300]
+
+| Category Filter Lunch Test
+a| image::CategoryFilterTest2.png[Category Filter Test 2, width=300]
+
+| Opening Item Details Test
+a| image::ItemDetailsTest.png[Item Details Test, width=300]
+
+|===

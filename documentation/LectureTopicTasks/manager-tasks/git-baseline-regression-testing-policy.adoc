@@ -1,0 +1,154 @@
+= Regression Testing Policy for Git Baselines
+:author: @kian-robert
+
+:toc:
+:sectnums:
+
+== Overview
+
+This document defines the regression testing policy for the Cafeteria Ordering System and how it is enforced using Git workflows and Continuous Integration (CI).
+
+The goal is to preserve existing functionality, reduce regressions, and ensure that changes integrated into the baseline follow a controlled validation process.
+
+== Definition of a Baseline
+
+A *baseline* is a stable and verified version of the system in version control.
+
+In this project, a baseline represents:
+
+* The `main` branch after all required CI checks pass, and
+* A reviewed and approved version of the system that satisfies baseline protection rules
+
+The baseline serves as the reference point for future development.
+
+== Regression Testing Policy
+
+Regression testing helps ensure that previously working functionality is not broken by new changes.
+
+This policy requires that all changes preserve the behavior already validated in the baseline and follow the project workflow for review and validation.
+
+=== Pull Request Requirements
+
+All changes to the `main` branch must be introduced through pull requests.
+
+The following rules apply:
+
+* CI must run on every pull request
+* Pull requests with failing required checks cannot be merged
+* Pull requests must be peer reviewed before merging
+* Existing baseline tests must continue to pass
+* Test coverage should be reviewed when applicable
+
+This guarantees that only reviewed and validated changes are integrated into the baseline.
+
+=== Baseline Protection
+
+The baseline branch (e.g., `main`) must be protected.
+
+Rules include:
+
+* No direct commits to the baseline branch
+* Only approved pull requests may update the baseline
+* Each successful merge establishes a new baseline
+
+This helps ensure that the baseline remains stable and controlled.
+
+== Evidence of Progress
+
+Every meaningful change should provide *evidence of progress*, meaning there should be verifiable proof that the change improved the system, fixed an issue, or introduced intended functionality.
+
+In this project, evidence of progress may come from automated tests, CI results, peer review, or documented validation steps, depending on the type of change and the workflow followed by the responsible teams.
+
+=== Bug Fixes
+
+Bug fixes should include a regression test whenever feasible.
+
+Preferred workflow:
+
+1. Write a test that reproduces the bug
+2. Confirm the test fails
+3. Implement the fix
+4. Confirm the test passes
+
+This helps ensure the issue is:
+
+* Reproducible
+* Verified as fixed
+* Protected from reappearing
+
+When a regression test cannot be added immediately, the testing work should be documented and assigned through the project workflow.
+
+=== New Features
+
+New features should include validation appropriate to their risk and scope.
+
+For high-risk, user-facing, or critical workflow changes, test coverage is strongly recommended before merge.
+
+For lower-risk changes, additional tests may be completed after merge as part of coordinated work between the feature team and the testing team, as long as baseline protection rules, peer review, and CI requirements are satisfied.
+
+=== Refactors
+
+For refactoring:
+
+* Existing tests must continue to pass
+* Additional regression tests should be added if risk is high
+
+== Preventing Regressions
+
+Regression tests help prevent reintroducing known issues.
+
+Once a bug is fixed and a corresponding test is added:
+
+* The test becomes part of the automated test suite
+* Any future change that reintroduces the issue may cause test failure
+
+This helps protect critical system components such as:
+
+* Order creation and updates
+* Ingredient customization
+* Checkout flow
+* Authentication and user sessions
+
+== CI Enforcement
+
+Continuous Integration enforces this policy automatically.
+
+The CI pipeline must:
+
+* Install dependencies
+* Build or validate the system
+* Run all required automated baseline checks
+
+CI runs on:
+
+* Pull requests to the baseline branch
+* Relevant development branches
+
+Rules:
+
+* Pull requests cannot be merged if required CI checks fail
+* Test results and CI status must be visible in the pull request
+* CI acts as a quality gate for the baseline
+
+== Exceptions
+
+Exceptions to this policy must be rare and justified.
+
+Allowed cases may include:
+
+* Documentation-only changes
+* Minor non-functional updates
+
+Emergency cases:
+
+* Hotfixes may temporarily bypass full testing
+* Must still be reviewed and approved when possible
+* Missing tests should be added afterward through the project workflow
+
+Exceptions must not be used as the normal approach for risky or critical changes.
+
+== Conclusion
+
+Regression testing, combined with Git baselines, peer review, and CI enforcement, helps ensure that the Cafeteria Ordering System progresses in a stable and reliable way.
+
+By protecting the baseline, requiring validation through pull requests and CI, and coordinating test work across teams, the project can continue integrating improvements while reducing the risk of regressions.

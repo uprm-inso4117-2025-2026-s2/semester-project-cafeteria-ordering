@@ -1694,7 +1694,7 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 </div>
 </div>
 <div class="sect4">
-<h5 id="_persona_3_roberto_cartagena_the_cafeteria_manager"><span class="green-bg">Persona 3 — Roberto Cartagena the Cafeteria Manager</span></h5>
+<h5 id="_persona_4_roberto_cartagena_the_cafeteria_manager"><span class="green-bg">Persona 4 — Roberto Cartagena the Cafeteria Manager</span></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2469,21 +2469,81 @@ so the internal representation remains consistent with cafeteria operations.</p>
 <ul>
 <li>
 <p><strong>employee:</strong> person who works in the cafeteria, takes order from customer. (e.g. cafeteria staff member from the uncertainty of the menu, 10min dash, payment bottleneck and post lunch fatigue in section 2.1.1)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed in the rough sketch as the people operating the counter and in the kitchen by taking requests, preparing food, and responding to disruptions. Can be found in the following rough sketches: The Kitchen’s Blind Spot, The Payment Bottleneck, and The uncertainty of the menu.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This concept captures the role of cafeteria staff in the ordering process. It is important to distinguish employees from customers to clarify who performs certain actions and who experiences certain events in the domain.</span></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>student:</strong> person who is a student from the university campus and places and order on the cafeteria. (e.g. student coming from Engineering building in 10min dash scenario in section 2.1.1)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Repeatedly observed as the primary actors in the cafeteria scenarios; each rough sketch snippet names students and describes their constraints. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, The Payment Bottleneck, and The uncertainty of the menu.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This concept captures the primary user group of the cafeteria service. While all students are customers, not all customers may be students, such as faculty, staff, or visitors. It is important to maintain this distinction to ensure that requirements and features can accommodate a broader range of users if needed.</span></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>customer:</strong> person who places orders in the cafeteria. Concept indirectly birthed out of, it captures a more general group of people who order inside the cafeteria. (e.g. from 10 min dash, payment bottleneck, post lunch fatigue scenarios in section 2.1.1)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Derived by abstracting the repeatedly observed “students obtaining food” into a role-based concept: the person receiving cafeteria service. Can be found in the following rough sketches: The The 10-Minute Dash, The Kitchen&#8217;s Blind Spot, The Post-Lunch Fatigue, The Payment Bottleneck, and The uncertainty of the menu.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This concept captures the broader group of individuals who use the cafeteria service. While students are a significant portion of customers, there may be other users who also need to be accommodated. Using "customer" allows for more inclusive requirements and avoids assumptions that all users are students.</span></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>order:</strong> an item or a group of items from the cafeteria associated to a customer.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed and inferred from situations where customers intend to obtain specific food items and staff anticipate/handle ordering activity. Can be found in the following rough sketches: The Kitchen&#8217;s Blind Spot, The Payment Bottleneck, and The uncertainty of the menu.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This concept captures the core entity that the system will manage. Orders are central to the cafeteria service, and understanding what constitutes an order is essential for defining requirements around order processing, tracking, and fulfillment.</span></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>queue:</strong> a list of orders or a line of customers. (e.g. post lunch fatigue from section 2.1.1)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Directly observed as a physical line in multiple scenarios. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This concept captures the idea of waiting and processing order flow.</span></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>menu:</strong> a group of items a customer can order. (e.g. from uncertainty of the menu in section 2.1.1)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as the domain artifact that customers need to see to decide what to order and whether waiting is worthwhile. Can be found in the following rough sketch: The uncertainty of the menu.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This concept captures the selection of items that customers can choose from. It is important for defining requirements around menu management, item availability, and customer decision making.</span></p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -2496,7 +2556,7 @@ so the internal representation remains consistent with cafeteria operations.</p>
 <p><strong>student / customer:</strong> these terms reference a person, who goes to the cafeteria to order/buy an item(s). If the term student is used, they are a customer who is also a student.</p>
 </li>
 <li>
-<p><strong>queue:</strong> can refer to the line inside the cafeteria or the order queue for a customer.</p>
+<p><span class="red-bg line-through"><strong>queue:</strong> can refer to the line inside the cafeteria or the order queue for a customer.</span></p>
 </li>
 <li>
 <p><strong>order:</strong> can be viewed as the action that a customer performs, an item(?) an employee reads and delivers.</p>
@@ -2512,7 +2572,7 @@ so the internal representation remains consistent with cafeteria operations.</p>
 <p><strong>customer:</strong> must be the term used when referring to the person who orders from the cafeteria. The person being a student can be the state of the customer. Other states may be present for specific customers who have a discount either by being an employee or having athletic student discount.</p>
 </li>
 <li>
-<p><strong>queue:</strong> for this term, qualifiers must be added to separate them from each other. If referring to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise, if referring to the position of the order a customer placed, order queue must be used.</p>
+<p><span class="red-bg line-through"><strong>queue:</strong> for this term, qualifiers must be added to separate them from each other. If referring to the position in line to make an order inside the cafeteria customer queue must be used. Otherwise, if referring to the position of the order a customer placed, order queue must be used.</span></p>
 </li>
 </ul>
 </div>
@@ -3277,19 +3337,33 @@ through verifiable, incremental behavior.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.2 - BDD and BDD Tool Usage</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Reclassified "The student must be authenticated before placing an order" as a precondition instead of an acceptance criterion. Updated the feature file to use a Gherkin Background block for the authentication step.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/443" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/443</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.1 - Domain Rough Sketch</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added names, ages, programs, and specific quantities to all five scenarios; clarified 20-student surge as simultaneous; applied yellow-bg markup</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/441" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/441</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.4 - Narrative</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revised narrative to replace imprecise growth claim, abstract the process description away from the manual implementation, correct payment timing to reflect post-fulfillment payment at the cashier, and removed non-substantive closing paragraph</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/442" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/442</a></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.2.2 - Personas</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added more detailed backgrounds for existing persona and added new persona for non-user</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/410" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/410</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.2.3 - Ideas</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added section pertaining to payment at register vs on the platform and corrected formatting of the whole section</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/409" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/409</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.2.1 - Current Situation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Removed possible ideas from this section and replaced it with workflow of the current situation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408</a></p></td>
@@ -3299,6 +3373,8 @@ through verifiable, incremental behavior.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.2.2 - Needs</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Removed System-Wide Needs</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/408</a></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.2 - Terminology</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Updated terminology to introduce "Customer" as a general entity, revised definitions, and ensured consistency with concept analysis.</p></td>
@@ -3322,6 +3398,12 @@ through verifiable, incremental behavior.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Rewrote verification activities to reflect completed work, added coverage analysis and traceability checks, and expanded verification results and CI validation details.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/437" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/437</a></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 3.1 - Concept Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added traceability and reasoning to each concept</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/438" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/438</a></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3329,7 +3411,7 @@ through verifiable, incremental behavior.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-04-01 22:06:50 -0400
+Last updated 2026-04-04 11:33:43 -0400
 </div>
 </div>
 </body>
