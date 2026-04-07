@@ -483,6 +483,7 @@ Friday, February 27, 2026</p>
 <li><a href="#_4_2_bdd_and_bdd_tool_usage">4.2 BDD and BDD tool usage</a></li>
 <li><a href="#_4_3_use_of_debugging">4.3 Use of Debugging</a></li>
 <li><a href="#_4_5_hoare_logic_testing"><span class="green-bg">4.5 Hoare Logic Testing</span></a></li>
+<li><a href="#_4_6_mutation_testing"><span class="green-bg">4.6 Mutation Testing</span></a></li>
 </ul>
 </li>
 <li><a href="#_appendix_a_ai_disclosure_statement">Appendix A: AI Disclosure Statement</a>
@@ -1188,6 +1189,11 @@ Staff responsible for preparing meals, handling orders, processing payments, and
 <p>(entity, domain)
 <span class="yellow-bg">A request made by a customer for one or more items from the menu.</span></p>
 </dd>
+<dt class="hdlist1">[.green-bg]#Pickup Code </dt>
+<dd>
+<p>(entity, domain)#
+<span class="green-bg">A short numeric code generated at the time an order is placed, assigned to that order, and presented to the customer. The code is used at the pickup counter to verify that the correct customer is collecting the order, reducing the risk of incorrect handoff or order theft.</span></p>
+</dd>
 <dt class="hdlist1">Queue </dt>
 <dd>
 <p>(entity, domain)
@@ -1355,7 +1361,7 @@ A situation that occurs when large numbers of students arrive within a short tim
 <div class="sect3">
 <h4 id="_2_1_5_events_actions_and_behaviors">2.1.5 Events, Actions, and Behaviors</h4>
 <div class="paragraph">
-<p>This section <span class="yellow-bg">catalogs the</span> <strong>events</strong>, <strong>actions</strong>, and <strong>behaviors</strong> <span class="yellow-bg">present in</span> the cafeteria domain[.yellow-bg]<mark>, grouped alongside their related domain entities rather than organized by type alone</mark>. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an <span class="yellow-bg">act by a human or non-human actor</span> (action), and what emerges as a process or recurring pattern over time (behavior).</p>
+<p>This section <span class="yellow-bg">catalogs the</span> <strong>events</strong>, <strong>actions</strong>, and <strong>behaviors</strong> <span class="yellow-bg">present in</span> the cafeteria domain, <span class="yellow-bg">grouped alongside their related domain entities rather than organized by type alone</span>. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an <span class="yellow-bg">act by a human or non-human actor</span> (action), and what emerges as a process or recurring pattern over time (behavior).</p>
 </div>
 <div class="paragraph">
 <p>There is a difference between:</p>
@@ -1901,6 +1907,16 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </ul>
 </div>
 </li>
+<li>
+<p><span class="green-bg"><strong>DR-11: Pickup Code Assignment and Verification</strong></span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">The system must assign a unique pickup code to each placed order and make that code available to the ordering customer. The system must support cafeteria staff in verifying a customer-provided pickup code against the order&#8217;s recorded code before releasing the order.</span></p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 </div>
@@ -2010,6 +2026,15 @@ so the internal representation remains consistent with cafeteria operations.</p>
 </div>
 <div class="paragraph">
 <p>This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.</p>
+</div>
+</div>
+<div class="sect5 green-bg">
+<h6 id="_ir_2_2_4_14_pickup_code_generation_and_display">IR-2.2.4-14 Pickup code generation and display</h6>
+<div class="paragraph">
+<p><span class="green-bg">The system shall generate a 4-digit numeric pickup code for each submitted order. A 4-digit code provides 10,000 possible values (0001–9999), sufficient to ensure a low probability of collision within a single service period while remaining short enough for a customer to recall and communicate verbally to cafeteria staff. The system shall display the assigned pickup code to the customer upon order confirmation.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">The system shall provide a means for cafeteria staff to enter or verify a customer-provided pickup code against the order&#8217;s recorded code before releasing the order to that customer.</span></p>
 </div>
 </div>
 </div>
@@ -2394,11 +2419,11 @@ so the internal representation remains consistent with cafeteria operations.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-text" data-lang="text">export async function createOrder(order: Order) {
+<pre class="highlight"><code class="language-text" data-lang="text">export async function persistOrder(order: Order) {
   const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
 
   if (error) {
-    console.error('Error when creating order:', error.message)
+    console.error('Error when persisting order:', error.message)
     return null
   }
 
@@ -2415,7 +2440,7 @@ so the internal representation remains consistent with cafeteria operations.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>In this brief source code, createOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. If there is an error such as the item not being in stock, an error will be displayed signaling that the order could not be completed, if it was completed, then the order will be placed!</p>
+<p>In this brief source code, <span class="yellow-bg">persistOrder</span> takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. <span class="yellow-bg">The function inserts this fully-formed record directly into the database. Note that the current implementation does not check item availability or stock levels before insertion; stock validation is a known gap that must be enforced before this function is called or added here explicitly if it is intended as a system constraint.</span></p>
 </div>
 <div class="paragraph">
 <p><strong>Pickup Code/ Order Security</strong></p>
@@ -3429,6 +3454,213 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_4_6_mutation_testing"><span class="green-bg">4.6 Mutation Testing</span></h3>
+<div class="paragraph">
+<p><span class="green-bg">The project uses Stryker (stryker-mutator.io) as its main testing tool to conduct mutation tests on all essential system elements. Stryker serves as the optimal testing solution for TypeScript and React Native systems because it provides direct integration with Jest and handles all essential mutation operators used in the codebase through its logical operator replacement and arithmetic operator replacement and constant boundary shift capabilities while generating per module mutation score reports. The complete mutation testing evaluation exists in four LTT documents that are stored in documentation/LectureTopicTasks/.</span></p>
+</div>
+<div class="sect3">
+<h4 id="_component_prioritization"><span class="green-bg">Component Prioritization</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">Before applying Stryker, the team defined a prioritization order for mutation testing based on three factors: criticality to system correctness, complexity of conditional logic, and the likelihood that weak assertions would allow mutants to survive. The resulting priority order is:</span></p>
+</div>
+<div class="olist arabic green-bg">
+<ol class="arabic">
+<li>
+<p>Order Processing Logic — <strong>High priority.</strong> Contains conditional checks, boundary conditions, and decision-making rules that directly determine whether user orders are accepted or rejected.</p>
+</li>
+<li>
+<p>Pricing and Calculation Logic — <strong>High priority.</strong> Arithmetic mutations (e.g., replacing <code>+</code> with <code>-</code>, shifting constants by ±1) produce incorrect totals that can pass undetected if tests only verify that a value is returned rather than verifying its exact amount.</p>
+</li>
+<li>
+<p>Ingredient Handling — <strong>Medium priority.</strong> Simpler logic, but combination-rule mutations and validation-guard removals can still expose test gaps.</p>
+</li>
+<li>
+<p>Menu Management — <strong>Low priority.</strong> Relatively static logic; mutation testing provides the least incremental value here compared to higher-complexity components.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mutation_operators_applied"><span class="green-bg">Mutation Operators Applied</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">In line with the mutation operators identified in the team&#8217;s analyses, Stryker is configured to apply the following operator classes:</span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Operator Class</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Example (Original → Mutant)</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Target Area</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Logical operator swap</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>||</code> → <code>&amp;&amp;</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Order validation guards, payment state checks</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Arithmetic operator swap</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>+</code> → <code>-</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Pricing calculations, quantity computations</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Boundary shift</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>quantity &gt; 0</code> → <code>quantity &gt;= 0</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Order Processing boundary conditions</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Constant replacement</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>x</code> → <code>0</code>, <code>1</code>, <code>-1</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Payment IDs, confirmation IDs, computed totals</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Return value removal</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>return data</code> → <code>return null</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Profile retrieval, payment state propagation</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Validation guard removal</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Remove error check entirely</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Supabase error guards, Stripe response validation</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_results_by_component"><span class="green-bg">Results by Component</span></h4>
+<div class="sect4">
+<h5 id="_profile_management"><span class="green-bg">Profile Management</span></h5>
+<div class="paragraph">
+<p><span class="green-bg">The mutation analysis for Profile Management Logic (<code>MutationTestingProfiles.adoc</code>) identified six high-risk mutation classes. The primary surviving-mutant risk is in functions that return <code>data</code> from a Supabase insert or update: tests that only assert <code>resolves.not.toThrow()</code> cannot kill a <code>return null</code> mutant. The analysis produced a canonical test design showing that assertions must verify specific field values on the returned record — not merely that no exception was thrown.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Key mutants designed and their kill conditions:</span></p>
+</div>
+<div class="ulist green-bg">
+<ul>
+<li>
+<p><strong><code>return data</code> → <code>return null</code></strong> in <code>createProfile</code> — killed by asserting <code>result.user_id</code> equals the input value.</p>
+</li>
+<li>
+<p><strong>Missing <code>user_id</code> in insert</strong> — killed by asserting the persisted record links to the authenticated user.</p>
+</li>
+<li>
+<p><strong>Wrong field updated</strong> (e.g., writing <code>full_name</code> when <code>phone</code> was intended) — killed by asserting the correct field changed and the other did not.</p>
+</li>
+<li>
+<p><strong>Removed Supabase error guard</strong> — killed by asserting that a simulated error causes the function to throw rather than return silently.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_order_processing_logic"><span class="green-bg">Order Processing Logic</span></h5>
+<div class="paragraph">
+<p><span class="green-bg">The analysis for Order Processing (<code>MutationTestingOrder.adoc</code>) found that the highest-risk mutations are those that alter boundary conditions. A representative case is changing <code>quantity &gt; 0</code> to <code>quantity &gt;= 0</code>, which allows orders with zero items to be accepted. If existing tests do not assert that zero-item orders are explicitly rejected, this mutant survives. The analysis recommends parameterized boundary tests that supply quantities of <code>-1</code>, <code>0</code>, and <code>1</code> and assert distinct outcomes for each.</span></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_stripe_payment_workflow"><span class="green-bg">Stripe Payment Workflow</span></h5>
+<div class="paragraph">
+<p><span class="green-bg">The most detailed mutation analysis covers the Stripe payment workflow (<code>payment-mutation-testing-design.adoc</code>). Five specific mutants were designed across the three workflow stages (initiation, confirmation, finalization):</span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 16.6668%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Mutant</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Stage</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Mutated Behavior</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Test Type</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M1: Skip Payment Validation</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Confirmation</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Status set to successful without validating Stripe response</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Unit + Integration</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M2: Premature Order Confirmation</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Finalization</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Order confirmed before payment status verified</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Integration</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M3: Incorrect Status Handling</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Confirmation</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Failed/pending payment treated as successful</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Unit</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M4: Confirmation ID on Failed Payment</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Finalization</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Confirmation ID generated without verifying success</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Integration</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M5: Order Confirmed While Pending</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Finalization</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Order confirmed while payment still pending</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Integration</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><span class="green-bg">All five mutants must be killed by the test suite. M3 is the highest-priority target for unit testing; M1, M2, M4, and M5 require integration-level tests that simulate Stripe API responses.</span></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mutation_score_guidance"><span class="green-bg">Mutation Score Guidance</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The team uses the following mutation score thresholds to guide test improvement, as established in the profile analysis:</span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Score Range</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Interpretation and Action</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">0–60%</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Critical gaps. Add tests for all core operations before any further feature work.</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">60–80%</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Basic behaviors covered. Add parameterized boundary tests and combined-condition assertions.</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">80–90%</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Good coverage. Investigate surviving mutants individually; strengthen assertions.</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">90–100%</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Target range. Focus on test readability and maintainability rather than chasing final mutants.</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3624,6 +3856,12 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.6 - Mutation Testing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added Section 4.6 documenting the project&#8217;s use of Stryker for mutation testing. Covers component prioritization order, mutation operators applied, results by component (Profile Management, Order Processing, Stripe Payment Workflow), and mutation score thresholds. Synthesized from four LTT documents: MutationTestingProfiles, MutationTestingOrder, MutationTestingPrioritization, and payment-mutation-testing-design.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.3.1 - Scope</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Introduced student-focus framing at the start of Scope; removed health/focus motivation from Domain Engineering description; replaced "Define project requirements" with discovery-oriented language in Requirements Engineering; replaced physical locker deployment with a simulation environment in Software Architecture</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
@@ -3634,6 +3872,12 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Restructured from type-based subsections to entity-grouped catalog; added explicit type labels to all entries; acknowledged non-human actors and added Dishwasher Cleaning Dishes example; added Joining a Queue action; revised behaviors to make constituent events and actions explicit; removed Why This Distinction Matters subsection</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sections 2.1.2, 2.2.3, 2.2.4, 2.3.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Renamed createOrder to persistOrder to reflect that it performs database insertion of a fully-formed object; added stock validation gap note; introduced Pickup Code term in terminology, DR-11 in domain requirements, and IR-2.2.4-14 in interface requirements with 4-digit code justification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3641,7 +3885,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-04-07 16:13:04 -0400
+Last updated 2026-04-07 17:34:43 -0400
 </div>
 </div>
 </body>
