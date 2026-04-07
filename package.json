@@ -63,7 +63,6 @@
     "@types/jest": "^30.0.0",
     "@types/react": "~19.1.0",
     "@types/react-test-renderer": "^19.1.0",
-    "react-test-renderer": "19.1.0",
     "babel-jest": "^30.3.0",
     "dotenv": "^17.3.1",
     "eslint": "^9.25.0",
@@ -74,6 +73,9 @@
     "react-test-renderer": "^19.1.0",
     "tsx": "^4.21.0",
     "typescript": "~5.9.2"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "private": true
 }

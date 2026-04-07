@@ -2,8 +2,8 @@ import { strict as assert } from "node:assert";
 import React, { useEffect } from "react";
 import TestRenderer, { act } from "react-test-renderer";
 
-import { AuthProvider, useAuth } from "../../../app/authContext";
-import { supabase } from "../../../lib/supabase";
+import { AuthProvider, useAuth } from "../../../../../../../app/authContext";
+import { supabase } from "../../../../../../../lib/supabase";
 
 type MockSupabaseUser = {
     id: string;
