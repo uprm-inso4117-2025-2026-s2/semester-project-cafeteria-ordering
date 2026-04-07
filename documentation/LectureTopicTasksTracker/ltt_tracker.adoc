@@ -194,20 +194,20 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* provides a structured approach to identify potential faults in the Stripe payment workflow, ensuring payment validation, payment confirmation, and error handling are correctly implemented and reliably tested.
 
-==== LTT-21-(issue-401): Performance Testing of Homepage Rendering with Increased Data
+==== LTT-21-(issue-396): BDD Specification for Menu Browsing Flow
 
-*Lecture Topic:* Performance Testing
+*Lecture Topic:* Behavior-Driven Specification
 
 *Deliverables:*
 
-- Performance testing documentation for homepage under increased dataset
-- Description of load simulation strategy (larger dataset, repeated interactions)
-- Observations on UI responsiveness, filtering, scrolling, and search behavior
-- Identification of any delays, lag, or inconsistencies
+- Five BDD acceptance scenarios covering core and edge behaviors
+- Requirement-to-scenario traceability mapping
+- Clearly defined acceptance criteria
+- A reusable structure for future automated testing
 
-*Evidence:* Associated AsciiDoc file and pull request linked to issue
+*Evidence:* Associated Gherkin files and AsciiDoc file and pull request linked to issue
 
-*Justification:* Evaluates system behavior under increased frontend load to ensure the homepage remains responsive and stable when handling more items and user interactions than usual
+*Justification:* Applies Behavior-Driven Development by defining clear, user-centered acceptance scenarios for the Menu Browsing Flow, ensuring alignment between requirements and implementation while supporting traceability and future automated testing.
 
 === Reserved Lecture Topic Tasks
 
