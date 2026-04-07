@@ -15,7 +15,8 @@ import {
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { useAuth } from '../authContext';
+import { mapSignUpError } from '@/lib/auth';
+import { supabase } from '@/lib/supabase';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface InputFieldProps {
@@ -173,9 +174,9 @@ export default function SignUpScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [authMessage, setAuthMessage] = useState<string | null>(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login } = useAuth();
   const router = useRouter();
 
   const handleSignUp = async () => {
@@ -188,13 +189,38 @@ export default function SignUpScreen() {
       return;
     }
     setErrors({});
+    setAuthMessage(null);
     setIsSubmitting(true);
     try {
-      // TODO: wire up Supabase auth
-      console.log('Sign up:', { fullName, email, phone });
-      console.log('Form submitted');
-      login({ fullName, email });
-      router.push('/(tabs)');
+      // Profile row should be created by existing DB trigger strategy after Auth signup.
+      const { data, error } = await supabase.auth.signUp({
+        email: email.trim(),
+        password,
+        options: {
+          data: {
+            full_name: fullName.trim(),
+            phone: phone.trim() || null,
+          },
+        },
+      });
+
+      if (error) {
+        setAuthMessage(mapSignUpError(error.message));
+        return;
+      }
+
+      if (!data.user) {
+        setAuthMessage('Unable to create account right now. Please try again.');
+        return;
+      }
+
+      if (data.session) {
+        setAuthMessage('Account created successfully.');
+        router.replace('/(tabs)');
+      } else {
+        setAuthMessage('Account created. Please check your email to confirm your account before logging in.');
+        router.replace('/login' as any);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -368,6 +394,21 @@ export default function SignUpScreen() {
           </ThemedText>
         </TouchableOpacity>
 
+        {authMessage && (
+          <ThemedText
+            type="body"
+            style={[
+              styles.authMessage,
+              {
+                color: authMessage.toLowerCase().includes('account created')
+                  ? Colors.primaryGreen
+                  : '#C62828',
+              },
+            ]}>
+            {authMessage}
+          </ThemedText>
+        )}
+
         {/* ── Log In Link ── */}
         <View style={styles.loginLinkRow}>
           <ThemedText type="body" style={styles.loginLinkText} lightColor={Colors.mutedGray}>
@@ -471,4 +512,10 @@ const styles = StyleSheet.create({
   },
   loginLinkText: { fontSize: 16 },
   loginLink: { fontSize: 16, fontWeight: '500' },
+  authMessage: {
+    width: '100%',
+    maxWidth: 480,
+    textAlign: 'center',
+    marginBottom: 12,
+  },
 });
