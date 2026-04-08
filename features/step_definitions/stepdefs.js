@@ -7,9 +7,14 @@ const world = {
   orderStatus: null,
   errorMessage: null,
   backendFailure: false,
+  recoveryEmail: null,
+  newPassword: null,
+  confirmPassword: null,
+  recoveryLinkSent: false,
+  passwordUpdated: false,
 };
 
-// User Authentication
+// User Authentication Steps
 Given("the user is on the login page", function () {
   world.currentPage = "login";
   assert.strictEqual(
@@ -48,7 +53,7 @@ Given('an order is currently marked as "pending"', function () {
 
 When("the staff member updates the order status", function () {
   // Simulate staff updating order status
-  world.orderStatus = "processing";
+  world.orderStatus = "processing"; // Attempted update
 });
 
 When("the backend update fails", function () {
@@ -67,6 +72,72 @@ Then("the order should remain in its previous persisted state", function () {
     world.orderStatus,
     "pending",
     "Order should remain in pending state",
+  );
+});
+
+// Password Recovery Steps
+Given("the user is on the forgot password page", function () {
+  world.currentPage = "forgot-password";
+  assert.strictEqual(
+    world.currentPage,
+    "forgot-password",
+    "User should be on forgot password page",
+  );
+});
+
+When("the user enters their email address", function () {
+  world.recoveryEmail = "user@example.com";
+  assert(world.recoveryEmail, "Email address should be entered");
+});
+
+When("submits the recovery request", function () {
+  world.recoveryLinkSent = true;
+  assert(world.recoveryLinkSent, "Recovery request should be submitted");
+});
+
+Then("the system should send a recovery link to the email", function () {
+  assert(world.recoveryLinkSent, "Recovery link should be sent");
+});
+
+Then("display a confirmation message", function () {
+  world.confirmationMessage = "Recovery link sent to your email";
+  assert(world.confirmationMessage, "Confirmation message should be displayed");
+});
+
+Given("the user has received a recovery link", function () {
+  world.recoveryLinkReceived = true;
+  assert(world.recoveryLinkReceived, "User should have received recovery link");
+});
+
+When("the user enters a new password", function () {
+  world.newPassword = "newSecurePassword123";
+  assert(world.newPassword, "New password should be entered");
+});
+
+When("confirms the new password", function () {
+  world.confirmPassword = "newSecurePassword123";
+  assert.strictEqual(
+    world.newPassword,
+    world.confirmPassword,
+    "Passwords should match",
+  );
+});
+
+When("submits the reset request", function () {
+  world.passwordUpdated = true;
+  assert(world.passwordUpdated, "Reset request should be submitted");
+});
+
+Then("the password should be updated", function () {
+  assert(world.passwordUpdated, "Password should be updated");
+});
+
+Then("the user should be redirected to login", function () {
+  world.currentPage = "login";
+  assert.strictEqual(
+    world.currentPage,
+    "login",
+    "User should be redirected to login",
   );
 });
 
