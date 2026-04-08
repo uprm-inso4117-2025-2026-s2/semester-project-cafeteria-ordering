@@ -1,74 +1,94 @@
 const { execSync } = require("child_process");
 
-function banner(title){
-    console.log("\n===================================================");
-    console.log(title);
-    console.log("===================================================");
+function banner(title) {
+  console.log("\n===================================================");
+  console.log(title);
+  console.log("===================================================");
 }
 
-function runStep(stepName, command){
-    console.log(`\nTest: ${stepName}`); //Prints the step name
-    console.log(`\nCommand: ${command}`); //Prints command being executed
-    execSync(command, { stdio: "inherit" }); //Sends the command's output onto GitHub log.
-    console.log("\n///////////////////////////////////////////////////////////////////////\n")
+function runStep(stepName, command) {
+  console.log(`\nTest: ${stepName}`); //Prints the step name
+  console.log(`\nCommand: ${command}`); //Prints command being executed
+  execSync(command, { stdio: "inherit" }); //Sends the command's output onto GitHub log.
+  console.log(
+    "\n///////////////////////////////////////////////////////////////////////\n",
+  );
 }
 
 //Verify that compiled JavaScript files can be imported cleanly into ci-check.js
 function runInternalCheck(stepName, checkLogic) {
-    console.log(`\nTest: ${stepName}`);
-    console.log(`\nAction: Internal JavaScript Verification`);
-    checkLogic(); // Execute the logic
-    console.log("\n///////////////////////////////////////////////////////////////////////\n");
+  console.log(`\nTest: ${stepName}`);
+  console.log(`\nAction: Internal JavaScript Verification`);
+  checkLogic(); // Execute the logic
+  console.log(
+    "\n///////////////////////////////////////////////////////////////////////\n",
+  );
 }
 
-function main(){
-    banner("AUTO TEST SUITE RUNNING");
+function main() {
+  banner("AUTO TEST SUITE RUNNING");
 
-    runStep("Lint (Expo ESLint)", "npm run lint");
-    runStep("Build Export (Expo export)", "npm run test:build");
+  runStep("Lint (Expo ESLint)", "npm run lint");
+  runStep("Build Export (Expo export)", "npm run test:build");
 
-    //Security & Infrastructure Check
-    //Requieres user to have proper .env file set up for local testing
-    runStep("Supabase Security Check (TC-SUPA-02)", "npx tsx src/tests/supabase/scripts/quick-test.ts");
+  //Security & Infrastructure Check
+  //Requieres user to have proper .env file set up for local testing
+  runStep(
+    "Supabase Security Check (TC-SUPA-02)",
+    "npx tsx src/tests/supabase/scripts/quick-test.ts",
+  );
 
-    //Authentication Logic Check
-    //Ensure that auto_test_suite.js file was properly created in build folder
-    runInternalCheck("Verify Compiled TS Suite", () => {
-        const tsSuite = require('../build/ci-build/auto_test_suite.js');
-        console.log(`Successfully integrated: ${tsSuite.testSuiteMetadata.name}`);
-        console.log(`Active Modules: ${Object.keys(tsSuite.testSuiteMetadata.modules).join(", ")}`);
-    });
+  //Authentication Logic Check
+  //Ensure that auto_test_suite.js file was properly created in build folder
+  runInternalCheck("Verify Compiled TS Suite", () => {
+    const tsSuite = require("../build/ci-build/auto_test_suite.js");
+    console.log(`Successfully integrated: ${tsSuite.testSuiteMetadata.name}`);
+    console.log(
+      `Active Modules: ${Object.keys(tsSuite.testSuiteMetadata.modules).join(", ")}`,
+    );
+  });
 
-    //Ordering & Payment Flow Verification
-    //Assuming these scripts exist as per the TC-ORD files
-    runStep("Ordering Flow (TC-ORD-02)", "npx tsx src/tests/ordering/scripts/UT-ORD-2_Place_and_Confirmation_for_Order.ts");
+  // Ordering Flow Verification
+  runStep(
+    "Ordering Flow: Order Modification (TC-ORD-01)",
+    "npx tsx src/tests/ordering/scripts/UT-OrderModification.ts",
+  );
+  runStep(
+    "Ordering Flow: Place Order & Confirmation (TC-ORD-02)",
+    "npx tsx src/tests/ordering/scripts/UT-ORD-2_Place_and_Confirmation_for_Order.ts",
+  );
 
-    //(UNCOMMENT TO USE)
-    //Test to verify the FAILED tests are correctly logged.
-    //runStep("Intentional failure test", "node -e \"process.exit(1)\"");
+  // Payment Flow Verification
+  runStep(
+    "Payment Flow Validation (TC-PAY-01)",
+    "npx tsx src/tests/payment/scripts/UT-PAY-1_PaymentValidation.ts",
+  );
 
-    banner("AUTO TEST SUITE PASSED");
+  //(UNCOMMENT TO USE)
+  // Test to verify FAILED tests are correctly logged.
+  // runStep("Intentional failure test", "node -e \"process.exit(1)\"");
+
+  banner("AUTO TEST SUITE PASSED");
 }
 
-try{
-    main();
-    process.exit(0);
-}catch (e){
-    banner("AUTO TEST SUITE FAILED");
+try {
+  main();
+  process.exit(0);
+} catch (e) {
+  banner("AUTO TEST SUITE FAILED");
 
-    //Generates timestamp
-    const timestamp= new Date().toISOString();
-    console.error(`\nTimestamp: ${timestamp}`);
-    
-    //Logic for lvl identificaiton is in TBD
-    //Logs the level (INFO/ERROR/FATAL)
+  //Generates timestamp
+  const timestamp = new Date().toISOString();
+  console.error(`\nTimestamp: ${timestamp}`);
 
-    //Error message
-    console.error(`\nError message: \n${e?.message ?? e}`);
+  //Logic for lvl identificaiton is in TBD
+  //Logs the level (INFO/ERROR/FATAL)
 
-    //Logs defect source
-    console.error(`\nSource: \n${e.stack}`);
+  //Error message
+  console.error(`\nError message: \n${e?.message ?? e}`);
 
+  //Logs defect source
+  console.error(`\nSource: \n${e.stack}`);
 
-    process.exit(1);
+  process.exit(1);
 }

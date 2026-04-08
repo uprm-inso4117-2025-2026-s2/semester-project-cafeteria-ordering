@@ -1,0 +1,91 @@
+= TR-PROF-02 Offline Mode Behavior Validation Report
+Author: Kevin J. Lara-Rodriguez
+
+*Date:* 2026-04-07
+
+*ID:* TR-PROF-02
+
+*Issue:* #450
+
+*Test:* OT-PROF-01_offline_mode_behavior.test.tsx
+
+*Type:* Jest Offline Behavior Validation
+
+*Pass/Fail Status:* PASS
+
+== Description
+This report documents the executed offline behavior validation for the Profile & Offline Support area.
+
+The validation was performed through the Jest test script `OT-PROF-01_offline_mode_behavior.test.tsx` and was based on the current implementation of the following files:
+
+- `src/app/(tabs)/profile.tsx`
+- `src/app/authContext.tsx`
+- `src/lib/profiles.ts`
+- `src/lib/supabase.ts`
+
+The executed validation focused only on offline-related behavior that is actually implemented in the current codebase for the profile screen.
+
+== Execution Summary
+The test script was executed with the following command:
+
+[source,bash]
+----
+npx jest --config ./jest.config.js src/tests/profile/scripts/OT-PROF-01_offline_mode_behavior.test.tsx --runInBand
+----
+
+Execution result:
+
+[source,text]
+----
+PASS  src/tests/profile/scripts/OT-PROF-01_offline_mode_behavior.test.tsx
+  OT-PROF-01 offline mode behavior
+    ✓ loads cached profile data and cached avatar from AsyncStorage on mount
+    ✓ falls back safely when cached profile data and avatar are missing
+    ✓ navigates to edit-profile from the profile screen and does not perform inline local save
+    ✓ persists previously cached profile data across remounts
+    ✓ stores selected avatar locally and reloads it on remount
+    ✓ shows permission alert when avatar access is denied
+
+Test Suites: 1 passed, 1 total
+Tests:       6 passed, 6 total
+Snapshots:   0 total
+----
+
+== Validated Implemented Behavior
+The current implementation supports the following validated offline-related behavior on the profile screen:
+
+- Profile information is loaded from `@profile_info` in AsyncStorage on mount
+- Avatar information is loaded from `@profile_avatar` in AsyncStorage on mount
+- Missing cached profile data falls back safely to default profile UI state
+- Missing cached avatar data falls back safely to the default avatar/initial state
+- Previously cached profile data can be recovered on a fresh mount/remount
+- Previously cached avatar data can be recovered on a fresh mount/remount
+- Pressing `Edit` on the current profile screen navigates to `/edit-profile`
+- The current profile screen does not perform inline local save of profile edits
+- Permission denial during avatar selection shows the expected alert and prevents avatar selection from proceeding
+
+== Unsupported / Not Implemented Behavior
+The following offline-related behaviors are not currently implemented on the profile screen and were therefore not validated as supported behavior:
+
+- Reconnect-based backend synchronization for profile edits
+- Retry queues for pending offline profile changes
+- Conflict handling between local profile edits and backend profile state
+- Duplicate-prevention logic for replayed offline edits
+- Offline/online status banner or explicit offline messaging in the profile screen
+- Automatic backend update of profile edits from the current profile screen
+- Inline edit-and-save workflow on `src/app/(tabs)/profile.tsx`
+
+== Conclusion
+The current implementation satisfies a limited but valid offline profile behavior scope through AsyncStorage-based recovery of cached profile and avatar data, safe fallback behavior when cached data is missing, and correct navigation from the profile screen to the dedicated `/edit-profile` flow.
+
+This means the current profile screen supports:
+
+- offline access to previously cached profile data
+- offline access to previously cached avatar state
+- safe default rendering when cache entries are absent
+- navigation to the dedicated edit flow rather than inline editing on the profile screen
+
+However, the broader offline synchronization behavior described in the issue is only partially supported by the present implementation. Full reconnect-based profile synchronization, retry handling, and conflict handling are not currently available in the profile screen implementation and therefore were not validated as implemented behavior.
+
+== Notes
+This report reflects the actual implementation status of the project and the actual result of the executed Jest validation, rather than assuming offline synchronization features that do not yet exist.
