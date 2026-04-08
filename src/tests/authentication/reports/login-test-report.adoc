@@ -28,3 +28,4 @@ All 8 test cases passed successfully:
 Test suite executed in 1.637s with no failures. All positive and negative scenarios (EP methodology) covered, including empty fields, invalid email format, unregistered email, wrong password, valid login, and Google OAuth.
 
 // End of report
+//
