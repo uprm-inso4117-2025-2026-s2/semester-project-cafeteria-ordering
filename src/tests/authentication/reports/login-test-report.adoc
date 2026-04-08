@@ -1,0 +1,29 @@
+= TC-AUTH-04 User Login Functionality Verification TR
+Author: Januel E. Torres Marquez
+
+*Date:* 2026-04-06
+
+*ID:* TR-AUTH-04
+
+*Issue:* #389
+
+*Test:* TC-AUTH-04 - User Login Functionality Verification (login.test.tsx)
+
+*Pass/Fail Status:* PASS
+
+== Description
+All 8 test cases passed successfully:
+
+1. Login screen renders correctly with title
+2. All required UI elements are displayed (Email, Password, Sign in, Google OAuth, Sign up link)
+3. Required field errors shown when submitting empty fields
+4. Invalid email formats are rejected
+5. Unregistered emails show generic error message
+6. Incorrect passwords show generic error message
+7. Valid credentials authenticate successfully
+8. Google OAuth button triggers expected flow
+
+
+== Notes
+Test suite executed in 1.637s with no failures. All positive and negative scenarios (EP methodology) covered, including empty fields, invalid email format, unregistered email, wrong password, valid login, and Google OAuth.
+//
