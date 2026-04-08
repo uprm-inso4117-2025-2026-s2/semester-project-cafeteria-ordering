@@ -8,4 +8,5 @@
 |TR-ORD-01 |Test report to inform about the execution of order modification procedures| UT-OrderModification.ts
 |TR-ORD-2 |Report that unit test outputs for Order ID generation are correct, including format validation and handling of invalid or undefined values |
 |TR-AUTH-03 |Test report for User Sign Up functionality with valid data, including UI verification, happy path, negative test scenarios, form recovery, and optional phone number validation |src/tests/authentication/scripts/signup_valid_data.test.tsx
+|TR-AUTH-04 |Test report for Account Verification Process including valid token verification, invalid/expired tokens, resend verification email, already verified account handling, and empty/missing token validation |src/tests/authentication/scripts/verification.test.tsx
 |====
