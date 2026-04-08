@@ -1,14 +1,25 @@
+// jest.config.js
 module.exports = {
-    preset: "jest-expo",
-    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
-    testMatch: ["**/?(*.)+(test|spec).[tj]s?(x)"],
-    transformIgnorePatterns: [
-        "node_modules/(?!(jest-)?react-native|@react-native|react-native|expo(nent)?|@expo(nent)?/.*|expo-router|@expo/vector-icons|@react-navigation/.*|@react-native-async-storage/async-storage)"
-    ],
-    moduleNameMapper: {
-        "^@/(.*)$": "<rootDir>/src/$1",
-        "^expo$": "<rootDir>/src/tests/__mocks__/expoMock.js",
-        "^expo/(.*)$": "<rootDir>/src/tests/__mocks__/expoMock.js",
-        "\\.(png|jpg|jpeg|gif|webp|svg)$": "<rootDir>/src/tests/__mocks__/fileMock.js"
-    }
+  preset: "jest-expo",
+  setupFiles: ["<rootDir>/jest.setup.js"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setupAfterEnv.js"],
+  transformIgnorePatterns: [
+    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-vector-icons|@react-navigation|@testing-library/react-native|@supabase/supabase-js)",
+  ],
+  transform: {
+    "^.+\\.[jt]sx?$": "babel-jest",
+  },
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  testEnvironment: "node",
+  testMatch: [
+    "**/__tests__/**/*.test.[jt]s?(x)",
+    "**/?(*.)+(spec|test).[jt]s?(x)",
+    "**/src/**/*.test.[jt]s?(x)",
+    "**/src/**/*.spec.[jt]s?(x)",
+  ],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "^@app/(.*)$": "<rootDir>/src/app/$1",
+  },
+  verbose: true,
 };
