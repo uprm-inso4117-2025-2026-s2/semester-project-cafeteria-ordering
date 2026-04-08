@@ -5,7 +5,7 @@
  *
  * @id TC-PROF-02
  * @author Kevin J. Lara-Rodriguez
- * @date 2026-04-02
+ * @date 2026-04-07
  *
  * ============================================================================
  * @description
@@ -13,22 +13,26 @@
  * application is operating without network connectivity, based on the current
  * implementation of the Profile & Offline Support area.
  *
- * This validation focuses on the offline behavior that is actually implemented
- * in the codebase today: local persistence and recovery of profile information
- * and avatar data through AsyncStorage.
+ * This validation focuses only on offline behavior that is actually implemented
+ * in the current codebase for the profile screen. The current implementation
+ * supports local persistence and recovery of cached profile and avatar data
+ * through AsyncStorage, safe fallback behavior when cached data is missing,
+ * and navigation from the profile screen to the dedicated edit-profile flow.
  *
  * This test case does not assume the existence of reconnect-based backend sync,
- * conflict resolution, retry queues, or offline state banners unless those
+ * retry queues, conflict resolution, or offline status messaging unless those
  * behaviors are explicitly implemented.
  *
  * ============================================================================
  * @preconditions
  * - The profile screen exists at src/app/(tabs)/profile.tsx
- * - AsyncStorage is available to persist local profile data
+ * - AsyncStorage is available to persist local profile and avatar data
  * - The profile screen can be rendered and mounted
  * - Previously saved profile data may exist under:
  *   - @profile_info
  *   - @profile_avatar
+ * - The profile screen uses expo-router navigation and currently routes Edit
+ *   actions to /edit-profile
  *
  * ============================================================================
  * @test_data
@@ -40,14 +44,19 @@
  *   "phone": "787-555-0001"
  * }
  *
+ * Persisted Profile Data:
+ * {
+ *   "name": "Kevin Persisted",
+ *   "email": "persisted@example.com",
+ *   "phone": "787-000-9999"
+ * }
+ *
  * Cached Avatar URI:
  * file:///mock/path/avatar.jpg
  *
- * Updated Profile Data:
+ * Permission-Denied Response:
  * {
- *   "name": "Kevin J. Lara-Rodriguez",
- *   "email": "kevinjr@example.com",
- *   "phone": "939-555-1111"
+ *   "status": "denied"
  * }
  *
  * ============================================================================
@@ -56,17 +65,17 @@
  * 1. Validate cached profile load on mount
  *    Expected:
  *    - On screen mount, the profile screen reads @profile_info from AsyncStorage.
- *    - If data exists, name, email, and phone state are populated from storage.
+ *    - If data exists, name, email, and phone values are populated from storage.
  *
  * 2. Validate cached avatar load on mount
  *    Expected:
  *    - On screen mount, the profile screen reads @profile_avatar from AsyncStorage.
- *    - If data exists, avatarUri state is populated from storage.
+ *    - If data exists, avatarUri is populated from storage.
  *
  * 3. Validate behavior when cached profile data is missing
  *    Expected:
  *    - If @profile_info is missing, the screen does not crash.
- *    - Name, email, and phone remain default empty strings.
+ *    - Name, email, and phone remain default empty values.
  *    - The UI falls back to default display values such as "Your Name" and "?".
  *
  * 4. Validate behavior when cached avatar is missing
@@ -74,42 +83,49 @@
  *    - If @profile_avatar is missing, the screen does not crash.
  *    - The UI falls back to the default avatar/initial state.
  *
- * 5. Validate local save behavior while offline
+ * 5. Validate Edit action behavior on the current profile screen
  *    Expected:
- *    - When the user edits name/email/phone and presses Save, the screen writes
- *      the updated values to @profile_info in AsyncStorage.
- *    - The Saved! feedback state is shown locally.
+ *    - Pressing Edit navigates to /edit-profile.
+ *    - The current profile screen does not expose inline editable profile fields.
+ *    - The current profile screen does not perform inline local save of edited
+ *      profile data through a Save action on this screen.
  *
- * 6. Validate persistence across app restart
+ * 6. Validate persistence of previously cached profile data across remounts
  *    Expected:
- *    - After local save, a fresh mount/restart of the profile screen reloads the
- *      updated values from AsyncStorage.
+ *    - When profile data is already stored under @profile_info, a fresh mount/
+ *      remount of the profile screen reloads and displays that cached data.
  *
- * 7. Validate avatar persistence across app restart
+ * 7. Validate avatar persistence across remounts
  *    Expected:
- *    - After selecting an avatar and saving it to @profile_avatar, a fresh
- *      mount/restart reloads the saved avatar URI from AsyncStorage.
+ *    - After selecting an avatar and storing it under @profile_avatar, a fresh
+ *      mount/remount reloads the saved avatar URI.
  *
- * 8. Validate unsupported or unimplemented offline behaviors
+ * 8. Validate permission-denied avatar behavior
+ *    Expected:
+ *    - If media library access is denied, the screen shows the expected alert.
+ *    - Avatar selection is not launched after permission denial.
+ *
+ * 9. Validate unsupported or unimplemented offline behaviors
  *    Expected:
  *    - No reconnect-based backend synchronization for profile edits is triggered
- *      by handleSave().
+ *      by the current profile screen.
  *    - No offline/online status banner or explicit offline messaging is shown
  *      by the profile screen.
  *    - No retry queue or conflict-resolution behavior is implemented for local
- *      profile edits.
+ *      profile changes in this screen.
  *
  * ============================================================================
  * @expected_results
  *
- * - Implemented offline profile behavior works through local AsyncStorage
- *   persistence and recovery.
+ * - Implemented offline profile behavior works through AsyncStorage-based
+ *   persistence and recovery of cached profile and avatar data.
  * - Previously saved profile fields can be accessed while offline.
  * - Previously saved avatar data can be accessed while offline.
- * - Local profile edits persist across app restarts.
  * - Missing cached data does not crash the screen.
+ * - The current profile screen routes Edit actions to /edit-profile instead of
+ *   performing inline editing and saving on the same screen.
  * - Unsupported offline synchronization/reconnect features are explicitly
- *   identified as not implemented in the current codebase.
+ *   identified as not implemented in the current codebase for this screen.
  *
  * ============================================================================
  * @notes
@@ -122,8 +138,11 @@
  *
  * Important scope note:
  * This test case is intentionally limited to the offline behavior that is
- * actually implemented. The current profile screen persists data locally but
- * does not sync edited profile data back to Supabase on reconnect.
+ * actually implemented on the current profile screen. The passing automated
+ * validation confirms cached data recovery, avatar persistence, safe fallback
+ * behavior, permission-denied handling, and navigation to /edit-profile.
+ * It does not claim inline edit/save behavior on profile.tsx because the
+ * current implementation now routes Edit to a dedicated edit-profile screen.
  *
  * ============================================================================
  * @reviewed_by

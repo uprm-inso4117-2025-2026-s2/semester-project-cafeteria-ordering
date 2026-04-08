@@ -69,6 +69,7 @@
     "jest": "^30.3.0",
     "jest-expo": "^55.0.13",
     "metro-react-native-babel-preset": "^0.77.0",
+    "prettier": "^3.8.1",
     "react-test-renderer": "19.2.3",
     "tsx": "^4.21.0",
     "typescript": "~5.9.2"
