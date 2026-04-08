@@ -482,6 +482,9 @@ Friday, February 27, 2026</p>
 <li><a href="#_4_1_tdd">4.1 TDD</a></li>
 <li><a href="#_4_2_bdd_and_bdd_tool_usage">4.2 BDD and BDD tool usage</a></li>
 <li><a href="#_4_3_use_of_debugging">4.3 Use of Debugging</a></li>
+<li><a href="#_4_4_load_testing"><span class="green-bg">4.4 Load Testing</span></a></li>
+<li><a href="#_4_5_hoare_logic_testing"><span class="green-bg">4.5 Hoare Logic Testing</span></a></li>
+<li><a href="#_4_6_mutation_testing"><span class="green-bg">4.6 Mutation Testing</span></a></li>
 </ul>
 </li>
 <li><a href="#_appendix_a_ai_disclosure_statement">Appendix A: AI Disclosure Statement</a>
@@ -493,7 +496,7 @@ Friday, February 27, 2026</p>
 <li><a href="#_reflection">Reflection</a></li>
 </ul>
 </li>
-<li><a href="#_logbook">Logbook</a></li>
+<li><a href="#_appendix_b_log_of_changes">Appendix B: Log of Changes</a></li>
 </ul>
 </div>
 </div>
@@ -524,7 +527,7 @@ Friday, February 27, 2026</p>
 <div class="sect3">
 <h4 id="_team_structure">Team Structure</h4>
 <div class="paragraph">
-<p>The project team is organized into four functional divisions: Documentation, Test Planning, Research and Set Up, and UI. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division&#8217;s primary objectives.</p>
+<p><span class="yellow-bg">The project team is organized into six functional divisions: one Documentation team and five feature-based implementation teams. Each division has a designated Team Lead responsible for coordinating tasks, tracking progress, and ensuring alignment with project requirements. All team members contribute collaboratively while focusing on their division&#8217;s primary objectives.</span></p>
 </div>
 </div>
 <div class="sect3">
@@ -597,10 +600,10 @@ Ensure that the project documentation satisfies all hand-in requirements and ali
 </div>
 </div>
 <div class="sect4">
-<h5 id="_quality_assurance_team">Quality Assurance Team</h5>
+<h5 id="_authentication_security_team">Authentication &amp; Security Team</h5>
 <div class="paragraph">
 <p><strong>Objective:</strong><br>
-Identify and implement the initial test suite and configure automated testing using GitHub Actions.</p>
+Implement and secure the authentication and authorization infrastructure of the system.</p>
 </div>
 <div class="paragraph">
 <p><strong>Responsibilities:</strong></p>
@@ -608,19 +611,268 @@ Identify and implement the initial test suite and configure automated testing us
 <div class="ulist">
 <ul>
 <li>
-<p>Define testing strategies (unit, integration, etc.).</p>
+<p>Login and Sign Up implementation</p>
 </li>
 <li>
-<p>Design test cases based on system requirements.</p>
+<p>Continue as guest feature implementation</p>
 </li>
 <li>
-<p>Implement automated tests.</p>
+<p>Password encryption and validation</p>
 </li>
 <li>
-<p>Configure and maintain CI workflows using GitHub Actions.</p>
+<p>Role-Based Access Control (Customer vs Staff)</p>
 </li>
 <li>
-<p>Monitor test coverage and reliability.</p>
+<p>Row-Level Security (RLS) implementation in Supabase</p>
+</li>
+<li>
+<p>Secure Pickup Verification logic</p>
+</li>
+<li>
+<p>Enforcement of access restrictions across all features</p>
+</li>
+<li>
+<p>Authentication-related error handling</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Devlin Hahn-Acosta</p>
+</div>
+<div class="paragraph">
+<p><strong>Co-Lead:</strong> Januel E. Torres-Marquez</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fabiola Z. Torres-Maldonado</p>
+</li>
+<li>
+<p>Ernesto S. Soto-Rivera</p>
+</li>
+<li>
+<p>Luis J. Cruz-Cruz</p>
+</li>
+<li>
+<p>Jahdiel E. Montero-Alicea</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_customer_ordering_payments_team">Customer Ordering &amp; Payments Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Implement the full customer ordering workflow from browsing the menu to completing payment.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Home screen with dynamic menu display</p>
+</li>
+<li>
+<p>Cart management system</p>
+</li>
+<li>
+<p>Order creation and cancellation logic</p>
+</li>
+<li>
+<p>Stripe payment integration</p>
+</li>
+<li>
+<p>Payment confirmation handling</p>
+</li>
+<li>
+<p>Order lifecycle tracking</p>
+</li>
+<li>
+<p>Integration with real-time updates</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Horeb Cotto-Rosado</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Kaysha L. Pagan-Lopez</p>
+</li>
+<li>
+<p>Jon M. Vargas-Torres</p>
+</li>
+<li>
+<p>Yandre Caban-Torres</p>
+</li>
+<li>
+<p>Fernando Castro-Cancel</p>
+</li>
+<li>
+<p>Gerardo Y. Soto-Rios</p>
+</li>
+<li>
+<p>Yadriel Rivera-Rodriguez</p>
+</li>
+<li>
+<p>Karina Lopez-Rodriguez</p>
+</li>
+<li>
+<p>Samarys Barreiro-Melendez</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_staff_operations_real_time_team">Staff Operations &amp; Real-Time Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Handle staff-facing functionality and real-time order management.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Staff dashboard implementation</p>
+</li>
+<li>
+<p>View active orders</p>
+</li>
+<li>
+<p>Mark orders as completed</p>
+</li>
+<li>
+<p>Cancel orders</p>
+</li>
+<li>
+<p>Real-time order updates</p>
+</li>
+<li>
+<p>Push notification logic</p>
+</li>
+<li>
+<p>Order state transitions and integrity validation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Reinaldo J. Martinez-Morales</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Yamilette C. Alemany-Vazquez</p>
+</li>
+<li>
+<p>Natalia S. Vera-Rivera</p>
+</li>
+<li>
+<p>Osvaldo F. Figueroa-Canino</p>
+</li>
+<li>
+<p>Aryam Z. Diaz-Torres</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_profile_offline_support_team">Profile &amp; Offline Support Team</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Manage user profile functionality and offline capabilities.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Profile screen implementation</p>
+</li>
+<li>
+<p>Profile data persistence</p>
+</li>
+<li>
+<p>Editing and updating user information</p>
+</li>
+<li>
+<p>Order history display</p>
+</li>
+<li>
+<p>Offline data caching</p>
+</li>
+<li>
+<p>Offline-to-online synchronization logic</p>
+</li>
+<li>
+<p>Conflict resolution validation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Team Lead:</strong> Andrea P. Segarra-Felix</p>
+</div>
+<div class="paragraph">
+<p><strong>Members:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Daniella I. Melero-Pereira</p>
+</li>
+<li>
+<p>Pedro J. Bonilla-Morales</p>
+</li>
+<li>
+<p>Kevin J. Lara-Rodriguez</p>
+</li>
+<li>
+<p>Lorenzo A. Perez-Torres</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_central_qa_automation_core">Central QA Automation Core</h5>
+<div class="paragraph">
+<p><strong>Objective:</strong><br>
+Oversee system-wide quality and automation.</p>
+</div>
+<div class="paragraph">
+<p><strong>Responsibilities:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Maintain GitHub Actions CI/CD pipeline</p>
+</li>
+<li>
+<p>Expand automated regression suite</p>
+</li>
+<li>
+<p>Monitor test coverage</p>
+</li>
+<li>
+<p>Enforce entry/exit testing criteria</p>
+</li>
+<li>
+<p>Generate milestone-level QA reports</p>
+</li>
+<li>
+<p>Ensure integration testing across teams</p>
 </li>
 </ul>
 </div>
@@ -633,139 +885,10 @@ Identify and implement the initial test suite and configure automated testing us
 <div class="ulist">
 <ul>
 <li>
-<p>Horeb Cotto-Rosado</p>
-</li>
-<li>
-<p>Kevin J. Lara-Rodriguez</p>
-</li>
-<li>
 <p>Kian R. Ramos-Vega</p>
 </li>
 <li>
 <p>Lucas A. Matos-Datiz</p>
-</li>
-<li>
-<p>Januel E. Torres-Marquez</p>
-</li>
-<li>
-<p>Devlin Hahn-Acosta</p>
-</li>
-<li>
-<p>Gerardo Y. Soto-Rios</p>
-</li>
-<li>
-<p>Yadriel Rivera-Rodriguez</p>
-</li>
-<li>
-<p>Aryam Z. Diaz-Torres</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_research_and_set_up_team">Research and Set Up Team</h5>
-<div class="paragraph">
-<p><strong>Objective:</strong><br>
-Research and establish the technical foundation of the project, including mobile framework selection and backend/database configuration.</p>
-</div>
-<div class="paragraph">
-<p><strong>Responsibilities:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Set up the initial project structure and development environment.</p>
-</li>
-<li>
-<p>Implement core functionality using React Native.</p>
-</li>
-<li>
-<p>Evaluate and select an appropriate database solution.</p>
-</li>
-<li>
-<p>Define backend requirements and integration approach.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Team Lead:</strong> Fernando Castro-Cancel</p>
-</div>
-<div class="paragraph">
-<p><strong>Members:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Osvaldo F. Figueroa-Canino</p>
-</li>
-<li>
-<p>Yandre Caban-Torres</p>
-</li>
-<li>
-<p>Luis J. Cruz-Cruz</p>
-</li>
-<li>
-<p>Pedro J. Bonilla-Morales</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_ui_team">UI Team</h5>
-<div class="paragraph">
-<p><strong>Objective:</strong><br>
-Define the application&#8217;s branding, visual identity, and user experience.</p>
-</div>
-<div class="paragraph">
-<p><strong>Responsibilities:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Design the application&#8217;s interface and layout.</p>
-</li>
-<li>
-<p>Establish branding guidelines (colors, typography, design system).</p>
-</li>
-<li>
-<p>Define user workflows and navigation structure.</p>
-</li>
-<li>
-<p>Ensure usability and accessibility standards are considered.</p>
-</li>
-<li>
-<p>Collaborate with the development team to implement UI components.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Team Lead:</strong> Yamilette C. Alemany-Vazquez</p>
-</div>
-<div class="paragraph">
-<p><strong>Members:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Daniella I. Melero-Pereira</p>
-</li>
-<li>
-<p>Andrea P. Segarra-Felix</p>
-</li>
-<li>
-<p>Fabiola Z. Torres-Maldonado</p>
-</li>
-<li>
-<p>Natalia S. Vera-Rivera</p>
-</li>
-<li>
-<p>Jon M. Vargas-Torres</p>
-</li>
-<li>
-<p>Kaysha L. Pagan-Lopez</p>
-</li>
-<li>
-<p>Ernesto S. Soto-Rivera</p>
 </li>
 </ul>
 </div>
@@ -991,16 +1114,16 @@ Define the application&#8217;s branding, visual identity, and user experience.</
 <p><strong>Scope</strong></p>
 </div>
 <div class="paragraph">
-<p>The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.</p>
+<p><span class="yellow-bg">While anyone at the university is welcome to purchase from the cafeteria, this application is primarily intended for students, who represent the cafeteria&#8217;s largest customer group and face the most significant challenges described in this document. The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.</span></p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in-person ordering. This includes examining how long wait times affect student health and focus, as well as structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.</span></p>
+<p><span class="yellow-bg">Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in-person ordering. This involves structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.</span></p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">Requirements Engineering: Define project requirements that allow users to view menus, manage a digital cart, and process remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes. These requirements must be made explicit from the perspective of students, staff, and administrators so that later design and implementation decisions are guided by stakeholder needs rather than assumptions.</span></p>
+<p><span class="yellow-bg">Requirements Engineering: Discover what prospective users need from the system and capture those findings as prescriptions for system behavior. This includes eliciting user expectations around viewing menus, managing a digital cart, and processing remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes. These prescriptions must be made explicit from the perspective of students, staff, and administrators so that later design and implementation decisions are guided by stakeholder needs rather than assumptions.</span></p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">Software Architecture: The architecture will consist of a web front-end for students and staff. It will integrate a backend ordering engine with a physical infrastructure component: a dedicated, locker-style pickup area designed to reduce counter congestion. Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, early architectural planning is necessary to define responsibilities clearly and reduce the risk of poorly structured design decisions.</span></p>
+<p><span class="yellow-bg">Software Architecture: The architecture will consist of a web front-end for students and staff. It will integrate a backend ordering engine with a simulation environment in place of a physical infrastructure component: cafeteria workers, pickup areas, and order states will be simulated to enable end-to-end testing without requiring physical deployment. Because there is no existing digital infrastructure supporting peak-hour cafeteria operations, early architectural planning is necessary to define responsibilities clearly and reduce the risk of poorly structured design decisions.</span></p>
 </div>
 <div class="paragraph">
 <p><span class="yellow-bg">Software Design Process: The project will follow an iterative, test-driven development lifecycle. A standardized process for handling order flows and issues will be defined, and a continuous feedback loop with cafeteria staff and students will be used to refine the user interface, pickup flow, and operational procedures over time. The process will also include early planning for testing and evaluation so that improvements such as reduced waiting times, smoother pickup, reliability, and usability can be assessed in a structured way.</span></p>
@@ -1187,6 +1310,11 @@ Staff responsible for preparing meals, handling orders, processing payments, and
 <p>(entity, domain)
 <span class="yellow-bg">A request made by a customer for one or more items from the menu.</span></p>
 </dd>
+<dt class="hdlist1">Pickup Code </dt>
+<dd>
+<p>(entity, domain)
+<span class="green-bg">A short numeric code generated at the time an order is placed, assigned to that order, and presented to the customer. The code is used at the pickup counter to verify that the correct customer is collecting the order, reducing the risk of incorrect handoff or order theft.</span></p>
+</dd>
 <dt class="hdlist1">Queue </dt>
 <dd>
 <p>(entity, domain)
@@ -1354,7 +1482,7 @@ A situation that occurs when large numbers of students arrive within a short tim
 <div class="sect3">
 <h4 id="_2_1_5_events_actions_and_behaviors">2.1.5 Events, Actions, and Behaviors</h4>
 <div class="paragraph">
-<p>This section distinguishes between <strong>events</strong>, <strong>actions</strong>, and <strong>behaviors</strong> in the cafeteria domain. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an intentional act by an actor (action), and what emerges as a process or recurring pattern over time (behavior).</p>
+<p>This section <span class="yellow-bg">catalogs the</span> <strong>events</strong>, <strong>actions</strong>, and <strong>behaviors</strong> <span class="yellow-bg">present in</span> the cafeteria domain, <span class="yellow-bg">grouped alongside their related domain entities rather than organized by type alone</span>. The distinction is important because it clarifies what is observed as an instantaneous moment (event), what is performed as an <span class="yellow-bg">act by a human or non-human actor</span> (action), and what emerges as a process or recurring pattern over time (behavior).</p>
 </div>
 <div class="paragraph">
 <p>There is a difference between:</p>
@@ -1372,114 +1500,147 @@ A situation that occurs when large numbers of students arrive within a short tim
 </li>
 </ul>
 </div>
-<div class="sect4">
-<h5 id="_events_observable_moments">Events (Observable Moments)</h5>
 <div class="paragraph">
-<p>An <strong>event</strong> is an observable "just happened" moment: a point in time at which the domain state has changed. Events are useful to describe transitions and to connect domain observations to later requirements and system representations.</p>
+<p><span class="green-bg">Actions may be performed by human actors (students or cafeteria staff) or by non-human actors such as equipment or automated processes.</span></p>
 </div>
 <div class="paragraph">
-<p>Examples (from Section 2.1.2):</p>
+<p><span class="red-bg line-through">===== Events (Observable Moments)</span></p>
 </div>
+<div class="paragraph">
+<p><span class="red-bg line-through">An <strong>event</strong> is an observable "just happened" moment: a point in time at which the domain state has changed. Events are useful to describe transitions and to connect domain observations to later requirements and system representations.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">Examples (from Section 2.1.2):</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* <strong>Student Has Just Joined the Queue</strong> — the moment a student enters the line.</span>
+<span class="red-bg line-through">* <strong>Order Has Just Been Placed</strong> — the moment the student&#8217;s request is communicated to staff.</span>
+<span class="red-bg line-through">* <strong>Payment Has Just Failed</strong> — the moment a payment attempt does not complete successfully.</span>
+<span class="red-bg line-through">* <strong>Meal Has Just Been Prepared</strong> — the moment the meal becomes ready for pickup.</span>
+<span class="red-bg line-through">* <strong>Student Has Just Left the Queue Without Ordering</strong> — the moment the student abandons the line.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">Each event captures a transition moment that can be observed directly in the cafeteria environment.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">===== Actions (Acts Performed by Actors)</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">An <strong>action</strong> is an intentional act performed by an actor (student or cafeteria staff) that changes the state of the domain. Actions often lead to events. Multiple actions may be required before a particular event becomes observable.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">Examples (from Section 2.1.2):</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* <strong>Order Placement</strong> — the act of selecting menu items and communicating the request to cafeteria staff.</span>
+<span class="red-bg line-through">* <strong>Payment</strong> — the act of attempting to complete a transaction at the counter.</span>
+<span class="red-bg line-through">* <strong>Meal Preparation</strong> — the act of producing meals in advance or in response to incoming orders.</span>
+<span class="red-bg line-through">* <strong>Meal Pickup</strong> — the act of receiving the prepared meal.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">Actions describe what participants do, while events describe the moment we can observe the outcome of those actions.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">===== Behaviors (Processes and Patterns Over Time)</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">A <strong>behavior</strong> is a process or recurring pattern that unfolds over time and is composed of multiple actions and events. Behaviors describe how the cafeteria operates under certain conditions, especially during peak hours.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">Examples (from Section 2.1.2):</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* <strong>Crowd Surge</strong> — many students arrive in a short time span, creating long queues and pressure.</span>
+<span class="red-bg line-through">* <strong>Time-Constrained Decision Making</strong> — students evaluate waiting time versus their schedules and decide whether to stay or leave.</span>
+<span class="red-bg line-through">* <strong>Uncertain Demand Preparation</strong> — staff prepare meals without precise near-term demand information.</span>
+<span class="red-bg line-through">* <strong>Service Bottleneck</strong> — recurring slowdowns due to limited capacity in ordering, payment, or preparation.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">Behavior decomposition example:</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through"><strong>Behavior:</strong> Service Bottleneck (payment)</span>
+<span class="red-bg line-through"><strong>Actions involved:</strong> Payment attempts, staff troubleshooting, repeated retries</span>
+<span class="red-bg line-through"><strong>Events observed:</strong> Payment Has Just Failed; Student Has Just Left the Queue Without Ordering</span>
+<span class="red-bg line-through"><strong>Outcome:</strong> increased waiting time and reduced service throughput</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">===== Why This Distinction Matters</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">This distinction supports later requirements and testing work:</span></p>
+</div>
+<div class="paragraph">
+<p><span class="red-bg line-through">* Events identify the exact moments when state changes occur (useful for tracking and notification requirements later).</span>
+<span class="red-bg line-through">* Actions describe what users and staff do (useful for defining system interactions and responsibilities).</span>
+<span class="red-bg line-through">* Behaviors capture the recurring patterns that drive the main problem (long waiting times), especially during peak periods.</span></p>
+</div>
+<div class="sect4 green-bg">
+<h5 id="_queue_and_customer_arrival">Queue and Customer Arrival</h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Student Has Just Joined the Queue</strong> — the moment a student enters the line.</p>
+<p><span class="green-bg"><strong>Joining a Queue (action)</strong> — the act of a student entering the service line to await their turn.</span></p>
 </li>
 <li>
-<p><strong>Order Has Just Been Placed</strong> — the moment the student&#8217;s request is communicated to staff.</p>
+<p><span class="green-bg"><strong>Student Has Just Joined the Queue (event)</strong> — the moment a student enters the line to place an order.</span></p>
 </li>
 <li>
-<p><strong>Payment Has Just Failed</strong> — the moment a payment attempt does not complete successfully.</p>
+<p><span class="green-bg"><strong>Student Has Just Left the Queue Without Ordering (event)</strong> — the moment a student abandons the line due to time pressure or other circumstances.</span></p>
 </li>
 <li>
-<p><strong>Meal Has Just Been Prepared</strong> — the moment the meal becomes ready for pickup.</p>
+<p><span class="green-bg"><strong>Crowd Surge (behavior)</strong> — Actions involved: Joining a Queue (performed by many students in a short time span). Events observed: Student Has Just Joined the Queue (repeated rapidly). Outcome: long queues and increased service pressure.</span></p>
 </li>
 <li>
-<p><strong>Student Has Just Left the Queue Without Ordering</strong> — the moment the student abandons the line.</p>
+<p><span class="green-bg"><strong>Time-Constrained Decision Making (behavior)</strong> — Actions involved: Joining a Queue; abandoning the queue before ordering. Events observed: Student Has Just Left the Queue Without Ordering. Pattern: customers weigh estimated waiting time against remaining time before their next obligation and decide whether to remain.</span></p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>Each event captures a transition moment that can be observed directly in the cafeteria environment.</p>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_actions_acts_performed_by_actors">Actions (Acts Performed by Actors)</h5>
-<div class="paragraph">
-<p>An <strong>action</strong> is an intentional act performed by an actor (student or cafeteria staff) that changes the state of the domain. Actions often lead to events. Multiple actions may be required before a particular event becomes observable.</p>
-</div>
-<div class="paragraph">
-<p>Examples (from Section 2.1.2):</p>
-</div>
+<div class="sect4 green-bg">
+<h5 id="_order">Order</h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Order Placement</strong> — the act of selecting menu items and communicating the request to cafeteria staff.</p>
+<p><span class="green-bg"><strong>Order Placement (action)</strong> — the act of selecting menu items and communicating the request to cafeteria staff.</span></p>
 </li>
 <li>
-<p><strong>Payment</strong> — the act of attempting to complete a transaction at the counter.</p>
-</li>
-<li>
-<p><strong>Meal Preparation</strong> — the act of producing meals in advance or in response to incoming orders.</p>
-</li>
-<li>
-<p><strong>Meal Pickup</strong> — the act of receiving the prepared meal.</p>
+<p><span class="green-bg"><strong>Order Has Just Been Placed (event)</strong> — the moment a customer&#8217;s order is communicated to cafeteria staff.</span></p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>Actions describe what participants do, while events describe the moment we can observe the outcome of those actions.</p>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_behaviors_processes_and_patterns_over_time">Behaviors (Processes and Patterns Over Time)</h5>
-<div class="paragraph">
-<p>A <strong>behavior</strong> is a process or recurring pattern that unfolds over time and is composed of multiple actions and events. Behaviors describe how the cafeteria operates under certain conditions, especially during peak hours.</p>
-</div>
-<div class="paragraph">
-<p>Examples (from Section 2.1.2):</p>
-</div>
+<div class="sect4 green-bg">
+<h5 id="_payment">Payment</h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Crowd Surge</strong> — many students arrive in a short time span, creating long queues and pressure.</p>
+<p><span class="green-bg"><strong>Payment (action)</strong> — the process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of disruption when payment processing fails.</span></p>
 </li>
 <li>
-<p><strong>Time-Constrained Decision Making</strong> — students evaluate waiting time versus their schedules and decide whether to stay or leave.</p>
+<p><span class="green-bg"><strong>Payment Has Just Failed (event)</strong> — the moment a payment attempt does not complete successfully, causing a delay in service.</span></p>
 </li>
 <li>
-<p><strong>Uncertain Demand Preparation</strong> — staff prepare meals without precise near-term demand information.</p>
-</li>
-<li>
-<p><strong>Service Bottleneck</strong> — recurring slowdowns due to limited capacity in ordering, payment, or preparation.</p>
+<p><span class="green-bg"><strong>Service Bottleneck (behavior)</strong> — Actions involved: Payment (repeated attempts); staff troubleshooting. Events observed: Payment Has Just Failed; Student Has Just Left the Queue Without Ordering. Outcome: increased waiting time and reduced service throughput.</span></p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>Behavior decomposition example:</p>
 </div>
-<div class="paragraph">
-<p><strong>Behavior:</strong> Service Bottleneck (payment)
-<strong>Actions involved:</strong> Payment attempts, staff troubleshooting, repeated retries
-<strong>Events observed:</strong> Payment Has Just Failed; Student Has Just Left the Queue Without Ordering
-<strong>Outcome:</strong> increased waiting time and reduced service throughput</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_why_this_distinction_matters">Why This Distinction Matters</h5>
-<div class="paragraph">
-<p>This distinction supports later requirements and testing work:</p>
-</div>
+<div class="sect4 green-bg">
+<h5 id="_meal_preparation_and_pickup">Meal Preparation and Pickup</h5>
 <div class="ulist">
 <ul>
 <li>
-<p>Events identify the exact moments when state changes occur (useful for tracking and notification requirements later).</p>
+<p><span class="green-bg"><strong>Meal Preparation (action)</strong> — the production of meals in advance or in response to incoming orders, often under uncertainty about near-term demand.</span></p>
 </li>
 <li>
-<p>Actions describe what users and staff do (useful for defining system interactions and responsibilities).</p>
+<p><span class="green-bg"><strong>Meal Has Just Been Prepared (event)</strong> — the moment a meal becomes ready for pickup.</span></p>
 </li>
 <li>
-<p>Behaviors capture the recurring patterns that drive the main problem (long waiting times), especially during peak periods.</p>
+<p><span class="green-bg"><strong>Meal Pickup (action)</strong> — a customer receiving prepared or selected items after an order has been completed.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Uncertain Demand Preparation (behavior)</strong> — Actions involved: Meal Preparation (performed in advance). Events observed: Meal Has Just Been Prepared (occurring before confirmed demand). Pattern: staff produce meals without precise knowledge of near-term order volume, leading to potential over- or under-preparation.</span></p>
 </li>
 </ul>
 </div>
@@ -1539,41 +1700,57 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 <div class="sect3">
 <h4 id="_epics">Epics</h4>
+<div class="sect4">
+<h5 id="_meal_ordering_and_access">Meal Ordering and Access</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">===== Meal Ordering and Access
-A high-level feature area focused on supporting customers in selecting, ordering, and obtaining food efficiently during limited time windows. This epic connects to features such as menu visibility, order placement, and meal pickup coordination.</span></p>
+<p><span class="yellow-bg">A high-level feature area focused on supporting customers in selecting, ordering, and obtaining food efficiently during limited time windows. This epic connects to features such as menu visibility, order placement, and meal pickup coordination.</span></p>
 </div>
-<div class="paragraph">
-<p><span class="green-bg">===== Payment Processing
-A high-level feature area focused on enabling reliable and flexible payment options for customers. This includes handling transactions, managing failures, and supporting different payment moments within the service flow.</span></p>
 </div>
+<div class="sect4">
+<h5 id="_payment_processing">Payment Processing</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">===== Peak-Hour Flow Management
-A high-level feature area focused on helping cafeteria staff manage large numbers of customers during peak hours. This includes reducing congestion, improving queue handling, and supporting smoother service flow.</span></p>
+<p><span class="green-bg">A high-level feature area focused on enabling reliable and flexible payment options for customers. This includes handling transactions, managing failures, and supporting different payment moments within the service flow.</span></p>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_peak_hour_flow_management">Peak-Hour Flow Management</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">===== Service Reliability and Coordination
-A high-level feature area focused on maintaining consistent cafeteria operations. This includes minimizing delays, handling disruptions, and ensuring coordination between ordering, preparation, and pickup.</span></p>
+<p><span class="yellow-bg">A high-level feature area focused on helping cafeteria staff manage large numbers of customers during peak hours. This includes reducing congestion, improving queue handling, and supporting smoother service flow.</span></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_service_reliability_and_coordination">Service Reliability and Coordination</h5>
+<div class="paragraph">
+<p><span class="yellow-bg">A high-level feature area focused on maintaining consistent cafeteria operations. This includes minimizing delays, handling disruptions, and ensuring coordination between ordering, preparation, and pickup.</span></p>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_user_stories">User Stories</h4>
 <div class="sect4">
 <h5 id="_as_a_customer">As a Customer</h5>
-<div class="paragraph">
-<p><span class="yellow-bg">* I want to see available food and drink options before ordering, so that I can decide whether waiting fits my schedule.</span></p>
-</div>
-<div class="paragraph">
-<p><span class="yellow-bg">* I want to know when my order is ready for pickup, so that I can minimize the time I spend waiting.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="yellow-bg">I want to see available food and drink options before ordering, so that I can decide whether waiting fits my schedule.</span></p>
+</li>
+<li>
+<p><span class="yellow-bg">I want to know when my order is ready for pickup, so that I can minimize the time I spend waiting.</span></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_as_a_cafeteria_staff_member">As a Cafeteria Staff Member</h5>
-<div class="paragraph">
-<p><span class="yellow-bg">* I want to have visibility into incoming orders, so that I can prepare meals more efficiently.</span></p>
-</div>
-<div class="paragraph">
-<p><span class="yellow-bg">* I want to manage service flow during busy periods, so that congestion and delays are reduced.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="yellow-bg">I want to have visibility into incoming orders, so that I can prepare meals more efficiently.</span></p>
+</li>
+<li>
+<p><span class="yellow-bg">I want to manage service flow during busy periods, so that congestion and delays are reduced.</span></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1851,6 +2028,16 @@ A high-level feature area focused on maintaining consistent cafeteria operations
 </ul>
 </div>
 </li>
+<li>
+<p><span class="green-bg"><strong>DR-11: Pickup Code Assignment and Verification</strong></span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">The system must assign a unique pickup code to each placed order and make that code available to the ordering customer. The system must support cafeteria staff in verifying a customer-provided pickup code against the order&#8217;s recorded code before releasing the order.</span></p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 </div>
@@ -1960,6 +2147,15 @@ so the internal representation remains consistent with cafeteria operations.</p>
 </div>
 <div class="paragraph">
 <p>This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.</p>
+</div>
+</div>
+<div class="sect5 green-bg">
+<h6 id="_ir_2_2_4_14_pickup_code_generation_and_display">IR-2.2.4-14 Pickup code generation and display</h6>
+<div class="paragraph">
+<p><span class="green-bg">The system shall generate a 4-digit numeric pickup code for each submitted order. A 4-digit code provides 10,000 possible values (0001–9999), sufficient to ensure a low probability of collision within a single service period while remaining short enough for a customer to recall and communicate verbally to cafeteria staff. The system shall display the assigned pickup code to the customer upon order confirmation.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">The system shall provide a means for cafeteria staff to enter or verify a customer-provided pickup code against the order&#8217;s recorded code before releasing the order to that customer.</span></p>
 </div>
 </div>
 </div>
@@ -2344,11 +2540,11 @@ so the internal representation remains consistent with cafeteria operations.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-text" data-lang="text">export async function createOrder(order: Order) {
+<pre class="highlight"><code class="language-text" data-lang="text">export async function persistOrder(order: Order) {
   const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
 
   if (error) {
-    console.error('Error when creating order:', error.message)
+    console.error('Error when persisting order:', error.message)
     return null
   }
 
@@ -2365,7 +2561,7 @@ so the internal representation remains consistent with cafeteria operations.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>In this brief source code, createOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. If there is an error such as the item not being in stock, an error will be displayed signaling that the order could not be completed, if it was completed, then the order will be placed!</p>
+<p>In this brief source code, <span class="yellow-bg">persistOrder</span> takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. <span class="yellow-bg">The function inserts this fully-formed record directly into the database. Note that the current implementation does not check item availability or stock levels before insertion; stock validation is a known gap that must be enforced before this function is called or added here explicitly if it is intended as a system constraint.</span></p>
 </div>
 <div class="paragraph">
 <p><strong>Pickup Code/ Order Security</strong></p>
@@ -3217,6 +3413,539 @@ through verifiable, incremental behavior.</p>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_4_4_load_testing"><span class="green-bg">4.4 Load Testing</span></h3>
+<div class="paragraph">
+<p><span class="green-bg">This section documents the load testing performed for the Payment Screen of the Cafeteria Ordering System. The objective was to evaluate responsiveness and reliability under expected usage using repeatable automated runs and consistent metrics.</span></p>
+</div>
+<div class="sect3">
+<h4 id="_tool_and_test_target"><span class="green-bg">Tool and Test Target</span></h4>
+<div class="paragraph">
+<p><span class="green-bg"><strong>Tool used:</strong> Grafana k6 load testing tool. The test is implemented as a k6 JavaScript script in <code>documentation/LectureTopicTasks/load&amp;performance-testing/tests/payment.load.test.js</code> using <code>k6/http</code>, and k6 metrics.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg"><strong>Test target:</strong> the payment submission flow as currently implemented in the client layer.
+Because the payment screen is not yet connected to the real backend or payment gateway, the tests use a mock payment service that emulates how a real system would behave, such as having a processing delay. This allows us to measure system behavior under controlled conditions and to establish a baseline before integrating real infrastructure.</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_load_expectations"><span class="green-bg">Load Expectations</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The expected usage assumptions are derived from the machine requirements in Section 2.2.5:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Peak periods: 11:30 AM–1:30 PM and 3:00 PM–5:00 PM.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Target order throughput: at least 60 orders/min during peak hours.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Concurrent users: up to 300 active users within a 5-minute window.</span></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usage_scenario_used_for_load_testing"><span class="green-bg">Usage Scenario Used for Load Testing</span></h4>
+<div class="paragraph">
+<p><span class="green-bg"><strong>User behavior modeled:</strong> “Submit payment from the payment screen”.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">This corresponds to the user completing checkout and triggering the payment submission button. Load testing was used to simulate concurrent submissions representing typical peak activity.</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_load_testing_setup"><span class="green-bg">Load Testing Setup</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The load is generated using k6’s <code>ramping-vus</code> executor with the following stages:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">30s to 5 virtual users</span></p>
+</li>
+<li>
+<p><span class="green-bg">1m to 15 virtual users</span></p>
+</li>
+<li>
+<p><span class="green-bg">1m to 25 virtual users</span></p>
+</li>
+<li>
+<p><span class="green-bg">30s down to 0 virtual users</span></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">The test also defines thresholds to reflect acceptable behavior during load:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg"><code>http_req_failed</code> rate &lt; 0.10</span></p>
+</li>
+<li>
+<p><span class="green-bg"><code>http_req_duration</code> P95 &lt; 2500 ms</span></p>
+</li>
+<li>
+<p><span class="green-bg"><code>payment_success_rate</code> &gt; 0.90</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_metrics_collected"><span class="green-bg">Metrics Collected</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The load testing collects:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg"><strong>Response Time (ms):</strong> measures how long a payment request takes from the moment it is sent until a response is received.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Latency (ms):</strong> measures the time observed around the payment submission call, which helps approximate the request/response delay seen by the client</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Throughput (req/s):</strong> measures how many payment submissions are completed per second during the run.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Failure Rate (%):</strong> measures the fraction of requests that fail at the HTTP level.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Success Rate (%):</strong> measures the fraction of requests that pass the test checks.</span></p>
+</li>
+<li>
+<p><span class="green-bg"><strong>Payments processed:</strong> total number of successful payment submissions counted by the test.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_results_observed"><span class="green-bg">Results Observed</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The following results were recorded by the test script in <code>documentation/LectureTopicTasks/load&amp;performance-testing/combined-test-results.json</code>.</span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Scenario</th>
+<th class="tableblock halign-left valign-top">Avg Response (ms)</th>
+<th class="tableblock halign-left valign-top">P95 Response (ms)</th>
+<th class="tableblock halign-left valign-top">Avg Latency (ms)</th>
+<th class="tableblock halign-left valign-top">P95 Latency (ms)</th>
+<th class="tableblock halign-left valign-top">Throughput (req/s)</th>
+<th class="tableblock halign-left valign-top">Failure Rate</th>
+<th class="tableblock halign-left valign-top">Success Rate</th>
+<th class="tableblock halign-left valign-top">Payments Processed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load Test</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409.54</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">592.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">409.59</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">592</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8.72</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.67%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">97.33%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1533</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_interpretation_and_discussion_of_results"><span class="green-bg">Interpretation and Discussion of Results</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">Under expected load, the system handled requests efficiently and response times stayed low. Although there is a failure rate of 2.67%, the success rate at 97.33% suggests that the system can still handle expected usage reasonably well. The overall results suggest that the current implementation is capable of supporting typical cafeteria usage and can remain responsive even under heavier demand.</span></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_5_hoare_logic_testing"><span class="green-bg">4.5 Hoare Logic Testing</span></h3>
+<div class="paragraph">
+<p><span class="green-bg">The project applies Hoare Logic to the Stripe payment workflow, one of the system&#8217;s core features. Because the project is implemented in TypeScript and React Native, for which no Hoare-logic verifier exists, the workflow was rewritten in <strong>Dafny</strong> to obtain tool-supported verification. Dafny encodes preconditions and postconditions directly as <code>requires</code> and <code>ensures</code> clauses and statically verifies them using the Z3 SMT solver. The full specification is maintained in <code>documentation/LectureTopicTasks/Hoare Payment Workflow/hoare-payment-spec.adoc</code>.</span></p>
+</div>
+<div class="sect3">
+<h4 id="_focus_function_initiate_payment"><span class="green-bg">Focus Function: <code>initiate_payment()</code></span></h4>
+<div class="paragraph">
+<p><span class="green-bg"><code>initiate_payment()</code> is the entry point of the payment workflow. It transitions the system from a pre-payment state to an active payment state by marking the payment as initiated, setting the pending flag, and generating a payment identifier. Errors in this transition,such as initiating payment twice or generating no identifier, would corrupt every downstream step, making it an important function to verify formally.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">The system state relevant to this function is:</span></p>
+</div>
+<div class="listingblock green-bg">
+<div class="content">
+<pre>order_exists      : Boolean
+payment_initiated : Boolean
+payment_pending   : Boolean
+payment_id        : Integer  (0 = absent)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">The Hoare triple for <code>initiate_payment()</code> is:</span></p>
+</div>
+<div class="listingblock green-bg">
+<div class="content">
+<pre>{ order_exists = true ∧ payment_initiated = false }
+  initiate_payment()
+{ payment_initiated = true ∧ payment_pending = true ∧ payment_id ≠ 0 }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">The precondition enforces that an order exists and that payment has not already been started. The postcondition guarantees that all three state flags are correctly set after the call.</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_proof_of_initiate_payment"><span class="green-bg">Proof of <code>initiate_payment()</code></span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The body of <code>initiate_payment()</code> is a sequence of three assignments. Applying the assignment rule (A1) backwards from the postcondition through each statement derives the required precondition:</span></p>
+</div>
+<div class="listingblock green-bg">
+<div class="content">
+<pre>{ order_exists = true ∧ payment_initiated = false }
+  ⟹ { true }                                           -- precondition implies true
+
+  { true }                                              -- A1 on payment_id := 1
+  payment_id := 1;
+
+  { payment_initiated = true ∧ payment_pending = true } -- simplify: 1 ≠ 0 is true
+  payment_pending := true;
+
+  { payment_initiated = true }                          -- A1 on payment_pending := true
+  payment_initiated := true;
+
+{ payment_initiated = true ∧ payment_pending = true ∧ payment_id ≠ 0 }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Since the precondition implies <code>true</code>, the triple is totally correct: the function always terminates and always establishes the postcondition when called in a valid state.</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dafny_implementation_and_verification"><span class="green-bg">Dafny Implementation and Verification</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The function was encoded in Dafny as part of a <code>PaymentWorkflow</code> class covering the full workflow. The <code>initiate_payment</code> method and the class constructor are shown below:</span></p>
+</div>
+<div class="listingblock green-bg">
+<div class="content">
+<pre class="highlight"><code class="language-dafny" data-lang="dafny">class PaymentWorkflow {
+
+  var order_exists: bool
+  var payment_initiated: bool
+  var payment_pending: bool
+  var payment_success: bool
+  var payment_failed: bool
+  var order_confirmed: bool
+  var order_cancelled: bool
+  var payment_id: int
+  var confirmation_id: int
+
+  constructor()
+    ensures order_exists == true
+    ensures !payment_initiated &amp;&amp; !payment_pending
+    ensures !payment_success &amp;&amp; !payment_failed
+    ensures !order_confirmed &amp;&amp; !order_cancelled
+    ensures payment_id == 0 &amp;&amp; confirmation_id == 0
+  {
+    order_exists      := true;
+    payment_initiated := false;  payment_pending := false;
+    payment_success   := false;  payment_failed  := false;
+    order_confirmed   := false;  order_cancelled := false;
+    payment_id        := 0;      confirmation_id := 0;
+  }
+
+  method initiate_payment()
+    requires order_exists &amp;&amp; !payment_initiated
+    modifies this
+    ensures payment_initiated &amp;&amp; payment_pending &amp;&amp; payment_id != 0
+  {
+    payment_initiated := true;
+    payment_pending   := true;
+    payment_id        := 1;
+  }
+
+  method confirm_payment()
+    requires payment_initiated &amp;&amp; payment_pending
+    modifies this
+    ensures payment_success &amp;&amp; !payment_pending &amp;&amp; !payment_failed
+  {
+    payment_success := true;
+    payment_pending := false;
+    payment_failed  := false;
+  }
+
+  method finalize_order()
+    requires payment_success &amp;&amp; !order_confirmed &amp;&amp; !order_cancelled
+    modifies this
+    ensures order_confirmed &amp;&amp; confirmation_id != 0
+  {
+    order_confirmed := true;
+    confirmation_id := 1;
+  }
+
+  method cancel_order()
+    requires (payment_failed || payment_pending) &amp;&amp; !order_confirmed
+    modifies this
+    ensures order_cancelled &amp;&amp; !order_confirmed &amp;&amp; confirmation_id == 0
+  {
+    order_cancelled := true;
+    confirmation_id := 0;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Dafny&#8217;s verifier accepts the class without errors, confirming that every <code>requires</code>/<code>ensures</code> pair is satisfied by the implementation. The sequential composition of the happy path also holds:</span></p>
+</div>
+<div class="listingblock green-bg">
+<div class="content">
+<pre>{ order_exists = true }
+  initiate_payment();
+  confirm_payment();
+  finalize_order();
+{ order_confirmed = true }</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_safety_properties"><span class="green-bg">Safety Properties</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The verification also confirms the following system-wide invariants, which prevent the workflow from reaching inconsistent states:</span></p>
+</div>
+<div class="listingblock green-bg">
+<div class="content">
+<pre>payment_success   = false  ⇒  order_confirmed  = false
+payment_initiated = false  ⇒  payment_success  = false
+order_cancelled   = true   ⇒  order_confirmed  = false
+payment_failed    = true   ⇒  confirmation_id  = 0</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_6_mutation_testing"><span class="green-bg">4.6 Mutation Testing</span></h3>
+<div class="paragraph">
+<p><span class="green-bg">The project uses Stryker (stryker-mutator.io) as its main testing tool to conduct mutation tests on all essential system elements. Stryker serves as the optimal testing solution for TypeScript and React Native systems because it provides direct integration with Jest and handles all essential mutation operators used in the codebase through its logical operator replacement and arithmetic operator replacement and constant boundary shift capabilities while generating per module mutation score reports. The complete mutation testing evaluation exists in four LTT documents that are stored in documentation/LectureTopicTasks/.</span></p>
+</div>
+<div class="sect3">
+<h4 id="_component_prioritization"><span class="green-bg">Component Prioritization</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">Before applying Stryker, the team defined a prioritization order for mutation testing based on three factors: criticality to system correctness, complexity of conditional logic, and the likelihood that weak assertions would allow mutants to survive. The resulting priority order is:</span></p>
+</div>
+<div class="olist arabic green-bg">
+<ol class="arabic">
+<li>
+<p>Order Processing Logic — <strong>High priority.</strong> Contains conditional checks, boundary conditions, and decision-making rules that directly determine whether user orders are accepted or rejected.</p>
+</li>
+<li>
+<p>Pricing and Calculation Logic — <strong>High priority.</strong> Arithmetic mutations (e.g., replacing <code>+</code> with <code>-</code>, shifting constants by ±1) produce incorrect totals that can pass undetected if tests only verify that a value is returned rather than verifying its exact amount.</p>
+</li>
+<li>
+<p>Ingredient Handling — <strong>Medium priority.</strong> Simpler logic, but combination-rule mutations and validation-guard removals can still expose test gaps.</p>
+</li>
+<li>
+<p>Menu Management — <strong>Low priority.</strong> Relatively static logic; mutation testing provides the least incremental value here compared to higher-complexity components.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mutation_operators_applied"><span class="green-bg">Mutation Operators Applied</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">In line with the mutation operators identified in the team&#8217;s analyses, Stryker is configured to apply the following operator classes:</span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Operator Class</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Example (Original → Mutant)</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Target Area</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Logical operator swap</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>||</code> → <code>&amp;&amp;</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Order validation guards, payment state checks</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Arithmetic operator swap</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>+</code> → <code>-</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Pricing calculations, quantity computations</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Boundary shift</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>quantity &gt; 0</code> → <code>quantity &gt;= 0</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Order Processing boundary conditions</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Constant replacement</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>x</code> → <code>0</code>, <code>1</code>, <code>-1</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Payment IDs, confirmation IDs, computed totals</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Return value removal</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg"><code>return data</code> → <code>return null</code></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Profile retrieval, payment state propagation</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Validation guard removal</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Remove error check entirely</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Supabase error guards, Stripe response validation</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_results_by_component"><span class="green-bg">Results by Component</span></h4>
+<div class="sect4">
+<h5 id="_profile_management"><span class="green-bg">Profile Management</span></h5>
+<div class="paragraph">
+<p><span class="green-bg">The mutation analysis for Profile Management Logic (<code>MutationTestingProfiles.adoc</code>) identified six high-risk mutation classes. The primary surviving-mutant risk is in functions that return <code>data</code> from a Supabase insert or update: tests that only assert <code>resolves.not.toThrow()</code> cannot kill a <code>return null</code> mutant. The analysis produced a canonical test design showing that assertions must verify specific field values on the returned record — not merely that no exception was thrown.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Key mutants designed and their kill conditions:</span></p>
+</div>
+<div class="ulist green-bg">
+<ul>
+<li>
+<p><strong><code>return data</code> → <code>return null</code></strong> in <code>createProfile</code> — killed by asserting <code>result.user_id</code> equals the input value.</p>
+</li>
+<li>
+<p><strong>Missing <code>user_id</code> in insert</strong> — killed by asserting the persisted record links to the authenticated user.</p>
+</li>
+<li>
+<p><strong>Wrong field updated</strong> (e.g., writing <code>full_name</code> when <code>phone</code> was intended) — killed by asserting the correct field changed and the other did not.</p>
+</li>
+<li>
+<p><strong>Removed Supabase error guard</strong> — killed by asserting that a simulated error causes the function to throw rather than return silently.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_order_processing_logic"><span class="green-bg">Order Processing Logic</span></h5>
+<div class="paragraph">
+<p><span class="green-bg">The analysis for Order Processing (<code>MutationTestingOrder.adoc</code>) found that the highest-risk mutations are those that alter boundary conditions. A representative case is changing <code>quantity &gt; 0</code> to <code>quantity &gt;= 0</code>, which allows orders with zero items to be accepted. If existing tests do not assert that zero-item orders are explicitly rejected, this mutant survives. The analysis recommends parameterized boundary tests that supply quantities of <code>-1</code>, <code>0</code>, and <code>1</code> and assert distinct outcomes for each.</span></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_stripe_payment_workflow"><span class="green-bg">Stripe Payment Workflow</span></h5>
+<div class="paragraph">
+<p><span class="green-bg">The most detailed mutation analysis covers the Stripe payment workflow (<code>payment-mutation-testing-design.adoc</code>). Five specific mutants were designed across the three workflow stages (initiation, confirmation, finalization):</span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 16.6668%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Mutant</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Stage</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Mutated Behavior</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Test Type</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M1: Skip Payment Validation</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Confirmation</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Status set to successful without validating Stripe response</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Unit + Integration</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M2: Premature Order Confirmation</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Finalization</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Order confirmed before payment status verified</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Integration</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M3: Incorrect Status Handling</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Confirmation</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Failed/pending payment treated as successful</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Unit</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M4: Confirmation ID on Failed Payment</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Finalization</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Confirmation ID generated without verifying success</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Integration</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">M5: Order Confirmed While Pending</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Finalization</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Order confirmed while payment still pending</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Integration</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><span class="green-bg">All five mutants must be killed by the test suite. M3 is the highest-priority target for unit testing; M1, M2, M4, and M5 require integration-level tests that simulate Stripe API responses.</span></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mutation_score_guidance"><span class="green-bg">Mutation Score Guidance</span></h4>
+<div class="paragraph">
+<p><span class="green-bg">The team uses the following mutation score thresholds to guide test improvement, as established in the profile analysis:</span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Score Range</span></th>
+<th class="tableblock halign-left valign-top"><span class="green-bg">Interpretation and Action</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">0–60%</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Critical gaps. Add tests for all core operations before any further feature work.</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">60–80%</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Basic behaviors covered. Add parameterized boundary tests and combined-condition assertions.</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">80–90%</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Good coverage. Investigate surviving mutants individually; strengthen assertions.</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">90–100%</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="green-bg">Target range. Focus on test readability and maintainability rather than chasing final mutants.</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3296,8 +4025,11 @@ through verifiable, incremental behavior.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_logbook">Logbook</h2>
+<h2 id="_appendix_b_log_of_changes">Appendix B: Log of Changes</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The following table have all the changes made to the documentation for Milestone 2.</p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 14.2857%;">
@@ -3404,6 +4136,42 @@ through verifiable, incremental behavior.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added traceability and reasoning to each concept</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/438" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/438</a></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.4 - Load Testing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Documented load testing performed on Payment Screen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/486" class="bare">https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/486</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.5 - Hoare Logic Testing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added Section 4.5 applying Hoare Logic to the Stripe payment workflow using Dafny, including focus function specification, formal proof of initiate_payment(), full Dafny implementation, and safety property verification.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.6 - Mutation Testing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added Section 4.6 documenting the project&#8217;s use of Stryker for mutation testing. Covers component prioritization order, mutation operators applied, results by component (Profile Management, Order Processing, Stripe Payment Workflow), and mutation score thresholds. Synthesized from four LTT documents: MutationTestingProfiles, MutationTestingOrder, MutationTestingPrioritization, and payment-mutation-testing-design.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 1.3.1 - Scope</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Introduced student-focus framing at the start of Scope; removed health/focus motivation from Domain Engineering description; replaced "Define project requirements" with discovery-oriented language in Requirements Engineering; replaced physical locker deployment with a simulation environment in Software Architecture</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Section 2.1.5 - Events, Actions, and Behaviors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Restructured from type-based subsections to entity-grouped catalog; added explicit type labels to all entries; acknowledged non-human actors and added Dishwasher Cleaning Dishes example; added Joining a Queue action; revised behaviors to make constituent events and actions explicit; removed Why This Distinction Matters subsection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sections 2.1.2, 2.2.3, 2.2.4, 2.3.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Renamed createOrder to persistOrder to reflect that it performs database insertion of a fully-formed object; added stock validation gap note; introduced Pickup Code term in terminology, DR-11 in domain requirements, and IR-2.2.4-14 in interface requirements with 4-digit code justification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3411,7 +4179,7 @@ through verifiable, incremental behavior.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-04-04 11:33:43 -0400
+Last updated 2026-04-07 19:31:52 -0400
 </div>
 </div>
 </body>

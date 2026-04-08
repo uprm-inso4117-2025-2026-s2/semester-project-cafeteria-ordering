@@ -1,0 +1,187 @@
+= Order State Transition Testing in Staff Operations
+
+== 1. Objective
+Analyze and define a testing strategy focused on validating order state transitions within the Staff Operations workflow of the Cafeteria Ordering System.
+
+The goal is to ensure that all order status transitions follow valid workflow rules, invalid transitions are prevented, and edge cases related to order lifecycle management are properly tested.
+
+== 2. Order Lifecycle States (Staff Perspective)
+
+From the staff perspective, each order moves through a handling workflow represented by the following states:
+
+[cols="1,3", options="header"]
+|===
+| State | Description
+
+| Unread
+| The order has arrived in the system but has not yet been opened or viewed by staff.
+
+| Opened
+| A staff member has opened or viewed the order.
+
+| In Process
+| Staff has begun preparing or handling the order.
+
+| Cancelled
+| The order has been cancelled.
+
+| Completed
+| The order has been finished and fulfilled.
+|===
+
+The states *Cancelled* and *Completed* are considered terminal states. Once an order reaches one of these states, it should be the end of its lifecycle.
+
+== 3. Valid State Transitions
+
+The following table defines all valid state transitions within the Staff Operations workflow.
+
+[cols="2,3", options="header"]
+|===
+| Current State | Allowed Next State(s)
+
+| Unread
+| Opened
+
+| Opened
+| In Process, Cancelled
+
+| In Process
+| Completed, Cancelled
+
+| Cancelled
+| None (Terminal State)
+
+| Completed
+| None (Terminal State)
+|===
+
+These transitions reflect the logical workflow of staff handling an order: an order must first be opened, then processed, and finally completed or cancelled if necessary.
+
+== 4. Invalid State Transitions
+
+Any transition not listed in the valid transition table must be considered invalid and should be prevented by the system.
+
+Examples of invalid transitions include:
+
+- Unread -> In Process
+- Unread -> Completed
+- Unread -> Cancelled
+- Opened -> Completed
+- Completed -> Opened
+- Completed -> In Process
+- Cancelled -> Opened
+- Cancelled -> Completed
+
+The system must ensure that these transitions cannot be performed either through the user interface or through backend logic.
+
+== 5. State Transition Testing Strategy
+
+The State Transition Testing Strategy must verify the following:
+
+* Only valid transitions are allowed.
+* Invalid transitions are rejected.
+* Terminal states cannot transition to any other state.
+* The system maintains consistent order lifecycle behavior.
+* The user interface only displays actions that correspond to valid transitions.
+
+Testing should be performed at both the user interface level and the application logic level to ensure full workflow validation.
+
+== 6. Test Cases for Valid Transitions
+
+[cols="1,2,2,2", options="header"]
+|===
+| Test ID | Initial State | Action | Expected Result
+
+| Test Case - Valid #1
+| Unread
+| Staff opens the order
+| Order state changes to Opened
+
+| Test Case - Valid #2
+| Opened
+| Staff marks order as In Process
+| Order state changes to In Process
+
+| Test Case - Valid #3
+| Opened
+| Staff cancels the order
+| Order state changes to Cancelled
+
+| Test Case - Valid #4
+| In Process
+| Staff marks order as Completed
+| Order state changes to Completed
+
+| Test Case - Valid #5
+| In Process
+| Staff cancels the order
+| Order state changes to Cancelled
+|===
+
+== 7. Test Cases for Invalid Transitions
+
+[cols="1,2,2,2", options="header"]
+|===
+| Test ID | Initial State | Attempted Action | Expected Result
+
+| Test Case - Invalid #1
+| Unread
+| Mark as In Process
+| Transition rejected and state remains Unread
+
+| Test Case - Invalid #2
+| Unread
+| Mark as Completed
+| Transition rejected and state remains Unread
+
+| Test Case - Invalid #3
+| Opened
+| Mark as Completed
+| Transition rejected and state remains Opened
+
+| Test Case - Invalid #4
+| Completed
+| Mark as In Process
+| Transition rejected and state remains Completed
+
+| Test Case - Invalid #5
+| Cancelled
+| Mark as Opened
+| Transition rejected and state remains Cancelled
+|===
+
+== 8. Edge Cases and Boundary Conditions
+
+State-based workflows often introduce edge cases that must be tested to ensure system reliability. Important edge cases include:
+
+* Two staff members attempting to update the same order simultaneously.
+* An order being cancelled while another staff member is viewing it.
+* Attempting to update an order that has already been completed.
+* An order going from Unread to Opened and then instantly being marked as In Process.
+* Attempting to update an order that has already been cancelled.
+* Duplicate button presses causing repeated transition requests.
+* Dashboard displaying outdated order state information.
+* System refresh occurring during a state transition.
+
+These scenarios must be considered to ensure workflow consistency.
+
+== 9. Workflow Integrity and System Consistency
+
+Maintaining workflow integrity is important because order states represent the real-world progress of order handling. If invalid transitions are allowed, the system could enter inconsistent states such as completed orders being reopened or unread orders being marked as completed without being processed. Even if no invalid transition occur, it is also important to ensure that the
+order statud reflected is accurate.
+
+To preserve workflow integrity, the system should:
+
+* Restrict available actions based on the current order state.
+* Validate state transitions in backend logic.
+* Prevent transitions from terminal states.
+* Log state changes for traceability and debugging.
+* Ensure simultaneous updates do not result in inconsistent states.
+
+Proper testing of state transitions ensures that the order lifecycle remains consistent and aligned with the intended staff workflow.
+
+== 10. Conclusion
+
+Order state transition testing is essential for ensuring the reliability and correctness of the Staff Operations workflow in the Cafeteria Ordering System. By defining valid and invalid transitions, designing test cases for both allowed and blocked transitions, and analyzing edge cases, the system can maintain workflow integrity and prevent inconsistent order states.
+
+This testing strategy helps ensure that orders progress through the system in a controlled and logical manner, supporting accurate order tracking and reliable staff operations.

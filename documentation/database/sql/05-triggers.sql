@@ -248,14 +248,16 @@ CREATE TRIGGER check_menu_item_available
 -- PROFILE CREATION TRIGGER
 -- ============================================
 
--- Function to create profile when user signs up
 CREATE OR REPLACE FUNCTION create_profile_for_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO profiles (user_id, full_name, role)
+  -- Explicitly target public.profiles so the trigger works even if search_path changes
+  INSERT INTO public.profiles (id, user_id, full_name, phone, role)
   VALUES (
     NEW.id,
+    NEW.id,
     COALESCE(NEW.raw_user_meta_data->>'full_name', 'User'),
+    NULLIF(TRIM(COALESCE(NEW.raw_user_meta_data->>'phone', '')), ''),
     'student'
   )
   ON CONFLICT (user_id) DO NOTHING;

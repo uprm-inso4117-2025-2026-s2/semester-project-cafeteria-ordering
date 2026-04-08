@@ -1,0 +1,35 @@
+[
+  {
+    "scenario": "Performance Test",
+    "avg_response_time_ms": 453.6,
+    "p95_response_time_ms": 582,
+    "avg_latency_ms": 453.6,
+    "p95_latency_ms": 582,
+    "throughput_req_per_sec": 2.2,
+    "failure_rate": 0,
+    "success_rate": 1,
+    "payments_processed": 10
+  },
+  {
+    "scenario": "Load Test",
+    "avg_response_time_ms": 409.54,
+    "p95_response_time_ms": 592.2,
+    "avg_latency_ms": 409.59,
+    "p95_latency_ms": 592,
+    "throughput_req_per_sec": 8.72,
+    "failure_rate": 0.0267,
+    "success_rate": 0.9733,
+    "payments_processed": 1533
+  },
+  {
+    "scenario": "Stress Test",
+    "avg_response_time_ms": 408.66,
+    "p95_response_time_ms": 590.61,
+    "avg_latency_ms": 408.7,
+    "p95_latency_ms": 591,
+    "throughput_req_per_sec": 62.35,
+    "failure_rate": 0.0206,
+    "success_rate": 0.9794,
+    "payments_processed": 11012
+  }
+]

@@ -1,7 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Colors, Typography } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { supabase } from "@/lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -16,8 +19,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Colors, Typography } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 
 
 function ConfirmModal({
@@ -73,8 +74,8 @@ export default function ProfileScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [editing, setEditing] = useState(false);
-  const [saved, setSaved] = useState(false);
+  // const [editing, setEditing] = useState(false);
+  // const [saved, setSaved] = useState(false);
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
 
   async function pickAvatar() {
@@ -97,6 +98,19 @@ export default function ProfileScreen() {
   const [selectedReqs, setSelectedReqs] = useState<string[]>([]);
   const [reqNote, setReqNote] = useState("");
 
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+
+    setLogoutModal(false);
+
+    if (error) {
+      Alert.alert("Logout failed", "Please try again.");
+      return;
+    }
+
+    router.replace("/signup");
+  }
+
   const REQUIREMENTS = ["Severe Allergy", "Time Restriction", "Medical Diet", "Religious / Cultural Diet", "Other"];
 
   function toggleReq(req: string) {
@@ -113,12 +127,12 @@ export default function ProfileScreen() {
     AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
   }, []);
 
-  function handleSave() {
-    setEditing(false);
-    setSaved(true);
-    AsyncStorage.setItem("@profile_info", JSON.stringify({ name, email, phone }));
-    setTimeout(() => setSaved(false), 2500);
-  }
+  // function handleSave() {
+  //   setEditing(false);
+  //   setSaved(true);
+  //   AsyncStorage.setItem("@profile_info", JSON.stringify({ name, email, phone }));
+  //   setTimeout(() => setSaved(false), 2500);
+  // }
 
 
   const borderColor = colorScheme === "dark" ? "#333333" : Colors.softGray;
@@ -174,33 +188,24 @@ export default function ProfileScreen() {
             <View key={label} style={s.fieldWrapper}>
               <Text style={muted({ fontSize: 12, marginBottom: 4 })}>{label}</Text>
               <TextInput
-                value={value} onChangeText={setter} editable={editing}
+                value={value} onChangeText={setter} editable={false}
                 keyboardType={keyboard as any} autoCapitalize="none"
                 autoCorrect={false} autoComplete="off"
                 textContentType="none" importantForAutofill="no"
-                placeholder={editing ? `Enter your ${label.toLowerCase()}` : "—"}
+                placeholder={false ? `Enter your ${label.toLowerCase()}` : "—"}
                 placeholderTextColor={Colors.mutedGray}
-                style={[s.fieldInput, { color: theme.text, ...Typography.body, borderBottomColor: editing ? theme.tint : borderColor }]}
+                style={[s.fieldInput, { color: theme.text, ...Typography.body, borderBottomColor: false ? theme.tint : borderColor }]}
               />
             </View>
           ))}
           <View style={s.editRow}>
-            {saved ? (
-              <Text style={[{ color: Colors.primaryGreen, fontSize: 15 }, Typography.button]}>Saved!</Text>
-            ) : (
-              <>
-                <TouchableOpacity onPress={() => editing ? handleSave() : setEditing(true)}>
-                  <Text style={[s.editBtnText, { color: Colors.primaryGreen, ...Typography.button }]}>{editing ? "Save" : "Edit"}</Text>
+               <TouchableOpacity onPress={() => router.push('/edit-profile')}>
+                  <Text style={[s.editBtnText, { color: Colors.primaryGreen, ...Typography.button }]}>
+                    Edit
+                  </Text>
                 </TouchableOpacity>
-                {editing && (
-                  <TouchableOpacity onPress={() => setEditing(false)} style={{ marginLeft: 16 }}>
-                    <Text style={muted({ fontSize: 14, ...Typography.button })}>Cancel</Text>
-                  </TouchableOpacity>
-                )}
-              </>
-            )}
+            </View>
           </View>
-        </View>
 
         <View style={[s.divider, { backgroundColor: borderColor }]} />
 
@@ -228,7 +233,7 @@ export default function ProfileScreen() {
 
       <ConfirmModal
         visible={logoutModal} onClose={() => setLogoutModal(false)}
-        onConfirm={() => { setLogoutModal(false); Alert.alert("Logged out"); }}
+        onConfirm={handleLogout}
         title="Log out?" body="Are you sure you want to log out?"
         confirmLabel="Log out" bgColor={Colors.pastelPeach} confirmTextColor={Colors.light.alternateText}
       />

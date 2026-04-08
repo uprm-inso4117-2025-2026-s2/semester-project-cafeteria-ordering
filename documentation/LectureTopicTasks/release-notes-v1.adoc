@@ -1,0 +1,51 @@
+= Version 1.0 Release notes for Current state of Project
+:project: Cafeteria Ordering
+:issue: 426
+:assignee: @Lorenzo-PT
+
+== Release Notes : Cafeteria ordering v0.0
+
+***
+This project is currently in it's *second* milestone/phase, meaning that these release notes are a placeholder until the project officially releases.
+
+***
+
+=== Delivery Items
+
+The project currently features the following archives:
+
+* *Documentation Archive* (folder/documentation/...) - Contains all the project documentation, including domain descriptions, lecture topic tasks, requirements, architecture notes, and testing archives.
+
+* *Source Code Archive* (folder/src/...) - This archive contains the current state of the project, including the React Native code, all the navigation structure, and the UI components for the project.
+
+=== What's New for Milestone 2
+
+* Implemented mock payment service for testing purposes
+
+* Designed and implemented profile settings
+
+* Implemented Home page for the application
+
+* Order and Notification backend implemented
+
+* Project Documentation fully revised after milestone 1.
+
+=== Known issues
+
+==== 1. Payment backend not integrated fully
+
+The Payment backend is currently not fully implemented, at the moment it is being tested but user cannot make a transaction yet.
+
+==== 2. Order state automation not working
+
+The notification system has not been automated for things like missing a scheduled order pick-up, which should immediately notify the user 
+
+==== 3. Cafeteria Admin Mode Not fully yet Implemented
+
+The cafeteria staff view is implemented, but the staff cant add or remove items from the menu.
+
+=== Notes for Testers & Reviewers
+
+*All automated tests are configured to run with GitHub Actions CI on any push that involves the main branch.
+
+* Load testing scripts are located in `documentation/LectureTopicTasks/load&performance-testing/tests/` & results in `documentation/LectureTopicTasks/load&performance-testing/combined-test-results.json`.

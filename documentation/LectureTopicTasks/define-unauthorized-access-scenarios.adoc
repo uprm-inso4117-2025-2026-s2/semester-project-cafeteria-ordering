@@ -1,0 +1,130 @@
+= Unauthorized Access Scenarios for Protected Routes
+// Author: Andrea P Segarra
+// GitHub user: @andreasegarra
+// Issue #422
+
+== 1. Objective
+
+Define and analyze unauthorized access scenarios for protected routes in the Cafeteria Ordering System.
+
+The goal is to ensure that restricted pages and actions are only accessible to users who meet the required authentication and authorization conditions, and that invalid access attempts are properly handled.
+
+This helps prevent security vulnerabilities such as unauthorized data access, privilege escalation, and inconsistent user behavior.
+
+== 2. Protected Routes Overview
+
+The system includes several routes that require authentication and/or specific user roles to access.
+
+[cols="1,2", options="header"]
+|===
+| Route | Access Requirement
+
+| User Profile Page
+| Requires authenticated user
+
+| Order History / User Orders
+| Requires authenticated user
+
+| Admin / Staff Dashboard
+| Requires admin or staff role
+|===
+
+== 3. Unauthorized Scenario Types
+
+Unauthorized access scenarios can be classified into the following categories:
+
+* *Unauthorized (Missing Authentication)*  
+User is not logged in but attempts to access a protected route.
+
+* *Invalid Authentication*  
+User provides an invalid, expired, or malformed session/token.
+
+* *Insufficient Permissions (Authorization Failure)*  
+User is authenticated but does not have the required role or permissions.
+
+== 4. Unauthorized Access Scenarios
+
+[cols="1,1,2,2", options="header"]
+|===
+| Protected Route
+| Scenario Type
+| Example
+| Expected Behavior
+
+| User Profile Page
+| Unauthorized
+| User tries to access profile page without logging in
+| System redirects user to login page
+
+| User Profile Page
+| Invalid
+| User accesses profile page with expired session token
+| System rejects request, clears session, and prompts re-authentication
+
+| Order History / User Orders
+| Unauthorized
+| User attempts to open order history without authentication
+| System redirects user to login page
+
+| Order History / User Orders
+| Invalid
+| Request made with missing or malformed token
+| System rejects request and prevents access to order data
+
+| Order History / User Orders
+| Edge
+| User attempts to access another user's order history via modified URL
+| System denies access and restricts data to authorized user only
+
+| Admin / Staff Dashboard
+| Unauthorized
+| Unauthenticated user manually enters admin dashboard URL
+| System blocks access and redirects to login page
+
+| Admin / Staff Dashboard
+| Invalid
+| User attempts access with expired admin session token
+| System rejects access and requires login again
+
+| Admin / Staff Dashboard
+| Edge
+| Logged-in regular user tries to access admin dashboard
+| System denies access with insufficient permissions message
+|===
+
+== 5. Testing Strategy
+
+The testing strategy for unauthorized access scenarios must verify the following:
+
+* Protected routes cannot be accessed without authentication
+* Invalid or expired tokens are rejected
+* Users cannot access routes outside their permission level
+* The system correctly distinguishes between authentication and authorization failures
+* Both frontend route guards and backend validation enforce access control
+
+Testing should be performed at:
+
+* *User Interface level* (navigation restrictions, redirects)
+* *Backend/API level* (token validation, role verification)
+
+== 6. Edge Cases and Boundary Conditions
+
+Unauthorized access control may introduce edge cases that must be considered to ensure system reliability:
+
+* User accesses a protected route through a bookmarked or shared URL
+* Token expires while user is actively using a protected page
+* User switches roles during an active session
+* Multiple rapid requests using invalid or expired tokens
+* Attempt to access resources belonging to another user
+* Cached data remains visible after session expiration
+* System refresh occurs during authentication validation
+
+These scenarios must be handled to prevent inconsistent behavior or unintended access.
+
+== 7. Conclusion
+
+Defining unauthorized access scenarios ensures that protected routes behave securely and consistently.
+
+By identifying authentication failures, authorization violations, and edge cases, the system can prevent unauthorized access and maintain data integrity.
+
+This analysis supports the design of secure route handling and reliable access control across the Cafeteria Ordering System.

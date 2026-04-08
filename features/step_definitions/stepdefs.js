@@ -1,7 +1,6 @@
 const assert = require("assert");
 const { Given, When, Then } = require("@cucumber/cucumber");
 
-// World object to track state across steps
 const world = {
   currentPage: null,
   userCredentials: null,
@@ -42,7 +41,7 @@ Then("the user should be redirected to the dashboard", function () {
   );
 });
 
-// Staff Operations Steps
+// Staff Operations
 Given('an order is currently marked as "pending"', function () {
   world.orderStatus = "pending";
   assert.strictEqual(
@@ -59,7 +58,7 @@ When("the staff member updates the order status", function () {
 
 When("the backend update fails", function () {
   world.backendFailure = true;
-  // Revert the status change due to failure
+  // Revert the status change cause of a failure
   world.orderStatus = "pending";
 });
 
@@ -203,7 +202,7 @@ Then(
   },
 );
 
-// Order Placement Steps
+// Order Placement
 Given("the user is logged in", function () {
   world.userLoggedIn = true;
   assert(world.userLoggedIn, "User should be logged in");
@@ -255,7 +254,7 @@ Then("the user should receive an order confirmation message", function () {
   assert(world.userNotified, "User should receive confirmation");
 });
 
-// Staff Operations - Cancel Order
+// Canceling an Order
 Given("an order is in a cancellable state", function () {
   world.orderStatus = "pending";
   world.cancellable = true;
@@ -280,7 +279,7 @@ Then("the staff orders table should reflect the cancellation", function () {
   assert(world.tableUpdated, "Staff table should reflect cancellation");
 });
 
-// Staff Operations - Invalid Transition
+// An Invalid Status Transition
 Given("an order is already marked as {string}", function (status) {
   world.orderStatus = status;
   assert.strictEqual(
@@ -294,7 +293,7 @@ When(
   "the staff member attempts to change the order status to {string}",
   function (newStatus) {
     world.attemptedStatus = newStatus;
-    // Simulate rejection for invalid transition
+    // Simulate rejection
     if (world.orderStatus === "completed" && newStatus === "in progress") {
       world.updateRejected = true;
     }
@@ -310,7 +309,7 @@ Then("an appropriate validation message should be shown", function () {
   assert(world.validationMessage, "Validation message should be shown");
 });
 
-// Staff Operations - Receive Order
+// Receiving an Order
 Given("a customer has placed a new order", function () {
   world.newOrderPlaced = true;
   world.orderId = "ORD-67890";
@@ -331,7 +330,7 @@ Then("the new order should appear in the pending orders list", function () {
   assert(world.orderInList, "New order should appear in pending list");
 });
 
-// Staff Operations - Update Status
+// Updating Status to a Valid State
 When(
   "the staff member changes the order status to {string}",
   function (newStatus) {

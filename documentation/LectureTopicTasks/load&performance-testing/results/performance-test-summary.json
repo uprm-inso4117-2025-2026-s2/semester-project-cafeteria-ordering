@@ -1,0 +1,36 @@
+{
+  "metrics": {
+    "http_req_duration": {
+      "values": {
+        "avg": 453.6,
+        "min": 328,
+        "max": 582,
+        "p(95)": 582
+      }
+    },
+    "frontend_to_backend_latency": {
+      "values": {
+        "avg": 453.6,
+        "p(95)": 582
+      }
+    },
+    "http_req_failed": {
+      "values": {
+        "rate": 0
+      }
+    },
+    "payment_success_rate": {
+      "values": {
+        "rate": 1
+      }
+    },
+    "payments_processed": {
+      "count": 10
+    },
+    "http_reqs": {
+      "values": {
+        "rate": 2.2
+      }
+    }
+  }
+}
