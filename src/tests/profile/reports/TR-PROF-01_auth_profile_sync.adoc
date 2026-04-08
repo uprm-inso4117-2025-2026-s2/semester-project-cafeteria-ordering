@@ -1,0 +1,62 @@
+= TR-PROF-01 Auth Profile Sync Integration Test Report
+Author: Kevin Lara
+
+*Date:* 2026-04-07
+*ID:* TR-PROF-01
+*Issue:* #449
+*Test:* IT-PROF-01_auth_profile_sync.tsx
+*Type:* Integration Test
+*Pass/Fail Status:* PASS
+
+== Description
+
+This report documents the execution of the Profile & Offline Support integration test for authentication-driven profile synchronization behavior.
+
+The executed integration test validates interaction between authentication state handling, profile synchronization logic, and backend persistence behavior implemented in `src/app/authContext.tsx`. The test focuses on how profile data is synchronized from Supabase authentication metadata into the `profiles` table and how application auth state is updated during session and auth-event changes.
+
+== Test Scope
+
+The following behaviors were validated:
+
+* Initial session with user metadata triggers profile synchronization into the `profiles` table
+* Fallback name behavior uses the email prefix when `full_name` is missing from metadata
+* `SIGNED_IN` auth events trigger synchronization and mapped user state updates
+* `USER_UPDATED` auth events trigger synchronization and refresh mapped user state
+* Synchronization failure logs a warning without breaking mapped auth state
+* `SIGNED_OUT` clears application auth state correctly
+* Auth subscription is unsubscribed on provider unmount
+
+== Execution Summary
+
+The integration test script was executed against mocked Supabase auth/session and database behavior in order to isolate integration logic between:
+
+* Supabase auth session retrieval
+* Supabase auth state change subscription
+* Profile upsert behavior
+* Mapped application user state inside the authentication context
+
+The following test cases passed:
+
+* Test 1: initial session syncs metadata to profiles
+* Test 2: fallback name uses email prefix when metadata is missing
+* Test 3: `SIGNED_IN` event triggers sync and auth state update
+* Test 4: `USER_UPDATED` event triggers sync and auth state refresh
+* Test 5: sync failure warns without breaking mapped auth state
+* Test 6: `SIGNED_OUT` clears auth state
+* Test 7: provider unsubscribes from auth listener on unmount
+
+== Result
+
+All defined integration checks passed successfully.
+
+The test confirms that the implemented authentication/profile integration behaves correctly for the currently supported synchronization flow in the codebase.
+
+== Notes
+
+* This report validates the currently implemented auth-driven profile synchronization logic in `authContext.tsx`.
+* This is an integration-level validation, not a full end-to-end offline synchronization test.
+* Broader offline queueing, retry, reconnect conflict resolution, and duplicate replay prevention are not implemented in the current profile flow and therefore are not claimed by this report.
+
+== Final Status
+
+*PASS*

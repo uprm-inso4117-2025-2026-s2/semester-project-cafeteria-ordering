@@ -74,5 +74,8 @@
     "tsx": "^4.21.0",
     "typescript": "~5.9.2"
   },
+  "jest": {
+    "preset": "jest-expo"
+  },
   "private": true
 }
