@@ -1,0 +1,72 @@
+= TR-PROF-01 Profile Functionality Unit Test Report
+Author: Kevin J. Lara-Rodriguez
+
+*Date:* 2026-04-02
+
+*ID:* TR-PROF-01
+
+*Issue:* #448
+
+*Test:* TC-PROF-01 - Profile Functionality Unit Tests
+
+*Type:* Unit Test
+
+*Pass/Fail Status:* PASS
+
+== Description
+The unit test suite for profile functionality executed successfully and all test cases passed.
+
+The test suite validated the following profile-related helper functions in `src/lib/profiles.ts`:
+
+- `createProfile`
+- `getProfileByUserId`
+- `updateProfileName`
+- `updateProfilePhone`
+- `deleteProfile`
+
+The following behaviors were verified:
+
+- Profile creation succeeds when the client returns valid inserted data
+- Profile creation throws the expected error when the client returns a failure
+- Profile lookup by `user_id` succeeds when matching profile data is returned
+- Profile lookup throws the expected error when the client returns a failure
+- Profile name updates succeed and use the correct `full_name` field
+- Profile name updates throw the expected error when the client returns a failure
+- Profile phone updates succeed and use the correct `phone` field
+- Profile phone updates throw the expected error when the client returns a failure
+- Profile deletion succeeds and returns `{ success: true }`
+- Profile deletion throws the expected error when the client returns a failure
+
+== Execution Evidence
+Command executed:
+
+[source,bash]
+----
+npx tsx src/tests/profile/scripts/UT-PROF-01_profile_functionality.ts
+----
+
+Observed output:
+
+[source,text]
+----
+Running TC-PROF-01 Unit Tests...
+Test 1 passed: createProfile() success
+Test 2 passed: createProfile() failure
+Test 3 passed: getProfileByUserId() success
+Test 4 passed: getProfileByUserId() failure
+Test 5 passed: updateProfileName() success
+Test 6 passed: updateProfileName() failure
+Test 7 passed: updateProfilePhone() success
+Test 8 passed: updateProfilePhone() failure
+Test 9 passed: deleteProfile() success
+Test 10 passed: deleteProfile() failure
+
+All TC-PROF-01 unit tests passed successfully.
+----
+
+== Conclusion
+The profile helper functions behaved as expected under both successful and failure conditions. The tests remained at the unit level by using injected mock clients instead of relying on live Supabase or full application execution.
+
+== Notes
+- The original implementation required a small change to `src/lib/profiles.ts` so an optional client could be injected for unit testing.
+- This allowed the test suite to avoid depending on the Expo/React Native runtime or a live Supabase environment.
