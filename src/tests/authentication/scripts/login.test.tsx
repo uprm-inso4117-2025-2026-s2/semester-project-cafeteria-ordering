@@ -36,7 +36,7 @@
  * ============================================================================
  * @test_steps
  */
-
+//
 // ============================================================================
 // IMPORTS & SETUP
 // ============================================================================
@@ -144,7 +144,9 @@ describe("TC-AUTH-04: LoginScreen Component", () => {
     fireEvent.press(loginButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/please enter a valid email address/i)).toBeTruthy();
+      expect(
+        screen.getByText(/please enter a valid email address/i),
+      ).toBeTruthy();
       expect(mockSignInWithPassword).not.toHaveBeenCalled();
     });
   });
@@ -240,7 +242,9 @@ describe("TC-AUTH-04: LoginScreen Component", () => {
     fireEvent.press(googleButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/google sign-in is not enabled yet/i)).toBeTruthy();
+      expect(
+        screen.getByText(/google sign-in is not enabled yet/i),
+      ).toBeTruthy();
     });
   });
 });
