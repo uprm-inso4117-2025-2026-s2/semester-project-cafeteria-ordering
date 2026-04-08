@@ -70,7 +70,7 @@
     "jest": "^30.3.0",
     "jest-expo": "^55.0.13",
     "metro-react-native-babel-preset": "^0.77.0",
-    "react-test-renderer": "^19.1.0",
+    "react-test-renderer": "19.1.0",
     "tsx": "^4.21.0",
     "typescript": "~5.9.2"
   },
