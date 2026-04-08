@@ -10,14 +10,14 @@ Final designs can be found in `documentation/designs/all_designs`. Additionally,
 
 === Light Mode
 
-image::Customer_LM_1.jpg[Customer Light Mode 1, width=300]
+image::Customer_LM_1.jpg[Customer Light Mode 1, width=500]
 image::Customer_LM_2.jpg[Customer Light Mode 2, width=300]
-image::Customer_LM_3.jpg[Customer Light Mode 3, width=300]
+image::Customer_LM_3.jpg[Customer Light Mode 3, width=500]
 
 === Dark Mode
 
-image::Customer_DM_1.jpg[Customer Dark Mode 1, width=300]
-image::Customer_DM_2.jpg[Customer Dark Mode 2, width=300]
+image::Customer_DM_1.jpg[Customer Dark Mode 1, width=500]
+image::Customer_DM_2.jpg[Customer Dark Mode 2, width=500]
 image::Customer_DM_3.jpg[Customer Dark Mode 3, width=300]
 
 --
@@ -36,12 +36,12 @@ Overall design changes made:
 
 === Light Mode
 
-image::Staff_LM_1.jpg[Staff Light Mode 1, width=300]
+image::Staff_LM_1.jpg[Staff Light Mode 1, width=500]
 image::Staff_LM_2.jpg[Staff Light Mode 2, width=300]
 
 === Dark Mode
 
-image::Staff_DM_1.jpg[Staff Dark Mode 1, width=300]
+image::Staff_DM_1.jpg[Staff Dark Mode 1, width=500]
 image::Staff_DM_2.jpg[Staff Dark Mode 2, width=300]
 
 --
