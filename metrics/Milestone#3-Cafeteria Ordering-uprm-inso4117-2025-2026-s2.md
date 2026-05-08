@@ -1,6 +1,6 @@
 # Milestone Data
 
-## Date Generated: 2026-05-07
+## Date Generated: 2026-05-08
 | Developer | Points Closed | Percent Contribution | Indivudal Grade | Milestone Grade | Lecture Topic Tasks |
 | --------- | ------------- | -------------------- | --------------- | --------------- | ------------------- |
 | horebcotto21 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
@@ -71,36 +71,36 @@
 
 | Developer | Week #1 | Week #2 | Week #3 | Penalty |
 |---|---|---|---|---|
-| aryamdiaz | No | No | No | 9.0 |
-| nataliavera6 | No | No | No | 9.0 |
-| horebcotto21 | No | No | No | 9.0 |
-| JorgeDeLeonOrama | No | No | No | 9.0 |
-| Osvaldoo1414 | No | No | No | 9.0 |
-| GerardoSotoRios | No | No | No | 9.0 |
-| LuisJCruz | No | No | No | 9.0 |
-| FabiolaZTorres | No | No | No | 9.0 |
-| YadrielRivera | No | No | No | 9.0 |
-| Lorenzo-PT | No | No | No | 9.0 |
-| Kay9876 | No | No | No | 9.0 |
 | reinaldo-martinez1 | No | No | No | 9.0 |
-| fernan-castro | No | No | No | 9.0 |
-| jankii03 | No | No | No | 9.0 |
-| Alma-pineiro | Yes | No | No | 5.0 |
-| daniellameleroo | No | No | No | 9.0 |
-| andreasegarra | No | No | No | 9.0 |
-| jonVargas1 | No | No | No | 9.0 |
-| devlin-hahn04 | No | No | No | 9.0 |
+| FabiolaZTorres | No | No | No | 9.0 |
+| nataliavera6 | No | No | No | 9.0 |
 | ernestosoto3 | No | No | No | 9.0 |
-| Kaariinaa08 | No | No | No | 9.0 |
-| TaimaraColon | No | No | No | 9.0 |
-| L-A-M-D | No | No | No | 9.0 |
-| JadStelar | No | No | No | 9.0 |
+| horebcotto21 | No | No | No | 9.0 |
+| Osvaldoo1414 | Yes | No | No | 5.0 |
+| fernan-castro | No | No | No | 9.0 |
 | YandreCaban | No | No | No | 9.0 |
+| Alma-pineiro | Yes | No | No | 5.0 |
+| JadStelar | No | No | No | 9.0 |
+| aryamdiaz | No | No | No | 9.0 |
 | Pedro-Juan-Bonilla | No | No | No | 9.0 |
+| daniellameleroo | No | No | No | 9.0 |
 | SamarysB | No | No | No | 9.0 |
 | kevinlara1 | No | No | No | 9.0 |
-| yamilette-alemany | No | No | No | 9.0 |
+| JorgeDeLeonOrama | No | No | No | 9.0 |
+| L-A-M-D | No | No | No | 9.0 |
 | kian-robert | No | No | No | 9.0 |
+| devlin-hahn04 | No | No | No | 9.0 |
+| yamilette-alemany | No | No | No | 9.0 |
+| Lorenzo-PT | No | No | No | 9.0 |
+| Kaariinaa08 | Yes | No | No | 5.0 |
+| jonVargas1 | No | No | No | 9.0 |
+| YadrielRivera | Yes | No | No | 5.0 |
+| GerardoSotoRios | No | No | No | 9.0 |
+| LuisJCruz | No | No | No | 9.0 |
+| Kay9876 | No | No | No | 9.0 |
+| TaimaraColon | No | No | No | 9.0 |
+| jankii03 | No | No | No | 9.0 |
+| andreasegarra | No | No | No | 9.0 |
 
 ## Point Percent by Label
 
