@@ -36,7 +36,7 @@
 
 ## Sprint Task Completion
 
-| Developer | Sprint 1 [current]<br>2026/05/06, 08:00 AM<br>2026/05/14, 03:59 PM | Sprint 2<br>2026/05/14, 03:59 PM<br>2026/05/22, 11:59 PM |
+| Developer | Sprint 1 [current]<br>2026/05/06, 08:00 AM<br>2026/05/17, 03:59 AM | Sprint 2<br>2026/05/17, 03:59 AM<br>2026/05/27, 11:59 PM |
 |---|---|---|
 | horebcotto21 | 0/1 | 0/1 |
 | reinaldo-martinez1 | 0/1 | 0/1 |
@@ -69,38 +69,38 @@
 
 ## Weekly Discussion Participation
 
-| Developer | Week #1 | Week #2 | Week #3 | Penalty |
-|---|---|---|---|---|
-| reinaldo-martinez1 | No | No | No | 9.0 |
-| FabiolaZTorres | No | No | No | 9.0 |
-| nataliavera6 | No | No | No | 9.0 |
-| ernestosoto3 | No | No | No | 9.0 |
-| horebcotto21 | No | No | No | 9.0 |
-| Osvaldoo1414 | Yes | No | No | 5.0 |
-| fernan-castro | No | No | No | 9.0 |
-| YandreCaban | No | No | No | 9.0 |
-| Alma-pineiro | Yes | No | No | 5.0 |
-| JadStelar | No | No | No | 9.0 |
-| aryamdiaz | No | No | No | 9.0 |
-| Pedro-Juan-Bonilla | No | No | No | 9.0 |
-| daniellameleroo | No | No | No | 9.0 |
-| SamarysB | No | No | No | 9.0 |
-| kevinlara1 | No | No | No | 9.0 |
-| JorgeDeLeonOrama | No | No | No | 9.0 |
-| L-A-M-D | No | No | No | 9.0 |
-| kian-robert | No | No | No | 9.0 |
-| devlin-hahn04 | No | No | No | 9.0 |
-| yamilette-alemany | No | No | No | 9.0 |
-| Lorenzo-PT | No | No | No | 9.0 |
-| Kaariinaa08 | Yes | No | No | 5.0 |
-| jonVargas1 | No | No | No | 9.0 |
-| YadrielRivera | Yes | No | No | 5.0 |
-| GerardoSotoRios | No | No | No | 9.0 |
-| LuisJCruz | No | No | No | 9.0 |
-| Kay9876 | No | No | No | 9.0 |
-| TaimaraColon | No | No | No | 9.0 |
-| jankii03 | No | No | No | 9.0 |
-| andreasegarra | No | No | No | 9.0 |
+| Developer | Week #1 | Week #2 | Week #3 | Week #4 | Penalty |
+|---|---|---|---|---|---|
+| reinaldo-martinez1 | Yes | No | No | No | 9.0 |
+| ernestosoto3 | No | No | No | No | 14.0 |
+| nataliavera6 | No | No | No | No | 14.0 |
+| JadStelar | Yes | No | No | No | 9.0 |
+| Alma-pineiro | Yes | No | No | No | 9.0 |
+| JorgeDeLeonOrama | No | No | No | No | 14.0 |
+| TaimaraColon | No | No | No | No | 14.0 |
+| Kay9876 | Yes | No | No | No | 9.0 |
+| GerardoSotoRios | Yes | No | No | No | 9.0 |
+| Kaariinaa08 | Yes | No | No | No | 9.0 |
+| yamilette-alemany | Yes | No | No | No | 9.0 |
+| devlin-hahn04 | Yes | No | No | No | 9.0 |
+| Osvaldoo1414 | Yes | No | No | No | 9.0 |
+| aryamdiaz | No | No | No | No | 14.0 |
+| LuisJCruz | No | No | No | No | 14.0 |
+| jankii03 | No | No | No | No | 14.0 |
+| andreasegarra | No | No | No | No | 14.0 |
+| daniellameleroo | Yes | No | No | No | 9.0 |
+| L-A-M-D | No | No | No | No | 14.0 |
+| horebcotto21 | No | No | No | No | 14.0 |
+| SamarysB | No | No | No | No | 14.0 |
+| Pedro-Juan-Bonilla | No | No | No | No | 14.0 |
+| YadrielRivera | Yes | No | No | No | 9.0 |
+| jonVargas1 | No | No | No | No | 14.0 |
+| Lorenzo-PT | No | No | No | No | 14.0 |
+| kevinlara1 | Yes | No | No | No | 9.0 |
+| kian-robert | No | No | No | No | 14.0 |
+| YandreCaban | No | No | No | No | 14.0 |
+| FabiolaZTorres | No | No | No | No | 14.0 |
+| fernan-castro | No | No | No | No | 14.0 |
 
 ## Point Percent by Label
 
@@ -113,31 +113,31 @@ There are no labels assigned to any issue
 | INFO: Found Project(name='Cafeteria Ordering', number=2, url='https://github.com/orgs/uprm-inso4117-2025-2026-s2/projects/2', public=False) |
 | WARNING: Project visibility is set to private. This can lead to issues not being found if the Personal Access Token doesn't have permissions for viewing private projects. |
 | WARNING: [Issue #378](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/378) is not associated with a milestone. |
-| WARNING: horebcotto21 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: reinaldo-martinez1 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: Kay9876 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: JadStelar hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: aryamdiaz hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: fernan-castro hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: Kaariinaa08 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: nataliavera6 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: LuisJCruz hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: YandreCaban hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: SamarysB hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: FabiolaZTorres hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: jonVargas1 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: andreasegarra hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: yamilette-alemany hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: jankii03 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: Osvaldoo1414 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: ernestosoto3 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: Lorenzo-PT hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: YadrielRivera hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: GerardoSotoRios hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: daniellameleroo hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: devlin-hahn04 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: kevinlara1 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: JorgeDeLeonOrama hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: L-A-M-D hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: kian-robert hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
-| WARNING: Pedro-Juan-Bonilla hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/14 |
+| WARNING: horebcotto21 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: reinaldo-martinez1 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: Kay9876 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: JadStelar hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: aryamdiaz hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: fernan-castro hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: Kaariinaa08 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: nataliavera6 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: LuisJCruz hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: YandreCaban hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: SamarysB hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: FabiolaZTorres hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: jonVargas1 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: andreasegarra hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: yamilette-alemany hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: jankii03 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: Osvaldoo1414 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: ernestosoto3 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: Lorenzo-PT hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: YadrielRivera hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: GerardoSotoRios hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: daniellameleroo hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: devlin-hahn04 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: kevinlara1 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: JorgeDeLeonOrama hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: L-A-M-D hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: kian-robert hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
+| WARNING: Pedro-Juan-Bonilla hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
