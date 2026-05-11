@@ -1,6 +1,6 @@
 # Milestone Data
 
-## Date Generated: 2026-05-10
+## Date Generated: 2026-05-11
 | Developer | Points Closed | Percent Contribution | Indivudal Grade | Milestone Grade | Lecture Topic Tasks |
 | --------- | ------------- | -------------------- | --------------- | --------------- | ------------------- |
 | horebcotto21 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
@@ -71,36 +71,36 @@
 
 | Developer | Week #1 | Week #2 | Week #3 | Week #4 | Penalty |
 |---|---|---|---|---|---|
-| TaimaraColon | Yes | No | No | No | 9.0 |
-| FabiolaZTorres | Yes | No | No | No | 9.0 |
-| yamilette-alemany | Yes | No | No | No | 9.0 |
-| Alma-pineiro | Yes | No | No | No | 9.0 |
-| Lorenzo-PT | No | No | No | No | 14.0 |
-| ernestosoto3 | Yes | No | No | No | 9.0 |
-| Osvaldoo1414 | Yes | No | No | No | 9.0 |
-| reinaldo-martinez1 | Yes | No | No | No | 9.0 |
-| Kay9876 | Yes | No | No | No | 9.0 |
-| aryamdiaz | No | No | No | No | 14.0 |
-| LuisJCruz | Yes | No | No | No | 9.0 |
-| horebcotto21 | Yes | No | No | No | 9.0 |
-| devlin-hahn04 | Yes | No | No | No | 9.0 |
-| JorgeDeLeonOrama | Yes | No | No | No | 9.0 |
-| L-A-M-D | Yes | No | No | No | 9.0 |
-| andreasegarra | Yes | No | No | No | 9.0 |
-| jankii03 | Yes | No | No | No | 9.0 |
-| YandreCaban | Yes | No | No | No | 9.0 |
-| jonVargas1 | Yes | No | No | No | 9.0 |
-| nataliavera6 | Yes | No | No | No | 9.0 |
-| SamarysB | Yes | No | No | No | 9.0 |
 | kian-robert | Yes | No | No | No | 9.0 |
-| JadStelar | Yes | No | No | No | 9.0 |
-| YadrielRivera | Yes | No | No | No | 9.0 |
-| daniellameleroo | Yes | No | No | No | 9.0 |
-| Pedro-Juan-Bonilla | Yes | No | No | No | 9.0 |
-| kevinlara1 | Yes | No | No | No | 9.0 |
-| Kaariinaa08 | Yes | No | No | No | 9.0 |
-| GerardoSotoRios | Yes | No | No | No | 9.0 |
+| TaimaraColon | Yes | No | No | No | 9.0 |
+| horebcotto21 | Yes | No | No | No | 9.0 |
+| jonVargas1 | Yes | No | No | No | 9.0 |
+| JorgeDeLeonOrama | Yes | No | No | No | 9.0 |
+| andreasegarra | Yes | No | No | No | 9.0 |
 | fernan-castro | Yes | No | No | No | 9.0 |
+| yamilette-alemany | Yes | No | No | No | 9.0 |
+| JadStelar | Yes | No | No | No | 9.0 |
+| aryamdiaz | No | No | No | No | 14.0 |
+| Kay9876 | Yes | No | No | No | 9.0 |
+| daniellameleroo | Yes | No | No | No | 9.0 |
+| reinaldo-martinez1 | Yes | No | No | No | 9.0 |
+| Osvaldoo1414 | Yes | No | No | No | 9.0 |
+| FabiolaZTorres | Yes | No | No | No | 9.0 |
+| YadrielRivera | Yes | No | No | No | 9.0 |
+| ernestosoto3 | Yes | No | No | No | 9.0 |
+| SamarysB | Yes | No | No | No | 9.0 |
+| devlin-hahn04 | Yes | No | No | No | 9.0 |
+| L-A-M-D | Yes | No | No | No | 9.0 |
+| Kaariinaa08 | Yes | No | No | No | 9.0 |
+| Pedro-Juan-Bonilla | Yes | No | No | No | 9.0 |
+| nataliavera6 | Yes | No | No | No | 9.0 |
+| Lorenzo-PT | No | No | No | No | 14.0 |
+| jankii03 | Yes | No | No | No | 9.0 |
+| LuisJCruz | Yes | No | No | No | 9.0 |
+| Alma-pineiro | Yes | No | No | No | 9.0 |
+| kevinlara1 | Yes | No | No | No | 9.0 |
+| GerardoSotoRios | Yes | No | No | No | 9.0 |
+| YandreCaban | Yes | No | No | No | 9.0 |
 
 ## Point Percent by Label
 
@@ -109,7 +109,6 @@ There are no labels assigned to any issue
 
 | Message |
 | ------- |
-| WARNING: Milestone due date in config doesn't match milestone due date on Github |
 | INFO: Found Project(name='Cafeteria Ordering', number=2, url='https://github.com/orgs/uprm-inso4117-2025-2026-s2/projects/2', public=False) |
 | WARNING: Project visibility is set to private. This can lead to issues not being found if the Personal Access Token doesn't have permissions for viewing private projects. |
 | WARNING: [Issue #378](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/378) is not associated with a milestone. |
