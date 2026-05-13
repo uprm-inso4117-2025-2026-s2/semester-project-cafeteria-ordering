@@ -1,0 +1,111 @@
+= Central QA Revision Guidelines
+Author: Jorge L. De León Orama
+:toc:
+:sectnums:
+:doctype: article
+
+== Overview
+
+This document provides QA revision guidelines for contributors working on the Cafeteria Ordering System project. It defines what reviewers must verify when evaluating Lecture Topic Task (LTT) submissions and Test Report submissions. All contributors are expected to follow the workflows established in `documentation/QualityAssurance/Test_Plan/test_strategy/Defining_and_Establishing_Test_Reporting_Principles.adoc` and related documents before submitting work for review.
+
+== Lecture Topic Task Issue Definition Revisions
+
+Before the task is worked on, verify that the task description meets the following requirements:
+
+If task runs a test:
+
+* The task description identifies the test type (unit, integration, etc.).
+* The task description identifies the feature being tested.
+* The task description indicates the Test Case and Test Report with their corresponding directory and file name.
+* The task description references the corresponding feature folder under `src/tests/"feature"/docs/` if documentation is expected.
+* If documentation is expected, the task description indicates referencing the related Test Case and Test Report IDs in the resulting document for traceability purposes.
+
+If task runs no tests: 
+
+* The task description specifies the expected file directory structure under `documentation/LectureTopicTasks/"topic"`.
+* The task description references any related past issues.
+* The task description does not contradict any previously documented information from related issues.
+
+=== Duplicate and Consistency Check
+
+Before approving any LTT submission, verify the following:
+
+* If a past issue is related to the one being evaluated, the reviewer must ensure consistency is enforced.
+* Indicate to the developer that they must read through the preexisting documentation for any related issues.
+* Verify that the new issue and its documentation do not contradict previously documented information.
+* If any contradictions or inconsistencies are found, request corrections before approval.
+
+== Lecture Topic Task Post Execution Revisions
+
+When reviewing a Lecture Topic Task, the following must be verified:
+
+=== File Directory
+
+If a test was run as part of the LTT, verify that the file structure follows the established conventions:
+
+* The test case file is located inside the corresponding feature folder: `src/tests/"feature"/`. 
+* The test report file is located in the same feature folder: `src/tests/"feature"/`.
+* Any documentation produced alongside the test is placed in: `src/tests/"feature"/docs/`.
+* The documentation file directly references both the Test Case (TC) ID and the Test Report (TR) ID within its contents to ensure traceability.
+
+=== Test Case
+
+If a test was run, a test case must be created. Verify that the test case:
+
+* Follows the naming convention `<TestCaseID>_<descriptive_name>.<extension>`.
+* Uses the official template at `src/tests/test_case_template.ts`.
+* Includes all required sections:
+** Test Name and Author
+** Description — purpose of the test and type (unit, integration, etc.)
+** Preconditions
+** Test Steps — ordered sequence of steps executed during the test
+** Expected Results — expected system behavior
+** Reviewed By — to be filled in by the reviewer
+** Notes — only if additional information is necessary
+* Test Data is present only if the test requires it. It must not be fabricated or left with placeholder values.
+** If Test Data is present it must be exported.
+
+=== Test Report
+
+If a test was run, a test report must be created. Verify that the test report:
+
+* Follows the naming convention `<TestReportID>_<descriptive_name>.adoc`.
+* Uses the official template at `src/tests/test_report_template.adoc`.
+* It imports the needed information from the needed Test Case.
+* Includes all required fields:
+** Title — test name followed by "TR"
+** Author — the developer who ran the test
+** Date — the date the test was executed
+** ID — the Test Report ID (refer to `src/tests/id_generation.pdf`)
+** Issue — the linked issue number
+** Test — the test being reported
+** Pass/Fail Status — must be either `PASS` or `FAIL`
+** Description — a clear account of what passed or failed
+** Notes — only if additional information is necessary
+
+== Test Report Revisions
+
+When reviewing a standalone Test Report submission, verify that it satisfies the Test Report Design Format as specified in `documentation/QualityAssurance/Test_Plan/test_strategy/Defining_and_Establishing_Test_Reporting_Principles.adoc`.
+
+=== Required Fields
+
+Each test report must include all of the following:
+
+. *File name* — must follow the format `<TestReportID>_<descriptive_name>.adoc`. Refer to `src/tests/id_generation.pdf` for ID generation.
+. *Title* — the test name followed by "TR".
+. *Author* — the developer who ran the test.
+. *Date* — the date the test was executed.
+. *ID* — the Test Report ID.
+. *Issue* — the linked issue number.
+. *Test* — the test being reported.
+. *Pass/Fail Status* — must be either `PASS` or `FAIL`.
+. *Description* — a clear account of what passed or failed.
+. *Notes* — only if additional information is necessary.
+
+=== Workflow Compliance
+
+Additionally verify the following:
+
+* The developer ran the test before generating the report. Reports must not be created without a corresponding test execution.
+* If the test failed, the report still documents the failure. A failing result does not exempt the contributor from submitting a report.
+* If the test was modified and re-run, a new test report was created for each execution. Modifying an existing report to reflect a re-run is not acceptable.
