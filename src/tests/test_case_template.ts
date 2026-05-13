@@ -11,7 +11,7 @@ Preconditions
 * <insert precondition2>
 */
 
-//Test Data (Only if needed.)
+//Test Data
 
 const dummyUsername= " "
 let dummyList: number[] = []
