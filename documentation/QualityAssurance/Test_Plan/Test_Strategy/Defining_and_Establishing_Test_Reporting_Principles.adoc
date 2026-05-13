@@ -1,111 +1,123 @@
-= Central QA Revision Guidelines
-Author: Jorge L. De León Orama
-:toc:
-:sectnums:
-:doctype: article
+= Test Reporting Principles
 
-== Overview
 
-This document provides QA revision guidelines for contributors working on the Cafeteria Ordering System project. It defines what reviewers must verify when evaluating Lecture Topic Task (LTT) submissions and Test Report submissions. All contributors are expected to follow the workflows established in `documentation/QualityAssurance/Test_Plan/test_strategy/Defining_and_Establishing_Test_Reporting_Principles.adoc` and related documents before submitting work for review.
+== Introduction
+In any structured software development project, testing alone is not sufficient to guarantee product quality. The true effectiveness of testing depends on how results are communicated, interpreted, and acted upon. Without clearly defined test reporting principles, test outcomes can become inconsistent, misunderstood, or overlooked, increasing project risk.
 
-== Lecture Topic Task Issue Definition Revisions
+Establishing Test Reporting Principles ensures that all testing results are documented in a consistent and traceable manner. A structured reporting framework promotes transparency, accountability, and informed decision‑making by defining how results are recorded, who reviews them, and how failures are resolved.
 
-Before the task is worked on, verify that the task description meets the following requirements:
+== Level Definitions
 
-If task runs a test:
+=== Developer Level
+The developer is responsible for reporting on unit tests related to the code they implemented. They ensure their code functions correctly before integration.
 
-* The task description identifies the test type (unit, integration, etc.).
-* The task description identifies the feature being tested.
-* The task description indicates the Test Case and Test Report with their corresponding directory and file name.
-* The task description references the corresponding feature folder under `src/tests/"feature"/docs/` if documentation is expected.
-* If documentation is expected, the task description indicates referencing the related Test Case and Test Report IDs in the resulting document for traceability purposes.
+=== Team Level
+This level covers testing activities that affect shared modules, integrations, or system behavior. Results must be reviewed collectively by the team.
 
-If task runs no tests: 
+=== Stakeholder Level
+This level includes high‑level test results intended for managers and project stakeholders. Reports summarize system stability, release readiness, critical defects, and overall quality.
 
-* The task description specifies the expected file directory structure under `documentation/LectureTopicTasks/"topic"`.
-* The task description references any related past issues.
-* The task description does not contradict any previously documented information from related issues.
+== Types of Tests Requiring Reporting
 
-=== Duplicate and Consistency Check
+=== Unit Testing
+Validates individual components in isolation before integration. Reporting ensures early defect detection and prevents unstable code from entering the project.
 
-Before approving any LTT submission, verify the following:
+*Covered by:* Developers and Teams.
 
-* If a past issue is related to the one being evaluated, the reviewer must ensure consistency is enforced.
-* Indicate to the developer that they must read through the preexisting documentation for any related issues.
-* Verify that the new issue and its documentation do not contradict previously documented information.
-* If any contradictions or inconsistencies are found, request corrections before approval.
+=== Integration Testing
+Ensures combined components work as intended. Reporting identifies interface defects, data inconsistencies, and communication failures.
 
-== Lecture Topic Task Post Execution Revisions
+*Covered by:* Team.
 
-When reviewing a Lecture Topic Task, the following must be verified:
+=== Acceptance Testing
+Ensures delivered code satisfies project requirements. Reporting highlights failed acceptance criteria and supports release decisions.
 
-=== File Directory
+*Covered by:* Stakeholders and Developers.
 
-If a test was run as part of the LTT, verify that the file structure follows the established conventions:
+=== Non‑Functional Testing
+Evaluates reliability, scalability, maintainability, and security. Reporting identifies risks affecting release readiness.
 
-* The test case file is located inside the corresponding feature folder: `src/tests/"feature"/`. 
-* The test report file is located in the same feature folder: `src/tests/"feature"/`.
-* Any documentation produced alongside the test is placed in: `src/tests/"feature"/docs/`.
-* The documentation file directly references both the Test Case (TC) ID and the Test Report (TR) ID within its contents to ensure traceability.
+*Covered by:* Team and Stakeholders.
 
-=== Test Case
+=== Performance Testing
+Measures responsiveness, stability, and scalability under load. Reporting tracks performance against thresholds.
 
-If a test was run, a test case must be created. Verify that the test case:
+*Covered by:* Team and Stakeholders.
 
-* Follows the naming convention `<TestCaseID>_<descriptive_name>.<extension>`.
-* Uses the official template at `src/tests/test_case_template.ts`.
-* Includes all required sections:
-** Test Name and Author
-** Description — purpose of the test and type (unit, integration, etc.)
-** Preconditions
-** Test Steps — ordered sequence of steps executed during the test
-** Expected Results — expected system behavior
-** Reviewed By — to be filled in by the reviewer
-** Notes — only if additional information is necessary
-* Test Data is present only if the test requires it. It must not be fabricated or left with placeholder values.
-** If Test Data is present it must be exported.
+=== Usability Testing
+Assesses user‑friendliness and intuitiveness. Reporting documents design or interaction flaws.
 
-=== Test Report
+*Covered by:* Stakeholders.
 
-If a test was run, a test report must be created. Verify that the test report:
+=== A/B Testing
+Compares two feature versions to determine which performs better. Reporting supports evidence‑based decisions.
 
-* Follows the naming convention `<TestReportID>_<descriptive_name>.adoc`.
-* Uses the official template at `src/tests/test_report_template.adoc`.
-* It imports the needed information from the needed Test Case.
-* Includes all required fields:
-** Title — test name followed by "TR"
-** Author — the developer who ran the test
-** Date — the date the test was executed
-** ID — the Test Report ID (refer to `src/tests/id_generation.pdf`)
-** Issue — the linked issue number
-** Test — the test being reported
-** Pass/Fail Status — must be either `PASS` or `FAIL`
-** Description — a clear account of what passed or failed
-** Notes — only if additional information is necessary
+*Covered by:* Stakeholders.
 
-== Test Report Revisions
+=== Documentation Testing
+Verifies documentation completeness, accuracy, and clarity. Reporting prevents misinformation.
 
-When reviewing a standalone Test Report submission, verify that it satisfies the Test Report Design Format as specified in `documentation/QualityAssurance/Test_Plan/test_strategy/Defining_and_Establishing_Test_Reporting_Principles.adoc`.
+*Covered by:* Developers, Teams, and Stakeholders.
 
-=== Required Fields
+== Desired Reporting Format
+All test reports must be documented to track progress and ensure no unresolved issues affect the project long‑term.
 
-Each test report must include all of the following:
+Each test report must include:
 
-. *File name* — must follow the format `<TestReportID>_<descriptive_name>.adoc`. Refer to `src/tests/id_generation.pdf` for ID generation.
-. *Title* — the test name followed by "TR".
-. *Author* — the developer who ran the test.
-. *Date* — the date the test was executed.
-. *ID* — the Test Report ID.
-. *Issue* — the linked issue number.
-. *Test* — the test being reported.
-. *Pass/Fail Status* — must be either `PASS` or `FAIL`.
-. *Description* — a clear account of what passed or failed.
-. *Notes* — only if additional information is necessary.
+* Issue or code reference
+* Date of test execution
+* Tester name
+* Pass/Fail status
+* Detailed description of what was tested and what passed/failed
 
-=== Workflow Compliance
+== Pass/Fail Criteria
 
-Additionally verify the following:
+=== Pass Criteria
+A test passes when:
 
-* The developer ran the test before generating the report. Reports must not be created without a corresponding test execution.
-* If the test failed, the report still documents the failure. A failing result does not exempt the contributor from submitting a report.
-* If the test was modified and re-run, a new test report was created for each execution. Modifying an existing report to reflect a re-run is not acceptable.
+* All requirements are fulfilled
+* No errors are present
+* Code is clean and understandable
+* A report is completed using the correct format
+
+=== Fail Criteria
+A test fails when:
+
+* Requirements are unfulfilled
+* Code contains errors
+* Issues could negatively impact the project
+
+The responsible developer must be notified to fix the issue. A test report must be completed, and additional developers may be assigned if needed.
+
+== Responsibility & Governance
+
+=== Responsibilities
+
+* *Developers:* Ensure all code passes unit tests and fix defects before submission.
+* *Team:* Execute integration and non‑functional tests, prepare reports, and verify defect resolution.
+* *Stakeholders:* Review milestone test reports and approve or reject milestone completion.
+
+=== Governance Principles
+
+* Every test executed within a milestone must be documented and stored.
+* Failed tests must be resolved before milestone approval.
+* Traceability between requirements, test cases, defects, and reports must be verified.
+* Each milestone must meet project quality standards before progressing.
+
+== Metrics & Traceability
+Metrics and traceability are essential for monitoring project quality and ensuring requirement compliance.
+
+Recorded metrics include:
+
+* Test execution status
+* Defect severity
+* System performance
+
+Traceability links:
+
+* Requirements → Test cases → Test results → Defects
+
+This enables informed decisions, requirement verification, and an auditable quality assurance record.
+
+== Conclusion
+Clear Test Reporting Principles are essential for project success. Structured reporting ensures that all tests are documented, reviewed, and communicated across Developer, Team, and Stakeholder levels. Defined responsibilities and governance ensure quality and defect resolution. Metrics and traceability provide transparency and alignment with requirements. Together, these principles create a controlled and reliable testing environment that supports long‑term project stability.
