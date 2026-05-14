@@ -1,0 +1,240 @@
+﻿= Applying Hoare Logic to addIngredient()
+:toc:
+:sectnums:
+:doctype: article
+
+== Purpose
+
+The `addIngredient()` method is a state-mutating operation on the `MenuItem` class that adds an ingredient to the item's ingredient list and adjusts the item price if the ingredient has a positive price. The purpose of this Hoare logic proof is to verify that given the expected preconditions, the method always preserves a valid `MenuItem` state and correctly updates or preserves the internal fields.
+
+== Scope
+
+This document proves the correctness of `addIngredient()` using the specification:
+
+{P} S {Q}
+
+where:
+
+* P is the precondition before method execution
+* S is the body of the `addIngredient()` method
+* Q is the postcondition that must hold after execution
+
+== Method Specification
+
+=== Input Specification
+[source,typescript]
+----
+addIngredient(ingredient: IngredientItem): void
+----
+
+The method depends on:
+
+* the caller having a valid `MenuItem` object in scope
+* the method parameter `ingredient` being a defined object with at least `ingredients_id` and `ingredients_names`
+* the `ingredients` list being a valid array
+* the internal `price` field containing the current base price
+
+=== Output Specification
+The method returns `void`, but it must ensure that the `MenuItem` state satisfies one of the two intended outcomes:
+
+* if the ingredient already exists, the item state remains unchanged
+* if the ingredient is new, it is appended to `ingredients` and `price` is incremented by `ingredient.ingredients_price` when truthy
+
+== Formal Proof
+
+=== Preconditions (P)
+
+P = {
+
+  MenuItem instance is initialized
+
+  this.ingredients is a defined array
+
+  this.price is a number
+
+  ingredient is defined and has a valid `ingredients_id`
+
+  no uncaught exceptions exist before execution
+
+  try-catch is not needed because the method contains no exception-throwing operations
+
+}
+
+More formally:
+
+P ≡ (MenuItem loaded ∧ this.ingredients ∈ Array ∧ this.price ∈ Number ∧ ingredient ∈ IngredientItem)
+
+=== Postconditions (Q)
+
+Q = {
+
+  method returns void
+
+  if ingredient already exists in this.ingredients, then:
+  * this.ingredients is unchanged
+  * this.price is unchanged
+
+  else:
+  * this.ingredients contains the new ingredient exactly once at the end
+  * if ingredient.ingredients_price is truthy, this.price is increased by that value
+  * if ingredient.ingredients_price is falsy, this.price is unchanged
+
+  no exceptions escape the method
+
+}
+
+More formally:
+
+Q ≡ (void ∧ correct mutation behavior ∧ state consistency)
+
+=== Method Body
+[source,typescript]
+----
+addIngredient(ingredient: IngredientItem): void {
+  const exists = this.ingredients.some(
+    (ing) => ing.ingredients_id === ingredient.ingredients_id
+  );
+  if (exists) {
+    console.warn(
+      `Ingredient "${ingredient.ingredients_names}" is already in "${this.name}".`
+    );
+    return;
+  }
+  this.ingredients.push(ingredient);
+  if (ingredient.ingredients_price) {
+    this.price += ingredient.ingredients_price;
+  }
+}
+----
+
+=== Proof by Cases
+
+We prove the triple {P} S {Q} by considering all possible execution paths.
+
+==== Case 1: Ingredient Already Exists
+
+**Path Condition:** `exists === true`
+
+{P₁} if (exists) {Q₁}
+
+*Reasoning:*
+
+. Evaluate `this.ingredients.some(...)` under P.
+. If the same `ingredients_id` is found, `exists` is true.
+. Execute the `if (exists)` branch.
+. The method logs a warning and executes `return`.
+
+Since no mutation occurs, the state satisfies the postcondition Q₁:
+
+* `this.ingredients` remains unchanged 
+* `this.price` remains unchanged 
+* method returns `void` 
+* no exception escapes 
+
+*Conclusion for Case 1:* Q₁ is satisfied.
+
+==== Case 2: Ingredient Does Not Exist and Has Truthy Price
+
+**Path Condition:** `exists === false` ∧ `ingredient.ingredients_price` is truthy
+
+{P₂} if (ingredient is new and priced) {Q₂}
+
+*Reasoning:*
+
+. Evaluate the first condition: `exists` is false.
+. Skip the `return` branch.
+. Execute `this.ingredients.push(ingredient)`.
+. Since `ingredient.ingredients_price` is truthy, execute `this.price += ingredient.ingredients_price`.
+
+The resulting state satisfies Q₂:
+
+* `this.ingredients` contains the new ingredient appended 
+* `this.price` equals old price + `ingredient.ingredients_price` 
+* method returns `void` 
+* no exception escapes 
+
+*Conclusion for Case 2:* Q₂ is satisfied.
+
+==== Case 3: Ingredient Does Not Exist and Has Falsy Price
+
+**Path Condition:** `exists === false` ∧ `ingredient.ingredients_price` is falsy
+
+{P₃} if (ingredient is new and unpriced) {Q₃}
+
+*Reasoning:*
+
+. Evaluate the first condition: `exists` is false.
+. Skip the `return` branch.
+. Execute `this.ingredients.push(ingredient)`.
+. Since `ingredient.ingredients_price` is falsy, the `if` body is skipped.
+
+The resulting state satisfies Q₃:
+
+* `this.ingredients` contains the new ingredient appended 
+* `this.price` remains unchanged 
+* method returns `void` 
+* no exception escapes 
+
+*Conclusion for Case 3:* Q₃ is satisfied.
+
+=== Completeness of Case Analysis
+
+The three cases cover every possible behavior of `addIngredient()`:
+
+* duplicate ingredient => early return
+* new ingredient with truthy price => price increment
+* new ingredient with falsy price => no price change
+
+Path₁ ∪ Path₂ ∪ Path₃ = all possible executions.
+
+=== Global Validity
+
+Because every possible execution path satisfies the postcondition Q, we conclude:
+
+{P} addIngredient(ingredient) {Q}
+
+This proves that given the required preconditions, `addIngredient()` preserves valid state and behaves according to its specification.
+
+== Proof Summary Table
+
+[cols="2,2,2,1"]
+|===
+| Execution Path | Condition | State Change | Satisfies Q?
+
+| Ingredient exists
+| duplicate `ingredients_id`
+| no mutation
+| Yes
+
+| Ingredient new, priced
+| `exists === false`, truthy `ingredients_price`
+| append ingredient + price increase
+| Yes
+
+| Ingredient new, unpriced
+| `exists === false`, falsy `ingredients_price`
+| append ingredient only
+| Yes
+|===
+
+== Intended Behavior vs. Actual Behavior
+
+=== What the Proof Guarantees
+
+1. `addIngredient()` always terminates and returns `void`.
+2. Duplicate ingredients are not added and item state remains unchanged.
+3. New ingredients are appended exactly once.
+4. Price adjustment occurs only when the ingredient price is truthy.
+5. No uncaught exceptions escape the method.
+
+=== Type Safety Guarantees
+
+The method respects TypeScript's type expectations for `MenuItem` state mutation and the `IngredientItem` input.
+
+== Conclusion
+
+The `addIngredient()` method is correct with respect to its specification. For every valid `MenuItem` and `IngredientItem` input satisfying P, the resulting state satisfies Q.
+
+∀ initial states S where P holds, if `addIngredient(ingredient)` executes, then Q holds for the final state.
+
+This formal proof assures developers that `addIngredient()` is a reliable state transition method for menu item ingredient management.
