@@ -237,9 +237,9 @@ function FullScreenOrderDetails({
           ]}
           disabled={order.status === "open"}
           onPress={() => {
-  onStatusChange(order.id, "open");
-  onBack();
-}}
+            onStatusChange(order.id, "open");
+            onBack();
+          }}
         >
           <Text
             style={[
