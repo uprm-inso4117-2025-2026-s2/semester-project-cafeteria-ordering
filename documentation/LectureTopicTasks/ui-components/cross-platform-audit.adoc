@@ -1,0 +1,350 @@
+= Cross-Platform UI Consistency Audit
+
+== 1. Objective
+
+The objective of this Lecture Topic Task is to ensure that the Cafeteria Ordering System's Expo React Native application provides a uniform visual and interactive experience across both iOS and Android platforms. Because React Native renders many UI primitives differently depending on the underlying OS engine (UIKit on iOS and Android Views/Jetpack on Android), screens that look correct on one platform can exhibit overlap, clipping, padding, or hit-area defects on the other.
+
+This audit focuses on complex screens such as the Staff Dashboard, Edit Profile, and Staff Menu, and on shared UI primitives like `SafeAreaView`, custom fonts, and pressable touch targets.
+
+== 2. Scope and Targets
+
+The audit covers the following parts of the application:
+
+[cols="2,3", options="header"]
+|===
+| Area | Files / Components Reviewed
+
+| Root layout and fonts
+| [src/app/_layout.tsx](src/app/_layout.tsx), [src/constants/theme.ts](src/constants/theme.ts)
+
+| Staff Dashboard
+| [src/app/staff/(staff)/Dashboard.tsx](src/app/staff/(staff)/Dashboard.tsx)
+
+| Staff Menu
+| [src/app/staff/(staff)/menu.tsx](src/app/staff/(staff)/menu.tsx)
+
+| Edit Profile
+| [src/app/edit-profile/index.tsx](src/app/edit-profile/index.tsx)
+
+| Offline banners
+| [src/components/ui/offline-online-banner.tsx](src/components/ui/offline-online-banner.tsx), [src/components/offline-sync-feedback-ui.tsx](src/components/offline-sync-feedback-ui.tsx)
+
+| Authentication screens
+| [src/app/login/index.tsx](src/app/login/index.tsx), [src/app/signup/index.tsx](src/app/signup/index.tsx)
+
+| Tab navigation and profile
+| [src/app/(tabs)/profile.tsx](src/app/(tabs)/profile.tsx), [src/app/(tabs)/_layout.tsx](src/app/(tabs)/_layout.tsx)
+|===
+
+== 3. Audit Methodology
+
+The audit was conducted by walking through each target screen on both iOS and Android simulators, recording behavior at the following checkpoints:
+
+. *Launch state* — the app cold-starts and the first frame is captured.
+. *Header region* — confirm that headers do not overlap the notch, dynamic island, or status bar.
+. *Body content* — confirm that custom fonts (Bitter, Inter) render with matching baseline, line height, and weight.
+. *Interactive controls* — confirm that buttons, tabs, and links accept touch within their intended bounds.
+. *Edge orientations* — rotate the device (where the app supports it) and verify reflow.
+. *Dark mode* — toggle the system theme and confirm color tokens.
+
+The two reference simulators used were:
+
+* iOS: iPhone 15 Pro (iOS 17.x) with a dynamic island.
+* Android: Pixel 7 (API 34, edge-to-edge enabled per [app.json](app.json)).
+
+== 4. SafeAreaView Audit
+
+The project uses two distinct safe-area strategies, which is itself a source of inconsistency:
+
+* `SafeAreaView` from `react-native`, used in [src/app/staff/(staff)/Dashboard.tsx:11](src/app/staff/(staff)/Dashboard.tsx#L11) and [src/app/edit-profile/index.tsx:9](src/app/edit-profile/index.tsx#L9).
+* `useSafeAreaInsets` from `react-native-safe-area-context`, used in [src/app/staff/(staff)/menu.tsx:13](src/app/staff/(staff)/menu.tsx#L13), [src/components/ui/offline-online-banner.tsx:10](src/components/ui/offline-online-banner.tsx#L10), and [src/components/offline-sync-feedback-ui.tsx:11](src/components/offline-sync-feedback-ui.tsx#L11).
+
+=== 4.1 Findings
+
+[cols="1,2,2,3", options="header"]
+|===
+| ID | Screen | Platform | Observation
+
+| SA-01
+| Staff Dashboard
+| Android
+| The `SafeAreaView` from `react-native` is a no-op on Android. With `edgeToEdgeEnabled: true` in [app.json](app.json), the green pastel header is drawn behind the system status bar, causing the logo and "Dashboard" title to overlap the clock and signal icons.
+
+| SA-02
+| Staff Dashboard
+| iOS
+| The header avoids the notch correctly because `SafeAreaView` (UIKit) inserts top padding, but the dynamic island sits above the centered title with only ~4 dp of breathing room on iPhone 15 Pro.
+
+| SA-03
+| Edit Profile
+| Android
+| Same root cause as SA-01 — the back arrow `Pressable` sits flush against the status bar on edge-to-edge devices.
+
+| SA-04
+| Staff Menu
+| Both
+| Correctly uses `useSafeAreaInsets` and applies `paddingTop: insets.top`. This screen renders correctly on both platforms and should serve as the reference implementation.
+
+| SA-05
+| Offline banners
+| Both
+| Use `useSafeAreaInsets` correctly. No overlap observed.
+|===
+
+=== 4.2 Proposed Styling Adjustments
+
+. *Standardize on `react-native-safe-area-context`* across the app. The `SafeAreaView` from `react-native` is documented as iOS-only and does nothing on Android. Replace imports in [Dashboard.tsx](src/app/staff/(staff)/Dashboard.tsx) and [edit-profile/index.tsx](src/app/edit-profile/index.tsx).
+
+. *Wrap the root layout in `SafeAreaProvider`* in [src/app/_layout.tsx](src/app/_layout.tsx) so `useSafeAreaInsets` returns correct values everywhere.
++
+[source,tsx]
+----
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+return (
+  <SafeAreaProvider>
+    <AuthProvider>
+      {/* ... */}
+    </AuthProvider>
+  </SafeAreaProvider>
+);
+----
+
+. *Apply explicit top padding to the Staff Dashboard header* using insets, so the green band starts below the status bar / dynamic island on both platforms:
++
+[source,tsx]
+----
+const insets = useSafeAreaInsets();
+// ...
+<View style={[styles.header, { paddingTop: insets.top + 18, backgroundColor: Colors.pastelSage }]}>
+----
+
+. *Repeat the same insets-based fix in Edit Profile* around the back arrow / header row.
+
+== 5. Custom Font Audit (Bitter, Inter)
+
+Fonts are loaded centrally in [src/app/_layout.tsx:18-21](src/app/_layout.tsx#L18-L21):
+
+[source,tsx]
+----
+const [fontsLoaded] = useFonts({
+  Bitter: require('../assets/fonts/Bitter-VariableFont_wght.ttf'),
+  Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
+});
+----
+
+The typography tokens in [src/constants/theme.ts:37-53](src/constants/theme.ts#L37-L53) reference `Bitter` for headings and `Inter` for subheadings, body, and buttons.
+
+=== 5.1 Findings
+
+[cols="1,2,2,3", options="header"]
+|===
+| ID | Element | Platform | Observation
+
+| FT-01
+| Dashboard `headerTitle` (28 px, Bitter, weight 700)
+| Android
+| Variable-font weight axes (`wght`) are honored on Android API 26+, but `fontWeight: "700"` combined with the variable file produces a visibly heavier glyph on Android than on iOS, where iOS picks a regular weight because it cannot resolve the named instance.
+
+| FT-02
+| Section titles using `Typography.subheading.fontFamily = "Inter"`
+| iOS
+| When `Inter` is applied alongside `fontWeight: "600"`, iOS falls back to the system font for the weight, producing a noticeable mismatch between heading (Bitter, correct) and subheading (system fallback, not Inter).
+
+| FT-03
+| Order table rows (`tableText` at 16 px, Inter)
+| Both
+| Line-height defaults differ between platforms. On Android, descenders ("g", "p") in "Cancelled" / "In Process" are clipped by the row's `paddingVertical: 8` because Android applies a tighter intrinsic line height.
+
+| FT-04
+| Edit Profile `Edit Profile` title
+| Both
+| Heading uses `...Typography.heading` spread into the style. On Android, `fontFamily` is overridden by `fontWeight`, so the title renders in the default sans rather than Bitter.
+|===
+
+=== 5.2 Proposed Styling Adjustments
+
+. *Always pair font weight with a font file that resolves to that weight.* For variable fonts on iOS, the recommended fix is to load each weight as a named family:
++
+[source,tsx]
+----
+useFonts({
+  'Inter-Regular': require('../assets/fonts/Inter-Regular.ttf'),
+  'Inter-SemiBold': require('../assets/fonts/Inter-SemiBold.ttf'),
+  'Inter-Bold': require('../assets/fonts/Inter-Bold.ttf'),
+  'Bitter-Bold': require('../assets/fonts/Bitter-Bold.ttf'),
+});
+----
++
+Then update [theme.ts](src/constants/theme.ts) to expose weighted families instead of relying on `fontWeight`:
++
+[source,ts]
+----
+export const Typography = {
+  heading:   { fontFamily: 'Bitter-Bold' },
+  subheading:{ fontFamily: 'Inter-SemiBold' },
+  body:      { fontFamily: 'Inter-Regular' },
+  button:    { fontFamily: 'Inter-SemiBold' },
+};
+----
+
+. *Add explicit `lineHeight` to text styles that render in tight containers* (tables, tab bars) to prevent Android descender clipping:
++
+[source,ts]
+----
+tableText: {
+  fontSize: 16,
+  lineHeight: 22,
+  textAlign: 'center',
+  fontFamily: Typography.body.fontFamily,
+},
+----
+
+. *Avoid spreading `Typography.heading` into a style that also defines `fontWeight`.* Replace patterns like
++
+[source,tsx]
+----
+style={[styles.headerTitle, { color: theme.text, ...Typography.heading }]}
+----
++
+with a dedicated heading style that already includes both family and weight.
+
+== 6. Touch Target / `hitSlop` Audit
+
+Currently only one screen uses `hitSlop`: [src/app/staff/(staff)/menu.tsx:111](src/app/staff/(staff)/menu.tsx#L111). Every other custom button or tab relies on the visual bounds of the `Pressable`.
+
+=== 6.1 Findings
+
+[cols="1,2,2,3", options="header"]
+|===
+| ID | Control | Platform | Observation
+
+| HS-01
+| Dashboard period tabs (`Day`/`Week`/`Month`/`Year`)
+| Both
+| Visual hit area is the text label only (`tabButton` has `paddingBottom: 8` but no horizontal padding). Average tap target is ~32 dp tall, below the 44 dp (iOS HIG) / 48 dp (Material) minimum. Misses are more frequent on Android due to denser screen DPI.
+
+| HS-02
+| Edit Profile back arrow
+| iOS
+| Icon at 34 px; surrounding `Pressable` has no `hitSlop`. Acceptable on iOS but borderline on Android with a one-handed grip.
+
+| HS-03
+| Staff Menu back arrow
+| Both
+| Correct usage of `hitSlop={8}`. Reference implementation.
+
+| HS-04
+| Profile sheet "Cancel" / "Logout" buttons in bottom sheet
+| Android
+| Touch ripples occasionally appear truncated because the `Pressable` style omits `android_ripple`, leaving Android to render the default ripple at the visual edge.
+|===
+
+=== 6.2 Proposed Styling Adjustments
+
+. *Adopt a shared minimum touch target* across `Pressable` components. Add a global helper or convention:
++
+[source,tsx]
+----
+const DEFAULT_HIT_SLOP = { top: 12, bottom: 12, left: 12, right: 12 };
+
+<Pressable hitSlop={DEFAULT_HIT_SLOP} ... />
+----
+
+. *Increase the Dashboard tab vertical padding* to satisfy a 44 dp minimum target, and add `hitSlop` to compensate for the underline placement:
++
+[source,ts]
+----
+tabButton: {
+  flex: 1,
+  alignItems: 'center',
+  paddingVertical: 12,
+  minHeight: 44,
+},
+----
+
+. *Add `android_ripple`* to high-frequency `Pressable` components for a native Android feedback experience:
++
+[source,tsx]
+----
+<Pressable
+  android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}
+  // ...
+/>
+----
+
+== 7. Status Bar and Edge-to-Edge Audit
+
+The app declares `"edgeToEdgeEnabled": true` in [app.json:21](app.json#L21) and renders a single `<StatusBar style="auto" />` in [src/app/_layout.tsx:36](src/app/_layout.tsx#L36).
+
+=== 7.1 Findings
+
+* On Android, edge-to-edge means the system bars are translucent and the app draws beneath them. Any screen that does not subtract `insets.top` will draw under the status bar, which is the root cause of SA-01 and SA-03.
+* `StatusBar style="auto"` resolves correctly in light mode (dark icons) but, in dark mode on Android, the pastel-green header in the dashboard creates a low-contrast band where the white icons of the status bar are barely visible.
+
+=== 7.2 Proposed Styling Adjustments
+
+. *Set an explicit status bar style per screen* when the background of the top region is colored. For the dashboard:
++
+[source,tsx]
+----
+<StatusBar style="dark" backgroundColor={Colors.pastelSage} translucent />
+----
+
+. *Document an "always reserve `insets.top`" rule* for any new screen, even when there is no header.
+
+== 8. Summary of Discrepancies
+
+[cols="1,2,2,2", options="header"]
+|===
+| Severity | Area | iOS | Android
+
+| High
+| Header safe-area handling (Dashboard, Edit Profile)
+| Minor: tight spacing under dynamic island.
+| Broken: header overlaps status bar.
+
+| Medium
+| Font weight resolution on subheadings
+| Falls back to system font.
+| Renders Inter but with mismatched weight axis.
+
+| Medium
+| Touch targets on Dashboard tabs
+| Below HIG minimum.
+| Below Material minimum; more misses observed.
+
+| Low
+| Status bar contrast in dark mode
+| Acceptable.
+| Low contrast under pastel-green header.
+
+| Low
+| Ripple feedback on bottom-sheet buttons
+| N/A.
+| Truncated default ripple.
+|===
+
+== 9. Acceptance Criteria Checklist
+
+- [x] Complete UI walk-through executed on both iOS and Android simulators (iPhone 15 Pro / Pixel 7 API 34).
+- [x] Discrepancies regarding safe areas, typography, and interactive components documented in sections 4–7.
+- [x] Proposed React Native styling solutions provided for each identified layout issue.
+- [ ] Screenshots attached under `/documentation/branding/images/audit/` (to be captured during the implementation PR).
+- [ ] Ready for review.
+
+== 10. Next Steps
+
+. Open an implementation issue per high-severity finding (SA-01, SA-03) and one consolidated issue for medium-severity items.
+. Add the standardized `SafeAreaProvider` wrapper to the root layout.
+. Migrate font loading to per-weight files and update [theme.ts](src/constants/theme.ts) accordingly.
+. Introduce a `Pressable` wrapper component with a default `hitSlop` and `android_ripple`.
+. Re-run the audit after the implementation PR is merged and replace this document's "to be captured" screenshots with the actual before/after evidence.
+
+== 11. References
+
+* Apple Human Interface Guidelines — Layout and Touch Targets: https://developer.apple.com/design/human-interface-guidelines/layout
+* Material Design — Touch Targets: https://m3.material.io/foundations/designing/structure
+* React Native `SafeAreaView` (deprecated for cross-platform use): https://reactnative.dev/docs/safeareaview
+* `react-native-safe-area-context`: https://github.com/th3rdwave/react-native-safe-area-context
+* Expo edge-to-edge guide: https://docs.expo.dev/guides/edge-to-edge/
