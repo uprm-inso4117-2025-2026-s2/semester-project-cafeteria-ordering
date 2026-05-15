@@ -1,0 +1,234 @@
+= Lecture Topic Task: Smoke Testing Criteria for Profile & Offline Support
+Kevin J. Lara-Rodriguez
+
+:toc:
+:icons: font
+:sectnums:
+
+== Purpose
+
+This Lecture Topic Task defines how smoke testing should be applied to the Profile & Offline Support area of the cafeteria ordering application.
+
+Smoke testing is a fast, high-level validation activity used to confirm that the most important functionality still works after a change, merge, dependency update, build configuration change, or release candidate. The goal is not to prove that every behavior is correct. The goal is to detect obvious breakage early before deeper functional, integration, regression, or offline-mode testing begins.
+
+For the Profile & Offline Support area, smoke testing should answer one main question:
+
+[quote]
+Can the profile-related feature area open, load previously available data, handle missing local data safely, and route the user to supported actions without crashing?
+
+== Definition of Smoke Testing
+
+Smoke testing is a shallow but broad validation pass over critical application behavior. It checks whether a build or feature area is stable enough for more detailed testing.
+
+In this project, smoke testing should be treated as a quick gate before deeper QA work. A smoke test should be small, repeatable, and focused on critical paths. It should not attempt to cover every edge case or every validation rule.
+
+=== Smoke Testing Is Not
+
+Smoke testing should not be confused with the following test types:
+
+* Full functional testing, which validates detailed feature requirements.
+* Integration testing, which validates interactions between multiple units or services.
+* Regression testing, which checks that previous behavior still works after changes.
+* Offline-mode validation, which checks offline persistence, recovery, and unsupported behavior in detail.
+* End-to-end testing, which validates complete user workflows across the system.
+
+Smoke testing may overlap with these areas, but its scope is intentionally smaller.
+
+== Why Smoke Testing Matters
+
+Smoke testing matters because it helps the team avoid wasting time on detailed QA when the build is already broken at a basic level.
+
+For example, before running deeper profile/offline tests, the team should first confirm that:
+
+* the profile screen renders without crashing;
+* cached profile data can still be displayed;
+* cached avatar data can still be displayed;
+* default fallback UI appears when local cache is empty;
+* navigation from the profile screen still works;
+* no obvious runtime error appears during the basic profile flow.
+
+If one of these basic checks fails, deeper testing should usually be paused until the blocking issue is fixed.
+
+== Application Area Covered
+
+This smoke testing guidance applies specifically to the Profile & Offline Support area.
+
+The relevant current implementation areas are:
+
+* `src/app/(tabs)/profile.tsx`
+* `src/app/authContext.tsx`
+* `src/lib/profiles.ts`
+* `src/lib/supabase.ts`
+* profile/offline QA artifacts under `src/tests/profile/`
+
+This document focuses on the profile screen and its offline-related behavior. It does not define smoke criteria for the entire cafeteria ordering application.
+
+== Current Implementation Assumptions
+
+Based on the current profile implementation and the existing Profile & Offline Support tests, the profile screen supports the following basic behaviors:
+
+* reads cached profile information from `@profile_info` in AsyncStorage;
+* reads cached avatar information from `@profile_avatar` in AsyncStorage;
+* displays safe default UI when cached profile or avatar data is missing;
+* navigates to `/edit-profile` when the user selects the Edit action;
+* allows avatar selection when media-library permission is granted;
+* displays an alert when avatar permission is denied.
+
+The profile screen does not currently prove full reconnect-based backend synchronization, retry queues, or conflict resolution. Those behaviors require deeper integration or offline-mode testing and should not be treated as smoke-test requirements unless the implementation changes.
+
+== Recommended Smoke Test Checklist
+
+The following checklist should be used as the minimum smoke-test pass for Profile & Offline Support.
+
+=== Profile Screen Rendering
+
+[cols="1,3,3", options="header"]
+|===
+|Check ID |Smoke Check |Expected Result
+
+|SMOKE-PROF-01
+|Open the profile screen.
+|The profile screen renders without crashing.
+
+|SMOKE-PROF-02
+|Verify the profile header and main profile card.
+|The user can see the profile screen structure, including the title and profile field area.
+
+|SMOKE-PROF-03
+|Verify default UI when no cached profile data exists.
+|The screen displays safe fallback values such as `Your Name` and `?` instead of crashing.
+|===
+
+=== Cached Profile Data
+
+[cols="1,3,3", options="header"]
+|===
+|Check ID |Smoke Check |Expected Result
+
+|SMOKE-PROF-04
+|Load the profile screen when `@profile_info` exists in AsyncStorage.
+|The cached name, email, and phone values display correctly.
+
+|SMOKE-PROF-05
+|Remount or reopen the profile screen with the same cached profile data.
+|The cached profile data is still displayed.
+|===
+
+=== Cached Avatar Data
+
+[cols="1,3,3", options="header"]
+|===
+|Check ID |Smoke Check |Expected Result
+
+|SMOKE-PROF-06
+|Load the profile screen when `@profile_avatar` exists in AsyncStorage.
+|The cached avatar URI is used by the profile screen.
+
+|SMOKE-PROF-07
+|Load the profile screen when `@profile_avatar` is missing.
+|The default avatar/initial state appears without a crash.
+|===
+
+=== Navigation and Supported Actions
+
+[cols="1,3,3", options="header"]
+|===
+|Check ID |Smoke Check |Expected Result
+
+|SMOKE-PROF-08
+|Press the Edit action on the profile screen.
+|The app navigates to `/edit-profile`.
+
+|SMOKE-PROF-09
+|Attempt avatar selection when media-library permission is granted.
+|The avatar picker flow is started and the selected avatar can be stored locally.
+
+|SMOKE-PROF-10
+|Attempt avatar selection when media-library permission is denied.
+|The app shows the expected permission alert and does not continue avatar selection.
+|===
+
+=== Unsupported Behavior Awareness
+
+[cols="1,3,3", options="header"]
+|===
+|Check ID |Smoke Check |Expected Result
+
+|SMOKE-PROF-11
+|Look for explicit offline/online status messaging on the profile screen.
+|No smoke-test failure should be recorded solely because this is missing, since offline status messaging is not currently implemented on the profile screen.
+
+|SMOKE-PROF-12
+|Check for reconnect-based profile sync from the profile screen.
+|No smoke-test failure should be recorded solely because this is missing, since reconnect sync is not currently implemented on the profile screen.
+|===
+
+== When to Run These Smoke Tests
+
+Profile & Offline Support smoke tests should be run in the following situations:
+
+* after merging changes that affect `profile.tsx`;
+* after modifying AsyncStorage profile keys or cached data structure;
+* after modifying Expo Router navigation around profile pages;
+* after dependency updates involving React Native, Expo, Jest, AsyncStorage, or Supabase;
+* before running deeper profile/offline integration tests;
+* before opening or merging a pull request that changes profile/offline behavior;
+* before release validation if the release includes Profile & Offline Support changes.
+
+== Pass and Fail Guidance
+
+A smoke test should pass when the critical profile/offline flow is stable enough for deeper testing.
+
+A smoke test should fail when a basic critical behavior is broken, such as:
+
+* the profile screen cannot render;
+* cached profile data cannot be read at all;
+* missing cached data crashes the screen;
+* the Edit action no longer routes to the expected edit flow;
+* avatar permission denial causes a crash;
+* the test environment cannot execute the profile smoke script.
+
+A smoke test should not fail simply because deeper behavior is not implemented. For example, reconnect-based synchronization should be documented as unsupported unless a future issue adds that feature.
+
+== Relationship to Existing Profile QA Work
+
+Smoke testing should be treated as the first layer of validation.
+
+The current Profile & Offline Support QA artifacts include more detailed testing work, such as:
+
+* unit testing for profile functionality;
+* integration testing for profile/auth synchronization;
+* offline-mode behavior validation;
+* test reports documenting executed results.
+
+The smoke testing checklist in this document is smaller than those tests. Its purpose is to quickly detect major breakage before running deeper test cases.
+
+== Recommended Automation Scope
+
+The smoke checklist can be executed manually or automated with Jest. If automated, the test should remain focused on basic render, cached-data load, fallback behavior, avatar handling, and navigation.
+
+Automated smoke tests should avoid becoming full regression tests. If the test begins checking detailed validation rules, conflict handling, retry queues, or backend synchronization behavior, those checks should be moved into separate functional, integration, or offline-mode validation tests.
+
+== Risks and Limitations
+
+Smoke testing has important limitations:
+
+* It does not prove that the full feature is correct.
+* It does not replace unit, integration, regression, or offline-mode tests.
+* It may miss edge cases involving corrupted cached data, network transitions, or backend conflicts.
+* It depends on the smoke checklist staying aligned with the actual implementation.
+
+Because of these limitations, smoke testing should be used as an early confidence check, not as final QA approval.
+
+== Conclusion
+
+Smoke testing for Profile & Offline Support should provide a quick, repeatable first-pass validation that the profile screen can render, recover cached data, handle missing data safely, support avatar-related behavior, and route users to the edit flow without crashing.
+
+For the current implementation, the correct smoke-test scope is local cached-data recovery and basic profile-screen stability. Full reconnect-based synchronization, retry handling, and conflict resolution should remain outside the smoke-test scope unless those features are implemented in future issues.
+
+== References
+
+* International Software Testing Qualifications Board. (2024). _Certified Tester Foundation Level Syllabus v4.0.1_. ISTQB. https://istqb-main-web-prod.s3.amazonaws.com/media/documents/ISTQB_CTFL_Syllabus_v4.0.1.pdf
+* International Software Testing Qualifications Board. (n.d.). _Glossary: Smoke test_. ISTQB Glossary. https://glossary.istqb.org/en_US/term/smoke-test
+* Microsoft. (2024). _Smoke testing_. Microsoft Learn. https://learn.microsoft.com/en-us/previous-versions/ms182613(v=vs.80)
+* Atlassian. (n.d.). _Smoke testing_. Atlassian. https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing
