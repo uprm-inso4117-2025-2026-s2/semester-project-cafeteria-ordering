@@ -1,3 +1,6 @@
+import { supabase } from '@/lib/supabase';
+import { getProfileByUserId, updateProfileName, updateProfilePhone } from '@/lib/profiles';
+import { useEffect } from 'react';
 import React, { useState } from 'react';
 import {
   View,
@@ -25,13 +28,40 @@ export default function EditProfile() {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  function handleSave() {
+  useEffect(() => {
+  async function loadProfile() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const profile = await getProfileByUserId(user.id);
+    if (!profile) return;
+    setFullName(profile.full_name ?? '');
+    setPhoneNumber(profile.phone ?? '');
+    setEmail(user.email ?? '');
+  }
+  loadProfile();
+}, []);
+
+  /*function handleSave() {
     Alert.alert(
       'Profile Updated',
       'Changes are not saved yet.',
       [{ text: 'OK', onPress: () => router.back() }]
     );
+  }*/
+
+  async function handleSave() {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    await updateProfileName(user.id, fullName);
+    await updateProfilePhone(user.id, phoneNumber);
+    Alert.alert('Profile Updated', 'Your changes have been saved.',
+      [{ text: 'OK', onPress: () => router.back() }]
+    );
+  } catch (err: any) {
+    Alert.alert('Error', err.message);
   }
+}
 
   function handleDiscardChanges() {
     Alert.alert(

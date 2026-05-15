@@ -1,3 +1,6 @@
+import { useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+import { getProfileByUserId } from "@/lib/profiles";
 import { Colors, Typography } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { supabase } from "@/lib/supabase";
@@ -116,7 +119,7 @@ export default function ProfileScreen() {
   function toggleReq(req: string) {
     setSelectedReqs((prev) => prev.includes(req) ? prev.filter((r) => r !== req) : [...prev, req]);
   }
-  useEffect(() => {
+  /*useEffect(() => {
     AsyncStorage.getItem("@profile_info").then((v) => {
       if (!v) return;
       const p = JSON.parse(v);
@@ -125,7 +128,22 @@ export default function ProfileScreen() {
       setPhone(p.phone ?? "");
     });
     AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
-  }, []);
+  }, []); */
+  useFocusEffect(
+    useCallback(() => {
+      async function loadProfile() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        const profile = await getProfileByUserId(user.id);
+        if (!profile) return;
+        setName(profile.full_name ?? '');
+        setPhone(profile.phone ?? '');
+        setEmail(user.email ?? '');
+      }
+      loadProfile();
+      AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
+    }, [])
+  );
 
   // function handleSave() {
   //   setEditing(false);
