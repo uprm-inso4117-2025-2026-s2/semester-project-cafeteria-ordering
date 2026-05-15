@@ -1,0 +1,107 @@
+= Authentication Testing Risks and Priorities
+
+// Author: @FabiolaZTorres
+// Date: 2026-05-08
+// Issue #489
+
+== Objective
+
+Identify authentication-related risks and prioritize testing efforts using a risk-based approach.
+
+Risk Score is calculated as:
+
+    Risk Score = Likelihood (1–5) × Impact (1–5)
+
+Higher scores indicate higher testing priority and broader regression scope.
+
+
+== Risk Assessment
+
+[cols="1,3,1,1,1,1",options="header"]
+|===
+|ID | Risk Description | Likelihood (1–5) | Impact (1–5) | Risk Score | Priority
+
+|R1
+|Unauthorized login access (bypass authentication or exploit login flaws)
+|3
+|5
+|15
+|High
+
+|R2
+|Weak password validation (accepts insecure passwords)
+|4
+|5
+|20
+|High
+
+|R3
+|Session expiration issues (sessions persist after logout or timeout)
+|3
+|5
+|15
+|High
+
+|R4
+|Brute force attack vulnerability (no rate limiting or lockout)
+|5
+|4
+|20
+|High
+
+|R5
+|Role-Based Access Control (RBAC) failure (customer accesses staff features)
+|3
+|5
+|15
+|High
+
+|R6
+|Insecure guest access handling (guest flow bypasses restrictions)
+|3
+|3
+|9
+|Medium
+|===
+
+== Risk Justification
+
+=== R1: Unauthorized Login Access
+Authentication involves multiple flows (login, guest access, RBAC), increasing complexity and probability of defects. Impact is critical due to exposure of user data and order manipulation.
+
+=== R2: Weak Password Validation
+Common implementation gap. High likelihood if validation rules are not enforced. High impact due to account compromise risk.
+
+=== R3: Session Expiration Issues
+Session handling is often overlooked. High impact in shared/public device scenarios.
+
+=== R4: Brute Force Vulnerability
+Very likely without rate limiting. Can lead to account compromise and system strain.
+
+=== R5: RBAC Failure
+System includes multiple roles (Customer vs Staff). Misconfiguration can expose administrative functionality.
+
+=== R6: Guest Access Issues
+Guest flow adds complexity to identity handling. Medium impact due to inconsistencies in order tracking and verification.
+
+== Testing Priority Strategy
+
+Based on risk scores:
+
+- *High (13–25):* Must be tested first. Include in smoke + regression suites.
+- *Medium (6–12):* Test after high-priority risks. Include in targeted regression.
+- *Low (1–5):* Minimal testing unless impacted by changes.
+
+== Relation to Regression Testing
+
+High-risk authentication areas must be included in regression testing when:
+
+- Authentication logic changes
+- Role/permission logic is modified
+- Session management is updated
+
+Examples of regression coverage:
+
+- Login/logout flows
+- Role-based access restrictions
+- Guest vs authenticated user behavior
