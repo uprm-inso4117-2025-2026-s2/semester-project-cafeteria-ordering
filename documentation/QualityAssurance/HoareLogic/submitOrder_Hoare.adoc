@@ -1,0 +1,281 @@
+= Applying Hoare Logic to submitOrder() Function
+
+
+== Introduction
+
+The `submitOrder()` function is responsible for validating cart data,
+calculating the total order amount, and persisting order information
+into the database using Supabase. Applying Hoare Logic to this 
+function allows us to formally verify that it
+behaves correctly under valid preconditions and produces the expected
+postconditions.
+
+== Scope
+
+This document proves the partial correctness of the `submitOrder()`
+function using Hoare Logic.
+
+The proof demonstrates that valid cart and user input lead to:
+
+* successful order creation
+* a controlled failure state
+
+The analysis is based on the actual implementation found in `orders.ts`.
+
+== Function Specification
+
+[source,typescript]
+
+----
+export async function submitOrder(
+  cartItems: MenuItem[],
+  userId: string,
+  notes?: string
+): Promise<string | null>
+----
+
+=== Responsibilities
+
+The function performs the following operations:
+
+. Validate cart contents
+. Calculate total order amount
+. Insert a new row into the `orders` table
+. Insert corresponding rows into `order_items`
+. Return the generated `order_id`
+. Return `null` if execution fails
+
+== Preconditions (P)
+
+The following conditions must hold before execution:
+
+P ≡
+
+. `userId` is a valid non-empty string
+. `cartItems` is defined
+. `cartItems.length > 0`
+. Every cart item contains a valid identifier
+. Every cart item has a non-negative total price
+. Supabase client is initialized and reachable
+
+This means:
+
+P ≡
+(validUserId ∧ validCart ∧ initializedSupabase)
+
+== Postconditions (Q)
+
+=== Successful Execution (Q_success)
+
+Q_success ≡
+
+. A row exists in the `orders` table
+. `user_id = userId`
+. `total_amount = Σ item.getTotalPrice()`
+. `order_status = "Pending"`
+. Related rows exist in `order_items`
+. Each `order_item` references the generated `order_id`
+. Function returns `order_id`
+
+=== Failed Execution (Q_failure)
+
+Q_failure ≡
+
+. Function returns `null`
+. Error is logged using `console.error`
+. Database consistency is not guaranteed if the second insertion fails
+
+=== Combined Postcondition
+
+Q ≡ Q_success ∨ Q_failure
+
+== Hoare Triple
+
+{P} submitOrder(cartItems, userId, notes) {Q}
+
+== Proof by Cases
+
+=== Case 1: Invalid Cart Input
+
+**Path Condition:**  
+`cartItems = null ∨ cartItems.length = 0`
+
+[source,typescript]
+----
+if (!cartItems || cartItems.length === 0) {
+  console.error('Cannot submit an empty order.')
+  return null
+}
+----
+
+Hoare Triple:
+
+{P ∧ invalidCart} validation {Q_failure}
+
+*Reasoning:*
+
+. The function evaluates the validation condition
+. Invalid cart input causes immediate termination
+. No database operations are executed
+. Function returns `null`
+. Error is logged
+
+*Conclusion:*  
+The function safely prevents invalid order creation and satisfies `Q_failure`.
+
+=== Case 2: Total Amount Calculation
+
+**Path Condition:**  
+`cartItems` contains valid items
+
+[source,typescript]
+----
+const totalAmount = cartItems.reduce(
+  (sum, item) => sum + item.getTotalPrice(),
+  0
+)
+----
+
+Hoare Triple:
+
+{validCart} computeTotal {totalAmount = Σ item.getTotalPrice()}
+
+*Reasoning:*
+
+. `reduce()` iterates through all cart items
+. Each item's total price is accumulated
+. The computation is deterministic
+. No side effects occur during calculation
+
+*Conclusion:*  
+The total amount is correctly computed before database insertion.
+
+=== Case 3: Order Insertion Failure
+
+**Path Condition:**  
+Supabase order insertion fails
+
+[source,typescript]
+----
+.from('orders')
+.insert(...)
+.select('order_id')
+.single()
+----
+
+Hoare Triple:
+
+{validInput ∧ totalCalculated} insertOrder {Q_failure}
+
+*Reasoning:*
+
+. Function attempts to create an order record
+. Database operation fails
+. Error handling path is triggered
+. Function returns `null`
+
+*Conclusion:*  
+Failure during order creation satisfies `Q_failure`.
+
+=== Case 4: Successful Order Creation
+
+**Path Condition:**  
+Order insertion succeeds
+
+[source,typescript]
+----
+const orderId = orderData.order_id
+----
+
+Hoare Triple:
+
+{orderInserted} retrieveOrderId {order_id exists}
+
+*Reasoning:*
+
+. Supabase successfully inserts the order
+. Generated `order_id` is retrieved
+. The order record now exists in persistent storage
+
+*Conclusion:*  
+A valid primary order record is established.
+
+=== Case 5: Order Items Insertion Failure
+
+**Path Condition:**  
+Order exists but `order_items` insertion fails
+
+[source,typescript]
+----
+.from('order_items')
+.insert(orderItems)
+----
+
+Hoare Triple:
+
+{orderExists} insertItems {Q_failure ∨ partial_state}
+
+*Reasoning:*
+
+. The primary order record already exists
+. Insertion of related items fails
+. Function returns `null`
+. Partial database state may remain
+
+*Conclusion:*  
+The implementation satisfies partial correctness but does not guarantee atomic consistency.
+
+=== Case 6: Successful Execution
+
+**Path Condition:**  
+All database operations succeed
+
+[source,typescript]
+----
+return orderId
+----
+
+Hoare Triple:
+
+{allInsertionsSuccessful} return {Q_success}
+
+*Reasoning:*
+
+. Order insertion succeeds
+. Order items insertion succeeds
+. Function returns the generated `order_id`
+. Database state satisfies all relational constraints
+
+*Conclusion:*  
+The function satisfies `Q_success`.
+
+== Completeness of Case Analysis
+
+The proof covers all possible execution paths:
+
+* invalid cart input
+* total calculation
+* order insertion failure
+* successful order insertion
+* order items insertion failure
+* successful execution
+
+Therefore, all reachable execution states of the function
+have been analyzed.
+
+
+== Overall Correctness Proof
+
+Since every execution path satisfies either
+`Q_success` or `Q_failure`, the following Hoare triple holds:
+
+{P} submitOrder(cartItems, userId, notes) {Q}
+
+The function therefore satisfies partial correctness
+with respect to its specification.
+
+== Final Conclusion
+
+The `submitOrder()` function satisfies its specification under Hoare Logic. 
+Given valid preconditions, it either successfully creates an order or handles errors without causing unhandled exceptions.
+This formal verification confirms the correctness of the `submitOrder()` function with respect to its preconditions and postconditions.
