@@ -1,6 +1,6 @@
 # Milestone Data
 
-## Date Generated: 2026-05-14
+## Date Generated: 2026-05-15
 | Developer | Points Closed | Percent Contribution | Indivudal Grade | Milestone Grade | Lecture Topic Tasks |
 | --------- | ------------- | -------------------- | --------------- | --------------- | ------------------- |
 | horebcotto21 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
@@ -27,11 +27,11 @@
 | daniellameleroo | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | devlin-hahn04 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | kevinlara1 | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
-| JorgeDeLeonOrama | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
+| JorgeDeLeonOrama | 9.3 | 100.0% | 100.0% | 100.0% | 0 |
 | L-A-M-D | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | kian-robert | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
 | Pedro-Juan-Bonilla | 0.0 | 0.0% | 0.0% | 40.0% | 0 |
-| Total | 0.0 | /100% | /100% | /100% | 0 |
+| Total | 9.346527105149555 | /100% | /100% | /100% | 0 |
 
 
 ## Sprint Task Completion
@@ -62,7 +62,7 @@
 | daniellameleroo | 0/1 | 0/1 |
 | devlin-hahn04 | 0/1 | 0/1 |
 | kevinlara1 | 0/1 | 0/1 |
-| JorgeDeLeonOrama | 0/1 | 0/1 |
+| JorgeDeLeonOrama | 1/1 | 0/1 |
 | L-A-M-D | 0/1 | 0/1 |
 | kian-robert | 0/1 | 0/1 |
 | Pedro-Juan-Bonilla | 0/1 | 0/1 |
@@ -71,40 +71,69 @@
 
 | Developer | Week #1 | Week #2 | Week #3 | Week #4 | Penalty |
 |---|---|---|---|---|---|
-| reinaldo-martinez1 | Yes | No | No | No | 9.0 |
+| Osvaldoo1414 | Yes | Yes | No | No | 5.0 |
 | jankii03 | Yes | No | No | No | 9.0 |
-| aryamdiaz | No | No | No | No | 14.0 |
-| jonVargas1 | Yes | No | No | No | 9.0 |
-| Pedro-Juan-Bonilla | Yes | No | No | No | 9.0 |
-| Kay9876 | Yes | No | No | No | 9.0 |
-| L-A-M-D | Yes | No | No | No | 9.0 |
-| daniellameleroo | Yes | No | No | No | 9.0 |
 | yamilette-alemany | Yes | No | No | No | 9.0 |
-| andreasegarra | Yes | No | No | No | 9.0 |
-| TaimaraColon | Yes | No | No | No | 9.0 |
-| Osvaldoo1414 | Yes | No | No | No | 9.0 |
-| fernan-castro | Yes | No | No | No | 9.0 |
-| YandreCaban | Yes | No | No | No | 9.0 |
-| devlin-hahn04 | Yes | No | No | No | 9.0 |
-| nataliavera6 | Yes | No | No | No | 9.0 |
-| Kaariinaa08 | Yes | No | No | No | 9.0 |
-| LuisJCruz | Yes | No | No | No | 9.0 |
-| ernestosoto3 | Yes | No | No | No | 9.0 |
-| JorgeDeLeonOrama | Yes | No | No | No | 9.0 |
-| JadStelar | Yes | No | No | No | 9.0 |
-| YadrielRivera | Yes | No | No | No | 9.0 |
-| kevinlara1 | Yes | No | No | No | 9.0 |
-| Alma-pineiro | Yes | No | No | No | 9.0 |
+| YadrielRivera | Yes | Yes | No | No | 5.0 |
 | kian-robert | Yes | No | No | No | 9.0 |
-| Lorenzo-PT | No | No | No | No | 14.0 |
+| fernan-castro | Yes | No | No | No | 9.0 |
+| kevinlara1 | Yes | No | No | No | 9.0 |
+| nataliavera6 | Yes | No | No | No | 9.0 |
+| JadStelar | Yes | Yes | No | No | 5.0 |
+| aryamdiaz | No | No | No | No | 14.0 |
+| LuisJCruz | Yes | No | No | No | 9.0 |
+| L-A-M-D | Yes | No | No | No | 9.0 |
+| YandreCaban | Yes | No | No | No | 9.0 |
+| andreasegarra | Yes | No | No | No | 9.0 |
 | GerardoSotoRios | Yes | No | No | No | 9.0 |
-| horebcotto21 | Yes | No | No | No | 9.0 |
-| SamarysB | Yes | No | No | No | 9.0 |
+| jonVargas1 | Yes | No | No | No | 9.0 |
+| Alma-pineiro | Yes | Yes | No | No | 5.0 |
+| reinaldo-martinez1 | Yes | No | No | No | 9.0 |
+| Kay9876 | Yes | No | No | No | 9.0 |
+| Lorenzo-PT | No | No | No | No | 14.0 |
+| daniellameleroo | Yes | No | No | No | 9.0 |
+| devlin-hahn04 | Yes | No | No | No | 9.0 |
+| TaimaraColon | Yes | Yes | No | No | 5.0 |
+| Kaariinaa08 | Yes | No | No | No | 9.0 |
 | FabiolaZTorres | Yes | No | No | No | 9.0 |
+| Pedro-Juan-Bonilla | Yes | No | No | No | 9.0 |
+| SamarysB | Yes | No | No | No | 9.0 |
+| JorgeDeLeonOrama | Yes | No | No | No | 9.0 |
+| ernestosoto3 | Yes | No | No | No | 9.0 |
+| horebcotto21 | Yes | No | No | No | 9.0 |
 
 ## Point Percent by Label
 
-There are no labels assigned to any issue
+| Developer | Central Quality Assurance | state: concluded | Manager Approved | High Priority |
+|---|---|---|---|---|
+| horebcotto21 | 0.0% | 0.0% | 0.0% | 0.0% |
+| reinaldo-martinez1 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Kay9876 | 0.0% | 0.0% | 0.0% | 0.0% |
+| JadStelar | 0.0% | 0.0% | 0.0% | 0.0% |
+| aryamdiaz | 0.0% | 0.0% | 0.0% | 0.0% |
+| fernan-castro | 0.0% | 0.0% | 0.0% | 0.0% |
+| Kaariinaa08 | 0.0% | 0.0% | 0.0% | 0.0% |
+| nataliavera6 | 0.0% | 0.0% | 0.0% | 0.0% |
+| LuisJCruz | 0.0% | 0.0% | 0.0% | 0.0% |
+| YandreCaban | 0.0% | 0.0% | 0.0% | 0.0% |
+| SamarysB | 0.0% | 0.0% | 0.0% | 0.0% |
+| FabiolaZTorres | 0.0% | 0.0% | 0.0% | 0.0% |
+| jonVargas1 | 0.0% | 0.0% | 0.0% | 0.0% |
+| andreasegarra | 0.0% | 0.0% | 0.0% | 0.0% |
+| yamilette-alemany | 0.0% | 0.0% | 0.0% | 0.0% |
+| jankii03 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Osvaldoo1414 | 0.0% | 0.0% | 0.0% | 0.0% |
+| ernestosoto3 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Lorenzo-PT | 0.0% | 0.0% | 0.0% | 0.0% |
+| YadrielRivera | 0.0% | 0.0% | 0.0% | 0.0% |
+| GerardoSotoRios | 0.0% | 0.0% | 0.0% | 0.0% |
+| daniellameleroo | 0.0% | 0.0% | 0.0% | 0.0% |
+| devlin-hahn04 | 0.0% | 0.0% | 0.0% | 0.0% |
+| kevinlara1 | 0.0% | 0.0% | 0.0% | 0.0% |
+| JorgeDeLeonOrama | 100.0% | 100.0% | 100.0% | 100.0% |
+| L-A-M-D | 0.0% | 0.0% | 0.0% | 0.0% |
+| kian-robert | 0.0% | 0.0% | 0.0% | 0.0% |
+| Pedro-Juan-Bonilla | 0.0% | 0.0% | 0.0% | 0.0% |
 # Metrics Generation Logs
 
 | Message |
@@ -114,6 +143,7 @@ There are no labels assigned to any issue
 | WARNING: [Issue #378](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/378) is not associated with a milestone. |
 | WARNING: [Issue #556](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/556) is not associated with a milestone. |
 | WARNING: [Issue #557](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/557) is not associated with a milestone. |
+| WARNING: [Issue #564](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/564) is not associated with a milestone. |
 | WARNING: horebcotto21 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
 | WARNING: reinaldo-martinez1 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
 | WARNING: Kay9876 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
@@ -138,7 +168,6 @@ There are no labels assigned to any issue
 | WARNING: daniellameleroo hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
 | WARNING: devlin-hahn04 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
 | WARNING: kevinlara1 hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
-| WARNING: JorgeDeLeonOrama hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
 | WARNING: L-A-M-D hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
 | WARNING: kian-robert hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
 | WARNING: Pedro-Juan-Bonilla hasn't completed the minimum 1 task(s) required for sprint 2026/05/06-2026/05/17 |
