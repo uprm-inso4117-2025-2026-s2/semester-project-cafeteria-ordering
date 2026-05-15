@@ -1,0 +1,234 @@
+= Performance Testing Strategy for Staff Dashboard 
+
+== Testing Type Definitions Applied to the Staff Dashboard
+
+The lecture defines four testing categories. Each one maps onto the staff dashboard in a different way, so it's worth going through them individually.
+
+=== Performance Testing (Baseline)
+
+*Definition:* Evaluates an individual, specific task under normal conditions.
+
+*Applied to staff dashboard:*
+
+A single staff member loads the orders list, updates one order from `pending` to `in_progress`, and the time it takes for that change to show up in the UI gets measured. This gives us a clean baseline — no competing load, no noise from other sessions.
+
+*Expected baseline:*
+
+- Orders list renders in under 1 second
+- Status update reflects in the UI in under 800 ms
+- No failures under single-user conditions
+
+=== Load Testing (Expected Load)
+
+*Definition:* Evaluates system behavior under expected concurrent usage.
+
+*Applied to staff dashboard:*
+
+During lunch (11:30–13:00), you'd realistically expect several staff members logged in at the same time. A representative load scenario for a university cafeteria looks something like this:
+
+- 3–5 concurrent staff sessions open on the orders view
+- 10–20 order status updates per minute
+- Occasional menu item edits between peak order waves
+
+The system needs to handle this without any degradation in response time or data consistency.
+
+*Reference (queuing theory):*
+
+The lecture's queue model maps cleanly onto this scenario:
+
+- *Arrival process:* order status change requests coming in from active staff sessions
+- *Service process:* Supabase real-time update followed by UI re-render
+- *Number of servers:* backend database connections available at any given time
+- *Queue capacity:* bounded by the connection pool size
+- *Client population size:* the number of concurrent staff sessions (3–5)
+
+=== Realistic Workload Simulation
+
+Simulating realistic workloads means more than just dialing up the number of concurrent users. For the staff dashboard, it means thinking about *what* those users are actually doing and *when*.
+
+A realistic session for a staff member during lunch service would look something like: load the order list, scan for pending orders, update one or two statuses in quick succession, check a detail view, then go back to the list. That pattern — browse, act, confirm, repeat — is very different from sending a flood of identical requests, which is what naive load test scripts tend to do.
+
+To simulate this properly, test scripts should include think time between actions (roughly 5–15 seconds to mirror natural user pacing), mix of read-heavy and write-heavy operations in realistic proportions, and variation in which orders are being touched rather than hammering the same record. The lunch rush period should be modeled as a ramp-up (sessions joining over 10–15 minutes), a sustained peak, and a ramp-down — not a sudden spike to full load.
+
+=== Stress Testing (Beyond Expected Load)
+
+*Definition:* Evaluates behavior beyond expected load to find failure thresholds.
+
+*Applied to staff dashboard:*
+
+This one simulates an abnormal situation: a large campus event or a system delay has caused a backlog of 50+ pending orders. All staff are simultaneously updating statuses, filtering orders, and refreshing views at once.
+
+*Compression strategy (from lecture):*
+
+The lecture describes compression as reducing available resources while increasing load proportionally. For the staff dashboard, this means running the test against a constrained environment — limited database connections — while simulating peak concurrent updates. The idea is to expose the breaking point without needing a full production-scale deployment.
+
+*Expected thresholds to identify:*
+
+- At what concurrent session count does response time exceed 3 seconds?
+- At what update frequency does the UI start showing stale data?
+- Does the system fail gracefully, or does it leave order states inconsistent?
+
+=== Soak Testing (Long-Term Stability)
+
+*Definition:* Long-duration testing to detect degradation over time.
+
+*Applied to staff dashboard:*
+
+Staff members run continuous shifts of 4–8 hours. The dashboard has to hold up through all of that without memory leaks creeping in, sessions timing out unexpectedly, or UI render errors piling up.
+
+*Soak test scenario:*
+
+Run simulated staff activity for 6 hours at moderate load (around 10 status updates per minute). The things to watch over the duration:
+
+- Browser session memory usage
+- Real-time subscription health (Supabase channel stability)
+- Whether response time gradually drifts upward
+- Whether the rate of failed updates increases toward the end
+
+== Staff Dashboard Operations Under Test
+
+The operations below are in scope for performance testing, and they come from the existing risk register and BDD scenarios for staff operations.
+
+[cols="2,1,3", options="header"]
+|===
+| Operation | Risk Priority | Performance Concern
+
+| View orders list (all statuses)
+| High
+| Real-time data fetch from Supabase; must reflect updates from other sessions within 2 seconds
+
+| Update order status (pending → in_progress → ready → completed)
+| High (SV-02)
+| Persistence must complete and the UI must reflect the new state before the next staff action
+
+| View order details
+| Medium
+| Should render inline without a full page reload; acceptable under 500 ms
+
+| Add or edit a menu item
+| Medium (SV-04, SV-05)
+| Write operation followed by propagation to customer-facing views; must not block the orders queue
+
+| Cancel an order
+| Medium
+| State transition must be atomic; no partial updates should be visible to other sessions
+|===
+
+== Expected Load Scenarios
+
+[cols="1,2,2,2", options="header"]
+|===
+| Scenario | Concurrent Staff Sessions | Orders per Minute | Test Type
+
+| Quiet period (early morning, late afternoon)
+| 1–2
+| 2–5
+| Performance baseline
+
+| Normal lunch service
+| 3–5
+| 10–20
+| Load test
+
+| Peak rush (event day, delayed service)
+| 5–8
+| 30–50
+| Stress test
+
+| Full shift operation
+| 2–4
+| 8–15 sustained over 6 hours
+| Soak test
+|===
+
+== Performance Metrics
+
+Each metric is tracked independently so that degradation in one area doesn't get masked by stability in another — something the lecture specifically warned about when it mentioned "losing information in aggregation."
+
+[cols="2,3,2", options="header"]
+|===
+| Metric | Definition | Staff Dashboard Target
+
+| Response time
+| Time from staff action to visible UI change
+| < 1 s (status update), < 800 ms (list refresh)
+
+| Latency
+| Time between the frontend request and backend processing start
+| < 300 ms
+
+| Throughput
+| Status updates processed per second across all sessions
+| ≥ 5 updates/s under load test conditions
+
+| Availability
+| Percentage of uptime during operating hours
+| ≥ 99.5% during lunch service window
+
+| Error rate
+| Percentage of status update requests that fail
+| < 1% under load, < 5% under stress
+|===
+
+== Performance Bottlenecks
+
+The risks below are specific to the staff dashboard and extend the general risk register (SV-01 through SV-05) with a performance dimension. Each one represents a real bottleneck that could surface under the load scenarios described above.
+
+=== Bottleneck 1 — Stale Order Data Under Concurrent Load
+
+Real-time subscriptions through Supabase can lag when the connection count gets high. If that happens, staff members might act on an order state that's already been updated by someone else in another session.
+
+*Mitigation:* Measure subscription update latency at each load level. Flag anything over 2 seconds of lag at load test concurrency as a threshold breach.
+
+=== Bottleneck 2 — Status Update Race Conditions at Peak Load
+
+When two staff members try to update the same order at the same time, the database constraint should reject the second write — but the UI needs to handle that rejection cleanly instead of leaving a broken state visible.
+
+*Mitigation:* Include concurrent conflicting updates in the stress test. Confirm that exactly one transition goes through and the other returns a clear, user-readable error.
+
+=== Bottleneck 3 — Dashboard Freeze During Large Order Backlogs
+
+Rendering 50+ orders at once can lock up the UI while the data is being fetched and sorted, making the interface unresponsive for several seconds.
+
+*Mitigation:* Run a stress test with 60+ pending orders in the queue. Measure render time and confirm the interface stays interactive (scroll, filter) even while loading.
+
+=== Bottleneck 4 — Memory Accumulation During Long Shifts
+
+Over hours of use, the staff dashboard may accumulate event listeners or fail to release real-time subscriptions properly. This won't show up in a short test, but it becomes a real issue by the third or fourth hour of a shift.
+
+*Mitigation:* Soak test for 6 hours. Profile memory usage at 1-hour intervals and look for a growth curve that never levels off.
+
+=== Bottleneck 5 — Degraded Performance on Constrained Hardware
+
+Staff devices may be shared tablets or older machines. If performance testing only happens on developer laptops, issues that only appear on weaker hardware will get missed entirely.
+
+*Mitigation:* Apply the lecture's compression strategy: run load tests on a throttled network (simulate 10 Mbps) with CPU throttling enabled in browser DevTools to approximate realistic staff hardware conditions.
+
+== Testing Environment Considerations
+
+The lecture makes a point of noting that results from a laptop and results from a production server are two different things. To make test results meaningful and reproducible, the following details need to be recorded for every test run:
+
+- Device type and CPU/RAM specs
+- Network connection type and measured bandwidth
+- Supabase plan tier (free vs. paid affects connection limits)
+- Number of active Supabase real-time subscriptions open concurrently
+- Browser and version used for staff sessions
+
+== Performance Regression Prevention
+
+The values from the baseline performance test (single staff session, quiet period) should be committed alongside the test results and treated as the floor going forward.
+
+Future releases should not regress beyond:
+
+- 20% increase in average response time for status updates
+- 5% increase in error rate under load test conditions
+- Any new timeout failures that weren't present in the baseline
+
+== Relationship to Existing Documentation
+
+This document sits alongside, not on top of, the other performance-related files in the project:
+
+- `ltt-performance-testing-strategy.adoc` — system-wide strategy
+- `payment-load&performance-testing-ltt.adoc` — payment flow results
+- `define-risk-based-test-priorities-for-staff-view.adoc` — risk scores for SV-01 through SV-05
+- `bdd-staff-operations-acceptance-scenarios.adoc` — acceptance behavior baseline
