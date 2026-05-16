@@ -243,6 +243,21 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* Ensures that the order lifecycle is consistent and adheres to defined workflow rules, preventing invalid state transitions and maintaining system integrity in the Staff Operations context of the Cafeteria Ordering System.
 
+==== LTT-23-(issue-400): Mutation Testing for Homepage Filtering and Display Logic
+
+*Lecture Topic:* Mutation Testing
+
+*Deliverables:*
+
+- Structured mutation testing analysis of homepage filtering and display logic
+- Five controlled mutations applied to homepage search and category filtering behavior
+- Documentation of mutation results, detected incorrect behaviors and filtering observations
+- Identification of testing gaps and suggested improvements for homepage validation
+
+*Evidence:* Associated AsciiDoc file, test case, test report and pull request linked to issue
+
+*Justification:* Evaluates the sensitivity of homepage filtering and display logic to small logic changes by applying controlled mutations and validating whether incorrect behavior becomes detectable during execution.
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)

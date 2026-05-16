@@ -1,0 +1,231 @@
+= Mutation Testing for Homepage Filtering and Display Logic
+Author: Kay9876
+
+*Issue:* #400
+*Test Case:* TC-ORD-04_homepage_mutation_testing.ts
+*Test Report:* TR-ORD-04_homepage_mutation_testing.adoc
+
+== Objective
+Evaluate homepage filtering and display logic by applying controlled mutations to existing search and category filtering conditions. The goal of this testing is to determine whether incorrect filtering behavior becomes visible during validation.
+
+== Related Homepage Logic
+The mutation testing focused on homepage filtering and display logic located in:
+
+[source,ts]
+----
+src/app/(tabs)/index.tsx
+----
+
+Main logic tested:
+- Search filtering behavior
+- Category filtering behavior
+- Combined search and category logic
+- Ingredient search matching
+- Empty query filtering behavior
+
+== Mutations Evaluated
+
+=== Mutation 1: Search and Category Combination Logic
+
+Purpose:
+This mutation checks if the homepage correctly requires both the search query and selected category to match before displaying a menu item.
+
+Original Logic:
+[source,ts]
+----
+return matchesSearch && matchesCategory;
+----
+
+Mutated Logic:
+[source,ts]
+----
+return matchesSearch || matchesCategory;
+----
+
+Expected Impact:
+The homepage may display extra items because an item would only need to match the search query or the selected category, instead of matching both.
+
+Execution Steps:
+. Open the homepage with the original logic.
+. Select a category filter.
+. Search for an item or ingredient that belongs to a different category.
+. Apply the mutation.
+. Reload the app.
+. Repeat the same search and category steps.
+. Compare the mutated behavior with the baseline behavior.
+
+Actual Result:
+After changing the filtering logic from AND to OR, menu items that matched the search query were displayed even when they did not belong to the selected category. While the Lunch category was selected, searching for "latte" still displayed the Latte menu item, which belongs to the Breakfast category.
+
+Detected:
+Yes. The mutation introduced visibly incorrect homepage filtering behavior during manual validation.
+
+Coverage Observation:
+The mutation demonstrated that the homepage filtering logic depends on correctly requiring both the search query and selected category to match. Incorrect logic was visible during testing, meaning the mutation was detectable through validation. 
+
+=== Mutation 2: Empty Search Category Behavior
+
+Purpose:
+This mutation checks if the homepage still respects the selected category when the search bar is empty.
+
+Original Logic:
+[source,ts]
+----
+if (!query) return matchesCategory;
+----
+
+Mutated Logic:
+[source,ts]
+----
+if (!query) return true;
+----
+
+Expected Impact:
+The homepage may display all menu items when the search bar is empty, even if a specific category is selected.
+
+Execution Steps:
+. Open the homepage with the original logic.
+. Select the Lunch category with an empty search bar.
+. Confirm that only Lunch items are displayed.
+. Apply the mutation.
+. Reload the app.
+. Select the Lunch category again with an empty search bar.
+. Compare the displayed items with the baseline behavior.
+
+Actual Result:
+After changing the empty query logic to return true, the homepage displayed all menu items when the search bar was empty, even when a specific category was selected. While the Lunch category was selected, items from other categories also appeared.
+
+Detected:
+Yes. The mutation introduced visible incorrect category filtering behavior during manual validation.
+
+Coverage Observation:
+The mutation showed that the empty search condition is important for preserving category filtering. When this condition was changed, the selected category was ignored and unrelated menu items were displayed.
+
+=== Mutation 3: Menu Item Name Search Logic
+
+Purpose:
+This mutation checks if the homepage search correctly displays menu items when the item name matches the search query.
+
+Original Logic:
+[source,ts]
+----
+item.getName().toLowerCase().includes(query)
+----
+
+Mutated Logic:
+[source,ts]
+----
+!item.getName().toLowerCase().includes(query)
+----
+
+Expected Impact:
+The homepage may hide menu items that directly match the search query and display unrelated items instead.
+
+Execution Steps:
+. Open the homepage with the original logic.
+. Search for "burger".
+. Confirm that Classic Burger appears in the results.
+. Apply the mutation.
+. Reload the app.
+. Search for "burger" again.
+. Compare the displayed items with the baseline behavior.
+
+Actual Result:
+After inverting the menu item name search condition, the homepage no longer displayed the expected item when searching by name. When searching for "burger", Classic Burger did not appear as expected, and unrelated menu items were displayed instead.
+
+Detected:
+Yes. The mutation introduced visible incorrect search behavior during manual validation.
+
+Coverage Observation:
+The mutation showed that homepage search depends on the item name matching condition. When this condition was inverted, expected search results were removed and unrelated items appeared.
+
+=== Mutation 4: Ingredient Search Matching Logic
+
+Purpose:
+This mutation checks if the homepage search correctly finds menu items based on ingredient names.
+
+Original Logic:
+[source,ts]
+----
+ingredient.ingredients_names.toLowerCase().includes(query)
+----
+
+Mutated Logic:
+[source,ts]
+----
+ingredient.ingredients_names.toLowerCase().startsWith(query)
+----
+
+Expected Impact:
+The homepage may fail to display menu items when the search query appears inside an ingredient name but does not start at the beginning of the ingredient name.
+
+Execution Steps:
+. Open the homepage with the original logic.
+. Search for part of an ingredient name.
+. Confirm that matching menu items appear.
+. Apply the mutation.
+. Reload the app.
+. Repeat the same ingredient search.
+. Compare the displayed items with the baseline behavior.
+
+Actual Result:
+After changing the ingredient search condition from includes(query) to startsWith(query), the homepage search became more restrictive. Partial ingredient matches that previously returned results no longer appeared unless the search query matched the beginning of the ingredient name. For example, searching "ilk" no longer returned items with "milk" as an ingredient.
+
+Detected:
+Yes. The mutation introduced visible changes to ingredient search behavior during manual validation.
+
+Coverage Observation:
+The mutation showed that ingredient search behavior depends on partial matching using includes(query). Changing the logic to startsWith(query) reduced search flexibility and altered expected results. 
+
+=== Mutation 5: Category Matching Logic
+
+Purpose:
+This mutation checks if the homepage correctly filters menu items based on the selected category.
+
+Original Logic:
+[source,ts]
+----
+item.getCategoryId() === mappedCategory
+----
+
+Mutated Logic:
+[source,ts]
+----
+item.getCategoryId() !== mappedCategory
+----
+
+Expected Impact:
+The homepage may display menu items that do not belong to the selected category while hiding the correct items.
+
+Execution Steps:
+. Open the homepage with the original logic.
+. Select a category such as Lunch.
+. Confirm that only matching category items appear.
+. Apply the mutation.
+. Reload the app.
+. Select the same category again.
+. Compare the displayed items with the baseline behavior.
+
+Actual Result:
+After inverting the category matching condition, the homepage displayed menu items that did not belong to the selected category while hiding the correct category items. Selecting categories such as Lunch or Breakfast resulted in incorrect filtering behavior.
+
+Detected:
+Yes. The mutation introduced visible incorrect category filtering behavior during manual validation.
+
+Coverage Observation:
+The mutation demonstrated that homepage filtering depends on correct category matching logic. Inverting the category comparison caused unrelated menu items to appear under incorrect categories. 
+
+== Testing Gaps Found
+
+- Homepage filtering behavior currently relies on manual validation.
+- No automated tests currently verify category filtering, homepage search matching behavior, or partial ingredient search behavior.
+
+== Suggested Improvements
+
+- Add automated tests for homepage filtering behavior, category and search combination logic, and ingredient search behavior.
+- Add tests for empty search filtering conditions.
+- Add automated regression tests for homepage filtering logic.
+
+== Conclusion
+
+The mutation testing successfully introduced visible incorrect behavior into homepage filtering and display logic. All five mutations produced detectable changes during manual validation, which show that homepage filtering behavior is sensitive to logic changes. The testing also highlighted areas where additional automated validation could improve reliability and help detect filtering issues earlier during development.

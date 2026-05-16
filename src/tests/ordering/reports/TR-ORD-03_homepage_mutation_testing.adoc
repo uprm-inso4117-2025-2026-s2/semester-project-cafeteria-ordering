@@ -1,0 +1,22 @@
+= Homepage Mutation Testing TR
+Author: Kaysha Pagan
+
+*Date:* 2026-05-16
+
+*ID:* TR-ORD-04
+
+*Issue:* #400
+
+*Test:* Mutation Testing for Homepage Filtering and Display Logic
+
+*Pass/Fail Status:* PASS
+
+== Description
+
+Mutation testing was performed on homepage filtering and display logic. A total of 5 mutations were tested involving category filtering, search behavior and conditional filtering logic. Each mutation introduced visible incorrect behavior during manual validation. The mutations caused issues such as incorrect category filtering, unrelated search results appearing and category filters being ignored. The testing confirmed that small logic changes in homepage filtering behavior are detectable during validation.
+
+== Notes
+
+- All mutations were tested independently.
+- Original homepage logic was restored after each mutation.
+- Mutation testing focused only on homepage filtering and display behavior.
