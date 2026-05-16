@@ -1,0 +1,285 @@
+= Existing Test Artifacts and Their Purpose for Milestone 3
+:toc:
+:toclevels: 2
+:sectnums:
+:release-date: 2026-05-16
+
+== Document Metadata
+
+* Release Date: {release-date}
+* Related Issue: #587
+* Scope: Milestone 3 QA test artifacts currently present in the repository at the time of release.
+
+== Overview
+
+This document identifies the main testing-related artifacts currently present in the Cafeteria Ordering System repository and explains their purpose within the project's Quality Assurance process.
+
+The goal is to make the existing QA assets easier to understand, maintain, and reference during Milestone 3. This document does not introduce new tests or modify the testing framework. Instead, it summarizes the purpose of existing test files, configuration files, reports, and QA documentation artifacts.
+
+== Purpose of This Document
+
+The repository contains several testing assets related to automated testing, behavior-driven development, performance testing, authentication testing, profile/offline testing, Supabase connection testing, and QA planning.
+
+Documenting these artifacts helps the team:
+
+* Understand what each testing artifact is used for.
+* Identify which QA area each artifact supports.
+* Improve traceability between tests, reports, and documentation.
+* Support onboarding for team members who need to review or extend the QA work.
+* Provide clearer evidence of QA work completed or supported during Milestone 3.
+
+== Existing Test Artifacts Summary
+
+[cols="1,2,2,3", options="header"]
+|===
+| Artifact
+| Location
+| QA Area
+| Purpose
+
+| Cucumber configuration
+| `cucumber.json`
+| Behavior-Driven Development / Acceptance Testing
+| Defines configuration for running Cucumber/Gherkin-based tests. It supports behavior-driven testing by connecting feature files with step definitions.
+
+| Jest configuration
+| `jest.config.js`
+| Automated Unit and Integration Testing
+| Provides the main Jest testing configuration used to execute JavaScript/TypeScript test files in the project.
+
+| Jest setup file
+| `jest.setup.js`
+| Test Environment Setup
+| Prepares the Jest test environment before tests run. This can include mocks, global settings, or environment configuration needed by test scripts.
+
+| Jest after-environment setup file
+| `jest.setupAfterEnv.js`
+| Test Environment Setup
+| Runs additional setup after the Jest environment is initialized. This supports consistent test behavior across automated test cases.
+
+| GitHub Actions Auto Test Suite workflow
+| `.github/workflows/auto_test_suite.yml`
+| Continuous Integration / Automated QA
+| Defines the automated workflow used to run test-related checks through GitHub Actions. This helps support repeatable QA execution when changes are pushed or reviewed.
+
+| Gherkin feature files
+| `features/`
+| Behavior-Driven Development / Acceptance Testing
+| Contains `.feature` files that describe expected system behavior using Gherkin syntax. These files document user-facing scenarios for authentication, menu browsing, order placement, order pickup, and staff operations.
+
+| Step definitions
+| `features/step_definitions/stepdefs.js`
+| Behavior-Driven Development
+| Provides the implementation logic that connects Gherkin scenario steps to executable test behavior.
+
+| Auto test suite source file
+| `src/tests/suites/auto_test_suite.ts`
+| Automated Test Organization
+| Supports the organization or execution of automated test cases as part of the project's testing structure.
+
+| Test case template
+| `src/tests/test_case_template.ts`
+| Test Case Documentation / Standardization
+| Provides a reusable structure for defining test cases consistently across the project.
+
+| Test report template
+| `src/tests/test_report_template.adoc`
+| Test Reporting
+| Provides a reusable format for documenting test results, findings, and evidence.
+
+| Test case tracker
+| `src/tests/trackers/test_case_tracker.adoc`
+| QA Tracking
+| Tracks test cases and helps organize testing coverage across project areas.
+
+| Test report tracker
+| `src/tests/trackers/test_report_tracker.adoc`
+| QA Tracking / Reporting
+| Tracks test reports and helps maintain visibility of completed or pending QA documentation.
+
+| Auto test suite documentation
+| `src/tests/docs/auto_test_suite.adoc`
+| Automated Testing Documentation
+| Documents how the automated test suite is structured or used within the project.
+
+| Read before testing documentation
+| `src/tests/docs/read_before_testing.adoc`
+| Testing Guidelines
+| Provides guidance or instructions that should be reviewed before running or contributing to tests.
+
+| Supabase connection testing documentation
+| `src/tests/supabase/docs/testing-supabase-connection.adoc`
+| Backend / Database Integration Testing
+| Documents the approach for validating Supabase connectivity and related backend testing concerns.
+
+| Supabase quick test script
+| `src/tests/supabase/scripts/quick-test.ts`
+| Backend / Database Integration Testing
+| Provides a quick script for checking Supabase-related behavior or connectivity.
+
+| Supabase connection test script
+| `src/tests/supabase/scripts/supabase-connection.test.ts`
+| Backend / Database Integration Testing
+| Contains an automated test related to Supabase connection validation.
+
+| Profile offline behavior test
+| `src/tests/profile/scripts/OT-PROF-01_offline_mode_behavior.test.tsx`
+| Profile / Offline Support Testing
+| Tests behavior related to offline mode in the profile area.
+
+| Profile authentication sync test
+| `src/tests/profile/scripts/src/tests/profile/scripts/IT-PROF-01_auth_profile_sync.test.tsx`
+| Profile / Authentication Integration Testing
+| Tests synchronization behavior between authentication and profile-related functionality.
+
+| Ordering test case
+| `src/tests/ordering/cases/TC-ORD-03_menu_item_tests.ts`
+| Ordering / Menu Testing
+| Contains test logic related to menu item behavior within the ordering flow.
+
+| Authentication signup test case
+| `src/tests/authentication/cases/signup_test_case.tsx`
+| Authentication Testing
+| Defines a test case for validating user signup behavior.
+
+| Authentication verification test case
+| `src/tests/authentication/cases/verification_test_case.tsx`
+| Authentication Testing
+| Defines a test case for validating user verification behavior.
+
+| Authentication login test case
+| `src/tests/authentication/cases/login_test_case.tsx`
+| Authentication Testing
+| Defines a test case for validating user login behavior.
+
+| Password reset test script
+| `src/tests/authentication/scripts/password-reset.test.tsx`
+| Authentication Testing
+| Tests password recovery or reset behavior.
+
+| Verification test script
+| `src/tests/authentication/scripts/verification.test.tsx`
+| Authentication Testing
+| Tests account or user verification behavior.
+
+| Signup valid data test script
+| `src/tests/authentication/scripts/signup_valid_data.test.tsx`
+| Authentication Testing
+| Tests signup behavior using valid input data.
+
+| Login test script
+| `src/tests/authentication/scripts/login.test.tsx`
+| Authentication Testing
+| Tests user login behavior.
+
+| Password reset test report
+| `src/tests/authentication/reports/password-reset-test-report.adoc`
+| Authentication Test Reporting
+| Documents the results or findings related to password reset testing.
+
+| Login test report
+| `src/tests/authentication/reports/login-test-report.adoc`
+| Authentication Test Reporting
+| Documents the results or findings related to login testing.
+
+| Load test summary
+| `load-test-summary.json`
+| Performance / Load Testing
+| Stores summarized results from load testing activities.
+
+| Stress test summary
+| `stress-test-summary.json`
+| Performance / Stress Testing
+| Stores summarized results from stress testing activities.
+
+| Load and performance testing results
+| `documentation/LectureTopicTasks/load&performance-testing/results/`
+| Performance Testing Documentation
+| Contains result files for load, stress, performance, and combined test execution summaries.
+
+| QA documentation folder
+| `documentation/QualityAssurance/`
+| QA Planning and Documentation
+| Contains QA-related documentation such as test plans, test strategy files, research notes, Hoare logic examples, and central QA revision guidelines.
+|===
+
+== Gherkin Feature File Coverage
+
+The `features/` folder contains behavior-focused scenarios for multiple areas of the system.
+
+[cols="1,2,3", options="header"]
+|===
+| Area
+| Feature Files
+| Purpose
+
+| Menu Browsing
+| `features/menu_browsing/display_fields.feature`, `display_items.feature`, `displaying_item_details.feature`, `empty_data.feature`, `unavailable_items.feature`
+| Documents expected behavior for viewing menu items, item details, empty data states, unavailable items, and displayed fields.
+
+| Authentication
+| `features/user_authentication.feature`, `features/password_recovery.feature`
+| Documents user authentication and password recovery behavior.
+
+| Ordering
+| `features/order_placement.feature`, `features/order_pickup.feature`
+| Documents expected behavior for placing and picking up orders.
+
+| Staff Operations
+| `features/staff_operations/backend_failure.feature`, `cancel_order.feature`, `invalid_transition.feature`, `receive_order.feature`, `update_status.feature`
+| Documents staff-side behavior for receiving orders, updating status, cancelling orders, handling invalid transitions, and backend failure scenarios.
+
+| Step Definitions
+| `features/step_definitions/stepdefs.js`
+| Connects the written Gherkin scenarios to executable test logic.
+|===
+
+== QA Documentation Already Present
+
+The repository already includes QA documentation under `documentation/QualityAssurance/`.
+
+Some important categories include:
+
+* Test plan documentation under `documentation/QualityAssurance/Test_Plan/`
+* Test strategy documentation under `documentation/QualityAssurance/Test_Plan/Test_Strategy/`
+* Test plan files for specific areas such as profile/offline support and staff operations.
+* QA research documents under `documentation/QualityAssurance/QualityAssuranceResearch/`
+* Hoare logic examples under `documentation/QualityAssurance/HoareLogic/`
+* Central QA revision guidelines under `documentation/QualityAssurance/central_QA_revision_guidelines.adoc`
+
+These documents support Milestone 3 by providing planning, methodology, reporting, and review guidance for the project's testing process.
+
+== Relationship to Milestone 3 QA Work
+
+The artifacts identified in this document support Milestone 3 by providing evidence of a structured QA process.
+
+They show that the project includes:
+
+* Automated testing configuration through Jest.
+* Behavior-driven testing artifacts through Cucumber and Gherkin.
+* Authentication test cases and test reports.
+* Profile and offline support test scripts.
+* Supabase connection testing documentation and scripts.
+* Performance-related result summaries.
+* QA planning and test strategy documentation.
+* Continuous integration support through GitHub Actions.
+
+Together, these artifacts help demonstrate that the project has moved beyond informal testing and toward a more organized QA workflow.
+
+== Notes and Limitations
+
+This document is based on the artifacts currently present in the repository. It does not verify whether every test passes successfully, whether each test is fully implemented, or whether all QA documentation is complete.
+
+Future QA work may include:
+
+* Verifying that all automated tests run successfully.
+* Checking that test reports are up to date.
+* Linking test artifacts to their related GitHub issues or pull requests.
+* Expanding coverage for areas that do not yet have enough test evidence.
+* Cleaning up duplicate or outdated testing files if needed.
+
+== Conclusion
+
+The Cafeteria Ordering System repository contains a wide range of testing artifacts that support automated testing, behavior-driven development, performance testing, authentication validation, profile/offline testing, Supabase connection testing, and QA documentation.
+
+By documenting the purpose of these artifacts, the team can more easily understand how the QA structure is organized and how the existing files contribute to Milestone 3.
