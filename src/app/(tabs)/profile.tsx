@@ -199,7 +199,7 @@ export default function ProfileScreen() {
             </View>
           ))}
           <View style={s.editRow}>
-               <TouchableOpacity onPress={() => router.push('/edit-profile')}>
+               <TouchableOpacity onPress={() => router.push({pathname: "/edit-profile" as any, })}>
                   <Text style={[s.editBtnText, { color: Colors.primaryGreen, ...Typography.button }]}>
                     Edit
                   </Text>
@@ -212,9 +212,18 @@ export default function ProfileScreen() {
         {/* Order History */}
         <View style={s.section}>
           <Text style={[s.sectionTitle, { color: theme.text, ...Typography.heading }]}>Order History</Text>
-          <TouchableOpacity style={[s.outlineBtn, { borderColor: theme.tint }]}>
-            <Text style={{ fontSize: 15, color: theme.tint, ...Typography.button }}>See Order History</Text>
-          </TouchableOpacity>
+          <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: "/profile-order-history" as any,
+                })
+              }
+              style={[s.outlineBtn, { borderColor: theme.tint }]}
+            >
+              <Text style={{ fontSize: 15, color: theme.tint, ...Typography.button }}>
+                See Order History
+              </Text>
+            </TouchableOpacity>
         </View>
 
         <View style={[s.divider, { backgroundColor: borderColor }]} />
