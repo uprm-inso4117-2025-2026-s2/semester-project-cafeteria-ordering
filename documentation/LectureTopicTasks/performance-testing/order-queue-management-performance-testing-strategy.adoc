@@ -1,0 +1,302 @@
+= LTT: Performance Testing Strategy Research - Order Queue Management
+:toc:
+:sectnums:
+:project: Cafeteria Ordering System
+
+== Lecture Alignment
+
+Lecture Topic: Performance Testing
+
+This research applies performance testing concepts to the *Order Queue Management* workflow inside the Staff Operations feature area. It focuses on how the staff-facing order queue behaves when new cafeteria orders arrive, when staff refresh or filter the queue, and when multiple staff members use the same queue during busy service periods.
+
+This document is intentionally scoped to Order Queue Management only. It does not replace the general project-wide performance strategy in `documentation/LectureTopicTasks/ltt-performance-testing-strategy.adoc`; instead, it specializes those concepts for one operational workflow.
+
+== Scope
+
+The Order Queue Management workflow includes the staff screens and actions used to:
+
+* Receive newly placed orders in the staff orders list.
+* View pending and active orders in the queue.
+* Refresh or reload the queue after new orders or status changes.
+* Filter orders by status such as `Pending`, `In-Progress`, `Completed`, or `Cancelled`.
+* Open an order from the queue and return to the queue after review.
+* Keep the visible queue consistent when multiple staff members are working at the same time.
+
+The workflow is referenced in:
+
+* `documentation/QualityAssurance/Test_Plan/TestPlans/staff-operations-test-plan.adoc`
+* `documentation/UserFlowcharts/flowcharts/staff_view_order_flow.adoc`
+* `documentation/designs/staff_view_order_design/view_order_design.adoc`
+
+== Performance Testing Types
+
+=== Performance Testing
+
+Performance testing is the broad practice of evaluating how responsive, stable, and scalable a system is under defined conditions.
+
+For Order Queue Management, performance testing should answer questions such as:
+
+* How quickly does the staff queue load when a staff member opens the Orders area?
+* How long does it take for a newly placed customer order to become visible to staff?
+* Does filtering by `Pending` or `In-Progress` remain responsive when the queue contains many orders?
+* Does the queue remain usable when staff repeatedly open order details and return to the list?
+
+Example:
+
+During a normal lunch period, a staff member opens the Orders tab. The pending order queue should load quickly enough that staff can begin preparing orders without waiting on a blank or stale screen.
+
+=== Load Testing
+
+Load testing evaluates the queue under expected peak cafeteria demand.
+
+For this workflow, the expected peak is not just many users browsing the app. The important workload is many customers placing orders while several staff members watch and update the same queue.
+
+Order Queue Management load testing should model:
+
+* A burst of incoming orders during lunch.
+* Several staff users opening the Orders page at the same time.
+* Staff filtering between `Pending`, `In-Progress`, and `Completed` orders.
+* Staff opening order details while the queue continues receiving new orders.
+* Status updates that cause orders to move between queue categories.
+
+Example:
+
+Between 11:45 AM and 12:15 PM, 60 students place orders while 3 cafeteria staff members monitor the pending queue. The system should keep the visible order list current and avoid noticeable delays when staff filter, refresh, or open order details.
+
+=== Stress Testing
+
+Stress testing evaluates system behavior beyond expected demand to identify failure points and degraded behavior.
+
+For Order Queue Management, stress testing is useful because cafeteria traffic can spike unexpectedly, such as when a class period ends, an event releases many students at once, or the cafeteria has a limited ordering window.
+
+Stress scenarios should examine:
+
+* Very high incoming order bursts.
+* More concurrent staff sessions than normal.
+* Repeated queue refreshes from multiple staff devices.
+* Large backlogs of unprocessed `Pending` orders.
+* Slow backend responses while staff continue interacting with the queue.
+
+Example:
+
+If 150 orders are placed within a short interval and 6 staff users keep refreshing the queue, the system should degrade predictably. It is better to show loading states, retry options, or partial results than to display duplicate orders, stale statuses, or an empty queue that looks complete.
+
+=== Soak Testing
+
+Soak testing evaluates the queue over a long period to detect degradation that may not appear in short tests.
+
+For this workflow, soak testing should simulate a full cafeteria operating window rather than a brief traffic spike.
+
+Soak testing should observe:
+
+* Whether queue refreshes get slower over time.
+* Whether staff browsers consume increasing memory after many queue updates.
+* Whether database subscriptions, polling, or repeated fetches leave stale listeners or duplicate updates.
+* Whether completed or cancelled orders continue to affect queue performance after they leave the active work area.
+* Whether long-running staff sessions still show accurate order statuses.
+
+Example:
+
+A staff member keeps the Orders screen open from breakfast through lunch while orders are continuously added and updated. After several hours, the queue should still refresh correctly and should not require staff to reload the entire application to recover responsiveness.
+
+=== Realistic Workload Simulation
+
+Realistic workload simulation means modeling traffic the way cafeteria users actually behave, rather than using artificial, evenly spaced requests.
+
+For Order Queue Management, realistic simulation should include:
+
+* Short bursts when students order between classes.
+* Higher traffic around lunch than at the start or end of the day.
+* Staff users who leave the queue open while preparing orders.
+* Staff users who filter the queue by status instead of always loading all orders.
+* Staff users who open details for only some orders, then return to the list.
+* Orders that change status while another staff member is viewing the same queue.
+
+Unrealistic simulation would be one staff user loading the queue once with a fixed number of orders. That does not represent peak cafeteria conditions where the queue is changing while staff are acting on it.
+
+== Expected Workload and Traffic Scenarios
+
+[cols="1,2,2,2",options="header"]
+|===
+|Scenario |Workload Description |Queue Behavior to Observe |Primary Risk
+
+|Normal service
+|10-20 new orders over several minutes; 1-2 staff users watching the queue.
+|Initial load, basic refresh, status filtering, and order detail navigation remain responsive.
+|Small delays may go unnoticed until they become normal for staff.
+
+|Lunch rush
+|50-75 new orders in a short period; 3-4 staff users simultaneously using the queue.
+|New orders appear in `Pending`, staff can open details, and updates move orders to the correct status group.
+|Queue refresh lag causes staff to prepare orders late or miss newly submitted orders.
+
+|Sudden burst
+|100+ orders arrive near the same time after a class or event; staff devices repeatedly refresh.
+|The queue remains consistent and does not duplicate, drop, or reorder orders incorrectly.
+|Database reads, subscriptions, or UI rendering become bottlenecks.
+
+|Long-running staff session
+|Orders are added and updated for several hours while the queue remains open.
+|The queue continues to update accurately without requiring manual app restart.
+|Memory growth, stale listeners, or old cached data degrade responsiveness.
+
+|Concurrent staff updates
+|Multiple staff members view and act on overlapping orders.
+|A status update from one staff member is reflected for others without misleading stale actions.
+|Two staff members may act on the same order based on outdated queue state.
+|===
+
+== Queue-Specific Performance Bottlenecks
+
+=== Incoming Order Queue Updates
+
+New customer orders must become visible to staff quickly enough to support preparation flow.
+
+Potential bottlenecks:
+
+* Backend insert-to-display delay.
+* Slow database query or subscription update.
+* Client-side state update that appends duplicate orders.
+* Sorting logic that places new orders in an unexpected position.
+* Notification arriving before the queue data is ready.
+
+Risk:
+
+If pending orders appear late, staff may assume demand is lower than it really is. During peak service, this can create preparation delays and customer pickup confusion.
+
+=== Queue Refresh Behavior
+
+The staff workflow includes returning to the Orders List after opening an order and refreshing data after updates.
+
+Potential bottlenecks:
+
+* Full-table reloads when only active orders are needed.
+* Refresh requests triggered too often by navigation or filter changes.
+* Slow loading state that blocks staff from seeing already available orders.
+* Missing pagination or inefficient filtering when many completed orders exist.
+* UI flicker that makes staff lose their place in the queue.
+
+Risk:
+
+If refresh is slow or visually unstable, staff may process orders out of sequence or repeatedly open the wrong order.
+
+=== Multiple Staff Members Accessing the Queue
+
+The queue is shared operational data. More than one staff member may watch pending orders, update statuses, or open the same order.
+
+Potential bottlenecks:
+
+* Too many simultaneous read requests against the same order table.
+* Conflicting status updates when staff act from stale queue data.
+* Delayed propagation of status changes to other staff sessions.
+* UI controls remaining enabled after another staff member completed or cancelled the order.
+
+Risk:
+
+A staff member may mark an order as `In-Progress` while another staff member still sees it as `Pending`, causing duplicate preparation work or inconsistent customer notifications.
+
+=== Queue Loading Under Peak Order Traffic
+
+The staff queue must remain usable when the number of pending orders is high.
+
+Potential bottlenecks:
+
+* Rendering too many order rows or cards at once.
+* Loading full order details for every queue row when summary data would be enough.
+* Querying completed and cancelled orders together with active queue items.
+* Unindexed sorting or filtering by status, created time, customer name, or order id.
+* Large payloads from item details, customization notes, or customer metadata.
+
+Risk:
+
+If the queue becomes slow exactly when the cafeteria is busiest, staff lose the ability to prioritize orders and the operational backlog grows.
+
+=== Delays in Displaying or Updating Queued Orders
+
+The most important user-visible delay is the time between an order action and the staff seeing the correct queue state.
+
+Potential bottlenecks:
+
+* Network latency between the staff device and backend.
+* Backend processing delay after a status update.
+* Client cache not invalidating after a staff action.
+* Polling interval that is too slow for cafeteria operations.
+* Error handling that silently keeps stale data on screen.
+
+Risk:
+
+A delayed queue can look correct while actually being out of date. This is more dangerous than an obvious error because staff may trust the stale state.
+
+== Suggested Performance Indicators
+
+The following indicators should be tracked when this workflow is tested later:
+
+* Initial queue load time for the Orders List.
+* Time from customer order placement to staff queue visibility.
+* Refresh time after filtering by status.
+* Time for a status update to appear across multiple staff sessions.
+* Number of queue rows rendered before scrolling, paging, or filtering becomes slow.
+* Frequency of duplicate, missing, or stale order rows during concurrent access.
+* Error rate during peak refresh and update activity.
+
+These are indicators for future testing. This research task does not require automated test implementation.
+
+== Cafeteria-Specific Risks
+
+[cols="1,3,3",options="header"]
+|===
+|Risk |Cafeteria Impact |Suggested Mitigation Direction
+
+|Pending orders appear late
+|Staff may not start preparation on time, increasing wait times for students.
+|Measure order placement to queue visibility during lunch-rush simulations.
+
+|Queue refresh duplicates orders
+|Staff may prepare the same order twice or lose trust in the staff screen.
+|Check refresh behavior after new orders, status updates, and filter changes.
+
+|Completed orders slow down active queue loading
+|Historical data makes the current preparation queue harder to use.
+|Prioritize active statuses and use pagination or status-based queries.
+
+|Concurrent staff sessions show different statuses
+|Staff may perform conflicting actions on the same order.
+|Measure cross-session update propagation and stale action prevention.
+
+|Long-running queue session becomes stale
+|Staff may leave the queue open during service and rely on outdated data.
+|Use soak testing to observe long sessions with continuous updates.
+
+|Slow filter or search behavior
+|Staff cannot quickly locate urgent or specific orders during rush periods.
+|Measure filtering by status, order id, customer name, and date range under load.
+|===
+
+== Research Conclusions
+
+Order Queue Management is performance-sensitive because it directly supports real-time cafeteria staff decisions. A small delay in customer-facing browsing may be inconvenient, but a delay in the staff queue can affect food preparation order, pickup timing, and customer communication.
+
+The most important performance concern is not only raw speed. The queue must stay *current, consistent, and understandable* while orders are arriving and staff are acting on them. Testing should therefore combine load volume, concurrent staff access, refresh behavior, and long-running sessions.
+
+The recommended strategy is to treat the staff queue as a shared operational dashboard and validate it under realistic cafeteria timing:
+
+* Normal service to establish baseline responsiveness.
+* Lunch-rush load to validate expected peak behavior.
+* Sudden burst stress to identify failure thresholds.
+* Long-running soak to detect stale data, memory growth, or refresh degradation.
+* Concurrent staff scenarios to expose consistency risks.
+
+== Deliverable Status
+
+This document satisfies the research-only scope for the issue:
+
+* Required performance testing types are defined.
+* Cafeteria-specific Order Queue Management examples are included.
+* Expected workload and traffic scenarios are documented.
+* Queue-related bottlenecks and operational risks are identified.
+* Staff Operations order workflows are referenced.
+* The content specializes the existing general performance testing strategy without duplicating it.
+
+== Ready for Review
+
+This LTT is ready for review by the QA lead, Staff Operations team, and project reviewer.
