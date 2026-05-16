@@ -1,7 +1,7 @@
 = Fuzz Testing Research Authentication & Security
 
-== Scope of LLT
-The following are the authentication & secutirity components researched for:
+== Scope of LTT
+The following are the authentication & security components researched for:
 
 * Login and sign up flows
 * Password encryption and credential handling
@@ -71,11 +71,11 @@ From this, the benefits include improving reliability and protecting against inf
 
 For email and password validation:
 
-* TC-AUTH-07: Login and signup endpoints
+* TC-AUTH-08: Login and signup endpoints
 
 For token validation:
 
-* TC-AUTH-08: Password reset and recovery flows
+* TC-AUTH-09: Password reset and recovery flows
 
 * TC-SUPA-03: Supabase auth integration
 
