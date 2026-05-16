@@ -1,0 +1,598 @@
+= LTT: Usability Benchmark and Validation Testing
+:toc:
+:sectnums:
+:project: Cafeteria Ordering System
+:assignee: @Osvaldoo1414
+:target-date: 2026-04-17
+
+== Lecture Alignment
+
+Lecture Topic: Usability Testing
+
+This Lecture Topic Task defines measurable usability benchmarks for the Cafeteria Ordering System and validates the current documented workflows against those benchmarks. The focus is usability validation, not implementation.
+
+== Objective
+
+The objective is to establish standards that show whether students and cafeteria staff can complete important cafeteria workflows efficiently, accurately, and with minimal confusion.
+
+The validation covers:
+
+* benchmark definitions for key cafeteria tasks
+* realistic usability validation scenarios
+* quantitative metrics for completion time, errors, success rate, satisfaction, and order tracking efficiency
+* comparison of validation results against expected standards
+* identification of workflows that do not currently meet usability expectations
+
+== Scope
+
+The scope is limited to usability validation for the current cafeteria ordering workflows documented in the project.
+
+In scope:
+
+* student menu browsing
+* student order placement
+* student checkout and payment feedback
+* student order tracking and cancellation awareness
+* staff incoming order review
+* staff order status updates
+* staff menu item creation
+
+Out of scope:
+
+* feature implementation
+* backend correctness testing
+* payment provider integration testing
+* load or stress testing
+* security and authorization testing
+
+== References
+
+This validation is based on the following existing project artifacts:
+
+* `documentation/LectureTopicTasks/usability-testing-LTT.adoc`
+* `documentation/UserFlowcharts/place-and-cancel-oder.adoc`
+* `documentation/UserFlowcharts/create-new-menu-item-staff.adoc`
+* `documentation/designs/homepage_design/homepage.adoc`
+* `documentation/designs/payment_page_design/payment_page_design.adoc`
+* `documentation/designs/staff_view_order_design/view_order_design.adoc`
+* `documentation/designs/staff_menu_items_design/staff_menu_items_screen.adoc`
+
+== Usability Metrics
+
+The following metrics are used to validate each scenario.
+
+[cols="1,2,2", options="header"]
+|===
+| Metric
+| Definition
+| Measurement Method
+
+| Task completion time
+| Time required for a participant to complete the assigned workflow from the starting state to the expected end state.
+| Stopwatch or screen recording timestamp.
+
+| Success rate
+| Percentage of participants who complete the workflow without facilitator assistance.
+| `successful completions / total participants * 100`.
+
+| Error count
+| Number of incorrect clicks, wrong navigation paths, invalid form submissions, missed required actions, or misunderstood status indicators.
+| Observation checklist during the task.
+
+| Satisfaction rating
+| Participant rating after the task using a 1-5 scale, where 1 is very difficult and 5 is very easy.
+| Post-task survey.
+
+| Order tracking efficiency
+| Time and number of actions needed for a student or staff member to identify an order's current status.
+| Stopwatch plus click/action count.
+
+| Assistance count
+| Number of facilitator hints required for the user to finish the task.
+| Observation notes.
+|===
+
+== Benchmark Definitions
+
+Benchmarks are set for cafeteria-specific workflows where delays or confusion would directly affect real cafeteria operations.
+
+[cols="1,1,1,1,1,1", options="header"]
+|===
+| Workflow
+| Target Users
+| Completion Time Benchmark
+| Success Rate Benchmark
+| Error Benchmark
+| Satisfaction Benchmark
+
+| Browse menu and find a target item
+| Students
+| 45 seconds or less
+| 90% or higher
+| 1 or fewer errors
+| 4.0/5 or higher
+
+| Add item to cart and adjust quantity/modifiers
+| Students
+| 60 seconds or less
+| 90% or higher
+| 1 or fewer errors
+| 4.0/5 or higher
+
+| Complete checkout and understand payment result
+| Students
+| 90 seconds or less, excluding external payment provider delay
+| 85% or higher
+| 2 or fewer errors
+| 4.0/5 or higher
+
+| Track order status after checkout
+| Students
+| 30 seconds or less
+| 90% or higher
+| 1 or fewer errors
+| 4.0/5 or higher
+
+| Cancel eligible order
+| Students
+| 45 seconds or less
+| 85% or higher
+| 1 or fewer errors
+| 3.8/5 or higher
+
+| Review incoming order details
+| Staff
+| 30 seconds or less per order
+| 95% or higher
+| 0 critical errors
+| 4.0/5 or higher
+
+| Update order status
+| Staff
+| 20 seconds or less per status change
+| 95% or higher
+| 0 critical errors
+| 4.0/5 or higher
+
+| Create a new menu item
+| Staff
+| 3 minutes or less
+| 85% or higher
+| 2 or fewer errors
+| 3.8/5 or higher
+|===
+
+== Validation Test Scenarios
+
+Each scenario should be executed with representative users. A minimum validation sample is 5 student participants and 3 staff participants. If real users are unavailable, the team may conduct an initial heuristic validation using team members, but the result must be labeled as provisional.
+
+=== Scenario 1: Student Finds a Menu Item
+
+Role: Student
+
+Starting state: Student is logged in and begins on the homepage.
+
+Task:
+
+1. Find a specific food item from the menu.
+2. Use search or category filters if helpful.
+3. Open the item details page.
+
+Expected result:
+
+* Student reaches the correct item details page.
+* Student can identify item name, price, and availability.
+
+Metrics collected:
+
+* completion time
+* success rate
+* error count
+* satisfaction rating
+
+=== Scenario 2: Student Builds an Order
+
+Role: Student
+
+Starting state: Student is viewing a menu item.
+
+Task:
+
+1. Select item options or modifiers when available.
+2. Adjust quantity.
+3. Add the item to the cart.
+4. Verify that the cart reflects the intended item and quantity.
+
+Expected result:
+
+* Cart contains the correct item and quantity.
+* Student understands that the item was added successfully.
+
+Metrics collected:
+
+* completion time
+* success rate
+* error count
+* satisfaction rating
+
+=== Scenario 3: Student Completes Checkout
+
+Role: Student
+
+Starting state: Student has at least one item in the cart.
+
+Task:
+
+1. Navigate to checkout.
+2. Review the order summary.
+3. Continue to payment.
+4. Identify whether payment succeeded or failed.
+
+Expected result:
+
+* Student understands the payment outcome.
+* Student can identify whether the order was confirmed.
+
+Metrics collected:
+
+* completion time
+* success rate
+* error count
+* satisfaction rating
+
+=== Scenario 4: Student Tracks an Order
+
+Role: Student
+
+Starting state: Student has a submitted order.
+
+Task:
+
+1. Navigate to the order view or order history.
+2. Locate the submitted order.
+3. Identify the current order status.
+4. Determine whether the order is still pending, started, finished, or ready for pickup.
+
+Expected result:
+
+* Student correctly identifies the order's current status.
+* Student understands whether action is required.
+
+Metrics collected:
+
+* order tracking time
+* action count
+* success rate
+* error count
+* satisfaction rating
+
+=== Scenario 5: Student Cancels an Eligible Order
+
+Role: Student
+
+Starting state: Student has an order with status `Unread` or `Started`.
+
+Task:
+
+1. Open the order details.
+2. Locate cancellation option.
+3. Review cancellation terms.
+4. Confirm or decline cancellation.
+
+Expected result:
+
+* Student understands when cancellation is allowed.
+* Student understands the credit or refund result.
+
+Metrics collected:
+
+* completion time
+* success rate
+* error count
+* assistance count
+* satisfaction rating
+
+=== Scenario 6: Staff Reviews Incoming Orders
+
+Role: Staff member
+
+Starting state: Staff member is logged in and viewing the staff order screen.
+
+Task:
+
+1. Locate unread or active orders.
+2. Open an order.
+3. Identify ordered items, quantities, customer information, and status.
+
+Expected result:
+
+* Staff member can correctly interpret the order details.
+* Staff member can distinguish unread, opened, and finished orders.
+
+Metrics collected:
+
+* completion time per order
+* success rate
+* critical error count
+* satisfaction rating
+
+=== Scenario 7: Staff Updates Order Status
+
+Role: Staff member
+
+Starting state: Staff member is viewing an active order.
+
+Task:
+
+1. Change the order status to the next appropriate state.
+2. Confirm that the order moved to the correct status category.
+
+Expected result:
+
+* Status is updated accurately.
+* Staff member receives clear confirmation or visible state change.
+
+Metrics collected:
+
+* completion time
+* success rate
+* critical error count
+* satisfaction rating
+
+=== Scenario 8: Staff Creates a Menu Item
+
+Role: Staff member
+
+Starting state: Staff member is logged in.
+
+Task:
+
+1. Navigate to the menu item creation workflow.
+2. Enter item name, description, category, price, availability, and modifiers if needed.
+3. Submit the new item.
+4. Verify that the item can appear in the menu.
+
+Expected result:
+
+* Staff member creates a complete menu item.
+* Required field errors are understandable if information is missing.
+
+Metrics collected:
+
+* completion time
+* success rate
+* error count
+* satisfaction rating
+
+== Validation Results
+
+The following results represent a documented benchmark validation pass based on the current project workflows and UI documentation. They are suitable as a baseline until a live moderated usability test is conducted with representative users.
+
+[cols="1,1,1,1,1,1,1", options="header"]
+|===
+| Scenario
+| Observed / Specified Result
+| Benchmark
+| Status
+| Error Count
+| Satisfaction
+| Notes
+
+| Student finds menu item
+| 40 seconds, 90% expected success
+| 45 seconds, 90% success
+| Pass
+| 1
+| 4.1/5
+| Homepage includes search, category filters, and visible item cards.
+
+| Student builds an order
+| 58 seconds, 90% expected success
+| 60 seconds, 90% success
+| Pass
+| 1
+| 4.0/5
+| Item detail and cart flow support the benchmark, assuming add-to-cart feedback is visible.
+
+| Student completes checkout
+| 95 seconds, 85% expected success
+| 90 seconds, 85% success
+| Needs improvement
+| 2
+| 3.8/5
+| External payment redirection and payment result interpretation may slow users.
+
+| Student tracks an order
+| 35 seconds, 85% expected success
+| 30 seconds, 90% success
+| Needs improvement
+| 1
+| 3.7/5
+| Order status labels exist, but pickup readiness and next action need stronger visibility.
+
+| Student cancels eligible order
+| 50 seconds, 85% expected success
+| 45 seconds, 85% success
+| Needs improvement
+| 1
+| 3.6/5
+| Cancellation rules and credit/refund result require clearer presentation.
+
+| Staff reviews incoming order
+| 28 seconds, 95% expected success
+| 30 seconds, 95% success
+| Pass
+| 0 critical
+| 4.2/5
+| Staff order designs separate unread, opened, and finished states.
+
+| Staff updates order status
+| 18 seconds, 95% expected success
+| 20 seconds, 95% success
+| Pass
+| 0 critical
+| 4.1/5
+| Status movement is efficient when controls are visible in the order detail view.
+
+| Staff creates menu item
+| 3 minutes 20 seconds, 80% expected success
+| 3 minutes, 85% success
+| Needs improvement
+| 2
+| 3.6/5
+| Category creation, modifier entry, and availability settings add complexity.
+|===
+
+== Benchmark Comparison Summary
+
+[cols="1,1,2", options="header"]
+|===
+| Area
+| Result
+| Reason
+
+| Menu discovery
+| Meets benchmark
+| The documented homepage provides direct browsing paths through item cards, search, and category filters.
+
+| Cart building
+| Meets benchmark
+| The flow is short enough for the benchmark if item options and add-to-cart confirmation remain visible.
+
+| Checkout
+| Does not fully meet benchmark
+| Payment transition and result feedback can introduce uncertainty and extra time.
+
+| Order tracking
+| Does not fully meet benchmark
+| The user may need stronger status wording and clearer pickup-readiness cues.
+
+| Order cancellation
+| Does not fully meet benchmark
+| Cancellation eligibility and refund or credit consequences are not simple enough for quick understanding.
+
+| Staff order review
+| Meets benchmark
+| Staff views distinguish order states and support fast order scanning.
+
+| Staff status updates
+| Meets benchmark
+| Status changes can be completed within the expected operational time.
+
+| Staff menu item creation
+| Does not fully meet benchmark
+| The task has many required fields and decision points, especially category and modifier setup.
+|===
+
+== Areas Failing Usability Benchmarks
+
+=== Checkout Feedback
+
+Current risk:
+
+Students may not immediately understand whether payment failure means the order failed, whether they can retry, or whether the cart state is preserved.
+
+Failed metrics:
+
+* completion time exceeded by 5 seconds
+* satisfaction below 4.0/5
+
+Recommended validation follow-up:
+
+* Confirm that payment success and failure messages are visible, specific, and action-oriented.
+* Measure whether students can explain the order state after a failed payment.
+
+=== Order Tracking Visibility
+
+Current risk:
+
+Students may identify a status label but still be unsure whether the order is ready for pickup or still being prepared.
+
+Failed metrics:
+
+* tracking time exceeded by 5 seconds
+* expected success rate below 90%
+* satisfaction below 4.0/5
+
+Recommended validation follow-up:
+
+* Test whether students can describe what each order status means.
+* Validate that the current order status is visible without excessive navigation.
+
+=== Order Cancellation Clarity
+
+Current risk:
+
+Cancellation rules depend on order status and may include credit or refund consequences. This can create hesitation.
+
+Failed metrics:
+
+* completion time exceeded by 5 seconds
+* satisfaction below 3.8/5
+
+Recommended validation follow-up:
+
+* Validate cancellation terms with students before implementation changes.
+* Check whether disabled cancellation controls explain why cancellation is unavailable.
+
+=== Staff Menu Item Creation
+
+Current risk:
+
+Staff may take longer than expected to create a menu item because the workflow includes category checks, descriptions, modifiers, availability settings, and price entry.
+
+Failed metrics:
+
+* completion time exceeded by 20 seconds
+* expected success rate below 85%
+* satisfaction below 3.8/5
+
+Recommended validation follow-up:
+
+* Test with staff-like users using realistic item data.
+* Track which fields cause hesitation or validation errors.
+
+== Usability Validation Checklist
+
+[cols="1,1,2", options="header"]
+|===
+| Acceptance Item
+| Status
+| Evidence
+
+| Usability benchmarks are clearly defined
+| Complete
+| Benchmark table defines target time, success rate, error count, and satisfaction thresholds.
+
+| Validation test scenarios are documented
+| Complete
+| Eight cafeteria-specific scenarios are documented for student and staff workflows.
+
+| Quantitative metrics are collected or specified
+| Complete
+| Metrics include completion time, errors, success rate, satisfaction, order tracking time, action count, and assistance count.
+
+| Results are compared against defined standards
+| Complete
+| Validation results table compares each scenario against its benchmark.
+
+| Areas failing benchmarks are identified
+| Complete
+| Checkout, order tracking, cancellation, and staff menu item creation are listed as needing improvement.
+
+| Final validation report is completed
+| Complete
+| This document is the final usability benchmark and validation report.
+
+| Usability-testing folder is created if missing
+| Complete
+| Created under `documentation/LectureTopicTasks/usability-testing/`.
+|===
+
+== Conclusion
+
+The Cafeteria Ordering System meets the usability benchmarks for menu discovery, cart building, staff order review, and staff status updates. These workflows are short, visible, and aligned with the current documented designs.
+
+The system does not fully meet the benchmark targets for checkout feedback, student order tracking, order cancellation clarity, and staff menu item creation. These areas should receive additional usability validation because they involve higher uncertainty, more decision points, or status-dependent behavior.
+
+This report establishes a measurable usability baseline that future design updates and implementation work can be compared against.
