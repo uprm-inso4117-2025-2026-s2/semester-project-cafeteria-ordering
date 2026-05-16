@@ -46,11 +46,11 @@ Paste console output here:
 [PASS] Initial signOut (clean slate)
   Signed out (or no session existed)
 [PASS] signInWithPassword creates session
-  Session created for luisjomarcruz@gmail.com
+  Session created for (redacted)
 [PASS] getSession returns active session
-  Active session user_id=c8d6e790-503c-4a31-84ce-7f4b1b1fc05e
+  Active session user_id=(redacted)
 [PASS] getUser resolves authenticated user
-  getUser() ok: luisjomarcruz@gmail.com
+  getUser() ok: (redacted)
 [PASS] Optional: refreshSession (if supported)
   refreshSession ok
 [PASS] signOut clears session

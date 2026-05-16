@@ -28,8 +28,7 @@ type StepResult = {
   error?: unknown;
 };
 
-function requireEnv(name: string): string {
-  const value = process.env[name];
+function requireEnvValue(value: string | undefined, name: string): string {
   if (!value) {
     throw new Error(`Missing env var: ${name}`);
   }
@@ -55,14 +54,19 @@ async function main() {
 
   const results: StepResult[] = [];
 
+  const supabaseUrlRaw = process.env.EXPO_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKeyRaw = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+  const emailRaw = process.env.SUPABASE_TEST_LOGIN_EMAIL;
+  const passwordRaw = process.env.SUPABASE_TEST_LOGIN_PASSWORD;
+
   const envCheck = await step('Environment variables', async () => {
     // Supabase
-    requireEnv('EXPO_PUBLIC_SUPABASE_URL');
-    requireEnv('EXPO_PUBLIC_SUPABASE_ANON_KEY');
+    requireEnvValue(supabaseUrlRaw, 'EXPO_PUBLIC_SUPABASE_URL');
+    requireEnvValue(supabaseAnonKeyRaw, 'EXPO_PUBLIC_SUPABASE_ANON_KEY');
 
     // Test user
-    requireEnv('SUPABASE_TEST_LOGIN_EMAIL');
-    requireEnv('SUPABASE_TEST_LOGIN_PASSWORD');
+    requireEnvValue(emailRaw, 'SUPABASE_TEST_LOGIN_EMAIL');
+    requireEnvValue(passwordRaw, 'SUPABASE_TEST_LOGIN_PASSWORD');
 
     return 'Required env vars present';
   });
@@ -78,10 +82,13 @@ async function main() {
     process.exit(1);
   }
 
-  const supabaseUrl = requireEnv('EXPO_PUBLIC_SUPABASE_URL');
-  const supabaseAnonKey = requireEnv('EXPO_PUBLIC_SUPABASE_ANON_KEY');
-  const email = requireEnv('SUPABASE_TEST_LOGIN_EMAIL');
-  const password = requireEnv('SUPABASE_TEST_LOGIN_PASSWORD');
+  const supabaseUrl = requireEnvValue(supabaseUrlRaw, 'EXPO_PUBLIC_SUPABASE_URL');
+  const supabaseAnonKey = requireEnvValue(
+    supabaseAnonKeyRaw,
+    'EXPO_PUBLIC_SUPABASE_ANON_KEY',
+  );
+  const email = requireEnvValue(emailRaw, 'SUPABASE_TEST_LOGIN_EMAIL');
+  const password = requireEnvValue(passwordRaw, 'SUPABASE_TEST_LOGIN_PASSWORD');
 
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
