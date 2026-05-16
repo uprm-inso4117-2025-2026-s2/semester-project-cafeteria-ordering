@@ -1,0 +1,271 @@
+= Pickup Verification Usability Benchmarks
+:author: Ernesto Soto
+:issue: 514
+
+== Purpose
+
+I am writing this document to define usability validation benchmarks for the pickup verification flow in our cafeteria ordering system. The focus is the moment when a customer arrives to pick up an order and staff needs to confirm that the correct order is being released.
+
+The main reason for documenting this is to give our team a reference for what should be checked later during usability testing. This task does not redesign the interface, implement pickup verification, or run a usability test. It only defines the benchmarks and warning signs that can help us notice if the pickup verification flow is confusing or risky for users.
+
+== Scope
+
+This document focuses only on the pickup verification flow.
+
+Included in this scope:
+
+* A customer arrives to pick up an order.
+* The customer provides verification information.
+* Staff checks the order information.
+* Staff confirms that the order matches the customer.
+* Staff marks the order as picked up or completed.
+* Customer and staff understand whether the pickup was successful.
+
+Not included in this scope:
+
+* Authentication usability
+* Full ordering flow usability
+* Payment usability
+* Staff dashboard redesign
+* Implementation of pickup verification
+* Running the usability test
+
+== Basic Pickup Verification Flow
+
+The expected pickup verification flow is like this:
+
+. Customer arrives at the pickup area.
+. Customer provides some form of verification information.
+. Staff finds or opens the correct order.
+. Staff checks that the verification information matches the order.
+. Staff confirms that the order is ready to be released.
+. Staff marks the order as picked up or completed.
+
+The exact verification method may depend on the final implementation. It could be a pickup code, order number, QR code, customer name, student email, or another confirmation detail.
+
+For this document, the verification method is kept general. This way the benchmarks can still be useful even if the team changes the exact method later.
+
+This flow matters because pickup verification is a high-risk part of the system. If the interface is confusing, staff could release the wrong order, mark an order complete too early, or delay customers who are trying to pick up their food.
+
+== Related Order States
+
+The pickup verification flow may interact with order states such as:
+
+* Pending
+* Preparing
+* Ready
+* Completed
+* Cancelled
+* Picked Up
+
+These names should be checked against the final implementation. For this document, the main idea is that an order should not be marked as completed or picked up before the correct verification step happens.
+
+== Usability Terms
+
+=== Learnability
+
+Learnability means how easy it is for a new user to understand what to do.
+
+For this flow, the customer should understand what information they need to provide, and staff should understand where to verify the order.
+
+=== Efficiency
+
+Efficiency means how quickly the task can be completed once the user understands the flow.
+
+For this project, staff should be able to verify a ready order without taking too long or going through unnecessary steps.
+
+=== Error Prevention
+
+Error prevention means the interface helps users avoid mistakes before they happen.
+
+For pickup verification, the system should help prevent staff from releasing the wrong order or marking an order complete before checking the verification information.
+
+=== Error Recovery
+
+Error recovery means users can recover when something goes wrong.
+
+For example, if the customer gives the wrong code, wrong order number, or missing information, staff should know what to do next without restarting the whole process.
+
+=== Staff Confidence
+
+Staff confidence means staff can clearly tell whether an order is ready, verified, and safe to release.
+
+If staff is unsure, the verification flow may not be clear enough.
+
+=== Customer Clarity
+
+Customer clarity means the customer understands what information is needed for pickup and what the current pickup status means.
+
+== Suggested Usability Benchmarks
+
+[cols="1,2,2,2,2,2", options="header"]
+|===
+| Benchmark
+| Usability component
+| User role
+| Task being tested
+| Measurable standard
+| Pass/fail condition
+
+| Customer understands what information is needed
+| Learnability
+| Customer
+| Customer identifies what to provide for pickup
+| Customer can provide or explain the needed information without repeated help
+| Pass if the customer understands what to provide. Fail if the customer is confused or needs the same instruction repeated.
+
+| Staff can find the order
+| Efficiency
+| Staff
+| Staff locates the correct order using the available information
+| Staff can find the order within 30 seconds
+| Pass if staff finds the correct order. Fail if staff cannot find it or opens the wrong order.
+
+| Staff can verify the order before releasing it
+| Error prevention
+| Staff
+| Staff checks that the customer information matches the order
+| Staff confirms the match before marking the order complete or picked up
+| Pass if verification happens before completion. Fail if the order is marked complete before verification.
+
+| Customer understands the pickup result
+| Customer clarity
+| Customer
+| Customer understands whether pickup was successful or if more information is needed
+| Customer can tell if the order was released, rejected, or still pending
+| Pass if the customer understands the result. Fail if the customer does not know what happened.
+
+| Staff can handle incorrect verification information
+| Error recovery
+| Staff
+| Staff responds to wrong, missing, or invalid verification information
+| Staff can identify the problem and choose the next step
+| Pass if staff can recover without restarting the full flow. Fail if staff gets stuck.
+
+| Staff avoids accidental completion
+| Error prevention
+| Staff
+| Staff marks the order complete or picked up only after verification
+| Staff does not accidentally complete the order during search or review
+| Pass if completion happens only after verification. Fail if completion happens too early.
+
+| Staff feels confident about releasing the order
+| Staff confidence
+| Staff
+| Staff decides whether the order is safe to release
+| Staff can explain why the order is verified
+| Pass if staff is confident and correct. Fail if staff guesses or is unsure.
+
+| Pickup task can be completed in a reasonable time
+| Efficiency
+| Staff and customer
+| Full pickup verification process
+| Most normal pickups should take about 1 minute or less after staff starts checking the order
+| Pass if the flow is completed without major delay. Fail if the process takes too long because of interface confusion.
+|===
+
+== Reason for the Benchmarks
+
+These benchmarks are starting points for future usability validation. They are not final production requirements.
+
+The 30 second target for finding an order is used because staff should be able to locate a ready order quickly during a normal pickup interaction. If it takes longer than that, the pickup process may create a line or delay other orders.
+
+The 1 minute target for the full pickup process is used because pickup should be a short interaction. The customer already placed the order earlier, so the pickup step should mainly confirm identity or order information and then release the order.
+
+The benchmarks also focus on error prevention because pickup verification can cause real problems if it is unclear. A wrong order could be released, a customer could be delayed, or an order could be marked completed before it was actually picked up.
+
+== Observation Checklist
+
+During a future usability test, the team should watch for these signs:
+
+* Customer hesitates when asked for verification information.
+* Customer does not know if they need a code, order number, name, email, or another detail.
+* Staff opens the wrong order.
+* Staff needs to search in multiple places to find the order.
+* Staff presses the wrong button.
+* Staff marks the order complete before verification.
+* Staff is unsure whether the order can be released.
+* Customer does not understand if the pickup was successful.
+* Staff has trouble recovering from wrong or missing information.
+* The flow requires repeated explanations.
+* The same step causes confusion for more than one participant.
+
+== Usability Warning Signs
+
+The following situations should be treated as warning signs:
+
+* Customer does not understand what information is needed for pickup.
+* Staff cannot find the order quickly.
+* Staff can complete or pick up an order without verifying it first.
+* Staff is unsure whether the order is ready to release.
+* Incorrect verification information does not give a clear next step.
+* Customer leaves the interaction unsure about the order status.
+* Staff has to depend on memory instead of the system.
+* The same order appears in a confusing state, such as ready and completed at the same time.
+* The pickup flow requires too many steps for a simple order handoff.
+
+== Usability Review Table
+
+[cols="1,2,2,2", options="header"]
+|===
+| Area
+| Expected behavior
+| Warning sign
+| Possible follow-up
+
+| Customer information
+| Customer understands what to provide
+| Customer is unsure what detail is needed
+| Improve labels or pickup instructions
+
+| Order lookup
+| Staff finds the correct order quickly
+| Staff opens the wrong order or takes too long
+| Review order search or order display
+
+| Verification step
+| Staff verifies before releasing the order
+| Staff can skip verification too easily
+| Add clearer confirmation or verification step
+
+| Completion action
+| Staff marks order complete only after verification
+| Staff completes the order accidentally
+| Review button placement and confirmation behavior
+
+| Error handling
+| Staff can respond to wrong or missing information
+| Staff does not know what to do next
+| Add clearer error message or recovery instruction
+
+| Customer result
+| Customer understands if pickup was successful
+| Customer does not know if the order was released
+| Improve final confirmation message
+
+| Staff confidence
+| Staff can explain why the order is safe to release
+| Staff guesses or feels unsure
+| Improve order details and verification display
+|===
+
+== Future Testing Ideas
+
+This document can be used later to create a usability test plan.
+
+Possible future checks:
+
+* Ask a customer participant what information they think they need for pickup.
+* Ask staff to find an order using the available verification information.
+* Test a normal pickup where the order is ready.
+* Test a pickup attempt with incorrect or missing information.
+* Observe whether staff can avoid accidental completion.
+* Measure how long it takes staff to find and verify the order.
+* Ask staff if they feel confident releasing the order.
+* Ask the customer if the pickup result was clear.
+
+== Conclusion
+
+The pickup verification flow is important because it connects the customer, the order record, and the staff member releasing the food. If this flow is unclear, it can cause wrong order releases, delays, or incorrect order states.
+
+By defining these usability benchmarks, our team has a simple reference for what should be checked later and what types of usability problems should be treated as warning signs.
