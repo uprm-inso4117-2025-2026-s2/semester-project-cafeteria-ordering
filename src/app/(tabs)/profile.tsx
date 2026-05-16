@@ -1,11 +1,12 @@
+import { getProfileByUserId } from "@/lib/profiles";
 import { Colors, Typography } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { supabase } from "@/lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
-import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useRouter, useFocusEffect } from "expo-router";
+import { useEffect, useState, useCallback } from "react";
 import {
   Alert,
   Image,
@@ -116,7 +117,7 @@ export default function ProfileScreen() {
   function toggleReq(req: string) {
     setSelectedReqs((prev) => prev.includes(req) ? prev.filter((r) => r !== req) : [...prev, req]);
   }
-  useEffect(() => {
+  /*useEffect(() => {
     AsyncStorage.getItem("@profile_info").then((v) => {
       if (!v) return;
       const p = JSON.parse(v);
@@ -125,7 +126,22 @@ export default function ProfileScreen() {
       setPhone(p.phone ?? "");
     });
     AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
-  }, []);
+  }, []); */
+  useFocusEffect(
+    useCallback(() => {
+      async function loadProfile() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        const profile = await getProfileByUserId(user.id);
+        if (!profile) return;
+        setName(profile.full_name ?? '');
+        setPhone(profile.phone ?? '');
+        setEmail(user.email ?? '');
+      }
+      loadProfile();
+      AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
+    }, [])
+  );
 
   // function handleSave() {
   //   setEditing(false);
