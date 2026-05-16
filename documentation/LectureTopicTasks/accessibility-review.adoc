@@ -1,0 +1,165 @@
+= Accessibility Review for Cafeteria Ordering System
+:icons: font
+
+== Objective
+
+The objective of this review was to evaluate the accessibility and inclusive usability of the Cafeteria Ordering System. The review focused on identifying accessibility concerns related to usability for users with visual impairments, motor limitations, temporary disabilities, and situational/environmental limitations.
+
+== Scope of Review
+
+The following screens were reviewed:
+
+* Login Screen
+* Payment Screen
+* Menu Item Screen
+* Cart Screen
+* Orders Screen
+* Profile Screen
+
+The review focused specifically on:
+
+* Color contrast
+* Button sizing
+* Keyboard navigation
+* Screen reader compatibility
+* Mobile usability
+* Readability
+
+== Color Contrast
+
+The application generally uses strong color contrast throughout both light mode and dark mode layouts. Most major text elements are readable against their backgrounds.
+
+Pros:
+
+* Dark mode and light mode support improved visibility in different environments.
+* Main buttons use strong contrasting colors.
+* Large section headers are clearly readable.
+* Payment and profile screens separate content using clear spacing and color grouping.
+
+Cons:
+
+* Some muted placeholder text may be difficult to read for visually impaired users.
+* Small gray secondary text may have lower contrast in certain screens.
+
+Possible Solutions:
+
+* Increase contrast for placeholder and muted text where possible.
+* Continue testing both dark and light mode readability.
+
+== Button Sizing
+
+Most interactive elements in the application are appropriately sized for mobile devices and touch interaction.
+
+Pros:
+
+* The Pay Now button is large and easy to press.
+* Profile screen buttons use large touch areas.
+* Payment form inputs are large and spaced apart.
+* Add to Cart button is clearly visible and easy to interact with.
+
+Cons:
+
+* Small links such as Forgot Password and Sign Up may be difficult for some users to tap accurately.
+* Quantity selector buttons on the menu screen could be slightly larger.
+* Some icon buttons have smaller touch areas.
+
+Possible Solutions:
+
+* Add additional padding to smaller buttons and links.
+* Increase touch target size for icon-based controls.
+* Continue maintaining large spacing between interactive controls.
+
+== Keyboard Navigation
+
+Keyboard navigation support appears partially implemented through the structure of the forms and screen layouts.
+
+Pros:
+
+* Login and payment forms follow a logical top-to-bottom layout.
+* Form inputs are clearly grouped.
+* Scrollable layouts support navigation on smaller devices.
+
+Cons:
+
+* Focus indicators may not always be visible on web builds.
+* Some custom controls may not be fully keyboard accessible.
+
+Possible Solutions:
+
+* Test navigation using only keyboard controls on web builds.
+* Ensure visible focus indicators are present.
+* Verify custom controls can be reached using keyboard navigation.
+
+== Screen Reader Compatibility
+
+Several accessibility-friendly practices are already included in the application.
+
+Pros:
+
+* Login screen inputs include accessibility labels.
+* Buttons and links use accessibility roles.
+* Error handling provides understandable feedback to users.
+
+Cons:
+
+* Some payment form inputs do not include accessibility labels.
+* Add-ons and quantity controls may not clearly communicate their state to assistive technologies.
+* Modal dialogs and custom checkboxes may not fully support screen reader announcements.
+
+Possible Solutions:
+
+* Add accessibility labels to all interactive controls.
+* Add accessibility states for selected and disabled elements.
+* Add accessibility descriptions to images and icons.
+
+== Mobile Usability
+
+Mobile usability throughout the application was generally strong.
+
+Pros:
+
+* Scrollable layouts adapt well to smaller screens.
+* Buttons and inputs are generally easy to interact with.
+* Spacing between elements improves usability.
+* Forms are organized in a readable way.
+* Dark mode improves usability in low-light conditions.
+
+Cons:
+
+* Long forms may require additional feedback for users navigating with assistive technologies.
+* Smaller links and icon controls may be harder to interact with during one-handed use.
+
+Possible Solutions:
+
+* Continue prioritizing large touch targets.
+* Maintain consistent spacing and layout organization.
+* Continue testing usability on smaller screen sizes.
+
+== Readability
+
+The application maintains a readable layouts and understandable organization.
+
+Pros:
+
+* Large section headers improve navigation clarity.
+* Payment sections are grouped clearly.
+* Text alignment and spacing improve readability.
+* Information is presented in a simple and understandable format.
+
+Cons:
+
+* Some secondary text is small.
+* Placeholder text may be difficult to read in certain themes.
+* Some dense sections may benefit from slightly increased spacing.
+
+Possible Solutions:
+
+* Increase smaller text sizes where possible.
+* Improve readability of placeholder text.
+* Maintain consistent spacing between sections and controls.
+
+== Conclusion
+
+The Cafeteria Ordering System already demonstrates several positive accessibility and usability practices, including dark mode support, readable layouts, mobile-friendly spacing, validation feedback, and structured screen organization.
+
+While some improvements are still recommended, the application provides a solid basis for accessibility and inclusive usability. Continued testing and small accessibility improvements will further improve the experience for all users.
