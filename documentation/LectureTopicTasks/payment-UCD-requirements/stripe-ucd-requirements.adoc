@@ -1,0 +1,332 @@
+= Stripe Payment Flow — Usability Requirements (UCD Analysis)
+:toc:
+:sectnums:
+
+
+
+
+
+
+
+
+
+
+
+
+== Purpose
+
+This document will define the usability requirements necessary for the integration of the Stripe payment in the Cafeteria Ordering System. This will ensure that the payment flow follows the principles of a User-Centered Design (UCD) and the attributes of Nielsen’s usability. Following these principles and attributes is crucial for achieving clarity, preventing errors, and designing a functional payment system. The Cafeteria Ordering System will integrate with https://stripe.com[Stripe] for the payment processing. Before analyzing the Stripe payment flow, we need to understand the concepts behind User-Centered Design and Nielsen’s Usability.
+
+
+
+
+
+
+
+
+
+
+
+
+
+== User-Centered Design (UCD)
+
+=== Definition
+By definition UCD is a software design approach that focuses, as the name suggests, on their users rather than making assumptions of what their users might expect. This approach focuses on the user's needs, preferences, expectations, limitations and overall experience. This information is considered throughout each phase of the design process. The purpose of this type of design approach is to improve usability, accessibility and user satisfaction before its implementation into the system. 
+
+=== Basic Elements of a UCD
+The following are the basic elements of a User-Centered Design:
+
+- *Visibility:* The system should have important actions, buttons, and information that are easy to identify and understand for users.
+
+- *Accessibility:* The system should be usable by users with different skill sets and experience.
+
+- *Legibility:* The system should use labels, texts, and instructions that are readable, and easy to understand for the users.
+
+- *Language:* The system should use simple and familiar terminology that users can easily recognize.
+
+
+=== Principles of a UCD
+The following are the most common UCD principles:
+
+- *User-focused design:* The system should consider the users' needs, expectations, and goals throughout the design process.  
+
+- *Continuous improvement:* The system should be repeatedly refined and evaluated in order to improve its usability and user experience. 
+
+- *Error prevention:* The system should have minimal user mistakes to prevent errors that can generate confusion and deliver a bad user experience. 
+
+- *User participation:* The users should be considered during the whole design process to better develop a usable system. 
+
+- *Evidence-based decision:* Design decision should be done through the usage of usability analysis, research, testing, and observed user behavior.
+
+- *Consistent usability:* The usability principles and elements should remain consistent throughout the entire system.
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Nielsen’s Usability
+
+=== Definition
+According to Jakob Nielsen, usability can be divided into multiple components. These components evaluate how users interact with a system. In addition, it helps to identify usability problems and improve the overall user experience.
+
+=== Nielsen’s Usability Components
+The following are Nielsen's usability components:
+
+- *Learnability:* How easily first-time users can understand and use the system.
+- *Efficiency:* How quickly users can perform tasks after learning how to use the system.
+- *Memorability:* How easily returning users can reuse the system after a long period of time of unuse.
+- *Errors:* How frequently users encounter errors, how severe are those errors, and how easily users can recover.
+- *Satisfaction:* How comfortable and pleasant the system is for the users.
+- *Effectiveness:* Whether the users can successfully complete their tasks using the system.
+
+
+
+
+
+
+
+
+
+
+
+
+== Expected Stripe Payment Flow from Usability Perspective
+
+According to the previous definitions and concepts, the payment process should appear as a simple, linear checkout flow:
+
+1. User reviews the order summary before continuing with the payment.
+2. Then the user selects the payment button to commence the payment process.
+3. The system loads the Stripe payment interface so the user can select their preferred payment method.
+4. The user enters their payment details.
+5. After entering their payment details the user confirms the payment.
+6. Right after, the system shows the processing state of the order.
+7. The system will display either success or failure.
+8. After showing the state of the order the user will receive a confirmation or retry option.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Nielsen's Usability Requirements
+
+=== Learnability 
+The payment workflow must allow first-time users to complete a checkout without confusion. The system must ensure:
+
+- Payment actions, steps, and instructions are clearly defined and simple for users to understand.
+- The Stripe interface must remain recognizable and consistent with the application's interface.
+- Technical terminology should not be exposed to users, since this can cause confusion.
+- Users can intuitively start and complete a payment process.
+
+Requirements:
+
+- R1: The system must provide a visible button to initiate payment.
+- R2: The system must use simple and understandable labels/instructions throughout the payment process.
+- R3: The system must hide internal backend states (Initiation, Confirmation, Finalization) and technical terminology from users.
+
+
+=== Efficiency
+
+The payment workflow must minimize unnecessary interactions and reduce the amount of time required to complete a checkout. The system must ensure:
+
+- Few simple and understandable checkout steps.
+- Reduced redundant interactions.
+- Efficient payment processing flow.
+
+Requirements:
+
+- R4: The system must complete a payment initiation in a single user action.
+- R5: The system must avoid redundant confirmation screens during the payment checkout.
+- R6: The system must not ask users to re-enter order information during payment process.
+- R7: The system must provide multiple payment methods for the user.
+
+
+=== Memorability
+
+The payment workflow must be easy to recognize and reuse for returning users. The system must ensure:
+
+- Interface design and payment flow remains consistent.
+- Usage of familiar payment actions, labels, and buttons.
+- Predictable/familiar payment process during transactions.
+
+Requirements:
+
+- R8: The system must maintain a consistent checkout structure throughout the payment process.
+- R9: The system must use familiar and understandable payment terminology.
+- R10: Long time returning users should be able to complete the payment process without relearning the workflow.
+
+
+=== Errors
+
+The payment workflow must prevent invalid payment states and reduce the amount of mistakes that a user can commit during the payment process. The system must ensure:
+
+- Prevention of invalid payment states.
+- Prevention of duplicate payment submissions.
+- Handling of failed, pending, or successful payment states.
+- Protection against incorrect order confirmation or confirmation ID.
+
+Requirements:
+
+- R11: The system must validate a payment success with Stripe before confirming any order.
+- R12: The system must prevent an order confirmation when the payment status is pending or failed.
+- R13: The system must prevent duplicate payment submissions for the same order.
+- R14: The system must not generate a confirmation ID if payment was unsuccessful.
+- R15: If an order's payment fails, the system must display an error message.
+- R16: The system must provide users with a retry option after an unsuccessful payment.
+- R17: If payment is pending, the system must display a processing state without confirming the order.
+- R18: Network or API failures must not result in order confirmation.
+
+
+=== Satisfaction
+
+The payment workflow must provide a predictable, clear, and trustworthy experience for the users. The system must ensure:
+
+- Clear feedback during the payment process.
+- Visible progress indicator during payment process.
+- Reliable confirmation message after a successful transaction.
+
+Requirements:
+
+- R19: The system must display a success message after a payment was completed.
+- R20: The system must generate and provide a confirmation ID only after a successful payment.
+- R21: The system must indicate, visually, the payment progress using processing states.
+
+
+=== Effectiveness 
+
+The payment workflow must ensure that users can successfully complete their order purchases. The system must ensure:
+
+- Users can complete payments successfully without any system inconsistencies.
+- Payment and order states remain synchronized throughout the payment process.
+- Orders are only confirmed after a valid payment verification.
+
+Requirements:
+
+- R22: The system must only confirm orders if the Stripe verification was successful.
+- R23: The system must maintain consistency between the payment status and the order state throughout payment process.
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Error Handling Requirements
+
+The following are the error handling requirements for the payment workflow:
+
+- H1: Never confirm an order unless payment was successful.
+- H2: Never generate a confirmation ID unless payment was successful.
+- H3: Never confirm orders if their payment state is pending.
+- H4: Ensure idempotent handling of payment callbacks.
+- H5: Default payment state must be "pending / not confirmed".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== User Interaction Rules
+
+The UI must expose only three states and each state must provide a clear and consistent visual feedback:
+
+- Pending (processing): must show a processing indicator.
+- Success (confirmed): must show a confirmation message and a confirmation ID.
+- Failed (retry available): must show an error message along with a retry option.
+
+User interaction flow steps:
+
+1. User initiates the order payment by pressing a "Pay Now" button.
+2. System transitions to a Pending state while processing the payment of the order.
+3. System transitions to either Success or Failed payment based on the Stripe response.
+4. If the payment was successful, the order is confirmed and a confirmation message is displayed.
+5. If the payment was unsuccessful, the user may retry the payment restarting from the Pending state.
+
+Internal system states (Initiation, Confirmation, Finalization) must not be exposed to users to prevent confusion.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Usability Risks 
+
+|===
+| Risk | Usability Impact
+
+| Skip payment validation
+| Users may see a false successful payment feedback
+
+| Premature order confirmation
+| Orders appear paid when they are not
+
+| Incorrect payment state handling
+| Confusing or misleading UI states
+
+| Confirmation ID on failed payment
+| Loss of user trust
+
+| Order confirmed while pending
+| False success perception
+|===
+
+
+
+
+
+
+
+
+
+
+
+
+== Summary
+
+This UCD specification ensures that the Stripe payment flow:
+
+- Prevents usability failures.
+- Aligns system behavior with user expectations.
+- Maintains consistency throughout the whole payment process.
+- Ensures safe interaction with https://stripe.com[Stripe].
+- Supports Nielsen's usability concepts across the payment flow.
