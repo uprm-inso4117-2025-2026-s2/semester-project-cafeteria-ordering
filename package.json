@@ -12,6 +12,7 @@
     "test:build": "npx expo export",
     "ci-check": "node ./scripts/ci-check.js",
     "test:cucumber": "cucumber-js",
+    "test:supabase:auth-session": "npx tsx src/tests/supabase/scripts/auth-session.test.ts",
     "build:tests": "tsc src/tests/suites/auto_test_suite.ts --outDir build/ci-build --module commonjs --target es6",
     "test:jest": "jest",
     "test:jest:watch": "jest --watch",

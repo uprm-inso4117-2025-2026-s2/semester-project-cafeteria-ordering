@@ -1,0 +1,73 @@
+= TR-SUPA-03 Supabase Auth Session Creation Validation
+Author: Luis J.
+:toc:
+
+*Date:* 2026-05-16
+
+*ID:* TR-SUPA-03
+
+*Test:* TC-SUPA-03 - Supabase Auth Session Creation Validation
+
+*Script:* `src/tests/supabase/scripts/auth-session.test.ts`
+
+*Pass/Fail Status:* PASS
+
+== Purpose
+Verify that authentication produces a usable session (access token + user), that the session can be retrieved via `getSession()`, and that `signOut()` clears it.
+
+== Preconditions
+- `.env` contains valid Supabase URL + anon key.
+- `.env` contains a confirmed test user:
+  - `SUPABASE_TEST_LOGIN_EMAIL`
+  - `SUPABASE_TEST_LOGIN_PASSWORD`
+
+== Execution
+Run:
+
+[source,bash]
+----
+npx tsx src/tests/supabase/scripts/auth-session.test.ts
+----
+
+== Evidence
+Paste console output here:
+
+[source]
+----
+> semester-project-cafeteria-ordering@1.0.0 test:supabase:auth-session
+> npx tsx src/tests/supabase/scripts/auth-session.test.ts
+
+[dotenv@17.3.1] injecting env (8) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+
+[TEST] Supabase Auth Session Creation
+
+[PASS] Environment variables
+  Required env vars present
+[PASS] Initial signOut (clean slate)
+  Signed out (or no session existed)
+[PASS] signInWithPassword creates session
+  Session created for luisjomarcruz@gmail.com
+[PASS] getSession returns active session
+  Active session user_id=c8d6e790-503c-4a31-84ce-7f4b1b1fc05e
+[PASS] getUser resolves authenticated user
+  getUser() ok: luisjomarcruz@gmail.com
+[PASS] Optional: refreshSession (if supported)
+  refreshSession ok
+[PASS] signOut clears session
+  Session cleared
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[SUMMARY] 7/7 steps passed
+[SUCCESS] Auth session creation verified.
+----
+
+== Results
+- Environment variables: PASS
+- signInWithPassword creates session: PASS
+- getSession returns session: PASS
+- getUser resolves user: PASS
+- refreshSession (optional): PASS
+- signOut clears session: PASS
+
+== Notes / Follow-ups
+- If the refresh step is skipped (no `refresh_token`), confirm your Supabase auth settings for the project.
