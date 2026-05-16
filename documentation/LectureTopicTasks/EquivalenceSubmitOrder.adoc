@@ -1,0 +1,141 @@
+= Equivalence Partitioning for submitOrder Input
+
+== 1. Overview of Equivalence Partitioning
+
+Equivalence partitioning is a test design technique in which the input space of a function
+is divided into partitions, subsets of values that the system is expected to handle
+identically. Rather than testing every possible input, one value from each
+partition is selected, reducing the number of test cases while maintaining meaningful coverage.
+
+Partitions are classified as:
+
+* *Valid partitions*: inputs the function is expected to accept and process correctly.
+* *Invalid partitions*: inputs the function is expected to reject or handle gracefully.
+
+== 2. submitOrder Function Overview
+
+The `submitOrder` function handles the request to place a customer. It accepts three inputs:
+
+[source, typescript]
+----
+export async function submitOrder(
+  cartItems: MenuItem[],
+  userId: string,
+  notes?: string
+): Promise<string | null>
+----
+
+* `cartItems`: an array of `MenuItem` objects representing the customer's cart
+* `userId`: the authenticated user's UUID from Supabase auth
+* `notes`: an optional string for special order instructions
+
+The function returns the generated `order_id` string on success, or `null` on failure.
+
+== 3. Input Space Analysis
+
+=== 3.1 cartItems Partitions
+
+The `cartItems` parameter is the primary driver of order creation. The function
+checks whether the cart is empty before proceeding.
+
+[cols="1,2,2,1", options="header"]
+|===
+| Partition | Description | Representative Value | Valid/Invalid
+| Empty array | No items in the cart | `[]` | Invalid
+| Single item | Cart with exactly one item | `[chickenWrap]` | Valid
+| Multiple items | Cart with more than one item | `[chickenWrap, coffee]` | Valid
+| Unavailable item | Cart contains an item where `available = false` | `[unavailableItem]` | Invalid
+|===
+
+*Behavior from code:*
+
+The function returns `null` immediately for an empty cart:
+[source, typescript]
+----
+if (!cartItems || cartItems.length === 0) {
+  console.error('Cannot submit an empty order.')
+  return null
+}
+----
+
+An unavailable item is not explicitly blocked by `submitOrder` itself because it relies on
+`canOrder()` being checked before the item is added to the cart. If an unavailable item
+reaches `submitOrder`, it will be inserted into `order_items` with its current price.
+
+=== 3.2 userId Partitions
+
+The `userId` is passed directly to the `orders` table as `user_id`. The function does not perform explicit validation on `userId`.
+
+[cols="1,2,2,1", options="header"]
+|===
+| Partition | Description | Representative Value | Valid/Invalid
+| Valid UUID | Authenticated user with existing profile | `"c8d6e790-503c-4a31-84ce-7f4b1b1fc05e"` | Valid
+| Empty string | No user ID provided | `""` | Invalid
+| Nonexistent UUID | UUID not found in profiles table | `"00000000-0000-0000-0000-000000000000"` | Invalid
+|===
+
+*Behavior from code:*
+
+The function does not explicitly validate `userId` before inserting. An empty string or
+nonexistent UUID will cause Supabase to return an error, which is caught here:
+
+[source, typescript]
+----
+if (orderError || !orderData) {
+  console.error('Error creating order:', orderError?.message)
+  return null
+}
+----
+
+=== 3.3 notes Partitions
+
+The `notes` parameter is optional and passed directly to the `orders` table.
+
+[cols="1,2,2,1", options="header"]
+|===
+| Partition | Description | Representative Value | Valid/Invalid
+| Undefined / not provided | No notes passed by the caller | `undefined` | Valid
+| Normal string | Short, typical instruction | `"No onions please"` | Valid
+| Empty string | Explicitly passed as empty | `""` | Valid
+| Extremely long string | String exceeding typical DB text limits | `"A".repeat(10000)` | Invalid
+|===
+
+*Behavior from code:*
+
+When `notes` is undefined, the function defaults it to `null` before inserting:
+[source, typescript]
+----
+notes: notes ?? null,
+----
+
+An extremely long string may be truncated or rejected depending on the column type
+defined in Supabase (`text` in this case has no practical length limit in PostgreSQL,
+so very long strings will be accepted but may cause unexpected behavior in the UI).
+
+== 4. Representative Test Cases
+
+The following test cases each represent one partition from the analysis above.
+
+[cols="1,1,2,2,1", options="header"]
+|===
+| Test | Input | Description | Expected Result | Partition
+| TC-01 | `cartItems = []` | Empty cart submitted | Returns `null`, logs error | Invalid — empty cart
+| TC-02 | `cartItems = [chickenWrap]` | Single valid item | Returns a valid `order_id` string | Valid — single item
+| TC-03 | `cartItems = [chickenWrap, coffee]` | Multiple valid items | Returns a valid `order_id` string | Valid — multiple items
+| TC-04 | `userId = ""` | Empty user ID | Returns `null` due to Supabase insert error | Invalid — empty userId
+| TC-05 | `userId = "c8d6e790-503c-4a31-84ce-7f4b1b1fc05e"` | Valid authenticated user | Order inserted successfully | Valid — authenticated user
+| TC-06 | `userId = "00000000-0000-0000-0000-000000000000"` | Nonexistent user UUID | Returns `null` due to FK violation | Invalid — nonexistent userId
+| TC-07 | `notes = undefined` | No notes provided | Inserts `null` in notes column | Valid — no notes
+| TC-08 | `notes = "No onions please"` | Normal instruction string | Inserted as-is into orders table | Valid — normal notes
+| TC-09 | `notes = "A".repeat(10000)` | Extremely long string | Accepted by DB but may affect UI display | Invalid — extreme notes
+|===
+
+== 5. Summary
+
+Equivalence partitioning applied to `submitOrder` identified 9 representative test cases
+across 3 input parameters. The analysis reveals that:
+
+* The function correctly guards against empty carts but does not explicitly validate `userId`.
+* Unavailable items are not blocked at the `submitOrder` level this belongs to the cart logic itself.
+* The `notes` field has no explicit length validation, which could be addressed in a
+  future improvement.

@@ -1,0 +1,391 @@
+= User-Centered Design Review for Authentication & Security
+:author: @TaimaraColon
+:toc:
+:toclevels: 3
+:sectnums:
+
+== Objective
+
+Analyze the cafeteria authentication and security feature screens using User-Centered Design (UCD) principles to evaluate how effectively the application supports user interaction, usability, accessibility, and security expectations.
+
+== Introduction
+
+=== Purpose
+
+This document evaluates the authentication and security experience of the cafeteria application using User-Centered Design principles. The review identifies usability strengths, weaknesses, and opportunities for improvement to better align the system with user needs and expectations.
+
+=== Scope
+
+This review includes:
+
+- Login flow
+- Registration flow
+- Password recovery flow
+- Password visibility and validation
+- Error handling
+- Accessibility considerations
+- Security-related interactions
+- Light mode and dark mode usability
+- Session and authentication usability
+
+== User-Centered Design (UCD) Principles
+
+=== What is User-Centered Design?
+
+User-Centered Design is a design approach that prioritizes user needs, behaviors, and expectations throughout the development process to improve usability, accessibility, and overall user satisfaction.
+
+=== Core UCD Principles Applied
+
+==== Simplicity
+
+The authentication system follows a simple and direct design approach. Users can quickly identify the primary actions such as signing in, signing up, and recovering passwords.
+
+Observations:
+
+- Screens avoid unnecessary clutter
+- Forms contain only essential fields
+- Primary actions are visually clear and easy to locate
+
+==== Accessibility
+
+The application provides both light mode and dark mode interfaces, allowing users to choose a preferred viewing experience.
+
+Observations:
+
+- Large buttons improve mobile usability
+- Input fields are easy to identify
+- Some light pink text in light mode has low contrast and may reduce readability
+
+==== Feedback and Visibility
+
+The interface provides visible validation requirements and password visibility controls to guide users during registration and login.
+
+Observations:
+
+- Password requirements are shown before submission
+- Password visibility toggle improves usability
+- Email validation feedback is present during registration
+
+==== Error Prevention and Recovery
+
+The system attempts to reduce user mistakes through validation rules and password recovery functionality.
+
+Observations:
+
+- Password requirements help prevent weak passwords
+- Password recovery option supports account access recovery
+- Validation feedback could be more visually prominent
+
+==== Consistency
+
+The authentication screens maintain consistent colors, button styles, spacing, and layouts across both light and dark modes.
+
+Observations:
+
+- Buttons maintain consistent positioning
+- Input field styles are reused throughout screens
+- Typography and spacing remain visually consistent
+
+== User Analysis
+
+=== Target Users
+
+Primary users include:
+
+- Customers
+- Cafeteria staff
+These can be:
+
+- First-time users
+- Returning users
+
+=== User Needs
+
+Users interacting with the authentication system need:
+
+- Fast authentication
+- Clear validation feedback
+- Secure account management
+- Minimal signup friction
+- Mobile-friendly interaction
+- Easy password recovery
+- Simple navigation
+
+=== User Expectations
+
+- Fast login process
+- Easy account creation
+- Password visibility options
+- Password recovery support
+- Responsive mobile design
+- Consistent dark/light mode experience
+- Immediate validation feedback
+
+== User Behavior Analysis
+
+=== Common User Behaviors
+
+Users interacting with authentication systems commonly:
+
+- Skip instructions unless errors occur
+- Prefer short and direct forms
+- Expect password visibility toggles
+- Frequently forget passwords
+- Expect quick account recovery
+- Expect autofill support
+
+The current authentication design supports many of these behaviors through:
+
+- Simple layouts
+- Minimal required information
+- Google sign-in option
+- Password visibility toggle
+- Password recovery functionality
+
+=== New vs Experienced Users
+
+==== New Users
+
+New users may struggle with password requirements or understanding validation feedback.
+
+Challenges:
+
+- Understanding password complexity requirements
+- Identifying why validation fails
+- Navigating authentication errors
+
+Needs:
+
+- Clearer guidance
+- More visible feedback
+- Simple and direct navigation
+
+==== Experienced Users
+
+Experienced users generally prioritize speed and efficiency.
+
+Expectations:
+
+- Quick login process
+- Minimal interaction steps
+- Fast form completion
+
+Needs:
+
+- Use autofill features
+- Prefer persistent sessions
+- Expect responsive navigation
+
+=== User Journey Analysis
+
+==== Login Flow
+
+. User opens login screen
+. User enters username or email
+. User enters password
+. User optionally uses password visibility toggle
+. System validates credentials
+. User gains access
+
+==== Registration Flow
+
+. User opens registration screen
+. User enters personal information
+. User creates password
+. User reviews password requirements
+. User accepts terms and privacy policy
+. User submits registration
+. System validates entered information
+
+==== Password Recovery Flow
+
+. User selects “Forgot password”
+. User enters account email
+. System sends recovery instructions
+. User resets password
+. User logs in again
+
+== Current UX Strengths
+
+=== Strength 1
+
+The interface design is simple and clean.
+
+Impact:
+
+- Makes navigation easier
+- Helps users focus on primary actions
+
+=== Strength 2
+
+The authentication screens are visually consistent across dark mode and light mode.
+
+Impact:
+
+- Improves familiarity
+- Allows user preference
+
+=== Strength 3
+
+The system includes usability-focused features such as password visibility toggles and Google sign-in.
+
+Impact:
+
+- Improves login convenience
+- Supports faster authentication
+
+== Current UX Weaknesses
+
+=== Weakness 1
+
+Some validation messages and light pink text in light mode have low contrast.
+
+Why It Is a Problem:
+
+- Difficult to read in bright environments
+- Reduces accessibility
+- Important feedback may be overlooked
+
+Impact on Users:
+
+- Increased confusion
+- Reduced readability
+- Potential accessibility issues
+
+=== Weakness 2
+
+Password validation feedback is visible but could be more interactive.
+
+Why It Is a Problem:
+
+- Users may not know which requirements are satisfied
+- Feedback relies on static text
+- Validation status is not immediately obvious
+
+Impact on Users:
+
+- Slower registration process
+- Increased form correction
+- Higher cognitive load
+
+=== Weakness 3
+
+Some secondary actions such as “Forgot password” and policy links appear visually smaller than primary content.
+
+Why It Is a Problem:
+
+- Important recovery actions may be overlooked
+- Smaller clickable areas reduce usability
+
+Impact on Users:
+
+- Slower navigation
+- Reduced discoverability
+- Possible frustration during recovery
+
+== Accessibility Review
+
+=== Contrast and Readability
+
+Most text is readable and clear, especially in dark mode. However, some light pink text elements in light mode have reduced visibility.
+
+Observations:
+
+- Dark mode has strong readability
+- Input labels are generally clear
+- Light pink elements may not meet ideal contrast standards
+
+=== Touch Targets and Mobile Usability
+
+The design is optimized for mobile interactions.
+
+Observations:
+
+- Buttons are large and easy to tap
+- Input fields provide comfortable spacing
+- Layout supports one-handed mobile interaction
+
+=== Error Message Accessibility
+
+Validation and feedback are present but could be improved.
+
+Observations:
+
+- Error messages are somewhat small
+- Validation feedback could be more visually dynamic
+- Password guidance is useful but could better indicate progress
+
+== Improvement Proposals
+
+=== Improvement 1
+
+Add real-time password validation feedback with visual indicators.
+
+Related User Need:
+
+- Clear validation guidance
+
+Expected Benefit:
+
+- Faster registration
+- Reduced errors
+- Improved user confidence
+
+=== Improvement 2
+
+Adjust low-contrast colors in light mode to improve readability.
+
+Related User Need:
+
+- Accessible interface design
+
+Expected Benefit:
+
+- Better visibility
+- Improved accessibility compliance
+- Easier interaction in different lighting conditions
+
+=== Improvement 3
+
+Increase the size and visibility of recovery and support-related actions.
+
+Related User Need:
+
+- Easy error recovery and navigation
+
+Expected Benefit:
+
+- Improved discoverability
+- Faster recovery process
+- Better user support experience
+
+== Recommendations
+
+[cols="2,3,1,3"]
+|===
+|Recommendation | User Need Addressed | Priority | Expected Impact
+
+| Add dynamic password validation indicators
+| Clear registration guidance
+| High
+| Reduced signup errors and improved usability
+
+| Improve contrast for light mode text elements
+| Accessibility and readability
+| High
+| Better readability and accessibility compliance
+
+| Increase visibility of recovery links and secondary actions
+| Faster navigation and account recovery
+| Medium
+| Improved discoverability and reduced frustration
+
+|===
+
+== Conclusion
+
+The authentication system demonstrates a clean, modern, and user-friendly design that aligns well with several User-Centered Design principles. The interface is simple, visually consistent, and optimized for mobile interaction. Features such as password visibility toggles, Google sign-in, and password recovery improve usability and convenience for users.
+
+The primary usability concerns involve accessibility and feedback visibility, particularly low-contrast light pink elements in light mode and limited dynamic validation feedback. Addressing these issues would further improve accessibility, reduce user confusion, and strengthen the overall user experience.
+
+Overall, the authentication screens provide a strong foundation that effectively supports both new and experienced users while maintaining a clean and straightforward interaction flow.
