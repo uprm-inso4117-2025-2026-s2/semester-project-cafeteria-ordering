@@ -21,7 +21,8 @@
     "test:all": "npm run test:cucumber && npm run test:jest",
     "test:ui": "playwright test",
     "test:ui:ui": "playwright test --ui",
-    "test:ui:report": "playwright show-report"
+    "test:ui:report": "playwright show-report",
+    "postinstall": "npx playwright install --with-deps"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
