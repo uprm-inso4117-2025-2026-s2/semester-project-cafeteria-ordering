@@ -1,0 +1,219 @@
+= Order Tracking Latency Metrics
+:author: Ernesto Soto
+:issue: 515
+
+== Purpose
+
+I am writing this document to define the latency metrics for our cafeteria ordering system. The focus is the order tracking flow, especially when a customer places an order and the staff dashboard needs to receive or update that order.
+
+The main reason for documenting this is to give our team a reference for what we should measure later. This task does not implement tests or scripts. It only defines the metrics and warning signs that can help us notice if the order tracking flow becomes slower during development.
+
+== Scope
+
+This document focuses on the real-time order tracking process.
+
+Included in this scope:
+
+* A customer submits an order.
+* The order is created in the backend.
+* The staff dashboard shows the order.
+* Staff changes the order status.
+* The customer sees the updated status.
+* Cancelled or completed orders are updated correctly.
+
+Not included in this scope:
+
+* Stripe payment performance
+* Authentication performance
+* Full app performance testing
+* Automated test scripts
+* UI redesign
+
+== Basic Order Tracking Flow
+
+The expected flow is like this:
+
+. A customer submits an order.
+. The backend saves the order.
+. The staff dashboard receives the order.
+. Staff updates the order status.
+. The customer screen shows the updated status.
+. If the order is completed or cancelled, both the customer side and staff side should show the final state.
+
+This flow matters because both users are depending on the same order information. If updates are delayed, the customer may think the order did not go through, or the staff may not notice an order on time.
+
+== Metric Terms
+
+=== Latency
+
+Latency is the delay between an action and the result of that action.
+
+For example, it is the time between a staff member marking an order as complete and the customer screen showing that completed status.
+
+=== Response Time
+
+Response time is how long the interface takes to react after a user does something.
+
+For example, after the customer presses "Place Order", the screen should quickly show loading, confirmation, or an error message.
+
+=== Throughput
+
+Throughput is how much work the system can handle during a period of time.
+
+For this project, it can mean how many orders can be submitted and shown on the staff dashboard during a busy period.
+
+=== Availability
+
+Availability means the order tracking feature is working when users need it.
+
+For this project, the customer tracking screen and staff dashboard should be available during normal cafeteria ordering hours.
+
+== Suggested Metrics
+
+[cols="1,2,2,2,2,2", options="header"]
+|===
+| Metric
+| What it measures
+| Start point
+| End point
+| Suggested threshold
+| Risk if it gets worse
+
+| Order creation latency
+| Time needed to save a submitted order
+| Customer presses "Place Order"
+| Order exists in the backend
+| 2 seconds or less
+| The customer may think the order failed
+
+| Staff dashboard update latency
+| Time needed for staff to see an order
+| Order is created
+| Staff dashboard displays it
+| 3 seconds or less
+| Staff may start preparing orders late
+
+| Customer status update latency
+| Time needed for the customer to see a status change
+| Staff updates the order
+| Customer screen shows the new status
+| 3 seconds or less
+| The customer may see outdated order information
+
+| Place Order response time
+| Time needed for the customer interface to react
+| Customer presses "Place Order"
+| Loading, confirmation, or error appears
+| 1 second or less
+| Customer may press the button again
+
+| Staff action response time
+| Time needed for staff interface feedback
+| Staff presses "Complete" or "Cancel"
+| Interface shows feedback or updated status
+| 1 second or less
+| Staff may think the action did not work
+
+| Status propagation latency
+| Time needed for the status to appear across the system
+| Status update is submitted
+| Status is visible on the needed screens
+| 3 to 5 seconds or less
+| Customer and staff may see different states
+
+| Multiple order throughput
+| How the system behaves when several orders are submitted close together
+| Multiple customers submit orders
+| Orders appear correctly on the staff dashboard
+| No major visible slowdown during normal use
+| Orders may appear late, missing, or out of order
+
+| Tracking availability
+| Whether tracking screens are usable when needed
+| User opens the tracking screen or staff dashboard
+| Current order information is displayed
+| Available during normal operating time
+| Users may not trust the tracking feature
+|===
+
+== Reason for the Thresholds
+
+These thresholds are only starting points. They are not production requirements.
+
+The 1 second threshold is used for button feedback because users usually expect the screen to react immediately after they press an important button. Even if the backend takes longer, the interface should at least show that something is happening.
+
+The 2 to 3 second range is used for order creation and dashboard updates because a short delay is expected when the app communicates with the backend. However, if the delay is longer than that, the order flow may feel unreliable.
+
+The 3 to 5 second range for status propagation gives some extra room because the update may involve the frontend, backend, database, and real-time subscription. If we later collect measurements, these numbers can be adjusted.
+
+== Regression Guardrails
+
+The following situations should be treated as warning signs:
+
+* The customer presses "Place Order" and receives no feedback within 1 second.
+* The order takes more than 2 seconds to be created under normal conditions.
+* A new order takes more than 3 seconds to appear on the staff dashboard.
+* The customer screen takes more than 3 seconds to show a status update.
+* Customer and staff views show different statuses for more than 5 seconds.
+* Staff has to refresh the dashboard to see new orders.
+* Multiple orders submitted close together cause missing or duplicated orders.
+* Completed or cancelled orders stay visible as active orders for too long.
+* Real-time updates work on one screen but not on another.
+
+== Regression Review Table
+
+[cols="1,2,2,2", options="header"]
+|===
+| Area
+| Expected behavior
+| Warning sign
+| Possible follow-up
+
+| Order creation
+| Order is saved within 2 seconds
+| Order creation feels delayed
+| Review backend order creation logic
+
+| Staff dashboard
+| New orders appear within 3 seconds
+| Staff must refresh manually
+| Review real-time dashboard updates
+
+| Customer status
+| Customer sees status changes within 3 seconds
+| Customer keeps seeing the old status
+| Review customer tracking updates
+
+| Staff actions
+| Complete or Cancel gives quick feedback
+| Button appears to do nothing
+| Add loading, success, or error feedback
+
+| Order consistency
+| Customer and staff see the same order state
+| Screens show different statuses
+| Review order state transitions
+
+| Busy periods
+| Multiple orders appear correctly
+| Orders are delayed, missing, or duplicated
+| Review backend updates and queue behavior
+|===
+
+== Future Testing Ideas
+
+This document can be used later to create manual checks or automated performance tests.
+
+Possible future checks:
+
+* Measure the time from pressing "Place Order" to order creation.
+* Measure the time from order creation to staff dashboard visibility.
+* Measure the time from staff status update to customer status update.
+* Submit several orders close together and check if the staff dashboard remains accurate.
+* Compare the measurements before and after changes to the order tracking logic.
+
+== Conclusion
+
+The real-time order tracking flow connects the customer side, backend, and staff dashboard. If this flow becomes slow or inconsistent, users may not know the correct order status.
+
+By defining these metrics, our team has a reference for what we should measure later and what performance problems should be considered regressions.
