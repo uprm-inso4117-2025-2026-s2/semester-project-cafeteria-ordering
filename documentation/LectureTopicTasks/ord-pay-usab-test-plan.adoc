@@ -1,0 +1,123 @@
+= Usability Test Plan for Ordering and Payments Feature
+
+:project: Cafeteria Ordering
+:issue: 541
+:assignee: @horebcotto21
+
+== Goal and Scope
+
+Tests managed in the ordering and payments feature should have as a goal, fluid flow of picking a menu item, adding to cart and paying for the item chosen with an optional path of modifying the quantity and ingredients from the menu item. The user should be able to pick an item, modify an ingredient and add quantity to the item chosen and add to cart. After, the user should be able to get to the payment screen and complete the transaction.
+
+The complete user interactioncan be subdivided in smaller steps at first if a user from higher age group and/or lower experience level  group cannot complete the task fully at first try. 
+
+== Categorazing Users
+
+Users chosen must cover the spectrum of experiences, ages and technicall skill. 
+
+- Demographic
+- Experience Level
+- SkillSet
+- Other
+
+==== Example user chart
+
+[cols="1,2,2,2", options="header"]
+|===
+| Demographic | Experience Level | Skillset | Other
+| 18-24
+| 
+| High School degree
+| relevant info
+
+| 25-35
+| Used a computer since 10 years old
+| Industrial Engineer graduate
+| Has used doordash
+
+| 35-50
+| Bachelor's degree
+| Type-level
+| relevant info
+
+| 50-70
+| Highly adept using phone apps/web apps
+| Software engineering professor
+| relevant info
+
+| 50-70
+| does not own a smartphone
+| Journalist, High school degree
+| relevant info
+|===
+
+
+== Conducting usability tests
+
+When conducting a test with an individual or a group, the conductor should not be on the phone, or watching tv. Their sole focus should in attending the users questions and guiding them when and where necessary in the 1-3 sets of tests and focused on taking notes of where users gets stuck.
+While task is being attempted by the users the conductor(s) should record the full interaction. 
+
+Tests according to DHS should be [3] _"Not more than 15-20 minutes per participant"_.
+
+=== Test Enviroment
+
+the room should be quiet and conductors should not have distractions.
+
+If on a phone:
+- the screen should be recorded with input pointer on
+- user should be recorded using the app in the phone, above shoulder the hands and the screen can be seen at the same time.
+- users face, to see if their expressions when successful and when stuck
+
+If on a computer:
+- the screen should be recorded
+- record keyboard and mouse
+- users face
+
+As recomended by presentation from M. Schütz [2] _"record full interaction, multiple cameras: mouse, trackpad, keyboard, screen, face"_
+
+==== Example enviroment chart
+
+[cols="1,2,2", options="header"]
+|===
+| Location | Equipment | Software
+
+| Municipality/building
+| PC/phone, camera, microphone etc
+| web app through (specify browser) / phone (specify make and model)
+|===
+
+=== Writing a task
+
+As described in the introduction of this document the tests will focus exclusively on the ordering and payments feature and should use all aspects of it. 
+
+A task that fits these parameters should have:
+
+- goals: access menu item modification screen, add item to cart, Access payment screen
+
+- hypothesis: user can excute any and all of the goals with minimal to no intervention from test conductor
+
+- a pass/fail condition: user needs to be able to complete the tasks in a few seconds, maximun of 30s per step specified in goals section.
+
+- notes: test conductor should add any note about the expected users, or concern about the current state of the and the expectations they have about the success of the tasks given to the users.
+
+==== Success Criteria
+
+- Navigation: is the software navegation intuitive and easy to use (according to users) note any difficulties encountered.
+
+- Readability: is text or symbols easy to read and understand, are colors and fonts consistent?
+
+- Accessibility: can users with disabilities (visual imparement,color blindness, motor skills) execute the task successfully.
+
+- Performance: does the app run as expected across devices (different phones, browsers)
+
+- Load times and speed: are screens and data inside loaded as expected.
+
+- User control: does the app feel responsive, can the users make the actions they want to make when they want to.
+
+
+== References
+
+[1] Nathan Vander Heyden, 12 Usability Testing Templates: Checklist and Examples. (April 22, 2026) Accessed: May 14, 2026. [Online]. Available: https://marker.io/blog/usability-testing-template 
+
+[2] Marko Schütz-Schmuck, Usability Testing pp 38,52. April 5, 2022. 
+
+[3] Dept. Homeland Security, DHS Usability Testing Kit. (February 27, 2025) Accessed: May 14, 2026. [Online]. Available: https://www.dhs.gov/cx/resources/guides-kits/dhs-usability-testing-kit
