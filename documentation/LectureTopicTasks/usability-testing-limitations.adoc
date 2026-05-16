@@ -1,0 +1,138 @@
+= Limitations of Usability Testing Applied to the Cafeteria Ordering System
+Cafeteria Ordering App — Lecture Topic Task
+@daniellameleroo
+:doctype: article
+:toc: left
+:toc-title: Table of Contents
+:sectnums:
+:icons: font
+
+---
+
+== Introduction
+
+This document applies the *Limitations of Usability Testing* concepts from the Usability Testing lecture (Schütz-Schmuck, 2022) to the Cafeteria Ordering System. While usability testing is a valuable tool for evaluating user experience, it carries inherent limitations that the development team must acknowledge and plan for. Each limitation is connected to a real risk or scenario specific to the Cafeteria Ordering app, along with a mitigation strategy.
+
+
+---
+
+== Limitation 1 — Testing Is Always Artificial
+
+=== Definition
+
+According to the lecture, usability testing is always conducted under artificial conditions. Even when efforts are made to simulate the real environment, the test setting is never fully equivalent to actual use. Participants know they are being observed, the tasks are assigned rather than self-motivated, and the consequences of errors are not real.
+
+=== Application to the Cafeteria Ordering App
+
+The Cafeteria Ordering app is designed to be used in a fast-paced cafeteria environment: students rushing between classes, loud surroundings, limited time to place an order before the line grows. A usability test conducted in a quiet lab or over a video call cannot replicate these real-world pressures.
+
+During testing, a participant may carefully read each screen and take their time navigating the menu. In a real cafeteria setting, the same user might miss the confirmation screen entirely because they are distracted by the noise or in a hurry.
+
+=== Example Scenario
+
+A tester successfully completes the order flow in under two minutes during a usability session. However, when the app is used during the actual lunch rush at the UPRM cafeteria, students struggle to find the cart icon because the screen is hard to read under direct sunlight and they are simultaneously trying to move through the line.
+
+=== Mitigation
+
+The team should complement usability testing with field observation, watching real students use the app in the actual cafeteria environment before the final release. Additionally, the design should prioritize high contrast, large touch targets, and minimal steps to complete an order to reduce the impact of real-world distractions.
+
+---
+
+== Limitation 2 — Testing Does Not Prove a Product Works
+
+=== Definition
+
+The lecture states that usability testing cannot prove that a product works correctly. A test session may pass without uncovering critical issues simply because the tasks chosen did not trigger them, or because the participants happened to avoid the problematic paths. Testing reduces uncertainty but does not eliminate it.
+
+=== Application to the Cafeteria Ordering App
+
+The Cafeteria Ordering app has multiple flows: login, menu browsing, ordering, order history, offline mode, profile management, and special requests. A usability test covering only the ordering flow would not reveal issues in the offline sync behavior or the profile editing screen. Passing a limited test set gives a false sense of completeness.
+
+=== Example Scenario
+
+The team runs a usability test focused on placing an order and everything passes. However, no test scenario covered what happens when the user loses connectivity mid-order. In production, several students experience a bug where the offline banner does not appear and the order silently fails without any feedback: a critical issue that was never triggered during testing.
+
+=== Mitigation
+
+The team should define a comprehensive test coverage plan that maps all critical user flows before designing test sessions. Usability testing should be paired with functional testing, integration testing, and the offline mode indicators already implemented in the app to ensure that edge cases are not left unverified.
+
+---
+
+== Limitation 3 — Participants Are Rarely Fully Representative
+
+=== Definition
+
+According to the lecture, the participants selected for usability testing are rarely a perfect representation of the full target population. Recruiting constraints, availability, and willingness to participate mean that certain user groups are often underrepresented or entirely absent from the test sample.
+
+=== Application to the Cafeteria Ordering App
+
+The Cafeteria Ordering app targets all students, faculty, and staff at UPRM: a diverse population that includes first-year students unfamiliar with mobile apps, older faculty members who may be less comfortable with technology, students with accessibility needs, and international students who may prefer a different language. A usability test conducted only with computer science students who are already comfortable with mobile apps would not reveal the issues experienced by less tech-savvy users.
+
+=== Example Scenario
+
+The team recruits five computer science students for their usability test. All participants complete the order flow quickly and report high satisfaction. However, when a faculty member in the Humanities department tries to use the app for the first time, they cannot find the logout button and are confused by the "Request Special Status" feature, neither of which was flagged during testing because the recruited participants instinctively understood the interface.
+
+=== Mitigation
+
+The team should recruit participants from multiple departments and include users with varying levels of technology familiarity. At minimum, test sessions should include one non-technical user and one user who has not previously seen the app. If full diversity is not achievable, the team should explicitly document which user groups were not represented and flag their flows as untested risks.
+
+---
+
+== Limitation 4 — Testing Is Not Always the Best Technique
+
+=== Definition
+
+The lecture notes that usability testing is not always the most appropriate or effective technique for every situation. Other evaluation methods — such as heuristic evaluation, cognitive walkthroughs, or expert reviews — may be faster, cheaper, or more effective at identifying certain types of issues, particularly in early design stages or when participant recruitment is not feasible.
+
+=== Application to the Cafeteria Ordering App
+
+Since the Cafeteria Ordering app is not yet fully implemented, conducting a formal usability test at this stage would be premature and potentially misleading. Many screens are still placeholders, the order history is not connected to a live API, and the offline sync behavior is still being implemented. Running a usability test on an incomplete product would produce results that do not reflect the final experience.
+
+=== Example Scenario
+
+The team decides to run a usability test on the current version of the app to meet a deadline. Participants encounter multiple screens that show placeholder text and non-functional buttons. The session produces mostly feedback about missing features rather than genuine usability insights, wasting both participant time and team resources.
+
+=== Mitigation
+
+At the current stage of development, the team should prioritize design reviews, heuristic evaluations using Nielsen's quality components, and BDD scenario writing over formal usability tests. Usability testing should be scheduled for when the core flows — login, ordering, and profile management, are fully functional and connected to the backend. This ensures that test results reflect real usability issues rather than incomplete implementation.
+
+---
+
+== Summary
+
+The following table summarizes the four limitations, their application to the Cafeteria Ordering app, and the corresponding mitigation strategies:
+
+[cols="1,2,2", options="header"]
+|===
+| Limitation
+| Risk for Cafeteria Ordering App
+| Mitigation
+
+| Testing is always artificial
+| Real cafeteria conditions (noise, rush, sunlight) cannot be replicated in a test session
+| Complement with field observation; design for distraction-heavy environments
+
+| Testing does not prove a product works
+| Passing a limited test set gives false confidence, offline and edge case flows may go untested
+| Define comprehensive coverage plan; pair usability testing with functional and integration testing
+
+| Participants are rarely representative
+| Testing only with tech-savvy CS students misses faculty, non-technical users, and accessibility needs
+| Recruit diverse participants; document untested user groups as known risks
+
+| Testing is not always the best technique
+| Testing an incomplete app produces feedback about missing features, not real usability issues
+| Delay formal testing until core flows are functional; use heuristic evaluation and BDD in the meantime
+|===
+
+---
+
+== Conclusion
+
+Usability testing is a valuable but imperfect tool. For the Cafeteria Ordering System, acknowledging these four limitations is essential to avoid drawing false conclusions from test results and to plan a testing strategy that genuinely improves the user experience. The team should use usability testing as one part of a broader quality assurance approach — combined with functional testing, design reviews, BDD scenarios, and field observation, to build a product that works reliably for all UPRM cafeteria users.
+
+---
+
+== Reference
+
+Schütz-Schmuck, M. (2022). _Usability Testing_. Department of Computer Science and Engineering, University of Puerto Rico at Mayagüez.
