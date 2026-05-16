@@ -1,0 +1,390 @@
+= Usability Testing Analysis for Order Confirmation and Feedback
+
+:project: Cafeteria Ordering
+:issue: 294
+:assignee: @Kaariinaa08
+
+== Overview
+
+This document analyzes how usability testing can be applied to the Order Confirmation and Feedback flow of the Cafeteria Ordering System.
+
+The focus of this analysis is on the experience users have immediately after submitting an order.
+
+Rather than evaluating the entire ordering process, this document focuses specifically on whether users can clearly understand that their order was submitted, review the submitted order details, recognize confirmation messages, understand the initial order status, and know what steps to take next.
+
+== Related Docs to Review
+
+This task builds on the existing usability testing document:
+
+`documentation/LectureTopicTasks/usability-testing-LTT.adoc`
+
+That document already provides a general usability testing approach for the Cafeteria Ordering System, including broad user interactions, testing scenarios, evaluation criteria, and usability risks.
+
+To avoid repeating that work, this analysis focuses only on the Order Confirmation and Feedback flow. It expands the existing high-level discussion of order confirmation by analyzing confirmation messages, order numbers, submitted order summaries, initial order status, next-step instructions, user hesitation, repeated actions, and recovery from possible mistakes.
+
+== Purpose of This Flow-Specific Analysis
+
+Usability testing helps determine whether users can complete typical tasks effectively, efficiently, and with satisfaction.
+
+For the Order Confirmation and Feedback flow, usability testing is important because this is the point where users need reassurance that their order was successfully received by the system.
+
+A confirmation screen may technically appear after submission, but that does not guarantee that users understand it.
+
+This analysis evaluates whether users can clearly answer questions such as:
+
+* Was my order submitted successfully?
+* What items did I order?
+* What is my order number?
+* What is the current status of my order?
+* What should I do next?
+* What should I do if something looks wrong?
+
+If users hesitate, repeat actions, refresh the page, or try to submit the order again, the confirmation and feedback flow may not be communicating clearly enough.
+
+== Selected Flow
+
+The selected flow begins after a user submits an order and ends once the user understands the system feedback shown after submission.
+
+This includes:
+
+* the order confirmation message
+* the submitted order summary
+* the order number or reference identifier
+* the initial order status
+* next-step instructions
+* any available recovery options after submission
+
+This analysis does not focus on menu browsing, item selection, cart management, or payment unless those steps directly affect the user’s understanding of the confirmation and feedback experience.
+
+== Typical Users
+
+For this flow, the main users are students using the Cafeteria Ordering System to submit food orders.
+
+Typical users may include:
+
+* students ordering food between classes
+* students using the system on a mobile device
+* first-time users unfamiliar with the ordering process
+* returning users who expect consistent system behavior
+* users in a hurry who need fast and clear feedback
+* users who may be distracted in a cafeteria environment
+
+These users need the system to provide feedback that is immediate, clear, and easy to understand.
+
+If the confirmation screen is confusing, users may lose confidence in the system or accidentally repeat the same action.
+
+== Confirmation-Specific Usability Tasks
+
+The usability test should focus on tasks that are directly related to the confirmation and feedback experience.
+
+=== Submit an Order and Recognize Confirmation
+
+The user submits an order and is asked whether they believe the order was successfully submitted.
+
+This task evaluates whether the confirmation message is noticeable and understandable.
+
+The evaluator should observe whether the user:
+
+* notices the confirmation message
+* understands that the order was submitted
+* hesitates before answering
+* attempts to submit the order again
+* expresses uncertainty about whether the order was received
+
+=== Locate the Order Number
+
+The user is asked to find the order number or reference identifier after submission.
+
+This task evaluates whether the order number is visible, clearly labeled, and easy to distinguish from other information.
+
+The evaluator should observe whether the user:
+
+* finds the order number quickly
+* understands that the number identifies the order
+* confuses the order number with another value
+* knows why the order number is important
+
+=== Review Submitted Order Details
+
+The user is asked to review the submitted order details after confirmation.
+
+This task evaluates whether the order summary is complete and readable.
+
+The confirmation screen should allow the user to verify:
+
+* ordered items
+* quantities
+* selected options or customizations
+* total cost, if applicable
+* pickup or order information, if applicable
+
+If users cannot easily review what they submitted, they may become uncertain about whether the correct order was placed.
+
+=== Interpret the Initial Order Status
+
+The user is asked to explain the current status of the order.
+
+For example, the system may display statuses such as:
+
+* Order received
+* Preparing
+* Pending confirmation
+* Ready for pickup
+
+This task evaluates whether users understand what the status means and what is happening with their order.
+
+The evaluator should observe whether the user:
+
+* understands whether the cafeteria received the order
+* knows whether the order is being prepared
+* understands whether they should wait or take action
+* interprets the status correctly
+
+=== Determine Next Steps
+
+The user is asked what they would do next after viewing the confirmation screen.
+
+This task evaluates whether the system gives clear instructions after submission.
+
+Useful next-step information may include:
+
+* wait for the order status to update
+* go to the pickup area when the order is ready
+* save or remember the order number
+* check order history for updates
+* contact staff if there is an issue
+
+If the user does not know what to do next, the confirmation flow may be incomplete.
+
+=== Recover from a Possible Mistake
+
+The user is asked what they would do if they noticed incorrect order details after submission.
+
+This task evaluates whether the interface communicates recovery options clearly.
+
+Possible recovery paths may include:
+
+* canceling the order
+* editing the order, if supported
+* contacting cafeteria staff
+* viewing order history
+* returning to the menu without losing confirmation information
+
+Even if the system does not support editing after submission, the user should still understand what options are available.
+
+== Potential Usability Issues
+
+Several usability issues may appear in the Order Confirmation and Feedback flow.
+
+=== Unclear Confirmation Message
+
+A vague message such as “Done” or “Submitted” may not clearly tell the user that the order was successfully received.
+
+A clearer confirmation message would be:
+
+* “Your order has been submitted successfully.”
+* “Order received. Your order number is #1234.”
+
+If the message is unclear, users may refresh the page, go back, or submit the order again.
+
+=== Weak Visual Feedback
+
+The confirmation message may be present but not visually noticeable.
+
+This can happen if the message is too small, poorly positioned, or visually similar to other content on the page.
+
+If users do not naturally notice the confirmation, the system feedback is not strong enough.
+
+=== Missing or Confusing Order Number
+
+If the order number is missing or poorly labeled, users may not know how to reference their order.
+
+They may also confuse the order number with another value, such as a receipt number, transaction number, or item count.
+
+=== Incomplete Order Summary
+
+If the confirmation screen does not show a clear summary of the submitted order, users may be unsure whether the correct items were ordered.
+
+This is especially important when the order includes multiple items, quantities, or customizations.
+
+=== Ambiguous Order Status
+
+A status such as “Pending” may be unclear because users may not know what is pending.
+
+The status could mean the order is pending submission, pending cafeteria approval, pending payment, or pending preparation.
+
+The system should use status labels that are specific and understandable from the user’s perspective.
+
+=== Lack of Next-Step Instructions
+
+After submitting an order, users should know what to do next.
+
+If the system does not explain the next step, users may hesitate or leave the page without understanding whether they should wait, pick up the order, or check another screen.
+
+=== Repeated Actions or Duplicate Submissions
+
+If users are unsure whether their order was submitted, they may click submit again or refresh the page.
+
+This can lead to duplicate orders or confusion.
+
+A strong confirmation flow should prevent repeated actions by clearly communicating that the order has already been received.
+
+=== Poor Mobile Experience
+
+Students may use the Cafeteria Ordering System from a mobile device.
+
+Possible mobile usability issues include:
+
+* important confirmation information appearing too far down the page
+* buttons being too close together
+* the order number being hard to read
+* the order summary requiring excessive scrolling
+* status messages being visually weak
+
+The confirmation screen should remain clear and usable on smaller screens.
+
+== Nielsen’s Usability Quality Components
+
+The Order Confirmation and Feedback flow can be evaluated using Nielsen’s usability quality components.
+
+=== Learnability
+
+Learnability refers to how easy it is for first-time users to understand the system.
+
+For this flow, users should quickly understand:
+
+* that the order was submitted
+* where to find the order number
+* what the order status means
+* what they should do next
+
+If first-time users need help understanding the confirmation screen, the flow may need clearer wording, better layout, or stronger visual feedback.
+
+=== Efficiency
+
+Efficiency refers to how quickly users can complete tasks after understanding the system.
+
+For this flow, users should be able to quickly:
+
+* recognize the confirmation message
+* find the order number
+* review the submitted order
+* understand the order status
+* decide what to do next
+
+Users should not need to visit multiple pages to confirm basic order information.
+
+=== Memorability
+
+Memorability refers to how easily returning users can remember how to use the system after time away.
+
+For this flow, returning users should remember where confirmation details appear and how to interpret the order status.
+
+Consistent wording, layout, and labels help make the confirmation flow easier to remember.
+
+=== Errors
+
+Errors refer to mistakes users make and how easily they can recover from them.
+
+Possible errors in this flow include:
+
+* submitting the order more than once
+* leaving the page before reading the order number
+* misunderstanding the order status
+* assuming the order is ready when it is only received
+* failing to notice incorrect order details
+* not knowing how to fix a problem after submission
+
+The usability test should observe both the errors and the user’s ability to recover from them.
+
+=== Satisfaction
+
+Satisfaction refers to how comfortable and confident users feel when using the system.
+
+For this flow, users should feel reassured after submitting an order.
+
+A satisfying confirmation experience should make users feel that:
+
+* the system responded clearly
+* the order was received
+* the submitted details are correct
+* the next step is obvious
+* the system is reliable
+
+If users express uncertainty or frustration, the confirmation and feedback flow may need improvement.
+
+== Observable Interaction Data
+
+Usability testing should collect observable data from user behavior.
+
+Useful observation criteria include:
+
+* time taken to recognize the confirmation message
+* time taken to locate the order number
+* time taken to understand the order status
+* number of repeated clicks
+* number of repeated submission attempts
+* moments of hesitation
+* verbal expressions of uncertainty
+* incorrect interpretation of status messages
+* difficulty finding next-step instructions
+* user confidence after completing the flow
+* user satisfaction after reviewing the confirmation screen
+
+This data helps determine whether the confirmation screen is actually understandable, not just whether it appears correctly.
+
+== Advantages of Usability Testing for This Flow
+
+Usability testing provides several advantages for evaluating the Order Confirmation and Feedback flow.
+
+It helps reveal whether users actually understand the confirmation feedback after submitting an order.
+
+It can expose issues such as unclear wording, weak visual feedback, confusing order status labels, missing order details, or lack of next-step instructions.
+
+It also helps identify behaviors that may not appear in a technical review, such as hesitation, repeated clicks, duplicate submission attempts, or uncertainty.
+
+For this flow, usability testing is especially valuable because the confirmation experience directly affects user trust in the system.
+
+== Limitations of Usability Testing for This Flow
+
+Usability testing also has limitations.
+
+A small group of test users may not represent all cafeteria users.
+
+Test conditions may not fully match the real cafeteria environment, where users may be rushed, distracted, or using mobile devices in crowded areas.
+
+Users may also behave differently when they know they are being observed.
+
+Additionally, usability testing can identify confusion, but it does not automatically determine the best design solution.
+
+Because of these limitations, usability testing should be combined with other evaluation methods, such as heuristic evaluation, system logs, user feedback, and review of actual order behavior.
+
+== Recommendations
+
+Based on this analysis, the Order Confirmation and Feedback flow should prioritize clarity, visibility, and user confidence.
+
+Recommended improvements include:
+
+* use a direct success message confirming that the order was submitted
+* display the order number prominently
+* show a clear summary of the submitted order
+* use understandable order status labels
+* provide clear next-step instructions
+* prevent duplicate submissions after the order is received
+* support mobile-friendly layout and spacing
+* explain recovery options if the user notices a mistake
+* keep terminology consistent across the ordering process
+
+These recommendations should be validated through usability testing with representative users.
+
+== Conclusion
+
+Usability testing is an effective way to evaluate the Order Confirmation and Feedback flow of the Cafeteria Ordering System.
+
+This flow is important because users need to feel confident that their order was successfully submitted and that they understand what happens next.
+
+By observing how users recognize confirmation messages, locate order numbers, review submitted details, interpret order status, and decide next steps, evaluators can identify whether the system feedback is clear and useful.
+
+Applying Nielsen’s usability quality components helps evaluate the flow in terms of learnability, efficiency, memorability, errors, and satisfaction.
+
+A successful confirmation and feedback flow should reduce uncertainty, prevent repeated actions, and give users confidence that their order was received.
