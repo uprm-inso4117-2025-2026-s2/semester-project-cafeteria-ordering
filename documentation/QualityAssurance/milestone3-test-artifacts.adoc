@@ -2,6 +2,13 @@
 :toc:
 :toclevels: 2
 :sectnums:
+:release-date: 2026-05-16
+
+== Document Metadata
+
+* Release Date: {release-date}
+* Related Issue: #587
+* Scope: Milestone 3 QA test artifacts currently present in the repository at the time of release.
 
 == Overview
 
