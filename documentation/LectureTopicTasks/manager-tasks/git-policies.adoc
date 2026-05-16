@@ -1,0 +1,199 @@
+= Branch Protection Policy for Cafeteria Ordering Baseline
+:author: @TaimaraColon
+:toc:
+
+== Overview
+
+This document explains how branch protection policies are used in the cafeteria ordering project to enforce a gated baseline and maintain a stable production-ready system. The policy ensures that all changes integrated into the `main` branch are reviewed, tested, and approved before merging.
+
+The protected baseline helps prevent unstable features such as incorrect order calculations, broken order validation, or incomplete menu updates from affecting the core system.
+
+== Repository Information
+
+* Platform: GitHub
+* Protected Branch: `main`
+* Workflow Model: Feature Branch → Pull Request → Review → Merge
+
+
+== Gated Baseline Concept
+
+A gated baseline is a protected version of the project where only validated and approved changes can be integrated. The `main` branch represents the stable baseline of the cafeteria ordering system.
+
+Before code is merged into the baseline:
+
+* Automated tests must pass
+* Pull requests must be reviewed
+* Required approvals must be completed
+* Direct modifications to `main` are blocked
+
+This process reduces the risk of introducing unstable features into the production environment.
+
+For the cafeteria ordering system, the gated baseline ensures that critical functionality such as:
+
+* order submission
+* menu updates
+* payment calculations
+* order validation
+
+continues working correctly after every integration.
+
+== Branch Protection Rules
+
+The project uses GitHub branch protection rules to enforce repository policies and maintain reliability.
+
+=== Enabled Protection Rules
+
+[cols="1,3"]
+|===
+|Rule |Purpose
+
+|Require pull request before merging
+|Prevents developers from merging code directly into `main`
+
+|Minimum approvals required: 2
+|Requires approval from both the Team Lead and Manager before merge
+
+|Restrict deletions
+|Prevents accidental deletion of the protected branch
+
+|Block force pushes
+|Protects commit history and prevents unauthorized overwrites
+|===
+
+== Automated Test Enforcement
+
+The repository includes an automated CI workflow named:
+
+----
+auto-test suite
+----
+
+The workflow executes automatically when:
+
+* code is pushed to `main`
+* a pull request targeting `main` is opened, updated, or reopened
+
+=== CI Workflow Responsibilities
+
+The automated workflow performs the following actions:
+
+* Checks out the repository
+* Configures Node.js
+* Installs project dependencies
+* Compiles TypeScript CI scripts
+* Executes automated validation tests
+
+The workflow helps detect failures before integration into the baseline.
+
+=== Example Protected Workflow
+
+[source,text]
+----
+Developer creates feature branch
+        ↓
+Developer submits pull request
+        ↓
+GitHub executes auto-test suite
+        ↓
+Tests fail for order validation
+        ↓
+Pull request cannot be merged
+        ↓
+Developer fixes issue and re-runs tests
+        ↓
+Team Lead and Manager approve PR
+        ↓
+Merge allowed into main
+----
+
+=== Recommended Feature Testing Policy
+
+To further strengthen baseline reliability, every new feature should be accompanied by a dedicated automated test suite.
+
+The recommended process is:
+
+* Create tests that define the expected behavior of the feature
+* Ensure the tests initially fail before implementation
+* Implement the feature functionality
+* Verify that all new and existing tests pass after implementation
+
+This approach helps validate that the feature was implemented correctly and prevents incomplete or unstable functionality from being merged into the protected baseline.
+
+Example workflow:
+
+[source,text]
+----
+Developer creates feature branch
+        ↓
+Developer writes automated tests for new feature
+        ↓
+Tests fail because feature is not implemented yet
+        ↓
+Developer implements feature
+        ↓
+Tests pass successfully
+        ↓
+Pull request opened against main
+        ↓
+CI pipeline validates all tests
+        ↓
+Review approvals completed
+        ↓
+Merge allowed into protected baseline
+----
+
+This testing strategy improves confidence in new features and helps ensure that all functionality integrated into `main` is verifiable.
+
+== Cafeteria Ordering Project Example: Rejecting Failed Order Validation
+
+A new feature modifies order submission behavior but introduces a validation error that allows incomplete orders.
+
+The CI pipeline executes validation tests and detects the issue.
+
+Because required checks do not pass:
+
+* the pull request remains blocked
+* reviewers cannot approve deployment readiness
+* the feature must be corrected before integration
+
+== Lecture Topic Task and QA Approval Requirements
+
+If the pull request is classified as an LTT-related task, additional QA review policies apply.
+
+The pull request must:
+
+* Follow the official QA guidelines for LTT approval
+* Receive approval from one member of the QA team
+* Also receive approval from the Team Lead and Manager
+
+This additional verification ensures testing reliability, consistency, and compliance with internal QA procedures.
+
+== Required Reviews and Modifications
+
+The following items must be reviewed before merging into the protected baseline:
+
+* Pull request description
+* Test execution results
+* CI workflow status
+* Feature branch implementation
+* Team Lead approval
+* Manager approval
+* QA approval for LTT-related tasks
+
+== Constraints and Reliability Requirements
+
+The project policies enforce the following constraints:
+
+* No direct commits to `main`
+* No force pushes allowed
+* No unreviewed merges
+* All required approvals must be completed
+* All automated checks must pass before integration
+
+These constraints ensure the cafeteria ordering system remains stable, traceable, and reliable.
+
+== Conclusion
+
+The branch protection policy establishes a controlled gated baseline for the cafeteria ordering project. By enforcing pull request reviews, automated testing, and approval requirements, it prevents unstable functionality from entering the `main` branch.
+
+This process improves reliability, protects the production baseline, and ensures that cafeteria ordering features remain stable.
