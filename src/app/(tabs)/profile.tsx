@@ -1,5 +1,3 @@
-import { useFocusEffect } from 'expo-router';
-import { useCallback } from 'react';
 import { getProfileByUserId } from "@/lib/profiles";
 import { Colors, Typography } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -7,8 +5,8 @@ import { supabase } from "@/lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
-import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useRouter, useFocusEffect } from "expo-router";
+import { useEffect, useState, useCallback } from "react";
 import {
   Alert,
   Image,

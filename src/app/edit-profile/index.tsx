@@ -1,7 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { getProfileByUserId, updateProfileName, updateProfilePhone } from '@/lib/profiles';
-import { useEffect } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,

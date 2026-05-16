@@ -204,23 +204,13 @@ export default function SignUpScreen() {
         },
       });
 
-      /*if (error) {
+      if (error) {
         setAuthMessage(mapSignUpError(error.message));
         return;
       }
 
       if (!data.user) {
         setAuthMessage('Unable to create account right now. Please try again.');
-        return;
-      }*/
-     
-      if (error) {
-        setAuthMessage(error.message); // show raw error instead of mapped one
-        return;
-      }
-
-      if (!data.user) {
-        setAuthMessage('data.user is null – session: ' + JSON.stringify(data.session));
         return;
       }
 
