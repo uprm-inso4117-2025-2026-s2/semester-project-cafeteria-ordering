@@ -18,7 +18,11 @@
     "test:jest:coverage": "jest --coverage",
     "test:jest:signup": "jest src/tests/authentication",
     "test:jest:verbose": "jest --verbose",
-    "test:all": "npm run test:cucumber && npm run test:jest"
+    "test:all": "npm run test:cucumber && npm run test:jest",
+    "test:ui": "playwright test",
+    "test:ui:ui": "playwright test --ui",
+    "test:ui:report": "playwright show-report",
+    "postinstall": "npx playwright install --with-deps"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -77,7 +81,8 @@
     "prettier": "^3.8.1",
     "react-test-renderer": "19.2.4",
     "tsx": "^4.21.0",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "@playwright/test": "^1.44.0"
   },
   "jest": {
     "preset": "jest-expo"

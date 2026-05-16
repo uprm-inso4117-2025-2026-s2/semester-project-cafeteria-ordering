@@ -1,0 +1,43 @@
+name: "Playwright UI Verification Suite"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+jobs:
+  playwright-e2e:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Repository Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Workspace Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Clean Install App Architecture Dependencies
+        run: npm ci
+
+      - name: Download Headless Browser Binaries & System OS Dependencies
+        run: npx playwright install --with-deps
+
+      - name: Execute Playwright E2E UI Tests
+        run: npm run test:ui
+        env:
+          EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
+          EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
+          CI: true
+
+      - name: Archive Test Run Results HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
