@@ -1,0 +1,228 @@
+= Ordering and Payments LTL System Properties
+
+== 1. Objective
+
+This document defines Linear Temporal Logic (LTL) properties for the Ordering and Payments workflow in the Cafeteria Ordering System.
+
+The purpose of these properties is to describe how customer-facing order submission, payment handling, order confirmation, cancellation, and visible feedback should evolve over time. The properties are documentation-only and are intended to help the team reason about correctness, user trust, and workflow reliability.
+
+== 2. Time-Dependent Ordering and Payments Behaviors
+
+The Ordering and Payments workflow contains several behaviors that depend on time, sequence, or state progression:
+
+* A customer submits an order before payment is completed.
+* A payment can remain pending while the payment provider or backend processes the transaction.
+* An order should only be confirmed after the payment succeeds.
+* A failed payment should lead to visible failure feedback instead of a completed order.
+* A successful payment should eventually produce confirmation feedback for the customer.
+* A submitted order should eventually reach a visible status, confirmation, cancellation, or failure state.
+* A cancelled order should remain cancelled and should not later become completed.
+* Terminal states such as Completed, Cancelled, and Payment Failed should prevent conflicting later states.
+
+== 3. Atomic Propositions
+
+The following atomic propositions are used in the LTL expressions:
+
+[cols="1,3", options="header"]
+|===
+| Proposition | Meaning
+
+| `submitted`
+| The customer has submitted an order.
+
+| `payment_pending`
+| The payment has started but has not yet succeeded or failed.
+
+| `payment_success`
+| The payment has been approved or marked successful.
+
+| `payment_failed`
+| The payment has been rejected, declined, or marked failed.
+
+| `confirmed`
+| The order has been confirmed by the system.
+
+| `completed`
+| The order has reached a completed order state.
+
+| `cancelled`
+| The order has been cancelled.
+
+| `visible_status`
+| The customer can see a meaningful order/payment status, such as Pending Payment, Payment Failed, Confirmed, Cancelled, or Completed.
+
+| `confirmation_feedback`
+| The customer receives visible confirmation feedback, such as a confirmation screen, confirmation ID, or success message.
+|===
+
+The LTL operators used in this document are:
+
+* `G`: always/globally
+* `F`: eventually
+* `X`: next state
+* `!`: not
+* `&`: and
+* `|`: or
+* `->`: implies
+
+== 4. LTL Properties
+
+=== Property 1: Orders Are Not Confirmed Before Payment Success
+
+*LTL expression:*
+
+[source]
+----
+G(confirmed -> payment_success)
+----
+
+*Classification:* Safety property
+
+*Guarantee:*
+
+This property guarantees that every confirmed order has already reached a successful payment state. The system must never show or store an order as confirmed while payment is pending, failed, missing, or unknown.
+
+*Failure examples prevented:*
+
+* The backend marks an order as confirmed before receiving payment provider approval.
+* The customer sees a confirmation screen while the payment is still pending.
+* A race condition updates the order status before the payment status is validated.
+* A confirmation ID is generated without a successful payment.
+
+=== Property 2: Submitted Orders Eventually Reach a Visible Outcome
+
+*LTL expression:*
+
+[source]
+----
+G(submitted -> F(visible_status))
+----
+
+*Classification:* Liveness property
+
+*Guarantee:*
+
+This property guarantees that once a customer submits an order, the system eventually provides a visible outcome. The user should not remain stuck indefinitely without feedback after pressing the submit or payment button.
+
+The visible outcome may be a pending payment status, payment failure message, order confirmation, cancellation state, or completed state.
+
+*Failure examples prevented:*
+
+* The app stays forever on a loading screen after order submission.
+* A network timeout leaves the customer unsure whether the order was received.
+* The order exists in the database but no customer-facing status is shown.
+* Payment processing fails silently without displaying an error or retry path.
+
+=== Property 3: Failed Payments Do Not Create Completed Orders
+
+*LTL expression:*
+
+[source]
+----
+G(payment_failed -> G(!completed))
+----
+
+*Classification:* Safety property
+
+*Guarantee:*
+
+This property guarantees that after payment fails for the affected order lifecycle, the order must not later become completed. A failed payment is treated as a blocking terminal outcome for that payment/order path, so completion requires a separate valid order or payment flow instead of reusing the failed path.
+
+*Failure examples prevented:*
+
+* A declined card payment still results in a completed order.
+* Staff receives an unpaid order as ready for fulfillment.
+* A retry bug reuses a failed payment record and completes the order incorrectly.
+* A delayed callback changes the order to completed even though the payment was rejected.
+
+=== Property 4: Successful Payments Eventually Produce Confirmation Feedback
+
+*LTL expression:*
+
+[source]
+----
+G(payment_success -> F(confirmation_feedback))
+----
+
+*Classification:* Liveness property
+
+*Guarantee:*
+
+This property guarantees that once payment succeeds, the customer eventually receives clear confirmation feedback. Payment success should not be a hidden backend-only event; it must become visible through the customer interface.
+
+*Failure examples prevented:*
+
+* The payment provider charges the customer, but the app never shows a confirmation message.
+* A successful transaction is stored, but no confirmation ID is returned.
+* The customer retries payment because the success state was never displayed.
+* The order is confirmed internally while the customer remains on a pending screen.
+
+=== Property 5: Cancelled Orders Do Not Later Become Completed
+
+*LTL expression:*
+
+[source]
+----
+G(cancelled -> G(!completed))
+----
+
+*Classification:* Safety property
+
+*Guarantee:*
+
+This property guarantees that once an order is cancelled, it remains incompatible with completion. Cancellation is treated as a terminal state for the customer-facing order lifecycle.
+
+*Failure examples prevented:*
+
+* A cancelled order reappears in the staff queue as active.
+* A delayed payment success callback completes an order after the customer cancelled it.
+* Staff accidentally prepares an order that the customer no longer expects.
+* A stale client state overwrites Cancelled with Completed.
+
+== 5. Summary of Properties
+
+[cols="1,3,2,4", options="header"]
+|===
+| ID | LTL Expression | Type | Workflow Meaning
+
+| P1
+| `G(confirmed -> payment_success)`
+| Safety
+| Confirmation is never allowed before successful payment.
+
+| P2
+| `G(submitted -> F(visible_status))`
+| Liveness
+| Submitted orders eventually show a meaningful customer-facing status.
+
+| P3
+| `G(payment_failed -> G(!completed))`
+| Safety
+| Failed payments cannot later produce completed orders.
+
+| P4
+| `G(payment_success -> F(confirmation_feedback))`
+| Liveness
+| Successful payments eventually produce confirmation feedback.
+
+| P5
+| `G(cancelled -> G(!completed))`
+| Safety
+| Cancelled orders cannot later become completed.
+|===
+
+== 6. How LTL Supports Correctness, User Trust, and Reliability
+
+LTL helps the team describe expected Ordering and Payments behavior across time, not only in one isolated state. This is important because payment workflows involve asynchronous events, delayed callbacks, retries, cancellation, and UI updates that may happen in different orders.
+
+These properties support correctness by defining which states are valid before and after payment outcomes. For example, they prevent confirmed or completed orders from appearing before successful payment, and they prevent failed or cancelled orders from later becoming completed.
+
+They support user trust by requiring visible outcomes and confirmation feedback. Customers should always know whether their order is pending, confirmed, failed, cancelled, or completed, especially after money may have been charged.
+
+They support workflow reliability by making terminal and blocking states explicit. Staff should not prepare unpaid or cancelled orders, customers should not be charged without feedback, and the system should not leave submitted orders in unclear states.
+
+== 7. Review Readiness
+
+This document identifies time-dependent Ordering and Payments behaviors, defines multiple LTL expressions, classifies each expression as safety or liveness, explains the guarantees provided by each property, and lists examples of failures the properties help prevent.
+
+The specification is ready for review by the team.
