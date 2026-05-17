@@ -1,0 +1,20 @@
+= Customer Ordering Load Testing Report
+Lorenzo Perez Torres @Lorenzo-PT
+
+*Date:* 2026-05-16
+
+*ID:* TR-ORD-04
+
+*Issue:* #570
+
+*Test:* TC-ORD-04-Load-Testing 
+
+*Pass/Fail Status:* FAIL
+
+
+== Description
+This report presents the results of testing conducted on the payment flow of the Cafeteria Ordering System, based on the design of the payment screen. The goal was to understand how the system behaves under different levels of user activity and whether it remains responsive and reliable during normal and peak usage. 
+
+This did not pass however, as the cart and checkout areas responded, but some gave error codes which failed some test orders. Also, the response time and latency were below expectations. 
+
+In order for the cafeteria Ordering project to be able to mantain consistent orders during rush hours, these bottlenecks must be fixed so that this test can be ran once again to have better results.
