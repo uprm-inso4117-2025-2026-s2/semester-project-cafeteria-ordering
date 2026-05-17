@@ -14,8 +14,10 @@ Preconditions
 */
 
 
-//Test Data
+//Test Dataa
+/* global __ENV */
 /* eslint-disable import/no-unresolved */
+
 import { check, sleep } from 'k6';
 import http from 'k6/http';
 import { Rate, Trend } from 'k6/metrics';
