@@ -65,6 +65,23 @@ export default function App() {
 
 . Check the console in Expo Go or your browser for test results.
 
+== Auth Session Creation Test
+
+Use this when you need a quick “backend-auth sanity check” (login -> session -> sign out):
+
+[source,bash]
+----
+npm run test:supabase:auth-session
+----
+
+This requires a confirmed test user in your `.env`:
+
+[source,bash]
+----
+SUPABASE_TEST_LOGIN_EMAIL=test-user@example.com
+SUPABASE_TEST_LOGIN_PASSWORD=your-test-password
+----
+
 == Related Test Assets
 
 * Cases: `src/tests/supabase/cases/`
