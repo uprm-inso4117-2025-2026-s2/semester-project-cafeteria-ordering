@@ -1,0 +1,251 @@
+= Fuzz Testing Research for Cafeteria Ordering and Payment System = 
+:toc:
+:toclevels: 3
+
+== Overview == 
+Fuzz testing (or fuzzing) is a software testing technique that automatically provides unexpected, random, invalid, or malformed inputs to a system in order to identify crashes, security vulnerabilities, validation weaknesses, and stability issues.
+
+For the cafeteria ordering and payment system, fuzz testing strengthens reliability by ensuring the system safely handles incorrect user inputs, malformed API requests, invalid cart states, and payment edge cases without crashing or exposing vulnerabilities.
+
+This document aims to identify where, how, and why fuzz testing should be applied within the cafeteria ordering and payment system.
+
+== Objectives of Fuzz Testing Research ==
+This research aims to:
+
+- Identify system components most vulnerable to malformed inputs
+- Propose realistic fuzz testing scenarios
+- Highlight potential failure points and vulnerabilities
+- Recommend fuzz testing strategies and tools
+- Analyze risks and benefits of fuzz testing
+
+== Types of Fuzz Testing ==
+=== Random Input Generation ===
+Random inputs simulate unpredictable user behavior and system misuse. 
+
+Examples:
+
+- Extremely large numbers
+- Random strings
+- Empty/null values
+
+Purpose:
+
+- Identify validation gaps
+- Reveal edge-case failures
+
+=== Invalid and Malformed Request Testing ===
+Focuses on how APIs should behave when receiving incorrect data.
+
+Examples:
+
+- Missing fields
+- Incorrect JSON structure
+- Wrong data types
+
+Purpose:
+
+- Ensure safe error handling
+- Prevent crashes and undefined behavior
+
+=== API Fuzzing ===
+Targets backend endpoints in a theoretical or future testing setup
+
+- /orders
+- /cart
+- /payment
+- /applyPromo
+- /search
+
+Example scenarios:
+
+[cols="1,3", options="header"]
+|===
+|Endpoint |Potential Fuzz Scenario
+
+|/orders
+|Empty or extremely large orders
+
+|/payment
+|Invalid card data, negative amounts
+
+|/applyPromo
+|Injection attempts or long inputs
+
+|/search
+|Excessively long query strings
+|===
+
+=== Additional API Fuzzing Scenarios ===
+
+[cols="1,3", options="header"]
+|===
+|Scenario |Expected Secure Behavior
+
+|Duplicate payment requests
+|Prevent double charging and reject repeated transaction IDs
+
+|Expired authentication token
+|Return controlled 401 Unauthorized response
+
+|Malformed JSON body
+|Reject request without crashing backend service
+
+|Rapid cart update requests
+|Maintain cart consistency and prevent race conditions
+
+|Large payload submission
+|Reject oversized requests safely
+|===
+
+=== Form Input Fuzzing ===
+Targets user input fields
+
+Examples:
+
+- Long strings
+- Script injection attempts
+- Invalid formats 
+
+Purpose:
+
+- Improve front-end validation design
+- Prevent runtime UI errors
+
+=== Crash Detection and Exception Handling ===
+Defines expected system behavior under failure conditions
+
+System should:
+
+- Reject invalid inputs safely
+- Return controlled error responses
+- Log failures without exposing sensitive data
+
+== Cafeteria System Components Fuzzing Targets ==
+=== Order Submission ===
+Potential Issues:
+
+- Invalid quantities
+- Empty or oversized orders
+
+=== Cart Management ===
+Potential Issues:
+
+- Rapid updates causing inconsistency
+- Invalid item identifiers
+
+=== Payment Processing ===
+Potential Issues:
+
+- Invalid payment details
+- Negative transaction amounts
+
+=== Promo Code Validation === 
+Potential Issues:
+
+- Injection attacks
+- Abuse through repeated or malformed codes
+
+=== Search and Filter ===
+Potential Issues:
+
+- Performance degradation
+- Injection vulnerabilities
+
+== Cafeteria-Specific Malformed Inputs (Examples) ==
+
+[cols="1,2", options="header"]
+|===
+|Component |Example
+
+|Order Quantity
+|-999
+
+|Order Total
+|9999999999.99
+
+|Menu Item ID
+|NULL
+
+|Promo Code
+|DROP TABLE orders;
+
+|Search
+|<script>alert('xss')</script>
+
+|Pickup Time
+|25:99 PM
+
+|Payment
+|-500.00
+
+|Cart Quantity
+|999999999999
+|===
+
+These inputs represent potential fuzz data for testing scenarios.
+
+== Recommended Tools (For Future Implementation) ==
+
+[cols="1,2,3", options="header"]
+|===
+|Tool |Purpose |Compatibility Justification
+
+|OWASP ZAP
+|Web and API fuzzing
+|Works at HTTP level; ideal for testing React frontend and Supabase APIs
+
+|Burp Suite Community
+|Request interception and fuzzing
+|Allows fuzzing of requests sent from React app to backend APIs
+
+|Postman
+|API testing and fuzzing
+|Supports JavaScript, making it suitable for TypeScript-based environments
+
+|RESTler
+|REST API fuzzing
+|Designed specifically for REST APIs
+
+|Jest
+|Logic-level testing
+|Fully compatible with TypeScript for testing input validation logic
+
+|Playwright
+|UI and form fuzzing
+|Works directly with React apps to simulate real user input scenarios
+|===
+
+== Benefits of Fuzz Testing ==
+
+- Improves system reliability by identifying unexpected crashes, unhandled exceptions, and unstable system states caused by malformed or edge-case user inputs in ordering, cart, and payment workflows.
+- Enhances security posture by exposing input validation weaknesses that could be exploited for attacks such as SQL injection, cross-site scripting, or payment manipulation.
+- Identifies edge-case failures that are unlikely to appear in normal user testing, such as extremely large order quantities, invalid promo codes, or malformed payment payloads.
+- Strengthens input validation design by revealing gaps between frontend validation and backend enforcement, ensuring consistent validation across API and form layers.
+- Improves system robustness under real-world abuse scenarios such as rapid repeated requests, invalid JSON payloads, and unexpected user behavior during checkout.
+
+== Risks and Limitations ==
+
+- Resource intensive when implemented, as large-scale fuzzing can generate high volumes of requests that increase testing time, system load, and CI/CD execution cost.
+- May produce false positives because randomly generated inputs can trigger non-critical errors that do not represent exploitable vulnerabilities in production.
+- Does not guarantee full coverage, since fuzzing is probabilistic and may miss deeply nested logic issues or business-rule vulnerabilities that require structured test cases.
+- Can introduce noise in test results, making it harder to distinguish between harmless input rejections and meaningful security or stability issues without proper filtering and logging.
+
+== Security and Stability Concerns ==
+
+- Payment fraud vulnerabilities may occur if invalid transaction values or repeated requests are not properly validated.
+- SQL injection risks can arise when search or promo code inputs are improperly sanitized before database queries.
+- Cross-site scripting attacks may allow malicious scripts to execute in user browsers if search fields or special instructions are rendered without sanitization.
+- Cart manipulation vulnerabilities may allow users to alter item quantities or prices through malformed API requests.
+- Promo code abuse may lead to repeated discount application or bypass of business rules.
+
+== Recommendations ==
+
+- Use this document as a blueprint for future fuzz testing implementation
+- Prioritize high-risk areas (payment, orders, promo)
+- Implement server-side validation for payment amounts and item quantities to prevent cart manipulation and negative transaction values.
+- Sanitize promo code and search inputs to reduce SQL injection and XSS risks.
+- Add rate limiting to payment and promo endpoints to prevent abuse through repeated malformed requests.
+- Improve transaction logging to help detect repeated payment failures and suspicious fuzzing activity.
+
+== Conclusion ==
+This research identifies how fuzz testing can be applied to the cafeteria ordering and payment system. While no testing is performed, it provides a structured framework for future fuzzing efforts, highlighting key risks, targets, and strategies.
