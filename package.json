@@ -12,13 +12,18 @@
     "test:build": "npx expo export",
     "ci-check": "node ./scripts/ci-check.js",
     "test:cucumber": "cucumber-js",
+    "test:supabase:auth-session": "npx tsx src/tests/supabase/scripts/auth-session.test.ts",
     "build:tests": "tsc src/tests/suites/auto_test_suite.ts --outDir build/ci-build --module commonjs --target es6",
     "test:jest": "jest",
     "test:jest:watch": "jest --watch",
     "test:jest:coverage": "jest --coverage",
     "test:jest:signup": "jest src/tests/authentication",
     "test:jest:verbose": "jest --verbose",
-    "test:all": "npm run test:cucumber && npm run test:jest"
+    "test:all": "npm run test:cucumber && npm run test:jest",
+    "test:ui": "playwright test",
+    "test:ui:ui": "playwright test --ui",
+    "test:ui:report": "playwright show-report",
+    "postinstall": "npx playwright install --with-deps"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -43,6 +48,8 @@
     "expo-web-browser": "~15.0.10",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-native": "0.81.5",
+    "react-native-device-info": "^15.0.2",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",
@@ -77,7 +84,8 @@
     "prettier": "^3.8.1",
     "react-test-renderer": "19.2.4",
     "tsx": "^4.21.0",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "@playwright/test": "^1.44.0"
   },
   "jest": {
     "preset": "jest-expo"

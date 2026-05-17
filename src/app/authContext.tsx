@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const fallbackName = supabaseUser.email?.split('@')[0] || 'User';
 
-    const { error } = await supabase.from('profiles').upsert(
+    /*const { error } = await supabase.from('profiles').upsert(
       {
         id: supabaseUser.id,
         user_id: supabaseUser.id,
@@ -46,6 +46,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) {
       console.warn('Unable to sync profile from auth metadata:', error.message);
     }
+  }; */
+  const { data: existing } = await supabase
+    .from('profiles')
+    .select('user_id')
+    .eq('user_id', supabaseUser.id)
+    .maybeSingle();
+
+  if (!existing) {
+    const { error } = await supabase.from('profiles').insert({
+      id: supabaseUser.id,
+      user_id: supabaseUser.id,
+      full_name: metadata.full_name?.trim() || fallbackName,
+      phone: metadata.phone?.trim() || null,
+    });
+    if (error) {
+      console.warn('Unable to sync profile from auth metadata:', error.message);
+    }
+  }
   };
 
   const mapSupabaseUserToAppUser = (supabaseUser: SupabaseUser): User => {
