@@ -1,0 +1,133 @@
+= Fuzz Testing Research Authentication & Security
+
+== Scope of LTT
+The following are the authentication & security components researched for:
+
+* Login and sign up flows
+* Password encryption and credential handling
+* Row-Level Security (RLS) in Supabase
+
+=== 1) Random Input Generation
+
+Fuzzing generates pseudo-random inputs to uncover crashes, exceptions, validation bypasses, and unexpected states.
+
+Uses include:
+
+* Randomly generated usernames, emails, and passwords with ranging lengths, encodings, and special characters.
+* Random token strings for session and refresh tokens.
+* Randomized JSON payloads and query parameters for authentication endpoints.
+
+From this, the benefits include exploring unanticipated input combinations beyond deterministic test cases.
+
+=== 2) Invalid and Malformed Request Testing
+
+Focuses on syntactically incorrect or semantically invalid inputs to ensure defensive handling of web requests and payloads.
+
+Uses include:
+
+* Missing required fields, such as email or password.
+* Wrong types used, such as arrays instead of strings, objects instead of booleans.
+* Nulls, empty strings, or whitespace only values.
+* Malformed JSON bodies or invalid content types.
+
+From this, the benefits include verifying robust parsing, error handling, and secure defaults in web interfaces.
+
+=== 3) API and Form Input Fuzzing
+
+Targets both client-side forms and server-side endpoints, verifying consistent behavior across UI and API layers.
+
+Applications:
+
+* Form inputs: login, sign up, reset password.
+* API endpoints: /auth/login, /auth/signup, /auth/refresh, /auth/logout.
+* Fuzzing of headers (Authorization, Content-Type) and cookies (session tokens).
+
+From this, the benefits include catching mismatches between UI validation and server validation, plus header parsing issues.
+
+=== 4) Security-Oriented Fuzzing Techniques
+
+Focuses on security-relevant inputs where structure matters, such as JSON bodies, and URL parameters.
+
+Applications:
+
+* Injection-style payloads in username/email fields, such as SQL, JSON, or Supabase filter syntax.
+* RLS bypass attempts: query another user’s orders with manipulated identifiers.
+
+From this, the benefits include validating enforcement of RLS and token integrity using structured input generation.
+
+=== 5) Crash Detection and Exception Handling
+
+Fuzzing should detect crashes, unhandled exceptions, and unexpected status codes.
+
+Applications:
+
+* Monitor API responses for 5xx errors, stack traces, or timeouts.
+* Detect client side crashes in form validation or navigation.
+* Ensure graceful failures with clear error messages and no sensitive data leaks.
+
+From this, the benefits include improving reliability and protecting against information disclosure.
+
+== Cafeteria-Specific Fuzzing Targets
+
+For email and password validation:
+
+* TC-AUTH-08: Login and signup endpoints
+
+For token validation:
+
+* TC-AUTH-09: Password reset and recovery flows
+
+* TC-SUPA-03: Supabase auth integration
+
+For role-based access and row visibility:
+
+* TC-SEC-01: Row-Level Security enforcement on order endpoints
+
+== Example Malformed Inputs
+
+=== Login (email/password)
+
+* email: "user@@cafeteria..edu"; password: "p\u0000ass"
+* email: ""; password: " "
+* email: "<script>alert(1)</script>"; password: "password123"
+* email: ["user@cafeteria.edu"]; password: {"raw":"pass"}
+* JSON body: {"email":"user@cafeteria.edu" "password":"pass"} (missing comma)
+
+=== Signup (role, name, phone)
+
+* role: "admin" (attempt escalation)
+* name: "\u202Eeman" (unicode control)
+* phone: "+1(555)000-0000" vs "555-000-0000\nDROP TABLE"
+* password: 4k length string of mixed unicode and emojis
+
+=== Token Inputs
+
+* refresh token with truncated base64
+* refresh token with invalid base64 characters (e.g., "@@@###")
+* refresh token with embedded whitespace or newlines
+* refresh token with null byte padding ("\u0000")
+* refresh token with overlong length (e.g., 10k+ characters)
+* refresh token with repeated delimiters or unexpected separators
+
+== Recommended Fuzzing Tools
+
+* OWASP ZAP: API fuzzing, auth scanning, and request mutation.
+* Burp Suite Community/Pro: Intruder and Repeater for auth fuzzing, plus proxy capture.
+* ffuf: fast fuzzing of API endpoints and parameters.
+* Schemathesis: OpenAPI-based fuzzing for auth endpoints.
+* Postman/Newman + custom fuzz scripts: quick iterative API fuzzing.
+
+== Risks and Benefits Analysis
+
+=== Benefits
+
+* Reveals input validation gaps in login and signup flows.
+* Improves robustness of RLS enforcement by testing unauthorized access.
+* Detects crashes and error leakage early in QA.
+
+=== Risks that may arise
+
+* Excessive fuzzing may lock accounts or trigger rate limits; use test accounts.
+* High-volume fuzzing can produce noisy logs and false positives.
+* Requires clear reset/cleanup steps for auth state, such as tokens, sessions, locks.
+* Security fuzzing must be done in controlled environments to avoid production impact.

@@ -1,0 +1,175 @@
+= Staff Operations Usability Testing Plan (Lecture Topic Task)
+:toc:
+:toclevels: 2
+
+
+== Focus
+
+This testing plan focuses on identifying usability strengths and weaknesses related to:
+
+* incoming order visibility
+* order processing efficiency
+* order status management
+* queue navigation
+* operational awareness during high-order-volume scenarios
+* error prevention during staff workflows
+
+This testing plan will serve as a guide for testers to evaluate the queue management system from the perspective of cafeteria staff members.
+
+== Concept Definitions
+
+Usability - in this context is evaluated as how effectively, efficiently, and satisfactorily users can interact with a system in order to accomplish specific goals.
+
+User-Centered Design - within cafeteria staff operations, User-Centered Design focuses on supporting real-world operational workflows such as order processing, queue monitoring, and status management under fast-paced conditions.
+
+=== Nielsen’s Usability Quality Components
+
+Nielsen's attributes of usability include:
+* Learnability - how easy it is for users to accomplish basic tasks the first time they encounter the design
+* Efficiency - how quickly users can perform tasks once they have learned the design
+* Memorability - how easily users can reestablish proficiency after a period of not using the design
+* Error Prevention - how well the design prevents users from making errors
+* Satisfaction - how pleasant the design is to use as determined by user feedback
+
+
+== Target Staff Personas
+
+=== Order Processing Staff Member
+
+* Order Processing Staff Member - this persona represents cafeteria staff members who directly interact with incoming customer orders and actively manage the order queue throughout food preparation workflows. Primary responsibilities include: viewing incoming orders, opening order details, updating order statuses, monitoring queue progression, handling delayed or cancelled orders, ,and managing multiple simultaneous orders during peak-hour conditions.
+
+Usability testing for this persona should focus on:
+
+* queue readability
+* speed of status updates
+* workflow efficiency
+* visibility of active orders
+* ease of navigation during high-order-volume scenarios
+* prevention of incorrect order state transitions
+
+=== Operational Oversight Staff Member
+
+* Operational Oversight Staff Member - this persona represents staff members responsible for monitoring operational consistency and identifying workflow issues within the queue system. Primary responsibilities include: identifying incorrect order states, resolving operational inconsistencies, monitoring delayed or stuck orders, and reviewing queue organization.
+
+Usability testing for this persona should focus on:
+
+* visibility of problematic orders
+* ease of identifying inconsistencies
+* operational awareness
+* clarity of queue state information
+* recovery from workflow errors
+
+== Common Staff-Side Workflow Scenarios
+
+=== 1. Viewing Incoming Orders
+
+Staff members should be able to quickly identify newly received orders within the queue. Designs created for staff operations where made to support this, but testing is necessary to ensure that visibility is sufficient under real operational conditions.
+
+Testing should evaluate:
+
+* visibility of new orders
+* readability of order information
+* queue organization clarity
+* ease of identifying priority orders
+
+=== 2. Opening and Processing Orders
+
+Staff members should be able to open order details and begin operational processing efficiently.
+
+Testing should evaluate:
+
+* number of interactions required
+* clarity of order contents
+* navigation efficiency
+* workflow interruption frequency
+
+=== 3. Updating Order Statuses
+
+Staff members must update order states accurately throughout preparation workflows.
+
+Testing should evaluate:
+
+* clarity of status options
+* ease of transitioning between states
+* prevention of invalid transitions
+* visibility of current order state
+
+=== 4. Handling Cancelled or Delayed Orders
+
+Operational disruptions should be manageable without creating confusion within the queue.
+
+Testing should evaluate:
+
+* visibility of cancelled orders
+* communication clarity for delayed orders
+* ease of removing or updating problematic orders
+* operational recovery after interruptions
+
+=== 5. Managing High-Order-Volume Scenarios
+
+Peak-hour conditions may significantly increase operational pressure on staff members.
+
+Testing should evaluate:
+
+* queue readability under heavy load
+* navigation speed during crowded order lists
+* staff awareness of order priorities
+* interface responsiveness during rapid interaction
+
+== Testing Methodologies 
+
+This section is hypothetical as a staff testing will not be conducted. Hence methodologies will not be implemented.
+
+* Moderated Usability Testing - staff participants perform operational tasks while observers monitor workflow behavior and usability difficulties.
+
+* Scenario-Based Testing - participants complete realistic cafeteria workflow scenarios such as:
+        * processing multiple simultaneous orders
+        * updating delayed orders
+        * handling cancelled orders
+        * prioritizing urgent queue activity
+
+* Observational Testing - observers monitor how staff members naturally interact with the queue management interface during operational simulations.
+
+* Think-Aloud Testing - participants verbalize their thought process while performing operational tasks to identify usability issues.
+
+
+== Usability Metrics
+
+This section is hypothetical as a staff testing will not be conducted. Hence metrics will not be implemented. However, the following metrics could be used to evaluate operational usability:
+
+[cols="1,3"]
+|===
+|Metric |Purpose
+
+|Task Completion Time
+|Measures how quickly staff members complete operational actions.
+
+|Error Rate
+|Measures frequency of incorrect status updates or operational mistakes.
+
+|Queue Processing Speed
+|Measures how efficiently orders move through operational workflows.
+
+|Status Transition Accuracy
+|Measures whether staff correctly apply intended order states.
+
+|Navigation Efficiency
+|Measures the number of interactions required to complete tasks.
+
+|Operational Recovery Time
+|Measures how quickly staff recover from workflow interruptions or mistakes.
+
+|User Satisfaction Ratings
+|Measures subjective staff satisfaction with the interface and workflow experience.
+|===
+
+Usability testing would also simulate peak-hour conditions to evaluate how well the system supports staff operations under high-order-volume scenarios. 
+
+
+== Methods for Collecting Usability Feedback
+ 
+ Methods for collecting usability feedback from staff members could include:
+
+* Staff surveys - post-test surveys could gather useful information regarding ease of use, interface clarity, operational efficiency, and overall staff satisfaction.
+* Staff interviews - direct interviews may provide deeper insight into repreated usability issues, hesitation during workflows, confusion points, and operational inneficiencies.
+* Observational notes - observers could document specific usability difficulties, workflow interruptions, and operational bottlenecks during testing sessions.
