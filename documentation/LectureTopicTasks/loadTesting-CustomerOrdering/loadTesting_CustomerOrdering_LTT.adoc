@@ -1,0 +1,74 @@
+= Customer Ordering Load Testing Report
+
+== Intro.
+
+In this report are the results of load testing scenarios which were conducted for the customer ordering workflow. These tests were conducted for the purpose of testing how well does the system's ordering workflow went under different load scenarios.
+
+== Testing approach
+
+The testing process used  was designed using a k6 load testing script which is used to replicate the customer ordering process by sending multiple HTTP requests to the system. 
+
+For the tests, 4 sequential scenarios were used over 3 minutes of load testing. 
+
+- A beginning stage where it started from 0 to 5 users over 30 seconds.
+- An increasing stage where it now went from 5 to 15 users in a minute
+- Peak load stage at 25 users
+- Shut down stage
+
+== Metrics that were collected:
+
+- *Response Time*: How long time each step in the workflow takes to respond.
+- *Latency*: the delay measured per step
+- *Throughput*: how many requests are processed per second
+- *Failure Rate*: the percentage of requests that fail or return unexpected responses
+- *Order Success Rate*: How many orders were successfully created
+
+these metrics are the most important right now for load testing the ordering workflow.
+
+== Load Test Results:
+
+
+[cols="2,1"]
+
+|===
+| Metric | Value
+ 
+| Average Response Time
+| 1,878 ms
+ 
+| P95 Response Time
+| 9632.11 ms
+ 
+| Throughput
+| 4.44 requests/second
+ 
+| Failure Rate
+| 66.66%
+ 
+| Order Success Rate
+| 43.33%
+ 
+| Total Iterations Completed
+| 270
+ 
+|===
+
+The system did not perform within any acceptable limits during the test. A 43% order success rate is not acceptable, and a 66.66% failure rate is unacceptable as well.
+
+We can observe in the results of the test that the menu had severe latency but was still accessible under load. Though the cart and order endpoints responded quickly, it responds with errors
+
+== Analysis
+
+The results from the load testing show that the workflow culd not complete its expected output. The most signficant issue is the fact that the cart and checkout endpoints returned valid responses, but they had various status codes and so many orders were kept from being placed and therefore the success rate was heavily impacted. The workflow duration averaged 7636.58ms which at p95 reached 12 seconds, since the slow menu latency caused it to slow down. 
+
+== Conclusion
+
+The customer ordering workflow did not pass the test as intended, almost no orders were completed and the menu latency was very slow which caused the workflow to slow down substancially.
+
+We identified that the bottlenecks responsible for the delay and the orders not being processed was error codes coming from the cart and checkout areas. 
+
+In order for the cafeteria Ordering project to be able to mantain consistent orders during rush hours, these bottlenecks must be fixed so that this test can be ran once again to have better results.
+
+== AI Disclosure
+
+The test scripts setup used for this task was created with AI assistance. The test executions, result collection and this document were all put together by @Lorenzo-PT
