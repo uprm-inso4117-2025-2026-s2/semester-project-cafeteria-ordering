@@ -61,19 +61,33 @@ export default function ViewOrders() {
 
     return filtered;
   }, [orders, activeTab, sortField, sortDirection]);
-  const handleStatusChange = (orderId: number, newStatus: Order["status"]) => {
-  setOrders((currentOrders) =>
-    currentOrders.map((order) =>
-      order.id === orderId ? { ...order, status: newStatus } : order
-    )
-  );
+  const handleStatusChange = (
+    orderId: number,
+    newStatus: Order["status"],
+    closeReason?: string
+  ) => {
+    setOrders((currentOrders) =>
+      currentOrders.map((order) =>
+        order.id === orderId
+          ? {
+              ...order,
+              status: newStatus,
+              closeReason: newStatus === "open" ? undefined : closeReason || order.closeReason,
+            }
+          : order
+      )
+    );
 
-  setSelectedOrder((currentOrder) =>
-    currentOrder && currentOrder.id === orderId
-      ? { ...currentOrder, status: newStatus }
-      : currentOrder
-  );
-};
+    setSelectedOrder((currentOrder) =>
+      currentOrder && currentOrder.id === orderId
+        ? {
+            ...currentOrder,
+            status: newStatus,
+            closeReason: closeReason || currentOrder.closeReason,
+          }
+        : currentOrder
+    );
+  };
   if (selectedOrder) {
     return (
       <FullScreenOrderDetails
@@ -147,20 +161,21 @@ function FullScreenOrderDetails({
 }: {
   order: Order;
   onBack: () => void;
-  onStatusChange: (orderId: number, newStatus: Order["status"]) => void;
+  onStatusChange: (
+  orderId: number,
+  newStatus: Order["status"],
+  closeReason?: string
+) => void;
 }) {
   const statusSymbol =
     order.status === "unread" ? "!" : order.status === "open" ? "..." : "✓";
   const [closeModalVisible, setCloseModalVisible] = useState(false);
 const [closeReason, setCloseReason] = useState("");
-
 const handleConfirmClose = (reason?: string) => {
-  console.log("Close order:", order.id, "Reason:", reason);
-
   setCloseModalVisible(false);
   setCloseReason("");
 
-  onStatusChange(order.id, "finished");
+  onStatusChange(order.id, "finished", reason);
   onBack();
 };
   return (
@@ -236,6 +251,12 @@ const handleConfirmClose = (reason?: string) => {
               </View>
             ))}
           </View>
+          {order.closeReason && (
+            <View style={styles.closeReasonBox}>
+              <Text style={styles.closeReasonTitle}>Close Reason</Text>
+              <Text style={styles.closeReasonText}>{order.closeReason}</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
 
@@ -249,6 +270,7 @@ const handleConfirmClose = (reason?: string) => {
           disabled={order.status === "open"}
           onPress={() => {
             onStatusChange(order.id, "open");
+            setCloseModalVisible(false)
             onBack();
           }}
         >
@@ -606,6 +628,28 @@ const styles = StyleSheet.create({
   finishedStatusBadge: {
     backgroundColor: "#b1b1b1",
   },
+  closeReasonBox: {
+    marginHorizontal: 20,
+    marginBottom: 20,
+    padding: 14,
+    borderRadius: 12,
+    backgroundColor: "#FFF7ED",
+    borderWidth: 1,
+    borderColor: "#FDBA74",
+  },
+
+  closeReasonTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#9A3412",
+    marginBottom: 6,
+  },
+
+  closeReasonText: {
+    fontSize: 15,
+    color: "#7C2D12",
+    lineHeight: 21,
+  }
 });
 
 
