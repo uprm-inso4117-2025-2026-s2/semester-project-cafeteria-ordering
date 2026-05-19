@@ -1,3 +1,5 @@
+import ConfirmationMode from "@/components/confirmation_mode";
+import { mockOrders, type Order } from "@/dummyData/orderData";
 import { Image } from "expo-image";
 import React, { useMemo, useState } from "react";
 import {
@@ -8,8 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
-import { mockOrders, type Order } from "@/dummyData/orderData";
 import lightLogo from "../../../documentation/branding/images/Light-Mode-Logo.png";
 import { FilterBar } from "../../components/FilterBar";
 import { OrderCard } from "../../components/OrderCard";
@@ -151,7 +151,18 @@ function FullScreenOrderDetails({
 }) {
   const statusSymbol =
     order.status === "unread" ? "!" : order.status === "open" ? "..." : "✓";
+  const [closeModalVisible, setCloseModalVisible] = useState(false);
+const [closeReason, setCloseReason] = useState("");
 
+const handleConfirmClose = (reason?: string) => {
+  console.log("Close order:", order.id, "Reason:", reason);
+
+  setCloseModalVisible(false);
+  setCloseReason("");
+
+  onStatusChange(order.id, "finished");
+  onBack();
+};
   return (
     <View style={styles.detailScreen}>
       <View style={styles.detailHeader}>
@@ -260,10 +271,11 @@ function FullScreenOrderDetails({
             order.status === "finished" && styles.disabledButton,
           ]}
           disabled={order.status === "finished"}
-          onPress={() => {
-            onStatusChange(order.id, "finished");
-            onBack();
-          }}
+          onPress={() => setCloseModalVisible(true)}
+          // onPress={() => {
+          //   onStatusChange(order.id, "finished");
+          //   onBack();
+          // }}
         >
           <Text
             style={[
@@ -275,6 +287,14 @@ function FullScreenOrderDetails({
           </Text>
         </TouchableOpacity>
       </View>
+      <ConfirmationMode
+        visible={closeModalVisible}
+        orderNumber={order.orderNumber}
+        reason={closeReason}
+        onReasonChange={setCloseReason}
+        onConfirmCancel={handleConfirmClose}
+        onGoBack={() => setCloseModalVisible(false)}
+/>
     </View>
   );
 }
