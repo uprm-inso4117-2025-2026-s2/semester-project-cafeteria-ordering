@@ -1,0 +1,584 @@
+= LTT: Staff View Usability Testing Protocol
+:toc:
+:sectnums:
+:project: Cafeteria Ordering System
+:assignee: @nataliavera6
+:target-date: 2026-05-17
+
+== Lecture Alignment
+
+Lecture Topic: Usability Testing
+
+This Lecture Topic Task defines a usability testing protocol for the Staff View side of the Cafeteria Ordering System. The focus is usability evaluation, not implementation.
+
+The task is based on LTT-15: Define Usability Testing Protocol, but modified specifically for staff-facing operations such as viewing orders, managing order status, and handling menu items.
+
+== Objective
+
+The objective is to define and document a usability testing protocol that evaluates whether cafeteria staff can efficiently complete Staff View operations during daily cafeteria use.
+
+The protocol focuses on whether staff users can:
+
+* find incoming customer orders
+* understand order details
+* update or close order statuses
+* view existing menu items
+* add new menu items
+* edit existing menu items
+* complete tasks with minimal confusion and few errors
+
+== Scope
+
+The scope is limited to usability testing for Staff View operations.
+
+In scope:
+
+* staff order dashboard
+* staff order details
+* order status updates
+* closing or completing orders
+* staff menu item list
+* adding menu items
+* editing menu items
+* staff-facing feedback messages
+
+Out of scope:
+
+* backend correctness testing
+* payment provider testing
+* customer checkout usability
+* security and authorization testing
+* load, stress, or performance testing
+* implementation of Staff View features
+
+== References
+
+This protocol is based on the following project and lecture context:
+
+* LTT-15: Define Usability Testing Protocol
+
+== Staff View Screens and Features
+
+The following Staff View screens and features should be evaluated during usability testing.
+
+[cols="1,2", options="header"]
+|===
+| Screen or Feature
+| Purpose
+
+| Order dashboard
+| Allows staff to view incoming, active, and completed customer orders.
+
+| Order details
+| Allows staff to inspect customer information, ordered items, quantities, notes, and order status.
+
+| Order status controls
+| Allows staff to update, open, or complete orders.
+
+| Menu item list
+| Allows staff to view current cafeteria menu items.
+
+| Add menu item form
+| Allows staff to create new menu items for customers.
+
+| Edit menu item form
+| Allows staff to update item name, description, price, category, or availability.
+
+| Staff feedback messages
+| Confirms whether staff actions succeed or fail.
+|===
+
+== Usability Risks
+
+The following usability risks may affect Staff View operations.
+
+[cols="1,2,2", options="header"]
+|===
+| Risk
+| Description
+| Possible Impact
+
+| Orders are hard to find
+| Staff may not quickly identify new or active orders.
+| Delayed food preparation or missed orders.
+
+| Order status is unclear
+| Staff may not understand whether an order is unread, open, ready, closed, or completed.
+| Incorrect order handling.
+
+| Important order details are not visible
+| Item quantities, customer notes, or order status may be difficult to locate.
+| Incorrect food preparation.
+
+| Staff closes the wrong order
+| The interface may not clearly distinguish between orders.
+| Customer order may be marked complete incorrectly.
+
+| Menu item forms are confusing
+| Staff may not understand required fields or valid input formats.
+| Incorrect or incomplete menu items.
+
+| Action feedback is weak
+| Staff may not know whether an update was saved.
+| Duplicate actions or uncertainty during work.
+
+| Navigation takes too long
+| Staff may need too many clicks to complete common tasks.
+| Slower service during busy cafeteria hours.
+|===
+
+== Usability Metrics
+
+The following metrics should be collected during Staff View usability testing.
+
+[cols="1,2,2", options="header"]
+|===
+| Metric
+| Definition
+| Measurement Method
+
+| Task completion time
+| Time required for staff to complete a task from the starting state to the expected result.
+| Stopwatch or screen recording timestamp.
+
+| Success rate
+| Percentage of participants who complete the task without assistance.
+| `successful completions / total participants * 100`.
+
+| Error count
+| Number of incorrect clicks, wrong selections, invalid submissions, missed actions, or misunderstood labels.
+| Observation checklist.
+
+| Critical error count
+| Number of serious mistakes that could affect customer orders or menu correctness.
+| Facilitator observation.
+
+| Assistance count
+| Number of hints or explanations needed for the participant to finish the task.
+| Observation notes.
+
+| Satisfaction rating
+| Participant rating after each task using a 1-5 scale, where 1 is very difficult and 5 is very easy.
+| Post-task survey.
+
+| Confidence rating
+| Participant rating of how confident they felt completing the staff task.
+| Post-task survey.
+|===
+
+== Usability Testing Protocol
+
+Each test should be conducted with participants acting as cafeteria staff users.
+
+A recommended minimum sample is 3 staff-like participants. If actual cafeteria staff are unavailable, team members may perform a provisional usability test, but the results must be labeled as provisional.
+
+Each usability test should follow this protocol:
+
+1. Introduce the purpose of the test.
+2. Explain that the system is being evaluated, not the participant.
+3. Give the participant one task at a time.
+4. Ask the participant to think aloud while completing the task.
+5. Record completion time, errors, assistance, and observations.
+6. Ask post-task questions after each scenario.
+7. Record satisfaction and confidence ratings.
+8. Summarize major usability issues in the findings report.
+
+== Participant Role
+
+Role: Staff member
+
+Participant assumptions:
+
+* The participant is responsible for handling customer orders.
+* The participant may need to update order statuses quickly.
+* The participant may need to manage menu item information.
+* The participant may use the Staff View during busy cafeteria hours.
+
+== Validation Test Scenarios
+
+=== Scenario 1: Staff Locates a New Customer Order
+
+Role: Staff member
+
+Starting state: Staff member is logged in and begins on the Staff View order dashboard.
+
+Task:
+
+1. Locate a new or unread customer order.
+2. Open the order.
+3. Identify the customer name, ordered items, quantities, and current status.
+
+Expected result:
+
+* Staff member finds the correct order.
+* Staff member correctly identifies the order details.
+* Staff member understands the current order status.
+
+Metrics collected:
+
+* task completion time
+* success rate
+* error count
+* assistance count
+* satisfaction rating
+
+Post-task questions:
+
+* Was it easy to find the new order?
+* Were the order details clear?
+* Was anything confusing about the order layout?
+
+=== Scenario 2: Staff Updates an Order Status
+
+Role: Staff member
+
+Starting state: Staff member is viewing an active customer order.
+
+Task:
+
+1. Find the control for changing the order status.
+2. Update the order to the next appropriate status.
+3. Confirm that the order status changed successfully.
+
+Expected result:
+
+* Staff member updates the order status correctly.
+* Staff member receives clear confirmation or sees a visible status change.
+* Staff member understands the new order state.
+
+Metrics collected:
+
+* task completion time
+* success rate
+* critical error count
+* assistance count
+* satisfaction rating
+
+Post-task questions:
+
+* Was it clear how to update the order status?
+* Did the system clearly show that the status changed?
+* Were you confident that the update was saved?
+
+=== Scenario 3: Staff Closes or Completes an Order
+
+Role: Staff member
+
+Starting state: Staff member is viewing an order that is ready to be completed.
+
+Task:
+
+1. Locate the option to close or complete the order.
+2. Confirm the action if confirmation is required.
+3. Verify that the order is no longer shown as active.
+
+Expected result:
+
+* Staff member closes or completes the correct order.
+* Staff member does not accidentally close the wrong order.
+* The completed order is moved out of the active order list or clearly marked as completed.
+
+Metrics collected:
+
+* task completion time
+* success rate
+* critical error count
+* assistance count
+* confidence rating
+
+Post-task questions:
+
+* Was the close or complete action easy to find?
+* Was it clear which order you were closing?
+* Did the system provide enough feedback after the action?
+
+=== Scenario 4: Staff Views Existing Menu Items
+
+Role: Staff member
+
+Starting state: Staff member is logged into Staff View.
+
+Task:
+
+1. Navigate to the menu item list.
+2. Find a specific menu item.
+3. Identify its name, price, category, and availability.
+
+Expected result:
+
+* Staff member finds the correct menu item.
+* Staff member can identify key menu item information.
+* Staff member understands whether the item is available to customers.
+
+Metrics collected:
+
+* task completion time
+* success rate
+* error count
+* assistance count
+* satisfaction rating
+
+Post-task questions:
+
+* Was it easy to find the menu item?
+* Was item availability clear?
+* Was any menu information hard to locate?
+
+=== Scenario 5: Staff Adds a New Menu Item
+
+Role: Staff member
+
+Starting state: Staff member is on the Staff View menu management screen.
+
+Task:
+
+1. Navigate to the add menu item form.
+2. Enter a new item name, description, category, price, and availability.
+3. Submit the new item.
+4. Verify that the item appears in the menu item list.
+
+Expected result:
+
+* Staff member successfully creates a new menu item.
+* Required fields are understandable.
+* The system provides clear feedback after submission.
+
+Metrics collected:
+
+* task completion time
+* success rate
+* error count
+* assistance count
+* satisfaction rating
+
+Post-task questions:
+
+* Were the required fields clear?
+* Was it easy to understand how to submit the item?
+* Did the system clearly show that the item was created?
+
+=== Scenario 6: Staff Edits an Existing Menu Item
+
+Role: Staff member
+
+Starting state: Staff member is viewing the menu item list.
+
+Task:
+
+1. Locate an existing menu item.
+2. Open the edit option.
+3. Change the item price, description, or availability.
+4. Save the changes.
+5. Verify that the updated information appears correctly.
+
+Expected result:
+
+* Staff member edits the correct menu item.
+* The updated information is saved.
+* Staff member receives clear confirmation or sees the updated item details.
+
+Metrics collected:
+
+* task completion time
+* success rate
+* error count
+* assistance count
+* confidence rating
+
+Post-task questions:
+
+* Was the edit option easy to find?
+* Was it clear which menu item was being edited?
+* Did the system clearly show that the changes were saved?
+
+== Success Criteria
+
+The usability test should evaluate each Staff View task against the following success criteria.
+
+[cols="1,1,1,1", options="header"]
+|===
+| Staff Task
+| Completion Time Target
+| Success Rate Target
+| Error Target
+
+| Locate a new customer order
+| 30 seconds or less
+| 90% or higher
+| 1 or fewer errors
+
+| Update an order status
+| 20 seconds or less
+| 90% or higher
+| 0 critical errors
+
+| Close or complete an order
+| 25 seconds or less
+| 90% or higher
+| 0 critical errors
+
+| View existing menu items
+| 30 seconds or less
+| 90% or higher
+| 1 or fewer errors
+
+| Add a new menu item
+| 3 minutes or less
+| 85% or higher
+| 2 or fewer errors
+
+| Edit an existing menu item
+| 2 minutes or less
+| 85% or higher
+| 2 or fewer errors
+|===
+
+== Observation and Feedback Methods
+
+The facilitator should record the following information during each test:
+
+* whether the participant completed the task
+* time required to complete the task
+* number of incorrect clicks or wrong navigation paths
+* number of facilitator hints needed
+* moments where the participant hesitated
+* confusing labels, buttons, or page sections
+* participant comments while thinking aloud
+* post-task satisfaction rating
+* post-task confidence rating
+
+The facilitator should avoid helping unless the participant is blocked. If help is provided, the assistance should be recorded.
+
+== Findings Report Structure
+
+The final usability evaluation report should include:
+
+* task name
+* participant role
+* completion result
+* completion time
+* error count
+* assistance count
+* satisfaction rating
+* confidence rating
+* observed usability issues
+* recommended improvements
+* overall pass or needs-improvement status
+
+Recommended report table:
+
+[cols="1,1,1,1,1,1,2", options="header"]
+|===
+| Scenario
+| Completion Time
+| Success Result
+| Error Count
+| Assistance Count
+| Satisfaction
+| Notes
+
+| Staff locates new order
+| 
+| 
+| 
+| 
+| 
+| 
+
+| Staff updates order status
+| 
+| 
+| 
+| 
+| 
+| 
+
+| Staff closes order
+| 
+| 
+| 
+| 
+| 
+| 
+
+| Staff views menu items
+| 
+| 
+| 
+| 
+| 
+| 
+
+| Staff adds menu item
+| 
+| 
+| 
+| 
+| 
+| 
+
+| Staff edits menu item
+| 
+| 
+| 
+| 
+| 
+| 
+|===
+
+== Usability Evaluation Checklist
+
+[cols="1,1,2", options="header"]
+|===
+| Acceptance Item
+| Status
+| Evidence
+
+| Main Staff View screens or features are identified
+| Complete
+| Staff View screens and features section lists order dashboard, order details, status controls, menu list, add item form, and edit item form.
+
+| Realistic staff usability tasks are defined
+| Complete
+| Six staff usability scenarios are documented.
+
+| Usability risks are documented
+| Complete
+| Usability risks table identifies order, status, menu, feedback, and navigation risks.
+
+| A usability testing protocol is included
+| Complete
+| Usability Testing Protocol section defines the testing process.
+
+| Success criteria for each task are defined
+| Complete
+| Success criteria table defines completion time, success rate, and error targets.
+
+| Observation and feedback methods are described
+| Complete
+| Observation and Feedback Methods section defines what data should be recorded.
+
+| A findings report structure is included
+| Complete
+| Findings Report Structure section provides the required report format.
+
+| The document explains how usability issues may affect staff operations
+| Complete
+| Usability Risks section explains possible operational impacts.
+
+| Ready for review
+| Complete
+| This document is ready for review after being added to the project repository.
+|===
+
+
+
+
+
+== Conclusion
+
+This Staff View usability testing protocol defines how the team should evaluate whether cafeteria staff can complete important staff-facing tasks efficiently, accurately, and with minimal confusion.
+
+The protocol focuses on realistic staff workflows, including viewing orders, updating order status, closing orders, viewing menu items, adding menu items, and editing menu items. By collecting task completion time, success rate, errors, assistance count, satisfaction, and confidence ratings, the team can identify usability problems before they negatively affect cafeteria operations.
+
+The final usability evaluation report should help the team determine which Staff View workflows are clear enough and which need design improvements before final implementation or release.
