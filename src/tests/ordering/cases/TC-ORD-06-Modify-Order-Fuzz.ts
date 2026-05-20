@@ -3,10 +3,18 @@ Order Modification Fuzz Test Data
 Author: Yadriel Rivera Rodriguez (@YadrielRivera)
 
 Description
-Global test data and fuzz helpers for order modification methods.
+Verifies that order modification methods are robust enough to manage erratic inputs that might affect the user experience
 The fuzz script in `src/tests/ordering/scripts/FT-ORD-06-Order-Mod-Fuzz.ts`
 uses these exports to generate random but syntactically valid inputs.
+The goal is try to find flaws from these random, but syntactically correct inputs
+
+Preconditions: 
+- There exists a menu item
+- There exists extra ingredients
+- Menu item is modifiable
 */
+
+// Test data
 
 import { IngredientItem, MenuItem } from '../../../models/food-item-class';
 import { cheeseExtra, createBaseMenuItem, baseIngredients } from '../cases/TC-ORD-01-Modify-Order';
@@ -30,7 +38,7 @@ function randomIngredientName(length = 16): string {
   return randomString(length);
 }
 
-function randomPrice(min = -5, max = 20): number {
+function randomPrice(min = Number.MIN_VALUE, max = Number.MAX_VALUE): number {
   return parseFloat((Math.random() * (max - min) + min).toFixed(2));
 }
 
@@ -64,4 +72,28 @@ export {
     MenuItem, randomFuzzIngredient, randomIngredientId, randomIngredientList, randomIngredientName,
     randomPrice, randomString, validateMenuItem
 };
+
+/* 
+Test Step | Expected Result
+1 | Initialize a new order item with base meal state | `getBasePrice(item)` returns 10.00 and `getIngredients(item)` returns ["pasta","tomato sauce","meatballs"]
+2 | Call `addIngredient()` with random valid string IDs and names | The item accepts new ingredients or safely rejects duplicates without crashing
+3 | Call `removeIngredient()` with random ingredient IDs | The method handles unknown IDs gracefully and preserves a valid item state
+4 | Call `modBasePrice()` with random numeric values | The base price updates to the fuzzed value and remains a finite number
+5 | Call `modIngredients()` with randomized ingredient arrays | The ingredient list replaces correctly and the item stays valid
+6 | Confirm final fuzz suite result | The test outputs a clear PASS or FAIL summary after all fuzz operations
+
+Notes
+- This suite uses random but syntactically valid strings and ingredient data.
+- It validates robustness against erratic inputs rather than semantic menu relationships.
+- Validation checks ensure unique ingredient IDs and a finite base price after each operation.
+- Execute the fuzz suite with `npx tsx src/tests/ordering/scripts/FT-ORD-06-Order-Mod-Fuzz.ts`.
+
+Author: Yadriel Rivera Rodriguez
+Reviewer: <Lucas Matos>
+Date Created: 2026-05-20
+
+Reviewed By
+<reviewer(s) fill this part>
+
+*/
 
