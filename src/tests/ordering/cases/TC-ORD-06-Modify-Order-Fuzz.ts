@@ -75,7 +75,7 @@ export {
 
 /* 
 Test Step | Expected Result
-1 | Initialize a new order item with base meal state | `getBasePrice(item)` returns 10.00 and `getIngredients(item)` returns ["pasta","tomato sauce","meatballs"]
+1 | Initialize a new order item with base meal state | No errors are raised
 2 | Call `addIngredient()` with random valid string IDs and names | The item accepts new ingredients or safely rejects duplicates without crashing
 3 | Call `removeIngredient()` with random ingredient IDs | The method handles unknown IDs gracefully and preserves a valid item state
 4 | Call `modBasePrice()` with random numeric values | The base price updates to the fuzzed value and remains a finite number
