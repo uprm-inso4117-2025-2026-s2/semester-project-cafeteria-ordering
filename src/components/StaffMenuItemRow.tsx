@@ -315,7 +315,7 @@ export default function StaffMenuItemRow({
           <View style={styles.confirmSheet}>
             <Text style={styles.confirmTitle}>Delete item?</Text>
             <Text style={styles.confirmMessage}>
-              <Text style={styles.confirmItemName}>"{item.name}"</Text>
+              <Text style={styles.confirmItemName}>&quot;{item.name}&quot;</Text>
               {' '}will be permanently removed from the menu. This cannot be undone.
             </Text>
             <View style={styles.confirmActions}>
