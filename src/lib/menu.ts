@@ -12,6 +12,7 @@ export interface MenuItemData {
   category_id: string;
   name: string;
   price: number;
+  description?: string | null;
   image_url: string | null;
   available: boolean;
   allergens: string[] | null;
@@ -62,6 +63,24 @@ export interface CreateMenuItemInput {
   allergens?: string[] | null;
   prep_time_minutes?: number | null;
   image_url?: string | null;
+}
+
+export interface UpdateMenuItemInput {
+  name?: string;
+  price?: number;
+  category_id?: string;
+  available?: boolean;
+}
+
+export async function updateMenuItem(id: string, input: UpdateMenuItemInput): Promise<MenuItemData> {
+  const { data, error } = await supabase
+    .from('menu_items')
+    .update(input)
+    .eq('id', id)
+    .select('id, category_id, name, price, image_url, available, allergens, prep_time_minutes, created_at, updated_at')
+    .single();
+  if (error) throw error;
+  return data as MenuItemData;
 }
 
 export async function createMenuItem(input: CreateMenuItemInput): Promise<MenuItemData> {

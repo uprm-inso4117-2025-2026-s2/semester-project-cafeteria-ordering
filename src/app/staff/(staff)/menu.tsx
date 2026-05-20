@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Image,
   Pressable,
   SectionList,
@@ -12,7 +11,7 @@ import {
 import { Stack, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, Typography } from '@/constants/theme';
-import { deleteMenuItem, fetchAllMenuItems, fetchMenuCategories, MenuCategory, MenuItemData } from '@/lib/menu';
+import { fetchAllMenuItems, fetchMenuCategories, MenuCategory, MenuItemData } from '@/lib/menu';
 import NewMenuItemModal from '@/components/NewMenuItemModal';
 import StaffMenuItemRow from '@/components/StaffMenuItemRow';
 import BaseDrawer from "@/components/StaffNavDrawer";
@@ -32,6 +31,12 @@ export default function StaffMenuScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showNewItemModal, setShowNewItemModal] = useState(false);
+  const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
+
+  const categoryNameById = useMemo(
+    () => new Map(categories.map((c) => [c.id, c.name])),
+    [categories]
+  );
 
   const buildSections = useCallback(
     (cats: MenuCategory[], its: MenuItemData[]): Section[] =>
@@ -74,25 +79,21 @@ export default function StaffMenuScreen() {
     [items, categories, buildSections]
   );
 
-  const handleDelete = useCallback(
-    (item: MenuItemData) => {
-      Alert.alert('Delete Item', `Are you sure you want to delete "${item.name}"?`, [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteMenuItem(item.id);
-              const updated = items.filter((i) => i.id !== item.id);
-              setItems(updated);
-              setSections(buildSections(categories, updated));
-            } catch {
-              Alert.alert('Error', 'Failed to delete item.');
-            }
-          },
-        },
-      ]);
+  const handleUpdate = useCallback(
+    (updatedItem: MenuItemData) => {
+      const updated = items.map((i) => (i.id === updatedItem.id ? updatedItem : i));
+      setItems(updated);
+      setSections(buildSections(categories, updated));
+    },
+    [items, categories, buildSections]
+  );
+
+  const handleDeleted = useCallback(
+    (id: string) => {
+      const updated = items.filter((i) => i.id !== id);
+      setItems(updated);
+      setSections(buildSections(categories, updated));
+      setExpandedItemId((prev) => (prev === id ? null : prev));
     },
     [items, categories, buildSections]
   );
@@ -159,8 +160,12 @@ return (
             renderItem={({ item }) => (
               <StaffMenuItemRow
                 item={item}
-                onPress={() => {}}
-                onDelete={handleDelete}
+                categories={categories}
+                categoryName={categoryNameById.get(item.category_id) ?? 'Unknown'}
+                isExpanded={expandedItemId === item.id}
+                onToggle={(id) => setExpandedItemId((prev) => (prev === id ? null : id))}
+                onUpdate={handleUpdate}
+                onDeleted={handleDeleted}
               />
             )}
             renderSectionHeader={({ section }) => (
