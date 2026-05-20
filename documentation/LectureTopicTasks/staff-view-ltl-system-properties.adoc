@@ -1,0 +1,319 @@
+= Staff View LTL System Properties
+
+== 1. Objective
+
+This document defines Linear Temporal Logic (LTL) properties for the Staff View workflow in the Cafeteria Ordering System.
+
+The purpose of these properties is to describe how staff-facing order and menu operations should evolve over time. The properties are documentation-only and are intended to help the team reason about correctness, workflow reliability, and staff-facing system behavior.
+
+This task is based on LTT-11: Specify System Properties Using Linear Temporal Logic, but modified specifically for Staff View operations.
+
+== 2. Time-Dependent Staff View Behaviors
+
+The Staff View workflow contains several behaviors that depend on time, sequence, or state progression:
+
+* A customer submits an order before it appears in the Staff View.
+* A submitted order should eventually become visible to staff.
+* Staff should be able to see the current status of active orders.
+* When staff updates an order status, the updated status should eventually be reflected in the Staff View.
+* A closed or completed order should not later return to an active order state.
+* Menu item changes made by staff should eventually be visible in the menu list.
+* A menu item marked unavailable should not later appear as available unless staff explicitly changes it.
+* Staff actions should provide visible feedback so staff users know whether the action succeeded or failed.
+* Terminal states such as Completed, Closed, or Cancelled should prevent conflicting later states.
+
+== 3. Atomic Propositions
+
+The following atomic propositions are used in the LTL expressions:
+
+[cols="1,3", options="header"]
+|===
+| Proposition | Meaning
+
+| `order_submitted`
+| A customer has submitted an order.
+
+| `staff_visible`
+| The order is visible in the Staff View.
+
+| `active_order`
+| The order is currently active and requires staff attention.
+
+| `status_updated`
+| Staff has changed the order status.
+
+| `updated_status_visible`
+| The new order status is visible in the Staff View.
+
+| `closed`
+| Staff has closed the order.
+
+| `completed`
+| The order has reached a completed state.
+
+| `cancelled`
+| The order has been cancelled.
+
+| `menu_item_created`
+| Staff has created a new menu item.
+
+| `menu_item_edited`
+| Staff has edited an existing menu item.
+
+| `menu_update_visible`
+| The menu update is visible in the Staff View menu list.
+
+| `item_unavailable`
+| Staff has marked a menu item as unavailable.
+
+| `item_available`
+| The menu item is shown as available.
+
+| `feedback_visible`
+| Staff receives visible feedback after an action, such as a success message, error message, or visible state change.
+|===
+
+The LTL operators used in this document are:
+
+* `G`: always/globally
+* `F`: eventually
+* `X`: next state
+* `!`: not
+* `&`: and
+* `|`: or
+* `->`: implies
+
+== 4. LTL Properties
+
+=== Property 1: Submitted Orders Eventually Appear in Staff View
+
+*LTL expression:*
+
+[source]
+----
+G(order_submitted -> F(staff_visible))
+----
+
+*Classification:* Liveness property
+
+*Guarantee:*
+
+This property guarantees that once a customer submits an order, the order eventually becomes visible to staff. A submitted order should not remain hidden forever from the Staff View.
+
+*Failure examples prevented:*
+
+* A customer places an order, but staff never sees it.
+* The order exists in the database but does not appear on the staff dashboard.
+* Staff misses an order because the Staff View does not refresh correctly.
+* A synchronization issue prevents new orders from becoming visible.
+
+=== Property 2: Staff Status Updates Eventually Become Visible
+
+*LTL expression:*
+
+[source]
+----
+G(status_updated -> F(updated_status_visible))
+----
+
+*Classification:* Liveness property
+
+*Guarantee:*
+
+This property guarantees that when staff changes an order status, the updated status eventually becomes visible in the Staff View. Staff users should not be left unsure whether the status update was saved.
+
+*Failure examples prevented:*
+
+* Staff changes an order status, but the interface still shows the old status.
+* A status update is saved in the backend but not reflected in the Staff View.
+* Staff repeats the same action because no visible change appears.
+* The order status changes inconsistently between screens.
+
+=== Property 3: Closed Orders Do Not Return to Active Orders
+
+*LTL expression:*
+
+[source]
+----
+G(closed -> G(!active_order))
+----
+
+*Classification:* Safety property
+
+*Guarantee:*
+
+This property guarantees that once an order is closed, it should not later return to the active order list. Closing an order should be treated as a terminal staff workflow state unless a separate authorized correction process exists.
+
+*Failure examples prevented:*
+
+* A closed order reappears as active.
+* Staff prepares or reviews an order that was already closed.
+* A stale interface refresh changes a closed order back to active.
+* Duplicate handling occurs because the same order returns to the active queue.
+
+=== Property 4: Completed Orders Do Not Become Cancelled Later
+
+*LTL expression:*
+
+[source]
+----
+G(completed -> G(!cancelled))
+----
+
+*Classification:* Safety property
+
+*Guarantee:*
+
+This property guarantees that once an order is completed, it should not later become cancelled in the same order lifecycle. Completed and cancelled are conflicting terminal states.
+
+*Failure examples prevented:*
+
+* A completed order is later marked cancelled by a stale update.
+* Customer-facing and staff-facing views show different terminal states.
+* Staff completes an order, but another process overwrites it as cancelled.
+* Reports or order history contain contradictory status information.
+
+=== Property 5: Menu Item Creation Eventually Appears in Staff Menu List
+
+*LTL expression:*
+
+[source]
+----
+G(menu_item_created -> F(menu_update_visible))
+----
+
+*Classification:* Liveness property
+
+*Guarantee:*
+
+This property guarantees that when staff creates a new menu item, the new item eventually appears in the Staff View menu list. Staff should be able to confirm that the creation action succeeded.
+
+*Failure examples prevented:*
+
+* Staff creates a menu item, but it never appears in the menu list.
+* The backend saves the item, but the Staff View does not update.
+* Staff creates duplicate items because the original item was not visibly added.
+* Staff cannot verify whether the menu item creation succeeded.
+
+=== Property 6: Edited Menu Items Eventually Show Updated Information
+
+*LTL expression:*
+
+[source]
+----
+G(menu_item_edited -> F(menu_update_visible))
+----
+
+*Classification:* Liveness property
+
+*Guarantee:*
+
+This property guarantees that when staff edits a menu item, the updated information eventually becomes visible in the Staff View. Staff should be able to verify changes to item name, price, description, category, or availability.
+
+*Failure examples prevented:*
+
+* Staff changes a menu item price, but the old price remains visible.
+* Staff edits availability, but the Staff View does not reflect the change.
+* Staff cannot tell whether the edit was saved.
+* The menu list displays outdated item information.
+
+=== Property 7: Unavailable Items Do Not Appear Available Without Staff Action
+
+*LTL expression:*
+
+[source]
+----
+G(item_unavailable -> G(!item_available))
+----
+
+*Classification:* Safety property
+
+*Guarantee:*
+
+This property guarantees that once staff marks a menu item as unavailable, it should not appear as available unless staff performs a valid later action to make it available again.
+
+*Failure examples prevented:*
+
+* A sold-out item appears available to staff or customers.
+* Staff marks an item unavailable, but the system still shows it as orderable.
+* A refresh or stale state restores the item to available incorrectly.
+* Customers place orders for items that staff intended to disable.
+
+=== Property 8: Staff Actions Eventually Produce Visible Feedback
+
+*LTL expression:*
+
+[source]
+----
+G((status_updated | menu_item_created | menu_item_edited) -> F(feedback_visible))
+----
+
+*Classification:* Liveness property
+
+*Guarantee:*
+
+This property guarantees that important Staff View actions eventually produce visible feedback. Feedback may be a success message, error message, visible status change, or updated menu list.
+
+*Failure examples prevented:*
+
+* Staff changes an order status but receives no confirmation.
+* Staff submits a menu item form and does not know whether it worked.
+* Staff repeats actions because the interface gives no visible response.
+* Staff cannot distinguish between successful and failed operations.
+
+== 5. Summary of Properties
+
+[cols="1,3,2,4", options="header"]
+|===
+| ID | LTL Expression | Type | Staff View Meaning
+
+| P1
+| `G(order_submitted -> F(staff_visible))`
+| Liveness
+| Submitted orders eventually appear in the Staff View.
+
+| P2
+| `G(status_updated -> F(updated_status_visible))`
+| Liveness
+| Staff status updates eventually become visible.
+
+| P3
+| `G(closed -> G(!active_order))`
+| Safety
+| Closed orders do not return to the active order list.
+
+| P4
+| `G(completed -> G(!cancelled))`
+| Safety
+| Completed orders do not later become cancelled.
+
+| P5
+| `G(menu_item_created -> F(menu_update_visible))`
+| Liveness
+| Created menu items eventually appear in the Staff View menu list.
+
+| P6
+| `G(menu_item_edited -> F(menu_update_visible))`
+| Liveness
+| Edited menu items eventually show updated information.
+
+| P7
+| `G(item_unavailable -> G(!item_available))`
+| Safety
+| Unavailable items do not appear available without a valid later staff action.
+
+| P8
+| `G((status_updated \| menu_item_created \| menu_item_edited) -> F(feedback_visible))`
+| Liveness
+| Staff actions eventually produce visible feedback.
+|===
+
+== 6. How LTL Supports Staff View Correctness and Workflow Reliability
+
+LTL helps the team describe expected Staff View behavior across time, not only in one isolated state. This is important because Staff View operations depend on order submission, status changes, menu updates, interface refreshes, and visible feedback.
+
+These properties support correctness by defining which staff-facing states are valid over time. For example, submitted orders must eventually appear for staff, status updates must eventually become visible, and closed or completed orders must not later enter conflicting states.
+
+They support workflow reliability by reducing ambiguity in staff operations. Staff members need to know which orders require attention, which orders are complete, and whether menu changes were saved. If the system fails to provide timely and consistent feedback, staff may repeat actions, miss orders, or make incorrect decisions.
+
+They also support consistency between order and menu workflows. Orders should not disappear from staff visibility after submission, completed orders should not conflict with cancellation states, and unavailable menu items should not appear available unless staff intentionally changes them.
