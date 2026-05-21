@@ -1,0 +1,418 @@
+= Mutation Testing Analysis Applied to the Cafeteria Ordering System — Profile Screen UI
+Cafeteria Ordering System 
+@daniellameleroo
+:doctype: article
+:toc: left
+:toc-title: Table of Contents
+:sectnums:
+:icons: font
+
+---
+
+== Introduction
+
+This document applies the Mutation Testing concepts from the lecture to the Profile Screen of the Cafeteria Ordering System. Unlike the earlier analysis in `MutationTestingProfiles.adoc`, which targeted the backend profile management library (`src/lib/profiles.ts`), this analysis focuses on the Profile Screen UI layer: `src/app/(tabs)/profile.tsx` and `src/app/edit-profile/index.tsx`.
+
+Mutation testing is used here in two complementary roles. First, as an _evaluation tool_: given the existing test suite, would specific mutants be killed or would they survive? Second, as a _specification tool_: surviving mutants are actionable design feedback that reveal which behaviors are not currently defended by any test.
+
+Three mutation points have been selected for analysis. Each corresponds to a safety-critical conditional path in the Profile screen: the save authentication guard, the logout confirmation gate, and the user ID integrity in profile update calls.
+
+*Test Case reference:* `src/tests/profile/cases/TC-PROF-01_mutation_testing_profile.tsx`
+
+*Test Report reference:* `src/tests/profile/reports/TR-PROF-01_mutation_testing_profile.adoc`
+
+---
+
+== What Is Mutation Testing?
+
+Mutation testing is a fault-based software testing technique in which small, deliberate changes — called _mutants_ — are injected into the source code one at a time. The resulting mutated program is executed against the existing test suite.
+
+* If a test *fails* when run against the mutant, the mutant is *killed* — the test suite detected the change.
+* If all tests *pass*, the mutant *survives* — the test suite has a gap.
+
+A surviving mutant does not mean the code is wrong. It means the test suite cannot distinguish the original code from the mutant, and therefore cannot justify the presence of the original logic through testing alone.
+
+=== The Mutation Testing Lifecycle
+
+. *Generate* mutants from the original source using mutation operators.
+. *Execute* the test suite against each mutant independently.
+. *Classify* results: killed (test detected the change) or survived (test missed it).
+. *Analyze* survivors to understand what behaviors the tests fail to assert.
+. *Design* new tests that target the surviving behaviors.
+
+=== Mutation Operators Applied in This Analysis
+
+The following mutation operators from the lecture apply to Profile Screen logic:
+
+* *Statement deletion* — Remove a guard statement (e.g., `if (!user) return;`).
+* *Argument substitution* — Replace a parameter value with `undefined`, `""`, or another constant.
+* *Call replacement* — Replace a safe, deferred function call with a direct side-effect call.
+
+=== The Anatomy of a Mutant-Killing Test
+
+A test that kills a mutant must satisfy three conditions:
+
+. *Reach* — the test input must execute the mutated line.
+. *Infect* — the mutation must cause the program state to differ from the original.
+. *Propagate* — the changed state must affect an observable output or exception.
+
+A test that only checks whether a function "does not crash" is not sufficient. It must assert on the specific behavior that the mutation would change.
+
+---
+
+== Profile Screen: Relevant Source Code
+
+The Profile Screen is composed of two primary files and one shared persistence library:
+
+* `src/app/(tabs)/profile.tsx` — View-only profile display, logout flow, and navigation to the edit screen.
+* `src/app/edit-profile/index.tsx` — Editable form for full name and phone number, with save and discard actions.
+* `src/lib/profiles.ts` — Persistence layer exposing `updateProfileName` and `updateProfilePhone`.
+
+The three mutations analyzed in this document target the following code positions:
+
+[cols="1,3,3", options="header"]
+|===
+| Mutation | File | Location
+
+| Mutation 1
+| `src/app/edit-profile/index.tsx`
+| `handleSave()` — authentication guard (`if (!user) return;`)
+
+| Mutation 2
+| `src/app/(tabs)/profile.tsx`
+| Logout button `onPress` handler (`setLogoutModal(true)`)
+
+| Mutation 3
+| `src/app/edit-profile/index.tsx`
+| `handleSave()` — `user.id` argument passed to update calls
+|===
+
+---
+
+== Mutation 1 — Save Profile Guard
+
+=== Original Behavior
+
+In `src/app/edit-profile/index.tsx`, the `handleSave()` function retrieves the currently authenticated user and guards all subsequent update calls behind an existence check:
+
+[source,typescript]
+----
+async function handleSave() {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;                              // GUARD
+    await updateProfileName(user.id, fullName);
+    await updateProfilePhone(user.id, phoneNumber);
+    Alert.alert('Profile Updated', 'Your changes have been saved.', [
+      { text: 'OK', onPress: () => router.back() }
+    ]);
+  } catch (err: any) {
+    Alert.alert('Error', err.message);
+  }
+}
+----
+
+The guard `if (!user) return;` ensures that profile save operations only execute when a valid authenticated session exists. This means save is effectively gated by authentication — it only fires in a legitimate editing context. The design intent is that save cannot trigger outside of an authenticated editing session.
+
+=== Mutant Change
+
+The mutant removes the authentication guard entirely:
+
+[source,typescript]
+----
+async function handleSave() {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    // MUTANT: guard removed — proceeds when user is null
+    await updateProfileName(user.id, fullName);    // TypeError if user is null
+    await updateProfilePhone(user.id, phoneNumber);
+    Alert.alert('Profile Updated', ...);
+  } catch (err: any) {
+    Alert.alert('Error', err.message);             // error silently swallowed
+  }
+}
+----
+
+Without the guard, when `user` is `null` (e.g., session expired mid-edit), `user.id` throws a `TypeError`. The catch block intercepts this and shows a generic error alert. Rather than cleanly refusing the operation, the system fails opaquely.
+
+=== Verdict: SURVIVES
+
+The existing test suite (`TC-PROF-01` / `UT-PROF-01_profile_functionality.ts`) operates entirely at the `src/lib/profiles.ts` level using injected mock clients. It does not mount or exercise the `EditProfile` component. No existing test:
+
+* Renders `EditProfile` with `supabase.auth.getUser()` mocked to return a null user.
+* Verifies that `handleSave()` returns early when `user` is null.
+* Asserts that `updateProfileName` and `updateProfilePhone` are not called when authentication is absent.
+
+The mutant survives because no test can reach, infect, or observe the removed guard.
+
+=== What the Surviving Mutant Reveals
+
+The test suite does not defend the authentication-before-save invariant at the UI layer. A developer could remove the guard and every test in the suite would continue to pass. This is a meaningful gap because the guard is the only protection against calling `updateProfileName(null.id, ...)` when a user's session expires while they are on the edit-profile screen.
+
+=== Alternative View
+
+According to the alternative view from the lecture: _if all tests pass when the guard is removed, the test suite cannot justify that the guard is needed_.
+
+This does not mean the guard is wrong — it is clearly required because `user` can be null in a session-expired scenario. However, the test suite provides no evidence to support this claim. A reviewer seeing only the tests would have no way to verify that the guard correctly protects the save operation. Adding a test that kills this mutant would make the test suite self-justifying: the test would demonstrate both that the guard exists and that removing it causes a detectable failure.
+
+=== Test Case That Kills the Mutant
+
+*Test ID:* TC-PROF-MT-01
+
+*Preconditions:*
+
+* `supabase.auth.getUser()` is mocked to return `{ data: { user: null } }`.
+* `updateProfileName` and `updateProfilePhone` are jest spy functions.
+* `EditProfile` component is rendered in the test environment.
+
+*Steps:*
+
+. Trigger the Save button press (or call `handleSave()` directly).
+. Assert that `updateProfileName` was *not* called.
+. Assert that `updateProfilePhone` was *not* called.
+. Assert that the "Profile Updated" alert was *not* shown.
+
+*Expected Result:* `handleSave()` detects the missing user and returns early. No profile data is written to the database. If the mutant is applied, `updateProfileName(null.id, ...)` would throw and the catch would swallow it — the observable behavior differs and this test would fail on the mutant.
+
+See `TC-PROF-01_mutation_testing_profile.tsx` (TC-PROF-MT-01) for the formal test case definition.
+
+---
+
+== Mutation 2 — Logout Confirmation Bypass
+
+=== Original Behavior
+
+In `src/app/(tabs)/profile.tsx`, the Logout button is wired to open a confirmation modal. The `handleLogout()` function — which calls `supabase.auth.signOut()` — is only triggered after the user explicitly presses "Log out" inside the modal:
+
+[source,typescript]
+----
+// Logout button: opens modal only
+<TouchableOpacity onPress={() => setLogoutModal(true)} style={[s.logoutBtn, ...]}>
+  <Text>Logout</Text>
+</TouchableOpacity>
+
+// ConfirmModal: calls handleLogout only on explicit confirm
+<ConfirmModal
+  visible={logoutModal}
+  onClose={() => setLogoutModal(false)}
+  onConfirm={handleLogout}            // signOut only here
+  title="Log out?"
+  body="Are you sure you want to log out?"
+  confirmLabel="Log out"
+  ...
+/>
+
+async function handleLogout() {
+  const { error } = await supabase.auth.signOut();
+  setLogoutModal(false);
+  if (error) {
+    Alert.alert("Logout failed", "Please try again.");
+    return;
+  }
+  router.replace("/signup");
+}
+----
+
+The confirmation gate means `signOut()` is never called on the first button press. This is a critical UX safety behavior that prevents accidental logouts.
+
+=== Mutant Change
+
+The mutant replaces the modal trigger with a direct call to `handleLogout()`:
+
+[source,typescript]
+----
+// MUTANT: bypass modal — call handleLogout directly on button press
+<TouchableOpacity onPress={handleLogout} style={[s.logoutBtn, ...]}>
+  <Text>Logout</Text>
+</TouchableOpacity>
+----
+
+With this mutant, pressing the Logout button immediately calls `supabase.auth.signOut()` and redirects to `/signup` — no confirmation, no cancellation possible.
+
+=== Verdict: SURVIVES
+
+No existing test in the profile test suite verifies:
+
+* That pressing the Logout button shows a confirmation modal rather than calling `signOut()` immediately.
+* That `signOut()` is not called when the Logout button is first pressed.
+* That the `ConfirmModal` becomes visible after pressing Logout.
+* That the Cancel button dismisses the modal without calling `signOut()`.
+
+The logout flow is not covered by any automated test. The mutant survives entirely.
+
+=== What the Surviving Mutant Reveals
+
+The confirmation gate is a critical usability and safety feature. Without it, users can accidentally sign out while navigating the profile screen — a destructive action with no undo. The test suite provides no evidence that this gate exists or that it functions correctly. A refactor that accidentally removed the modal trigger would not be detected.
+
+=== Alternative View
+
+Applying the alternative view from the lecture: _if all tests pass when the modal is bypassed, the test suite cannot justify that the confirmation step is part of the correct behavior_.
+
+This reveals that the team has accepted a design decision — require confirmation before logout — without encoding that decision as a test. The test suite does not specify the logout UX contract. Until a test is added that verifies `signOut()` is not called on the first button press, the modal can be silently removed with no automated detection. The alternative view forces the question: does the test suite provide enough evidence that the source code position (modal gate before signOut) is correct? The answer is no.
+
+=== Test Case That Kills the Mutant
+
+*Test ID:* TC-PROF-MT-02
+
+*Preconditions:*
+
+* `supabase.auth.signOut` is mocked and spy-tracked.
+* `ProfileScreen` component is rendered in the test environment.
+* The logout confirmation modal is not yet visible at render time.
+
+*Steps:*
+
+. Simulate pressing the Logout button (first press).
+. Assert that `supabase.auth.signOut` was *not* called.
+. Assert that the logout confirmation modal is now visible (title "Log out?" is rendered).
+. Simulate pressing the "Cancel" button in the modal.
+. Assert that `supabase.auth.signOut` was *not* called.
+. Simulate pressing the Logout button again, then pressing the "Log out" confirm button.
+. Assert that `supabase.auth.signOut` was called exactly once.
+
+*Expected Result:* `signOut()` is only called after the user explicitly confirms. Cancel dismisses the modal without signing out. If the mutant is applied, `signOut()` would be called on step 1, causing step 2 to fail — killing the mutant.
+
+See `TC-PROF-01_mutation_testing_profile.tsx` (TC-PROF-MT-02) for the formal test case definition.
+
+---
+
+== Mutation 3 — User ID in Profile Update Calls
+
+=== Original Behavior
+
+In `src/app/edit-profile/index.tsx`, `handleSave()` passes `user.id` as the first argument to both update functions:
+
+[source,typescript]
+----
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) return;
+await updateProfileName(user.id, fullName);     // correct user.id
+await updateProfilePhone(user.id, phoneNumber); // correct user.id
+----
+
+In `src/lib/profiles.ts`, both functions filter the Supabase update by `user_id`:
+
+[source,typescript]
+----
+export async function updateProfileName(userId: string, fullName: string, client?: any) {
+  const supabase = await resolveClient(client);
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({ full_name: fullName })
+    .eq("user_id", userId)     // FILTER — must match the authenticated user
+    .select()
+    .single();
+  if (error) throw new Error(`Error updating name: ${error.message}`);
+  return data;
+}
+----
+
+The `user.id` from the authenticated session is passed as `userId` so that the update targets only the correct profile row.
+
+=== Mutant Change
+
+The mutant replaces `user.id` with an empty string at the call site in `handleSave()`:
+
+[source,typescript]
+----
+await updateProfileName("", fullName);    // MUTANT: wrong userId
+await updateProfilePhone("", phoneNumber);
+----
+
+With this mutant, `.eq("user_id", "")` matches no records (or an unrelated record), and the update silently fails or modifies the wrong profile row. The user sees a "Profile Updated" alert even though nothing was saved.
+
+=== Verdict: PARTIALLY KILLED
+
+* The unit tests in `TC-PROF-01` (`UT-PROF-01_profile_functionality.ts`) exercise `updateProfileName` and `updateProfilePhone` at the `profiles.ts` level with a specific `userId` and verify that the mock client receives the correct arguments. These tests kill the mutant *at the library level*: they confirm that calling `updateProfileName("", ...)` would not produce the expected behavior.
+
+* However, no test verifies that the `EditProfile` UI component passes the correct `user.id` from the authenticated session through to these library functions. A mutation replacing `user.id` with `""` at the call site in `handleSave()` would survive because no test mounts the `EditProfile` component and asserts on the argument values received by the update functions.
+
+=== What the Surviving Mutant Reveals
+
+The unit tests for `profiles.ts` provide partial confidence. They verify that the library functions apply the user_id filter correctly when given the right input. But they do not verify the integration point: that the correct `user.id` is passed from the authenticated session through the UI component to the library. A full integration test covering the edit-profile save flow end-to-end is needed to fully kill this mutant.
+
+=== Test Case That Kills the Mutant
+
+*Test ID:* TC-PROF-MT-03
+
+*Preconditions:*
+
+* `supabase.auth.getUser()` is mocked to return a user with `id = "user-test-999"`.
+* `updateProfileName` and `updateProfilePhone` are jest spy functions.
+* `EditProfile` component is rendered with `fullName = "Test User Profile"` and `phoneNumber = "787-000-0001"`.
+
+*Steps:*
+
+. Trigger the Save button press.
+. Assert that `updateProfileName` was called with `("user-test-999", "Test User Profile")`.
+. Assert that `updateProfilePhone` was called with `("user-test-999", "787-000-0001")`.
+. Assert that neither call was made with `""` or `undefined` as the first argument.
+
+*Expected Result:* Both update functions receive the exact `user.id` from the authenticated session. If the mutant is applied, step 2 or 3 would fail because the call would receive `("", ...)` instead of `("user-test-999", ...)` — killing the mutant.
+
+See `TC-PROF-01_mutation_testing_profile.tsx` (TC-PROF-MT-03) for the formal test case definition.
+
+---
+
+== Test Case and Test Report Traceability
+
+[cols="1,2,2", options="header"]
+|===
+| Mutation | Test Case (TC) | Test Report (TR)
+
+| Mutation 1 — Save guard removal
+| TC-PROF-MT-01 in `TC-PROF-01_mutation_testing_profile.tsx`
+| TR-PROF-MT-01 in `TR-PROF-01_mutation_testing_profile.adoc`
+
+| Mutation 2 — Logout confirmation bypass
+| TC-PROF-MT-02 in `TC-PROF-01_mutation_testing_profile.tsx`
+| TR-PROF-MT-02 in `TR-PROF-01_mutation_testing_profile.adoc`
+
+| Mutation 3 — User ID replacement
+| TC-PROF-MT-03 in `TC-PROF-01_mutation_testing_profile.tsx`
+| TR-PROF-MT-03 in `TR-PROF-01_mutation_testing_profile.adoc`
+|===
+
+Both the TC and TR files are located in:
+
+* `src/tests/profile/cases/TC-PROF-01_mutation_testing_profile.tsx`
+* `src/tests/profile/reports/TR-PROF-01_mutation_testing_profile.adoc`
+
+These files also reference the existing baseline test coverage:
+
+* `src/tests/profile/cases/TC-PROF-01_profile_functionality.ts` — unit tests for `profiles.ts`
+* `src/tests/profile/reports/TR-PROF-01_profile_functionality.adoc` — corresponding report
+
+---
+
+== Conclusion
+
+This analysis has identified three mutation points in the Profile Screen of the Cafeteria Ordering System and evaluated the existing test suite's ability to detect them.
+
+[cols="1,2,1,2", options="header"]
+|===
+| Mutation | Location | Verdict | Coverage Gap
+
+| M1: Save guard removal
+| `edit-profile/handleSave()` — `if (!user) return;`
+| SURVIVES
+| No test covers the UI-level authentication check in the save flow
+
+| M2: Logout confirmation bypass
+| `profile.tsx` — Logout button `onPress` handler
+| SURVIVES
+| No test verifies the modal-before-signOut contract
+
+| M3: User ID argument replacement
+| `edit-profile/handleSave()` — `user.id` passed to update calls
+| PARTIALLY KILLED
+| Library-level test exists; UI-to-library integration test is missing
+|===
+
+The Profile Screen test suite currently defends the persistence layer (`profiles.ts`) but does not defend any of the UI-level behavioral contracts. Mutations 1 and 2 survive entirely, indicating that the test suite cannot justify the presence of either the authentication guard or the logout confirmation modal. Mutation 3 is partially killed at the library level, but the path from the UI component to the library remains untested.
+
+The application of the alternative view to Mutations 1 and 2 reveals the most significant finding: the test suite cannot justify the source code as it currently stands. The authentication guard and the confirmation modal exist because they are correct by design, but they are not validated by any automated test. A future code change could silently remove either behavior without detection.
+
+To improve the mutation score for the Profile Screen, three test cases have been defined (TC-PROF-MT-01, TC-PROF-MT-02, TC-PROF-MT-03). When implemented, these tests would kill all three mutants and provide documented evidence that the save guard, the logout confirmation gate, and the user ID integrity are all enforced.
+
+Mutation testing has revealed a meaningful gap between what the Profile Screen code does and what the tests verify. Closing this gap through the three defined test cases would strengthen the overall confidence in the correctness of the authentication, confirmation, and data integrity behaviors of the Profile Screen.
