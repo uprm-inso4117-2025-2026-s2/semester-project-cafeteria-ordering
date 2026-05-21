@@ -1,8 +1,10 @@
 import BaseDrawer from "@/components/StaffNavDrawer";
 import { Colors, Typography } from "@/constants/theme";
+import { supabase } from "@/lib/supabase";
 import { Stack } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
+  ActivityIndicator,
   Animated,
   Easing,
   Image,
@@ -23,22 +25,111 @@ type OrderRow = {
   amount: number;
 };
 
-const orderRows: OrderRow[] = [
-  { status: "Unread", amount: 28 },
-  { status: "Opened", amount: 11 },
-  { status: "In process", amount: 4 },
-  { status: "Cancelled", amount: 1 },
-  { status: "Completed", amount: 25 },
-];
+type DashboardOrder = {
+  status: string | null;
+  total_amount: number | null;
+  created_at: string;
+};
+
+type DashboardData = {
+  orderRows: OrderRow[];
+  totalActiveOrders: number;
+  totalOrdersPlaced: number;
+  salesTotal: number;
+};
+
+const ORDER_TABLE = "orders";
+const STATUS_COLUMN = "status";
+const TOTAL_COLUMN = "total_amount";
+const CREATED_AT_COLUMN = "created_at";
 
 const periods: Period[] = ["Day", "Week", "Month", "Year"];
 
-const revenueByPeriod: Record<Period, { label: string; value: string }> = {
-  Day: { label: "Day Sales", value: "$1,560" },
-  Week: { label: "Week Sales", value: "$10,920" },
-  Month: { label: "Month Sales", value: "$43,680" },
-  Year: { label: "Year Sales", value: "$524,160" },
+const emptyDashboardData: DashboardData = {
+  orderRows: [
+    { status: "Unread", amount: 0 },
+    { status: "Opened", amount: 0 },
+    { status: "In Progress", amount: 0 },
+    { status: "Completed", amount: 0 },
+    { status: "Cancelled", amount: 0 },
+  ],
+  totalActiveOrders: 0,
+  totalOrdersPlaced: 0,
+  salesTotal: 0,
 };
+
+function getStartDate(period: Period): Date {
+  const start = new Date();
+
+  if (period === "Day") {
+    start.setHours(0, 0, 0, 0);
+  }
+
+  if (period === "Week") {
+    const day = start.getDay();
+    start.setDate(start.getDate() - day);
+    start.setHours(0, 0, 0, 0);
+  }
+
+  if (period === "Month") {
+    start.setDate(1);
+    start.setHours(0, 0, 0, 0);
+  }
+
+  if (period === "Year") {
+    start.setMonth(0, 1);
+    start.setHours(0, 0, 0, 0);
+  }
+
+  return start;
+}
+
+function formatCurrency(value: number): string {
+  return `$${value.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
+function getOverviewTitle(period: Period): string {
+  return `${period} Orders Overview`;
+}
+
+function getTotalOrdersLabel(period: Period): string {
+  if (period === "Day") {
+    return "Total Orders Placed Today";
+  }
+
+  return `Total Orders Placed This ${period}`;
+}
+
+function buildDashboardData(orders: DashboardOrder[]): DashboardData {
+  const placed = orders.filter((order) => order.status === "placed").length;
+  const preparing = orders.filter(
+    (order) => order.status === "preparing",
+  ).length;
+  const ready = orders.filter((order) => order.status === "ready").length;
+
+  const totalActiveOrders = placed + preparing;
+
+  const salesTotal = orders.reduce(
+    (sum, order) => sum + Number(order.total_amount ?? 0),
+    0,
+  );
+
+  return {
+    orderRows: [
+      { status: "Unread", amount: 0 },
+      { status: "Opened", amount: placed },
+      { status: "In Progress", amount: preparing },
+      { status: "Completed", amount: ready },
+      { status: "Cancelled", amount: 0 },
+    ],
+    totalActiveOrders,
+    totalOrdersPlaced: orders.length,
+    salesTotal,
+  };
+}
 
 export default function DashboardScreen() {
   const colorScheme = useColorScheme();
@@ -46,6 +137,10 @@ export default function DashboardScreen() {
 
   const [selectedPeriod, setSelectedPeriod] = useState<Period>("Day");
   const [tabsWidth, setTabsWidth] = useState(0);
+  const [dashboardData, setDashboardData] =
+    useState<DashboardData>(emptyDashboardData);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const underlineTranslateX = useRef(new Animated.Value(0)).current;
   const tabWidth = tabsWidth > 0 ? tabsWidth / periods.length : 0;
@@ -54,9 +149,41 @@ export default function DashboardScreen() {
   const isDayView = selectedPeriod === "Day";
 
   const revenueCard = useMemo(
-    () => revenueByPeriod[selectedPeriod],
-    [selectedPeriod]
+    () => ({
+      label: `${selectedPeriod} Sales`,
+      value: formatCurrency(dashboardData.salesTotal),
+    }),
+    [selectedPeriod, dashboardData.salesTotal],
   );
+
+  useEffect(() => {
+    async function fetchDashboardData() {
+      try {
+        setIsLoading(true);
+        setErrorMessage("");
+
+        const startDate = getStartDate(selectedPeriod);
+
+        const { data, error } = await supabase
+          .from(ORDER_TABLE)
+          .select(`${STATUS_COLUMN}, ${TOTAL_COLUMN}, ${CREATED_AT_COLUMN}`)
+          .gte(CREATED_AT_COLUMN, startDate.toISOString());
+
+        if (error) {
+          throw error;
+        }
+
+        setDashboardData(buildDashboardData((data ?? []) as DashboardOrder[]));
+      } catch (error) {
+        console.error("Failed to fetch staff dashboard data:", error);
+        setErrorMessage("Unable to load dashboard data.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchDashboardData();
+  }, [selectedPeriod]);
 
   useEffect(() => {
     if (!tabWidth) return;
@@ -92,7 +219,9 @@ export default function DashboardScreen() {
             />
 
             <View style={styles.headerTitleContainer}>
-              <Text style={[styles.headerTitle, { color: theme.alternateText }]}>
+              <Text
+                style={[styles.headerTitle, { color: theme.alternateText }]}
+              >
                 Dashboard
               </Text>
             </View>
@@ -151,26 +280,46 @@ export default function DashboardScreen() {
               />
             </View>
 
-            <SectionTitle title="Revenue Overview" textColor={theme.text} />
-            <InfoCard label={revenueCard.label} value={revenueCard.value} />
-
-            {isDayView && (
+            {isLoading ? (
+              <ActivityIndicator style={styles.loadingIndicator} />
+            ) : errorMessage ? (
+              <WarningCard title="Error" message={errorMessage} />
+            ) : (
               <>
-                <SectionTitle title="Customer Traffic" textColor={theme.text} />
-                <WarningCard message="Customer traffic is high." />
+                <SectionTitle title="Revenue Overview" textColor={theme.text} />
+                <InfoCard label={revenueCard.label} value={revenueCard.value} />
+
+                {isDayView && (
+                  <>
+                    <SectionTitle
+                      title="Customer Traffic"
+                      textColor={theme.text}
+                    />
+                    <WarningCard message="Customer traffic is high." />
+                  </>
+                )}
 
                 <SectionTitle
-                  title="Daily Orders Overview"
+                  title={getOverviewTitle(selectedPeriod)}
                   textColor={theme.text}
                 />
-                <OrdersTable rows={orderRows} total={43} />
 
-                <InfoCard label="Total Orders Placed Today" value="350" />
-
-                <WarningCard
-                  title="Warning"
-                  message="⚠ There are too many unread orders."
+                <OrdersTable
+                  rows={dashboardData.orderRows}
+                  total={dashboardData.totalActiveOrders}
                 />
+
+                <InfoCard
+                  label={getTotalOrdersLabel(selectedPeriod)}
+                  value={dashboardData.totalOrdersPlaced}
+                />
+
+                {dashboardData.totalActiveOrders > 20 && (
+                  <WarningCard
+                    title="Warning"
+                    message="⚠ There are many active orders."
+                  />
+                )}
               </>
             )}
           </ScrollView>
@@ -187,16 +336,12 @@ function SectionTitle({
   title: string;
   textColor: string;
 }) {
-  return <Text style={[styles.sectionTitle, { color: textColor }]}>{title}</Text>;
+  return (
+    <Text style={[styles.sectionTitle, { color: textColor }]}>{title}</Text>
+  );
 }
 
-function InfoCard({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | number;
-}) {
+function InfoCard({ label, value }: { label: string; value: string | number }) {
   return (
     <View
       style={[
@@ -227,10 +372,7 @@ function InfoCard({
 
       <View style={styles.infoCardBody}>
         <Text
-          style={[
-            styles.infoCardValue,
-            { color: Colors.light.alternateText },
-          ]}
+          style={[styles.infoCardValue, { color: Colors.light.alternateText }]}
         >
           {value}
         </Text>
@@ -239,13 +381,7 @@ function InfoCard({
   );
 }
 
-function WarningCard({
-  title,
-  message,
-}: {
-  title?: string;
-  message: string;
-}) {
+function WarningCard({ title, message }: { title?: string; message: string }) {
   return (
     <View
       style={[
@@ -259,10 +395,7 @@ function WarningCard({
       {title ? (
         <View style={styles.warningHeader}>
           <Text
-            style={[
-              styles.warningTitle,
-              { color: Colors.light.alternateText },
-            ]}
+            style={[styles.warningTitle, { color: Colors.light.alternateText }]}
           >
             {title}
           </Text>
@@ -271,10 +404,7 @@ function WarningCard({
 
       <View style={styles.warningBody}>
         <Text
-          style={[
-            styles.warningMessage,
-            { color: Colors.light.alternateText },
-          ]}
+          style={[styles.warningMessage, { color: Colors.light.alternateText }]}
         >
           {message}
         </Text>
@@ -283,13 +413,7 @@ function WarningCard({
   );
 }
 
-function OrdersTable({
-  rows,
-  total,
-}: {
-  rows: OrderRow[];
-  total: number;
-}) {
+function OrdersTable({ rows, total }: { rows: OrderRow[]; total: number }) {
   return (
     <View
       style={[
@@ -329,13 +453,17 @@ function OrdersTable({
       {rows.map((row) => (
         <View key={row.status} style={styles.tableRow}>
           <View style={styles.tableCell}>
-            <Text style={[styles.tableText, { color: Colors.light.secondaryText }]}>
+            <Text
+              style={[styles.tableText, { color: Colors.light.secondaryText }]}
+            >
               {row.status}
             </Text>
           </View>
 
           <View style={styles.tableCell}>
-            <Text style={[styles.tableText, { color: Colors.light.secondaryText }]}>
+            <Text
+              style={[styles.tableText, { color: Colors.light.secondaryText }]}
+            >
               {row.amount}
             </Text>
           </View>
@@ -454,6 +582,10 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginBottom: 8,
     fontFamily: Typography.subheading.fontFamily,
+  },
+
+  loadingIndicator: {
+    marginTop: 24,
   },
 
   infoCard: {
