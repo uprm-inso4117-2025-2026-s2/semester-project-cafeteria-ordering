@@ -11,6 +11,7 @@ export interface Order {
   createdAt: string;
   items: OrderItem[];
   status: "unread" | "open" | "finished";
+  closeReason?: string;
 }
 
 export const mockOrders: Order[] = [
