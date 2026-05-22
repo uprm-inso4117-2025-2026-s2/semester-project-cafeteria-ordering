@@ -1063,7 +1063,7 @@ Oversee system-wide quality and automation.</p>
 <p>Ordering: Now, it&#8217;s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!</p>
 </li>
 <li>
-<p>Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</p>
+<p>Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. <span class="yellow-bg">If the customer attempts to pay after the payment window has already expired, cafeteria staff must verify whether the order is still available before accepting payment.</span> <span class="yellow-bg">Orders that have already been removed or cancelled must be reordered by the customer.</span> As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</p>
 </li>
 <li>
 <p>Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.</p>
@@ -1473,14 +1473,14 @@ Retrieving the available food items requires access to the active menu catalog.
 <code>viewMenu : MenuCatalog &#8594; List(MenuItem)</code></p>
 </li>
 <li>
-<p><strong>Managing the Cart</strong>
-When a customer adds an item, the operation alters the local state of their cart rather than the global database, minimizing dependencies.
-<code>addItemToCart : Cart &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; Cart</code></p>
+<p><strong><span class="yellow-bg">Managing the Order Selection</span></strong>
+When a customer adds an item, the operation alters the local state of their <span class="yellow-bg">current order selection</span> rather than the global database, minimizing dependencies.
+<code><span class="yellow-bg">addItemToOrder</span> : <span class="yellow-bg">OrderSelection</span> &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; <span class="yellow-bg">OrderSelection</span></code></p>
 </li>
 <li>
 <p><strong>Placing an Order</strong>
-Placing an order requires the current cart, the customer details, and the global order records. If items are out of stock or the cart is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
-<code>placeOrder : OrderRecords &gt;&lt; Cart &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
+Placing an order requires the <span class="yellow-bg">current order selection,</span> the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
+<code>placeOrder : OrderRecords &gt;&lt; <span class="yellow-bg">OrderSelection</span> &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
 </li>
 <li>
 <p><strong>Processing Payments</strong>
@@ -3014,7 +3014,7 @@ through verifiable, incremental behavior.</p>
 <p>The student must be able to select available menu items.</p>
 </li>
 <li>
-<p>The student must be able to add selected items to a cart.</p>
+<p>The student must be able to add selected items to <span class="yellow-bg">an order.</span></p>
 </li>
 <li>
 <p>The student must be able to proceed to checkout and choose a pickup option.</p>
@@ -3066,7 +3066,7 @@ through verifiable, incremental behavior.</p>
 <div class="content">
 <pre class="highlight"><code class="language-gherkin" data-lang="gherkin">Scenario: Successful order placement
     Given the student is logged in and on the menu page
-    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"
     And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process
     Then the system should confirm the order
     And the cafeteria staff should be notified of the new order
@@ -3247,7 +3247,7 @@ Because the payment screen is not yet connected to the real backend or payment g
 </ul>
 </div>
 <div class="paragraph">
-<p>For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.</p>
+<p>For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing <span class="yellow-bg">orders</span>, or waiting for order preparation.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3851,7 +3851,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-21 12:41:27 -0400
+Last updated 2026-05-21 22:28:33 -0400
 </div>
 </div>
 </body>
