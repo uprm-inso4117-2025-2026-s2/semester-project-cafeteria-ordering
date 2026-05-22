@@ -1458,42 +1458,49 @@ A recurring slowdown caused by limited capacity in ordering, payment, or prepara
 <div class="sect3">
 <h4 id="_2_1_5_function_signatures">2.1.5 Function Signatures</h4>
 <div class="paragraph">
-<p>This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</p>
+<p><span class="yellow-bg">This section defines the core operations associated with actions and behaviors that have been identified in the cafeteria domain. The function signatures are not limited to implementation details, instead they clarify the information involved in domain operations such as order placement, payment processing, order cancellation, and meal preparation. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</span></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p><strong>User Registration</strong>
+<span class="yellow-bg">This operation relates to customer access and identification within the cafeteria ordering domain.</span>
 To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
 <code>registerUser : UserDatabase &gt;&lt; UserDetails &#8594; UserDatabase &gt;&lt; (Option UserProfile)</code></p>
 </li>
 <li>
 <p><strong>Browsing the Menu</strong>
+<span class="yellow-bg">This operation relates to the Menu concept described in Sections 2.1.2 and 2.1.4.</span>
 Retrieving the available food items requires access to the active menu catalog.
 <code>viewMenu : MenuCatalog &#8594; List(MenuItem)</code></p>
 </li>
 <li>
 <p><strong><span class="yellow-bg">Managing the Order Selection</span></strong>
+<span class="yellow-bg">This operation relates to the Order Placement action described in Section 2.1.4.</span>
 When a customer adds an item, the operation alters the local state of their <span class="yellow-bg">current order selection</span> rather than the global database, minimizing dependencies.
 <code><span class="yellow-bg">addItemToOrder</span> : <span class="yellow-bg">OrderSelection</span> &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; <span class="yellow-bg">OrderSelection</span></code></p>
 </li>
 <li>
 <p><strong>Placing an Order</strong>
+<span class="yellow-bg">This operation formalizes the Order Placement action and the Order Has Just Been Placed event described in Section 2.1.4.</span>
 Placing an order requires the <span class="yellow-bg">current order selection,</span> the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
 <code>placeOrder : OrderRecords &gt;&lt; <span class="yellow-bg">OrderSelection</span> &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
 </li>
 <li>
 <p><strong>Processing Payments</strong>
+<span class="yellow-bg">This operation relates to the Payment action and Payment Has Just Failed event described in Section 2.1.4.</span>
 This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
 <code>processPayment : PaymentSystem &gt;&lt; Order &gt;&lt; PaymentMethod &#8594; PaymentSystem &gt;&lt; (Option Receipt)</code></p>
 </li>
 <li>
 <p><strong>Updating Order Status</strong>
+<span class="yellow-bg">This operation relates to the Meal Preparation and Meal Pickup actions described in Section 2.1.4.</span>
 As cafeteria staff prepare the food, they update the order&#8217;s progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
 <code>updateOrderStatus : ActiveOrderList &gt;&lt; OrderID &gt;&lt; Status &#8594; ActiveOrderList</code></p>
 </li>
 <li>
 <p><strong>Canceling an Order</strong>
+<span class="yellow-bg">This operation relates to the order cancellation behavior discussed throughout the ordering and payment flow.</span>
 If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
 <code>cancelOrder : OrderRecords &gt;&lt; OrderID &#8594; OrderRecords &gt;&lt; (Option RefundStatus)</code></p>
 </li>
@@ -3851,7 +3858,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-21 22:28:33 -0400
+Last updated 2026-05-21 22:59:00 -0400
 </div>
 </div>
 </body>

@@ -476,33 +476,40 @@ Actions may be performed by human actors (students or cafeteria staff) or by non
 
 ==== 2.1.5 Function Signatures
 
-This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.
+[.yellow-bg]#This section defines the core operations associated with actions and behaviors that have been identified in the cafeteria domain. The function signatures are not limited to implementation details, instead they clarify the information involved in domain operations such as order placement, payment processing, order cancellation, and meal preparation. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.#
 
 * **User Registration**
+[.yellow-bg]#This operation relates to customer access and identification within the cafeteria ordering domain.# 
 To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
 `registerUser : UserDatabase >< UserDetails -> UserDatabase >< (Option UserProfile)`
 
 * **Browsing the Menu**
+[.yellow-bg]#This operation relates to the Menu concept described in Sections 2.1.2 and 2.1.4.# 
 Retrieving the available food items requires access to the active menu catalog.
 `viewMenu : MenuCatalog -> List(MenuItem)`
 
 * **[.yellow-bg]#Managing the Order Selection#**
+[.yellow-bg]#This operation relates to the Order Placement action described in Section 2.1.4.# 
 When a customer adds an item, the operation alters the local state of their [.yellow-bg]#current order selection# rather than the global database, minimizing dependencies.
 `[.yellow-bg]#addItemToOrder# : [.yellow-bg]#OrderSelection# >< MenuItem >< Quantity -> [.yellow-bg]#OrderSelection#`
 
 * **Placing an Order**
+[.yellow-bg]#This operation formalizes the Order Placement action and the Order Has Just Been Placed event described in Section 2.1.4.# 
 Placing an order requires the [.yellow-bg]#current order selection,# the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an `Option` for the generated order.
 `placeOrder : OrderRecords >< [.yellow-bg]#OrderSelection# >< Customer -> OrderRecords >< (Option Order)`
 
 * **Processing Payments**
+[.yellow-bg]#This operation relates to the Payment action and Payment Has Just Failed event described in Section 2.1.4.# 
 This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
 `processPayment : PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
 
 * **Updating Order Status**
+[.yellow-bg]#This operation relates to the Meal Preparation and Meal Pickup actions described in Section 2.1.4.# 
 As cafeteria staff prepare the food, they update the order's progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
 `updateOrderStatus : ActiveOrderList >< OrderID >< Status -> ActiveOrderList`
 
 * **Canceling an Order**
+[.yellow-bg]#This operation relates to the order cancellation behavior discussed throughout the ordering and payment flow.# 
 If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
 `cancelOrder : OrderRecords >< OrderID -> OrderRecords >< (Option RefundStatus)`
 
