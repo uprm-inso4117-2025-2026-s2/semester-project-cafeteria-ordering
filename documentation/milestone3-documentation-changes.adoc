@@ -1796,4 +1796,19 @@ The following table have all the changes made to the documentation for Milestone
 |===
 | Name | Section | Description | GitHub Issue
 
+| @SamarysB
+| 1.2.3 Ideas
+| Added clarification for late payment attempts after the payment window expires and explained how cancelled/removed orders are handled.
+| #638
+
+| @SamarysB
+| 2.1.5 Function Signatures
+| Updated function signature section descriptions to clarify their relationship to domain actions and behaviors instead of only implementation details. Also replaced cart-related terminology with order selection terminology.
+| #639
+
+| @SamarysB
+| 3.2.2 Verification
+| Clarified the current state of testing preparation, added traceability review details, and improved documentation verification descriptions.
+| #640
+
 |===
