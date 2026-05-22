@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, useColorScheme, View } from "react-native";
 import { availableAddOns } from "../../dummyData/addons";
 import { dummyMenuItems } from "../../dummyData/menuData";
+import { addCartItem } from "../../lib/cart-items";
 import { MenuItem } from "../../models/food-item-class";
 
 /**
@@ -66,16 +67,16 @@ export default function ItemPage() {
      * Logs the item, quantity, and selected add-ons.
      * Placeholder for actual cart logic.
      */
-    const handleAddToCart = () => {
+   const handleAddToCart = () => {
         if (!item) return;
-            const selected = availableAddOns.filter((addon) =>
-                selectedAddOns.includes(addon.id)
-            );
-        console.log({
-            item: item.getName(),
-            quantity: count,
-            addOns: selected,
-        });
+
+        const selected = availableAddOns.filter((addon) =>
+            selectedAddOns.includes(addon.id)
+        );
+
+        addCartItem(item, count, selected);
+
+        console.log('Added modified item to cart:', item.getName(), count, selected);
     };
 
     /**
