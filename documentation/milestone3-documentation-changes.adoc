@@ -1122,13 +1122,15 @@ The following concepts are derived from recurring observations in the domain rou
 
 *Test Planning and Documentation Verification (Ongoing)*
 
+* [.green-bg]#At the current stage of the project, testing preparation has mainly focused on defining planned testing approaches and connecting requirements to features. More detailed testing artifacts and implementation-level tests are expected to improve as additional functionality is completed.#   
+
 * The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.  
 
 * Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.  
 
-* Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).  
+* [.yellow-bg]#Traceability reviews were used to verify that major features and user stories are associated with at least one planned testing approach. For example, order processing is connected to integration and system testing, while payment handling is connected to system and acceptance testing.#  
 
-* Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.  
+* [.yellow-bg]#Documentation verification focuses on consistency, terminology alignment, traceability, and completeness across requirements, user stories, epics, and domain concepts. These reviews help identify undefined terms, conflicting statements, missing relationships between sections, and requirements that may require further clarification before implementation and testing.#   
 
 *Automated Verification via Continuous Integration (Ongoing)*
 
