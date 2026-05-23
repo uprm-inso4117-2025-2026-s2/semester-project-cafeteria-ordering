@@ -1,5 +1,9 @@
 = Usability testing lab setup
 
+:project: Cafeteria Ordering
+:issue: 612
+:assignee: @horebcotto21
+
 In this document the specifics of hardware and software to be used in usability testing will described and instructions in how to setup and use them will be provided in order to guarantee that every test carried out is no different from another with the exception of the user that is taking the test. This standardization allows the comparison of test results that can provide valuable information in the usability of the teams project. 
 
 Other specifics for what to test and steps users should take are not presented in this document, for information on carrying out usability tests refer to usability testing plans such as `LectureTopicTasks/ord-pay-usab-test-plan`, `usability-testing-limitations` and `usability-testing-LTT`. Just be aware that when a usability test is been carried the focus should of the tester(s) and testee(s) should be exclusively on the test, and the enviroment in which the test is being given should reflect this, minimizing distractions will be key to achieve this goal.
@@ -30,7 +34,7 @@ OBS Studio is and Open source all in one streaming and/or recording software, av
 . Run the installer and follow the instructions, you may choose a different directory if not a default directory will be used. 
 
 
-=== Configuration
+== Configuration
 
 image::img/obs-main.jpg[title="Main Screen for OBS Studio"]
 
@@ -52,25 +56,55 @@ image::img/obs-source.png[title= "Sources list",width=400,align=center]
 
 * If using an iPhone, EpocCam or iVCam software is needed to be able to capture what the phone is looking at. 
 
-* If using a newer Android 15 or newer device you can use it as a webcam when connecting the device via USB to the computer.
+* If using a newer Pixel phone and some other Android 15 or newer device you can use it as a webcam when connecting the device via USB to the computer.
 
 - Add *Window Capture* source to record a specific window in the computer.
 
 - Add *Display Capture* source to record entire screen of the computer.
 
-image::img/obs-output.png[title="Output Settings"]
+=== Adding Source 
 
-- `Note:` in a computer with a dedicated graphics processing unit the encoder for that brand should be used. `NVIDIA NVEC`, `AMD AVC/AMD HW` or `INTEL AV1` this will provide better performance and less hiccups in the recording if available, this translates to recording at higher resolutions and potentially higher frame rates but this is also limited to the hardware used `cameras, phones, etc`.
+image::img/add-video-source.png[title="Adding a video Capture device"]
 
+When adding a source a window will pop up showing configurations for device in the dropdown menu named Device you can see all the devices available to use. In this example the onn webcam is being added which will point to the user's face while executing the task we are measuring. 
+
+When Window or Display capture sources are added the tester can choose which screen or program window to display in the canvas.  
+
+=== Output Configuration
+
+image::img/output-obs.png[title="Output Settings"]
+
+On the output screen you can select the directory, the file type and the encoder.
+
+- The Directory to use is up to the tester.
+
+- File type `.mp4` is recommended but it should be noted that `.mkv` files offer protection against unexpected interruptions in recording such as loosing power or storage is filled.
+
+- Encoder is the way the video will be 'coded' and stored, traditionally H.264 is the most used but if HVEC is available in your computer it can offer a better quality (bitrate and resolution) video at a lower storage cost than H.264. `Note:` in a computer with a dedicated graphics processing unit the encoder for that brand should be used. `NVIDIA NVEC`, `AMD AVC/AMD HW` or `INTEL AV1` this will provide better performance and less hiccups in the recording if available, this translates to recording at higher resolutions and potentially higher frame rates but this is also limited to the hardware used `cameras, phones, etc`.
+
+=== Canvas example
+
+image::img/canvas-all-views.png[title="Canvas with all sources added"]
 
 === Setup Options 
 
-== Example of setup
+- If tester only has a web cam either internally or third party and nothing else. It should point at the face of the testee so their reactions are captured when interacting with the project.
+
+- If tester has more cameras/phones available to them they can add more sources and move and/or transform them to fit the canvas. Remember that more video feed means more processing power required an thus lower refresh rates or resolution for the cameras may be needed as well as lower frame rates, bitrate or resolution for the recording. 
+
+== Example of setup in use
+
+image::img/test-lab-example.jpeg[title="Testee using testing lab"]
+
 
 == References
 
-- [1] OBS, Quick Start Guide, https://obsproject.com/kb/quick-start-guide
+- [1] OBS, Quick Start Guide. [Online]. https://obsproject.com/kb/quick-start-guide
 
-- [2] OBS, Video Sources, [Online] https://obsproject.com/kb/video-capture-sources
+- [2] OBS, Video Sources. [Online]. https://obsproject.com/kb/video-capture-sources
 
-- [3] OBS, Display Capture Sources, https://obsproject.com/kb/display-capture-sources 
+- [3] OBS, Display Capture Sources. [Online]. https://obsproject.com/kb/display-capture-sources 
+
+- [4] Melvin Stanley, Transform Your iPhone into a Pro-Quality Webcam for OBS: A Step-by-Step Guide. [Online]. https://nexttools.net/how-to-use-iphone-as-webcam-for-obs/ 
+
+- [5] Google, Use your Pixel phone as a webcam. [Online]. https://support.google.com/pixelcamera/answer/14274129?hl=en
