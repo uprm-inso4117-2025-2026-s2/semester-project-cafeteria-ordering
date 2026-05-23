@@ -23,7 +23,15 @@
     "test:ui": "playwright test",
     "test:ui:ui": "playwright test --ui",
     "test:ui:report": "playwright show-report",
-    "postinstall": "npx playwright install --with-deps"
+    "postinstall": "npx playwright install --with-deps",
+    "generate:test-data": "tsx scripts/generate-test-data.ts",
+    "generate:test-data:batch": "tsx scripts/generate-test-data.ts --batch 1000",
+    "generate:test-data:edge": "tsx scripts/generate-test-data.ts --edge",
+    "test:generators": "jest src/lib/test-generators/__tests__",
+    "test:generators:watch": "jest src/lib/test-generators/__tests__ --watch",
+    "test:generators:coverage": "jest src/lib/test-generators/__tests__ --coverage",
+    "benchmark:generators": "tsx scripts/benchmark-generators.ts",
+    "benchmark:generators:verbose": "tsx scripts/benchmark-generators.ts --verbose"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -71,6 +79,7 @@
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^30.0.0",
+    "@types/node": "^20.0.0",
     "@types/react": "~19.2.0",
     "@types/react-test-renderer": "^18.0.7",
     "babel-jest": "^30.3.0",
@@ -82,12 +91,30 @@
     "metro-react-native-babel-preset": "^0.77.0",
     "prettier": "^3.8.1",
     "react-test-renderer": "19.1.0",
+    "ts-node": "^10.9.0",
     "tsx": "^4.21.0",
     "typescript": "~5.9.2",
     "@playwright/test": "^1.44.0"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "testMatch": [
+      "**/__tests__/**/*.ts?(x)",
+      "**/?(*.)+(spec|test).ts?(x)"
+    ],
+    "collectCoverageFrom": [
+      "src/lib/test-generators/**/*.ts",
+      "!src/lib/test-generators/**/*.test.ts",
+      "!src/lib/test-generators/__tests__/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 70,
+        "functions": 70,
+        "lines": 70,
+        "statements": 70
+      }
+    }
   },
   "private": true
 }
