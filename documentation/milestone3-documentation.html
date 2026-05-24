@@ -433,7 +433,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="styles.css" />
 </head>
 <body class="article">
 <div id="header">
@@ -455,7 +454,6 @@ Friday, February 27, 2026</p>
 <div id="toc" class="toc">
 <div id="toctitle" class="title">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_legend">Legend</a></li>
 <li><a href="#_informative_part">Informative Part</a>
 <ul class="sectlevel2">
 <li><a href="#_1_1_team">1.1 Team</a></li>
@@ -497,24 +495,6 @@ Friday, February 27, 2026</p>
 </ul>
 </li>
 <li><a href="#_appendix_b_log_of_changes">Appendix B: Log of Changes</a></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_legend">Legend</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><span class="green-bg">Green background</span> - Indicates sections that have been added for the first time into the documentation.</p>
-</li>
-<li>
-<p><span class="yellow-bg">Yellow background</span> - Indicates sections that have been modified from the previous version of the documentation.</p>
-</li>
-<li>
-<p><span class="red-bg line-through">Red background with strikethrough</span> - Indicates sections that have been removed from the previous version of the documentation.</p>
-</li>
 </ul>
 </div>
 </div>
@@ -1506,7 +1486,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="sect3">
 <h4 id="_2_2_1_user_stories_epics_and_features">2.2.1 User stories, epics, and features</h4>
 <div class="paragraph">
-<p><span class="green-bg">This section organizes the system requirements from a high-level product perspective. Epics describe the major areas of value the system should provide, features describe the system capabilities needed to support those areas, and user stories describe how customers and cafeteria staff are expected to interact with the system. Together, these elements help connect the cafeteria problem context to specific system functionality.</span></p>
+<p>This section organizes the system requirements from a high-level product perspective. Epics describe the major areas of value the system should provide, features describe the system capabilities needed to support those areas, and user stories describe how customers and cafeteria staff are expected to interact with the system. Together, these elements help connect the cafeteria problem context to specific system functionality.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1514,37 +1494,37 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="sect4">
 <h5 id="_meal_ordering_and_access">Meal Ordering and Access</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">This epic focuses on improving how customers view, select, order, and receive meals during cafeteria service hours. The main goal is to reduce uncertainty for customers by giving them better visibility into available food and drink options before they commit to waiting in line or placing an order. This is especially important in a cafeteria environment where students or customers may have limited time between classes, work, or other responsibilities.</span></p>
+<p>This epic focuses on improving how customers view, select, order, and receive meals during cafeteria service hours. The main goal is to reduce uncertainty for customers by giving them better visibility into available food and drink options before they commit to waiting in line or placing an order. This is especially important in a cafeteria environment where students or customers may have limited time between classes, work, or other responsibilities.</p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">The system should support a smoother ordering experience by allowing customers to understand what is available, submit an order, receive order updates, and know when their meal is ready for pickup. This epic connects directly to features such as meal availability information, order placement, order status tracking, and pickup coordination.</span></p>
+<p>The system should support a smoother ordering experience by allowing customers to understand what is available, submit an order, receive order updates, and know when their meal is ready for pickup. This epic connects directly to features such as meal availability information, order placement, order status tracking, and pickup coordination.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_payment_processing">Payment Processing</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">This epic focuses on supporting reliable and convenient payment handling as part of the cafeteria ordering process. Since customers may need to pay before or during pickup, the system must provide a clear payment flow that reduces confusion and prevents incomplete or incorrect orders from disrupting cafeteria operations.</span></p>
+<p>This epic focuses on supporting reliable and convenient payment handling as part of the cafeteria ordering process. Since customers may need to pay before or during pickup, the system must provide a clear payment flow that reduces confusion and prevents incomplete or incorrect orders from disrupting cafeteria operations.</p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">The system should help customers understand the cost of their order, confirm payment status, and receive feedback if a payment cannot be completed. For cafeteria staff, this epic helps ensure that orders entering the preparation flow have the necessary payment information available. This epic connects to features such as order and payment handling, payment confirmation, and payment failure support.</span></p>
+<p>The system should help customers understand the cost of their order, confirm payment status, and receive feedback if a payment cannot be completed. For cafeteria staff, this epic helps ensure that orders entering the preparation flow have the necessary payment information available. This epic connects to features such as order and payment handling, payment confirmation, and payment failure support.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_peak_hour_flow_management">Peak-Hour Flow Management</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">This epic focuses on helping cafeteria staff manage high customer demand during busy service periods. Peak hours can cause long lines, crowded waiting areas, delayed meal preparation, and confusion between customers and staff. The system should reduce these issues by improving visibility into incoming demand and supporting better coordination between ordering, preparation, and pickup.</span></p>
+<p>This epic focuses on helping cafeteria staff manage high customer demand during busy service periods. Peak hours can cause long lines, crowded waiting areas, delayed meal preparation, and confusion between customers and staff. The system should reduce these issues by improving visibility into incoming demand and supporting better coordination between ordering, preparation, and pickup.</p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">The goal of this epic is not only to make the customer experience faster, but also to help staff make better operational decisions during stressful periods. This includes understanding how many orders are waiting, which meals are being requested, and where delays may occur in the service flow. This epic connects to features such as demand awareness support, order queue visibility, and service flow coordination.</span></p>
+<p>The goal of this epic is not only to make the customer experience faster, but also to help staff make better operational decisions during stressful periods. This includes understanding how many orders are waiting, which meals are being requested, and where delays may occur in the service flow. This epic connects to features such as demand awareness support, order queue visibility, and service flow coordination.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_service_reliability_and_coordination">Service Reliability and Coordination</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">This epic focuses on keeping cafeteria service organized and dependable from the moment an order is placed until the meal is picked up. The system should support coordination between customers and staff so that orders are not lost, delayed unnecessarily, or marked incorrectly.</span></p>
+<p>This epic focuses on keeping cafeteria service organized and dependable from the moment an order is placed until the meal is picked up. The system should support coordination between customers and staff so that orders are not lost, delayed unnecessarily, or marked incorrectly.</p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">A reliable service flow is important because cafeteria operations depend on multiple connected stages: customers selecting meals, the system recording orders, staff preparing items, and customers receiving pickup information. This epic connects to features such as order status tracking, staff order management, pickup notifications, and service disruption handling.</span></p>
+<p>A reliable service flow is important because cafeteria operations depend on multiple connected stages: customers selecting meals, the system recording orders, staff preparing items, and customers receiving pickup information. This epic connects to features such as order status tracking, staff order management, pickup notifications, and service disruption handling.</p>
 </div>
 </div>
 </div>
@@ -1555,25 +1535,25 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
-<p><span class="yellow-bg">I want to see available food and drink options before ordering, so that I can decide whether the cafeteria has something I want before spending time waiting.</span></p>
+<p>I want to see available food and drink options before ordering, so that I can decide whether the cafeteria has something I want before spending time waiting.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to see whether menu items are currently available or unavailable, so that I do not place an order for an item that cannot be prepared.</span></p>
+<p>I want to see whether menu items are currently available or unavailable, so that I do not place an order for an item that cannot be prepared.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to view the price and summary of my order before confirming it, so that I can verify that my order is correct.</span></p>
+<p>I want to view the price and summary of my order before confirming it, so that I can verify that my order is correct.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to place an order through the system, so that I can reduce the amount of time I spend waiting in a physical line.</span></p>
+<p>I want to place an order through the system, so that I can reduce the amount of time I spend waiting in a physical line.</p>
 </li>
 <li>
-<p><span class="yellow-bg">I want to know when my order is being prepared and when it is ready for pickup, so that I can better manage my time while waiting.</span></p>
+<p>I want to know when my order is being prepared and when it is ready for pickup, so that I can better manage my time while waiting.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to receive a clear notification when my order is ready, so that I know when to go to the pickup area.</span></p>
+<p>I want to receive a clear notification when my order is ready, so that I know when to go to the pickup area.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to be informed if my payment fails or my order cannot be completed, so that I can correct the issue without causing confusion for cafeteria staff.</span></p>
+<p>I want to be informed if my payment fails or my order cannot be completed, so that I can correct the issue without causing confusion for cafeteria staff.</p>
 </li>
 </ul>
 </div>
@@ -1583,25 +1563,25 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
-<p><span class="yellow-bg">I want to have visibility into incoming orders, so that I can prepare meals more efficiently and reduce delays during service hours.</span></p>
+<p>I want to have visibility into incoming orders, so that I can prepare meals more efficiently and reduce delays during service hours.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to see the details of each order, including selected items and order status, so that I can prepare the correct meals for each customer.</span></p>
+<p>I want to see the details of each order, including selected items and order status, so that I can prepare the correct meals for each customer.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to update the status of an order, so that customers know whether their order is pending, being prepared, or ready for pickup.</span></p>
+<p>I want to update the status of an order, so that customers know whether their order is pending, being prepared, or ready for pickup.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to mark menu items as unavailable when they run out, so that customers do not continue ordering items that cannot be served.</span></p>
+<p>I want to mark menu items as unavailable when they run out, so that customers do not continue ordering items that cannot be served.</p>
 </li>
 <li>
-<p><span class="yellow-bg">I want to manage service flow during busy periods, so that congestion, confusion, and long wait times are reduced.</span></p>
+<p>I want to manage service flow during busy periods, so that congestion, confusion, and long wait times are reduced.</p>
 </li>
 <li>
-<p><span class="green-bg">I want to see demand information during peak hours, so that I can prioritize preparation and respond to high-volume periods more effectively.</span></p>
+<p>I want to see demand information during peak hours, so that I can prioritize preparation and respond to high-volume periods more effectively.</p>
 </li>
 <li>
-<p><span class="green-bg">I want the system to support coordination between ordering, preparation, and pickup, so that staff can maintain a more organized cafeteria workflow.</span></p>
+<p>I want the system to support coordination between ordering, preparation, and pickup, so that staff can maintain a more organized cafeteria workflow.</p>
 </li>
 </ul>
 </div>
@@ -1612,73 +1592,73 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="sect4">
 <h5 id="_meal_availability_information">Meal Availability Information</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">This feature provides customers with visibility into available meals and beverages during a cafeteria service period. It should allow customers to review menu options before ordering and help them make informed decisions based on availability, price, and expected service conditions.</span></p>
+<p>This feature provides customers with visibility into available meals and beverages during a cafeteria service period. It should allow customers to review menu options before ordering and help them make informed decisions based on availability, price, and expected service conditions.</p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">This feature supports the Meal Ordering and Access epic because it reduces uncertainty before customers enter the ordering process. It also supports cafeteria staff by helping prevent customers from requesting items that are unavailable.</span></p>
+<p>This feature supports the Meal Ordering and Access epic because it reduces uncertainty before customers enter the ordering process. It also supports cafeteria staff by helping prevent customers from requesting items that are unavailable.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_order_placement_and_order_summary">Order Placement and Order Summary</h5>
 <div class="paragraph">
-<p><span class="green-bg">This feature allows customers to create an order by selecting available food and drink items. Before confirming the order, the system should present a clear order summary that includes selected items, quantities, and total cost.</span></p>
+<p>This feature allows customers to create an order by selecting available food and drink items. Before confirming the order, the system should present a clear order summary that includes selected items, quantities, and total cost.</p>
 </div>
 <div class="paragraph">
-<p><span class="green-bg">This feature supports the Meal Ordering and Access epic by giving customers a structured way to submit orders and verify their choices before the order enters the cafeteria workflow.</span></p>
+<p>This feature supports the Meal Ordering and Access epic by giving customers a structured way to submit orders and verify their choices before the order enters the cafeteria workflow.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_order_and_payment_handling">Order and Payment Handling</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">This feature supports the creation and processing of customer orders, including the handling of payment confirmation and payment failure situations. It should ensure that customers receive clear feedback about whether their order and payment were completed successfully.</span></p>
+<p>This feature supports the creation and processing of customer orders, including the handling of payment confirmation and payment failure situations. It should ensure that customers receive clear feedback about whether their order and payment were completed successfully.</p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic because payment status directly affects whether an order can move forward into preparation and pickup.</span></p>
+<p>This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic because payment status directly affects whether an order can move forward into preparation and pickup.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_order_status_tracking">Order Status Tracking</h5>
 <div class="paragraph">
-<p><span class="green-bg">This feature allows customers and cafeteria staff to track the progress of an order through its main service stages, such as submitted, being prepared, and ready for pickup.</span></p>
+<p>This feature allows customers and cafeteria staff to track the progress of an order through its main service stages, such as submitted, being prepared, and ready for pickup.</p>
 </div>
 <div class="paragraph">
-<p><span class="green-bg">This feature supports the Service Reliability and Coordination epic by reducing uncertainty and helping both customers and staff understand the current state of each order.</span></p>
+<p>This feature supports the Service Reliability and Coordination epic by reducing uncertainty and helping both customers and staff understand the current state of each order.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_pickup_notification_support">Pickup Notification Support</h5>
 <div class="paragraph">
-<p><span class="green-bg">This feature notifies customers when their order is ready for pickup. The notification should be clear enough for the customer to know when to approach the pickup area without repeatedly asking staff for updates.</span></p>
+<p>This feature notifies customers when their order is ready for pickup. The notification should be clear enough for the customer to know when to approach the pickup area without repeatedly asking staff for updates.</p>
 </div>
 <div class="paragraph">
-<p><span class="green-bg">This feature supports the Meal Ordering and Access epic and the Service Reliability and Coordination epic by improving communication between the cafeteria and the customer.</span></p>
+<p>This feature supports the Meal Ordering and Access epic and the Service Reliability and Coordination epic by improving communication between the cafeteria and the customer.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_demand_awareness_support">Demand Awareness Support</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">This feature provides cafeteria staff with information about incoming orders and expected demand during service periods. It should help staff understand which items are being ordered, how many orders are waiting, and when demand is increasing.</span></p>
+<p>This feature provides cafeteria staff with information about incoming orders and expected demand during service periods. It should help staff understand which items are being ordered, how many orders are waiting, and when demand is increasing.</p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">This feature supports the Peak-Hour Flow Management epic because it gives staff better operational awareness during busy periods and helps them prepare meals under uncertain demand conditions.</span></p>
+<p>This feature supports the Peak-Hour Flow Management epic because it gives staff better operational awareness during busy periods and helps them prepare meals under uncertain demand conditions.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_menu_availability_management">Menu Availability Management</h5>
 <div class="paragraph">
-<p><span class="green-bg">This feature allows cafeteria staff to update the availability of menu items when items run out or become temporarily unavailable. Customers should then see the updated availability before placing an order.</span></p>
+<p>This feature allows cafeteria staff to update the availability of menu items when items run out or become temporarily unavailable. Customers should then see the updated availability before placing an order.</p>
 </div>
 <div class="paragraph">
-<p><span class="green-bg">This feature supports both the Meal Ordering and Access epic and the Peak-Hour Flow Management epic by preventing unavailable items from creating delays, incorrect orders, or customer frustration.</span></p>
+<p>This feature supports both the Meal Ordering and Access epic and the Peak-Hour Flow Management epic by preventing unavailable items from creating delays, incorrect orders, or customer frustration.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_service_flow_coordination">Service Flow Coordination</h5>
 <div class="paragraph">
-<p><span class="yellow-bg">This feature coordinates the progression from order placement to meal preparation and pickup. It should help ensure that orders move through the cafeteria workflow in an organized way and that customers receive accurate information about their order status.</span></p>
+<p>This feature coordinates the progression from order placement to meal preparation and pickup. It should help ensure that orders move through the cafeteria workflow in an organized way and that customers receive accurate information about their order status.</p>
 </div>
 <div class="paragraph">
-<p><span class="yellow-bg">This feature supports the Service Reliability and Coordination epic because it connects the customer-facing ordering experience with the staff-facing preparation process. It also supports peak-hour operations by helping reduce confusion when many orders are active at the same time.</span></p>
+<p>This feature supports the Service Reliability and Coordination epic because it connects the customer-facing ordering experience with the staff-facing preparation process. It also supports peak-hour operations by helping reduce confusion when many orders are active at the same time.</p>
 </div>
 </div>
 </div>
@@ -3951,7 +3931,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-24 12:34:48 -0400
+Last updated 2026-05-24 12:35:21 -0400
 </div>
 </div>
 </body>
