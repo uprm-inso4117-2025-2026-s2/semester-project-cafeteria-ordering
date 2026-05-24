@@ -693,7 +693,8 @@ The following requirements are derived from the domain description in Section 2.
 ** The system must associate every placed order with the specific customer who initiated it.
 
 * **DR-04: Order Preparation Lifecycle**
-** The system must allow cafeteria staff to update and track the preparation stage of an order.
+** The system must maintain a preparation status for each placed order and update that status when cafeteria staff record a change in the order's preparation stage.
+** The system must make the current preparation status of each placed order available to cafeteria staff so that staff can identify which orders are pending, being prepared, or ready for pickup.
 
 * **DR-05: Pricing and Total Calculation**
 ** The system must calculate the total price of an order based on the prices of the selected menu items.
@@ -1841,4 +1842,5 @@ The following table have all the changes made to the documentation for Milestone
 |===
 | Name | Section | Description | GitHub Issue
 | @Kaariinaa08 | 2.2.1 - User stories, epics, and features | Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback. | #634
+| @Kaariinaa08 | 2.2.3 - Domain Requirements | Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status. | #635
 |===

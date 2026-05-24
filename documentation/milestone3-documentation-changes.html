@@ -1864,7 +1864,10 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
-<p>The system must allow cafeteria staff to update and track the preparation stage of an order.</p>
+<p><span class="yellow-bg">The system must maintain a preparation status for each placed order and update that status when cafeteria staff record a change in the order&#8217;s preparation stage.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The system must make the current preparation status of each placed order available to cafeteria staff so that staff can identify which orders are pending, being prepared, or ready for pickup.</span></p>
 </li>
 </ul>
 </div>
@@ -3944,6 +3947,12 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#634</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@Kaariinaa08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.2.3 - Domain Requirements</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#635</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3951,7 +3960,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-24 12:34:48 -0400
+Last updated 2026-05-24 12:57:38 -0400
 </div>
 </div>
 </body>
