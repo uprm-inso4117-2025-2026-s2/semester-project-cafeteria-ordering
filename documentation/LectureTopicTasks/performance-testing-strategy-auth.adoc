@@ -10,7 +10,7 @@
 
 Measures overall system responsiveness, stability, and speed under expected conditions.
 
-In this system, it evaluates Login reponse time, Signup processing speed, and Role validation delays.
+In this system, it evaluates Login response time, Signup processing speed, and Role validation delays.
 
 === Load Testing
 
