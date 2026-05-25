@@ -21,6 +21,7 @@ import { useAuth } from '../authContext';
 
 import MenuItemCard from '@/components/MenuItemCard';
 import { MenuItem } from '@/models/food-item-class';
+import { addCartItem } from '../../lib/cart-items';
 
 
 //UI categories 
@@ -71,7 +72,9 @@ export default function HomeScreen() {
     });
   }, [search, selectedCategory]);
 
-  const handleAddToCart = (menuItem: MenuItem) => {
+  const handleAddToCart = (menuItem: any) => {
+    addCartItem(menuItem, 1, []);
+
     console.log('Added to cart:', menuItem);
   };
 
@@ -126,10 +129,10 @@ export default function HomeScreen() {
           </Text>
         </View>
 
-        {/* Cart button leads to placeholder*/}
+        {/* Cart button leads to payment screen*/}
         <Pressable
           style={styles.cartButton}
-          onPress={() => router.push('/cart')}
+          onPress={() => router.push('/payment')}
         >
           <Ionicons
             name="cart-outline"
