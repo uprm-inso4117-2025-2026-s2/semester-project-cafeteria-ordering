@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, useColorScheme, View } from "react-native";
 import { availableAddOns } from "../../dummyData/addons";
@@ -60,6 +60,7 @@ export default function ItemPage() {
     const [count, setCount] = useState(1);
     const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
     const isAvailable = item?.isAvailable();
+    const router = useRouter();
 
     /**
      * handleAddToCart
@@ -75,6 +76,7 @@ export default function ItemPage() {
         );
 
         addCartItem(item, count, selected);
+        router.push('/(tabs)');
 
         console.log('Added modified item to cart:', item.getName(), count, selected);
     };
