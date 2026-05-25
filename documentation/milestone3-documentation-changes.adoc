@@ -1841,6 +1841,159 @@ The team uses the following mutation score thresholds to guide test improvement,
 | 90–100% | Target range. Focus on test readability and maintainability rather than chasing final mutants.
 |===
 
+[.green-bg]
+=== 4.10 Fuzzing
+
+[.green-bg]#Fuzzing can be applied to the Cafeteria Ordering System to test how the web interface responds to unexpected, malformed, or invalid inputs. Unlike regular example-based testing, which checks a small number of predefined cases, fuzzing generates many unusual input values to discover weaknesses in input validation, error handling, and interface behavior.#
+
+[.green-bg]#This is useful for the Cafeteria Ordering System because users interact with forms and interface elements such as order creation, item quantity selection, payment method selection, special instructions, pickup information, and login or profile fields. These inputs should remain stable and predictable even when users submit unexpected values.#
+
+[.green-bg]
+==== Fuzzing Scope
+
+[.green-bg]#For this project, the fuzzing strategy focuses on the web interface and order-related input flow. The main goal is to verify that invalid or unexpected inputs do not crash the interface, create invalid orders, bypass validation rules, or produce unclear feedback for the user.#
+
+[.green-bg]#The main interface areas that can benefit from fuzzing include:#
+
+* [.green-bg]#Order item quantity fields#
+* [.green-bg]#Special instruction text fields#
+* [.green-bg]#Payment-related input fields#
+* [.green-bg]#Menu item selection controls#
+* [.green-bg]#Pickup code or order verification fields#
+* [.green-bg]#Login, sign-up, and profile text fields#
+
+[.green-bg]
+==== Example Fuzzed Inputs
+
+[.green-bg]#The following categories of fuzzed inputs can be used to test the Cafeteria Ordering System interface.#
+
+[.green-bg]
+===== Empty Strings
+
+[.green-bg]#Empty values can be submitted in text fields or required form fields.#
+
+[source,text]
+----
+""
+" "
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#Required fields should not be accepted when empty.#
+* [.green-bg]#The interface should display a clear validation message.#
+* [.green-bg]#The system should not create an incomplete order.#
+* [.green-bg]#No crash or unhandled error should occur.#
+
+[.green-bg]
+===== Very Long Text Values
+
+[.green-bg]#Very long strings can be used to test fields such as special instructions, names, or notes.#
+
+[source,text]
+----
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"Please add sauce " repeated 500 times
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#The interface should enforce a reasonable character limit.#
+* [.green-bg]#Long input should not break the layout.#
+* [.green-bg]#The system should either reject the value with a clear message or safely truncate it if that behavior is intentionally supported.#
+* [.green-bg]#The application should remain responsive.#
+
+[.green-bg]
+===== Invalid Item Quantities
+
+[.green-bg]#Invalid quantity values can be generated for item selection fields.#
+
+[source,text]
+----
+0
+-1
+999999
+"abc"
+"2.5"
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#Quantities less than one should be rejected.#
+* [.green-bg]#Extremely large quantities should be rejected or limited.#
+* [.green-bg]#Non-numeric values should not be accepted as valid quantities.#
+* [.green-bg]#The order should not proceed until all quantities are valid.#
+
+[.green-bg]
+===== Malformed Payment Values
+
+[.green-bg]#Malformed payment-related values can be used to test payment form validation or payment method handling.#
+
+[source,text]
+----
+"not-a-card"
+"123"
+"@@@@"
+"0000-0000-0000-0000"
+"cashier<script>"
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#Invalid payment values should be rejected.#
+* [.green-bg]#The system should not mark the order as paid unless payment is valid and confirmed.#
+* [.green-bg]#The interface should display clear payment validation feedback.#
+* [.green-bg]#The invalid value should not affect other order data.#
+
+[.green-bg]
+===== Unexpected Symbols and Special Characters
+
+[.green-bg]#Special characters can be entered into text-based fields to verify that the interface handles them safely.#
+
+[source,text]
+----
+"<script>alert('test')</script>"
+"'; DROP TABLE orders; --"
+"🍕🔥💳"
+"../../orders"
+"#@$%^&*()"
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#The interface should treat special characters as data, not executable code.#
+* [.green-bg]#The system should sanitize or safely handle input before storing or displaying it.#
+* [.green-bg]#The application should not expose sensitive errors.#
+* [.green-bg]#The UI should remain stable and usable.#
+
+[.green-bg]
+==== Fuzzing Strategy
+
+[.green-bg]#The fuzzing process can be organized around the order submission flow:#
+
+. [.green-bg]#Generate unexpected values for order-related fields.#
+. [.green-bg]#Submit those values through the interface or a simulated interface-level test.#
+. [.green-bg]#Observe whether the system accepts, rejects, or safely handles each input.#
+. [.green-bg]#Verify that invalid inputs do not create valid orders.#
+. [.green-bg]#Confirm that the user receives clear feedback.#
+. [.green-bg]#Record any crash, unclear message, layout issue, or invalid accepted state as a defect.#
+
+[.green-bg]#This approach is similar to property-based testing because both techniques use generated inputs instead of relying only on manually selected examples. However, fuzzing focuses more directly on malformed, unexpected, or hostile inputs, while property-based testing focuses on checking whether general system rules always hold.#
+
+[.green-bg]
+==== Connection to the Fuzzing Book Methodology
+
+[.green-bg]#The Fuzzing Book presents fuzzing as a technique for generating inputs automatically and observing whether the system behaves correctly. In the context of web application testing, this means submitting generated or unexpected values through web-facing inputs and checking whether the application validates, rejects, or safely processes them.#
+
+[.green-bg]#For the Cafeteria Ordering System, this methodology can be applied by generating unusual order quantities, unexpected text field values, malformed payment inputs, and invalid menu-related data. The system should respond with controlled validation behavior rather than crashes, broken layouts, incorrect order creation, or unclear error messages.#
+
+[.green-bg]
+==== Relevance to the Project
+
+[.green-bg]#Fuzzing strengthens the reliability of the Cafeteria Ordering System by testing the interface against inputs that real users may accidentally or intentionally submit. Since the system handles important flows such as order creation, payment selection, and pickup verification, it must reject invalid data safely and consistently.#
+
+[.green-bg]#By documenting a fuzzing strategy for the web interface, the project shows how generated unexpected inputs can help reveal validation weaknesses, improve robustness, and reduce the risk of invalid cafeteria orders being processed.#
+
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
 
@@ -1890,4 +2043,5 @@ The following table have all the changes made to the documentation for Milestone
 | @Kaariinaa08 | 2.2.1 - User stories, epics, and features | Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback. | #634
 | @Kaariinaa08 | 2.2.3 - Domain Requirements | Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status. | #635
 | @Kaariinaa08 | 2.2.4 - Interface Requirements | Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format. | #637
+| @aryamdiaz | 4.10 - Fuzzing | Added a new section explaining how fuzzing can be applied to the Cafeteria Ordering System web interface. Documented fuzzed input examples, expected validation behavior, and the connection to the Fuzzing Book methodology for testing web applications with generated or unexpected inputs. | #647
 |===
