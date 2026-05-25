@@ -29,7 +29,7 @@ jest.mock("@expo/vector-icons", () => ({
 import {
   resolveStatusStyle,
   StatusBadge,
-} from "../../../components/ui/StatusBadge";
+} from "@/components/ui/StatusBadge";
 
 describe("StatusBadge mapping", () => {
   test("returns distinct styles for each canonical status", () => {
