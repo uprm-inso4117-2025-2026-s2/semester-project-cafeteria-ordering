@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.26">
 <title>Cafeteria Ordering System</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -116,7 +116,6 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 :not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
-pre>code{display:block}
 pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
 em em{font-style:normal}
 strong strong{font-weight:400}
@@ -219,6 +218,7 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
 .literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
 .listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
 .listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
 .listingblock:hover code[data-lang]::before{display:block}
 .listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
@@ -485,6 +485,7 @@ Friday, February 27, 2026</p>
 <li><a href="#_4_4_load_testing">4.4 Load Testing</a></li>
 <li><a href="#_4_5_hoare_logic_testing">4.5 Hoare Logic Testing</a></li>
 <li><a href="#_4_6_mutation_testing">4.6 Mutation Testing</a></li>
+<li><a href="#_4_10_fuzzing">4.10 Fuzzing</a></li>
 </ul>
 </li>
 <li><a href="#_appendix_a_ai_disclosure_statement">Appendix A: AI Disclosure Statement</a>
@@ -3905,6 +3906,265 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </table>
 </div>
 </div>
+<div class="sect2 green-bg">
+<h3 id="_4_10_fuzzing">4.10 Fuzzing</h3>
+<div class="paragraph">
+<p><span class="green-bg">Fuzzing can be applied to the Cafeteria Ordering System to test how the web interface responds to unexpected, malformed, or invalid inputs. Unlike regular example-based testing, which checks a small number of predefined cases, fuzzing generates many unusual input values to discover weaknesses in input validation, error handling, and interface behavior.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">This is useful for the Cafeteria Ordering System because users interact with forms and interface elements such as order creation, item quantity selection, payment method selection, special instructions, pickup information, and login or profile fields. These inputs should remain stable and predictable even when users submit unexpected values.</span></p>
+</div>
+<div class="sect3 green-bg">
+<h4 id="_fuzzing_scope">Fuzzing Scope</h4>
+<div class="paragraph">
+<p><span class="green-bg">For this project, the fuzzing strategy focuses on the web interface and order-related input flow. The main goal is to verify that invalid or unexpected inputs do not crash the interface, create invalid orders, bypass validation rules, or produce unclear feedback for the user.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">The main interface areas that can benefit from fuzzing include:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Order item quantity fields</span></p>
+</li>
+<li>
+<p><span class="green-bg">Special instruction text fields</span></p>
+</li>
+<li>
+<p><span class="green-bg">Payment-related input fields</span></p>
+</li>
+<li>
+<p><span class="green-bg">Menu item selection controls</span></p>
+</li>
+<li>
+<p><span class="green-bg">Pickup code or order verification fields</span></p>
+</li>
+<li>
+<p><span class="green-bg">Login, sign-up, and profile text fields</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3 green-bg">
+<h4 id="_example_fuzzed_inputs">Example Fuzzed Inputs</h4>
+<div class="paragraph">
+<p><span class="green-bg">The following categories of fuzzed inputs can be used to test the Cafeteria Ordering System interface.</span></p>
+</div>
+<div class="sect4 green-bg">
+<h5 id="_empty_strings">Empty Strings</h5>
+<div class="paragraph">
+<p><span class="green-bg">Empty values can be submitted in text fields or required form fields.</span></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">""
+" "</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Expected system behavior:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Required fields should not be accepted when empty.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The interface should display a clear validation message.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The system should not create an incomplete order.</span></p>
+</li>
+<li>
+<p><span class="green-bg">No crash or unhandled error should occur.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4 green-bg">
+<h5 id="_very_long_text_values">Very Long Text Values</h5>
+<div class="paragraph">
+<p><span class="green-bg">Very long strings can be used to test fields such as special instructions, names, or notes.</span></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"Please add sauce " repeated 500 times</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Expected system behavior:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">The interface should enforce a reasonable character limit.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Long input should not break the layout.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The system should either reject the value with a clear message or safely truncate it if that behavior is intentionally supported.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The application should remain responsive.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4 green-bg">
+<h5 id="_invalid_item_quantities">Invalid Item Quantities</h5>
+<div class="paragraph">
+<p><span class="green-bg">Invalid quantity values can be generated for item selection fields.</span></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">0
+-1
+999999
+"abc"
+"2.5"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Expected system behavior:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Quantities less than one should be rejected.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Extremely large quantities should be rejected or limited.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Non-numeric values should not be accepted as valid quantities.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The order should not proceed until all quantities are valid.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4 green-bg">
+<h5 id="_malformed_payment_values">Malformed Payment Values</h5>
+<div class="paragraph">
+<p><span class="green-bg">Malformed payment-related values can be used to test payment form validation or payment method handling.</span></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">"not-a-card"
+"123"
+"@@@@"
+"0000-0000-0000-0000"
+"cashier&lt;script&gt;"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Expected system behavior:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Invalid payment values should be rejected.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The system should not mark the order as paid unless payment is valid and confirmed.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The interface should display clear payment validation feedback.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The invalid value should not affect other order data.</span></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4 green-bg">
+<h5 id="_unexpected_symbols_and_special_characters">Unexpected Symbols and Special Characters</h5>
+<div class="paragraph">
+<p><span class="green-bg">Special characters can be entered into text-based fields to verify that the interface handles them safely.</span></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">"&lt;script&gt;alert('test')&lt;/script&gt;"
+"'; DROP TABLE orders; --"
+"🍕🔥💳"
+"../../orders"
+"#@$%^&amp;*()"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">Expected system behavior:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">The interface should treat special characters as data, not executable code.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The system should sanitize or safely handle input before storing or displaying it.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The application should not expose sensitive errors.</span></p>
+</li>
+<li>
+<p><span class="green-bg">The UI should remain stable and usable.</span></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3 green-bg">
+<h4 id="_fuzzing_strategy">Fuzzing Strategy</h4>
+<div class="paragraph">
+<p><span class="green-bg">The fuzzing process can be organized around the order submission flow:</span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><span class="green-bg">Generate unexpected values for order-related fields.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Submit those values through the interface or a simulated interface-level test.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Observe whether the system accepts, rejects, or safely handles each input.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Verify that invalid inputs do not create valid orders.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Confirm that the user receives clear feedback.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Record any crash, unclear message, layout issue, or invalid accepted state as a defect.</span></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">This approach is similar to property-based testing because both techniques use generated inputs instead of relying only on manually selected examples. However, fuzzing focuses more directly on malformed, unexpected, or hostile inputs, while property-based testing focuses on checking whether general system rules always hold.</span></p>
+</div>
+</div>
+<div class="sect3 green-bg">
+<h4 id="_connection_to_the_fuzzing_book_methodology">Connection to the Fuzzing Book Methodology</h4>
+<div class="paragraph">
+<p><span class="green-bg">The Fuzzing Book presents fuzzing as a technique for generating inputs automatically and observing whether the system behaves correctly. In the context of web application testing, this means submitting generated or unexpected values through web-facing inputs and checking whether the application validates, rejects, or safely processes them.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">For the Cafeteria Ordering System, this methodology can be applied by generating unusual order quantities, unexpected text field values, malformed payment inputs, and invalid menu-related data. The system should respond with controlled validation behavior rather than crashes, broken layouts, incorrect order creation, or unclear error messages.</span></p>
+</div>
+</div>
+<div class="sect3 green-bg">
+<h4 id="_relevance_to_the_project">Relevance to the Project</h4>
+<div class="paragraph">
+<p><span class="green-bg">Fuzzing strengthens the reliability of the Cafeteria Ordering System by testing the interface against inputs that real users may accidentally or intentionally submit. Since the system handles important flows such as order creation, payment selection, and pickup verification, it must reject invalid data safely and consistently.</span></p>
+</div>
+<div class="paragraph">
+<p><span class="green-bg">By documenting a fuzzing strategy for the web interface, the project shows how generated unexpected inputs can help reveal validation weaknesses, improve robustness, and reduce the risk of invalid cafeteria orders being processed.</span></p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -4023,6 +4283,12 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#637</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@aryamdiaz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.10 - Fuzzing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added a new section explaining how fuzzing can be applied to the Cafeteria Ordering System web interface. Documented fuzzed input examples, expected validation behavior, and the connection to the Fuzzing Book methodology for testing web applications with generated or unexpected inputs.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#647</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4030,7 +4296,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-24 13:21:48 -0400
+Last updated 2026-05-25 16:38:38 -0400
 </div>
 </div>
 </body>
