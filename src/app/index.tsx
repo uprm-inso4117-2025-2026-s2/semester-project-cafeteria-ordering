@@ -1,43 +1,14 @@
 import { Redirect } from 'expo-router';
-import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { supabase } from '@/lib/supabase';
+import { useAuth } from './authContext';
 
 export default function RootIndexRedirect() {
   const colorScheme = useColorScheme();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { loggedIn, isInitialized } = useAuth();
 
-  useEffect(() => {
-    let isMounted = true;
-
-    async function initializeAuthState() {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-      if (!isMounted) return;
-
-      setIsAuthenticated(!error && !!session?.user);
-      setIsLoading(false);
-    }
-
-    initializeAuthState();
-
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session?.user);
-      setIsLoading(false);
-    });
-
-    return () => {
-      isMounted = false;
-      subscription.subscription.unsubscribe();
-    };
-  }, []);
-
-  if (isLoading) {
+  if (!isInitialized) {
     return (
       <View
         style={{
@@ -51,5 +22,5 @@ export default function RootIndexRedirect() {
     );
   }
 
-  return <Redirect href={isAuthenticated ? '/(tabs)' : '/signup'} />;
+  return <Redirect href={loggedIn ? '/(tabs)' : '/login'} />;
 }
