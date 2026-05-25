@@ -18,6 +18,7 @@ import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { mapLoginError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
+import { isValidEmail } from '@/lib/validation';
 
 // ─── Logo Assets ──────────────────────────────────────────────────────────────
 const LightModeLogo = require('../../../documentation/branding/images/Light-Mode-Logo.png');
@@ -102,7 +103,7 @@ function validate(fields: { emailOrUsername: string; password: string }) {
   const errors: Record<string, string> = {};
   if (!fields.emailOrUsername.trim()) {
     errors.emailOrUsername = 'Email is required.';
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.emailOrUsername)) {
+  } else if (!isValidEmail(fields.emailOrUsername)) {
     errors.emailOrUsername = 'Please enter a valid email address.';
   }
   if (!fields.password) {
