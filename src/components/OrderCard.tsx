@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { OrderStatusInput, StatusBadge } from "./ui/StatusBadge";
 
 interface OrderItem {
   name: string;
@@ -13,7 +14,7 @@ interface OrderCardProps {
   customerName: string;
   createdAt: string;
   items: OrderItem[] | string[];
-  status: OrderTab;
+  status: OrderTab | OrderStatusInput;
 }
 
 export function OrderCard({
@@ -44,6 +45,8 @@ export function OrderCard({
             <Text style={styles.customerName}>{customerName}</Text>
             <Text style={styles.dateText}>{createdAt}</Text>
           </View>
+
+          <StatusBadge status={status} size="sm" style={styles.statusBadge} />
         </View>
       </View>
 
@@ -116,6 +119,10 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     flex: 1,
+  },
+  statusBadge: {
+    marginLeft: 8,
+    marginTop: 2,
   },
   orderTitle: {
     fontSize: 20,
