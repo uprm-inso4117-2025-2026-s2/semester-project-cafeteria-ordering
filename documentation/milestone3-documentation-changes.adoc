@@ -255,7 +255,7 @@ Based on the previously discussed needs, a platform where students and staff fro
 
 * Ordering: Now, it's easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
 
-* Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it's ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn't pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. If the customer attempts to pay after the payment window has already expired, cafeteria staff must verify whether the order is still available before accepting payment. Orders that have already been removed or cancelled must be reordered by the customer. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.
+* Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it's ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn't pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. [.yellow-bg]#If the customer attempts to pay after the payment window has already expired, cafeteria staff must verify whether the order is still available before accepting payment.# [.yellow-bg]#Orders that have already been removed or cancelled must be reordered by the customer.# As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.
 
 * Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
 
@@ -476,40 +476,40 @@ Actions may be performed by human actors (students or cafeteria staff) or by non
 
 ==== 2.1.5 Function Signatures
 
-This section defines the core operations associated with actions and behaviors that have been identified in the cafeteria domain. The function signatures are not limited to implementation details, instead they clarify the information involved in domain operations such as order placement, payment processing, order cancellation, and meal preparation. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.
+[.yellow-bg]#This section defines the core operations associated with actions and behaviors that have been identified in the cafeteria domain. The function signatures are not limited to implementation details, instead they clarify the information involved in domain operations such as order placement, payment processing, order cancellation, and meal preparation. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.#
 
 * **User Registration**
-This operation relates to customer access and identification within the cafeteria ordering domain. 
+[.yellow-bg]#This operation relates to customer access and identification within the cafeteria ordering domain.# 
 To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
 `registerUser : UserDatabase >< UserDetails -> UserDatabase >< (Option UserProfile)`
 
 * **Browsing the Menu**
-This operation relates to the Menu concept described in Sections 2.1.2 and 2.1.4. 
+[.yellow-bg]#This operation relates to the Menu concept described in Sections 2.1.2 and 2.1.4.# 
 Retrieving the available food items requires access to the active menu catalog.
 `viewMenu : MenuCatalog -> List(MenuItem)`
 
-* **Managing the Order Selection**
-This operation relates to the Order Placement action described in Section 2.1.4. 
-When a customer adds an item, the operation alters the local state of their current order selection rather than the global database, minimizing dependencies.
-`addItemToOrder : OrderSelection >< MenuItem >< Quantity -> OrderSelection`
+* **[.yellow-bg]#Managing the Order Selection#**
+[.yellow-bg]#This operation relates to the Order Placement action described in Section 2.1.4.# 
+When a customer adds an item, the operation alters the local state of their [.yellow-bg]#current order selection# rather than the global database, minimizing dependencies.
+`[.yellow-bg]#addItemToOrder# : [.yellow-bg]#OrderSelection# >< MenuItem >< Quantity -> [.yellow-bg]#OrderSelection#`
 
 * **Placing an Order**
-This operation formalizes the Order Placement action and the Order Has Just Been Placed event described in Section 2.1.4. 
-Placing an order requires the current order selection, the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an `Option` for the generated order.
-`placeOrder : OrderRecords >< OrderSelection >< Customer -> OrderRecords >< (Option Order)`
+[.yellow-bg]#This operation formalizes the Order Placement action and the Order Has Just Been Placed event described in Section 2.1.4.# 
+Placing an order requires the [.yellow-bg]#current order selection,# the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an `Option` for the generated order.
+`placeOrder : OrderRecords >< [.yellow-bg]#OrderSelection# >< Customer -> OrderRecords >< (Option Order)`
 
 * **Processing Payments**
-This operation relates to the Payment action and Payment Has Just Failed event described in Section 2.1.4. 
+[.yellow-bg]#This operation relates to the Payment action and Payment Has Just Failed event described in Section 2.1.4.# 
 This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
 `processPayment : PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
 
 * **Updating Order Status**
-This operation relates to the Meal Preparation and Meal Pickup actions described in Section 2.1.4. 
+[.yellow-bg]#This operation relates to the Meal Preparation and Meal Pickup actions described in Section 2.1.4.# 
 As cafeteria staff prepare the food, they update the order's progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
 `updateOrderStatus : ActiveOrderList >< OrderID >< Status -> ActiveOrderList`
 
 * **Canceling an Order**
-This operation relates to the order cancellation behavior discussed throughout the ordering and payment flow. 
+[.yellow-bg]#This operation relates to the order cancellation behavior discussed throughout the ordering and payment flow.# 
 If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
 `cancelOrder : OrderRecords >< OrderID -> OrderRecords >< (Option RefundStatus)`
 
@@ -1122,15 +1122,15 @@ The following concepts are derived from recurring observations in the domain rou
 
 *Test Planning and Documentation Verification (Ongoing)*
 
-* At the current stage of the project, testing preparation has mainly focused on defining planned testing approaches and connecting requirements to features. More detailed testing artifacts and implementation-level tests are expected to improve as additional functionality is completed.   
+* [.green-bg]#At the current stage of the project, testing preparation has mainly focused on defining planned testing approaches and connecting requirements to features. More detailed testing artifacts and implementation-level tests are expected to improve as additional functionality is completed.#   
 
 * The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.  
 
 * Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.  
 
-* Traceability reviews were used to verify that major features and user stories are associated with at least one planned testing approach. For example, order processing is connected to integration and system testing, while payment handling is connected to system and acceptance testing.  
+* [.yellow-bg]#Traceability reviews were used to verify that major features and user stories are associated with at least one planned testing approach. For example, order processing is connected to integration and system testing, while payment handling is connected to system and acceptance testing.#  
 
-* Documentation verification focuses on consistency, terminology alignment, traceability, and completeness across requirements, user stories, epics, and domain concepts. These reviews help identify undefined terms, conflicting statements, missing relationships between sections, and requirements that may require further clarification before implementation and testing.   
+* [.yellow-bg]#Documentation verification focuses on consistency, terminology alignment, traceability, and completeness across requirements, user stories, epics, and domain concepts. These reviews help identify undefined terms, conflicting statements, missing relationships between sections, and requirements that may require further clarification before implementation and testing.#   
 
 *Automated Verification via Continuous Integration (Ongoing)*
 
@@ -1340,7 +1340,7 @@ Precondition (client domain):
 Derived Acceptance Criteria (client domain):
 
 * The student must be able to select available menu items.
-* The student must be able to add selected items to an order.
+* The student must be able to add selected items to [.yellow-bg]#an order.#
 * The student must be able to proceed to checkout and choose a pickup option.
 * The system must confirm successful order placement.
 * The cafeteria staff must be notified of new orders.
@@ -1474,7 +1474,7 @@ The expected usage assumptions are derived from the machine requirements in Sect
 * Target order throughput: at least 60 orders/min during peak hours.
 * Concurrent users: up to 300 active users within a 5-minute window.
 
-For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing orders, or waiting for order preparation.
+For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing [.yellow-bg]#orders#, or waiting for order preparation.
 
 ==== Usage Scenario Used for Load Testing
 
