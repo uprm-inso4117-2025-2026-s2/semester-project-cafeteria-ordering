@@ -258,6 +258,19 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* Evaluates the sensitivity of homepage filtering and display logic to small logic changes by applying controlled mutations and validating whether incorrect behavior becomes detectable during execution.
 
+==== Issue #646 - Property-Based Testing for Order Validation
+
+*Assignee:* @aryamdiaz
+
+*Work completed:*
+- Added Section 4.8 Property Based Testing to the Milestone 3 documentation.
+- Updated the clean documentation file without tags.
+- Updated the changes documentation file using the green tag for newly added content.
+- Documented meaningful properties related to order validation, including non-negative totals, non-empty valid orders, valid item quantities, and invalid menu item IDs.
+- Explained how generated test cases help reveal edge cases across many possible order inputs.
+
+*Status:* Ready for review.
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)

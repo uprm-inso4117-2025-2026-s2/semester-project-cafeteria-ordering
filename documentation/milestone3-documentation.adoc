@@ -1833,6 +1833,139 @@ The team uses the following mutation score thresholds to guide test improvement,
 | 90–100% | Target range. Focus on test readability and maintainability rather than chasing final mutants.
 |===
 
+=== 4.8 Property Based Testing
+
+Property-based testing can be used in the Cafeteria Ordering System to verify general rules that should remain true across many possible inputs. Instead of only testing one fixed example, property-based testing generates many combinations of values and checks whether important system properties still hold.
+
+This testing approach is useful for order validation because cafeteria orders can vary by selected menu items, quantities, prices, payment methods, and order status. By generating different order inputs, the team can identify edge cases that may not appear in manually written example-based tests.
+
+==== Testing Scope
+
+For this project, property-based testing focuses on the order validation flow. This includes checking whether generated orders follow the expected rules before they are accepted by the system or sent to the backend API.
+
+The following TypeScript-style example shows the kind of structure that could be tested:
+
+[source,ts]
+----
+type MenuItem = {
+  id: string;
+  name: string;
+  price: number;
+  isAvailable: boolean;
+};
+
+type OrderItem = {
+  menuItemId: string;
+  quantity: number;
+};
+
+type Order = {
+  items: OrderItem[];
+  paymentMethod: "cashier" | "card";
+};
+
+function validateOrder(order: Order, menuItems: MenuItem[]): boolean {
+  if (order.items.length === 0) {
+    return false;
+  }
+
+  return order.items.every((item) => {
+    const menuItem = menuItems.find((menuItem) => menuItem.id === item.menuItemId);
+
+    return (
+      menuItem !== undefined &&
+      menuItem.isAvailable &&
+      item.quantity > 0 &&
+      item.quantity <= 10
+    );
+  });
+}
+----
+
+==== Meaningful Properties
+
+The following properties describe general rules that should hold for the cafeteria ordering flow.
+
+===== Property 1 — Order Total Should Never Be Negative
+
+For any valid generated order, the calculated total should always be greater than or equal to zero. Since menu item prices and item quantities determine the order total, the system should reject or prevent invalid values that could produce a negative total.
+
+[source,ts]
+----
+property("order total is never negative", (generatedOrder) => {
+  const total = calculateOrderTotal(generatedOrder);
+  expect(total).toBeGreaterThanOrEqual(0);
+});
+----
+
+This property helps detect invalid price or quantity handling, such as negative prices, negative quantities, or incorrect total calculations.
+
+===== Property 2 — A Valid Order Must Contain at Least One Item
+
+For any order to be valid, it must include at least one item. An empty order should not be accepted because it does not represent a real cafeteria request.
+
+[source,ts]
+----
+property("valid orders contain at least one item", (generatedOrder) => {
+  if (validateOrder(generatedOrder, menuItems)) {
+    expect(generatedOrder.items.length).toBeGreaterThan(0);
+  }
+});
+----
+
+This property supports the cafeteria ordering domain because every submitted order should represent one or more requested menu items.
+
+===== Property 3 — Item Quantities Must Stay Within Valid Limits
+
+Generated orders should only be valid when each item quantity is within the accepted range. For example, a quantity of zero, a negative quantity, or an unreasonably large quantity should cause the order to be rejected.
+
+[source,ts]
+----
+property("item quantities remain within valid limits", (generatedOrder) => {
+  const isValid = validateOrder(generatedOrder, menuItems);
+
+  if (isValid) {
+    generatedOrder.items.forEach((item) => {
+      expect(item.quantity).toBeGreaterThan(0);
+      expect(item.quantity).toBeLessThanOrEqual(10);
+    });
+  }
+});
+----
+
+This property helps verify that the system does not accept unrealistic or invalid order quantities.
+
+===== Property 4 — Invalid Menu Item IDs Should Not Create Valid Orders
+
+If a generated order contains a menu item ID that does not exist in the menu catalog, the order should not be accepted as valid.
+
+[source,ts]
+----
+property("invalid menu item ids do not create valid orders", (generatedOrder) => {
+  const containsInvalidItem = generatedOrder.items.some((item) => {
+    return !menuItems.some((menuItem) => menuItem.id === item.menuItemId);
+  });
+
+  if (containsInvalidItem) {
+    expect(validateOrder(generatedOrder, menuItems)).toBe(false);
+  }
+});
+----
+
+This property is important because the system should not allow users to submit orders for items that are not part of the cafeteria menu.
+
+==== Generated Test Cases and Edge Cases
+
+Generated test cases help reveal edge cases that developers may not manually consider. For example, a property-based testing tool could generate empty orders, orders with repeated items, invalid menu item identifiers, unavailable menu items, very large quantities, or unexpected combinations of valid and invalid items.
+
+This makes the testing process stronger because the same system rule is checked across many input combinations. If one generated case breaks a property, the test can expose a weakness in validation logic that might not be found through a small set of example-based tests.
+
+==== Relevance to the Project
+
+Property-based testing supports the Cafeteria Ordering System by validating general ordering rules at a higher level. These rules are connected to the web API and order validation flow because the system must determine whether submitted order data is valid before processing payment, notifying staff, or adding the order to the active queue.
+
+By documenting these properties, the project shows how property-based testing can be used to strengthen confidence in order validation and reduce the risk of accepting invalid cafeteria orders.
+
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
 
@@ -1882,4 +2015,5 @@ The following table have all the changes made to the documentation for Milestone
 | @Kaariinaa08 | 2.2.1 - User stories, epics, and features | Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback. | #634
 | @Kaariinaa08 | 2.2.3 - Domain Requirements | Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status. | #635
 | @Kaariinaa08 | 2.2.4 - Interface Requirements | Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format. | #637
+| @aryamdiaz | 4.8 - Property Based Testing | Added a new section explaining how property-based testing can verify cafeteria order validation rules across generated inputs. Documented meaningful properties for order totals, non-empty orders, valid quantities, and invalid menu item IDs. | #646
 |===
