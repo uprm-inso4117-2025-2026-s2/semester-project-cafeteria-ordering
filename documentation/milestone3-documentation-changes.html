@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.26">
 <title>Cafeteria Ordering System</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -116,7 +116,6 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 :not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
-pre>code{display:block}
 pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
 em em{font-style:normal}
 strong strong{font-weight:400}
@@ -219,6 +218,7 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
 .literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
 .listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
 .listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
 .listingblock:hover code[data-lang]::before{display:block}
 .listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
@@ -2709,6 +2709,188 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </ul>
 </div>
 </li>
+<li>
+<p><span class="green-bg"><strong>joining a queue:</strong> the act of a customer entering the service line to wait for ordering or payment.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as customers physically entering the line during peak periods. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action captures the start of a customer’s service interaction and affects waiting time and throughput.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>order placement:</strong> the act of selecting menu items and communicating the request to cafeteria staff.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Inferred from customers stating their order at the counter and staff recording it. Can be found in the following rough sketches: The Payment Bottleneck and The Kitchen’s Blind Spot.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action defines when a request becomes an order and is central to order creation requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>payment:</strong> the act of transferring money to finalize the order.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as the cashier step where payment is processed. Can be found in the following rough sketch: The Payment Bottleneck.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action is required to complete the transaction and is tied to payment status requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>meal preparation:</strong> the act of preparing menu items after an order exists.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed in staff preparing trays before and during rush periods. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action drives order status changes and preparation time variability.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>meal pickup:</strong> the act of a customer receiving prepared items.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as the final step when customers receive their meal after payment. Can be found in the following rough sketches: The Payment Bottleneck and The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action completes the service flow and supports pickup coordination requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>student has just joined the queue:</strong> the moment a customer enters the line.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as a discrete moment when a student decides to wait. Can be found in the following rough sketch: The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event marks the beginning of waiting time and helps define queue-related measurements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>order has just been placed:</strong> the moment an order is communicated to staff.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Inferred from the transition between waiting and staff receiving the request. Can be found in the following rough sketch: The Payment Bottleneck.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event separates browsing/queueing from order processing and supports order lifecycle tracking.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>payment has just failed:</strong> the moment a payment attempt does not complete.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when the payment system is down and staff must troubleshoot. Can be found in the following rough sketch: The Payment Bottleneck.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event triggers service delays and informs payment failure requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>meal has just been prepared:</strong> the moment a meal becomes ready for pickup.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Inferred from staff completing preparation and making items available. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event enables pickup notifications and order status updates.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>student has just left the queue without ordering:</strong> the moment a customer abandons the line.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when students decide to leave due to time pressure. Can be found in the following rough sketch: The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event reflects time-constrained behavior and motivates reducing wait times.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>crowd surge:</strong> a rapid influx of customers creating long lines.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when multiple students arrive at once during peak hours. Can be found in the following rough sketch: The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This behavior explains queue growth and informs peak-hour flow management.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>time-constrained decision making:</strong> customers decide whether to stay in line based on time pressure.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when students assess their schedule and leave the line. Can be found in the following rough sketch: The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This behavior motivates menu visibility and order status features that reduce uncertainty.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>uncertain demand preparation:</strong> staff prepare items without precise demand forecasts.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when staff prepare trays without knowing incoming volume. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This behavior motivates demand awareness support and preparation status tracking.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>service bottleneck:</strong> repeated delays caused by constrained payment or preparation.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when payment failures slow the line. Can be found in the following rough sketch: The Payment Bottleneck.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This behavior explains throughput issues and supports payment reliability requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 </div>
@@ -4023,6 +4205,12 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#637</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.1 - Concept Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expanded concepts to better align with professor&#8217;s expectations of the section.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#650</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4030,7 +4218,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-24 13:21:48 -0400
+Last updated 2026-05-25 17:05:14 -0400
 </div>
 </div>
 </body>
