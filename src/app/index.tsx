@@ -10,13 +10,7 @@ export default function RootIndexRedirect() {
 
   if (!isInitialized) {
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: colorScheme === 'dark' ? '#1C1C1C' : '#FAFAFA',
-        }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colorScheme === 'dark' ? '#1C1C1C' : '#FAFAFA' }}>
         <ActivityIndicator size="large" color={colorScheme === 'dark' ? '#FFCCBC' : '#2E7D32'} />
       </View>
     );

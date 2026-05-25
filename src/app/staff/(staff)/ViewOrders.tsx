@@ -1,21 +1,93 @@
 import { Image } from "expo-image";
-import React, { useMemo, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
-import { mockOrders } from "@/dummyData/orderData";
+import BaseDrawer from "@/components/StaffNavDrawer";
+import { supabase } from "@/lib/supabase";
 import { FilterBar } from "../../../components/FilterBar";
 import { OrderCard } from "../../../components/OrderCard";
 import { TabNav } from "../../../components/TabNav";
-import BaseDrawer from "@/components/StaffNavDrawer";
 
 type Tab = "unread" | "open" | "finished";
 type SortField = "customer" | "date" | "orderNumber";
 type SortDirection = "asc" | "desc";
 
+type Order = {
+  id: string;
+  orderNumber: number;
+  customerName: string;
+  createdAt: string;
+  items: { name: string; quantity?: number }[];
+  status: Tab;
+};
+
+function mapStatus(status: string): Tab {
+  if (status === "Completed" || status === "Cancelled") return "finished";
+  if (status === "Preparing" || status === "Ready for Pickup") return "open";
+  return "unread";
+}
+
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  return `created: ${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+}
+
 export default function ViewOrders() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<Tab>("unread");
   const [sortField, setSortField] = useState<SortField>("orderNumber");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+
+  async function fetchOrders() {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .order("created_at", { ascending: true });
+
+    if (error) {
+      console.error("[ViewOrders] Fetch error:", error.message);
+      return;
+    }
+
+    const mapped: Order[] = (data ?? []).map((row, index) => ({
+      id: row.id != null ? String(row.id) : `row-${index}`,
+      orderNumber: index + 1,
+      customerName: "Customer",
+      createdAt: formatDate(row.created_at),
+      items: Array.isArray(row.items) ? row.items : [],
+      status: mapStatus(row.status ?? ""),
+    }));
+
+    setOrders(mapped);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchOrders();
+
+    const channel = supabase
+      .channel("view-orders-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "orders" },
+        () => {
+          fetchOrders();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, []);
 
   const handleSortChange = (field: SortField) => {
     if (sortField === field) {
@@ -28,12 +100,10 @@ export default function ViewOrders() {
 
   const handleOrderPress = (orderId: string) => {
     console.log("Pressed order:", orderId);
-    // put navigation here later
-    // example: router.push(`/orders/${orderId}`)
   };
 
   const filteredAndSortedOrders = useMemo(() => {
-    const filtered = mockOrders
+    const filtered = orders
       .filter((order) => order.status === activeTab)
       .slice();
 
@@ -57,6 +127,21 @@ export default function ViewOrders() {
 
     return filtered;
   }, [activeTab, sortField, sortDirection]);
+
+  if (loading) {
+    return (
+      <BaseDrawer>
+        <View
+          style={[
+            styles.screen,
+            { alignItems: "center", justifyContent: "center" },
+          ]}
+        >
+          <ActivityIndicator size="large" color="#2E7D32" />
+        </View>
+      </BaseDrawer>
+    );
+  }
 
   return (
     <BaseDrawer>

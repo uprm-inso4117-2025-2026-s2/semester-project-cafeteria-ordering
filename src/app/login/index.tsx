@@ -151,7 +151,13 @@ export default function LoginScreen() {
         return;
       }
 
-      router.replace('/(tabs)');
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .maybeSingle();
+
+      router.replace(profile?.role === 'staff' ? '/staff/ViewOrders' : '/(tabs)');
     } finally {
       setIsSubmitting(false);
     }
