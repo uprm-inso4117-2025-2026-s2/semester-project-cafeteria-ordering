@@ -9,47 +9,34 @@ export default function RootIndexRedirect() {
   const colorScheme = useColorScheme();
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
 
   useEffect(() => {
-    let isMounted = true;
-
-    async function initializeAuthState() {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-      if (!isMounted) return;
-
-      setIsAuthenticated(!error && !!session?.user);
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setIsAuthenticated(true);
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+        setIsStaff(profile?.role === 'staff');
+      }
       setIsLoading(false);
     }
-
-    initializeAuthState();
-
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session?.user);
-      setIsLoading(false);
-    });
-
-    return () => {
-      isMounted = false;
-      subscription.subscription.unsubscribe();
-    };
+    init();
   }, []);
 
   if (isLoading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: colorScheme === 'dark' ? '#1C1C1C' : '#FAFAFA',
-        }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colorScheme === 'dark' ? '#1C1C1C' : '#FAFAFA' }}>
         <ActivityIndicator size="large" color={colorScheme === 'dark' ? '#FFCCBC' : '#2E7D32'} />
       </View>
     );
   }
 
-  return <Redirect href={isAuthenticated ? '/(tabs)' : '/signup'} />;
+  if (!isAuthenticated) return <Redirect href="/signup" />;
+  if (isStaff) return <Redirect href="/staff/ViewOrders" />;
+  return <Redirect href="/(tabs)" />;
 }
