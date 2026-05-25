@@ -1,0 +1,45 @@
+= TR-ORD-01 Modify Order Unit Test Report
+Author: Yadriel Rivera Rodríguez
+
+*Date:* 2026-05-26
+
+*ID:* TR-ORD-07
+
+*Issue:* #258
+
+*Test:* Integration, no script
+
+*Pass/Fail Status:* ----INSERT STATUS----
+
+== Testing Overview
+
+[cols="1,2",options="header"]
+|===
+
+| Test Step | Result
+
+| Log in with valid user 
+| RESULT
+
+| Add an extra ingredient to a known menu item selected from the main page 
+| RESULT
+
+| Reload app to ensure extra ingredient selections are connected to Supabase 
+| RESULT
+
+| Add modified order to cart and check cart 
+| RESULT
+
+| Reload app to ensure that the cart items are connected to Supabase 
+| RESULT
+
+| Place Order if Stripe is not yet enabled 
+| RESULT
+
+| Check "Orders" table in Supabase and  reload the app to ensure that the orders are connected to the Supabase 
+| RESULT
+
+|===
+
+== Notes
+- Test results are valid up to DATE 
