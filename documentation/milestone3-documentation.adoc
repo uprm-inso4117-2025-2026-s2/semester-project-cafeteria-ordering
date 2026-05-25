@@ -502,55 +502,117 @@ If a customer or staff member cancels an order, the system must reverse the tran
 
 ==== 2.2.1 User stories, epics, and features
 
+This section organizes the system requirements from a high-level product perspective. Epics describe the major areas of value the system should provide, features describe the system capabilities needed to support those areas, and user stories describe how customers and cafeteria staff are expected to interact with the system. Together, these elements help connect the cafeteria problem context to specific system functionality.
+
 ==== Epics
 
 ===== Meal Ordering and Access
 
-A high-level feature area focused on supporting customers in selecting, ordering, and obtaining food efficiently during limited time windows. This epic connects to features such as menu visibility, order placement, and meal pickup coordination.
+This epic focuses on improving how customers view, select, order, and receive meals during cafeteria service hours. The main goal is to reduce uncertainty for customers by giving them better visibility into available food and drink options before they commit to waiting in line or placing an order. This is especially important in a cafeteria environment where students or customers may have limited time between classes, work, or other responsibilities.
+
+The system should support a smoother ordering experience by allowing customers to understand what is available, submit an order, receive order updates, and know when their meal is ready for pickup. This epic connects directly to features such as meal availability information, order placement, order status tracking, and pickup coordination.
 
 ===== Payment Processing
 
-A high-level feature area focused on enabling reliable and flexible payment options for customers. This includes handling transactions, managing failures, and supporting different payment moments within the service flow.
+This epic focuses on supporting reliable and convenient payment handling as part of the cafeteria ordering process. Since customers may need to pay before or during pickup, the system must provide a clear payment flow that reduces confusion and prevents incomplete or incorrect orders from disrupting cafeteria operations.
+
+The system should help customers understand the cost of their order, confirm payment status, and receive feedback if a payment cannot be completed. For cafeteria staff, this epic helps ensure that orders entering the preparation flow have the necessary payment information available. This epic connects to features such as order and payment handling, payment confirmation, and payment failure support.
 
 ===== Peak-Hour Flow Management
 
-A high-level feature area focused on helping cafeteria staff manage large numbers of customers during peak hours. This includes reducing congestion, improving queue handling, and supporting smoother service flow.
+This epic focuses on helping cafeteria staff manage high customer demand during busy service periods. Peak hours can cause long lines, crowded waiting areas, delayed meal preparation, and confusion between customers and staff. The system should reduce these issues by improving visibility into incoming demand and supporting better coordination between ordering, preparation, and pickup.
+
+The goal of this epic is not only to make the customer experience faster, but also to help staff make better operational decisions during stressful periods. This includes understanding how many orders are waiting, which meals are being requested, and where delays may occur in the service flow. This epic connects to features such as demand awareness support, order queue visibility, and service flow coordination.
 
 ===== Service Reliability and Coordination
 
-A high-level feature area focused on maintaining consistent cafeteria operations. This includes minimizing delays, handling disruptions, and ensuring coordination between ordering, preparation, and pickup. 
+This epic focuses on keeping cafeteria service organized and dependable from the moment an order is placed until the meal is picked up. The system should support coordination between customers and staff so that orders are not lost, delayed unnecessarily, or marked incorrectly.
+
+A reliable service flow is important because cafeteria operations depend on multiple connected stages: customers selecting meals, the system recording orders, staff preparing items, and customers receiving pickup information. This epic connects to features such as order status tracking, staff order management, pickup notifications, and service disruption handling.
 
 ==== User Stories
 
-===== As a Customer 
+===== As a Customer
 
-* I want to see available food and drink options before ordering, so that I can decide whether waiting fits my schedule. 
+* I want to see available food and drink options before ordering, so that I can decide whether the cafeteria has something I want before spending time waiting.
 
-* I want to know when my order is ready for pickup, so that I can minimize the time I spend waiting. 
+* I want to see whether menu items are currently available or unavailable, so that I do not place an order for an item that cannot be prepared.
+
+* I want to view the price and summary of my order before confirming it, so that I can verify that my order is correct.
+
+* I want to place an order through the system, so that I can reduce the amount of time I spend waiting in a physical line.
+
+* I want to know when my order is being prepared and when it is ready for pickup, so that I can better manage my time while waiting.
+
+* I want to receive a clear notification when my order is ready, so that I know when to go to the pickup area.
+
+* I want to be informed if my payment fails or my order cannot be completed, so that I can correct the issue without causing confusion for cafeteria staff.
 
 ===== As a Cafeteria Staff Member
 
-* I want to have visibility into incoming orders, so that I can prepare meals more efficiently. 
+* I want to have visibility into incoming orders, so that I can prepare meals more efficiently and reduce delays during service hours.
 
-* I want to manage service flow during busy periods, so that congestion and delays are reduced. 
+* I want to see the details of each order, including selected items and order status, so that I can prepare the correct meals for each customer.
+
+* I want to update the status of an order, so that customers know whether their order is pending, being prepared, or ready for pickup.
+
+* I want to mark menu items as unavailable when they run out, so that customers do not continue ordering items that cannot be served.
+
+* I want to manage service flow during busy periods, so that congestion, confusion, and long wait times are reduced.
+
+* I want to see demand information during peak hours, so that I can prioritize preparation and respond to high-volume periods more effectively.
+
+* I want the system to support coordination between ordering, preparation, and pickup, so that staff can maintain a more organized cafeteria workflow.
 
 ==== Features
 
 ===== Meal Availability Information
 
-Provides customers with visibility into available meals and beverages during a service period. This feature supports the Meal Ordering and Access epic and enables user stories related to decision-making before joining the queue. 
+This feature provides customers with visibility into available meals and beverages during a cafeteria service period. It should allow customers to review menu options before ordering and help them make informed decisions based on availability, price, and expected service conditions.
+
+This feature supports the Meal Ordering and Access epic because it reduces uncertainty before customers enter the ordering process. It also supports cafeteria staff by helping prevent customers from requesting items that are unavailable.
+
+===== Order Placement and Order Summary
+
+This feature allows customers to create an order by selecting available food and drink items. Before confirming the order, the system should present a clear order summary that includes selected items, quantities, and total cost.
+
+This feature supports the Meal Ordering and Access epic by giving customers a structured way to submit orders and verify their choices before the order enters the cafeteria workflow.
 
 ===== Order and Payment Handling
 
-Supports the creation and processing of customer orders, including the handling of payments and potential payment failures. This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic, ensuring that orders move correctly through the system. 
+This feature supports the creation and processing of customer orders, including the handling of payment confirmation and payment failure situations. It should ensure that customers receive clear feedback about whether their order and payment were completed successfully.
+
+This feature connects to both the Meal Ordering and Access epic and the Payment Processing epic because payment status directly affects whether an order can move forward into preparation and pickup.
+
+===== Order Status Tracking
+
+This feature allows customers and cafeteria staff to track the progress of an order through its main service stages, such as submitted, being prepared, and ready for pickup.
+
+This feature supports the Service Reliability and Coordination epic by reducing uncertainty and helping both customers and staff understand the current state of each order.
+
+===== Pickup Notification Support
+
+This feature notifies customers when their order is ready for pickup. The notification should be clear enough for the customer to know when to approach the pickup area without repeatedly asking staff for updates.
+
+This feature supports the Meal Ordering and Access epic and the Service Reliability and Coordination epic by improving communication between the cafeteria and the customer.
 
 ===== Demand Awareness Support
 
-Provides cafeteria staff with information about incoming orders and expected demand. This feature supports the Peak-Hour Flow Management epic and helps staff prepare meals under uncertain demand conditions. 
+This feature provides cafeteria staff with information about incoming orders and expected demand during service periods. It should help staff understand which items are being ordered, how many orders are waiting, and when demand is increasing.
+
+This feature supports the Peak-Hour Flow Management epic because it gives staff better operational awareness during busy periods and helps them prepare meals under uncertain demand conditions.
+
+===== Menu Availability Management
+
+This feature allows cafeteria staff to update the availability of menu items when items run out or become temporarily unavailable. Customers should then see the updated availability before placing an order.
+
+This feature supports both the Meal Ordering and Access epic and the Peak-Hour Flow Management epic by preventing unavailable items from creating delays, incorrect orders, or customer frustration.
 
 ===== Service Flow Coordination
 
-Coordinates the progression from order placement to meal preparation and pickup. This feature supports the Service Reliability and Coordination epic and ensures smoother transitions between service stages. 
+This feature coordinates the progression from order placement to meal preparation and pickup. It should help ensure that orders move through the cafeteria workflow in an organized way and that customers receive accurate information about their order status.
+
+This feature supports the Service Reliability and Coordination epic because it connects the customer-facing ordering experience with the staff-facing preparation process. It also supports peak-hour operations by helping reduce confusion when many orders are active at the same time.
 
 ==== 2.2.2 Personas
 
@@ -631,7 +693,8 @@ The following requirements are derived from the domain description in Section 2.
 ** The system must associate every placed order with the specific customer who initiated it.
 
 * **DR-04: Order Preparation Lifecycle**
-** The system must allow cafeteria staff to update and track the preparation stage of an order.
+** The system must maintain a preparation status for each placed order and update that status when cafeteria staff record a change in the order's preparation stage.
+** The system must make the current preparation status of each placed order available to cafeteria staff so that staff can identify which orders are pending, being prepared, or ready for pickup.
 
 * **DR-05: Pricing and Total Calculation**
 ** The system must calculate the total price of an order based on the prices of the selected menu items.
@@ -656,9 +719,9 @@ The following requirements are derived from the domain description in Section 2.
 
 ==== 2.2.4 Interface Requirements
 
-Interface requirements describe how *shared phenomena and concepts* in the cafeteria domain are represented inside the Cafeteria Ordering System, and how those representations are initialized, updated, corrected, and constrained. In other words, they define how the system crosses the boundary between the outside world (the cafeteria domain) and the system's internal data model.
+Interface requirements describe how users interact with the Cafeteria Ordering System to enter, view, update, and verify information related to cafeteria operations. These requirements focus on the system boundary between users and the application interface, including how customers submit information and how authorized cafeteria staff manage operational information.
 
-In this project, key domain concepts that must be represented in the system include: Menu, Meal, Order, Payment choice, Meal Preparation status, and Meal Pickup status (see domain terminology in Section 2.1.2). The interface requirements below capture how these concepts enter the system, how they remain consistent when the domain changes, and what information can or cannot be modified once recorded.
+The terminology used in this section must match the terms defined in Section 2.1.2. This section does not introduce new terms or redefine existing ones. If a new term is needed, it must be added to the terminology section before being used in an interface requirement.
 
 ===== Interface Requirement Set
 
@@ -666,83 +729,121 @@ The requirements in this section use the convention IR-2.2.4-X.
 
 ====== IR-2.2.4-1 Menu representation initialization
 
-The system shall provide a means for authorized cafeteria staff to initialize the menu representation inside the system, including creating menu items and assigning prices and categories.
+The system shall provide an interface for authorized cafeteria staff to create the menu information shown in the application, including menu items, prices, categories, and item descriptions.
 
 ====== IR-2.2.4-2 Menu representation update
 
-The system shall provide a means for authorized cafeteria staff to update menu item information when the domain changes, including updating price, description, and category.
+The system shall provide an interface for authorized cafeteria staff to update existing menu information when cafeteria offerings change, including changes to item price, item description, category, and availability.
 
 ====== IR-2.2.4-3 Availability synchronization
 
-The system shall provide a means for authorized cafeteria staff to mark menu items as available or unavailable to reflect real-world availability changes (e.g., sold out, not prepared today).
+The system shall provide an interface for authorized cafeteria staff to mark menu items as available or unavailable so that the customer-facing menu reflects current cafeteria conditions.
+
+The system shall update the customer-facing menu after an authorized staff member changes item availability, so customers do not attempt to order items that are no longer available.
 
 ====== IR-2.2.4-4 Customer menu visibility
 
-The system shall provide a means for customers to view the current menu representation and availability status through the application interface.
+The system shall provide an interface for customers to view the current menu, including item names, prices, categories, descriptions, and availability status.
+
+The system shall visually distinguish unavailable menu items from available menu items in the customer interface.
 
 ====== IR-2.2.4-5 Order creation from domain observation
 
-The system shall provide a means for a customer to create an order representation by selecting menu items and quantities through the application interface.
+The system shall provide an interface for customers to create an order by selecting available menu items and specifying quantities.
+
+The system shall prevent customers from selecting unavailable menu items during order creation.
 
 ====== IR-2.2.4-6 Order modification before submission
 
-The system shall provide a means for a customer to edit an order representation before submission (e.g., add/remove items, change quantities), so incorrect or incomplete entries can be corrected prior to placing the order.
+The system shall provide an interface for customers to review and modify an order before submission, including adding items, removing items, and changing item quantities.
+
+The system shall display an updated order summary when a customer modifies an order before submission.
 
 ====== IR-2.2.4-7 Order submission and confirmation
 
-The system shall provide a means for a customer to submit an order and receive confirmation that the system has recorded the order representation.
+The system shall provide an interface for customers to submit an order after reviewing the order summary.
+
+After submission, the system shall display confirmation that the order has been recorded, including the order identifier, order summary, payment status, and pickup information when applicable.
 
 ====== IR-2.2.4-8 Payment method capture and constraints
 
-The system shall provide a means for a customer to indicate a payment method option (e.g., pay at register or pay in app, if supported).
+The system shall provide an interface for customers to select an available payment method before submitting an order.
 
-If an order is submitted, the system shall restrict changes to the recorded payment option unless an explicitly supported correction path exists (e.g., cancellation and re-submission), to preserve consistency and avoid operational confusion.
+After an order is submitted, the system shall display the recorded payment status to the customer.
+
+If payment cannot be completed or confirmed, the system shall display an interface message explaining that the order cannot proceed until the payment issue is resolved.
+
+After an order is submitted, the system shall restrict changes to the recorded payment method unless the system provides an explicitly supported correction path, such as cancellation and resubmission.
 
 ====== IR-2.2.4-9 Order status synchronization (staff side)
 
-The system shall provide a means for authorized cafeteria staff to update the internal order status representation to reflect real-world progression (e.g., order is being prepared, order is ready for pickup, order has been picked up, order cancelled).
+The system shall provide an interface for authorized cafeteria staff to update the status of an order as it moves through the cafeteria workflow.
+
+The staff interface shall support status updates such as submitted, being prepared, ready for pickup, picked up, and canceled, using only status terms defined in the terminology section.
 
 ====== IR-2.2.4-10 Order status visibility (customer side)
 
-The system shall provide a means for the customer to view the current order status representation through the application interface.
+The system shall provide an interface for customers to view the current status of their submitted order.
+
+The system shall update the customer-facing order status when authorized cafeteria staff change the order status through the staff interface.
 
 ====== IR-2.2.4-11 Correction after submission (controlled editing)
 
-After an order is submitted, the system shall either:
-(a) disallow customer edits to order contents, or
-(b) restrict customer edits to explicitly defined operations (e.g., cancellation within an allowed window),
-so the internal representation remains consistent with cafeteria operations.
+After an order is submitted, the system shall either prevent customer edits to the order contents or limit customer edits to explicitly supported actions, such as cancellation within an allowed window.
 
-Any staff-side changes to a submitted order representation (if supported) shall be restricted to explicitly defined operations and should be traceable (e.g., include reason or note), to prevent silent corruption of the internal record.
+If staff-side corrections to a submitted order are supported, the system shall provide an interface for authorized cafeteria staff to record the correction and include a reason or note for the change.
 
 ====== IR-2.2.4-12 Immutable identifiers and record integrity
 
-The system shall assign each submitted order a stable identifier.
+The system shall assign each submitted order a stable order identifier and display that identifier in the appropriate customer and staff interfaces.
 
-The system shall ensure core properties of a submitted order record remain stable (at minimum: order identifier and submission timestamp), except through explicitly defined correction operations, to support auditability and coordination between customers and cafeteria staff.
+The system shall prevent interface actions from changing core submitted order information, including the order identifier and submission timestamp, except through explicitly supported correction operations.
 
 ====== IR-2.2.4-13 Interface decomposition note
 
 Some requirements that appear to be interface-only include both interface and non-interface aspects. For example, “the system supports creating an order” includes:
+
 * An interface requirement aspect: the system provides UI mechanisms for customers to select items and submit an order.
+
 * A non-interface aspect: the system creates and stores an internal order representation and enforces rules.
 
 This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.
 
 ====== IR-2.2.4-14 Pickup code generation and display
 
-The system shall generate a 4-digit numeric pickup code for each submitted order. A 4-digit code provides 10,000 possible values (0001–9999), sufficient to ensure a low probability of collision within a single service period while remaining short enough for a customer to recall and communicate verbally to cafeteria staff. The system shall display the assigned pickup code to the customer upon order confirmation.
+The system shall generate a pickup code for each submitted order and display the assigned pickup code to the customer after order confirmation.
 
-The system shall provide a means for cafeteria staff to enter or verify a customer-provided pickup code against the order's recorded code before releasing the order to that customer.
+The system shall provide an interface for cafeteria staff to enter or verify a customer-provided pickup code against the code recorded for the submitted order before releasing the order.
+
+The system shall display whether the pickup code verification succeeds or fails so cafeteria staff can determine whether the order should be released.
+
+====== IR-2.2.4-15 Staff order queue visibility
+
+he system shall provide an interface for authorized cafeteria staff to view submitted orders in a staff-facing order queue.
+
+The staff-facing order queue shall display enough information for cafeteria staff to identify the order, review selected items, view payment status, and determine the current order status.
+
+====== IR-2.2.4-16 Interface feedback for invalid actions
+
+The system shall provide clear interface feedback when a customer or cafeteria staff member attempts an invalid action, such as submitting an empty order, selecting an unavailable item, entering an incorrect pickup code, or attempting an unsupported order modification.
+
+====== IR-2.2.4-17 Role-specific interface access
+
+The system shall restrict staff-facing interface actions, including menu updates, availability updates, order status changes, and pickup code verification, to authorized cafeteria staff.
 
 ===== Derived questions used to identify interface requirements
 
-The interface requirements above were derived by identifying domain concepts that must be represented in the system and then asking:
+The interface requirements above were reviewed by identifying defined cafeteria-domain terms from Section 2.1.2 and determining how those terms appear in the customer and staff interfaces.
 
-* How is the internal representation first obtained (who enters it, through what interface)?
-* How is it kept up-to-date when the real-world phenomenon changes (e.g., availability, order status)?
+The interface requirements above were derived by asking:
+
+* How is information entered into the system through a user interface?
+* How is information displayed to customers or cafeteria staff?
+* How is information updated when cafeteria operations change?
 * What information can be corrected if entered incorrectly or incompletely?
-* What information should be restricted or immutable after submission to preserve integrity?
+* What information should be restricted after submission to preserve order integrity?
+* Which interface actions should be limited to authorized cafeteria staff?
+* Which interface messages are needed when users attempt invalid or unsupported actions?
 
 ==== 2.2.5 Machine Requirements
 
@@ -1778,5 +1879,7 @@ The following table have all the changes made to the documentation for Milestone
 [cols="1,2,3,1", options="header"]
 |===
 | Name | Section | Description | GitHub Issue
-
+| @Kaariinaa08 | 2.2.1 - User stories, epics, and features | Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback. | #634
+| @Kaariinaa08 | 2.2.3 - Domain Requirements | Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status. | #635
+| @Kaariinaa08 | 2.2.4 - Interface Requirements | Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format. | #637
 |===
