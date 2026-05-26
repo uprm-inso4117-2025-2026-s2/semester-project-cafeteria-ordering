@@ -1,0 +1,50 @@
+= Logout UI Functionality Validation TR
+Author: Luis J. Cruz
+
+*Date:* 2026-05-25
+
+*ID:* TR-AUTH-06
+
+*Test:* TC-AUTH-06 - Logout UI Functionality Validation
+
+*Pass/Fail Status:* PASS
+
+*Branch:* 626-logout-ui-functionality-validation
+
+*Build Verification:* `npm run test:build` (expo export) PASS
+
+== Description
+Validate that logging out properly clears auth/session state, resets UI state, redirects to the login screen, and blocks protected routes.
+
+== Preconditions
+- User can log in successfully.
+- Supabase auth session management is enabled in the app.
+- At least one confirmed test user exists.
+
+== Execution Steps (Summary)
+1. Log in with a confirmed user.
+2. Navigate to Profile tab.
+3. Tap Logout and confirm.
+4. Verify redirect to Login.
+5. Verify no residual user info is visible (name/email/phone/avatar).
+6. Attempt to access protected routes (e.g., tabs/profile/staff); confirm redirect back to Login.
+7. Repeat from another screen context (e.g., Orders/Home) to confirm consistency.
+
+== Results
+- Logout clears session/auth state: PASS
+- Redirects to login screen: PASS 
+- UI resets completely after logout (no residual user data): PASS 
+- Protected routes are blocked while logged out: PASS
+- Behavior is consistent across screen contexts: PASS 
+
+== Evidence
+Attached / to attach:
+
+- Build/export verification log: PASS (`npm run test:build`)
+- Screen recording or screenshots of logout -> login redirect: CAPTURED 
+- Screenshot showing protected route redirect to login: CAPTURED 
+- Notes/screenshots confirming no residual user data remains: CAPTURED 
+
+== Notes
+- Protected route blocking is enforced by routing/auth-guard logic.
+- Manual UI execution completed on Android emulator; screenshots captured and will be attached to the PR.

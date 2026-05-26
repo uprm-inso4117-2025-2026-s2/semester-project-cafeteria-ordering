@@ -1,0 +1,658 @@
+= Hoare Logic Specification for Staff View Operations
+:toc:
+:sectnums:
+:stem:
+
+== Overview of Hoare Logic
+
+=== Definition and Form
+
+*Hoare Logic* is a formal method used to reason about the correctness of a program by expressing its behavior using logical assertions. These assertions are called *Hoare triples*. A Hoare triple specifies what must be true before a statement executes and what must be true after the statement executes.
+
+Hoare triples are expressed using the following form:
+
+[.text-center]
+*{ P } S { Q }*
+
+Where:
+
+- *P* is the Precondition: condition before execution
+- *S* is the Statement: program operation
+- *Q* is the Postcondition: condition after execution
+
+This task applies Hoare Logic and Design by Contract to the Staff View side of the Cafeteria Ordering System. The purpose is to formally document what must be true before staff-facing operations run and what must be true after they complete.
+
+=== Partial Correctness and Total Correctness
+
+*Partial Correctness* means that if a program operation terminates, then it produces correct results that satisfy the postcondition, assuming the precondition is true.
+
+*Total Correctness* means that the program operation produces correct results and is guaranteed to terminate.
+
+Total correctness can be expressed as the following:
+
+[.text-center]
+*Total Correctness = Partial Correctness + Termination*
+
+== System State Definitions
+
+The Staff View workflow is modeled using the following state variables to represent preconditions and postconditions for Hoare Logic:
+
+----
+staff_authenticated : Boolean
+staff_authorized : Boolean
+orders_loaded : Boolean
+order_exists : Boolean
+order_active : Boolean
+order_closed : Boolean
+order_completed : Boolean
+order_status_valid : Boolean
+order_details_visible : Boolean
+status_update_requested : Boolean
+status_update_saved : Boolean
+menu_items_loaded : Boolean
+menu_item_exists : Boolean
+menu_item_created : Boolean
+menu_item_updated : Boolean
+menu_item_valid : Boolean
+menu_item_visible : Boolean
+operation_feedback_visible : Boolean
+error_message_visible : Boolean
+----
+
+=== Initial State
+
+The following initial state is assumed for the Staff View workflow:
+
+----
+staff_authenticated = true
+staff_authorized = true
+orders_loaded = false
+order_exists = false
+order_active = false
+order_closed = false
+order_completed = false
+order_status_valid = false
+order_details_visible = false
+status_update_requested = false
+status_update_saved = false
+menu_items_loaded = false
+menu_item_exists = false
+menu_item_created = false
+menu_item_updated = false
+menu_item_valid = false
+menu_item_visible = false
+operation_feedback_visible = false
+error_message_visible = false
+----
+
+== Function Specifications
+
+The following Staff View operations are specified using Hoare Logic:
+
+- load_staff_orders()
+- view_order_details()
+- update_order_status()
+- close_order()
+- load_menu_items()
+- create_menu_item()
+- edit_menu_item()
+
+=== load_staff_orders()
+
+This function loads customer orders into the Staff View dashboard.
+
+Preconditions:
+
+- staff_authenticated = true
+- staff_authorized = true
+
+State Transition:
+
+- orders_loaded = true
+- operation_feedback_visible = true
+
+=== view_order_details()
+
+This function allows staff to open and inspect a selected customer order.
+
+Preconditions:
+
+- staff_authenticated = true
+- staff_authorized = true
+- orders_loaded = true
+- order_exists = true
+
+State Transition:
+
+- order_details_visible = true
+- operation_feedback_visible = true
+
+=== update_order_status()
+
+This function allows staff to update the status of an active order.
+
+Preconditions:
+
+- staff_authenticated = true
+- staff_authorized = true
+- order_exists = true
+- order_active = true
+- order_status_valid = true
+- order_closed = false
+- order_completed = false
+
+State Transition:
+
+- status_update_requested = true
+- status_update_saved = true
+- operation_feedback_visible = true
+
+=== close_order()
+
+This function allows staff to close or complete an order after it has been handled.
+
+Preconditions:
+
+- staff_authenticated = true
+- staff_authorized = true
+- order_exists = true
+- order_active = true
+- order_closed = false
+
+State Transition:
+
+- order_closed = true
+- order_active = false
+- operation_feedback_visible = true
+
+=== load_menu_items()
+
+This function loads the list of menu items visible to staff.
+
+Preconditions:
+
+- staff_authenticated = true
+- staff_authorized = true
+
+State Transition:
+
+- menu_items_loaded = true
+- operation_feedback_visible = true
+
+=== create_menu_item()
+
+This function allows staff to add a new menu item.
+
+Preconditions:
+
+- staff_authenticated = true
+- staff_authorized = true
+- menu_items_loaded = true
+- menu_item_valid = true
+- menu_item_exists = false
+
+State Transition:
+
+- menu_item_created = true
+- menu_item_exists = true
+- menu_item_visible = true
+- operation_feedback_visible = true
+
+=== edit_menu_item()
+
+This function allows staff to edit an existing menu item.
+
+Preconditions:
+
+- staff_authenticated = true
+- staff_authorized = true
+- menu_items_loaded = true
+- menu_item_exists = true
+- menu_item_valid = true
+
+State Transition:
+
+- menu_item_updated = true
+- menu_item_visible = true
+- operation_feedback_visible = true
+
+== Hoare Triples for Staff View Operations
+
+Using the previous state variables and functions, the following Hoare triples specify Staff View correctness.
+
+=== Load Staff Orders
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true }
+load_staff_orders()
+{ orders_loaded = true ∧ operation_feedback_visible = true }
+----
+
+=== View Order Details
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ orders_loaded = true ∧ order_exists = true }
+view_order_details()
+{ order_details_visible = true ∧ operation_feedback_visible = true }
+----
+
+=== Update Order Status
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ order_exists = true ∧ order_active = true ∧ order_status_valid = true ∧ order_closed = false ∧ order_completed = false }
+update_order_status()
+{ status_update_requested = true ∧ status_update_saved = true ∧ operation_feedback_visible = true }
+----
+
+=== Close Order
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ order_exists = true ∧ order_active = true ∧ order_closed = false }
+close_order()
+{ order_closed = true ∧ order_active = false ∧ operation_feedback_visible = true }
+----
+
+=== Load Menu Items
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true }
+load_menu_items()
+{ menu_items_loaded = true ∧ operation_feedback_visible = true }
+----
+
+=== Create Menu Item
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ menu_items_loaded = true ∧ menu_item_valid = true ∧ menu_item_exists = false }
+create_menu_item()
+{ menu_item_created = true ∧ menu_item_exists = true ∧ menu_item_visible = true ∧ operation_feedback_visible = true }
+----
+
+=== Edit Menu Item
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ menu_items_loaded = true ∧ menu_item_exists = true ∧ menu_item_valid = true }
+edit_menu_item()
+{ menu_item_updated = true ∧ menu_item_visible = true ∧ operation_feedback_visible = true }
+----
+
+== Correctness Analysis
+
+=== Partial Correctness
+
+Each Staff View function is partially correct, meaning that if it terminates, its postcondition holds when the precondition is true.
+
+- `load_staff_orders()` ensures that an authenticated and authorized staff user can load the order dashboard.
+
+- `view_order_details()` ensures that if an existing order is selected, the Staff View displays the correct order details.
+
+- `update_order_status()` ensures that valid status changes for active orders are saved and visible to staff.
+
+- `close_order()` ensures that an active order becomes closed and is no longer treated as active.
+
+- `load_menu_items()` ensures that staff can load the current menu item list.
+
+- `create_menu_item()` ensures that a valid new menu item is created, stored, and visible in the staff menu list.
+
+- `edit_menu_item()` ensures that a valid update to an existing menu item is saved and visible.
+
+=== Total Correctness
+
+The Staff View operations are considered totally correct under the following assumptions:
+
+- Each function performs a finite number of operations.
+- Database requests complete within bounded time.
+- Backend responses are returned successfully.
+- Staff authentication and authorization checks terminate.
+- UI refresh or state update operations complete deterministically.
+- Invalid input is rejected instead of causing an infinite or undefined state.
+
+== Formal Verification Using Hoare Logic
+
+The following proof sketches illustrate how preconditions and postconditions can be verified for Staff View operations.
+
+=== Proof of Loading Staff Orders
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true }
+load_staff_orders()
+{ orders_loaded = true ∧ operation_feedback_visible = true }
+----
+
+*Proof Sketch:*
+
+The preconditions ensure that the user is logged in and has permission to access Staff View operations.
+
+The function:
+
+   - checks staff authentication
+   - checks staff authorization
+   - retrieves orders from the system
+   - displays the order dashboard or a visible result message
+
+Therefore, the postcondition holds.
+
+=== Proof of Viewing Order Details
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ orders_loaded = true ∧ order_exists = true }
+view_order_details()
+{ order_details_visible = true ∧ operation_feedback_visible = true }
+----
+
+*Proof Sketch:*
+
+The preconditions ensure that staff access is valid, the order list has loaded, and the selected order exists.
+
+The function:
+
+   - receives a valid order selection
+   - retrieves the order details
+   - displays customer information, ordered items, quantities, and status
+   - shows visible feedback through the order detail view
+
+Therefore, the postcondition holds.
+
+=== Proof of Updating Order Status
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ order_exists = true ∧ order_active = true ∧ order_status_valid = true ∧ order_closed = false ∧ order_completed = false }
+update_order_status()
+{ status_update_requested = true ∧ status_update_saved = true ∧ operation_feedback_visible = true }
+----
+
+*Proof Sketch:*
+
+The preconditions ensure that the order exists, is still active, and the new status is valid. They also prevent updates to already closed or completed orders.
+
+The function:
+
+   - receives a valid status update request
+   - verifies that the order can still be changed
+   - saves the new status
+   - updates the Staff View or displays confirmation feedback
+
+Therefore, the postcondition holds.
+
+=== Proof of Closing an Order
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ order_exists = true ∧ order_active = true ∧ order_closed = false }
+close_order()
+{ order_closed = true ∧ order_active = false ∧ operation_feedback_visible = true }
+----
+
+*Proof Sketch:*
+
+The preconditions ensure that the staff user has permission, the order exists, and the order is active.
+
+The function:
+
+   - receives the close order request
+   - checks that the order is not already closed
+   - marks the order as closed
+   - removes the order from the active order state
+   - displays visible confirmation
+
+Therefore, the postcondition holds.
+
+=== Proof of Loading Menu Items
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true }
+load_menu_items()
+{ menu_items_loaded = true ∧ operation_feedback_visible = true }
+----
+
+*Proof Sketch:*
+
+The preconditions ensure that the user has valid staff access.
+
+The function:
+
+   - checks authorization
+   - retrieves current menu items
+   - displays the staff menu item list
+   - shows visible feedback or an empty state
+
+Therefore, the postcondition holds.
+
+=== Proof of Creating a Menu Item
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ menu_items_loaded = true ∧ menu_item_valid = true ∧ menu_item_exists = false }
+create_menu_item()
+{ menu_item_created = true ∧ menu_item_exists = true ∧ menu_item_visible = true ∧ operation_feedback_visible = true }
+----
+
+*Proof Sketch:*
+
+The preconditions ensure that staff has permission, the menu list is available, the new item data is valid, and the item does not already exist.
+
+The function:
+
+   - validates the menu item fields
+   - creates the new menu item
+   - stores the item in the system
+   - displays the item in the staff menu list
+   - shows success feedback
+
+Therefore, the postcondition holds.
+
+=== Proof of Editing a Menu Item
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true ∧ menu_items_loaded = true ∧ menu_item_exists = true ∧ menu_item_valid = true }
+edit_menu_item()
+{ menu_item_updated = true ∧ menu_item_visible = true ∧ operation_feedback_visible = true }
+----
+
+*Proof Sketch:*
+
+The preconditions ensure that the menu item exists and the edited values are valid.
+
+The function:
+
+   - receives the edited menu item data
+   - validates the updated fields
+   - saves the update
+   - refreshes or displays the updated menu item
+   - shows visible feedback
+
+Therefore, the postcondition holds.
+
+== Contract Violations
+
+The following examples show possible Staff View contract violations.
+
+=== Authentication and Authorization Violations
+
+- A user who is not authenticated attempts to load the Staff View.
+- A customer account attempts to close an order.
+- A non-staff user attempts to add or edit menu items.
+
+Violation example:
+
+----
+staff_authenticated = false ⇒ load_staff_orders() is not allowed
+----
+
+=== Order Operation Violations
+
+- Staff attempts to view details for an order that does not exist.
+- Staff attempts to update an order that is already closed.
+- Staff attempts to close an order that is already completed.
+- Staff submits an invalid order status.
+
+Violation examples:
+
+----
+order_exists = false ⇒ view_order_details() is not allowed
+----
+
+----
+order_closed = true ⇒ update_order_status() is not allowed
+----
+
+----
+order_status_valid = false ⇒ status_update_saved = false
+----
+
+=== Menu Operation Violations
+
+- Staff attempts to create a menu item with missing required fields.
+- Staff attempts to create a duplicate menu item.
+- Staff attempts to edit a menu item that does not exist.
+- Staff submits an invalid price or empty item name.
+
+Violation examples:
+
+----
+menu_item_valid = false ⇒ create_menu_item() is not allowed
+----
+
+----
+menu_item_exists = false ⇒ edit_menu_item() is not allowed
+----
+
+----
+menu_item_valid = false ⇒ menu_item_updated = false
+----
+
+== Safety Properties
+
+The following safety properties constrain the Staff View workflow to support reliable staff operations.
+
+*Properties:*
+
+- Staff operations require authentication:
+----
+staff_authenticated = false ⇒ staff operations are not allowed
+----
+
+- Staff operations require authorization:
+----
+staff_authorized = false ⇒ staff operations are not allowed
+----
+
+- Closed orders cannot remain active:
+----
+order_closed = true ⇒ order_active = false
+----
+
+- Completed orders cannot be updated as active orders:
+----
+order_completed = true ⇒ update_order_status() is not allowed
+----
+
+- Invalid order statuses cannot be saved:
+----
+order_status_valid = false ⇒ status_update_saved = false
+----
+
+- Invalid menu items cannot be created:
+----
+menu_item_valid = false ⇒ menu_item_created = false
+----
+
+- Nonexistent menu items cannot be edited:
+----
+menu_item_exists = false ⇒ menu_item_updated = false
+----
+
+- Staff actions should produce visible feedback:
+----
+staff operation completed ⇒ operation_feedback_visible = true
+----
+
+== Sequential Composition
+
+The following shows the sequential execution of a valid Staff View order workflow.
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true }
+load_staff_orders();
+view_order_details();
+update_order_status();
+close_order();
+{ order_closed = true ∧ order_active = false }
+----
+
+The following shows the sequential execution of a valid Staff View menu workflow.
+
+----
+{ staff_authenticated = true ∧ staff_authorized = true }
+load_menu_items();
+create_menu_item();
+edit_menu_item();
+{ menu_item_exists = true ∧ menu_item_visible = true }
+----
+
+== Design by Contract and Staff View Correctness
+
+Design by Contract supports Staff View correctness by defining clear responsibilities for each operation.
+
+Each Staff View operation has:
+
+- Preconditions that define when the operation is allowed to run.
+- Postconditions that define what must be true after the operation completes.
+- Contract violations that describe invalid states or invalid user actions.
+- Correctness reasoning that explains why the function produces the expected result.
+
+This helps the team verify staff-facing operations without needing to rely only on informal expectations. For example, the team can clearly state that an order must exist before staff can view it, an order must be active before staff can close it, and a menu item must contain valid data before it can be created.
+
+Design by Contract also improves reliability because it prevents invalid actions from changing the system state. Staff users should not be able to update closed orders, edit nonexistent menu items, or create invalid menu items.
+
+== Review Checklist
+
+[cols="1,1,2", options="header"]
+|===
+| Acceptance Item
+| Status
+| Evidence
+
+| Key Staff View operations are identified
+| Complete
+| Function Specifications section identifies order and menu operations.
+
+| Preconditions are documented for each selected operation
+| Complete
+| Each function specification lists required preconditions.
+
+| Postconditions are documented for each selected operation
+| Complete
+| State transition and Hoare triple sections define postconditions.
+
+| Each operation is classified as partial or total correctness
+| Complete
+| Correctness Analysis section explains partial and total correctness.
+
+| Informal proof reasoning is included
+| Complete
+| Formal Verification Using Hoare Logic section includes proof sketches.
+
+| Examples of possible contract violations are documented
+| Complete
+| Contract Violations section lists invalid Staff View states and actions.
+
+| The document explains how Design by Contract supports Staff View correctness
+| Complete
+| Design by Contract and Staff View Correctness section explains its value.
+|===
+
+== Conclusion
+
+The Staff View workflow has been formally specified using Hoare Logic and Design by Contract. This specification demonstrates that staff-facing operations can be reasoned about through preconditions, postconditions, and correctness arguments.
+
+This document shows that:
+
+- Staff operations require authentication and authorization.
+- Orders must exist before staff can view or modify them.
+- Order status updates require valid status values and active orders.
+- Closed orders are no longer treated as active.
+- Menu items must be valid before creation or editing.
+- Nonexistent menu items cannot be edited.
+- Staff actions should provide visible feedback.
+- Invalid Staff View operations are prevented through contract conditions.
+
+These specifications support Staff View reliability, correctness, and review readiness without requiring code implementation.

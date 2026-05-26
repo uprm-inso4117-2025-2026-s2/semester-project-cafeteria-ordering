@@ -20,6 +20,10 @@ const MAPPING = {
   'person.circle': 'person',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  'list.bullet': 'list',
+  'chart.bar.fill': 'bar-chart',
+  'fork.knife': 'restaurant',
+  'gearshape.fill': 'settings',
 } as IconMapping;
 
 /**

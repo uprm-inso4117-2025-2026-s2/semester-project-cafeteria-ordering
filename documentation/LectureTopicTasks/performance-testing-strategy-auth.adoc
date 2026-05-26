@@ -1,0 +1,130 @@
+= Performance Testing Strategy Research for Authentication and Security
+
+// Author: @FabiolaZTorres
+// Date: 2026-05-23
+// Issue #622
+
+== Types of Performance Testing
+
+=== Performance Testing (General)
+
+Measures overall system responsiveness, stability, and speed under expected conditions.
+
+In this system, it evaluates Login response time, Signup processing speed, and Role validation delays.
+
+=== Load Testing
+
+Evaluates system behavior under expected high traffic conditions.
+
+For this project, it may simulate students logging in during peak usage hours such as lunch time or simultaneous signup or guest access attempts. This measures how Supabase handles concurrent authentication requests and maintains performance under load.
+
+=== Stress Testing
+
+Pushes the system beyond normal operational limits to determine breaking points.
+
+This can be applied to large spikes in login attempts (e.g., multiple students logging in at once), excessive failed login attempts, and high frequency role validation requests, helping identify when authentication services degrade or fail under extreme conditions.
+
+=== Soak Testing
+
+Tests system stability over extended periods of continuous usage.
+
+It is relevant for long-running user sessions, persistent guest access sessions, and token expiration and refresh behavior over time. This helps detect memory leaks, session degradation, and performance drops over time that may not be evident in short-term testing.
+
+=== Realistic Workload Simulation
+
+Simulates real-world user behavior patterns rather than isolated actions.
+
+For this system it involves users logging in, browsing the menu, and placing orders. It also includes guests accessing limited features, staff users managing orders and accessing restricted pages, and mixed traffic patterns during peak cafeteria hours. This type of testing provides insights into how the authentication system performs under typical usage scenarios that reflect actual student behavior rather than constant traffic.
+
+
+== Application to Authentication and Security Features (Pain points and Risks)
+
+=== User Sign Up
+
+- Database writes and validation
+- Risk: slow account creation under high traffic
+
+=== User Log In
+
+- High-frequency operation including:
+  * credential validation
+  * Supabase authentication
+  * session/token creation
+- Risk: delays during peak usage
+
+=== Continue as Guest
+
+- Lightweight flow
+- Requires session initialization
+- Risk: session overhead at scale
+
+=== Authentication Error Handling
+
+- Includes failed logins and invalid credentials
+- Risk: repeated failed attempts increasing system load
+- Must ensure system handles retries efficiently
+
+=== Role-Based Access Control (RBAC)
+
+- Frequent permission checks on protected actions applied when accessing:
+  - profile pages
+  - order actions
+  - staff-only functions
+- Risk: repeated database or policy checks causing latency
+
+
+== Expected System Load Scenarios
+
+The system is designed for a campus cafeteria environment where usage is highly time-dependent.
+
+Expected scenarios include:
+- High login volume before lunch periods
+- Sudden spikes in app usage when students arrive at the cafeteria
+- Simultaneous guest and registered user activity
+- Staff users continuously updating order statuses during peak hours
+- Repeated authentication attempts due to session expiration or network instability
+
+These patterns reflect real-world student behavior rather than constant traffic.
+
+
+== Performance Risks and Bottlenecks
+
+Key potential bottlenecks include:
+
+- Supabase authentication latency under concurrent requests
+- Database queries for role validation (RBAC checks)
+- Token/session verification overhead on each request
+- Rate limiting or security protections slowing login attempts
+- Repeated authentication calls from mobile navigation flows
+- Network latency in mobile-first Expo environments
+
+
+== Mapping Testing Types to Features
+
+[cols="1,1,1", options="header"]
+|===
+|Testing Type |Feature |Purpose
+
+|Load Testing
+|Login / Signup
+|Measure performance under concurrent student usage
+
+|Stress Testing
+|Authentication system
+|Identify system limits during traffic spikes
+
+|Soak Testing
+|Sessions / Guest access
+|Ensure long-term stability
+
+|Realistic Workload Simulation
+|Full authentication flow
+|Model real cafeteria usage patterns
+|===
+
+
+== Conclusion
+
+Performance testing is essential for ensuring that authentication and security systems remain reliable under real-world conditions. Since authentication is a core dependency for nearly all user actions in the cafeteria system, its performance directly impacts usability, scalability, and overall system reliability.
+
+By applying multiple types of performance testing, the system can be validated against both expected campus usage and extreme traffic conditions, ensuring a smooth and secure user experience.

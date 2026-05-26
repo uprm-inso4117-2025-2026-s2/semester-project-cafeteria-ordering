@@ -1,0 +1,183 @@
+= Nielsen's 5 Quality Components Applied to the Cafeteria Ordering System
+Cafeteria Ordering System 
+@daniellameleroo
+:doctype: article
+:toc: left
+:toc-title: Table of Contents
+:sectnums:
+:icons: font
+
+---
+
+== Introduction
+
+This document applies *Nielsen's 5 Quality Components* from the Usability Testing lecture (Schütz-Schmuck, 2022) to evaluate the Cafeteria Ordering System. Each component is defined using the lecture as a reference, evaluated against the current design decisions made for the app, connected to a real screen as a concrete example, and followed by a recommendation where a gap or risk is identified.
+
+The evaluation is based on the current state of the app design, including the Profile screen, Menu screen, Order History section, and the Offline/Sync banner components and does not require a finished or fully functional product to be conducted.
+
+---
+
+== Component 1 — Learnability
+
+=== Definition
+
+According to the lecture (Schütz-Schmuck, 2022), *learnability* measures how easy it is for users to accomplish basic tasks the first time they encounter the design. A system with high learnability allows a new user to get started quickly without prior training or guidance.
+
+=== Evaluation
+
+The Cafeteria Ordering system targets students, faculty, and staff at UPRM, many of whom will open the app for the first time during a cafeteria visit with limited time to explore. The current design follows familiar mobile conventions: a header bar with the screen title, a bottom tab bar for main navigation (Menu, Orders, Profile), and standard form fields on the Profile screen. These conventions reduce the learning curve significantly because users can rely on patterns they already know from other apps.
+
+The Profile screen uses clearly labeled fields (Name, Email, Phone), an "Edit" button that visually underlines to signal interactivity, and an avatar circle that shows the user's initials — all of which are self-explanatory to a first-time user. The "Request Special Status" button includes a crown emoji which adds visual context without requiring the user to read the label in detail.
+
+However, the *offline banner* and *sync feedback banner*, while functional,may not be immediately understood by a first-time user. A user who has never seen the orange "You're offline" banner before may not know what "cached data" means or what action to take.
+
+=== Gap Identified
+
+First-time users may not understand the offline/online banner terminology ("cached data", "refreshing") without prior context.
+
+=== Recommendation
+
+Add a brief tooltip or onboarding hint the first time the offline banner appears, for example, a one-time message explaining "You are not connected. Your data may not be up to date." This reduces cognitive load for new users without permanently cluttering the interface for experienced ones.
+
+---
+
+== Component 2 — Efficiency
+
+=== Definition
+
+According to the lecture (Schütz-Schmuck, 2022), *efficiency* measures how quickly experienced users can perform tasks once they have learned the design. A system with high efficiency minimizes the number of steps, taps, and navigation decisions required to complete a goal.
+
+=== Evaluation
+
+The Cafeteria Ordering app is designed for a fast-paced environment, students placing orders during a short lunch break. Efficiency is therefore one of the most critical quality components for this app. The current Menu screen places the most important actions (browsing and ordering) at the top level of navigation, accessible directly from the bottom tab bar in one tap.
+
+The Profile screen allows users to edit their name and phone in-place without navigating to a separate edit screen,  tapping "Edit" activates the fields directly on the same screen and "Save" commits the change immediately. This reduces the number of steps from a typical edit flow (profile → edit screen → save → back) to a single-screen interaction.
+
+However, the Order History section currently shows a placeholder message ("Your past orders will appear here") and does not yet support one-tap reordering. An experienced user who frequently orders the same items would benefit from a quick-reorder shortcut, which is currently absent from the design.
+
+=== Gap Identified
+
+Experienced users who want to repeat a previous order must navigate through the full menu flow again — there is no quick-reorder or favorites shortcut reducing efficiency for repeat users.
+
+=== Recommendation
+
+Add a "Reorder" button to each order card in the Order History section. Tapping it should pre-populate the cart with the same items from the previous order, reducing a multi-step flow to a single tap for experienced users.
+
+---
+
+== Component 3 — Memorability
+
+=== Definition
+
+According to the lecture (Schütz-Schmuck, 2022), *memorability* measures how easily users can re-establish proficiency after a period of not using the system. A design with high memorability uses consistent visual patterns and familiar structures so that returning users do not need to relearn the interface.
+
+=== Evaluation
+
+The Cafeteria Ordering app uses a consistent green color theme across all screens, the bottom tab bar, action buttons, active tab indicator, and status badges all share the same green, creating a strong visual identity that returning users can immediately recognize. The bottom tab bar (Menu, Orders, Profile) uses the same labels and icons across all screens, so a user returning after a week away can orient themselves instantly.
+
+The Profile screen maintains the same layout whether in view or edit mode, the only change is that fields become editable and the "Edit" label changes to "Save". This consistency means a user who last edited their profile three months ago will not be confused about how to do it again.
+
+The Offline and Sync banners appear at the top of the screen in the same position every time, below the header bar. This consistent placement means returning users who have seen the banner before will immediately know where to look and what it means.
+
+=== Gap Identified
+
+The "Request Special Status" feature may not be memorable because its purpose is not self-evident from the label alone. A returning user who tapped it once but did not complete the request may not remember what it does or whether they already submitted one.
+
+=== Recommendation
+
+Add a status indicator below the "Request Special Status" button when a request has already been submitted — for example, a small label reading "Request pending review" in muted text. This gives returning users immediate context without requiring them to remember the outcome of a previous session.
+
+---
+
+== Component 4 — Errors
+
+=== Definition
+
+According to the lecture (Schütz-Schmuck, 2022), the *errors* component evaluates how many errors users make, how severe those errors are, and how easily users can recover from them. A high-quality design minimizes the frequency and severity of errors and provides clear paths to recovery.
+
+=== Evaluation
+
+The Profile screen currently does not implement input validation — a user can tap "Save" without entering a name or with an invalid email address, and the system will attempt to save the data without warning. This is a significant error risk because corrupted or incomplete profile data could affect other parts of the app (for example, the avatar initials display which reads the first character of the name field).
+
+The Logout flow uses a confirmation modal ("Are you sure you want to log out?") with Cancel and Log out buttons — this is a good error prevention pattern that reduces accidental logouts. Similarly, the "Request Special Status" modal requires explicit confirmation before sending the request.
+
+The offline banner informs users when they are not connected, which prevents a different class of error — users mistakenly believing their order was submitted when it was not. This is a high-severity error (user thinks food is ordered but it was not) that the banner effectively mitigates.
+
+=== Gap Identified
+
+The Profile screen lacks input validation and error states. A user can save an empty name, an invalid email format, or a malformed phone number without receiving any feedback — leading to silent data corruption.
+
+=== Recommendation
+
+Add inline validation to the Profile screen form fields. Each field should show a red underline and an error message below it (e.g. "Enter a valid email address") when the input does not meet the required format. The Save button should remain active but show all validation errors on tap rather than blocking submission silently. This gives users clear, recoverable feedback without being overly restrictive.
+
+---
+
+== Component 5 — Satisfaction
+
+=== Definition
+
+According to the lecture (Schütz-Schmuck, 2022), *satisfaction* measures how pleasant and enjoyable the experience is for users. A system with high satisfaction is one that users find aesthetically pleasing, emotionally comfortable, and free from frustration — one they enjoy using rather than simply tolerating.
+
+=== Evaluation
+
+The Cafeteria Ordering app uses a warm, nature-inspired color palette — deep green, pastel sage, and pastel cream type — which creates a calm and approachable visual tone appropriate for a cafeteria context. The typography uses Bitter for headings and Inter for body text, which balances personality with readability. These design choices contribute positively to overall satisfaction.
+
+The Profile screen's avatar: a green circle with the user's initials, gives the screen a personalized feel even before the user uploads a photo. The "Saved!" confirmation message that briefly appears after saving profile changes provides immediate positive feedback, which contributes to a satisfying interaction.
+
+The Sync feedback banner uses three distinct states — blue for syncing, green for success, red for error — each paired with an icon and text label. The success state auto-dismisses after three seconds, which avoids cluttering the screen and feels polished. The error state persists with a Retry button, which gives users agency without frustration.
+
+However, the Order History and Payment Method sections currently show placeholder text ("Your past orders will appear here") which creates a sense of incompleteness that may reduce satisfaction for users who expect to see real data.
+
+=== Gap Identified
+
+Placeholder text in the Order History and Payment Method sections creates an unfinished impression that reduces user confidence and satisfaction — especially for new users who may think the app is not working correctly.
+
+=== Recommendation
+
+Replace placeholder text with illustrated empty states: a small icon and a friendly message such as "No orders yet. Start by browsing the menu!" with a button linking to the Menu screen. This turns an empty state into an invitation to engage, which feels more polished and reduces frustration for users who are just getting started.
+
+---
+
+== Summary
+
+The following table summarizes the evaluation of all 5 Nielsen quality components for the Cafeteria Ordering System:
+
+[cols="1,2,2", options="header"]
+|===
+| Component
+| Current Strength
+| Gap & Recommendation
+
+| Learnability
+| Familiar mobile conventions, clear labels, self-explanatory UI
+| Offline banner terminology may confuse first-time users — add a one-time onboarding tooltip
+
+| Efficiency
+| In-place profile editing, direct menu access from tab bar
+| No quick-reorder for repeat orders — add a Reorder button to Order History cards
+
+| Memorability
+| Consistent green theme, stable layout across view and edit modes
+| Special Status button purpose may be forgotten — add a "Request pending" status label after submission
+
+| Errors
+| Logout and Special Status use confirmation modals; offline banner prevents silent order failures
+| Profile form has no input validation — add inline field validation with clear error messages
+
+| Satisfaction
+| Warm color palette, personalized avatar, polished sync banner states
+| Placeholder text feels unfinished — replace with illustrated empty states and a call to action
+|===
+
+---
+
+== Conclusion
+
+The Cafeteria Ordering System demonstrates strong foundations across all five Nielsen quality components, familiar navigation patterns support learnability, in-place editing supports efficiency, a consistent visual theme supports memorability, confirmation modals reduce critical errors, and a warm design language supports satisfaction. The primary gaps identified center around input validation, empty states, and first-time user guidance for offline behavior. Addressing these recommendations before the final release will significantly improve the overall usability and user confidence in the app.
+
+---
+
+== Reference
+
+Schütz-Schmuck, M. (2022). _Usability Testing_. Department of Computer Science and Engineering, University of Puerto Rico at Mayagüez.
