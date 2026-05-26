@@ -3475,7 +3475,7 @@ through verifiable, incremental behavior.</p>
 <div class="sect3">
 <h4 id="_automation_status_in_milestone_3"><span class="yellow-bg">Automation Status in Milestone 3</span></h4>
 <div class="paragraph">
-<p><span class="yellow-bg">By Milestone 3, Cucumber is set up and step definitions have been written for all the main scenarios. The issue is that those step definitions are still stubs — they track state in a local object instead of actually calling the app&#8217;s service layer. So the tests do run and pass, but they&#8217;re not really checking what the app does.</span></p>
+<p>[.yellow-bg]#By Milestone 3, Cucumber is set up and step definitions have been written for all the main scenarios. The issue is that those step definitions are still stubs as they track state in a local object instead of actually calling the app&#8217;s service layer.</p>
 </div>
 <div class="paragraph">
 <p><span class="yellow-bg">What we do have right now:</span></p>
@@ -3492,9 +3492,6 @@ through verifiable, incremental behavior.</p>
 <p><span class="yellow-bg">Step definitions exist for all of those scenarios.</span></p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p><span class="yellow-bg">To actually wire the step definitions to the real app — calling functions like createOrder, loginWithEmailPassword, or fetchMenuItems — we&#8217;d need either a test Supabase setup or a way to mock Supabase inside Cucumber. That&#8217;s what we&#8217;re planning to work on next.</span></p>
 </div>
 </div>
 <div class="sect3">
@@ -4270,7 +4267,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-25 23:44:27 -0400
+Last updated 2026-05-26 00:26:30 -0400
 </div>
 </div>
 </body>

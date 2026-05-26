@@ -1566,7 +1566,7 @@ The existing setup enables execution of Gherkin scenarios through the Cucumber r
 
 ==== [.yellow-bg]#Automation Status in Milestone 3#
 
-[.yellow-bg]#By Milestone 3, Cucumber is set up and step definitions have been written for all the main scenarios. The issue is that those step definitions are still stubs — they track state in a local object instead of actually calling the app's service layer. So the tests do run and pass, but they're not really checking what the app does.#
+[.yellow-bg]#By Milestone 3, Cucumber is set up and step definitions have been written for all the main scenarios. The issue is that those step definitions are still stubs as they track state in a local object instead of actually calling the app's service layer.
 
 [.yellow-bg]#What we do have right now:#
 
@@ -1574,7 +1574,7 @@ The existing setup enables execution of Gherkin scenarios through the Cucumber r
 * [.yellow-bg]#Feature files are written in Gherkin for order placement, order pickup, authentication, staff operations, and menu browsing.#
 * [.yellow-bg]#Step definitions exist for all of those scenarios.#
 
-[.yellow-bg]#To actually wire the step definitions to the real app — calling functions like createOrder, loginWithEmailPassword, or fetchMenuItems — we'd need either a test Supabase setup or a way to mock Supabase inside Cucumber. That's what we're planning to work on next.#
+
 
 ==== Summary
 
