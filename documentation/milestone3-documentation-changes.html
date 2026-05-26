@@ -1063,7 +1063,7 @@ Oversee system-wide quality and automation.</p>
 <p>Ordering: Now, it&#8217;s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!</p>
 </li>
 <li>
-<p>Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</p>
+<p>Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. <span class="yellow-bg">If the customer attempts to pay after the payment window has already expired, cafeteria staff must verify whether the order is still available before accepting payment.</span> <span class="yellow-bg">Orders that have already been removed or cancelled must be reordered by the customer.</span> As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</p>
 </li>
 <li>
 <p>Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.</p>
@@ -1458,42 +1458,49 @@ A recurring slowdown caused by limited capacity in ordering, payment, or prepara
 <div class="sect3">
 <h4 id="_2_1_5_function_signatures">2.1.5 Function Signatures</h4>
 <div class="paragraph">
-<p>This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</p>
+<p><span class="yellow-bg">This section defines the core operations associated with actions and behaviors that have been identified in the cafeteria domain. The function signatures are not limited to implementation details, instead they clarify the information involved in domain operations such as order placement, payment processing, order cancellation, and meal preparation. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</span></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p><strong>User Registration</strong>
+<span class="yellow-bg">This operation relates to customer access and identification within the cafeteria ordering domain.</span>
 To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
 <code>registerUser : UserDatabase &gt;&lt; UserDetails &#8594; UserDatabase &gt;&lt; (Option UserProfile)</code></p>
 </li>
 <li>
 <p><strong>Browsing the Menu</strong>
+<span class="yellow-bg">This operation relates to the Menu concept described in Sections 2.1.2 and 2.1.4.</span>
 Retrieving the available food items requires access to the active menu catalog.
 <code>viewMenu : MenuCatalog &#8594; List(MenuItem)</code></p>
 </li>
 <li>
-<p><strong>Managing the Cart</strong>
-When a customer adds an item, the operation alters the local state of their cart rather than the global database, minimizing dependencies.
-<code>addItemToCart : Cart &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; Cart</code></p>
+<p><strong><span class="yellow-bg">Managing the Order Selection</span></strong>
+<span class="yellow-bg">This operation relates to the Order Placement action described in Section 2.1.4.</span>
+When a customer adds an item, the operation alters the local state of their <span class="yellow-bg">current order selection</span> rather than the global database, minimizing dependencies.
+<code><span class="yellow-bg">addItemToOrder</span> : <span class="yellow-bg">OrderSelection</span> &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; <span class="yellow-bg">OrderSelection</span></code></p>
 </li>
 <li>
 <p><strong>Placing an Order</strong>
-Placing an order requires the current cart, the customer details, and the global order records. If items are out of stock or the cart is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
-<code>placeOrder : OrderRecords &gt;&lt; Cart &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
+<span class="yellow-bg">This operation formalizes the Order Placement action and the Order Has Just Been Placed event described in Section 2.1.4.</span>
+Placing an order requires the <span class="yellow-bg">current order selection,</span> the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
+<code>placeOrder : OrderRecords &gt;&lt; <span class="yellow-bg">OrderSelection</span> &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
 </li>
 <li>
 <p><strong>Processing Payments</strong>
+<span class="yellow-bg">This operation relates to the Payment action and Payment Has Just Failed event described in Section 2.1.4.</span>
 This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
 <code>processPayment : PaymentSystem &gt;&lt; Order &gt;&lt; PaymentMethod &#8594; PaymentSystem &gt;&lt; (Option Receipt)</code></p>
 </li>
 <li>
 <p><strong>Updating Order Status</strong>
+<span class="yellow-bg">This operation relates to the Meal Preparation and Meal Pickup actions described in Section 2.1.4.</span>
 As cafeteria staff prepare the food, they update the order&#8217;s progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
 <code>updateOrderStatus : ActiveOrderList &gt;&lt; OrderID &gt;&lt; Status &#8594; ActiveOrderList</code></p>
 </li>
 <li>
 <p><strong>Canceling an Order</strong>
+<span class="yellow-bg">This operation relates to the order cancellation behavior discussed throughout the ordering and payment flow.</span>
 If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
 <code>cancelOrder : OrderRecords &gt;&lt; OrderID &#8594; OrderRecords &gt;&lt; (Option RefundStatus)</code></p>
 </li>
@@ -2677,16 +2684,19 @@ so the internal representation remains consistent with cafeteria operations.</p>
 <div class="ulist">
 <ul>
 <li>
+<p><span class="green-bg">At the current stage of the project, testing preparation has mainly focused on defining planned testing approaches and connecting requirements to features. More detailed testing artifacts and implementation-level tests are expected to improve as additional functionality is completed.</span></p>
+</li>
+<li>
 <p>The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.</p>
 </li>
 <li>
 <p>Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.</p>
 </li>
 <li>
-<p>Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).</p>
+<p><span class="yellow-bg">Traceability reviews were used to verify that major features and user stories are associated with at least one planned testing approach. For example, order processing is connected to integration and system testing, while payment handling is connected to system and acceptance testing.</span></p>
 </li>
 <li>
-<p>Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.</p>
+<p><span class="yellow-bg">Documentation verification focuses on consistency, terminology alignment, traceability, and completeness across requirements, user stories, epics, and domain concepts. These reviews help identify undefined terms, conflicting statements, missing relationships between sections, and requirements that may require further clarification before implementation and testing.</span></p>
 </li>
 </ul>
 </div>
@@ -3014,7 +3024,7 @@ through verifiable, incremental behavior.</p>
 <p>The student must be able to select available menu items.</p>
 </li>
 <li>
-<p>The student must be able to add selected items to a cart.</p>
+<p>The student must be able to add selected items to <span class="yellow-bg">an order.</span></p>
 </li>
 <li>
 <p>The student must be able to proceed to checkout and choose a pickup option.</p>
@@ -3066,7 +3076,7 @@ through verifiable, incremental behavior.</p>
 <div class="content">
 <pre class="highlight"><code class="language-gherkin" data-lang="gherkin">Scenario: Successful order placement
     Given the student is logged in and on the menu page
-    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"
     And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process
     Then the system should confirm the order
     And the cafeteria staff should be notified of the new order
@@ -3247,7 +3257,7 @@ Because the payment screen is not yet connected to the real backend or payment g
 </ul>
 </div>
 <div class="paragraph">
-<p>For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.</p>
+<p>For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing <span class="yellow-bg">orders</span>, or waiting for order preparation.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3804,7 +3814,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <div class="sect2">
 <h3 id="_human_vs_ai_contributions">Human vs AI Contributions</h3>
 <div class="paragraph">
-<p>Artificial Intelligence provided templates and initial drafts which required human users to create the main analysis and core logical framework. The team avoided AI use for some architectural tasks like Defect Management (Issue #35). All visual assets like logos, color palettes, and code logic were created entirely by the team. For example, while the AI suggested general UI components, the team manually developed the unique navigation structure and branding. AI, in general, provided initial verbal explanations and document structures while the team was responsible for the final content, design, and technical implementation.</p>
+<p>Artificial Intelligence provided templates and initial drafts which required human users to create the main analysis and core logical framework. The team avoided AI use for some architectural tasks like Defect Management (Issue 35). All visual assets like logos, color palettes, and code logic were created entirely by the team. For example, while the AI suggested general UI components, the team manually developed the unique navigation structure and branding. AI, in general, provided initial verbal explanations and document structures while the team was responsible for the final content, design, and technical implementation.</p>
 </div>
 </div>
 <div class="sect2">
@@ -3845,13 +3855,33 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <th class="tableblock halign-left valign-top">GitHub Issue</th>
 </tr>
 </thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2.3 Ideas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added clarification for late payment attempts after the payment window expires and explained how cancelled/removed orders are handled.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#638</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.5 Function Signatures</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updated function signature section descriptions to clarify their relationship to domain actions and behaviors instead of only implementation details. Also replaced cart-related terminology with order selection terminology.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#639</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.2.2 Verification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clarified the current state of testing preparation, added traceability review details, and improved documentation verification descriptions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#640</p></td>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-21 12:41:27 -0400
+Last updated 2026-05-25 16:27:09 -0400
 </div>
 </div>
 </body>
