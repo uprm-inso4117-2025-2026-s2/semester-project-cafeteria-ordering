@@ -1043,7 +1043,7 @@ Oversee system-wide quality and automation.</p>
 <p>Ordering: Now, it&#8217;s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!</p>
 </li>
 <li>
-<p>Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</p>
+<p>Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. If the customer attempts to pay after the payment window has already expired, cafeteria staff must verify whether the order is still available before accepting payment. Orders that have already been removed or cancelled must be reordered by the customer. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</p>
 </li>
 <li>
 <p>Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.</p>
@@ -1438,42 +1438,49 @@ A recurring slowdown caused by limited capacity in ordering, payment, or prepara
 <div class="sect3">
 <h4 id="_2_1_5_function_signatures">2.1.5 Function Signatures</h4>
 <div class="paragraph">
-<p>This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</p>
+<p>This section defines the core operations associated with actions and behaviors that have been identified in the cafeteria domain. The function signatures are not limited to implementation details, instead they clarify the information involved in domain operations such as order placement, payment processing, order cancellation, and meal preparation. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p><strong>User Registration</strong>
+This operation relates to customer access and identification within the cafeteria ordering domain.
 To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
 <code>registerUser : UserDatabase &gt;&lt; UserDetails &#8594; UserDatabase &gt;&lt; (Option UserProfile)</code></p>
 </li>
 <li>
 <p><strong>Browsing the Menu</strong>
+This operation relates to the Menu concept described in Sections 2.1.2 and 2.1.4.
 Retrieving the available food items requires access to the active menu catalog.
 <code>viewMenu : MenuCatalog &#8594; List(MenuItem)</code></p>
 </li>
 <li>
-<p><strong>Managing the Cart</strong>
-When a customer adds an item, the operation alters the local state of their cart rather than the global database, minimizing dependencies.
-<code>addItemToCart : Cart &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; Cart</code></p>
+<p><strong>Managing the Order Selection</strong>
+This operation relates to the Order Placement action described in Section 2.1.4.
+When a customer adds an item, the operation alters the local state of their current order selection rather than the global database, minimizing dependencies.
+<code>addItemToOrder : OrderSelection &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; OrderSelection</code></p>
 </li>
 <li>
 <p><strong>Placing an Order</strong>
-Placing an order requires the current cart, the customer details, and the global order records. If items are out of stock or the cart is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
-<code>placeOrder : OrderRecords &gt;&lt; Cart &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
+This operation formalizes the Order Placement action and the Order Has Just Been Placed event described in Section 2.1.4.
+Placing an order requires the current order selection, the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
+<code>placeOrder : OrderRecords &gt;&lt; OrderSelection &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
 </li>
 <li>
 <p><strong>Processing Payments</strong>
+This operation relates to the Payment action and Payment Has Just Failed event described in Section 2.1.4.
 This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
 <code>processPayment : PaymentSystem &gt;&lt; Order &gt;&lt; PaymentMethod &#8594; PaymentSystem &gt;&lt; (Option Receipt)</code></p>
 </li>
 <li>
 <p><strong>Updating Order Status</strong>
+This operation relates to the Meal Preparation and Meal Pickup actions described in Section 2.1.4.
 As cafeteria staff prepare the food, they update the order&#8217;s progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
 <code>updateOrderStatus : ActiveOrderList &gt;&lt; OrderID &gt;&lt; Status &#8594; ActiveOrderList</code></p>
 </li>
 <li>
 <p><strong>Canceling an Order</strong>
+This operation relates to the order cancellation behavior discussed throughout the ordering and payment flow.
 If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
 <code>cancelOrder : OrderRecords &gt;&lt; OrderID &#8594; OrderRecords &gt;&lt; (Option RefundStatus)</code></p>
 </li>
@@ -2492,11 +2499,11 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-text" data-lang="text">export async function persistOrder(order: Order) {
+<pre class="highlight"><code class="language-text" data-lang="text">export async function createOrder(order: Order) {
   const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
 
   if (error) {
-    console.error('Error when persisting order:', error.message)
+    console.error('Error when creating order:', error.message)
     return null
   }
 
@@ -2513,7 +2520,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 </div>
 <div class="paragraph">
-<p>In this brief source code, persistOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. The function inserts this fully-formed record directly into the database. Note that the current implementation does not check item availability or stock levels before insertion; stock validation is a known gap that must be enforced before this function is called or added here explicitly if it is intended as a system constraint.</p>
+<p>In this code, createOrder receives an Order object with the student ID, selected items, total price, and status, and saves it to the database. One thing worth noting is that right now the function doesn&#8217;t check whether items are actually in stock before inserting the order, so that validation either needs to happen before calling this function or be added inside it.</p>
 </div>
 <div class="paragraph">
 <p><strong>Pickup Code/ Order Security</strong></p>
@@ -2523,7 +2530,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-text" data-lang="text">function generateCode(order: Order)
+<pre class="highlight"><code class="language-text" data-lang="text">function generatePickupCode(order: Order)
     code= randomnumberBetween (0001,9999)
     order.update(id, {
         pickupCode: code
@@ -2532,7 +2539,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 </div>
 <div class="paragraph">
-<p>The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order.</p>
+<p>Once generatePickupCode runs, the code gets saved to the order. When the customer comes to pick up their food, they show this code to the staff, who verify it before handing everything over.</p>
 </div>
 <div class="paragraph">
 <p><strong>UI Design</strong></p>
@@ -2907,22 +2914,21 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="sect3">
 <h4 id="_3_2_1_validation">3.2.1 Validation</h4>
 <div class="paragraph">
-<p><strong>Scenario Walkthroughs (Ongoing)</strong></p>
+<p><strong>Scenario Walkthroughs (Completed)</strong></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.</p>
-</li>
-</ul>
-</div>
+<p>During Milestone 2, the team conducted two scenario walkthroughs to check that our domain concepts, narrative, and requirements actually matched what happens in the cafeteria.</p>
 </li>
 <li>
-<p>After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.</p>
+<p><strong>Domain Narrative Walkthrough</strong> — Team members each took a role — one as a student, another as cafeteria staff — and went through the narrative in Section 2.1.3 from start to finish. The ordering flow, payment step, and pickup sequence all checked out. We also confirmed that the “Student Has Just Left the Queue Without Ordering” event made sense in context, since it naturally comes up when a student looks at the line and realizes they don&#8217;t have enough time. Nothing in the narrative needed to be changed, and the terms used matched what we defined in Section 2.1.2.</p>
+</li>
+<li>
+<p><strong>Requirements Walkthrough</strong> — The team went through a set of requirements from Sections 2.2.3 and 2.2.4 and matched each one to a persona from Section 2.2.2 to check if it covered a real problem. For example, we looked at DR-02 (Item Availability) through Mariana&#8217;s situation, since she has trouble planning meals when she doesn&#8217;t know what&#8217;s available. IR-2.2.4-5 (Order creation) was checked against Carlos, since he needs to place orders quickly between classes. The main service stages were all covered and no new term conflicts came up.</p>
+</li>
+<li>
+<p>Both walkthroughs were reviewed by the Documentation Team Lead and didn&#8217;t result in any changes to the domain concepts or requirements. As implementation moves forward, we plan to do more walkthroughs focused on the actual features being built.</p>
 </li>
 </ul>
 </div>
@@ -2935,7 +2941,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p>Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).</p>
 </li>
 <li>
-<p>Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.</p>
+<p>During the domain narrative walkthrough we also checked that our terms were being used correctly. Words like “customer,” “order,” and “pickup code” came up naturally in the scenarios and nobody was confused by them. No new conflicts came up.</p>
 </li>
 </ul>
 </div>
@@ -3002,16 +3008,19 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
+<p>At the current stage of the project, testing preparation has mainly focused on defining planned testing approaches and connecting requirements to features. More detailed testing artifacts and implementation-level tests are expected to improve as additional functionality is completed.</p>
+</li>
+<li>
 <p>The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.</p>
 </li>
 <li>
 <p>Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.</p>
 </li>
 <li>
-<p>Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).</p>
+<p>Traceability reviews were used to verify that major features and user stories are associated with at least one planned testing approach. For example, order processing is connected to integration and system testing, while payment handling is connected to system and acceptance testing.</p>
 </li>
 <li>
-<p>Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.</p>
+<p>Documentation verification focuses on consistency, terminology alignment, traceability, and completeness across requirements, user stories, epics, and domain concepts. These reviews help identify undefined terms, conflicting statements, missing relationships between sections, and requirements that may require further clarification before implementation and testing.</p>
 </li>
 </ul>
 </div>
@@ -3336,22 +3345,22 @@ through verifiable, incremental behavior.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>The student must be able to select available menu items.</p>
+<p>The system must present available menu items for the student to select.</p>
 </li>
 <li>
-<p>The student must be able to add selected items to a cart.</p>
+<p>The system must allow the student to add selected items to an order.</p>
 </li>
 <li>
-<p>The student must be able to proceed to checkout and choose a pickup option.</p>
+<p>The system must provide a checkout step where the student can choose a pickup option.</p>
 </li>
 <li>
 <p>The system must confirm successful order placement.</p>
 </li>
 <li>
-<p>The cafeteria staff must be notified of new orders.</p>
+<p>The system must notify cafeteria staff of new orders.</p>
 </li>
 <li>
-<p>The student must receive an order confirmation message.</p>
+<p>The system must send the student an order confirmation message.</p>
 </li>
 </ul>
 </div>
@@ -3391,11 +3400,12 @@ through verifiable, incremental behavior.</p>
 <div class="content">
 <pre class="highlight"><code class="language-gherkin" data-lang="gherkin">Scenario: Successful order placement
     Given the student is logged in and on the menu page
-    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"
     And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process
     Then the system should confirm the order
     And the cafeteria staff should be notified of the new order
-    And the student should receive an order confirmation message</code></pre>
+    And the student should receive an order confirmation message
+    And the system should display an estimated pickup time</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -3444,37 +3454,34 @@ through verifiable, incremental behavior.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_automation_status_in_milestone_1">Automation Status in Milestone 1</h4>
+<h4 id="_automation_status_in_milestone_3">Automation Status in Milestone 3</h4>
 <div class="paragraph">
-<p>At this milestone, the Cucumber environment and Gherkin specification files are fully configured. However, step definitions binding these scenarios to implemented application behavior have not yet been developed.</p>
+<p>By Milestone 3, Cucumber is set up and step definitions have been written for all the main scenarios. The issue is that those step definitions are still stubs — they track state in a local object instead of actually calling the app&#8217;s service layer. So the tests do run and pass, but they&#8217;re not really checking what the app does.</p>
 </div>
 <div class="paragraph">
-<p>This is intentional and aligned with milestone sequencing. Milestone 1 focuses on domain modeling, requirements engineering, documentation, and preparation of testing infrastructure. Full behavioral binding and executable verification against implemented functionality will be completed in Milestone 2, once core application features are available.</p>
-</div>
-<div class="paragraph">
-<p>The current configuration demonstrates that:</p>
+<p>What we do have right now:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>A BDD tool is integrated into the project.</p>
+<p>Cucumber is set up in the project and can be run through npm.</p>
 </li>
 <li>
-<p>Behavioral specifications are written in Gherkin.</p>
+<p>Feature files are written in Gherkin for order placement, order pickup, authentication, staff operations, and menu browsing.</p>
 </li>
 <li>
-<p>Scenarios are structured for automated execution.</p>
-</li>
-<li>
-<p>The testing infrastructure is prepared for future implementation binding.</p>
+<p>Step definitions exist for all of those scenarios.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>To actually wire the step definitions to the real app — calling functions like createOrder, loginWithEmailPassword, or fetchMenuItems — we&#8217;d need either a test Supabase setup or a way to mock Supabase inside Cucumber. That&#8217;s what we&#8217;re planning to work on next.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_summary">Summary</h4>
 <div class="paragraph">
-<p>By applying BDD and integrating Cucumber into the repository, the project establishes a clear path from stakeholder requirements to executable behavioral specifications. Even though full step-definition implementation will occur in Milestone 2, the current setup ensures alignment between requirements, documentation, and automated testing infrastructure, satisfying the academic requirements for BDD tool integration.</p>
+<p>The team has integrated Cucumber into the project with feature files and step definitions written for all main scenarios and the runner working. The step definitions are still stubs at this point, so the next step is connecting them to the real service layer so the tests actually verify what the app does.</p>
 </div>
 </div>
 </div>
@@ -3572,7 +3579,7 @@ Because the payment screen is not yet connected to the real backend or payment g
 </ul>
 </div>
 <div class="paragraph">
-<p>For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.</p>
+<p>For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing orders, or waiting for order preparation.</p>
 </div>
 </div>
 <div class="sect3">
@@ -4172,6 +4179,24 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2.3 Ideas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added clarification for late payment attempts after the payment window expires and explained how cancelled/removed orders are handled.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#638</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.5 Function Signatures</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updated function signature section descriptions to clarify their relationship to domain actions and behaviors instead of only implementation details. Also replaced cart-related terminology with order selection terminology.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#639</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.2.2 Verification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clarified the current state of testing preparation, added traceability review details, and improved documentation verification descriptions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#640</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@Kaariinaa08</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2.2.1 - User stories, epics, and features</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback.</p></td>
@@ -4201,6 +4226,24 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Expanded concepts to better align with professor&#8217;s expectations of the section.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#650</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.3.1 - Selected Fragments</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added explanatory annotations to the order creation and pickup code fragments.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.2.1 - Validation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added scenario walkthrough details and terminology validation results.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.2 - BDD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added estimated pickup time step to the order placement scenario and automation status section.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4208,7 +4251,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-25 17:09:26 -0400
+Last updated 2026-05-25 23:45:37 -0400
 </div>
 </div>
 </body>
