@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AccessibilityInfo,
   Image,
@@ -122,6 +122,20 @@ export default function LoginScreen() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Log session state when login screen mounts
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      console.log('[Login Screen] Existing session check:', {
+        hasSession: !!session,
+        user: session?.user?.email,
+        expiresAt: session?.expires_at,
+      });
+    };
+    
+    checkExistingSession();
+  }, []);
 
   const handleSignIn = async () => {
     const validationErrors = validate({ emailOrUsername, password });
