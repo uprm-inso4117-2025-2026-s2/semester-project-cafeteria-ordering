@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
   AccessibilityInfo,
   Image,
@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 
+import { useAuth } from '@/app/authContext';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
@@ -39,6 +40,37 @@ interface InputFieldProps {
   errorText?: string;
 }
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function getSearchParam(value: string | string[] | undefined) {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+
+  return value;
+}
+
+function mapAppleLoginError(message?: string) {
+  const normalized = message?.toLowerCase() ?? '';
+
+  if (normalized.includes('apple_oauth_cancelled')) {
+    return 'Apple sign-in was cancelled. Please try again or use email and password.';
+  }
+
+  if (normalized.includes('provider') || normalized.includes('not enabled')) {
+    return 'Apple sign-in is not enabled yet. Please contact support or use email and password.';
+  }
+
+  if (normalized.includes('authorization code') || normalized.includes('code')) {
+    return 'Apple sign-in failed after redirect. Please try again.';
+  }
+
+  if (normalized.includes('access_denied')) {
+    return 'Apple sign-in was denied. Please try again or use email and password.';
+  }
+
+  return 'Apple sign-in failed. Please try again or use email and password.';
+}
+
 // ─── InputField Component ─────────────────────────────────────────────────────
 function InputField({
   label,
@@ -56,7 +88,9 @@ function InputField({
 
   return (
     <View style={styles.fieldContainer}>
-      <ThemedText type="body" style={styles.label}>{label}</ThemedText>
+      <ThemedText type="body" style={styles.label}>
+        {label}
+      </ThemedText>
       <View style={[styles.inputWrapper, { backgroundColor: Colors.pastelSage }]}>
         <TextInput
           value={value}
@@ -100,14 +134,17 @@ function InputField({
 // ─── Validation ───────────────────────────────────────────────────────────────
 function validate(fields: { emailOrUsername: string; password: string }) {
   const errors: Record<string, string> = {};
+
   if (!fields.emailOrUsername.trim()) {
     errors.emailOrUsername = 'Email is required.';
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.emailOrUsername)) {
     errors.emailOrUsername = 'Please enter a valid email address.';
   }
+
   if (!fields.password) {
     errors.password = 'Password is required.';
   }
+
   return errors;
 }
 
@@ -117,14 +154,45 @@ export default function LoginScreen() {
   const isDark = backgroundColor === Colors.dark.background;
   const router = useRouter();
 
+  const params = useLocalSearchParams<{
+    error?: string;
+    error_code?: string;
+    error_description?: string;
+  }>();
+
+  const { signInWithApple } = useAuth();
+
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAppleSubmitting, setIsAppleSubmitting] = useState(false);
+
+  useEffect(() => {
+    const redirectError =
+      getSearchParam(params.error_description) ||
+      getSearchParam(params.error) ||
+      getSearchParam(params.error_code);
+
+    if (redirectError) {
+      setAuthMessage(mapAppleLoginError(redirectError));
+    }
+  }, [params.error, params.error_code, params.error_description]);
+
+  const routeAuthenticatedUser = async (userId: string) => {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    router.replace(profile?.role === 'staff' ? '/staff/ViewOrders' : '/(tabs)');
+  };
 
   const handleSignIn = async () => {
     const validationErrors = validate({ emailOrUsername, password });
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       AccessibilityInfo.announceForAccessibility(
@@ -132,9 +200,11 @@ export default function LoginScreen() {
       );
       return;
     }
+
     setErrors({});
     setAuthMessage(null);
     setIsSubmitting(true);
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: emailOrUsername.trim(),
@@ -151,15 +221,24 @@ export default function LoginScreen() {
         return;
       }
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('user_id', data.user.id)
-        .maybeSingle();
-
-      router.replace(profile?.role === 'staff' ? '/staff/ViewOrders' : '/(tabs)');
+      await routeAuthenticatedUser(data.user.id);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleSignInWithApple = async () => {
+    setAuthMessage(null);
+    setIsAppleSubmitting(true);
+
+    try {
+      const { supabaseUser } = await signInWithApple();
+      await routeAuthenticatedUser(supabaseUser.id);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : undefined;
+      setAuthMessage(mapAppleLoginError(message));
+    } finally {
+      setIsAppleSubmitting(false);
     }
   };
 
@@ -235,10 +314,10 @@ export default function LoginScreen() {
 
         <TouchableOpacity
           onPress={handleSignIn}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isAppleSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign in"
-          accessibilityState={{ disabled: isSubmitting }}
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting }}
           style={[
             styles.signInButton,
             { backgroundColor: isSubmitting ? Colors.pastelSage : Colors.primaryGreen },
@@ -255,9 +334,37 @@ export default function LoginScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={handleSignInWithApple}
+          disabled={isSubmitting || isAppleSubmitting}
+          accessibilityRole="button"
+          accessibilityLabel="Sign in with Apple"
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting }}
+          style={[
+            styles.appleButton,
+            { opacity: isSubmitting || isAppleSubmitting ? 0.7 : 1 },
+          ]}
+          activeOpacity={0.85}
+        >
+          <View style={styles.appleButtonContent}>
+            <Ionicons name="logo-apple" size={18} color="#FFFFFF" />
+            <ThemedText
+              type="button"
+              lightColor="#FFFFFF"
+              darkColor="#FFFFFF"
+              style={styles.socialButtonText}
+              numberOfLines={1}
+            >
+              {isAppleSubmitting ? 'Connecting…' : 'Sign in with Apple'}
+            </ThemedText>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
           onPress={handleSignInWithGoogle}
+          disabled={isSubmitting || isAppleSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign in with Google"
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting }}
           style={styles.googleButton}
           activeOpacity={0.85}
         >
@@ -276,7 +383,9 @@ export default function LoginScreen() {
             style={[
               styles.authMessage,
               {
-                color: authMessage.toLowerCase().includes('enabled yet') ? Colors.mutedGray : '#C62828',
+                color: authMessage.toLowerCase().includes('enabled yet')
+                  ? Colors.mutedGray
+                  : '#C62828',
               },
             ]}
           >
@@ -379,6 +488,27 @@ const styles = StyleSheet.create({
     marginTop: 28,
     marginBottom: 10,
   },
+
+  appleButton: {
+    width: 250,
+    borderRadius: 50,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000000',
+    marginBottom: 10,
+  },
+  appleButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  socialButtonText: {
+    marginLeft: 8,
+    textAlign: 'center',
+  },
+
   googleButton: {
     width: 190,
     borderRadius: 50,
