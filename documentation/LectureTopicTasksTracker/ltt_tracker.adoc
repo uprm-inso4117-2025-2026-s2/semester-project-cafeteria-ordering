@@ -258,6 +258,19 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* Evaluates the sensitivity of homepage filtering and display logic to small logic changes by applying controlled mutations and validating whether incorrect behavior becomes detectable during execution.
 
+==== Issue #645 - Static Typing Usage in Core Domain Concepts
+
+*Assignee:* @aryamdiaz
+
+*Work completed:*
+- Added Section 4.9 Types to the Milestone 3 documentation.
+- Updated the clean documentation file without tags.
+- Updated the changes documentation file using the green tag for newly added content.
+- Included a TypeScript example using `Order`, `OrderItem`, `MenuItem`, `PaymentMethod`, and `OrderStatus`.
+- Explained how static typing improves clarity, maintainability, and function behavior.
+
+*Status:* Ready for review.
+
 === Reserved Lecture Topic Tasks
 
 ==== LTT-09-(issue-29): Define and Establish Test Reporting Principles (GerardoSotoRios)

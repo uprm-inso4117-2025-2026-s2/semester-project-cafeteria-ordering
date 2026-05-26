@@ -1906,6 +1906,67 @@ The team uses the following mutation score thresholds to guide test improvement,
 | 90–100% | Target range. Focus on test readability and maintainability rather than chasing final mutants.
 |===
 
+[.green-bg]
+=== 4.9 Types
+
+[.green-bg]#The Cafeteria Ordering System incorporates static typing through TypeScript to make core domain concepts easier to understand, validate, and maintain. Since the project uses TypeScript, domain concepts such as orders, menu items, payments, and order statuses can be represented with explicit types instead of loosely structured objects.#
+
+[.green-bg]#Static typing is useful in this project because it clarifies what kind of data each function expects and returns. This reduces ambiguity when developers work with order creation, menu item selection, payment processing, and order status updates.#
+
+[.green-bg]
+==== Core Domain Types
+
+[.green-bg]#The following TypeScript example represents important cafeteria ordering concepts using meaningful static types:#
+
+[source,ts]
+----
+type MenuItemId = string;
+type OrderId = string;
+
+type PaymentMethod = "cashier" | "card";
+type OrderStatus = "draft" | "pending_payment" | "confirmed" | "ready_for_pickup" | "cancelled";
+
+type MenuItem = {
+  id: MenuItemId;
+  name: string;
+  price: number;
+  isAvailable: boolean;
+};
+
+type OrderItem = {
+  menuItem: MenuItem;
+  quantity: number;
+  specialInstructions?: string;
+};
+
+type Order = {
+  id: OrderId;
+  items: OrderItem[];
+  paymentMethod: PaymentMethod;
+  status: OrderStatus;
+};
+
+function calculateOrderTotal(order: Order): number {
+  return order.items.reduce((total, item) => {
+    return total + item.menuItem.price * item.quantity;
+  }, 0);
+}
+----
+
+[.green-bg]
+==== Functional Insight
+
+[.green-bg]#The `calculateOrderTotal` function receives an `Order` and returns a `number`. This makes the function signature clear because developers can immediately understand that the function works with a complete order object and produces a numeric total.#
+
+[.green-bg]#The type definitions also prevent common mistakes. For example, `paymentMethod` can only be `"cashier"` or `"card"`, and `status` can only use one of the defined order lifecycle values. This prevents unclear values such as `"paid later"` or `"done"` from being used when the system expects a specific domain value.#
+
+[.green-bg]
+==== Relevance to the Project
+
+[.green-bg]#These types improve the clarity of the Cafeteria Ordering System by making the domain model explicit. Instead of treating orders, menu items, and payments as generic objects, the system can represent them as meaningful concepts with defined structure and expected values.#
+
+[.green-bg]#This supports maintainability because future developers can understand the shape of the data before modifying order creation, payment handling, or pickup-related functionality. It also supports reliability because invalid values are more likely to be detected during development before they cause runtime errors.#
+
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
 
@@ -1959,6 +2020,7 @@ The following table have all the changes made to the documentation for Milestone
 | @Kaariinaa08 | 2.2.1 - User stories, epics, and features | Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback. | #634
 | @Kaariinaa08 | 2.2.3 - Domain Requirements | Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status. | #635
 | @Kaariinaa08 | 2.2.4 - Interface Requirements | Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format. | #637
+| @aryamdiaz | 4.9 - Types | Added a new section explaining how static typing is used through TypeScript to represent core domain concepts such as orders, menu items, payment methods, and order statuses. Included a functional example and explained how types improve clarity, maintainability, and function behavior. | #645
 | @JadStelar | 1.3.1 - Scope | Removed the out of place aspects from domain engineering based on professor's feedback | #649
 | @JadStelar | 3.1 - Concept Analysis | Expanded concepts to better align with professor's expectations of the section. | #650
 |===
