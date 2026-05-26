@@ -1,25 +1,27 @@
-import { getProfileByUserId } from "@/lib/profiles";
 import { Colors, Typography } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { getProfileByUserId } from "@/lib/profiles";
 import { supabase } from "@/lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
-import { useRouter, useFocusEffect } from "expo-router";
-import { useEffect, useState, useCallback } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useState } from "react";
 import {
-  Alert,
-  Image,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    Image,
+    Modal,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
+
+import { useAuth } from "../authContext";
 
 
 function ConfirmModal({
@@ -71,6 +73,7 @@ export default function ProfileScreen() {
   const colorScheme = useColorScheme() ?? "light";
   const theme = Colors[colorScheme];
   const router = useRouter();
+  const { signOut } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -100,16 +103,26 @@ export default function ProfileScreen() {
   const [reqNote, setReqNote] = useState("");
 
   async function handleLogout() {
-    const { error } = await supabase.auth.signOut();
-
     setLogoutModal(false);
 
-    if (error) {
-      Alert.alert("Logout failed", "Please try again.");
-      return;
-    }
+    try {
+      await signOut();
 
-    router.replace("/signup");
+      // Clear locally-held UI state to prevent residual data flash
+      setName("");
+      setEmail("");
+      setPhone("");
+      setAvatarUri(null);
+      setSelectedReqs([]);
+      setReqNote("");
+
+      // Clear any locally persisted profile info
+      await AsyncStorage.multiRemove(["@profile_avatar", "@profile_info"]);
+
+      router.replace("/login");
+    } catch {
+      Alert.alert("Logout failed", "Please try again.");
+    }
   }
 
   const REQUIREMENTS = ["Severe Allergy", "Time Restriction", "Medical Diet", "Religious / Cultural Diet", "Other"];
