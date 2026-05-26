@@ -1,0 +1,148 @@
+= Performance Testing Strategy Research for Profile and Offline Support
+
+// Author: @andreasegarra
+// Issue #673
+
+== Types of Performance Testing
+
+=== Performance Testing (General)
+
+Measures overall system responsiveness, stability, and speed under expected conditions.
+
+In this system, it evaluates profile loading speed, order history retrieval time, offline mode responsiveness, and synchronization feedback performance.
+
+=== Load Testing
+
+Evaluates system behavior under expected high traffic conditions.
+
+For this project, it may simulate many students accessing their profiles, viewing order history, and reconnecting after being offline during peak cafeteria hours. This measures how the backend and local storage systems handle concurrent requests and synchronization events while maintaining acceptable performance.
+
+=== Stress Testing
+
+Pushes the system beyond normal operational limits to determine breaking points.
+
+This can be applied to large spikes of simultaneous profile requests, mass offline-to-online synchronization events, and excessive order history retrieval requests. The goal is to identify when profile services, synchronization systems, or cached storage begin to slow down, fail, or become unstable under extreme usage conditions.
+
+=== Soak Testing
+
+Tests system stability over extended periods of continuous usage.
+
+It is relevant for long-running mobile sessions, prolonged offline mode usage, cached profile data persistence, and repeated synchronization cycles over time. This helps detect memory leaks, synchronization degradation, excessive storage growth, and UI performance drops that may not appear during short testing sessions.
+
+=== Realistic Workload Simulation
+
+Simulates real-world user behavior patterns rather than isolated actions.
+
+For this system, it involves users opening their profile, browsing order history, temporarily losing internet connection, continuing to use cached profile information, and reconnecting later to synchronize updates. It also includes mixed usage patterns during busy cafeteria hours where users frequently switch between online and offline states due to unstable mobile connectivity.
+
+
+== Application to Profile and Offline Support Features (Pain Points and Risks)
+
+=== Profile Loading
+
+- Includes:
+  * user information retrieval
+  * profile image loading
+  * preference and settings loading
+- Risk: slow profile rendering during peak usage
+
+=== Edit Profile Functionality
+
+- Includes:
+  * profile updates
+  * local cache updates
+  * synchronization with backend services
+- Risk: delays or failed synchronization during unstable network conditions
+
+=== Order History Access
+
+- High-frequency profile-related operation including:
+  * retrieving previous orders
+  * loading order details
+  * displaying large order lists
+- Risk: long loading times or excessive backend queries
+
+=== Offline Mode Support
+
+- Includes:
+  * cached profile access
+  * offline banners and indicators
+  * local storage usage
+- Risk: outdated cached data or slow offline UI updates
+
+=== Offline-to-Online Synchronization
+
+- Includes:
+  * queued updates
+  * background synchronization
+  * reconnect handling
+- Risk: synchronization conflicts or sudden spikes of requests after reconnection
+
+=== Synchronization Feedback UI
+
+- Includes:
+  * loading indicators
+  * offline banners
+  * synchronization status messages
+- Risk: UI freezing or delayed feedback during synchronization processes
+
+
+== Expected System Load Scenarios
+
+The system is designed for a campus cafeteria environment where usage patterns are highly concentrated during meal hours.
+
+Expected scenarios include:
+
+- Many students opening profile pages before ordering food
+- High order history access during lunch periods
+- Multiple users reconnecting after temporary network loss
+- Simultaneous offline synchronization after internet restoration
+- Long-running mobile sessions throughout the day
+- Frequent switching between online and offline connectivity on mobile devices
+
+These scenarios represent realistic student behavior patterns and unstable mobile network conditions commonly experienced in cafeteria environments.
+
+
+== Performance Risks and Bottlenecks
+
+Key potential bottlenecks include:
+
+- Slow backend profile retrieval under concurrent requests
+- Large order history queries causing increased response times
+- Excessive local storage reads/writes during synchronization
+- Multiple queued offline updates generating synchronization spikes
+- Network instability causing repeated retry requests
+- UI rendering delays caused by synchronization operations
+- Cached data becoming outdated after long offline sessions
+- Memory usage growth during prolonged offline operation
+
+
+== Mapping Testing Types to Features
+
+[cols="1,1,1", options="header"]
+|===
+|Testing Type |Feature |Purpose
+
+|Load Testing
+|Profile / Order History
+|Measure performance during concurrent student access
+
+|Stress Testing
+|Offline Synchronization
+|Identify system limits during mass reconnection events
+
+|Soak Testing
+|Offline Sessions / Cached Data
+|Ensure long-term application stability
+
+|Realistic Workload Simulation
+|Profile + Offline Flow
+|Model realistic mobile cafeteria usage patterns
+|===
+
+
+== Conclusion
+
+Performance testing is essential for ensuring that profile and offline support systems remain responsive, reliable, and stable under real-world cafeteria usage conditions. Since mobile connectivity may frequently fluctuate in campus environments, offline support and synchronization behavior directly affect the user experience.
+
+By applying multiple forms of performance testing, the system can be validated against both expected student usage patterns and extreme synchronization scenarios, helping ensure a smooth and reliable cafeteria ordering experience even under unstable network conditions.
