@@ -1,0 +1,25 @@
+= TR-ORD-05 Place Order & Order Confirmation Integration Test Report
+Author: Gerardo Soto
+
+*Date:* 2026-05-26
+
+*ID:* TR-ORD-05
+
+*Issue:* #301
+
+*Test:* IT-ORD-05-Place-and-Confirm-Order
+
+*Pass/Fail Status:* PASS
+
+== Description
+All integration tests executed for the place order and order confirmation modules passed successfully. The test suite validated:
+
+- A valid cart with an existing menu item and authenticated user ID successfully creates an order in the database.
+- The order is inserted into the `orders` table with the correct status (`placed`), total amount, and a generated pickup code.
+- The order line item is inserted into the `order_items` table and correctly linked to the created order via `order_id`.
+- The `getOrderIDLogic` function retrieves the same order ID returned during order placement, confirming the confirmation module reads the correct record.
+- UI verification: a menu item can be selected and appears in the cart with the correct name and price.
+
+== Notes
+- The test connects directly to the Supabase backend via the project `.env` credentials, bypassing the UI layer since it is not yet complete.
+- RUN: `npx tsx src/tests/ordering/scripts/IT-ORD-05-Place_and_Confirm_Order.ts` to execute. ( must have the tables created for the orders to appear correcltly in the database)
