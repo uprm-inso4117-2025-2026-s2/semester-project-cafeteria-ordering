@@ -2693,6 +2693,188 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </ul>
 </div>
 </li>
+<li>
+<p><strong>joining a queue:</strong> the act of a customer entering the service line to wait for ordering or payment.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed as customers physically entering the line during peak periods. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.</p>
+</li>
+<li>
+<p>Reasoning: This action captures the start of a customer’s service interaction and affects waiting time and throughput.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>order placement:</strong> the act of selecting menu items and communicating the request to cafeteria staff.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Inferred from customers stating their order at the counter and staff recording it. Can be found in the following rough sketches: The Payment Bottleneck and The Kitchen’s Blind Spot.</p>
+</li>
+<li>
+<p>Reasoning: This action defines when a request becomes an order and is central to order creation requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>payment:</strong> the act of transferring money to finalize the order.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed as the cashier step where payment is processed. Can be found in the following rough sketch: The Payment Bottleneck.</p>
+</li>
+<li>
+<p>Reasoning: This action is required to complete the transaction and is tied to payment status requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>meal preparation:</strong> the act of preparing menu items after an order exists.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed in staff preparing trays before and during rush periods. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</p>
+</li>
+<li>
+<p>Reasoning: This action drives order status changes and preparation time variability.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>meal pickup:</strong> the act of a customer receiving prepared items.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed as the final step when customers receive their meal after payment. Can be found in the following rough sketches: The Payment Bottleneck and The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This action completes the service flow and supports pickup coordination requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>student has just joined the queue:</strong> the moment a customer enters the line.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed as a discrete moment when a student decides to wait. Can be found in the following rough sketch: The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This event marks the beginning of waiting time and helps define queue-related measurements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>order has just been placed:</strong> the moment an order is communicated to staff.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Inferred from the transition between waiting and staff receiving the request. Can be found in the following rough sketch: The Payment Bottleneck.</p>
+</li>
+<li>
+<p>Reasoning: This event separates browsing/queueing from order processing and supports order lifecycle tracking.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>payment has just failed:</strong> the moment a payment attempt does not complete.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when the payment system is down and staff must troubleshoot. Can be found in the following rough sketch: The Payment Bottleneck.</p>
+</li>
+<li>
+<p>Reasoning: This event triggers service delays and informs payment failure requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>meal has just been prepared:</strong> the moment a meal becomes ready for pickup.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Inferred from staff completing preparation and making items available. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</p>
+</li>
+<li>
+<p>Reasoning: This event enables pickup notifications and order status updates.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>student has just left the queue without ordering:</strong> the moment a customer abandons the line.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when students decide to leave due to time pressure. Can be found in the following rough sketch: The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This event reflects time-constrained behavior and motivates reducing wait times.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>crowd surge:</strong> a rapid influx of customers creating long lines.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when multiple students arrive at once during peak hours. Can be found in the following rough sketch: The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This behavior explains queue growth and informs peak-hour flow management.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>time-constrained decision making:</strong> customers decide whether to stay in line based on time pressure.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when students assess their schedule and leave the line. Can be found in the following rough sketch: The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This behavior motivates menu visibility and order status features that reduce uncertainty.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>uncertain demand preparation:</strong> staff prepare items without precise demand forecasts.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when staff prepare trays without knowing incoming volume. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</p>
+</li>
+<li>
+<p>Reasoning: This behavior motivates demand awareness support and preparation status tracking.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>service bottleneck:</strong> repeated delays caused by constrained payment or preparation.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when payment failures slow the line. Can be found in the following rough sketch: The Payment Bottleneck.</p>
+</li>
+<li>
+<p>Reasoning: This behavior explains throughput issues and supports payment reliability requirements.</p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 </div>
@@ -4013,6 +4195,12 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Removed the out of place aspects from domain engineering based on professor&#8217;s feedback</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#649</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.1 - Concept Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expanded concepts to better align with professor&#8217;s expectations of the section.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#650</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4020,7 +4208,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-25 17:11:54 -0400
+Last updated 2026-05-25 17:09:26 -0400
 </div>
 </div>
 </body>

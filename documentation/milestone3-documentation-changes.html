@@ -2709,6 +2709,188 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </ul>
 </div>
 </li>
+<li>
+<p><span class="green-bg"><strong>joining a queue:</strong> the act of a customer entering the service line to wait for ordering or payment.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as customers physically entering the line during peak periods. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action captures the start of a customer’s service interaction and affects waiting time and throughput.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>order placement:</strong> the act of selecting menu items and communicating the request to cafeteria staff.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Inferred from customers stating their order at the counter and staff recording it. Can be found in the following rough sketches: The Payment Bottleneck and The Kitchen’s Blind Spot.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action defines when a request becomes an order and is central to order creation requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>payment:</strong> the act of transferring money to finalize the order.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as the cashier step where payment is processed. Can be found in the following rough sketch: The Payment Bottleneck.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action is required to complete the transaction and is tied to payment status requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>meal preparation:</strong> the act of preparing menu items after an order exists.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed in staff preparing trays before and during rush periods. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action drives order status changes and preparation time variability.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>meal pickup:</strong> the act of a customer receiving prepared items.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as the final step when customers receive their meal after payment. Can be found in the following rough sketches: The Payment Bottleneck and The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This action completes the service flow and supports pickup coordination requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>student has just joined the queue:</strong> the moment a customer enters the line.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed as a discrete moment when a student decides to wait. Can be found in the following rough sketch: The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event marks the beginning of waiting time and helps define queue-related measurements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>order has just been placed:</strong> the moment an order is communicated to staff.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Inferred from the transition between waiting and staff receiving the request. Can be found in the following rough sketch: The Payment Bottleneck.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event separates browsing/queueing from order processing and supports order lifecycle tracking.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>payment has just failed:</strong> the moment a payment attempt does not complete.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when the payment system is down and staff must troubleshoot. Can be found in the following rough sketch: The Payment Bottleneck.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event triggers service delays and informs payment failure requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>meal has just been prepared:</strong> the moment a meal becomes ready for pickup.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Inferred from staff completing preparation and making items available. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event enables pickup notifications and order status updates.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>student has just left the queue without ordering:</strong> the moment a customer abandons the line.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when students decide to leave due to time pressure. Can be found in the following rough sketch: The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This event reflects time-constrained behavior and motivates reducing wait times.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>crowd surge:</strong> a rapid influx of customers creating long lines.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when multiple students arrive at once during peak hours. Can be found in the following rough sketch: The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This behavior explains queue growth and informs peak-hour flow management.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>time-constrained decision making:</strong> customers decide whether to stay in line based on time pressure.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when students assess their schedule and leave the line. Can be found in the following rough sketch: The 10-Minute Dash.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This behavior motivates menu visibility and order status features that reduce uncertainty.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>uncertain demand preparation:</strong> staff prepare items without precise demand forecasts.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when staff prepare trays without knowing incoming volume. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This behavior motivates demand awareness support and preparation status tracking.</span></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><span class="green-bg"><strong>service bottleneck:</strong> repeated delays caused by constrained payment or preparation.</span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="green-bg">Origin: Observed when payment failures slow the line. Can be found in the following rough sketch: The Payment Bottleneck.</span></p>
+</li>
+<li>
+<p><span class="green-bg">Reasoning: This behavior explains throughput issues and supports payment reliability requirements.</span></p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 </div>
@@ -4029,6 +4211,12 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Removed the out of place aspects from domain engineering based on professor&#8217;s feedback</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#649</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.1 - Concept Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expanded concepts to better align with professor&#8217;s expectations of the section.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#650</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4036,7 +4224,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-25 16:57:48 -0400
+Last updated 2026-05-25 17:05:14 -0400
 </div>
 </div>
 </body>
