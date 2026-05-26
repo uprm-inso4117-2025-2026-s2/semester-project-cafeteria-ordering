@@ -15,7 +15,7 @@ import {
   formatPhoneNumber,
   isValidEmail,
   isValidPassword,
-} from '../../lib/validation';
+} from '../../../lib/validation';
 
 describe('isValidEmail', () => {
   it.each([

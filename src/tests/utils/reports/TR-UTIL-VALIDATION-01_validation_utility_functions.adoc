@@ -28,5 +28,5 @@ Run locally with:
 
 [source,bash]
 ----
-npx jest src/tests/utils/validation.test.ts
+npx jest src/tests/utils/scripts/validation.test.ts --config jest.config.js
 ----
