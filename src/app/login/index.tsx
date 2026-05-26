@@ -158,9 +158,17 @@ export default function LoginScreen() {
     error?: string;
     error_code?: string;
     error_description?: string;
+    upgrade?: string;
+    returnTo?: string;
   }>();
 
-  const { signInWithApple } = useAuth();
+  const {
+    signInWithApple,
+    guestUpgradeState,
+    beginGuestUpgrade,
+    cancelGuestUpgrade,
+    completeGuestUpgrade,
+  } = useAuth();
 
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -180,14 +188,25 @@ export default function LoginScreen() {
     }
   }, [params.error, params.error_code, params.error_description]);
 
-  const routeAuthenticatedUser = async (userId: string) => {
+  useEffect(() => {
+    if (params.upgrade === 'guest') {
+      beginGuestUpgrade(params.returnTo || '/(tabs)');
+    }
+  }, [beginGuestUpgrade, params.returnTo, params.upgrade]);
+
+  const routeAuthenticatedUser = async (userId: string, fallbackRoute?: string) => {
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('user_id', userId)
       .maybeSingle();
 
-    router.replace(profile?.role === 'staff' ? '/staff/ViewOrders' : '/(tabs)');
+    if (profile?.role === 'staff') {
+      router.replace('/staff/ViewOrders');
+      return;
+    }
+
+    router.replace((fallbackRoute || '/(tabs)') as any);
   };
 
   const handleSignIn = async () => {
@@ -221,7 +240,13 @@ export default function LoginScreen() {
         return;
       }
 
-      await routeAuthenticatedUser(data.user.id);
+      const preservedRoute = guestUpgradeState.preservedRoute || '/(tabs)';
+
+      if (guestUpgradeState.isUpgradingGuest) {
+        completeGuestUpgrade();
+      }
+
+      await routeAuthenticatedUser(data.user.id, preservedRoute);
     } finally {
       setIsSubmitting(false);
     }
@@ -233,7 +258,13 @@ export default function LoginScreen() {
 
     try {
       const { supabaseUser } = await signInWithApple();
-      await routeAuthenticatedUser(supabaseUser.id);
+      const preservedRoute = guestUpgradeState.preservedRoute || '/(tabs)';
+
+      if (guestUpgradeState.isUpgradingGuest) {
+        completeGuestUpgrade();
+      }
+
+      await routeAuthenticatedUser(supabaseUser.id, preservedRoute);
     } catch (error) {
       const message = error instanceof Error ? error.message : undefined;
       setAuthMessage(mapAppleLoginError(message));
@@ -269,6 +300,20 @@ export default function LoginScreen() {
         <ThemedText type="body" style={styles.subtitle}>
           {"Please enter your credentials\nto log into your account."}
         </ThemedText>
+
+        {guestUpgradeState.isUpgradingGuest && (
+          <View style={styles.guestUpgradeBanner}>
+            <Ionicons name="information-circle-outline" size={20} color={Colors.primaryGreen} />
+            <View style={styles.guestUpgradeTextWrapper}>
+              <ThemedText type="body" style={styles.guestUpgradeTitle}>
+                Finish upgrading your guest session
+              </ThemedText>
+              <ThemedText type="body" style={styles.guestUpgradeMessage}>
+                Log in to connect your current guest progress to your account.
+              </ThemedText>
+            </View>
+          </View>
+        )}
 
         <View style={styles.form}>
           <InputField
@@ -377,6 +422,22 @@ export default function LoginScreen() {
           </ThemedText>
         </TouchableOpacity>
 
+        {guestUpgradeState.isUpgradingGuest && (
+          <TouchableOpacity
+            onPress={() => {
+              cancelGuestUpgrade();
+              router.replace((guestUpgradeState.preservedRoute || '/(tabs)') as any);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel="Continue as guest"
+            style={styles.cancelGuestUpgradeButton}
+          >
+            <ThemedText type="link" style={styles.cancelGuestUpgradeText}>
+              Continue as guest
+            </ThemedText>
+          </TouchableOpacity>
+        )}
+
         {authMessage && (
           <ThemedText
             type="body"
@@ -437,6 +498,29 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     marginBottom: 24,
   },
+  guestUpgradeBanner: {
+    width: '100%',
+    maxWidth: 320,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    borderRadius: 14,
+    padding: 12,
+    backgroundColor: Colors.pastelSage,
+    marginBottom: 16,
+  },
+  guestUpgradeTextWrapper: {
+    flex: 1,
+    marginLeft: 8,
+  },
+  guestUpgradeTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    marginBottom: 3,
+  },
+  guestUpgradeMessage: {
+    fontSize: 12,
+    lineHeight: 16,
+  },
   form: {
     width: '100%',
     maxWidth: CONTENT_MAX_WIDTH,
@@ -488,7 +572,6 @@ const styles = StyleSheet.create({
     marginTop: 28,
     marginBottom: 10,
   },
-
   appleButton: {
     width: 250,
     borderRadius: 50,
@@ -508,7 +591,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     textAlign: 'center',
   },
-
   googleButton: {
     width: 190,
     borderRadius: 50,
@@ -517,6 +599,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#2E7D32',
     marginBottom: 24,
+  },
+  cancelGuestUpgradeButton: {
+    marginBottom: 12,
+  },
+  cancelGuestUpgradeText: {
+    fontSize: 12,
+    textAlign: 'center',
   },
   signUpLinkRow: {
     flexDirection: 'row',

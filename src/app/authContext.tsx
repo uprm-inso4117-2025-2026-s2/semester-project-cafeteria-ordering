@@ -1,7 +1,7 @@
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 import { supabase } from '@/lib/supabase';
 
@@ -19,14 +19,25 @@ type AppleSignInResult = {
   supabaseUser: SupabaseUser;
 };
 
+type GuestUpgradeState = {
+  isGuest: boolean;
+  isUpgradingGuest: boolean;
+  preservedRoute?: string;
+  message?: string;
+};
+
 type AuthContextType = {
   user: User | null; // user=null if not logged in
   isInitialized: boolean;
   loggedIn: boolean;
+  guestUpgradeState: GuestUpgradeState;
   login: (user: User) => void;
   logout: () => void;
   signOut: () => Promise<void>;
   signInWithApple: () => Promise<AppleSignInResult>;
+  beginGuestUpgrade: (preservedRoute?: string) => void;
+  cancelGuestUpgrade: () => void;
+  completeGuestUpgrade: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -68,6 +79,10 @@ function getOAuthCodeFromUrl(url: string) {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [guestUpgradeState, setGuestUpgradeState] = useState<GuestUpgradeState>({
+    isGuest: false,
+    isUpgradingGuest: false,
+  });
 
   const syncProfileFromMetadata = async (supabaseUser: SupabaseUser) => {
     const metadata = (supabaseUser.user_metadata ?? {}) as {
@@ -170,6 +185,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const beginGuestUpgrade = useCallback((preservedRoute?: string) => {
+    setGuestUpgradeState((current) => {
+      const nextRoute = preservedRoute || current.preservedRoute || '/(tabs)';
+
+      if (
+        current.isGuest &&
+        current.isUpgradingGuest &&
+        current.preservedRoute === nextRoute
+      ) {
+        return current;
+      }
+
+      return {
+        isGuest: true,
+        isUpgradingGuest: true,
+        preservedRoute: nextRoute,
+        message: 'Create an account to keep your current guest progress.',
+      };
+    });
+  }, []);
+
+  const cancelGuestUpgrade = useCallback(() => {
+    setGuestUpgradeState((current) => ({
+      ...current,
+      isGuest: true,
+      isUpgradingGuest: false,
+      message: 'Guest upgrade was cancelled. Your temporary progress is still available.',
+    }));
+  }, []);
+
+  const completeGuestUpgrade = useCallback(() => {
+    setGuestUpgradeState({
+      isGuest: false,
+      isUpgradingGuest: false,
+      message: 'Your guest session was upgraded successfully.',
+    });
+  }, []);
+
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
 
@@ -239,10 +292,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         isInitialized,
         loggedIn: !!user, // true if user exists
+        guestUpgradeState,
         login,
         logout,
         signOut,
         signInWithApple,
+        beginGuestUpgrade,
+        cancelGuestUpgrade,
+        completeGuestUpgrade,
       }}
     >
       {children}

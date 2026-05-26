@@ -210,9 +210,17 @@ export default function SignUpScreen() {
     error?: string;
     error_code?: string;
     error_description?: string;
+    upgrade?: string;
+    returnTo?: string;
   }>();
 
-  const { signInWithApple } = useAuth();
+  const {
+    signInWithApple,
+    guestUpgradeState,
+    beginGuestUpgrade,
+    cancelGuestUpgrade,
+    completeGuestUpgrade,
+  } = useAuth();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -235,6 +243,12 @@ export default function SignUpScreen() {
       setAuthMessage(mapAppleSignUpError(redirectError));
     }
   }, [params.error, params.error_code, params.error_description]);
+
+  useEffect(() => {
+    if (params.upgrade === 'guest') {
+      beginGuestUpgrade(params.returnTo || '/(tabs)');
+    }
+  }, [beginGuestUpgrade, params.returnTo, params.upgrade]);
 
   const handleSignUp = async () => {
     const validationErrors = validate({ fullName, email, password, confirmPassword, agreedToTerms });
@@ -275,10 +289,23 @@ export default function SignUpScreen() {
       }
 
       if (data.session) {
-        setAuthMessage('Account created successfully.');
-        router.replace('/(tabs)');
+        const preservedRoute = guestUpgradeState.preservedRoute || '/(tabs)';
+
+        if (guestUpgradeState.isUpgradingGuest) {
+          completeGuestUpgrade();
+          setAuthMessage('Account created successfully. Your guest progress was preserved.');
+          router.replace(preservedRoute as any);
+        } else {
+          setAuthMessage('Account created successfully.');
+          router.replace('/(tabs)');
+        }
       } else {
-        setAuthMessage('Account created. Please check your email to confirm your account before logging in.');
+        setAuthMessage(
+          guestUpgradeState.isUpgradingGuest
+            ? 'Account created. Please check your email to confirm your account. Your guest progress is still available.'
+            : 'Account created. Please check your email to confirm your account before logging in.'
+        );
+
         router.replace('/login' as any);
       }
     } finally {
@@ -291,8 +318,15 @@ export default function SignUpScreen() {
     setIsAppleSubmitting(true);
 
     try {
+      const preservedRoute = guestUpgradeState.preservedRoute || '/(tabs)';
+
       await signInWithApple();
-      router.replace('/(tabs)');
+
+      if (guestUpgradeState.isUpgradingGuest) {
+        completeGuestUpgrade();
+      }
+
+      router.replace(preservedRoute as any);
     } catch (error) {
       const message = error instanceof Error ? error.message : undefined;
       setAuthMessage(mapAppleSignUpError(message));
@@ -320,6 +354,20 @@ export default function SignUpScreen() {
         <View style={[styles.avatarContainer, { borderColor: Colors.mutedGray }]}>
           <Ionicons name="person-circle-outline" size={60} color={Colors.mutedGray} />
         </View>
+
+        {guestUpgradeState.isUpgradingGuest && (
+          <View style={styles.guestUpgradeBanner}>
+            <Ionicons name="information-circle-outline" size={22} color={Colors.primaryGreen} />
+            <View style={styles.guestUpgradeTextWrapper}>
+              <ThemedText type="body" style={styles.guestUpgradeTitle}>
+                Upgrade your guest account
+              </ThemedText>
+              <ThemedText type="body" style={styles.guestUpgradeMessage}>
+                Create an account to keep your current cafeteria progress and continue without starting over.
+              </ThemedText>
+            </View>
+          </View>
+        )}
 
         {/* ── Fields ── */}
         <View style={styles.form}>
@@ -496,6 +544,22 @@ export default function SignUpScreen() {
           </ThemedText>
         </TouchableOpacity>
 
+        {guestUpgradeState.isUpgradingGuest && (
+          <TouchableOpacity
+            onPress={() => {
+              cancelGuestUpgrade();
+              router.replace((guestUpgradeState.preservedRoute || '/(tabs)') as any);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel="Continue as guest"
+            style={styles.cancelGuestUpgradeButton}
+          >
+            <ThemedText type="link" style={styles.cancelGuestUpgradeText}>
+              Continue as guest
+            </ThemedText>
+          </TouchableOpacity>
+        )}
+
         {authMessage && (
           <ThemedText
             type="body"
@@ -557,6 +621,29 @@ const styles = StyleSheet.create({
     marginBottom: 28,
     overflow: 'hidden',
     backgroundColor: '#EEEEEE',
+  },
+  guestUpgradeBanner: {
+    width: '100%',
+    maxWidth: 480,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    borderRadius: 16,
+    padding: 14,
+    backgroundColor: Colors.pastelSage,
+    marginBottom: 20,
+  },
+  guestUpgradeTextWrapper: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  guestUpgradeTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  guestUpgradeMessage: {
+    fontSize: 14,
+    lineHeight: 20,
   },
   form: { width: '100%', maxWidth: 480 },
   fieldContainer: { marginBottom: 16 },
@@ -621,6 +708,13 @@ const styles = StyleSheet.create({
   },
   socialButtonText: {
     marginLeft: 8,
+  },
+  cancelGuestUpgradeButton: {
+    marginBottom: 12,
+  },
+  cancelGuestUpgradeText: {
+    fontSize: 14,
+    textAlign: 'center',
   },
   loginLinkRow: {
     flexDirection: 'row',
