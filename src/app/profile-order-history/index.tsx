@@ -1,3 +1,4 @@
+import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Colors, Typography } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Ionicons } from "@expo/vector-icons";
@@ -219,28 +220,6 @@ export default function ProfileOrderHistoryScreen() {
   );
 }
 
-function StatusBadge({ status }: { status: Status }) {
-  const badgeStyle =
-    status === "Pending"
-      ? styles.pendingBadge
-      : status === "Complete"
-        ? styles.completeBadge
-        : styles.cancelledBadge;
-
-  const textStyle =
-    status === "Pending"
-      ? styles.pendingText
-      : status === "Complete"
-        ? styles.completeText
-        : styles.cancelledText;
-
-  return (
-    <View style={[styles.badge, badgeStyle]}>
-      <Text style={[styles.badgeText, textStyle]}>{status}</Text>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -357,36 +336,5 @@ const styles = StyleSheet.create({
   detailsText: {
     fontSize: 14,
     fontWeight: "800",
-  },
-  badge: {
-    borderRadius: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderWidth: 1.3,
-  },
-  badgeText: {
-    fontSize: 13,
-    fontWeight: "800",
-  },
-  pendingBadge: {
-    backgroundColor: "#FFE4CE",
-    borderColor: "#F0A66E",
-  },
-  pendingText: {
-    color: "#B96527",
-  },
-  completeBadge: {
-    backgroundColor: "#C9F7D1",
-    borderColor: "#5DE07B",
-  },
-  completeText: {
-    color: "#3BA34E",
-  },
-  cancelledBadge: {
-    backgroundColor: "#FFD7D7",
-    borderColor: "#FF7B7B",
-  },
-  cancelledText: {
-    color: "#D73535",
   },
 });

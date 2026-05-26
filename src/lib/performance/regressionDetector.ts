@@ -1,6 +1,7 @@
 // src/lib/performance/regressionDetector.ts
-import { metricsCollector } from './metricsCollector';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
+import { metricsCollector } from './metricsCollector';
 
 interface Baseline {
   throughput: number;
@@ -21,6 +22,8 @@ class RegressionDetector {
   }
 
   private async loadBaselines() {
+    const isWebStaticRender = Platform.OS === 'web' && typeof window === 'undefined';
+    if (isWebStaticRender) return;
     try {
       const stored = await AsyncStorage.getItem(this.BASELINE_STORAGE_KEY);
       if (stored) {
@@ -36,6 +39,8 @@ class RegressionDetector {
   }
 
   private async saveBaselines() {
+    const isWebStaticRender = Platform.OS === 'web' && typeof window === 'undefined';
+    if (isWebStaticRender) return;
     try {
       const baselinesObj: Record<string, Baseline> = {};
       this.baselines.forEach((value, key) => {

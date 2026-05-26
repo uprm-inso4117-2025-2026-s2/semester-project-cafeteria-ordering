@@ -1,15 +1,40 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 import { useEffect } from 'react';
+import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import OfflineBanner from '@/components/ui/offline-online-banner';
-import { useFonts } from 'expo-font';
-import { AuthProvider } from './authContext';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { metricsCollector } from '@/lib/performance/metricsCollector';
 import { regressionDetector } from '@/lib/performance/regressionDetector';
+import { useFonts } from 'expo-font';
+import { AuthProvider, useAuth } from './authContext';
+
+function AuthGate() {
+  const router = useRouter();
+  const segments = useSegments();
+  const { loggedIn, isInitialized } = useAuth();
+
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    const first = segments[0];
+    const inAuthScreens = first === 'login' || first === 'signup' || first === 'PasswordRecovery';
+    const inProtectedGroup = first === '(tabs)' || first === 'staff';
+
+    if (!loggedIn && inProtectedGroup) {
+      router.replace('/login');
+      return;
+    }
+
+    if (loggedIn && inAuthScreens) {
+      router.replace('/(tabs)');
+    }
+  }, [isInitialized, loggedIn, router, segments]);
+
+  return null;
+}
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -84,12 +109,13 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <AuthGate />
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="staff" options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={{ headerShown: false }} />
-          <Stack.Screen name="signup" options={{ headerShown: false }} />
-          <Stack.Screen name="PasswordRecovery" options={{ headerShown: false }} />
+          <Stack.Screen name="login/index" options={{ headerShown: false }} />
+          <Stack.Screen name="signup/index" options={{ headerShown: false }} />
+          <Stack.Screen name="PasswordRecovery/index" options={{ headerShown: false }} />
+          <Stack.Screen name="PasswordRecovery/resetPassword" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>
         <OfflineBanner />

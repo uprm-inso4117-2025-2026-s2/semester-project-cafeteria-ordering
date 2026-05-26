@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.26">
 <title>Cafeteria Ordering System</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -116,7 +116,6 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 :not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
-pre>code{display:block}
 pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
 em em{font-style:normal}
 strong strong{font-weight:400}
@@ -219,6 +218,7 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
 .literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
 .listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
 .listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
 .listingblock:hover code[data-lang]::before{display:block}
 .listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
@@ -483,6 +483,7 @@ Friday, February 27, 2026</p>
 <li><a href="#_4_4_load_testing">4.4 Load Testing</a></li>
 <li><a href="#_4_5_hoare_logic_testing">4.5 Hoare Logic Testing</a></li>
 <li><a href="#_4_6_mutation_testing">4.6 Mutation Testing</a></li>
+<li><a href="#_4_8_property_based_testing">4.8 Property Based Testing</a></li>
 </ul>
 </li>
 <li><a href="#_appendix_a_ai_disclosure_statement">Appendix A: AI Disclosure Statement</a>
@@ -1043,7 +1044,7 @@ Oversee system-wide quality and automation.</p>
 <p>Ordering: Now, it&#8217;s easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!</p>
 </li>
 <li>
-<p>Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</p>
+<p>Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it&#8217;s ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn&#8217;t pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. If the customer attempts to pay after the payment window has already expired, cafeteria staff must verify whether the order is still available before accepting payment. Orders that have already been removed or cancelled must be reordered by the customer. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.</p>
 </li>
 <li>
 <p>Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.</p>
@@ -1078,7 +1079,7 @@ Oversee system-wide quality and automation.</p>
 <p>While anyone at the university is welcome to purchase from the cafeteria, this application is primarily intended for students, who represent the cafeteria&#8217;s largest customer group and face the most significant challenges described in this document. The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.</p>
 </div>
 <div class="paragraph">
-<p>Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in-person ordering. This involves structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.</p>
+<p>Domain Engineering: Analyze how the current university food service is offered. This involves structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.</p>
 </div>
 <div class="paragraph">
 <p>Requirements Engineering: Discover what prospective users need from the system and capture those findings as prescriptions for system behavior. This includes eliciting user expectations around viewing menus, managing a digital cart, and processing remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes. These prescriptions must be made explicit from the perspective of students, staff, and administrators so that later design and implementation decisions are guided by stakeholder needs rather than assumptions.</p>
@@ -1438,42 +1439,49 @@ A recurring slowdown caused by limited capacity in ordering, payment, or prepara
 <div class="sect3">
 <h4 id="_2_1_5_function_signatures">2.1.5 Function Signatures</h4>
 <div class="paragraph">
-<p>This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</p>
+<p>This section defines the core operations associated with actions and behaviors that have been identified in the cafeteria domain. The function signatures are not limited to implementation details, instead they clarify the information involved in domain operations such as order placement, payment processing, order cancellation, and meal preparation. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an <code>Option</code> datatype wrapper to indicate a possible result or a failure.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p><strong>User Registration</strong>
+This operation relates to customer access and identification within the cafeteria ordering domain.
 To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
 <code>registerUser : UserDatabase &gt;&lt; UserDetails &#8594; UserDatabase &gt;&lt; (Option UserProfile)</code></p>
 </li>
 <li>
 <p><strong>Browsing the Menu</strong>
+This operation relates to the Menu concept described in Sections 2.1.2 and 2.1.4.
 Retrieving the available food items requires access to the active menu catalog.
 <code>viewMenu : MenuCatalog &#8594; List(MenuItem)</code></p>
 </li>
 <li>
-<p><strong>Managing the Cart</strong>
-When a customer adds an item, the operation alters the local state of their cart rather than the global database, minimizing dependencies.
-<code>addItemToCart : Cart &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; Cart</code></p>
+<p><strong>Managing the Order Selection</strong>
+This operation relates to the Order Placement action described in Section 2.1.4.
+When a customer adds an item, the operation alters the local state of their current order selection rather than the global database, minimizing dependencies.
+<code>addItemToOrder : OrderSelection &gt;&lt; MenuItem &gt;&lt; Quantity &#8594; OrderSelection</code></p>
 </li>
 <li>
 <p><strong>Placing an Order</strong>
-Placing an order requires the current cart, the customer details, and the global order records. If items are out of stock or the cart is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
-<code>placeOrder : OrderRecords &gt;&lt; Cart &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
+This operation formalizes the Order Placement action and the Order Has Just Been Placed event described in Section 2.1.4.
+Placing an order requires the current order selection, the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an <code>Option</code> for the generated order.
+<code>placeOrder : OrderRecords &gt;&lt; OrderSelection &gt;&lt; Customer &#8594; OrderRecords &gt;&lt; (Option Order)</code></p>
 </li>
 <li>
 <p><strong>Processing Payments</strong>
+This operation relates to the Payment action and Payment Has Just Failed event described in Section 2.1.4.
 This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
 <code>processPayment : PaymentSystem &gt;&lt; Order &gt;&lt; PaymentMethod &#8594; PaymentSystem &gt;&lt; (Option Receipt)</code></p>
 </li>
 <li>
 <p><strong>Updating Order Status</strong>
+This operation relates to the Meal Preparation and Meal Pickup actions described in Section 2.1.4.
 As cafeteria staff prepare the food, they update the order&#8217;s progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
 <code>updateOrderStatus : ActiveOrderList &gt;&lt; OrderID &gt;&lt; Status &#8594; ActiveOrderList</code></p>
 </li>
 <li>
 <p><strong>Canceling an Order</strong>
+This operation relates to the order cancellation behavior discussed throughout the ordering and payment flow.
 If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
 <code>cancelOrder : OrderRecords &gt;&lt; OrderID &#8594; OrderRecords &gt;&lt; (Option RefundStatus)</code></p>
 </li>
@@ -2693,6 +2701,188 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </ul>
 </div>
 </li>
+<li>
+<p><strong>joining a queue:</strong> the act of a customer entering the service line to wait for ordering or payment.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed as customers physically entering the line during peak periods. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.</p>
+</li>
+<li>
+<p>Reasoning: This action captures the start of a customer’s service interaction and affects waiting time and throughput.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>order placement:</strong> the act of selecting menu items and communicating the request to cafeteria staff.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Inferred from customers stating their order at the counter and staff recording it. Can be found in the following rough sketches: The Payment Bottleneck and The Kitchen’s Blind Spot.</p>
+</li>
+<li>
+<p>Reasoning: This action defines when a request becomes an order and is central to order creation requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>payment:</strong> the act of transferring money to finalize the order.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed as the cashier step where payment is processed. Can be found in the following rough sketch: The Payment Bottleneck.</p>
+</li>
+<li>
+<p>Reasoning: This action is required to complete the transaction and is tied to payment status requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>meal preparation:</strong> the act of preparing menu items after an order exists.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed in staff preparing trays before and during rush periods. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</p>
+</li>
+<li>
+<p>Reasoning: This action drives order status changes and preparation time variability.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>meal pickup:</strong> the act of a customer receiving prepared items.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed as the final step when customers receive their meal after payment. Can be found in the following rough sketches: The Payment Bottleneck and The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This action completes the service flow and supports pickup coordination requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>student has just joined the queue:</strong> the moment a customer enters the line.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed as a discrete moment when a student decides to wait. Can be found in the following rough sketch: The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This event marks the beginning of waiting time and helps define queue-related measurements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>order has just been placed:</strong> the moment an order is communicated to staff.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Inferred from the transition between waiting and staff receiving the request. Can be found in the following rough sketch: The Payment Bottleneck.</p>
+</li>
+<li>
+<p>Reasoning: This event separates browsing/queueing from order processing and supports order lifecycle tracking.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>payment has just failed:</strong> the moment a payment attempt does not complete.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when the payment system is down and staff must troubleshoot. Can be found in the following rough sketch: The Payment Bottleneck.</p>
+</li>
+<li>
+<p>Reasoning: This event triggers service delays and informs payment failure requirements.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>meal has just been prepared:</strong> the moment a meal becomes ready for pickup.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Inferred from staff completing preparation and making items available. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</p>
+</li>
+<li>
+<p>Reasoning: This event enables pickup notifications and order status updates.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>student has just left the queue without ordering:</strong> the moment a customer abandons the line.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when students decide to leave due to time pressure. Can be found in the following rough sketch: The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This event reflects time-constrained behavior and motivates reducing wait times.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>crowd surge:</strong> a rapid influx of customers creating long lines.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when multiple students arrive at once during peak hours. Can be found in the following rough sketch: The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This behavior explains queue growth and informs peak-hour flow management.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>time-constrained decision making:</strong> customers decide whether to stay in line based on time pressure.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when students assess their schedule and leave the line. Can be found in the following rough sketch: The 10-Minute Dash.</p>
+</li>
+<li>
+<p>Reasoning: This behavior motivates menu visibility and order status features that reduce uncertainty.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>uncertain demand preparation:</strong> staff prepare items without precise demand forecasts.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when staff prepare trays without knowing incoming volume. Can be found in the following rough sketch: The Kitchen’s Blind Spot.</p>
+</li>
+<li>
+<p>Reasoning: This behavior motivates demand awareness support and preparation status tracking.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>service bottleneck:</strong> repeated delays caused by constrained payment or preparation.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Origin: Observed when payment failures slow the line. Can be found in the following rough sketch: The Payment Bottleneck.</p>
+</li>
+<li>
+<p>Reasoning: This behavior explains throughput issues and supports payment reliability requirements.</p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 </div>
@@ -2820,16 +3010,19 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="ulist">
 <ul>
 <li>
+<p>At the current stage of the project, testing preparation has mainly focused on defining planned testing approaches and connecting requirements to features. More detailed testing artifacts and implementation-level tests are expected to improve as additional functionality is completed.</p>
+</li>
+<li>
 <p>The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.</p>
 </li>
 <li>
 <p>Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.</p>
 </li>
 <li>
-<p>Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).</p>
+<p>Traceability reviews were used to verify that major features and user stories are associated with at least one planned testing approach. For example, order processing is connected to integration and system testing, while payment handling is connected to system and acceptance testing.</p>
 </li>
 <li>
-<p>Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.</p>
+<p>Documentation verification focuses on consistency, terminology alignment, traceability, and completeness across requirements, user stories, epics, and domain concepts. These reviews help identify undefined terms, conflicting statements, missing relationships between sections, and requirements that may require further clarification before implementation and testing.</p>
 </li>
 </ul>
 </div>
@@ -3157,7 +3350,7 @@ through verifiable, incremental behavior.</p>
 <p>The student must be able to select available menu items.</p>
 </li>
 <li>
-<p>The student must be able to add selected items to a cart.</p>
+<p>The student must be able to add selected items to an order.</p>
 </li>
 <li>
 <p>The student must be able to proceed to checkout and choose a pickup option.</p>
@@ -3209,7 +3402,7 @@ through verifiable, incremental behavior.</p>
 <div class="content">
 <pre class="highlight"><code class="language-gherkin" data-lang="gherkin">Scenario: Successful order placement
     Given the student is logged in and on the menu page
-    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"
     And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process
     Then the system should confirm the order
     And the cafeteria staff should be notified of the new order
@@ -3390,7 +3583,7 @@ Because the payment screen is not yet connected to the real backend or payment g
 </ul>
 </div>
 <div class="paragraph">
-<p>For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.</p>
+<p>For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing orders, or waiting for order preparation.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3889,6 +4082,233 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_4_8_property_based_testing">4.8 Property Based Testing</h3>
+<div class="paragraph">
+<p>Property-based testing can be used in the Cafeteria Ordering System to verify general rules that should remain true across many possible inputs. Instead of only testing one fixed example, property-based testing generates many combinations of values and checks whether important system properties still hold.</p>
+</div>
+<div class="paragraph">
+<p>This testing approach is useful for order validation because cafeteria orders can vary by selected menu items, quantities, prices, payment methods, and order status. By generating different order inputs, the team can identify edge cases that may not appear in manually written example-based tests.</p>
+</div>
+<div class="sect3">
+<h4 id="_testing_scope">Testing Scope</h4>
+<div class="paragraph">
+<p>For this project, property-based testing focuses on the order validation flow. This includes checking whether generated orders follow the expected rules before they are accepted by the system or sent to the backend API.</p>
+</div>
+<div class="paragraph">
+<p>The following TypeScript-style example shows the kind of structure that could be tested:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-ts" data-lang="ts">type MenuItem = {
+  id: string;
+=== 4.9 Types
+
+The Cafeteria Ordering System incorporates static typing through TypeScript to make core domain concepts easier to understand, validate, and maintain. Since the project uses TypeScript, domain concepts such as orders, menu items, payments, and order statuses can be represented with explicit types instead of loosely structured objects.
+
+Static typing is useful in this project because it clarifies what kind of data each function expects and returns. This reduces ambiguity when developers work with order creation, menu item selection, payment processing, and order status updates.
+
+==== Core Domain Types
+
+The following TypeScript example represents important cafeteria ordering concepts using meaningful static types:
+
+[source,ts]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>type MenuItemId = string;
+type OrderId = string;</p>
+</div>
+<div class="paragraph">
+<p>type PaymentMethod = "cashier" | "card";
+type OrderStatus = "draft" | "pending_payment" | "confirmed" | "ready_for_pickup" | "cancelled";</p>
+</div>
+<div class="paragraph">
+<p>type MenuItem = {
+  id: MenuItemId;
+  name: string;
+  price: number;
+  isAvailable: boolean;
+};</p>
+</div>
+<div class="paragraph">
+<p>type OrderItem = {
+  menuItemId: string;
+  quantity: number;
+};</p>
+</div>
+<div class="paragraph">
+<p>type Order = {
+  items: OrderItem[];
+  paymentMethod: "cashier" | "card";
+};</p>
+</div>
+<div class="paragraph">
+<p>function validateOrder(order: Order, menuItems: MenuItem[]): boolean {
+  if (order.items.length === 0) {
+    return false;
+  }</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>return order.items.every((item) =&gt; {
+  const menuItem = menuItems.find((menuItem) =&gt; menuItem.id === item.menuItemId);</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    return (
+      menuItem !== undefined &amp;&amp;
+      menuItem.isAvailable &amp;&amp;
+      item.quantity &gt; 0 &amp;&amp;
+      item.quantity &lt;= 10
+    );
+  });
+}</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>==== Meaningful Properties
+
+The following properties describe general rules that should hold for the cafeteria ordering flow.
+
+===== Property 1 — Order Total Should Never Be Negative
+
+For any valid generated order, the calculated total should always be greater than or equal to zero. Since menu item prices and item quantities determine the order total, the system should reject or prevent invalid values that could produce a negative total.
+
+[source,ts]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>property("order total is never negative", (generatedOrder) &#8658; {
+  const total = calculateOrderTotal(generatedOrder);
+  expect(total).toBeGreaterThanOrEqual(0);
+});</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>This property helps detect invalid price or quantity handling, such as negative prices, negative quantities, or incorrect total calculations.
+
+===== Property 2 — A Valid Order Must Contain at Least One Item
+
+For any order to be valid, it must include at least one item. An empty order should not be accepted because it does not represent a real cafeteria request.
+
+[source,ts]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>property("valid orders contain at least one item", (generatedOrder) &#8658; {
+  if (validateOrder(generatedOrder, menuItems)) {
+    expect(generatedOrder.items.length).toBeGreaterThan(0);
+  }
+});</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>This property supports the cafeteria ordering domain because every submitted order should represent one or more requested menu items.
+
+===== Property 3 — Item Quantities Must Stay Within Valid Limits
+
+Generated orders should only be valid when each item quantity is within the accepted range. For example, a quantity of zero, a negative quantity, or an unreasonably large quantity should cause the order to be rejected.
+
+[source,ts]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>property("item quantities remain within valid limits", (generatedOrder) &#8658; {
+  const isValid = validateOrder(generatedOrder, menuItems);</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  if (isValid) {
+    generatedOrder.items.forEach((item) =&gt; {
+      expect(item.quantity).toBeGreaterThan(0);
+      expect(item.quantity).toBeLessThanOrEqual(10);
+    });
+  }
+});</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>This property helps verify that the system does not accept unrealistic or invalid order quantities.
+
+===== Property 4 — Invalid Menu Item IDs Should Not Create Valid Orders
+
+If a generated order contains a menu item ID that does not exist in the menu catalog, the order should not be accepted as valid.
+
+[source,ts]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>property("invalid menu item ids do not create valid orders", (generatedOrder) &#8658; {
+  const containsInvalidItem = generatedOrder.items.some((item) &#8658; {
+    return !menuItems.some((menuItem) &#8658; menuItem.id === item.menuItemId);
+  });</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  if (containsInvalidItem) {
+    expect(validateOrder(generatedOrder, menuItems)).toBe(false);
+  }
+});</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>This property is important because the system should not allow users to submit orders for items that are not part of the cafeteria menu.
+
+==== Generated Test Cases and Edge Cases
+
+Generated test cases help reveal edge cases that developers may not manually consider. For example, a property-based testing tool could generate empty orders, orders with repeated items, invalid menu item identifiers, unavailable menu items, very large quantities, or unexpected combinations of valid and invalid items.
+
+This makes the testing process stronger because the same system rule is checked across many input combinations. If one generated case breaks a property, the test can expose a weakness in validation logic that might not be found through a small set of example-based tests.
+
+==== Relevance to the Project
+
+Property-based testing supports the Cafeteria Ordering System by validating general ordering rules at a higher level. These rules are connected to the web API and order validation flow because the system must determine whether submitted order data is valid before processing payment, notifying staff, or adding the order to the active queue.
+
+By documenting these properties, the project shows how property-based testing can be used to strengthen confidence in order validation and reduce the risk of accepting invalid cafeteria orders.
+  menuItem: MenuItem;
+  quantity: number;
+  specialInstructions?: string;
+};
+
+type Order = {
+  id: OrderId;
+  items: OrderItem[];
+  paymentMethod: PaymentMethod;
+  status: OrderStatus;
+};
+
+function calculateOrderTotal(order: Order): number {
+  return order.items.reduce((total, item) =&gt; {
+    return total + item.menuItem.price * item.quantity;
+  }, 0);
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_functional_insight">Functional Insight</h4>
+<div class="paragraph">
+<p>The <code>calculateOrderTotal</code> function receives an <code>Order</code> and returns a <code>number</code>. This makes the function signature clear because developers can immediately understand that the function works with a complete order object and produces a numeric total.</p>
+</div>
+<div class="paragraph">
+<p>The type definitions also prevent common mistakes. For example, <code>paymentMethod</code> can only be <code>"cashier"</code> or <code>"card"</code>, and <code>status</code> can only use one of the defined order lifecycle values. This prevents unclear values such as <code>"paid later"</code> or <code>"done"</code> from being used when the system expects a specific domain value.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_relevance_to_the_project">Relevance to the Project</h4>
+<div class="paragraph">
+<p>These types improve the clarity of the Cafeteria Ordering System by making the domain model explicit. Instead of treating orders, menu items, and payments as generic objects, the system can represent them as meaningful concepts with defined structure and expected values.</p>
+</div>
+<div class="paragraph">
+<p>This supports maintainability because future developers can understand the shape of the data before modifying order creation, payment handling, or pickup-related functionality. It also supports reliability because invalid values are more likely to be detected during development before they cause runtime errors.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3990,6 +4410,24 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2.3 Ideas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added clarification for late payment attempts after the payment window expires and explained how cancelled/removed orders are handled.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#638</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.5 Function Signatures</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updated function signature section descriptions to clarify their relationship to domain actions and behaviors instead of only implementation details. Also replaced cart-related terminology with order selection terminology.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#639</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@SamarysB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.2.2 Verification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clarified the current state of testing preparation, added traceability review details, and improved documentation verification descriptions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#640</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@Kaariinaa08</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2.2.1 - User stories, epics, and features</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback.</p></td>
@@ -4007,6 +4445,30 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#637</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@aryamdiaz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.8 - Property Based Testing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added a new section explaining how property-based testing can verify cafeteria order validation rules across generated inputs. Documented meaningful properties for order totals, non-empty orders, valid quantities, and invalid menu item IDs.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#646</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@aryamdiaz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.9 - Types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added a new section explaining how static typing is used through TypeScript to represent core domain concepts such as orders, menu items, payment methods, and order statuses. Included a functional example and explained how types improve clarity, maintainability, and function behavior.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#645</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.3.1 - Scope</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed the out of place aspects from domain engineering based on professor&#8217;s feedback</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#649</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@JadStelar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.1 - Concept Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expanded concepts to better align with professor&#8217;s expectations of the section.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#650</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4014,7 +4476,7 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-24 13:21:39 -0400
+Last updated 2026-05-26 19:40:48 -0400
 </div>
 </div>
 </body>

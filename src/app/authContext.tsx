@@ -13,9 +13,11 @@ type User = {
 
 type AuthContextType = {
   user: User | null; // user=null if not logged in
+  isInitialized: boolean;
   loggedIn: boolean;
   login: (user: User) => void;
   logout: () => void;
+  signOut: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,6 +26,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Wraps the app and provides global authentication state
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const syncProfileFromMetadata = async (supabaseUser: SupabaseUser) => {
     const metadata = (supabaseUser.user_metadata ?? {}) as {
@@ -33,37 +36,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const fallbackName = supabaseUser.email?.split('@')[0] || 'User';
 
-    /*const { error } = await supabase.from('profiles').upsert(
-      {
-        id: supabaseUser.id,
-        user_id: supabaseUser.id,
-        full_name: metadata.full_name?.trim() || fallbackName,
-        phone: metadata.phone?.trim() || null,
-      },
-      { onConflict: 'user_id' }
-    );
+	const { data: existing, error: existingError } = await supabase
+		.from('profiles')
+		.select('user_id')
+		.eq('user_id', supabaseUser.id)
+		.maybeSingle();
 
-    if (error) {
-      console.warn('Unable to sync profile from auth metadata:', error.message);
-    }
-  }; */
-  const { data: existing } = await supabase
-    .from('profiles')
-    .select('user_id')
-    .eq('user_id', supabaseUser.id)
-    .maybeSingle();
+	if (existingError) {
+		console.warn('Unable to check existing profile:', existingError.message);
+		return;
+	}
 
-  if (!existing) {
-    const { error } = await supabase.from('profiles').insert({
-      id: supabaseUser.id,
-      user_id: supabaseUser.id,
-      full_name: metadata.full_name?.trim() || fallbackName,
-      phone: metadata.phone?.trim() || null,
-    });
-    if (error) {
-      console.warn('Unable to sync profile from auth metadata:', error.message);
-    }
-  }
+	if (!existing) {
+		const { error } = await supabase.from('profiles').insert({
+			id: supabaseUser.id,
+			user_id: supabaseUser.id,
+			full_name: metadata.full_name?.trim() || fallbackName,
+			phone: metadata.phone?.trim() || null,
+		});
+
+		if (error) {
+			console.warn('Unable to sync profile from auth metadata:', error.message);
+		}
+	}
   };
 
   const mapSupabaseUserToAppUser = (supabaseUser: SupabaseUser): User => {
@@ -91,6 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       setUser(session?.user ? mapSupabaseUserToAppUser(session.user) : null);
+      setIsInitialized(true);
     }
 
     initializeUser();
@@ -100,6 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         void syncProfileFromMetadata(session.user);
       }
       setUser(session?.user ? mapSupabaseUserToAppUser(session.user) : null);
+      setIsInitialized(true);
     });
 
     return () => {
@@ -116,13 +113,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      throw error;
+    }
+    setUser(null);
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
+        isInitialized,
         loggedIn: !!user, // true if user exists
         login,
         logout,
+        signOut,
       }}
     >
       {children}
