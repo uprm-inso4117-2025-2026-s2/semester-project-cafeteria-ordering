@@ -17,9 +17,9 @@ Mutation testing is used here in two complementary roles. First, as an _evaluati
 
 Three mutation points have been selected for analysis. Each corresponds to a safety-critical conditional path in the Profile screen: the save authentication guard, the logout confirmation gate, and the user ID integrity in profile update calls.
 
-*Test Case reference:* `src/tests/profile/cases/TC-PROF-01_mutation_testing_profile.tsx`
+*Test Case reference:* `src/tests/profile/cases/TC-PROF-03_mutation_testing_profile.tsx`
 
-*Test Report reference:* `src/tests/profile/reports/TR-PROF-01_mutation_testing_profile.adoc`
+*Test Report reference:* `src/tests/profile/reports/TR-PROF-04_mutation_testing_profile.adoc`
 
 ---
 
@@ -157,7 +157,7 @@ This does not mean the guard is wrong — it is clearly required because `user` 
 
 === Test Case That Kills the Mutant
 
-*Test ID:* TC-PROF-MT-01
+*Test ID:* TC-PROF-MT-04
 
 *Preconditions:*
 
@@ -174,7 +174,7 @@ This does not mean the guard is wrong — it is clearly required because `user` 
 
 *Expected Result:* `handleSave()` detects the missing user and returns early. No profile data is written to the database. If the mutant is applied, `updateProfileName(null.id, ...)` would throw and the catch would swallow it — the observable behavior differs and this test would fail on the mutant.
 
-See `TC-PROF-01_mutation_testing_profile.tsx` (TC-PROF-MT-01) for the formal test case definition.
+See `TC-PROF-03_mutation_testing_profile.tsx` (TC-PROF-MT-01) for the formal test case definition.
 
 ---
 
@@ -272,7 +272,7 @@ This reveals that the team has accepted a design decision — require confirmati
 
 *Expected Result:* `signOut()` is only called after the user explicitly confirms. Cancel dismisses the modal without signing out. If the mutant is applied, `signOut()` would be called on step 1, causing step 2 to fail — killing the mutant.
 
-See `TC-PROF-01_mutation_testing_profile.tsx` (TC-PROF-MT-02) for the formal test case definition.
+See `TC-PROF-03_mutation_testing_profile.tsx` (TC-PROF-MT-02) for the formal test case definition.
 
 ---
 
@@ -350,7 +350,7 @@ The unit tests for `profiles.ts` provide partial confidence. They verify that th
 
 *Expected Result:* Both update functions receive the exact `user.id` from the authenticated session. If the mutant is applied, step 2 or 3 would fail because the call would receive `("", ...)` instead of `("user-test-999", ...)` — killing the mutant.
 
-See `TC-PROF-01_mutation_testing_profile.tsx` (TC-PROF-MT-03) for the formal test case definition.
+See `TC-PROF-03_mutation_testing_profile.tsx` (TC-PROF-MT-03) for the formal test case definition.
 
 ---
 
@@ -361,22 +361,22 @@ See `TC-PROF-01_mutation_testing_profile.tsx` (TC-PROF-MT-03) for the formal tes
 | Mutation | Test Case (TC) | Test Report (TR)
 
 | Mutation 1 — Save guard removal
-| TC-PROF-MT-01 in `TC-PROF-01_mutation_testing_profile.tsx`
-| TR-PROF-MT-01 in `TR-PROF-01_mutation_testing_profile.adoc`
+| TC-PROF-MT-01 in `TC-PROF-03_mutation_testing_profile.tsx`
+| TR-PROF-MT-01 in `TR-PROF-04_mutation_testing_profile.adoc`
 
 | Mutation 2 — Logout confirmation bypass
-| TC-PROF-MT-02 in `TC-PROF-01_mutation_testing_profile.tsx`
-| TR-PROF-MT-02 in `TR-PROF-01_mutation_testing_profile.adoc`
+| TC-PROF-MT-02 in `TC-PROF-03_mutation_testing_profile.tsx`
+| TR-PROF-MT-02 in `TR-PROF-04_mutation_testing_profile.adoc`
 
 | Mutation 3 — User ID replacement
-| TC-PROF-MT-03 in `TC-PROF-01_mutation_testing_profile.tsx`
-| TR-PROF-MT-03 in `TR-PROF-01_mutation_testing_profile.adoc`
+| TC-PROF-MT-03 in `TC-PROF-03_mutation_testing_profile.tsx`
+| TR-PROF-MT-03 in `TR-PROF-04_mutation_testing_profile.adoc`
 |===
 
 Both the TC and TR files are located in:
 
-* `src/tests/profile/cases/TC-PROF-01_mutation_testing_profile.tsx`
-* `src/tests/profile/reports/TR-PROF-01_mutation_testing_profile.adoc`
+* `src/tests/profile/cases/TC-PROF-03_mutation_testing_profile.tsx`
+* `src/tests/profile/reports/TR-PROF-04_mutation_testing_profile.adoc`
 
 These files also reference the existing baseline test coverage:
 
