@@ -189,57 +189,42 @@ Eating at the university cafeteria is a necessity for many students, yet the cur
 
 ==== 1.2.2 Needs
 
+==== 1.2.2 Needs
+
 The long wait times at the university cafeteria show unmet needs in food service and campus life, not in any specific system or technology. These needs come from how student schedules, cafeteria operations, and institutional restrictions interact, and as a consequence, they affect many stakeholders.
 
 ===== Students
 
-* Be able to access meals within limited time windows between classes without risking tardiness or absence.
-* Reduce uncertainty around how long it will take to obtain food, especially during peak cafeteria hours.
-* Maintain consistent access to meals that supports health, focus, and academic performance.
-* Avoid having to choose between basic needs and academic responsibilities.
+Access meals reliably within a limited time window without having to risk tardiness, academic responsabilities and basic needs
 
 ===== Cafeteria Staff
 
-* Handle high volumes of orders efficiently without excessive pressure during peak periods.
-* Maintain a smooth operational flow that minimizes crowding and confusion at service points.
-* Receive clearer signals about when demand will come and the volume of orders. This will help better manage preparation.
+Be able to handle high order volumes efficiently at any time while mantaining a manageable and organized operational flow.
 
 ===== University Staff
 
-* Ensure campus services support student retention, wellness, and academic success.
-* Minimize crowds in shared spaces to improve safety and traffic flow.
-* Balance service improvements with resource and staffing constraints.
+Ensure that campus food services support the student's wellness and success, doing so while remaining within any resource and staffing constraints
 
 ===== Ordering
 
-* Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.
-* Customers need confidence that what they request can actually be fulfilled at the moment of ordering.
-* Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.
+All parties, both customers and staff, need the ordering process to be as clear, accurante and unambiguous. Customers need menu visibility and availability, and staff requires orders to be communicated without error.
 
 ===== Paying
 
-* Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment
-* Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.
-* Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.
+Customers need clear information of the amount they are expected to pay, along with the order's payment confirmation and staff need a reliable way to verify the customer's payment before releasing the meal.
 
 ===== Preparing
 
-* Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.
-* Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.
-* The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.
+The staff need to align preparation work based on average customer demand during normal or peak periods to reduce food waste and update customers with their order's preparation status and time.
 
 ===== Pickup
 
-* Customers need a pickup process that is orderly and time-efficient.
-* Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.
-* Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.
+The pickup process needs to be ordered and accurate. Customers need to be accurately notified when their order is ready and the staff needs a reliable way to match the correct order with the customer.
+
 
 ===== Project Level Needs
 
-* A clear statement of requirements based on stakeholder needs, without reference to any system. 
-* A common language used in analysis, design, implementation, and testing to avoid confusion. 
-* Planning documents (requirements, architecture, design, and test strategy) to support the solution selected later.
-* A general description of cafeteria operations and how stakeholders interact. 
+A baseline for the project's requirements, common language format for any documentation belonging to the project, doccument planning and a general description of the Cafeteria Ordering operations to show the project from research through implementation.
 
 ==== 1.2.3 Ideas
 
@@ -247,7 +232,7 @@ Based on the previously discussed needs, a platform where students and staff fro
 
 * Ordering: Now, it's easier than ever to order from the cafeteria! When a user wants to order an item, the available menu will be displayed with different sections depending on the type of food, sides, snacks and beverages. If an item from the menu is not available, it will not be able to be selected to order. After the user picks out what they want to order, they can choose whether to pay at the register or pay on the app, then, simply click order and done!
 
-* Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it's ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn't pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.
+* Payment Options: The user can choose to pay for their order through the app, which will allow them to skip the line and pick up their order as soon as it's ready. Alternatively, they can choose to pay at the register, which will allow them to pick up their order as soon as they pay for it. In both cases, the system creates an order record owned by the customer, but differ in how the order is processed. An in-app payment marks the order as "Payment Completed" immediately, so it can be prepared and picked up when ready. Payment at register creates a "Pending Payment" order that is tentative until paid. This kind of order must not be held indefinitely, so it can be canceled by the user and should time out if the user does not show up to pay. If after a set interval the user doesn't pay, the order transitions to "Cancelled Order" to avoid preparing food that will not be picked up. If the customer attempts to pay after the payment window has already expired, cafeteria staff must verify whether the order is still available before accepting payment. Orders that have already been removed or cancelled must be reordered by the customer. As some orders are paid in the platform and others at the register, staff must be able to quickly verify payment status at pickup and reconcile register payments with the correct order record to avoid double payment, missed payments, or wrong order payments.
 
 * Pick up times: The user can choose whether to schedule to pick up an order, or also, order instantly to be pick up as soon as possible.
 
@@ -268,7 +253,7 @@ The application can help students mantain an easier routine for their everyday l
 
 While anyone at the university is welcome to purchase from the cafeteria, this application is primarily intended for students, who represent the cafeteria's largest customer group and face the most significant challenges described in this document. The scope of the project is to develop a digital ordering and pickup platform designed to eliminate the current logistical bottlenecks in the university cafeteria. The platform addresses the inefficiencies of manual counter service that the UPRM cafeteria relies on that forces students to choose between nutrition and being on time for their academic responsibilities.
 
-Domain Engineering: Analyze how the current university food service is offered and identify pain points experienced by students and staff with in-person ordering. This involves structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.
+Domain Engineering: Analyze how the current university food service is offered. This involves structuring the relationships among ordering, payment, preparation, and pickup so that the team develops a shared understanding of cafeteria workflows and operational constraints before moving toward a specific solution.
 
 Requirements Engineering: Discover what prospective users need from the system and capture those findings as prescriptions for system behavior. This includes eliciting user expectations around viewing menus, managing a digital cart, and processing remote payments. It also includes engineering the logistics for a notification system, which alerts staff of new orders and notifies students upon order completion, and a secure order pickup protocol using one-time passcodes. These prescriptions must be made explicit from the perspective of students, staff, and administrators so that later design and implementation decisions are guided by stakeholder needs rather than assumptions.
 
@@ -445,8 +430,8 @@ Actions may be performed by human actors (students or cafeteria staff) or by non
 * *Joining a Queue (action)* — the act of a student entering the service line to await their turn.
 * *Student Has Just Joined the Queue (event)* — the moment a student enters the line to place an order.
 * *Student Has Just Left the Queue Without Ordering (event)* — the moment a student abandons the line due to time pressure or other circumstances.
-* *Crowd Surge (behavior)* — Actions involved: Joining a Queue (performed by many students in a short time span). Events observed: Student Has Just Joined the Queue (repeated rapidly). Outcome: long queues and increased service pressure.
-* *Time-Constrained Decision Making (behavior)* — Actions involved: Joining a Queue; abandoning the queue before ordering. Events observed: Student Has Just Left the Queue Without Ordering. Pattern: customers weigh estimated waiting time against remaining time before their next obligation and decide whether to remain.
+* *Crowd Surge (behavior)* — Multiple students *Join a queue* in a short span of time -> *Student Has Just Joined the Queue* is observed repeatedly -> results in a more lengthy queue and increased service pressure on staff
+* *Time-Constrained Decision Making (behavior)* — Student *Joins a queue* -> student contemplates about staying or leaving the queue line -> if student left: *Student Has Just Left the Queue Without Ordering*
 
 ===== Order
 
@@ -457,44 +442,51 @@ Actions may be performed by human actors (students or cafeteria staff) or by non
 
 * *Payment (action)* — the process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of disruption when payment processing fails.
 * *Payment Has Just Failed (event)* — the moment a payment attempt does not complete successfully, causing a delay in service.
-* *Service Bottleneck (behavior)* — Actions involved: Payment (repeated attempts); staff troubleshooting. Events observed: Payment Has Just Failed; Student Has Just Left the Queue Without Ordering. Outcome: increased waiting time and reduced service throughput.
+* *Service Bottleneck (behavior)* — Customer performs payment -> staff troubleshoots, stalling queue -> other customers try to join the queue -> throughput is reduced -> Student left queue without Ordering
 
 ===== Meal Preparation and Pickup
 
 * *Meal Preparation (action)* — the production of meals in advance or in response to incoming orders, often under uncertainty about near-term demand.
 * *Meal Has Just Been Prepared (event)* — the moment a meal becomes ready for pickup.
 * *Meal Pickup (action)* — a customer receiving prepared or selected items after an order has been completed.
-* *Uncertain Demand Preparation (behavior)* — Actions involved: Meal Preparation (performed in advance). Events observed: Meal Has Just Been Prepared (occurring before confirmed demand). Pattern: staff produce meals without precise knowledge of near-term order volume, leading to potential over- or under-preparation.
+* *Uncertain Demand Preparation (behavior)* — Staff prepares meal without confirmed order -> Meal is Prepared in advance -> Food waste due to over-preparation or delays due to under-preparation depending on actual incoming orders
 
 ==== 2.1.5 Function Signatures
 
-This section defines the core operations of the cafeteria ordering system. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.
+This section defines the core operations associated with actions and behaviors that have been identified in the cafeteria domain. The function signatures are not limited to implementation details, instead they clarify the information involved in domain operations such as order placement, payment processing, order cancellation, and meal preparation. The signatures outline the inputs, the required state or dependencies, and the resulting outputs or state changes. To account for operations that might fail, like out of stock items or payment failures, we use an `Option` datatype wrapper to indicate a possible result or a failure.
 
 * **User Registration**
+This operation relates to customer access and identification within the cafeteria ordering domain. 
 To register a new student or faculty member, the system interacts with the central user database. It returns the updated database and potentially the newly created user profile if successful.
 `registerUser : UserDatabase >< UserDetails -> UserDatabase >< (Option UserProfile)`
 
 * **Browsing the Menu**
+This operation relates to the Menu concept described in Sections 2.1.2 and 2.1.4. 
 Retrieving the available food items requires access to the active menu catalog.
 `viewMenu : MenuCatalog -> List(MenuItem)`
 
-* **Managing the Cart**
-When a customer adds an item, the operation alters the local state of their cart rather than the global database, minimizing dependencies.
-`addItemToCart : Cart >< MenuItem >< Quantity -> Cart`
+* **Managing the Order Selection**
+This operation relates to the Order Placement action described in Section 2.1.4. 
+When a customer adds an item, the operation alters the local state of their current order selection rather than the global database, minimizing dependencies.
+`addItemToOrder : OrderSelection >< MenuItem >< Quantity -> OrderSelection`
 
 * **Placing an Order**
-Placing an order requires the current cart, the customer details, and the global order records. If items are out of stock or the cart is invalid, the operation might fail, returning an `Option` for the generated order.
-`placeOrder : OrderRecords >< Cart >< Customer -> OrderRecords >< (Option Order)`
+This operation formalizes the Order Placement action and the Order Has Just Been Placed event described in Section 2.1.4. 
+Placing an order requires the current order selection, the customer details, and the global order records. If items are out of stock or the order is invalid, the operation might fail, returning an `Option` for the generated order.
+`placeOrder : OrderRecords >< OrderSelection >< Customer -> OrderRecords >< (Option Order)`
 
 * **Processing Payments**
+This operation relates to the Payment action and Payment Has Just Failed event described in Section 2.1.4. 
 This operation takes the finalized order and a payment method, interacting with the payment system. It yields a receipt upon success or indicates a failure.
 `processPayment : PaymentSystem >< Order >< PaymentMethod -> PaymentSystem >< (Option Receipt)`
 
 * **Updating Order Status**
+This operation relates to the Meal Preparation and Meal Pickup actions described in Section 2.1.4. 
 As cafeteria staff prepare the food, they update the order's progress (e.g., Pending, Preparing, Ready). This changes the state of the active order list.
 `updateOrderStatus : ActiveOrderList >< OrderID >< Status -> ActiveOrderList`
 
 * **Canceling an Order**
+This operation relates to the order cancellation behavior discussed throughout the ordering and payment flow. 
 If a customer or staff member cancels an order, the system must reverse the transaction, updating the records and potentially issuing a refund.
 `cancelOrder : OrderRecords >< OrderID -> OrderRecords >< (Option RefundStatus)`
 
@@ -1152,6 +1144,62 @@ The following concepts are derived from recurring observations in the domain rou
 ** Origin: Observed as the domain artifact that customers need to see to decide what to order and whether waiting is worthwhile. Can be found in the following rough sketch: The uncertainty of the menu.
 ** Reasoning: This concept captures the selection of items that customers can choose from. It is important for defining requirements around menu management, item availability, and customer decision making.
 
+* *joining a queue:* the act of a customer entering the service line to wait for ordering or payment.
+** Origin: Observed as customers physically entering the line during peak periods. Can be found in the following rough sketches: The 10-Minute Dash, The Post-Lunch Fatigue, and The uncertainty of the menu.
+** Reasoning: This action captures the start of a customer’s service interaction and affects waiting time and throughput.
+
+* *order placement:* the act of selecting menu items and communicating the request to cafeteria staff.
+** Origin: Inferred from customers stating their order at the counter and staff recording it. Can be found in the following rough sketches: The Payment Bottleneck and The Kitchen’s Blind Spot.
+** Reasoning: This action defines when a request becomes an order and is central to order creation requirements.
+
+* *payment:* the act of transferring money to finalize the order.
+** Origin: Observed as the cashier step where payment is processed. Can be found in the following rough sketch: The Payment Bottleneck.
+** Reasoning: This action is required to complete the transaction and is tied to payment status requirements.
+
+* *meal preparation:* the act of preparing menu items after an order exists.
+** Origin: Observed in staff preparing trays before and during rush periods. Can be found in the following rough sketch: The Kitchen’s Blind Spot.
+** Reasoning: This action drives order status changes and preparation time variability.
+
+* *meal pickup:* the act of a customer receiving prepared items.
+** Origin: Observed as the final step when customers receive their meal after payment. Can be found in the following rough sketches: The Payment Bottleneck and The 10-Minute Dash.
+** Reasoning: This action completes the service flow and supports pickup coordination requirements.
+
+* *student has just joined the queue:* the moment a customer enters the line.
+** Origin: Observed as a discrete moment when a student decides to wait. Can be found in the following rough sketch: The 10-Minute Dash.
+** Reasoning: This event marks the beginning of waiting time and helps define queue-related measurements.
+
+* *order has just been placed:* the moment an order is communicated to staff.
+** Origin: Inferred from the transition between waiting and staff receiving the request. Can be found in the following rough sketch: The Payment Bottleneck.
+** Reasoning: This event separates browsing/queueing from order processing and supports order lifecycle tracking.
+
+* *payment has just failed:* the moment a payment attempt does not complete.
+** Origin: Observed when the payment system is down and staff must troubleshoot. Can be found in the following rough sketch: The Payment Bottleneck.
+** Reasoning: This event triggers service delays and informs payment failure requirements.
+
+* *meal has just been prepared:* the moment a meal becomes ready for pickup.
+** Origin: Inferred from staff completing preparation and making items available. Can be found in the following rough sketch: The Kitchen’s Blind Spot.
+** Reasoning: This event enables pickup notifications and order status updates.
+
+* *student has just left the queue without ordering:* the moment a customer abandons the line.
+** Origin: Observed when students decide to leave due to time pressure. Can be found in the following rough sketch: The 10-Minute Dash.
+** Reasoning: This event reflects time-constrained behavior and motivates reducing wait times.
+
+* *crowd surge:* a rapid influx of customers creating long lines.
+** Origin: Observed when multiple students arrive at once during peak hours. Can be found in the following rough sketch: The 10-Minute Dash.
+** Reasoning: This behavior explains queue growth and informs peak-hour flow management.
+
+* *time-constrained decision making:* customers decide whether to stay in line based on time pressure.
+** Origin: Observed when students assess their schedule and leave the line. Can be found in the following rough sketch: The 10-Minute Dash.
+** Reasoning: This behavior motivates menu visibility and order status features that reduce uncertainty.
+
+* *uncertain demand preparation:* staff prepare items without precise demand forecasts.
+** Origin: Observed when staff prepare trays without knowing incoming volume. Can be found in the following rough sketch: The Kitchen’s Blind Spot.
+** Reasoning: This behavior motivates demand awareness support and preparation status tracking.
+
+* *service bottleneck:* repeated delays caused by constrained payment or preparation.
+** Origin: Observed when payment failures slow the line. Can be found in the following rough sketch: The Payment Bottleneck.
+** Reasoning: This behavior explains throughput issues and supports payment reliability requirements.
+
 ==== Concept Conflicts
 
 * *student / customer:* these terms reference a person, who goes to the cafeteria to order/buy an item(s). If the term student is used, they are a customer who is also a student.
@@ -1208,13 +1256,15 @@ The following concepts are derived from recurring observations in the domain rou
 
 *Test Planning and Documentation Verification (Ongoing)*
 
+* At the current stage of the project, testing preparation has mainly focused on defining planned testing approaches and connecting requirements to features. More detailed testing artifacts and implementation-level tests are expected to improve as additional functionality is completed.   
+
 * The defined test types, such as unit, integration, system, acceptance, non-functional, and test schedule will be used to ensure that planned features are testable and that requirements can be covered by the selected approaches.  
 
 * Risk-based testing is used to prioritize test cases for critical features such as order processing and payment handling, ensuring that high-impact areas are thoroughly verified.  
 
-* Verification results indicate that all major features can be tested using at least one test type (e.g., order processing through integration/system tests and payment handling through system/acceptance tests).  
+* Traceability reviews were used to verify that major features and user stories are associated with at least one planned testing approach. For example, order processing is connected to integration and system testing, while payment handling is connected to system and acceptance testing.  
 
-* Documentation verification compares defined requirements and user stories against expected system behavior, confirming that requirements are clear enough to support future test case creation.  
+* Documentation verification focuses on consistency, terminology alignment, traceability, and completeness across requirements, user stories, epics, and domain concepts. These reviews help identify undefined terms, conflicting statements, missing relationships between sections, and requirements that may require further clarification before implementation and testing.   
 
 *Automated Verification via Continuous Integration (Ongoing)*
 
@@ -1424,7 +1474,7 @@ Precondition (client domain):
 Derived Acceptance Criteria (client domain):
 
 * The student must be able to select available menu items.
-* The student must be able to add selected items to a cart.
+* The student must be able to add selected items to an order.
 * The student must be able to proceed to checkout and choose a pickup option.
 * The system must confirm successful order placement.
 * The cafeteria staff must be notified of new orders.
@@ -1453,7 +1503,7 @@ Scenario: Successful log-in with valid credentials
 ----
 Scenario: Successful order placement  
     Given the student is logged in and on the menu page  
-    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to cart"  
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"  
     And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process  
     Then the system should confirm the order  
     And the cafeteria staff should be notified of the new order  
@@ -1558,7 +1608,7 @@ The expected usage assumptions are derived from the machine requirements in Sect
 * Target order throughput: at least 60 orders/min during peak hours.
 * Concurrent users: up to 300 active users within a 5-minute window.
 
-For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing carts, or waiting for order preparation.
+For the payment screen specifically, not all active users are paying at the same instant. A realistic peak assumption is that only a fraction of active users are in the “payment submission” step at any given moment as other users could be browsing, editing orders, or waiting for order preparation.
 
 ==== Usage Scenario Used for Load Testing
 
@@ -1833,6 +1883,102 @@ The team uses the following mutation score thresholds to guide test improvement,
 | 90–100% | Target range. Focus on test readability and maintainability rather than chasing final mutants.
 |===
 
+=== 4.7 Usability testing
+
+Usability testing evaluates how easily users can complete their tasks in a system, focusing on the agilty and quality of experience rather than the task being performed successfully. For context, The Cafeteria Ordering application can be fully functional but it can still fail if the students cannot place an order quickly during a short break or if the cafeteria staff cannot process any order during peak periods. This usability testing analysis is documented in two LTT documents stored in `documentation/LectureTopicTasks/`. & some testing plans are included in `documentation/LectureTopicTasks/usability-testing`
+
+==== Usability Testing Plan: New User Registration and Authentication
+
+*This testing plan are derived from two of the scenarios located in `documentation/LectureTopicTasks/usability-testing/usability-testing-auth-sec.adoc`*
+
+===== Objective/Usability Question
+
+When designing this testing plan, the primary question was:
+
+*How many UPRM students will be able to complete the full registration and login flow without any assistance, in (at most) 3 minutes?*
+
+The study was chosen since authentication is a key point that grants entry to all of the system's features. If users cannot easily register or log in, then the system can't be used by them. 
+
+===== Test Plan Setup
+
+The test presents participants using a fully functional version of the cafeteria Ordering App. The participants are to perform a new user registration and successfully log in. The participants have no assistance during these tasks and the testing session is timed as soon as the participant opens the application until they are successfully logged in. 
+
+===== Participants
+
+Participants will be recruited based on primary users being university students, faculty members or just local customers. 
+
+The test must include at least *three* non-engineering students, *two* students from any faculty and *at least one* university staff or faculty member. 
+
+To not recruit many users who have a good understanding of technology, it is reccommended to not have any stem or engineering majors. Also, it is very important to recruit members who often go to the cafeteria, as that is what the application is based on.
+
+===== Monitoring Methods
+
+The sessions for these tests are monitored with:
+
+*Observation* - Observers note any points of hesitation, confusion, backtracking, or errors without intervening.
+*Post-test surveys or Interviews* - A perfect way to understand how users feel about the system.
+*System Analytics* - Lets us know any delay, load time or errors during testing.
+
+===== Minimal Expectations
+
+Since the system's authentication is fully functional, the minimum expectations for this test plan is for the users to smoothly and successfully perform the sign up and log in workflows while have reduced loading times and no errors produced.
+
+==== Usability Metrics
+
+[cols="1,3"]
+|===
+|Metric |Description
+
+|Task Success Rate
+|Percentage of users who complete tasks successfully
+
+|Time on Task
+|Amount of time needed to complete workflows
+
+|Error Rate
+|Frequency of mistakes during interactions
+
+|User Satisfaction Score
+|Survey-based satisfaction measurement
+
+|Learnability Score
+|Ease of learning system usage
+
+|Efficiency Rate
+|Speed of completing repeated tasks
+
+|Accessibility Compliance
+|Ability to meet accessibility standards
+|===
+
+==== Focus Areas for Improvement
+
+Based on the test plan, the project's areas for improvement can vary based on result, but some ways the system can improved based on this plan are:
+
+===== Learnability
+
+Improvements for the systen should include: clear instructions, simple navigation, intuitive authentication workflows
+
+===== Efficiency
+
+The system should: minimize clicks, reduce loading times, streamline authentication processes
+
+===== Satisfaction
+
+Improve visual consistency, interface responsiveness, user trust in authentication security to better improve quality of life on the app.
+
+===== Error Prevention
+
+The platform should always validate forms clearly, prevent invalid submissions, display understandable error messages
+
+===== Accessibility
+
+The system should support Intuitive workflows, responsive mobile layouts,adequate color contrast
+
+==== Conclusion
+
+Usability testing is very important since it helps confirm that the system's designed workflow is successful while also cutting down on any issue involving the user's experience while navigating the application.
+
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
 
@@ -1879,7 +2025,13 @@ The following table have all the changes made to the documentation for Milestone
 [cols="1,2,3,1", options="header"]
 |===
 | Name | Section | Description | GitHub Issue
+
+| @SamarysB | 1.2.3 Ideas | Added clarification for late payment attempts after the payment window expires and explained how cancelled/removed orders are handled. | #638
+| @SamarysB | 2.1.5 Function Signatures | Updated function signature section descriptions to clarify their relationship to domain actions and behaviors instead of only implementation details. Also replaced cart-related terminology with order selection terminology. | #639
+| @SamarysB | 3.2.2 Verification | Clarified the current state of testing preparation, added traceability review details, and improved documentation verification descriptions. | #640
 | @Kaariinaa08 | 2.2.1 - User stories, epics, and features | Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback. | #634
 | @Kaariinaa08 | 2.2.3 - Domain Requirements | Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status. | #635
 | @Kaariinaa08 | 2.2.4 - Interface Requirements | Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format. | #637
+| @JadStelar | 1.3.1 - Scope | Removed the out of place aspects from domain engineering based on professor's feedback | #649
+| @JadStelar | 3.1 - Concept Analysis | Expanded concepts to better align with professor's expectations of the section. | #650
 |===
