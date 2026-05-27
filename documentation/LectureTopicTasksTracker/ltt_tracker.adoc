@@ -258,6 +258,36 @@ This document serves as the centralized registry for all Lecture Topic Tasks (LT
 
 *Justification:* Evaluates the sensitivity of homepage filtering and display logic to small logic changes by applying controlled mutations and validating whether incorrect behavior becomes detectable during execution.
 
+==== LTT-24-(issue-653): Property Based Testing for Cart Calculations
+
+*Lecture Topic:* Property Based Testing
+
+*Deliverables:*
+
+- Property based test implementation for ordering cart subtotal calculations
+- Randomized cart item, quantity, and add-on generation using fast-check
+- Verification of subtotal calculation properties across multiple cart combinations
+- Test case, test report, and supporting documentation for cart calculation testing
+
+*Evidence:* Associated AsciiDoc file, test case, test report, and pull request linked to issue
+
+*Justification:* Applies property based testing principles to ordering cart subtotal calculations in order to validate calculation consistency and detect possible edge cases across randomized cart combinations.
+
+==== LTT-24-(issue-652): Counterexample Shrinking and Failure Analysis
+
+*Lecture Topic:* Property Based Testing
+
+*Deliverables:*
+
+- Property-based shrinking analysis using randomized cart subtotal calculations
+- Documentation of counterexample shrinking behavior using fast-check
+- Analysis of shrinking steps before and after minimization
+- Test case, test report, and supporting documentation for shrinking analysis
+
+*Evidence:* Associated AsciiDoc file, test case, test report, terminal output evidence, and pull request linked to issue
+
+*Justification:* Demonstrates how counterexample shrinking can reduce failing randomized inputs into smaller and easier-to-debug cases during property-based testing.
+
 ==== Issue #647 - Fuzzing Strategy for Web Interface Validation
 ==== Issue #646 - Property-Based Testing for Order Validation
 ==== Issue #645 - Static Typing Usage in Core Domain Concepts
