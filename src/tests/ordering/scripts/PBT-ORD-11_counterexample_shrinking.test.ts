@@ -1,6 +1,8 @@
 import * as fc from "fast-check";
 import { failureThreshold } from "../cases/TC-ORD-11_counterexample_shrinking_failure_analysis";
 
+// PBT-ORD-11: Counterexample shrinking failure analysis.
+
 
 interface CartItem {
   price: number;
