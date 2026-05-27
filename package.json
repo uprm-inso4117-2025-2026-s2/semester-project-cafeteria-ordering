@@ -76,6 +76,7 @@
     "@babel/preset-typescript": "^7.28.5",
     "@babel/runtime": "^7.29.2",
     "@cucumber/cucumber": "^12.7.0",
+    "@playwright/test": "^1.44.0",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^30.0.0",
@@ -86,6 +87,7 @@
     "dotenv": "^17.3.1",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
+    "fast-check": "^4.8.0",
     "jest": "^30.3.0",
     "jest-expo": "^55.0.14",
     "metro-react-native-babel-preset": "^0.77.0",
@@ -93,8 +95,7 @@
     "react-test-renderer": "19.1.0",
     "ts-node": "^10.9.0",
     "tsx": "^4.21.0",
-    "typescript": "~5.9.2",
-    "@playwright/test": "^1.44.0"
+    "typescript": "~5.9.2"
   },
   "jest": {
     "preset": "jest-expo",
