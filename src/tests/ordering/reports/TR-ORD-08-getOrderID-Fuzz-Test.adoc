@@ -4,7 +4,7 @@ Gerardo Y. Soto Ríos
 :doctype: article
 
 == Test Information
-*ID:* TR-ORD-05-getOrderID-Fuzz-Test +
+*ID:* TR-ORD-08 +
 *Issue:* Fuzz Handling for getOrderID() +
 *Type:* Fuzz Test +
 *Status:* PASS
