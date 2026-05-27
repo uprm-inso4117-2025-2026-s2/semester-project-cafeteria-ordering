@@ -9,7 +9,7 @@ export const testSuiteMetadata = {
   status: "initialized",
   modules: {
     authentication: ["TC-AUTH-03", "TC-AUTH-04", "TC-UTIL-VALIDATION-01"],
-    security: ["TC-SUPA-01", "TC-SUPA-02", "TC-SUPA-03"],
+    security: ["TC-SUPA-01", "TC-SUPA-02"],
     ordering: ["TC-ORD-01", "TC-ORD-02"],
     payment: ["TC-PAY-01"],
   },

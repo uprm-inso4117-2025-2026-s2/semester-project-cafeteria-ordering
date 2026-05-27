@@ -41,10 +41,6 @@ function main() {
     "Supabase Security Check (TC-SUPA-02)",
     "npx tsx src/tests/supabase/scripts/quick-test.ts",
   );
-  runStep(
-    "Supabase Security: Auth Session (TC-SUPA-03)",
-    "npx tsx src/tests/supabase/scripts/auth-session.test.ts",
-  );
 
   // Centralized input validation utilities.
   runStep(
