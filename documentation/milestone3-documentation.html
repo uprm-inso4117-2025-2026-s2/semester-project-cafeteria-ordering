@@ -483,7 +483,7 @@ Friday, February 27, 2026</p>
 <li><a href="#_4_4_load_testing">4.4 Load Testing</a></li>
 <li><a href="#_4_5_hoare_logic_testing">4.5 Hoare Logic Testing</a></li>
 <li><a href="#_4_6_mutation_testing">4.6 Mutation Testing</a></li>
-<li><a href="#_4_9_types">4.9 Types</a></li>
+<li><a href="#_4_8_property_based_testing">4.8 Property Based Testing</a></li>
 </ul>
 </li>
 <li><a href="#_appendix_a_ai_disclosure_statement">Appendix A: AI Disclosure Statement</a>
@@ -4083,34 +4083,193 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_4_9_types">4.9 Types</h3>
+<h3 id="_4_8_property_based_testing">4.8 Property Based Testing</h3>
 <div class="paragraph">
-<p>The Cafeteria Ordering System incorporates static typing through TypeScript to make core domain concepts easier to understand, validate, and maintain. Since the project uses TypeScript, domain concepts such as orders, menu items, payments, and order statuses can be represented with explicit types instead of loosely structured objects.</p>
+<p>Property-based testing can be used in the Cafeteria Ordering System to verify general rules that should remain true across many possible inputs. Instead of only testing one fixed example, property-based testing generates many combinations of values and checks whether important system properties still hold.</p>
 </div>
 <div class="paragraph">
-<p>Static typing is useful in this project because it clarifies what kind of data each function expects and returns. This reduces ambiguity when developers work with order creation, menu item selection, payment processing, and order status updates.</p>
+<p>This testing approach is useful for order validation because cafeteria orders can vary by selected menu items, quantities, prices, payment methods, and order status. By generating different order inputs, the team can identify edge cases that may not appear in manually written example-based tests.</p>
 </div>
 <div class="sect3">
-<h4 id="_core_domain_types">Core Domain Types</h4>
+<h4 id="_testing_scope">Testing Scope</h4>
 <div class="paragraph">
-<p>The following TypeScript example represents important cafeteria ordering concepts using meaningful static types:</p>
+<p>For this project, property-based testing focuses on the order validation flow. This includes checking whether generated orders follow the expected rules before they are accepted by the system or sent to the backend API.</p>
+</div>
+<div class="paragraph">
+<p>The following TypeScript-style example shows the kind of structure that could be tested:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-ts" data-lang="ts">type MenuItemId = string;
-type OrderId = string;
+<pre class="highlight"><code class="language-ts" data-lang="ts">type MenuItem = {
+  id: string;
+=== 4.9 Types
 
-type PaymentMethod = "cashier" | "card";
-type OrderStatus = "draft" | "pending_payment" | "confirmed" | "ready_for_pickup" | "cancelled";
+The Cafeteria Ordering System incorporates static typing through TypeScript to make core domain concepts easier to understand, validate, and maintain. Since the project uses TypeScript, domain concepts such as orders, menu items, payments, and order statuses can be represented with explicit types instead of loosely structured objects.
 
-type MenuItem = {
+Static typing is useful in this project because it clarifies what kind of data each function expects and returns. This reduces ambiguity when developers work with order creation, menu item selection, payment processing, and order status updates.
+
+==== Core Domain Types
+
+The following TypeScript example represents important cafeteria ordering concepts using meaningful static types:
+
+[source,ts]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>type MenuItemId = string;
+type OrderId = string;</p>
+</div>
+<div class="paragraph">
+<p>type PaymentMethod = "cashier" | "card";
+type OrderStatus = "draft" | "pending_payment" | "confirmed" | "ready_for_pickup" | "cancelled";</p>
+</div>
+<div class="paragraph">
+<p>type MenuItem = {
   id: MenuItemId;
   name: string;
   price: number;
   isAvailable: boolean;
-};
+};</p>
+</div>
+<div class="paragraph">
+<p>type OrderItem = {
+  menuItemId: string;
+  quantity: number;
+};</p>
+</div>
+<div class="paragraph">
+<p>type Order = {
+  items: OrderItem[];
+  paymentMethod: "cashier" | "card";
+};</p>
+</div>
+<div class="paragraph">
+<p>function validateOrder(order: Order, menuItems: MenuItem[]): boolean {
+  if (order.items.length === 0) {
+    return false;
+  }</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>return order.items.every((item) =&gt; {
+  const menuItem = menuItems.find((menuItem) =&gt; menuItem.id === item.menuItemId);</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    return (
+      menuItem !== undefined &amp;&amp;
+      menuItem.isAvailable &amp;&amp;
+      item.quantity &gt; 0 &amp;&amp;
+      item.quantity &lt;= 10
+    );
+  });
+}</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>==== Meaningful Properties
 
-type OrderItem = {
+The following properties describe general rules that should hold for the cafeteria ordering flow.
+
+===== Property 1 — Order Total Should Never Be Negative
+
+For any valid generated order, the calculated total should always be greater than or equal to zero. Since menu item prices and item quantities determine the order total, the system should reject or prevent invalid values that could produce a negative total.
+
+[source,ts]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>property("order total is never negative", (generatedOrder) &#8658; {
+  const total = calculateOrderTotal(generatedOrder);
+  expect(total).toBeGreaterThanOrEqual(0);
+});</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>This property helps detect invalid price or quantity handling, such as negative prices, negative quantities, or incorrect total calculations.
+
+===== Property 2 — A Valid Order Must Contain at Least One Item
+
+For any order to be valid, it must include at least one item. An empty order should not be accepted because it does not represent a real cafeteria request.
+
+[source,ts]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>property("valid orders contain at least one item", (generatedOrder) &#8658; {
+  if (validateOrder(generatedOrder, menuItems)) {
+    expect(generatedOrder.items.length).toBeGreaterThan(0);
+  }
+});</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>This property supports the cafeteria ordering domain because every submitted order should represent one or more requested menu items.
+
+===== Property 3 — Item Quantities Must Stay Within Valid Limits
+
+Generated orders should only be valid when each item quantity is within the accepted range. For example, a quantity of zero, a negative quantity, or an unreasonably large quantity should cause the order to be rejected.
+
+[source,ts]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>property("item quantities remain within valid limits", (generatedOrder) &#8658; {
+  const isValid = validateOrder(generatedOrder, menuItems);</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  if (isValid) {
+    generatedOrder.items.forEach((item) =&gt; {
+      expect(item.quantity).toBeGreaterThan(0);
+      expect(item.quantity).toBeLessThanOrEqual(10);
+    });
+  }
+});</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>This property helps verify that the system does not accept unrealistic or invalid order quantities.
+
+===== Property 4 — Invalid Menu Item IDs Should Not Create Valid Orders
+
+If a generated order contains a menu item ID that does not exist in the menu catalog, the order should not be accepted as valid.
+
+[source,ts]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>property("invalid menu item ids do not create valid orders", (generatedOrder) &#8658; {
+  const containsInvalidItem = generatedOrder.items.some((item) &#8658; {
+    return !menuItems.some((menuItem) &#8658; menuItem.id === item.menuItemId);
+  });</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  if (containsInvalidItem) {
+    expect(validateOrder(generatedOrder, menuItems)).toBe(false);
+  }
+});</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>This property is important because the system should not allow users to submit orders for items that are not part of the cafeteria menu.
+
+==== Generated Test Cases and Edge Cases
+
+Generated test cases help reveal edge cases that developers may not manually consider. For example, a property-based testing tool could generate empty orders, orders with repeated items, invalid menu item identifiers, unavailable menu items, very large quantities, or unexpected combinations of valid and invalid items.
+
+This makes the testing process stronger because the same system rule is checked across many input combinations. If one generated case breaks a property, the test can expose a weakness in validation logic that might not be found through a small set of example-based tests.
+
+==== Relevance to the Project
+
+Property-based testing supports the Cafeteria Ordering System by validating general ordering rules at a higher level. These rules are connected to the web API and order validation flow because the system must determine whether submitted order data is valid before processing payment, notifying staff, or adding the order to the active queue.
+
+By documenting these properties, the project shows how property-based testing can be used to strengthen confidence in order validation and reduce the risk of accepting invalid cafeteria orders.
   menuItem: MenuItem;
   quantity: number;
   specialInstructions?: string;
@@ -4127,7 +4286,7 @@ function calculateOrderTotal(order: Order): number {
   return order.items.reduce((total, item) =&gt; {
     return total + item.menuItem.price * item.quantity;
   }, 0);
-}</code></pre>
+}</pre>
 </div>
 </div>
 </div>
@@ -4288,6 +4447,12 @@ function calculateOrderTotal(order: Order): number {
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">@aryamdiaz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.8 - Property Based Testing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added a new section explaining how property-based testing can verify cafeteria order validation rules across generated inputs. Documented meaningful properties for order totals, non-empty orders, valid quantities, and invalid menu item IDs.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#646</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@aryamdiaz</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4.9 - Types</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Added a new section explaining how static typing is used through TypeScript to represent core domain concepts such as orders, menu items, payment methods, and order statuses. Included a functional example and explained how types improve clarity, maintainability, and function behavior.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#645</p></td>
@@ -4311,7 +4476,7 @@ function calculateOrderTotal(order: Order): number {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-26 16:32:43 -0400
+Last updated 2026-05-26 19:40:48 -0400
 </div>
 </div>
 </body>
