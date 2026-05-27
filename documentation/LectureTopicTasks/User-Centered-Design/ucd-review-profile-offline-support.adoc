@@ -1,0 +1,403 @@
+= Lecture Topic Task: User-Centered Design Review for Profile & Offline Support
+Kevin J. Lara-Rodriguez
+
+:toc:
+:icons: font
+:sectnums:
+
+== Purpose
+
+This Lecture Topic Task reviews the Profile & Offline Support area of the cafeteria ordering application using User-Centered Design (UCD) principles.
+
+User-Centered Design focuses on designing software around real user needs, expectations, limitations, and workflows. For this project area, the main concern is whether users can access profile information, understand available profile actions, recover from missing or unavailable data states, and continue using supported profile functionality without unnecessary confusion.
+
+For the Profile & Offline Support area, a UCD review should answer one main question:
+
+[quote]
+Does the current profile and offline-support experience behave in a way that users can understand, predict, and trust?
+
+== Definition of User-Centered Design
+
+User-Centered Design is a design approach that places users, their goals, and their context of use at the center of the design process. Instead of evaluating only whether a feature technically works, UCD evaluates whether the feature supports the way users naturally expect to complete tasks.
+
+In software QA and usability review, UCD is useful because it helps identify issues that may not appear as functional defects but can still reduce user confidence. A feature can technically work and still be difficult to understand, poorly explained, or inconsistent with user expectations.
+
+For Profile & Offline Support, UCD is especially important because users depend on this area for identity, account information, session continuity, and confidence that profile data is available when needed.
+
+== UCD Review Is Not Full Usability Testing
+
+This document is a User-Centered Design review. It is not a full usability testing report.
+
+A UCD review is usually based on inspection, design analysis, workflow review, and comparison against user needs. Full usability testing requires direct observation of representative users completing tasks, collecting measurements, and analyzing user feedback.
+
+This review does not include live user sessions, task timing, satisfaction surveys, or quantitative usability metrics. Instead, it provides a structured research and documentation artifact that can guide future usability testing and profile/offline improvements.
+
+== Application Area Covered
+
+This review focuses only on the Profile & Offline Support area.
+
+Relevant implementation and QA areas include:
+
+* `src/app/(tabs)/profile.tsx`
+* `src/app/authContext.tsx`
+* `src/lib/profiles.ts`
+* `src/lib/supabase.ts`
+* profile/offline QA artifacts under `src/tests/profile/`
+
+This document does not evaluate the full cafeteria ordering system, ordering workflow, staff dashboard, payment flow, or authentication/security area except where they directly affect the profile/offline user experience.
+
+== Current Implementation Context
+
+Based on the current implementation, the profile area includes the following behaviors:
+
+* The profile screen retrieves the authenticated Supabase user.
+* The profile screen attempts to load profile data through `getProfileByUserId(user.id)`.
+* The profile screen displays `full_name`, `phone`, and the authenticated user email when available.
+* The profile screen displays read-only profile fields.
+* The Edit action routes the user to `/edit-profile` rather than allowing inline editing on the profile screen.
+* The avatar URI can be stored locally under `@profile_avatar` through AsyncStorage.
+* The profile screen loads the cached avatar URI from AsyncStorage.
+* The screen displays fallback UI such as `Your Name` and `?` when profile values are unavailable.
+* Logout clears locally persisted profile/avatar data and redirects the user to login.
+* The Supabase client uses AsyncStorage for authentication session persistence.
+* The profile helper functions support profile creation, lookup by user ID, full name update, phone update, and deletion through Supabase.
+
+This means the current profile experience is partly backend-connected and partly local-cache-supported. User identity and profile records are backend-driven, while avatar persistence is currently local.
+
+== User Groups and Context
+
+The main user group for this area is the cafeteria application customer or student user who needs to access and manage their profile.
+
+Secondary users may include staff or administrators if profile information is needed for support, dietary accommodations, or order-related identity checks. However, this review focuses on the ordinary profile user.
+
+The expected user context includes:
+
+* using the application on a mobile device;
+* expecting account information to load automatically after login;
+* expecting profile information to remain available after app restart;
+* expecting clear recovery behavior when connectivity is poor;
+* expecting profile editing to be discoverable;
+* expecting profile fields to reflect saved account information;
+* expecting logout to clear personal data from the local device.
+
+== User Needs and Expectations
+
+=== Profile Access
+
+Users need to access their profile information quickly after login. They should not need to understand whether the data came from Supabase, AsyncStorage, or authentication metadata.
+
+Expected user experience:
+
+* The profile screen opens without requiring extra setup.
+* The user sees their name, email, and phone if that data exists.
+* Missing profile values are handled gracefully.
+* The screen does not expose raw technical errors.
+
+=== Profile Editing
+
+Users expect an Edit action to clearly indicate where profile changes happen.
+
+Expected user experience:
+
+* The Edit button should make it obvious that editing happens in a separate flow.
+* Read-only fields should not appear editable.
+* If editing is not available inline, the UI should not imply that fields can be typed into directly.
+* After editing, users should be able to return and see updated data.
+
+=== Cached Data and Offline Behavior
+
+Users do not usually distinguish between local cache, persisted session, and backend data. They expect the application to preserve useful information when connectivity is unstable.
+
+Expected user experience:
+
+* Previously available profile or avatar data should remain visible when possible.
+* If backend profile data cannot be reached, the app should avoid showing confusing blank states when cached values are available.
+* If offline editing or synchronization is unsupported, the UI should communicate that clearly.
+* Offline limitations should be presented as user-facing guidance, not silent failure.
+
+=== Session Persistence
+
+Users expect to remain logged in unless they intentionally log out or their session expires.
+
+Expected user experience:
+
+* The app should restore valid sessions after restart.
+* If the session expires, the user should receive a clear message.
+* Logout should remove personal local state and redirect safely.
+
+== Common Profile and Offline Workflows
+
+=== Workflow 1: Open Profile After Login
+
+. User logs into the cafeteria application.
+. User opens the profile screen.
+. App retrieves the current authenticated user.
+. App loads the matching profile record from the backend.
+. User sees profile information in read-only fields.
+
+UCD concern: The user should not see a confusing empty profile if the backend is slow or temporarily unavailable.
+
+=== Workflow 2: View Previously Used Avatar
+
+. User previously selected a profile avatar.
+. Avatar URI was stored locally under `@profile_avatar`.
+. User returns to the profile screen.
+. App loads the cached avatar URI from AsyncStorage.
+. User sees the avatar instead of the default initial state.
+
+UCD concern: Users may expect avatar persistence to sync across devices, but the current behavior appears local to the device.
+
+=== Workflow 3: Edit Profile Information
+
+. User opens the profile screen.
+. User sees read-only name, email, and phone fields.
+. User selects Edit.
+. App routes to `/edit-profile`.
+. User expects to modify supported profile fields in that separate flow.
+
+UCD concern: The profile screen should clearly communicate that fields are read-only and editing occurs elsewhere.
+
+=== Workflow 4: Missing Profile Data
+
+. User opens the profile screen.
+. Name, phone, or avatar values are missing.
+. App displays fallback UI such as `Your Name`, `?`, or placeholder dashes.
+. User can still navigate away or choose supported actions.
+
+UCD concern: Fallback values prevent crashes but may not explain why the information is missing.
+
+=== Workflow 5: Logout and Local Data Removal
+
+. User selects Logout.
+. App signs out through the authentication context.
+. App clears local UI state.
+. App removes `@profile_avatar` and `@profile_info` from AsyncStorage.
+. App routes the user to the login screen.
+
+UCD concern: Clearing personal data on logout supports privacy and reduces stale data exposure.
+
+== UCD Review of Current Strengths
+
+The current Profile & Offline Support area has several user-centered strengths:
+
+* The profile screen is focused and not overloaded with unrelated actions.
+* Profile fields are displayed in a simple read-only format.
+* The Edit action provides a clear entry point into a separate profile-editing flow.
+* Avatar selection is discoverable through the camera badge on the avatar.
+* Permission denial during avatar selection is handled with an alert instead of failing silently.
+* Missing profile/avatar values fall back to safe UI states instead of crashing.
+* Logout clears local profile/avatar storage, which supports privacy.
+* Session persistence is supported through Supabase authentication storage.
+
+These behaviors help users maintain confidence that the profile area is stable and understandable.
+
+== Potential UX Weaknesses and Confusion Points
+
+=== Read-Only Fields May Look Editable
+
+The profile screen displays name, email, and phone using `TextInput` components even though they are set to `editable={false}`. Users may interpret input-style fields as directly editable and become confused when tapping them does not allow typing.
+
+Impact:
+
+* users may think the app is broken;
+* users may not immediately understand that Edit must be used;
+* the visual design may create a mismatch between expectation and behavior.
+
+=== Offline State Is Not Explicit
+
+The current profile screen does not appear to show an explicit offline/online status message for profile data loading.
+
+Impact:
+
+* users may not know whether blank or stale profile information is caused by missing data, offline state, or backend delay;
+* unsupported offline actions may feel like silent failure;
+* users may lose trust if profile data changes are not reflected immediately.
+
+=== Avatar Persistence May Be Local-Only
+
+The avatar URI is stored in AsyncStorage under `@profile_avatar`. From a user perspective, this may appear like a saved profile picture, but local-only avatar storage may not persist across devices or reinstallations.
+
+Impact:
+
+* users may expect the avatar to follow their account;
+* users may be confused if the avatar disappears on another device;
+* support expectations may differ from the actual implementation.
+
+=== Backend Data and Cached Data Are Not Clearly Distinguished
+
+Profile details are loaded from Supabase, while the avatar is loaded from AsyncStorage. Users do not see this distinction.
+
+Impact:
+
+* the profile screen may show mixed freshness levels;
+* name/phone may reflect backend state while avatar reflects local state;
+* users may not understand why one part updates and another does not.
+
+=== Missing Data Fallbacks Are Safe but Not Explanatory
+
+Fallbacks like `Your Name`, `?`, and `—` prevent crashes, but they do not explain whether data is missing, loading, unavailable, or unsupported.
+
+Impact:
+
+* users may not know what action to take;
+* the UI may look unfinished;
+* missing data may be interpreted as a profile error.
+
+== Recommendations
+
+=== Make Read-Only State More Obvious
+
+Recommendation:
+Use visual styling that clearly communicates the profile fields are display-only, or replace disabled `TextInput` fields with text rows/cards if inline editing is not supported.
+
+User need addressed:
+Users need to understand what can and cannot be edited directly.
+
+Expected benefit:
+This reduces confusion and makes the Edit button feel like the correct path rather than a workaround.
+
+=== Add Clear Edit Flow Guidance
+
+Recommendation:
+Add short text near the Edit button, such as `Use Edit to update your profile information.`
+
+User need addressed:
+Users need clear guidance on how to complete profile updates.
+
+Expected benefit:
+This makes the separate `/edit-profile` route more discoverable and easier to understand.
+
+=== Add Offline or Sync Status Messaging
+
+Recommendation:
+When profile data cannot be refreshed from the backend, show a message such as `Showing saved profile information` or `Profile updates may be delayed while offline.`
+
+User need addressed:
+Users need to understand whether displayed profile data is current, cached, or temporarily unavailable.
+
+Expected benefit:
+This improves user confidence and reduces confusion during network instability.
+
+=== Clarify Local Avatar Behavior
+
+Recommendation:
+If avatar persistence remains local-only, document or indicate that the avatar is saved on the current device. If avatar sync is intended, future work should move avatar persistence to backend storage.
+
+User need addressed:
+Users need predictable behavior across sessions and devices.
+
+Expected benefit:
+This prevents incorrect expectations about account-wide avatar synchronization.
+
+=== Improve Missing Data States
+
+Recommendation:
+Replace generic fallback states with more explanatory empty-state copy when appropriate, such as `No phone number added yet` instead of only `—`.
+
+User need addressed:
+Users need to know whether missing data is normal, an error, or something they can fix.
+
+Expected benefit:
+This makes the profile screen feel intentional rather than incomplete.
+
+=== Preserve Privacy on Logout
+
+Recommendation:
+Keep the current behavior of clearing local profile/avatar storage on logout. If future offline cache is expanded, ensure logout removes all sensitive locally stored profile data.
+
+User need addressed:
+Users need confidence that personal data does not remain visible after logout.
+
+Expected benefit:
+This supports privacy and reduces stale-data exposure on shared devices.
+
+== Suggested UCD Checklist for Future Review
+
+[cols="1,3,3", options="header"]
+|===
+|Check ID |UCD Question |Expected User-Centered Outcome
+
+|UCD-PROF-01
+|Can the user understand what profile information is being shown?
+|Profile fields are labeled clearly and values are readable.
+
+|UCD-PROF-02
+|Can the user understand which actions are available?
+|Edit, avatar update, order history, special status, and logout actions are visually clear.
+
+|UCD-PROF-03
+|Can the user tell whether profile fields are editable?
+|Read-only fields do not appear misleadingly interactive.
+
+|UCD-PROF-04
+|Can the user recover from missing profile data?
+|Fallback states explain what is missing and what the user can do next.
+
+|UCD-PROF-05
+|Can the user understand offline or delayed behavior?
+|Cached, stale, unavailable, or delayed data states are communicated clearly.
+
+|UCD-PROF-06
+|Can the user trust profile persistence?
+|Session, profile, and avatar persistence behave predictably across app restarts.
+
+|UCD-PROF-07
+|Can the user complete profile editing without confusion?
+|The Edit action clearly routes the user to the correct profile-editing flow.
+
+|UCD-PROF-08
+|Does logout protect user privacy?
+|Local profile/avatar data is cleared when the user logs out.
+|===
+
+== Relationship to Existing Profile QA Work
+
+This UCD review complements existing profile/offline QA work but does not replace it.
+
+Existing QA artifacts may validate that the implementation behaves correctly at the code or integration level. This UCD review asks a different question: whether the behavior is understandable and useful from the user’s perspective.
+
+For example:
+
+* a test can verify that the Edit button routes to `/edit-profile`;
+* this UCD review asks whether the user understands that editing happens there;
+* a test can verify that fallback UI appears when data is missing;
+* this UCD review asks whether the fallback message is clear enough for users.
+
+== Future Validation Opportunities
+
+The following items could become future usability or QA tasks:
+
+* conduct user testing on the profile editing flow;
+* measure whether users recognize read-only fields correctly;
+* validate whether users understand cached/offline profile data states;
+* test avatar expectations across app restart, logout, and multiple devices;
+* compare user satisfaction before and after adding offline status messaging;
+* create accessibility checks for profile screen labels, contrast, and touch targets.
+
+== Risks and Limitations
+
+This review is limited by the current available implementation and documentation. It does not include direct user interviews, live usability sessions, analytics, or production support data.
+
+The main risks are:
+
+* recommendations may need adjustment if `/edit-profile` behavior changes;
+* offline behavior may change after backend synchronization work is completed;
+* user expectations may differ depending on whether users consider the profile avatar account-wide or device-local;
+* technical correctness does not guarantee user clarity.
+
+Because of these limitations, this review should be treated as a documentation and planning artifact rather than final usability validation.
+
+== Conclusion
+
+The current Profile & Offline Support area provides a stable foundation for user-centered profile access. It supports backend-loaded profile data, local avatar persistence, session persistence, safe fallback states, and a clear navigation path to the edit-profile flow.
+
+However, the user experience can be improved by making read-only fields more obvious, communicating offline or delayed profile states, clarifying local-only avatar persistence, and improving fallback messages when data is missing.
+
+From a UCD perspective, the main recommendation is to reduce ambiguity. Users should not need to infer whether data is editable, cached, missing, delayed, local-only, or backend-synced. The interface should communicate those states directly.
+
+== References
+
+* International Organization for Standardization. (2019). _ISO 9241-210:2019 Ergonomics of human-system interaction — Human-centred design for interactive systems_. ISO. https://www.iso.org/standard/77520.html
+* Nielsen Norman Group. (n.d.). _User-Centered Design Basics_. Nielsen Norman Group. https://www.nngroup.com/articles/ux-basics-study-guide/
+* Nielsen Norman Group. (1994). _10 Usability Heuristics for User Interface Design_. Nielsen Norman Group. https://www.nngroup.com/articles/ten-usability-heuristics/
+* Interaction Design Foundation. (n.d.). _User Centered Design_. Interaction Design Foundation. https://www.interaction-design.org/literature/topics/user-centered-design
