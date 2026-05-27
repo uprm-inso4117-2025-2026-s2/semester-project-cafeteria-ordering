@@ -1,0 +1,23 @@
+= Counterexample Shrinking & Failure Analysis TR
+
+Author: Kaysha Pagan
+
+*Date:* 2026-05-27
+
+*ID:* TR-ORD-11
+
+*Issue:* #652
+
+*Test:* TC-ORD-11_counterexample_shrinking_failure_analysis
+
+*Pass/Fail Status:* PASS
+
+== Description
+
+The property based shrinking analysis executed successfully using fast check. Random cart subtotal inputs were generated in order to intentionally trigger failing conditions and observe counterexample shrinking behavior. During that execution, fast check produced failing randomized cart combinations that exceeded the configured subtotal threshold value. The library then reduced the failing input through multiple shrinking steps until reaching a smaller counterexample that still reproduced the same failure condition.
+
+The final minimized counterexample produced a subtotal value of 101 while the configured threshold expected subtotal values lower than 100. The final committed execution completed successfully with 1 passing test suite and 1 passing test.
+
+== Notes
+
+To observe shrinking behavior directly, the property assertion was temporarily executed without the surrounding `toThrow()` expectation. This allowed the generated counterexamples and shrinking process to appear in the terminal output. After capturing the shrinking output, the original `toThrow()` wrapper was restored so the final committed automated test suite would pass successfully while still validating shrinking behavior.
