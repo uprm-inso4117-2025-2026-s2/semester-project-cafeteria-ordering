@@ -1,0 +1,93 @@
+= Role-Based Access Control Performance Analysis
+
+// Author: @FabiolaZTorres
+// Date: 2026-05-25
+// Issue #662
+
+== Introduction
+
+Role-Based Access Control (RBAC) is a core security mechanism that determines what actions a user is allowed to perform based on their assigned role (e.g., Customer or Staff).
+
+While RBAC is essential for enforcing security boundaries, it introduces performance considerations because role validation and permission checks may occur frequently across user interactions. In a mobile-first application, these checks are often triggered during navigation, API requests, and protected feature access.
+
+As the number of users increases (especially in a campus environment where many students may access the system simultaneously), inefficient RBAC implementation can lead to increased latency, unnecessary backend load, and slower response times. Therefore, understanding the performance implications of RBAC is important to ensure the system remains both secure and responsive.
+
+
+== RBAC Performance Considerations
+
+=== Role Validation Overhead
+
+Every protected request may require validating a user's role. If this validation is performed repeatedly without optimization, it can introduce unnecessary computational and database overhead.
+
+=== Permission Checking Frequency
+
+RBAC checks may occur multiple times during a single session (e.g., navigating between pages or accessing multiple features). High-frequency checks can accumulate and impact overall response time.
+
+=== Impact on API Response Time
+
+If role verification is performed on the backend for every request, it can increase API latency, especially when combined with database lookups or external authentication services such as Supabase.
+
+=== Caching Role Data
+
+Caching user roles locally or at the session level can reduce repeated validation calls. However, caching must be carefully managed to avoid outdated or incorrect permissions.
+
+=== Scaling with Increasing Users and Roles
+
+As the system grows, additional roles or higher user concurrency may increase the number of permission checks required, which can impact scalability if not optimized.
+
+
+== Application to System Features
+
+=== Customer vs Staff Access to Features
+
+RBAC determines whether a user can access customer-facing features (e.g., ordering food, viewing menu) or staff-only features (e.g., managing orders, updating order status). Each access attempt requires permission validation.
+
+=== Protected Routes and Restricted Actions
+
+Certain routes in the React Native application must be protected to prevent unauthorized access. This includes profile access, order management, and staff operations. Each route transition may trigger RBAC checks.
+
+=== Authentication and Authorization Flow Integration
+
+RBAC is tightly coupled with authentication, as role validation typically occurs after login. Inefficient integration between authentication and authorization can lead to redundant checks or unnecessary backend calls.
+
+
+== Performance Risks and Bottlenecks
+
+Key potential bottlenecks include:
+
+- Repeated database queries for role validation
+- Excessive permission checks during navigation
+- Latency introduced by backend authorization logic
+- Inefficient handling of role data in client-side state
+- Increased load on Supabase authentication and policy evaluation
+- Redundant authorization checks across multiple API endpoints
+
+
+== Optimization Strategies
+
+Several strategies can help reduce RBAC-related performance issues:
+
+- Caching user roles after initial authentication
+- Reducing redundant permission checks in frontend navigation
+- Centralizing authorization logic instead of duplicating checks
+- Minimizing database queries through session-based role storage
+- Using efficient Supabase row-level security (RLS) policies
+- Ensuring role validation only occurs when necessary (not on every render or request)
+
+
+== Trade-offs Between Security and Performance
+
+RBAC introduces an important balance between security and performance.
+
+Stronger security typically requires more frequent validation checks, which can negatively impact performance. On the other hand, reducing validation frequency (e.g., through caching) improves performance but may risk outdated or inconsistent permission states.
+
+The system must balance security correctness (always enforcing proper access control) and performance efficiency (minimizing unnecessary checks).
+
+A well-designed RBAC system ensures that security is never compromised while still maintaining responsive user interactions.
+
+
+== Conclusion
+
+RBAC is a critical component of the Cafeteria Ordering System's security model, ensuring that users only access features appropriate to their role. However, because role validation and permission checks occur frequently, they can introduce measurable performance overhead if not properly optimized.
+
+By analyzing role validation patterns, caching strategies, and authorization workflows, the system can maintain both strong security guarantees and efficient performance under real-world campus usage conditions.

@@ -8,9 +8,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
-import lightLogo from "../../../documentation/branding/images/Light-Mode-Logo.png";
 import { FilterBar } from "../../components/FilterBar";
 import { OrderCard } from "../../components/OrderCard";
 import { TabNav } from "../../components/TabNav";
@@ -19,8 +19,27 @@ type Tab = "unread" | "open" | "finished";
 type SortField = "customer" | "date" | "orderNumber";
 type SortDirection = "asc" | "desc";
 
+function getPickupStatus(order: Order) {
+  if (order.status !== "finished") return undefined;
+  if (order.closeType === "cancelled") return "cancelled" as const;
+  if (order.pickedUp) return "picked_up" as const;
+  if (order.closeType === "completed") return "awaiting_pickup" as const;
+  return undefined;
+}
+
+function getDetailStatusLabel(order: Order): string {
+  if (order.status === "finished") {
+    if (order.closeType === "cancelled") return "CANCELLED";
+    if (order.pickedUp) return "PICKED UP";
+    return "AWAITING PICKUP";
+  }
+  return order.status.toUpperCase();
+}
 
 export default function ViewOrders() {
+  const { width } = useWindowDimensions();
+  const isSmallScreen = width < 600;
+
   const [activeTab, setActiveTab] = useState<Tab>("unread");
   const [sortField, setSortField] = useState<SortField>("orderNumber");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
@@ -61,18 +80,28 @@ export default function ViewOrders() {
 
     return filtered;
   }, [orders, activeTab, sortField, sortDirection]);
+
   const handleStatusChange = (
     orderId: number,
     newStatus: Order["status"],
+    closeType?: "completed" | "cancelled",
     closeReason?: string
   ) => {
+    const pickupCode =
+      closeType === "completed"
+        ? String(Math.floor(Math.random() * 9000) + 1000)
+        : undefined;
+
     setOrders((currentOrders) =>
       currentOrders.map((order) =>
         order.id === orderId
           ? {
               ...order,
               status: newStatus,
-              closeReason: newStatus === "open" ? undefined : closeReason || order.closeReason,
+              closeType: closeType ?? order.closeType,
+              closeReason: newStatus === "open" ? undefined : closeReason ?? order.closeReason,
+              pickupCode: pickupCode ?? order.pickupCode,
+              pickedUp: newStatus === "open" ? undefined : order.pickedUp,
             }
           : order
       )
@@ -83,17 +112,32 @@ export default function ViewOrders() {
         ? {
             ...currentOrder,
             status: newStatus,
-            closeReason: closeReason || currentOrder.closeReason,
+            closeType: closeType ?? currentOrder.closeType,
+            closeReason: closeReason ?? currentOrder.closeReason,
+            pickupCode: pickupCode ?? currentOrder.pickupCode,
           }
         : currentOrder
     );
   };
+
+  const handlePickupConfirm = (orderId: number) => {
+    setOrders((currentOrders) =>
+      currentOrders.map((order) =>
+        order.id === orderId ? { ...order, pickedUp: true } : order
+      )
+    );
+    setSelectedOrder((current) =>
+      current && current.id === orderId ? { ...current, pickedUp: true } : current
+    );
+  };
+
   if (selectedOrder) {
     return (
       <FullScreenOrderDetails
         order={selectedOrder}
         onBack={() => setSelectedOrder(null)}
         onStatusChange={handleStatusChange}
+        onPickupConfirm={handlePickupConfirm}
       />
     );
   }
@@ -103,7 +147,7 @@ export default function ViewOrders() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <View style={styles.headerInner}>
-            <Image source={lightLogo} style={styles.logo} contentFit="contain" />
+            <Image source={require("../../../documentation/branding/images/Light-Mode-Logo.png")} style={styles.logo} contentFit="contain" />
 
             <View style={styles.filterContainer}>
               <FilterBar
@@ -120,12 +164,13 @@ export default function ViewOrders() {
         </View>
 
         <View style={styles.ordersSection}>
-          <View style={styles.ordersList}>
+          <View style={[styles.ordersList, isSmallScreen && styles.ordersListSingle]}>
             {filteredAndSortedOrders.map((order) => (
               <Pressable
                 key={order.id}
                 style={({ pressed }) => [
                   styles.orderCardWrapper,
+                  isSmallScreen && styles.orderCardWrapperFull,
                   pressed && styles.orderCardPressed,
                 ]}
                 onPress={() => setSelectedOrder(order)}
@@ -136,6 +181,7 @@ export default function ViewOrders() {
                   createdAt={order.createdAt}
                   items={order.items}
                   status={order.status}
+                  pickupStatus={getPickupStatus(order)}
                 />
               </Pressable>
             ))}
@@ -158,26 +204,31 @@ function FullScreenOrderDetails({
   order,
   onBack,
   onStatusChange,
+  onPickupConfirm,
 }: {
   order: Order;
   onBack: () => void;
   onStatusChange: (
-  orderId: number,
-  newStatus: Order["status"],
-  closeReason?: string
-) => void;
+    orderId: number,
+    newStatus: Order["status"],
+    closeType?: "completed" | "cancelled",
+    closeReason?: string
+  ) => void;
+  onPickupConfirm: (orderId: number) => void;
 }) {
   const statusSymbol =
     order.status === "unread" ? "!" : order.status === "open" ? "..." : "✓";
   const [closeModalVisible, setCloseModalVisible] = useState(false);
-const [closeReason, setCloseReason] = useState("");
-const handleConfirmClose = (reason?: string) => {
-  setCloseModalVisible(false);
-  setCloseReason("");
 
-  onStatusChange(order.id, "finished", reason);
-  onBack();
-};
+  const handleConfirmClose = (closeType: "completed" | "cancelled", reason?: string) => {
+    setCloseModalVisible(false);
+    onStatusChange(order.id, "finished", closeType, reason);
+    onBack();
+  };
+
+  const isCancelled = order.closeType === "cancelled";
+  const isFinished = order.status === "finished";
+
   return (
     <View style={styles.detailScreen}>
       <View style={styles.detailHeader}>
@@ -189,7 +240,7 @@ const handleConfirmClose = (reason?: string) => {
           <Text style={styles.backButtonText}>‹ Back</Text>
         </TouchableOpacity>
 
-        <Image source={lightLogo} style={styles.logo} contentFit="contain" />
+        <Image source={require("../../../documentation/branding/images/Light-Mode-Logo.png")} style={styles.logo} contentFit="contain" />
 
         <View style={styles.backButtonSpacer} />
       </View>
@@ -224,7 +275,14 @@ const handleConfirmClose = (reason?: string) => {
             </View>
 
             <View style={styles.statusPill}>
-              <Text style={styles.statusPillText}>{order.status}</Text>
+              <Text
+                style={[
+                  styles.statusPillText,
+                  isCancelled && { color: "#dc2626" },
+                ]}
+              >
+                {getDetailStatusLabel(order)}
+              </Text>
             </View>
           </View>
 
@@ -251,6 +309,33 @@ const handleConfirmClose = (reason?: string) => {
               </View>
             ))}
           </View>
+
+          {isFinished && !isCancelled && (
+            <View style={styles.pickupSection}>
+              <Text style={styles.pickupCodeLabel}>Pickup Code</Text>
+              <Text style={styles.pickupCodeValue}>{order.pickupCode ?? "—"}</Text>
+
+              <TouchableOpacity
+                style={[
+                  styles.confirmPickupButton,
+                  order.pickedUp && styles.confirmPickupButtonDone,
+                ]}
+                disabled={!!order.pickedUp}
+                onPress={() => onPickupConfirm(order.id)}
+                activeOpacity={0.75}
+              >
+                <Text
+                  style={[
+                    styles.confirmPickupButtonText,
+                    order.pickedUp && { color: "#16a34a" },
+                  ]}
+                >
+                  {order.pickedUp ? "Picked Up ✓" : "Confirm Pickup"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
           {order.closeReason && (
             <View style={styles.closeReasonBox}>
               <Text style={styles.closeReasonTitle}>Close Reason</Text>
@@ -270,7 +355,7 @@ const handleConfirmClose = (reason?: string) => {
           disabled={order.status === "open"}
           onPress={() => {
             onStatusChange(order.id, "open");
-            setCloseModalVisible(false)
+            setCloseModalVisible(false);
             onBack();
           }}
         >
@@ -290,33 +375,28 @@ const handleConfirmClose = (reason?: string) => {
           activeOpacity={0.7}
           style={[
             styles.detailActionButton,
-            order.status === "finished" && styles.disabledButton,
+            isFinished && styles.disabledButton,
           ]}
-          disabled={order.status === "finished"}
+          disabled={isFinished}
           onPress={() => setCloseModalVisible(true)}
-          // onPress={() => {
-          //   onStatusChange(order.id, "finished");
-          //   onBack();
-          // }}
         >
           <Text
             style={[
               styles.detailActionButtonTextClose,
-              order.status === "finished" && styles.disabledButtonText,
+              isFinished && styles.disabledButtonText,
             ]}
           >
             Close order
           </Text>
         </TouchableOpacity>
       </View>
+
       <ConfirmationMode
         visible={closeModalVisible}
         orderNumber={order.orderNumber}
-        reason={closeReason}
-        onReasonChange={setCloseReason}
-        onConfirmCancel={handleConfirmClose}
+        onConfirm={handleConfirmClose}
         onGoBack={() => setCloseModalVisible(false)}
-/>
+      />
     </View>
   );
 }
@@ -375,7 +455,6 @@ const styles = StyleSheet.create({
   },
 
   ordersSection: {
-    flex: 1,
     paddingHorizontal: 24,
     paddingVertical: 32,
   },
@@ -387,12 +466,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    alignItems: "stretch",
+    alignItems: "flex-start",
   },
 
   orderCardWrapper: {
     width: "48%",
     marginBottom: 24,
+  },
+
+  orderCardWrapperFull: {
+    width: "100%",
+  },
+
+  ordersListSingle: {
+    flexDirection: "column",
   },
 
   orderCardPressed: {
@@ -439,12 +526,6 @@ const styles = StyleSheet.create({
     color: "#111827",
   },
 
-  detailHeaderTitle: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: "#111827",
-  },
-
   backButtonSpacer: {
     width: 80,
   },
@@ -459,7 +540,7 @@ const styles = StyleSheet.create({
   },
 
   fullOrderCard: {
-    backgroundColor:  "#EEEEEE",
+    backgroundColor: "#EEEEEE",
     borderRadius: 18,
     borderWidth: 1,
     borderColor: "#d4d4d4",
@@ -581,6 +662,52 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
 
+  pickupSection: {
+    marginHorizontal: 20,
+    marginBottom: 20,
+    padding: 18,
+    borderRadius: 14,
+    backgroundColor: "#f0fdf4",
+    borderWidth: 1,
+    borderColor: "#86efac",
+    alignItems: "center",
+    gap: 10,
+  },
+
+  pickupCodeLabel: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: "#15803d",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+
+  pickupCodeValue: {
+    fontSize: 48,
+    fontWeight: "900",
+    color: "#111827",
+    letterSpacing: 8,
+  },
+
+  confirmPickupButton: {
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 12,
+    backgroundColor: "#16a34a",
+    alignItems: "center",
+    alignSelf: "stretch",
+  },
+
+  confirmPickupButtonDone: {
+    backgroundColor: "#d1fae5",
+  },
+
+  confirmPickupButtonText: {
+    fontSize: 16,
+    fontWeight: "800",
+    color: "#ffffff",
+  },
+
   detailActions: {
     flexDirection: "row",
     borderTopWidth: 1,
@@ -600,11 +727,13 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: "#039700",
   },
+
   detailActionButtonTextClose: {
     fontSize: 16,
     fontWeight: "800",
     color: "#ff0000",
   },
+
   actionDivider: {
     width: 1,
     backgroundColor: "#d4d4d4",
@@ -617,8 +746,9 @@ const styles = StyleSheet.create({
   disabledButtonText: {
     color: "#9ca3af",
   },
+
   unreadStatusBadge: {
-  backgroundColor: "#969696",
+    backgroundColor: "#969696",
   },
 
   openStatusBadge: {
@@ -628,6 +758,7 @@ const styles = StyleSheet.create({
   finishedStatusBadge: {
     backgroundColor: "#b1b1b1",
   },
+
   closeReasonBox: {
     marginHorizontal: 20,
     marginBottom: 20,
@@ -649,205 +780,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#7C2D12",
     lineHeight: 21,
-  }
+  },
 });
-
-
-// import { Image } from "expo-image";
-// import React, { useMemo, useState } from "react";
-// import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-
-// import { mockOrders } from "@/dummyData/orderData";
-// import lightLogo from "../../../documentation/branding/images/Light-Mode-Logo.png";
-// import { FilterBar } from "../../components/FilterBar";
-// import { OrderCard } from "../../components/OrderCard";
-// import { TabNav } from "../../components/TabNav";
-
-// type Tab = "unread" | "open" | "finished";
-// type SortField = "customer" | "date" | "orderNumber";
-// type SortDirection = "asc" | "desc";
-
-// export default function ViewOrders() {
-//   const [activeTab, setActiveTab] = useState<Tab>("unread");
-//   const [sortField, setSortField] = useState<SortField>("orderNumber");
-//   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-
-//   const handleSortChange = (field: SortField) => {
-//     if (sortField === field) {
-//       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-//     } else {
-//       setSortField(field);
-//       setSortDirection("asc");
-//     }
-//   };
-
-//   const handleOrderPress = (orderId: string) => {
-//     console.log("Pressed order:", orderId);
-//     // put navigation here later
-//     // example: router.push(`/orders/${orderId}`)
-//   };
-
-//   const filteredAndSortedOrders = useMemo(() => {
-//     const filtered = mockOrders
-//       .filter((order) => order.status === activeTab)
-//       .slice();
-
-//     filtered.sort((a, b) => {
-//       let comparison = 0;
-
-//       switch (sortField) {
-//         case "customer":
-//           comparison = a.customerName.localeCompare(b.customerName);
-//           break;
-//         case "date":
-//           comparison = a.createdAt.localeCompare(b.createdAt);
-//           break;
-//         case "orderNumber":
-//           comparison = a.orderNumber - b.orderNumber;
-//           break;
-//       }
-
-//       return sortDirection === "asc" ? comparison : -comparison;
-//     });
-
-//     return filtered;
-//   }, [activeTab, sortField, sortDirection]);
-
-//   return (
-//     <View style={styles.screen}>
-//       <ScrollView contentContainerStyle={styles.scrollContent}>
-//         <View style={styles.header}>
-//           <View style={styles.headerInner}>
-//             <Image
-//               source={lightLogo}
-//               style={styles.logo}
-//               contentFit="contain"
-//             />
-//             <View style={styles.filterContainer}>
-//               <FilterBar
-//                 sortField={sortField}
-//                 sortDirection={sortDirection}
-//                 onSortChange={handleSortChange}
-//               />
-//             </View>
-//           </View>
-//         </View>
-
-//         <View style={styles.tabSection}>
-//           <TabNav activeTab={activeTab} onTabChange={setActiveTab} />
-//         </View>
-
-//         <View style={styles.ordersSection}>
-//           <View style={styles.ordersList}>
-//             {filteredAndSortedOrders.map((order) => (
-//               <Pressable
-//                 key={order.id}
-//                 style={({ pressed }) => [
-//                   styles.orderCardWrapper,
-//                   pressed && styles.orderCardPressed,
-//                 ]}
-//                 onPress={() => handleOrderPress("placeholder")}
-//               >
-//                 <OrderCard
-//                   orderNumber={order.orderNumber}
-//                   customerName={order.customerName}
-//                   createdAt={order.createdAt}
-//                   items={order.items}
-//                   status={order.status}
-//                 />
-//               </Pressable>
-//             ))}
-//           </View>
-
-//           {filteredAndSortedOrders.length === 0 && (
-//             <View style={styles.emptyState}>
-//               <Text style={styles.emptyStateText}>
-//                 No {activeTab} orders at the moment
-//               </Text>
-//             </View>
-//           )}
-//         </View>
-//       </ScrollView>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   screen: {
-//     flex: 1,
-//     backgroundColor: "#fafafa",
-//   },
-//   scrollContent: {
-//     paddingBottom: 32,
-//   },
-//   header: {
-//     backgroundColor: "#d9d9d9",
-//     borderColor: "#a8a8a8",
-//     borderWidth: 1,
-//     borderTopWidth: 0,
-//     borderBottomLeftRadius: 5,
-//     borderBottomRightRadius: 5,
-//     shadowColor: "#000000",
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowOpacity: 0.4,
-//     shadowRadius: 1,
-//     elevation: 3,
-//   },
-//   headerInner: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     paddingHorizontal: 0,
-//     paddingBottom: 0,
-//     paddingTop: 35,
-//     gap: 0,
-//   },
-//   logo: {
-//     width: 64,
-//     height: 64,
-//     shadowColor: "#000000",
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowOpacity: 0.4,
-//     shadowRadius: 1,
-//     elevation: 3,
-//   },
-//   filterContainer: {
-//     flex: 1,
-//   },
-//   tabSection: {
-//     paddingHorizontal: 24,
-//     paddingTop: 32,
-//     paddingBottom: 16,
-//   },
-//   ordersSection: {
-//     flex: 1,
-//     paddingHorizontal: 24,
-//     paddingVertical: 32,
-//   },
-//   ordersList: {
-//     width: "100%",
-//     maxWidth: 1200,
-//     alignSelf: "center",
-//     flexDirection: "row",
-//     flexWrap: "wrap",
-//     justifyContent: "space-between",
-//     alignItems: "stretch", // 👈 important
-//   },
-//   orderCardWrapper: {
-//     width: "48%",
-//     marginBottom: 24,
-//   },
-//   orderCardPressed: {
-//     opacity: 0.8,
-//   },
-//   emptyState: {
-//     alignItems: "center",
-//     justifyContent: "center",
-//     paddingVertical: 48,
-//   },
-//   emptyStateText: {
-//     fontSize: 24,
-//     color: "#424242",
-//     textAlign: "center",
-//   },
-// });
-

@@ -12,3 +12,4 @@ Feature: Order Placement
         Then the system should confirm the order
         And the cafeteria staff should be notified of the new order
         And the user should receive an order confirmation message
+        And the system should display an estimated pickup time

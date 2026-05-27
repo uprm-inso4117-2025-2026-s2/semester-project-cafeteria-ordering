@@ -201,53 +201,36 @@ The long wait times at the university cafeteria show unmet needs in food service
 
 ===== Students
 
-* Be able to access meals within limited time windows between classes without risking tardiness or absence.
-* Reduce uncertainty around how long it will take to obtain food, especially during peak cafeteria hours.
-* Maintain consistent access to meals that supports health, focus, and academic performance.
-* Avoid having to choose between basic needs and academic responsibilities.
+[.yellow-bg]Access meals reliably within a limited time window without having to risk tardiness, academic responsabilities and basic needs
 
 ===== Cafeteria Staff
 
-* Handle high volumes of orders efficiently without excessive pressure during peak periods.
-* Maintain a smooth operational flow that minimizes crowding and confusion at service points.
-* Receive clearer signals about when demand will come and the volume of orders. This will help better manage preparation.
+[.yellow-bg]Be able to handle high order volumes efficiently at any time while mantaining a manageable and organized operational flow.
 
 ===== University Staff
 
-* Ensure campus services support student retention, wellness, and academic success.
-* Minimize crowds in shared spaces to improve safety and traffic flow.
-* Balance service improvements with resource and staffing constraints.
+[.yellow-bg]Ensure that campus food services support the student's wellness and success, doing so while remaining within any resource and staffing constraints
 
 ===== Ordering
 
-* Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.
-* Customers need confidence that what they request can actually be fulfilled at the moment of ordering.
-* Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.
+[.yellow-bg]All parties, both customers and staff, need the ordering process to be as clear, accurante and unambiguous. Customers need menu visibility and availability, and staff requires orders to be communicated without error.
 
 ===== Paying
 
-* Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment
-* Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.
-* Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.
+[.yellow-bg]Customers need clear information of the amount they are expected to pay, along with the order's payment confirmation and staff need a reliable way to verify the customer's payment before releasing the meal.
 
 ===== Preparing
 
-* Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.
-* Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.
-* The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.
+[.yellow-bg]The staff need to align preparation work based on average customer demand during normal or peak periods to reduce food waste and update customers with their order's preparation status and time.
 
 ===== Pickup
 
-* Customers need a pickup process that is orderly and time-efficient.
-* Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.
-* Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.
+[.yellow-bg]The pickup process needs to be ordered and accurate. Customers need to be accurately notified when their order is ready and the staff needs a reliable way to match the correct order with the customer.
+
 
 ===== Project Level Needs
 
-* A clear statement of requirements based on stakeholder needs, without reference to any system. 
-* A common language used in analysis, design, implementation, and testing to avoid confusion. 
-* Planning documents (requirements, architecture, design, and test strategy) to support the solution selected later.
-* A general description of cafeteria operations and how stakeholders interact. 
+[.yellow-bg]A baseline for the project's requirements, common language format for any documentation belonging to the project, doccument planning and a general description of the Cafeteria Ordering operations to show the project from research through implementation.
 
 ==== 1.2.3 Ideas
 
@@ -453,8 +436,8 @@ Actions may be performed by human actors (students or cafeteria staff) or by non
 * *Joining a Queue (action)* — the act of a student entering the service line to await their turn.
 * *Student Has Just Joined the Queue (event)* — the moment a student enters the line to place an order.
 * *Student Has Just Left the Queue Without Ordering (event)* — the moment a student abandons the line due to time pressure or other circumstances.
-* *Crowd Surge (behavior)* — Actions involved: Joining a Queue (performed by many students in a short time span). Events observed: Student Has Just Joined the Queue (repeated rapidly). Outcome: long queues and increased service pressure.
-* *Time-Constrained Decision Making (behavior)* — Actions involved: Joining a Queue; abandoning the queue before ordering. Events observed: Student Has Just Left the Queue Without Ordering. Pattern: customers weigh estimated waiting time against remaining time before their next obligation and decide whether to remain.
+* *Crowd Surge (behavior)* — Multiple students *Join a queue* in a short span of time -> *Student Has Just Joined the Queue* is observed repeatedly -> results in a more lengthy queue and increased service pressure on staff
+* *Time-Constrained Decision Making (behavior)* — [.yellow-bg]Student *Joins a queue* -> student contemplates about staying or leaving the queue line -> if student left: *Student Has Just Left the Queue Without Ordering*
 
 ===== Order
 
@@ -465,14 +448,14 @@ Actions may be performed by human actors (students or cafeteria staff) or by non
 
 * *Payment (action)* — the process of transferring money from a customer to the cafeteria in exchange for selected items, including the possibility of disruption when payment processing fails.
 * *Payment Has Just Failed (event)* — the moment a payment attempt does not complete successfully, causing a delay in service.
-* *Service Bottleneck (behavior)* — Actions involved: Payment (repeated attempts); staff troubleshooting. Events observed: Payment Has Just Failed; Student Has Just Left the Queue Without Ordering. Outcome: increased waiting time and reduced service throughput.
+* *Service Bottleneck (behavior)* — [.yellow-bg]Customer performs payment -> staff troubleshoots, stalling queue -> other customers try to join the queue -> throughput is reduced -> Student left queue without Ordering
 
 ===== Meal Preparation and Pickup
 
 * *Meal Preparation (action)* — the production of meals in advance or in response to incoming orders, often under uncertainty about near-term demand.
 * *Meal Has Just Been Prepared (event)* — the moment a meal becomes ready for pickup.
 * *Meal Pickup (action)* — a customer receiving prepared or selected items after an order has been completed.
-* *Uncertain Demand Preparation (behavior)* — Actions involved: Meal Preparation (performed in advance). Events observed: Meal Has Just Been Prepared (occurring before confirmed demand). Pattern: staff produce meals without precise knowledge of near-term order volume, leading to potential over- or under-preparation.
+* *Uncertain Demand Preparation (behavior)* — [.yellow-bg]Staff prepares meal without confirmed order -> Meal is Prepared in advance -> Food waste due to over-preparation or delays due to under-preparation depending on actual incoming orders
 
 ==== 2.1.5 Function Signatures
 
@@ -1068,11 +1051,11 @@ The following code can help illustrate how the system currently handles this ord
 
 [source,text]
 ----
-export async function persistOrder(order: Order) {
+export async function createOrder(order: Order) {
   const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
 
   if (error) {
-    console.error('Error when persisting order:', error.message)
+    console.error('Error when creating order:', error.message)
     return null
   }
 
@@ -1087,21 +1070,21 @@ export async function persistOrder(order: Order) {
   return data
 }
 ----
-In this brief source code, persistOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. The function inserts this fully-formed record directly into the database. Note that the current implementation does not check item availability or stock levels before insertion; stock validation is a known gap that must be enforced before this function is called or added here explicitly if it is intended as a system constraint.
+[.yellow-bg]#In this code, createOrder receives an Order object with the student ID, selected items, total price, and status, and saves it to the database. One thing worth noting is that right now the function doesn't check whether items are actually in stock before inserting the order, so that validation either needs to happen before calling this function or be added inside it.#
 
 *Pickup Code/ Order Security*
 
 Along with our order creation and confirmation, to increase security and reduce or eliminate the possibility of order theft, the system will have a pickup code generator, shown with this pseudocode:
 [source,text]
 ----
-function generateCode(order: Order)
+function generatePickupCode(order: Order)
     code= randomnumberBetween (0001,9999)
     order.update(id, {
         pickupCode: code
     })
     return code
 ----
-The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order. 
+[.yellow-bg]#Once generatePickupCode runs, the code gets saved to the order. When the customer comes to pick up their food, they show this code to the staff, who verify it before handing everything over.#
 
 *UI Design*
 
@@ -1237,18 +1220,20 @@ The following concepts are derived from recurring observations in the domain rou
 
 ==== 3.2.1 Validation
 
-*Scenario Walkthroughs (Ongoing)*
+*Scenario Walkthroughs (Completed)*
 
-* The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:
+* [.yellow-bg]#During Milestone 2, the team conducted two scenario walkthroughs to check that our domain concepts, narrative, and requirements actually matched what happens in the cafeteria.#
 
-** Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.
+* [.yellow-bg]#*Domain Narrative Walkthrough* — Team members each took a role — one as a student, another as cafeteria staff — and went through the narrative in Section 2.1.3 from start to finish. The ordering flow, payment step, and pickup sequence all checked out. We also confirmed that the “Student Has Just Left the Queue Without Ordering” event made sense in context, since it naturally comes up when a student looks at the line and realizes they don't have enough time. Nothing in the narrative needed to be changed, and the terms used matched what we defined in Section 2.1.2.#
 
-* After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.
+* [.yellow-bg]#*Requirements Walkthrough* — The team went through a set of requirements from Sections 2.2.3 and 2.2.4 and matched each one to a persona from Section 2.2.2 to check if it covered a real problem. For example, we looked at DR-02 (Item Availability) through Mariana's situation, since she has trouble planning meals when she doesn't know what's available. IR-2.2.4-5 (Order creation) was checked against Carlos, since he needs to place orders quickly between classes. The main service stages were all covered and no new term conflicts came up.#
 
-*Terminology and Concept Validation (Ongoing)*  
+* [.yellow-bg]#Both walkthroughs were reviewed by the Documentation Team Lead and didn't result in any changes to the domain concepts or requirements. As implementation moves forward, we plan to do more walkthroughs focused on the actual features being built.#
 
-* Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).  
-* Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.
+*Terminology and Concept Validation (Ongoing)*
+
+* Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).
+* [.yellow-bg]#During the domain narrative walkthrough we also checked that our terms were being used correctly. Words like “customer,” “order,” and “pickup code” came up naturally in the scenarios and nobody was confused by them. No new conflicts came up.#
 
 *Use of Research (Ongoing)*  
 
@@ -1496,12 +1481,12 @@ Precondition (client domain):
 
 Derived Acceptance Criteria (client domain):
 
-* The student must be able to select available menu items.
-* The student must be able to add selected items to [.yellow-bg]#an order.#
-* The student must be able to proceed to checkout and choose a pickup option.
+* [.yellow-bg]#The system must present available menu items for the student to select.#
+* [.yellow-bg]#The system must allow the student to add selected items to an order.#
+* [.yellow-bg]#The system must provide a checkout step where the student can choose a pickup option.#
 * The system must confirm successful order placement.
-* The cafeteria staff must be notified of new orders.
-* The student must receive an order confirmation message.
+* [.yellow-bg]#The system must notify cafeteria staff of new orders.#
+* [.yellow-bg]#The system must send the student an order confirmation message.#
 
 These acceptance criteria remain expressed in stakeholder language and do not reference technical implementation details.
 
@@ -1524,14 +1509,17 @@ Scenario: Successful log-in with valid credentials
 
 [source,gherkin]
 ----
-Scenario: Successful order placement  
-    Given the student is logged in and on the menu page  
-    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"  
-    And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process  
-    Then the system should confirm the order  
-    And the cafeteria staff should be notified of the new order  
-    And the student should receive an order confirmation message  
+Scenario: Successful order placement
+    Given the student is logged in and on the menu page
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"
+    And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process
+    Then the system should confirm the order
+    And the cafeteria staff should be notified of the new order
+    And the student should receive an order confirmation message
+    And the system should display an estimated pickup time
 ----
+
+[.yellow-bg]#We added an estimated pickup time step here because when a customer chooses "ASAP," they'd realistically want to know how long the wait will be. This came up as a real need when looking at the domain narrative.#
 
 * Secure Order Pickup
 
@@ -1559,22 +1547,21 @@ The project integrates Cucumber (cucumber-js) as the selected BDD tool. Cucumber
 
 The existing setup enables execution of Gherkin scenarios through the Cucumber runner, demonstrating integration of a BDD tool into the development workflow as required by the course guideline.
 
-==== Automation Status in Milestone 1
+==== [.yellow-bg]#Automation Status in Milestone 3#
 
-At this milestone, the Cucumber environment and Gherkin specification files are fully configured. However, step definitions binding these scenarios to implemented application behavior have not yet been developed.
+[.yellow-bg]#By Milestone 3, Cucumber is set up and step definitions have been written for all the main scenarios. The issue is that those step definitions are still stubs as they track state in a local object instead of actually calling the app's service layer.
 
-This is intentional and aligned with milestone sequencing. Milestone 1 focuses on domain modeling, requirements engineering, documentation, and preparation of testing infrastructure. Full behavioral binding and executable verification against implemented functionality will be completed in Milestone 2, once core application features are available.
+[.yellow-bg]#What we do have right now:#
 
-The current configuration demonstrates that:
+* [.yellow-bg]#Cucumber is set up in the project and can be run through npm.#
+* [.yellow-bg]#Feature files are written in Gherkin for order placement, order pickup, authentication, staff operations, and menu browsing.#
+* [.yellow-bg]#Step definitions exist for all of those scenarios.#
 
-* A BDD tool is integrated into the project.
-* Behavioral specifications are written in Gherkin.
-* Scenarios are structured for automated execution.
-* The testing infrastructure is prepared for future implementation binding.
+
 
 ==== Summary
 
-By applying BDD and integrating Cucumber into the repository, the project establishes a clear path from stakeholder requirements to executable behavioral specifications. Even though full step-definition implementation will occur in Milestone 2, the current setup ensures alignment between requirements, documentation, and automated testing infrastructure, satisfying the academic requirements for BDD tool integration.
+[.yellow-bg]#The team has integrated Cucumber into the project with feature files and step definitions written for all main scenarios and the runner working. The step definitions are still stubs at this point, so the next step is connecting them to the real service layer so the tests actually verify what the app does.#
 
 === 4.3 Use of Debugging
 
@@ -1906,6 +1893,444 @@ The team uses the following mutation score thresholds to guide test improvement,
 | 90–100% | Target range. Focus on test readability and maintainability rather than chasing final mutants.
 |===
 
+=== 4.7 Usability testing
+
+[.green-bg]Usability testing evaluates how easily users can complete their tasks in a system, focusing on the agilty and quality of experience rather than the task being performed successfully. For context, The Cafeteria Ordering application can be fully functional but it can still fail if the students cannot place an order quickly during a short break or if the cafeteria staff cannot process any order during peak periods. This usability testing analysis is documented in two LTT documents stored in `documentation/LectureTopicTasks/`. & some testing plans are included in `documentation/LectureTopicTasks/usability-testing`
+
+==== Usability Testing Plan: New User Registration and Authentication
+
+[.green-bg]*This testing plan are derived from two of the scenarios located in `documentation/LectureTopicTasks/usability-testing/usability-testing-auth-sec.adoc`*
+
+===== Objective/Usability Question
+
+[.green-bg]When designing this testing plan, the primary question was:
+
+[.green-bg]*How many UPRM students will be able to complete the full registration and login flow without any assistance, in (at most) 3 minutes?*
+
+[.green-bg]The study was chosen since authentication is a key point that grants entry to all of the system's features. If users cannot easily register or log in, then the system can't be used by them. 
+
+===== Test Plan Setup
+
+[.green-bg]The test presents participants using a fully functional version of the cafeteria Ordering App. The participants are to perform a new user registration and successfully log in. The participants have no assistance during these tasks and the testing session is timed as soon as the participant opens the application until they are successfully logged in. 
+
+===== Participants
+
+[.green-bg]Participants will be recruited based on primary users being university students, faculty members or just local customers. 
+
+[.green-bg]The test must include at least *three* non-engineering students, *two* students from any faculty and *at least one* university staff or faculty member. 
+
+[.green-bg]To not recruit many users who have a good understanding of technology, it is reccommended to not have any stem or engineering majors. Also, it is very important to recruit members who often go to the cafeteria, as that is what the application is based on.
+
+===== Monitoring Methods
+
+[.green-bg]The sessions for these tests are monitored with:
+
+[.green-bg]*Observation* - Observers note any points of hesitation, confusion, backtracking, or errors without intervening.
+[.green-bg]*Post-test surveys or Interviews* - A perfect way to understand how users feel about the system.
+[.green-bg]*System Analytics* - Lets us know any delay, load time or errors during testing.
+
+===== Minimal Expectations
+
+[.green-bg]Since the system's authentication is fully functional, the minimum expectations for this test plan is for the users to smoothly and successfully perform the sign up and log in workflows while have reduced loading times and no errors produced.
+
+==== Usability Metrics
+[.green-bg]
+[cols="1,3"]
+|===
+|Metric |Description
+
+|Task Success Rate
+|Percentage of users who complete tasks successfully
+
+|Time on Task
+|Amount of time needed to complete workflows
+
+|Error Rate
+|Frequency of mistakes during interactions
+
+|User Satisfaction Score
+|Survey-based satisfaction measurement
+
+|Learnability Score
+|Ease of learning system usage
+
+|Efficiency Rate
+|Speed of completing repeated tasks
+
+|Accessibility Compliance
+|Ability to meet accessibility standards
+|===
+
+==== Focus Areas for Improvement
+
+[.green-bg]Based on the test plan, the project's areas for improvement can vary based on result, but some ways the system can improved based on this plan are:
+
+===== Learnability
+
+[.green-bg]Improvements for the systen should include: clear instructions, simple navigation, intuitive authentication workflows
+
+===== Efficiency
+
+[.green-bg]The system should: minimize clicks, reduce loading times, streamline authentication processes
+
+===== Satisfaction
+
+[.green-bg]Improve visual consistency, interface responsiveness, user trust in authentication security to better improve quality of life on the app.
+
+===== Error Prevention
+
+[.green-bg]The platform should always validate forms clearly, prevent invalid submissions, display understandable error messages
+
+===== Accessibility
+
+[.green-bg]The system should support Intuitive workflows, responsive mobile layouts,adequate color contrast
+
+==== Conclusion
+
+[.green-bg]Usability testing is very important since it helps confirm that the system's designed workflow is successful while also cutting down on any issue involving the user's experience while navigating the application.
+[.green-bg]
+=== 4.10 Fuzzing
+
+[.green-bg]#Fuzzing can be applied to the Cafeteria Ordering System to test how the web interface responds to unexpected, malformed, or invalid inputs. Unlike regular example-based testing, which checks a small number of predefined cases, fuzzing generates many unusual input values to discover weaknesses in input validation, error handling, and interface behavior.#
+
+[.green-bg]#This is useful for the Cafeteria Ordering System because users interact with forms and interface elements such as order creation, item quantity selection, payment method selection, special instructions, pickup information, and login or profile fields. These inputs should remain stable and predictable even when users submit unexpected values.#
+
+[.green-bg]
+==== Fuzzing Scope
+
+[.green-bg]#For this project, the fuzzing strategy focuses on the web interface and order-related input flow. The main goal is to verify that invalid or unexpected inputs do not crash the interface, create invalid orders, bypass validation rules, or produce unclear feedback for the user.#
+
+[.green-bg]#The main interface areas that can benefit from fuzzing include:#
+
+* [.green-bg]#Order item quantity fields#
+* [.green-bg]#Special instruction text fields#
+* [.green-bg]#Payment-related input fields#
+* [.green-bg]#Menu item selection controls#
+* [.green-bg]#Pickup code or order verification fields#
+* [.green-bg]#Login, sign-up, and profile text fields#
+
+[.green-bg]
+==== Example Fuzzed Inputs
+
+[.green-bg]#The following categories of fuzzed inputs can be used to test the Cafeteria Ordering System interface.#
+
+[.green-bg]
+===== Empty Strings
+
+[.green-bg]#Empty values can be submitted in text fields or required form fields.#
+
+[source,text]
+----
+""
+" "
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#Required fields should not be accepted when empty.#
+* [.green-bg]#The interface should display a clear validation message.#
+* [.green-bg]#The system should not create an incomplete order.#
+* [.green-bg]#No crash or unhandled error should occur.#
+
+[.green-bg]
+===== Very Long Text Values
+
+[.green-bg]#Very long strings can be used to test fields such as special instructions, names, or notes.#
+
+[source,text]
+----
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"Please add sauce " repeated 500 times
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#The interface should enforce a reasonable character limit.#
+* [.green-bg]#Long input should not break the layout.#
+* [.green-bg]#The system should either reject the value with a clear message or safely truncate it if that behavior is intentionally supported.#
+* [.green-bg]#The application should remain responsive.#
+
+[.green-bg]
+===== Invalid Item Quantities
+
+[.green-bg]#Invalid quantity values can be generated for item selection fields.#
+
+[source,text]
+----
+0
+-1
+999999
+"abc"
+"2.5"
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#Quantities less than one should be rejected.#
+* [.green-bg]#Extremely large quantities should be rejected or limited.#
+* [.green-bg]#Non-numeric values should not be accepted as valid quantities.#
+* [.green-bg]#The order should not proceed until all quantities are valid.#
+
+[.green-bg]
+===== Malformed Payment Values
+
+[.green-bg]#Malformed payment-related values can be used to test payment form validation or payment method handling.#
+
+[source,text]
+----
+"not-a-card"
+"123"
+"@@@@"
+"0000-0000-0000-0000"
+"cashier<script>"
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#Invalid payment values should be rejected.#
+* [.green-bg]#The system should not mark the order as paid unless payment is valid and confirmed.#
+* [.green-bg]#The interface should display clear payment validation feedback.#
+* [.green-bg]#The invalid value should not affect other order data.#
+
+[.green-bg]
+===== Unexpected Symbols and Special Characters
+
+[.green-bg]#Special characters can be entered into text-based fields to verify that the interface handles them safely.#
+
+[source,text]
+----
+"<script>alert('test')</script>"
+"'; DROP TABLE orders; --"
+"🍕🔥💳"
+"../../orders"
+"#@$%^&*()"
+----
+
+[.green-bg]#Expected system behavior:#
+
+* [.green-bg]#The interface should treat special characters as data, not executable code.#
+* [.green-bg]#The system should sanitize or safely handle input before storing or displaying it.#
+* [.green-bg]#The application should not expose sensitive errors.#
+* [.green-bg]#The UI should remain stable and usable.#
+
+[.green-bg]
+==== Fuzzing Strategy
+
+[.green-bg]#The fuzzing process can be organized around the order submission flow:#
+
+. [.green-bg]#Generate unexpected values for order-related fields.#
+. [.green-bg]#Submit those values through the interface or a simulated interface-level test.#
+. [.green-bg]#Observe whether the system accepts, rejects, or safely handles each input.#
+. [.green-bg]#Verify that invalid inputs do not create valid orders.#
+. [.green-bg]#Confirm that the user receives clear feedback.#
+. [.green-bg]#Record any crash, unclear message, layout issue, or invalid accepted state as a defect.#
+
+[.green-bg]#This approach is similar to property-based testing because both techniques use generated inputs instead of relying only on manually selected examples. However, fuzzing focuses more directly on malformed, unexpected, or hostile inputs, while property-based testing focuses on checking whether general system rules always hold.#
+
+[.green-bg]
+==== Connection to the Fuzzing Book Methodology
+
+[.green-bg]#The Fuzzing Book presents fuzzing as a technique for generating inputs automatically and observing whether the system behaves correctly. In the context of web application testing, this means submitting generated or unexpected values through web-facing inputs and checking whether the application validates, rejects, or safely processes them.#
+
+[.green-bg]#For the Cafeteria Ordering System, this methodology can be applied by generating unusual order quantities, unexpected text field values, malformed payment inputs, and invalid menu-related data. The system should respond with controlled validation behavior rather than crashes, broken layouts, incorrect order creation, or unclear error messages.#
+=== 4.8 Property Based Testing
+
+[.green-bg]#Property-based testing can be used in the Cafeteria Ordering System to verify general rules that should remain true across many possible inputs. Instead of only testing one fixed example, property-based testing generates many combinations of values and checks whether important system properties still hold.#
+
+[.green-bg]#This testing approach is useful for order validation because cafeteria orders can vary by selected menu items, quantities, prices, payment methods, and order status. By generating different order inputs, the team can identify edge cases that may not appear in manually written example-based tests.#
+
+[.green-bg]
+==== Testing Scope
+
+[.green-bg]#For this project, property-based testing focuses on the order validation flow. This includes checking whether generated orders follow the expected rules before they are accepted by the system or sent to the backend API.#
+
+[.green-bg]#The following TypeScript-style example shows the kind of structure that could be tested:#
+
+[source,ts]
+----
+type MenuItem = {
+  id: string;
+  name: string;
+  price: number;
+};
+
+type OrderItem = {
+  menuItem: MenuItem;
+  quantity: number;
+  specialInstructions?: string;
+};
+
+type Order = {
+  id: OrderId;
+  items: OrderItem[];
+  paymentMethod: PaymentMethod;
+  status: OrderStatus;
+};
+
+function calculateOrderTotal(order: Order): number {
+  return order.items.reduce((total, item) => {
+    return total + item.menuItem.price * item.quantity;
+  }, 0);
+}
+----
+
+[.green-bg]
+=== 4.9 Types
+
+[.green-bg]#The Cafeteria Ordering System incorporates static typing through TypeScript to make core domain concepts easier to understand, validate, and maintain. Since the project uses TypeScript, domain concepts such as orders, menu items, payments, and order statuses can be represented with explicit types instead of loosely structured objects.#
+
+[.green-bg]#Static typing is useful in this project because it clarifies what kind of data each function expects and returns. This reduces ambiguity when developers work with order creation, menu item selection, payment processing, and order status updates.#
+
+[.green-bg]
+==== Core Domain Types
+
+[.green-bg]#The following TypeScript example represents important cafeteria ordering concepts using meaningful static types:#
+
+[source,ts]
+----
+type MenuItemId = string;
+type OrderId = string;
+
+type PaymentMethod = "cashier" | "card";
+type OrderStatus = "draft" | "pending_payment" | "confirmed" | "ready_for_pickup" | "cancelled";
+
+type MenuItem = {
+  id: MenuItemId;
+  name: string;
+  price: number;
+  isAvailable: boolean;
+};
+
+type OrderItem = {
+  menuItemId: string;
+  quantity: number;
+};
+
+type Order = {
+  items: OrderItem[];
+  paymentMethod: "cashier" | "card";
+};
+
+function validateOrder(order: Order, menuItems: MenuItem[]): boolean {
+  if (order.items.length === 0) {
+    return false;
+  }
+
+  return order.items.every((item) => {
+    const menuItem = menuItems.find((menuItem) => menuItem.id === item.menuItemId);
+
+    return (
+      menuItem !== undefined &&
+      menuItem.isAvailable &&
+      item.quantity > 0 &&
+      item.quantity <= 10
+    );
+  });
+}
+----
+
+[.green-bg]
+==== Meaningful Properties
+
+[.green-bg]#The following properties describe general rules that should hold for the cafeteria ordering flow.#
+
+[.green-bg]
+===== Property 1 — Order Total Should Never Be Negative
+
+[.green-bg]#For any valid generated order, the calculated total should always be greater than or equal to zero. Since menu item prices and item quantities determine the order total, the system should reject or prevent invalid values that could produce a negative total.#
+
+[source,ts]
+----
+property("order total is never negative", (generatedOrder) => {
+  const total = calculateOrderTotal(generatedOrder);
+  expect(total).toBeGreaterThanOrEqual(0);
+});
+----
+
+[.green-bg]#This property helps detect invalid price or quantity handling, such as negative prices, negative quantities, or incorrect total calculations.#
+
+[.green-bg]
+===== Property 2 — A Valid Order Must Contain at Least One Item
+
+[.green-bg]#For any order to be valid, it must include at least one item. An empty order should not be accepted because it does not represent a real cafeteria request.#
+
+[source,ts]
+----
+property("valid orders contain at least one item", (generatedOrder) => {
+  if (validateOrder(generatedOrder, menuItems)) {
+    expect(generatedOrder.items.length).toBeGreaterThan(0);
+  }
+});
+----
+
+[.green-bg]#This property supports the cafeteria ordering domain because every submitted order should represent one or more requested menu items.#
+
+[.green-bg]
+===== Property 3 — Item Quantities Must Stay Within Valid Limits
+
+[.green-bg]#Generated orders should only be valid when each item quantity is within the accepted range. For example, a quantity of zero, a negative quantity, or an unreasonably large quantity should cause the order to be rejected.#
+
+[source,ts]
+----
+property("item quantities remain within valid limits", (generatedOrder) => {
+  const isValid = validateOrder(generatedOrder, menuItems);
+
+  if (isValid) {
+    generatedOrder.items.forEach((item) => {
+      expect(item.quantity).toBeGreaterThan(0);
+      expect(item.quantity).toBeLessThanOrEqual(10);
+    });
+  }
+});
+----
+
+[.green-bg]#This property helps verify that the system does not accept unrealistic or invalid order quantities.#
+
+[.green-bg]
+===== Property 4 — Invalid Menu Item IDs Should Not Create Valid Orders
+
+[.green-bg]#If a generated order contains a menu item ID that does not exist in the menu catalog, the order should not be accepted as valid.#
+
+[source,ts]
+----
+property("invalid menu item ids do not create valid orders", (generatedOrder) => {
+  const containsInvalidItem = generatedOrder.items.some((item) => {
+    return !menuItems.some((menuItem) => menuItem.id === item.menuItemId);
+  });
+
+  if (containsInvalidItem) {
+    expect(validateOrder(generatedOrder, menuItems)).toBe(false);
+  }
+});
+----
+
+[.green-bg]#This property is important because the system should not allow users to submit orders for items that are not part of the cafeteria menu.#
+
+[.green-bg]
+==== Generated Test Cases and Edge Cases
+
+[.green-bg]#Generated test cases help reveal edge cases that developers may not manually consider. For example, a property-based testing tool could generate empty orders, orders with repeated items, invalid menu item identifiers, unavailable menu items, very large quantities, or unexpected combinations of valid and invalid items.#
+
+[.green-bg]#This makes the testing process stronger because the same system rule is checked across many input combinations. If one generated case breaks a property, the test can expose a weakness in validation logic that might not be found through a small set of example-based tests.#
+==== Functional Insight
+
+[.green-bg]#The `calculateOrderTotal` function receives an `Order` and returns a `number`. This makes the function signature clear because developers can immediately understand that the function works with a complete order object and produces a numeric total.#
+
+[.green-bg]#The type definitions also prevent common mistakes. For example, `paymentMethod` can only be `"cashier"` or `"card"`, and `status` can only use one of the defined order lifecycle values. This prevents unclear values such as `"paid later"` or `"done"` from being used when the system expects a specific domain value.#
+
+[.green-bg]
+==== Relevance to the Project
+
+[.green-bg]#Fuzzing strengthens the reliability of the Cafeteria Ordering System by testing the interface against inputs that real users may accidentally or intentionally submit. Since the system handles important flows such as order creation, payment selection, and pickup verification, it must reject invalid data safely and consistently.#
+
+[.green-bg]#By documenting a fuzzing strategy for the web interface, the project shows how generated unexpected inputs can help reveal validation weaknesses, improve robustness, and reduce the risk of invalid cafeteria orders being processed.#
+[.green-bg]#Property-based testing supports the Cafeteria Ordering System by validating general ordering rules at a higher level. These rules are connected to the web API and order validation flow because the system must determine whether submitted order data is valid before processing payment, notifying staff, or adding the order to the active queue.#
+
+[.green-bg]#By documenting these properties, the project shows how property-based testing can be used to strengthen confidence in order validation and reduce the risk of accepting invalid cafeteria orders.#
+[.green-bg]#These types improve the clarity of the Cafeteria Ordering System by making the domain model explicit. Instead of treating orders, menu items, and payments as generic objects, the system can represent them as meaningful concepts with defined structure and expected values.#
+
+[.green-bg]#This supports maintainability because future developers can understand the shape of the data before modifying order creation, payment handling, or pickup-related functionality. It also supports reliability because invalid values are more likely to be detected during development before they cause runtime errors.#
+
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
 
@@ -1959,6 +2384,15 @@ The following table have all the changes made to the documentation for Milestone
 | @Kaariinaa08 | 2.2.1 - User stories, epics, and features | Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback. | #634
 | @Kaariinaa08 | 2.2.3 - Domain Requirements | Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status. | #635
 | @Kaariinaa08 | 2.2.4 - Interface Requirements | Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format. | #637
+| @Lorenzo-PT | 1.2.2 - Needs | Summarized the needs in each area while still keeping the idea of the previous documentation. | #689
+| @Lorenzo-PT | 2.1.4 - Events, Actions, and Behaviors | Rewrote the behaviors to not be pointing out every event or action in them, as well as show a sequence as example. | #667
+| @Lorenzo-PT | 4.7 - Usability Testing | Developed section 4.7, based on usability testing. | #690
+| @aryamdiaz | 4.10 - Fuzzing | Added a new section explaining how fuzzing can be applied to the Cafeteria Ordering System web interface. Documented fuzzed input examples, expected validation behavior, and the connection to the Fuzzing Book methodology for testing web applications with generated or unexpected inputs. | #647
+| @aryamdiaz | 4.8 - Property Based Testing | Added a new section explaining how property-based testing can verify cafeteria order validation rules across generated inputs. Documented meaningful properties for order totals, non-empty orders, valid quantities, and invalid menu item IDs. | #646
+| @aryamdiaz | 4.9 - Types | Added a new section explaining how static typing is used through TypeScript to represent core domain concepts such as orders, menu items, payment methods, and order statuses. Included a functional example and explained how types improve clarity, maintainability, and function behavior. | #645
 | @JadStelar | 1.3.1 - Scope | Removed the out of place aspects from domain engineering based on professor's feedback | #649
 | @JadStelar | 3.1 - Concept Analysis | Expanded concepts to better align with professor's expectations of the section. | #650
+| @reinaldo-martinez1 | 2.3.1 - Selected Fragments | Added explanatory annotations to the order creation and pickup code fragments. | N/A
+| @reinaldo-martinez1 | 3.2.1 - Validation | Added scenario walkthrough details and terminology validation results. | N/A
+| @reinaldo-martinez1 | 4.2 - BDD | Added estimated pickup time step to the order placement scenario and automation status section. | N/A
 |===
