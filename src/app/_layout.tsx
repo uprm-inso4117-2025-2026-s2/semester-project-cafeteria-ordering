@@ -2,16 +2,20 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StripeProvider } from '@stripe/stripe-react-native';
+import { Platform } from 'react-native';
 import 'react-native-reanimated';
+
+const StripeProvider = Platform.OS !== 'web'
+  ? require('@stripe/stripe-react-native').StripeProvider
+  : ({ children }: any) => children;
 
 import OfflineBanner from '@/components/ui/offline-online-banner';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { metricsCollector } from '@/lib/performance/metricsCollector';
 import { regressionDetector } from '@/lib/performance/regressionDetector';
 import { useFonts } from 'expo-font';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { AuthProvider, useAuth } from './authContext';
-import { View, ActivityIndicator, Text } from 'react-native';
 
 // Session logging helper
 function logAuthGate(event: string, data?: any) {
