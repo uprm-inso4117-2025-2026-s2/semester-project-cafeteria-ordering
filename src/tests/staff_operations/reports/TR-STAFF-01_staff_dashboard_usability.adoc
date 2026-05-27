@@ -1,0 +1,62 @@
+= Staff Dashboard Usability TR
+Author: Reinaldo J. Martinez Morales
+
+*Date:* 2026-05-26
+
+*ID:* TR-STAFF-01
+
+*Issue:* #536
+
+*Test:* TC-STAFF-01 — Staff Dashboard Usability Test (Manual Usability Test)
+
+*Pass/Fail Status:* FAIL
+
+== Description
+Evaluate the usability and workflow efficiency of the staff dashboard across five core staff
+operations: viewing active orders, updating order statuses, managing kitchen queues via the
+dashboard, verifying pickups, and handling order issues via Special Status Requests.
+
+== Execution Steps (Summary)
+1. Log in as a staff user and navigate to the Orders screen.
+2. Verify the Unread, Open, and Finished tabs and confirm order cards render correctly.
+3. Use sort controls (Customer, Date, Order Number) and confirm list re-sorts.
+4. Tap an order card and confirm a detail view opens with order information.
+5. Trigger a status change from the detail view and confirm the order moves to the correct tab.
+6. Navigate to the Dashboard and switch between Day, Week, Month, and Year tabs.
+7. Review the Orders Overview table for all status row counts.
+8. Observe the Customer Traffic card.
+9. Attempt to locate a "Ready for Pickup" order and confirm a pickup action.
+10. Navigate to Settings → Special Status Requests and attempt to review and act on requests.
+11. Open and close the navigation drawer; verify all menu items and active state highlighting.
+
+== Results
+
+[cols="~,^1", options="header"]
+|===
+| Test Step | Result
+
+| Three tabs (Unread, Open, Finished) visible and selectable | PASS
+| Order cards render and are readable | PASS
+| Sort controls reorder the list correctly | PASS
+| Tapping an order card opens a detail view with items, creation time, order number, and customer name | PASS
+| Status update buttons present in detail view; order moves to correct tab after status change | PASS
+| Dashboard loads without errors | PASS
+| Period tabs (Day/Week/Month/Year) update data correctly | PASS
+| Orders Overview table reflects real counts for all status rows including Unread and Cancelled | PASS
+| Customer Traffic card accuracy | INCONCLUSIVE — unable to verify whether the message is dynamic or static
+| "Ready for Pickup" status surfaced in the Orders screen | FAIL — not visible in any tab
+| Pickup confirmation action available | FAIL — no such mechanism exists in the UI
+| Special Status Requests displays a list of pending requests | FAIL — screen shows only placeholder text
+| Approve/deny controls available in Special Status Requests | FAIL — no controls present
+| Navigation drawer opens and closes with animation | PASS
+| All menu items route correctly with active item highlighted | PASS
+| Backdrop dismisses the drawer | PASS
+|===
+
+== Notes
+- Usability problems and recommendations are documented in:
+  `src/tests/staff_operations/docs/staff_dashboard_usability_summary.adoc`
+- The Customer Traffic step should be re-evaluated in a controlled scenario with a known
+  order volume to confirm whether the card message is data-driven or hardcoded.
+- The missing pickup verification and non-functional Special Status Requests screen are
+  critical gaps that block core staff operations and should be prioritized for implementation.
