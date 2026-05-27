@@ -1,0 +1,21 @@
+= Property Based Cart Calculations TR
+Author: Kaysha Pagan
+
+*Date:* 2026-05-27
+
+*ID:* TR-ORD-10
+
+*Issue:* #653
+
+*Test:* TC-ORD-10_property_based_cart_calculations
+
+*Pass/Fail Status:* PASS
+
+== Description
+The property based cart calculation test passed. The test generated randomized cart item prices, quantities, and add ons using fast check. The cart subtotal was checked against five properties: subtotal never becomes negative, adding an item does not decrease the subtotal, removing an item does not increase the subtotal, recalculating the same cart gives the same result, and add on prices are included in the subtotal.
+
+These were the results of the test run in terminal:
+
+- Test Suites: 1 passed
+- Tests: 5 passed
+- Time: 0.432 s, estimated 1 s
