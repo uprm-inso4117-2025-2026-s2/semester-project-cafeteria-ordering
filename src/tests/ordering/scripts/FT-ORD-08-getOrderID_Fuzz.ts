@@ -18,13 +18,13 @@
 import { strict as assert } from 'node:assert';
 
 import {
-    STRING_LENGTHS,
-    fuzzInputs,
-    randomMalformedInput,
-    randomString,
-    validOrderID,
-    validateOrderResult,
-} from '../cases/TC-ORD-06-getOrderID_Fuzz';
+  STRING_LENGTHS,
+  fuzzInputs,
+  randomMalformedInput,
+  randomString,
+  validOrderID,
+  validateOrderResult,
+} from '../cases/TC-ORD-08-getOrderID_Fuzz';
 
 // ─────────────────────────────────────────────
 // PLUG IN FUNCTION HERE
@@ -194,4 +194,4 @@ async function runFuzzSuite(): Promise<void> {
   }
 }
 
-runFuzzSuite();
+runFuzzSuite(); 
