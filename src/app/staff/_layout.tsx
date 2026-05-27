@@ -53,6 +53,7 @@ export default function TabLayout() {
 
       {/* Hidden from tab bar — accessible via Settings */}
       <Tabs.Screen name="ViewOrders" options={{ href: null }} />
+      <Tabs.Screen name="ViewOrdersMock" options={{ href: null }} />
       <Tabs.Screen name="Performance" options={{ href: null }} />
       <Tabs.Screen name="(staff)/Payments" options={{ href: null }} />
       <Tabs.Screen name="(staff)/Special_Status_Request" options={{ href: null }} />

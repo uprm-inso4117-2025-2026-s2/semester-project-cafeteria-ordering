@@ -1,0 +1,32 @@
+= TC-UTIL-VALIDATION-01 Centralized Input Validation Utilities TR
+Author: Januel E. Torres Marquez
+
+*Date:* 2026-05-25
+
+*ID:* TR-UTIL-VALIDATION-01
+
+*Issue:* #576
+
+*Test:* TC-UTIL-VALIDATION-01 - Centralized Input Validation Utilities (validation.test.ts)
+
+*Pass/Fail Status:* PASS
+
+== Description
+All assertions in `src/tests/utils/validation.test.ts` passed:
+
+. `isValidEmail` accepts well-formed addresses and trims surrounding whitespace.
+. `isValidEmail` rejects empty strings, whitespace-only inputs, addresses missing `@`, missing TLDs, double `@`, embedded spaces, and addresses longer than 254 characters.
+. `isValidPassword` accepts passwords meeting the policy (>= 8 chars, lowercase, uppercase, digit).
+. `isValidPassword` rejects passwords that are too short or missing any required character class; the 8-character minimum is treated as an inclusive boundary.
+. `formatPhoneNumber` strips spaces, dashes, parentheses, dots, and letters while preserving a single leading `+` for international numbers.
+. `formatPhoneNumber` returns an empty string for empty, whitespace-only, non-string, or digit-less inputs.
+
+== Notes
+Methodology: Equivalence Partitioning + Boundary Value Analysis.
+
+Run locally with:
+
+[source,bash]
+----
+npx jest src/tests/utils/scripts/validation.test.ts --config jest.config.js
+----
