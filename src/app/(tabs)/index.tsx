@@ -1,10 +1,14 @@
 import { Colors, Typography } from '@/constants/theme';
-import { dummyMenuItems } from '@/dummyData/menuData';
+
+// import { dummyMenuItems } from '@/dummyData/menuData';
+import { fetchMenuItems } from '@/lib/menu-service';
+
+
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -21,6 +25,7 @@ import { useAuth } from '../authContext';
 
 import MenuItemCard from '@/components/MenuItemCard';
 import { MenuItem } from '@/models/food-item-class';
+import { addCartItem } from '../../lib/cart-items';
 
 
 //UI categories 
@@ -39,6 +44,16 @@ export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Rating');
 
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [menuLoading, setMenuLoading] = useState(true);
+
+  useEffect(() => {
+    fetchMenuItems()
+      .then(setMenuItems)
+      .catch((err) => console.error('Failed to load menu:', err))
+      .finally(() => setMenuLoading(false));
+  }, []);
+
   //mapping UI category names to actual category IDs in the menu data
   const categoryMap: Record<string, string> = {
     Rating: 'all',
@@ -50,7 +65,7 @@ export default function HomeScreen() {
   const filteredItems = useMemo(() => {
     const query = search.trim().toLowerCase();
 
-    return dummyMenuItems.filter((item) => {
+    return menuItems.filter((item) => {
       const matchesSearch =
         item.getName().toLowerCase().includes(query) ||
         item
@@ -69,9 +84,11 @@ export default function HomeScreen() {
 
       return matchesSearch && matchesCategory;
     });
-  }, [search, selectedCategory]);
+  }, [search, selectedCategory, menuItems]);
 
-  const handleAddToCart = (menuItem: MenuItem) => {
+  const handleAddToCart = (menuItem: any) => {
+    addCartItem(menuItem, 1, []);
+
     console.log('Added to cart:', menuItem);
   };
 
@@ -81,7 +98,7 @@ export default function HomeScreen() {
 
   //best seller is just the first item for now!!!!!
 
-  const bestSeller = dummyMenuItems[0];
+  const bestSeller = menuItems[0];
 
   return (
     <ScrollView
@@ -126,10 +143,10 @@ export default function HomeScreen() {
           </Text>
         </View>
 
-        {/* Cart button leads to placeholder*/}
+        {/* Cart button leads to payment screen*/}
         <Pressable
           style={styles.cartButton}
-          onPress={() => router.push('/cart')}
+          onPress={() => router.push('/payment')}
         >
           <Ionicons
             name="cart-outline"
@@ -254,16 +271,23 @@ export default function HomeScreen() {
       </ScrollView>
 
       {/* menu items list*/}
-      <View style={styles.list}>
-        {filteredItems.map((menuItem) => (
-          <MenuItemCard
-            key={menuItem.getId()}
-            menuItem={menuItem}
-            onAddToCart={handleAddToCart}
-            onPressItem={handlePressItem}
-          />
-        ))}
-      </View>
+      {/* menu items list*/}
+      {menuLoading ? (
+        <Text style={{ color: theme.text, textAlign: 'center', marginTop: 20 }}>
+          Loading menu...
+        </Text>
+      ) : (
+        <View style={styles.list}>
+          {filteredItems.map((menuItem) => (
+            <MenuItemCard
+              key={menuItem.getId()}
+              menuItem={menuItem}
+              onAddToCart={handleAddToCart}
+              onPressItem={handlePressItem}
+            />
+          ))}
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -385,4 +409,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.light.secondaryText,
   },
+  list: {
+    gap: 4,
+  }
 });

@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  LayoutChangeEvent,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { MenuItem } from '@/models/food-item-class';
-import { Fonts } from '@/constants/theme';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import {
+  LayoutChangeEvent,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { clearCart, getCartItems, removeCartItem } from '../lib/cart-items';
 
 const formatCardNumber = (value: string) => {
   const digits = value.replace(/[^0-9]/g, '').slice(0, 16);
@@ -77,31 +78,33 @@ export default function PaymentScreen() {
   const [zip, setZip] = useState('');
   const [savePaymentInfo, setSavePaymentInfo] = useState(false);
 
-  // Replace this example array with real cart/order data later.
-  const orderItems: OrderItem[] = [
-    {
-      menuItem: new MenuItem(
-        '1',
-        'ItemType?',
-        'ItemName',
-        [],
-        0, // Should be ItemPrice when determined
-        '',
-        true,
-        [],
-        0, // PrepTimeMinutes from food-item-class
-        '',
-        ''
-      ),
-      quantity: 1,
-    },
-  ];
+  // Local snapshot of cart so removing an item triggers a re-render
+  const [cartSnapshot, setCartSnapshot] = useState(() => getCartItems());
+
+  const orderItems = cartSnapshot.map((cartItem) => ({
+    menuItem: cartItem.item,
+    quantity: cartItem.quantity,
+    addOns: cartItem.addOns ?? [],
+  }));
+
+  const handleRemoveItem = (itemId: string) => {
+    removeCartItem(itemId);
+    setCartSnapshot([...getCartItems()]); // spread forces React to see a new array
+  };
 
   // Order subtotal from added items
-  const subtotal = orderItems.reduce(
-    (sum, item) => sum + item.quantity * item.menuItem.getTotalPrice(),
-    0
-  );
+  const subtotal = orderItems.reduce((sum, item) => {
+    const addOnsTotal = item.addOns.reduce(
+      (addonSum, addon) => addonSum + addon.price,
+      0
+    );
+
+    return (
+      sum +
+      item.quantity *
+        (item.menuItem.getTotalPrice() + addOnsTotal)
+    );
+  }, 0);
 
   // Fill these in later when we get the formula or amount.
   const additionalFees: number | null = null;
@@ -132,8 +135,10 @@ export default function PaymentScreen() {
       tax,
     });
 
+    clearCart();
+    setCartSnapshot([]);
     // Placeholder until we have button action
-    alert('Payment button pressed');
+    alert('order placed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   };
 
   const handleHeaderLayout = (event: LayoutChangeEvent) => {
@@ -190,11 +195,28 @@ export default function PaymentScreen() {
                 <Text style={[styles.subText, { color: colors.mutedText }]}>
                   ${item.menuItem.getTotalPrice().toFixed(2)} each
                 </Text>
+                {item.addOns.length > 0 && (
+                  <Text style={[styles.subText, { color: colors.mutedText }]}>
+                    Add-ons: {item.addOns.map((addon) => addon.name).join(', ')}
+                  </Text>
+                )}
               </View>
 
               <Text style={[styles.itemText, { color: colors.primaryText }]}>
-                ${(item.quantity * item.menuItem.getTotalPrice()).toFixed(2)}
+                ${(
+                  item.quantity *
+                  (item.menuItem.getTotalPrice() +
+                    item.addOns.reduce((sum, addon) => sum + addon.price, 0))
+                ).toFixed(2)}
               </Text>
+
+              {/* Trash button — inside the map so 'item' is in scope */}
+              <TouchableOpacity
+                onPress={() => handleRemoveItem(item.menuItem.getId())}
+                style={{ marginLeft: 12 }}
+              >
+                <Ionicons name="trash-outline" size={20} color={colors.mutedText} />
+              </TouchableOpacity>
             </View>
           ))}
         </View>

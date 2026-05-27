@@ -1,0 +1,400 @@
+= Queueing Theory Analysis for Cafeteria Orders
+:author: @Alma-pineiro
+:toc:
+:sectnums:
+
+== Lecture Alignment
+
+Lecture Topic Task: LTT — Queueing Theory Analysis for Cafeteria Orders
+Lecture Topic: Queueing Theory
+
+This Lecture Topic Task applies queueing theory concepts to the Cafeteria Ordering System by analyzing how customer orders move through the system, how queues form during peak periods, and how bottlenecks impact performance and scalability.
+
+== Overview
+
+Queueing Theory is the mathematical study of waiting lines or queues. It is commonly used to evaluate system efficiency, customer wait times, throughput, and server utilization.
+
+In service-based systems such as cafeterias, queueing theory helps model how requests enter the system, wait for processing, and are eventually completed.
+
+This analysis focuses on how queueing behavior affects the Cafeteria Ordering System during both normal operation and high-demand scenarios.
+
+== Relevance to the Cafeteria Ordering System
+
+The Cafeteria Ordering System supports:
+
+* mobile ordering
+* simultaneous customer requests
+* food preparation workflows
+* pickup and fulfillment processes
+
+Because many users may attempt to place orders at the same time, especially during lunch rush periods or campus events, queues naturally form within the ordering and preparation system.
+
+Queueing theory helps evaluate:
+
+* customer waiting times
+* kitchen utilization
+* order throughput
+* bottlenecks in food preparation
+* scalability during high-demand periods
+
+== Cafeteria Ordering Workflow
+
+The cafeteria ordering workflow can be modeled using the following sequence:
+
+1. Customer places an order
+2. Order enters the processing queue
+3. Kitchen staff receives the order
+4. Food preparation begins
+5. Order is completed
+6. Customer receives the order
+
+This workflow contains multiple service points where queues may form.
+
+== Queueing Model
+
+The Cafeteria Ordering System can be approximated using an M/M/c queueing model.
+
+Where:
+
+* M = Markovian (Poisson) arrival process
+* M = Markovian (Exponential) service times
+* c = Multiple servers
+
+This model is appropriate because:
+
+* customers arrive randomly throughout the day
+* preparation times vary depending on meal complexity
+* multiple kitchen workers process orders simultaneously
+
+== Customer Arrival Rate Analysis
+
+The arrival rate represents the average number of customers entering the system during a given period.
+
+Example cafeteria scenarios:
+
+[cols="1,1"]
+|===
+|Scenario |Estimated Arrival Rate
+
+|Normal Hours
+|15 orders every 10 minutes
+
+|Lunch Rush
+|50 orders every 10 minutes
+
+|Campus Event
+|80 orders every 10 minutes
+|===
+
+Converted to orders per minute:
+
+[cols="1,1"]
+|===
+|Scenario |Arrival Rate λ
+
+|Normal Hours
+|1.5 orders/minute
+
+|Lunch Rush
+|5 orders/minute
+
+|Campus Event
+|8 orders/minute
+|===
+
+These values demonstrate how peak periods can rapidly increase system demand.
+
+== Service Rate Analysis
+
+The service rate represents the number of orders a server can complete within a given amount of time.
+
+Assume:
+
+* average preparation time per order = 2 minutes
+* one kitchen station completes 0.5 orders per minute
+* the cafeteria contains 6 kitchen stations
+
+Total service capacity:
+
+μ_total = 6 × 0.5 = 3 orders per minute
+
+This means the kitchen can process approximately 3 orders every minute under normal conditions.
+
+== Queue Utilization Analysis
+
+System utilization measures how busy the servers are.
+
+Utilization Formula:
+
+ρ = λ / (cμ)
+
+Where:
+
+* λ = arrival rate
+* c = number of servers
+* μ = service rate
+
+=== Normal Hours
+
+ρ = 1.5 / 3 = 0.50
+
+Utilization = 50%
+
+During normal operation, the system performs efficiently with manageable queue sizes and low waiting times.
+
+=== Lunch Rush
+
+ρ = 5 / 3 = 1.67
+
+Utilization exceeds 100%, meaning:
+
+* orders arrive faster than they can be processed
+* queue sizes continuously increase
+* customer waiting times become excessive
+* system congestion occurs
+
+=== Campus Event Scenario
+
+ρ = 8 / 3 = 2.67
+
+This creates severe overload conditions.
+
+Possible consequences include:
+
+* very long customer wait times
+* delayed order fulfillment
+* kitchen worker overload
+* increased probability of order errors
+* poor user experience
+
+== Queue Capacity and Waiting Behavior
+
+The cafeteria ordering system behaves as an unlimited queue.
+
+This means:
+
+* customers can continue submitting mobile orders
+* in-person orders continue entering the system
+* requests are rarely rejected automatically
+
+While this increases accessibility, it also introduces problems during peak periods.
+
+Potential issues include:
+
+* excessive queue growth
+* inaccurate wait-time estimates
+
+* unpredictable order completion times
+* customer frustration
+
+== Active Servers and Processing Stations
+
+Servers in the cafeteria system include:
+
+* kitchen workers
+* preparation stations
+* payment registers
+* pickup coordinators
+
+Example configuration:
+
+[cols="1,1"]
+|===
+|Component |Number of Servers
+
+|Kitchen Stations
+|6
+
+|Payment Registers
+|2
+
+|Pickup Staff
+|2
+|===
+
+The kitchen preparation area represents the primary bottleneck because food preparation takes significantly longer than payment or pickup operations.
+
+== Bottleneck Identification
+
+=== Kitchen Processing Bottleneck
+
+The largest bottleneck occurs during food preparation.
+
+Reasons include:
+
+* limited kitchen stations
+* high meal complexity
+* simultaneous order spikes
+* shared preparation resources
+
+=== Mobile and In-Person Order Conflicts
+
+Both mobile and walk-in orders compete for the same kitchen resources.
+
+Effects include:
+
+* queue congestion
+* delayed preparation
+* increased waiting times
+* unpredictable load distribution
+
+=== Pickup Counter Congestion
+
+During peak periods:
+
+* customers gather near pickup counters
+* completed orders become difficult to organize
+* order handoff slows down
+
+=== Payment Delays
+
+In-person ordering may also experience delays due to:
+
+* long payment lines
+* transaction processing delays
+* manual order entry
+
+== Peak-Hour Performance Analysis
+
+=== Lunch Rush Scenario
+
+Assumptions:
+
+* 300 students place orders within one hour
+* order arrivals become concentrated between 11:30 AM and 1:00 PM
+* preparation time variability increases under stress
+
+Expected system behavior:
+
+* queues grow rapidly
+* workers become overloaded
+* throughput decreases
+* customer waiting times increase significantly
+
+Potential consequences:
+
+* wait times exceeding 20–30 minutes
+* inaccurate mobile order estimates
+* increased customer dissatisfaction
+* order cancellations
+
+== Simultaneous Mobile and In-Person Ordering
+
+The system supports two major order sources:
+
+1. Mobile ordering
+2. In-person ordering
+
+Both systems share the same kitchen infrastructure.
+
+Challenges include:
+
+* priority conflicts
+* sudden bursts from mobile orders
+* queue unpredictability
+* load balancing difficulties
+
+For example, a campus event may generate over 100 mobile orders within minutes while normal in-person traffic continues.
+
+This can quickly overwhelm the kitchen queue.
+
+== Scalability Analysis
+
+The current cafeteria system may struggle to scale efficiently because:
+
+* kitchen processing capacity is limited
+* order spikes are unpredictable
+* queues grow rapidly during overload conditions
+* workers cannot dynamically adapt fast enough
+
+Without scalability improvements, high-demand periods may significantly degrade system performance.
+
+== Recommendations for Improvement
+
+=== Increase Active Servers During Peak Hours
+
+Possible improvements include:
+
+* adding temporary kitchen staff
+* increasing preparation stations
+* assigning additional pickup coordinators
+
+Benefits:
+
+* shorter queues
+* improved throughput
+* faster order completion
+
+=== Implement Priority Queueing
+
+Possible strategies:
+
+* fast-track simple orders
+* separate mobile and walk-in queues
+* prioritize scheduled pickup orders
+
+Benefits:
+
+* reduced congestion
+* better resource distribution
+* improved fairness
+
+=== Dynamic Load Balancing
+
+Software-based load balancing could:
+
+* distribute orders across stations
+* detect overloaded preparation areas
+* redirect simple orders to faster stations
+
+Benefits:
+
+* improved kitchen utilization
+* reduced worker overload
+* increased scalability
+
+=== Predictive Peak-Hour Scheduling
+
+Historical system data could be analyzed to predict:
+
+* lunch rush periods
+* campus event spikes
+* high-demand menu items
+
+Benefits:
+
+* better staffing preparation
+* improved scheduling efficiency
+* reduced waiting times
+
+=== Queue Monitoring
+
+Real-time queue monitoring could provide:
+
+* estimated wait times
+* queue capacity alerts
+* temporary order throttling during overload
+
+Benefits:
+
+* improved customer transparency
+* better user experience
+* prevention of severe overload conditions
+
+== Evidence of Completion
+
+This artifact documents how queueing theory concepts apply to the Cafeteria Ordering System by analyzing arrival rates, service rates, queue utilization, bottlenecks, scalability concerns, and peak-hour system behavior.
+
+
+== Conclusion
+
+Queueing Theory provides valuable insight into the behavior and scalability of cafeteria ordering systems.
+
+The analysis demonstrates that:
+
+* lunch rush periods create significant system stress
+* kitchen preparation is the primary bottleneck
+* simultaneous mobile and in-person ordering increases congestion
+* high utilization levels lead to excessive waiting times
+
+By implementing improvements such as additional servers, priority queueing, predictive scheduling, and real-time monitoring, the Cafeteria Ordering System can improve throughput, reduce customer wait times, and provide a more reliable user experience.

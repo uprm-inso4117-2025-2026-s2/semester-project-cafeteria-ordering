@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AccessibilityInfo,
   Image,
@@ -18,6 +18,7 @@ import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { mapLoginError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
+import { isValidEmail } from '@/lib/validation';
 
 // ─── Logo Assets ──────────────────────────────────────────────────────────────
 const LightModeLogo = require('../../../documentation/branding/images/Light-Mode-Logo.png');
@@ -102,7 +103,7 @@ function validate(fields: { emailOrUsername: string; password: string }) {
   const errors: Record<string, string> = {};
   if (!fields.emailOrUsername.trim()) {
     errors.emailOrUsername = 'Email is required.';
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.emailOrUsername)) {
+  } else if (!isValidEmail(fields.emailOrUsername)) {
     errors.emailOrUsername = 'Please enter a valid email address.';
   }
   if (!fields.password) {
@@ -122,6 +123,20 @@ export default function LoginScreen() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Log session state when login screen mounts
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      console.log('[Login Screen] Existing session check:', {
+        hasSession: !!session,
+        user: session?.user?.email,
+        expiresAt: session?.expires_at,
+      });
+    };
+    
+    checkExistingSession();
+  }, []);
 
   const handleSignIn = async () => {
     const validationErrors = validate({ emailOrUsername, password });
@@ -151,7 +166,13 @@ export default function LoginScreen() {
         return;
       }
 
-      router.replace('/(tabs)');
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .maybeSingle();
+
+      router.replace(profile?.role === 'staff' ? '/staff/ViewOrders' : '/(tabs)');
     } finally {
       setIsSubmitting(false);
     }
