@@ -1,5 +1,5 @@
 import * as fc from "fast-check";
-import { failureThreshold } from "../cases/TC-ORD-06_counterexample_shrinking_failure_analysis";
+import { failureThreshold } from "../cases/TC-ORD-11_counterexample_shrinking_failure_analysis";
 
 
 interface CartItem {
@@ -37,7 +37,7 @@ const cartArbitrary = fc.array(cartItemArbitrary, {
 });
 
 // Test Suite
-describe("TC-ORD-06 Counterexample Shrinking", () => {
+describe("TC-ORD-11 Counterexample Shrinking", () => {
 
   test("fast-check shrinks failing cart subtotal examples", () => {
 

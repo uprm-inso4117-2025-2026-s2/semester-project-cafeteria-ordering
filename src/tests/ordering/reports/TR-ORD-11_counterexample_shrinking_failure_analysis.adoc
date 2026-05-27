@@ -4,11 +4,11 @@ Author: Kaysha Pagan
 
 *Date:* 2026-05-27
 
-*ID:* TR-ORD-06
+*ID:* TR-ORD-11
 
 *Issue:* #652
 
-*Test:* TC-ORD-06_counterexample_shrinking_failure_analysis
+*Test:* TC-ORD-11_counterexample_shrinking_failure_analysis
 
 *Pass/Fail Status:* PASS
 

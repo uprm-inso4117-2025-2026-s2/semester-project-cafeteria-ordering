@@ -4,8 +4,8 @@ Author: Kaysha Pagan
 
 == Related Test Artifacts
 
-* Test Case: TC-ORD-06_counterexample_shrinking_failure_analysis
-* Test Report: TR-ORD-06_counterexample_shrinking_failure_analysis
+* Test Case: TC-ORD-11_counterexample_shrinking_failure_analysis
+* Test Report: TR-ORD-11_counterexample_shrinking_failure_analysis
 
 == Summary
 
