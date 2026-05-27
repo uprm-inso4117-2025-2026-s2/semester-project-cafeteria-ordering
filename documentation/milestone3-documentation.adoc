@@ -2361,6 +2361,6 @@ The following table have all the changes made to the documentation for Milestone
 | @JadStelar | 1.3.1 - Scope | Removed the out of place aspects from domain engineering based on professor's feedback | #649
 | @JadStelar | 3.1 - Concept Analysis | Expanded concepts to better align with professor's expectations of the section. | #650
 | @Lorenzo-PT | 1.2.2 - Needs | Summarized the needs in each area while still keeping the idea of the previous documentation. | #689
-| @Lorenzo-PT | 2.2.4 - Events, Actions, and Behaviors | Rewrote the behaviors to not be pointing out every event or action in them, as well as show a sequence as example. | #667
+| @Lorenzo-PT | 2.1.4 - Events, Actions, and Behaviors | Rewrote the behaviors to not be pointing out every event or action in them, as well as show a sequence as example. | #667
 | @Lorenzo-PT | 4.7 - Usability Testing | Developed section 4.7, based on usability testing. | #690
 |===
