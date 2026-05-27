@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { getProfileByUserId, updateProfileName, updateProfilePhone } from '@/lib/profiles';
+import { formatPhoneNumber, isValidEmail } from '@/lib/validation';
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -49,11 +50,20 @@ export default function EditProfile() {
   }*/
 
   async function handleSave() {
+  if (!fullName.trim()) {
+    Alert.alert('Invalid Name', 'Full name is required.');
+    return;
+  }
+  if (!isValidEmail(email)) {
+    Alert.alert('Invalid Email', 'Please enter a valid email address.');
+    return;
+  }
+  const normalizedPhone = formatPhoneNumber(phoneNumber);
   try {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
-    await updateProfileName(user.id, fullName);
-    await updateProfilePhone(user.id, phoneNumber);
+    await updateProfileName(user.id, fullName.trim());
+    await updateProfilePhone(user.id, normalizedPhone);
     Alert.alert('Profile Updated', 'Your changes have been saved.',
       [{ text: 'OK', onPress: () => router.back() }]
     );

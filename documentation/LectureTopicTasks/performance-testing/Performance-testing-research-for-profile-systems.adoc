@@ -1,0 +1,228 @@
+= Performance Testing Research for Profile System
+Pedro Juan Bonilla
+:project: Cafeteria Ordering
+
+== Introduction
+
+This research analyses the performance of multiple testing methodologies and how they may apply to the profile feature of the cafeteria ordering system. The profile system is responsible for fetching, updating, and synchronizing user data through Supabase, and is exercised by every authenticated user on every session. Because profile operations are fundamental to the user experience, their performance directly affects the application quality.
+
+This research identifies the types of performance testing applicable to the profile system, defines realistic benchmarks and thresholds, documents example scenarios, and recommends tools appropriate for a React Native and Supabase project.
+
+== Performance Testing Types
+
+Performance testing is not a single technique but a family of test types, each targeting a different failure mode. The four types most applicable to our project are:
+
+=== Load Testing
+
+Load testing evaluates system behavior under an expected volume of concurrent users, in order to verify that the system meets its performance targets during typical operating conditions.
+
+*Application to profile system:* Simulate the number of students expected to open the profile screen during peak cafeteria hours (e.g., immediately before or after a meal period).
+
+*What it verifies:* Whether Supabase can serve profile reads within the defined response time threshold when multiple students authenticate and load their profiles simultaneously.
+
+=== Stress Testing
+
+Stress testing pushes the system beyond its expected capacity to identify the breaking point and observe how it fails. Unlike load testing, the goal is to deliberate overload the system in order to find where the system starts returning errors, timing out, or producing incorrect results.
+
+*Application to profile system:* Gradually increase the number of concurrent `getProfileByUserId` requests beyond the expected peak until Supabase begins throttling or returning errors. Observe whether the offline cache layer activates correctly and whether error messages surface cleanly to the user.
+
+*What it verifies:* The system's failure mode. Does itfalling back to cache or does it crash the profile screen entirely?
+
+=== Spike Testing
+
+Spike testing simulates a sudden, sharp increase in load over a very short period, as opposed to the gradual ramp of stress testing. It evaluates whether the system can absorb sudden bursts.
+
+*Application to profile system:* Simulate all students in a class (e.g., 30 users) opening the app and loading their profiles within a 5-second window, as would happen when a professor dismisses class and students immediately check their orders.
+
+*What it verifies:* Whether Supabase connection pooling handles burst traffic without causing failures in profile fetch operations.
+
+=== Soak Testing
+
+Soak testing (aka endurance testing) runs the system at a moderate, sustained load for an extended period — hours rather than minutes — to detect memory leaks, connection pool exhaustion, and gradual performance degradation over time.
+
+*Application to profile system:* Run a continuous stream of `getProfileByUserId` and `updateProfileName` calls at moderate concurrency (e.g., 10 concurrent users) for 2–4 hours. Monitor memory usage in the React Native app and Supabase connection counts over time.
+
+*What it verifies:* Whether `syncManager.ts` accumulates unresolved listeners, whether AsyncStorage grows unbounded, and whether Supabase connections are properly released after each profile operation.
+
+---
+
+== Performance Benchmarks and Thresholds
+
+Benchmarks define what "acceptable performance" means. Without them, test results have no reference point. The thresholds below are defined per profile operation based on the Supabase free tier constraints and mobile UX expectations.
+
+[cols="2,1,1,1", options="header"]
+|===
+| Operation
+| Target (p95)
+| Acceptable (p99)
+| Failure Threshold
+
+| `getProfileByUserId` — online
+| < 300 ms
+| < 600 ms
+| > 1000 ms
+
+| `updateProfileName`
+| < 400 ms
+| < 700 ms
+| > 1200 ms
+
+| `updateProfilePhone`
+| < 400 ms
+| < 700 ms
+| > 1200 ms
+
+| Profile screen load (full render)
+| < 500 ms
+| < 900 ms
+| > 1500 ms
+
+| `getProfileByUserId` — offline (cache read)
+| < 50 ms
+| < 100 ms
+| > 300 ms
+
+| `syncManager` flush on reconnect
+| < 800 ms
+| < 1500 ms
+| > 3000 ms
+|===
+
+*p95* means 95% of requests must complete within the target time. *p99* is the ceiling for the slowest 1% of requests. Anything exceeding the failure threshold is considered a performance defect.
+
+=== Defining Thresholds for the Supabase Free Tier
+
+The Supabase free tier imposes connection limits and does not guarantee low-latency responses under high concurrency. Thresholds must account for this:
+
+* Maximum concurrent Supabase connections on the free tier: ~60
+* Expected maximum concurrent profile requests at peak: 20–30
+* Safety margin: thresholds set at 50% of the known Supabase limit to leave headroom
+
+---
+
+== Performance Metrics
+
+The following metrics are used to evaluate results from any performance test run against the profile system.
+
+[cols="1,2,2", options="header"]
+|===
+| Metric
+| Definition
+| Why It Matters for Profile System
+
+| Response Time
+| Time from request initiation to response received
+| Directly affects how long the profile screen shows a loading state before displaying user data
+
+| Throughput
+| Number of requests completed per second
+| Indicates whether the Supabase client can handle concurrent profile operations without queuing
+
+| Error Rate
+| Percentage of requests that return an error or timeout
+| A rising error rate under load indicates the offline cache fallback will be invoked more frequently
+
+| p95 / p99 Latency
+| The 95th and 99th percentile response times
+| Averages hide outliers; p95/p99 captures the worst experience seen by real users
+
+| Cache Hit Rate
+| Percentage of profile loads served from AsyncStorage vs Supabase
+| High cache hit rates reduce Supabase load; too-high rates may indicate stale data is being served
+
+| Memory Usage
+| React Native heap and AsyncStorage size over time
+| Relevant for soak testing; identifies whether the cache layer grows unbounded
+|===
+
+---
+
+== Profile System Components and Performance Risk
+
+Not all profile operations carry the same performance risk. The following analysis ranks each component by its exposure to performance degradation.
+
+=== `getProfileByUserId` — High Risk
+
+This function is called on every profile screen focus via `useFocusEffect`. It is the most frequently executed profile operation and the one most likely to be affected by Supabase latency or connection exhaustion under load.
+
+*Risk:* Under concurrent load, multiple simultaneous calls may queue at the Supabase connection pool, causing the profile screen to display stale data or a loading spinner for longer than the acceptable threshold.
+
+*Mitigation already in place:* `profileCache.ts` falls back to AsyncStorage on error, which reduces visible impact. The cache read path is sub-50ms and is unaffected by Supabase load.
+
+=== `updateProfileName` and `updateProfilePhone` — Medium Risk
+
+These functions are called from the edit-profile screen, which is not on the hot path. They are unlikely to be called concurrently by many users at the same time. However, under stress conditions, a failed update that is silently cached via `syncQueue.ts` may create a data consistency gap between local state and Supabase.
+
+*Risk:* If the sync queue accumulates many pending operations during an extended offline period, the flush on reconnect may produce a burst of concurrent update requests.
+
+*Mitigation already in place:* `syncQueue.ts` processes operations sequentially, not in parallel, which limits the burst size on reconnect.
+
+=== `authContext syncProfileFromMetadata` — Medium-High Risk
+
+Profile synchronization on authentication runs immediately after login and is on the critical path for the user's first session. Any latency here delays the entire app from becoming usable.
+
+*Risk:* If Supabase is slow to respond during authentication, the profile sync will block the app's navigation to the home screen.
+
+*Mitigation:* This operation should be non-blocking. If a cached profile exists, it should be displayed immediately while the sync runs in the background.
+
+=== Concurrent Users Loading Profile Screen — High Risk
+
+When multiple students load the profile screen simultaneously (e.g., during class dismissal), each issues a `getProfileByUserId` call. At 30 concurrent users, this produces 30 simultaneous Supabase queries.
+
+*Risk:* The Supabase free tier may throttle or queue requests at this concurrency level, causing p99 latencies to exceed the 600ms threshold.
+
+*Mitigation:* The offline cache layer absorbs this risk for returning users whose profiles are already cached. First-time users or users who cleared their cache are fully exposed to Supabase latency.
+
+---
+
+== Recommended Performance Testing Tools
+
+The following tools are evaluated for compatibility with a React Native + Supabase + TypeScript stack.
+
+=== k6 (Recommended for API-level testing)
+
+k6 is an open-source load testing tool that runs JavaScript test scripts against HTTP endpoints. It is ideal for testing Supabase REST API calls directly, independent of the React Native layer.
+
+*Why it fits:* Supabase exposes a REST API that k6 can target directly. Test scripts are written in JavaScript, matching the project's language. k6 produces p95/p99 metrics, throughput, and error rate reports natively.
+
+=== Supabase Dashboard (For observability)
+
+The Supabase project dashboard provides real-time metrics including query count, response times, and connection pool usage. During any k6 load test, the Supabase dashboard should be monitored in parallel to observe database-side behavior.
+
+*Metrics to watch:* Active connections, query duration histogram, error logs.
+
+=== React Native Performance Monitor (For screen-level profiling)
+
+The React Native built-in performance monitor (accessible via the dev menu) measures JS thread and UI thread frame rates during profile screen load. This is relevant for PT-PROF-01 and PT-PROF-02, where the goal includes screen render time, not just API latency.
+
+---
+
+== Benefits of Performance Testing for the Profile System
+
+* *Early bottleneck detection:* Identifying that `getProfileByUserId` degrades at 30 concurrent users before production deployment is far cheaper than discovering it during a real lunch rush.
+* *Cache validation:* Performance tests confirm that the offline cache layer (`profileCache.ts`) actually reduces Supabase load under concurrent access — not just in unit tests.
+* *Threshold-driven development:* Defining p95 thresholds before implementation creates a measurable contract that prevents silent regressions when the profile screen is modified.
+* *Sync queue safety:* Soak tests validate that `syncManager.ts` and `syncQueue.ts` do not accumulate state unboundedly over long sessions.
+
+---
+
+== Risks and Limitations
+
+* *Supabase free tier constraints:* Load tests that push beyond ~60 concurrent connections will hit Supabase infrastructure limits, not application limits. Results must be interpreted in context of the tier in use.
+* *Network simulation:* k6 tests run from a single machine or CI environment, which may not accurately simulate mobile network conditions (3G, WiFi switching, packet loss). Results represent best-case network performance.
+* *Test data isolation:* Load tests that write to the `profiles` table (e.g., PT-PROF-03) must use dedicated test user IDs that are isolated from production data. Mixing test and production data in Supabase is a data integrity risk.
+* *One-time benchmarks:* Performance thresholds defined today may become incorrect as the user base grows or the Supabase plan changes. Benchmarks should be reviewed at each major milestone.
+
+---
+
+== Summary
+
+This research has identified four performance testing types applicable to the Cafeteria Ordering System's profile feature, defined measurable thresholds for each profile operation, and recommended k6 as the primary tool for API-level load testing.
+
+The key findings are:
+
+. `getProfileByUserId` is the highest-risk operation due to its frequency and placement on the `useFocusEffect` hot path.
+. The offline cache layer in `profileCache.ts` mitigates Supabase load for returning users but does not protect first-time users.
+. k6 is the recommended tool for load and stress testing against Supabase REST endpoints, with Jest timing tests as a lightweight complement for regression detection.
+. Soak testing is essential to validate that `syncManager.ts` and AsyncStorage do not degrade over extended sessions.
+. All load tests must use isolated test user IDs to prevent contamination of production profile data.

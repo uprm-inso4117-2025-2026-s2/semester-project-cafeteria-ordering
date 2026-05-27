@@ -148,7 +148,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       logSessionEvent('Initializing user session on app startup');
 
       try {
-        // Get current session from storage
         const {
           data: { session },
           error: sessionError,
@@ -189,7 +188,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     initializeUser();
 
-    // Listen for auth state changes
     const { data: subscription } = supabase.auth.onAuthStateChange(async (event, session) => {
       logSessionEvent('Auth state change', { event, hasSession: !!session });
 
@@ -248,6 +246,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => {
       isMounted = false;
+
       if (authListener) {
         authListener.subscription.unsubscribe();
       }
@@ -397,7 +396,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Custom hook for accessing authentication context
 export function useAuth() {
   const context = useContext(AuthContext);
 

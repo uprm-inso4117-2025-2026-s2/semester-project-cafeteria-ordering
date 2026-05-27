@@ -1,7 +1,8 @@
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import MenuItemCard from "../../components/MenuItemCard";
-import { dummyMenuItems } from "../../dummyData/menuData";
+import { fetchMenuItems } from "../../lib/menu-service";
 import { MenuItem } from "../../models/food-item-class";
 
 /**
@@ -11,7 +12,13 @@ import { MenuItem } from "../../models/food-item-class";
  */
 export default function MenuScreen() {
   const router = useRouter();
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
+  useEffect(() => {
+    fetchMenuItems()
+      .then(setMenuItems)
+      .catch((err) => console.error('Failed to load menu:', err));
+  }, []);
   /**
    * handleAddToCart
    * Receives full MenuItem object from MenuItemCard,
@@ -46,7 +53,7 @@ export default function MenuScreen() {
        * renderItem: defines how each item is displayed
        */}
       <FlatList
-        data={dummyMenuItems}
+        data={menuItems}
         keyExtractor={(menuItem) => menuItem.getId()}
         renderItem={({ item : menuItem }) => (
           /**

@@ -11,7 +11,10 @@ export interface Order {
   createdAt: string;
   items: OrderItem[];
   status: "unread" | "open" | "finished";
+  closeType?: "completed" | "cancelled";
   closeReason?: string;
+  pickupCode?: string;
+  pickedUp?: boolean;
 }
 
 export const mockOrders: Order[] = [
@@ -189,6 +192,9 @@ export const mockOrders: Order[] = [
     customerName: "Emily Davis",
     createdAt: "created: 02/14/25 2:15 pm",
     status: "finished",
+    closeType: "completed",
+    pickupCode: "3847",
+    pickedUp: false,
     items: [
       {
         name: "Pizza",
@@ -208,11 +214,29 @@ export const mockOrders: Order[] = [
     customerName: "James Wilson",
     createdAt: "created: 02/14/25 1:50 pm",
     status: "finished",
+    closeType: "completed",
+    pickupCode: "5129",
+    pickedUp: true,
     items: [
       {
         name: "Tacos",
         quantity: 4,
         modifications: ["Mild sauce", "NO sour cream"],
+      },
+    ],
+  },
+  {
+    id: 11,
+    orderNumber: 11,
+    customerName: "Ana Torres",
+    createdAt: "created: 02/14/25 1:10 pm",
+    status: "finished",
+    closeType: "cancelled",
+    items: [
+      {
+        name: "Burger",
+        quantity: 1,
+        modifications: ["NO onions"],
       },
     ],
   },
