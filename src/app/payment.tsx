@@ -43,10 +43,6 @@ const formatZip = (value: string) => {
   return value.replace(/[^0-9]/g, '').slice(0, 5);
 };
 
-type OrderItem = {
-  menuItem: MenuItem;
-  quantity: number;
-};
 
 export default function PaymentScreen() {
   const router = useRouter();
