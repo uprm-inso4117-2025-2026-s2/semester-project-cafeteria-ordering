@@ -719,45 +719,45 @@ The terminology used in this section must match the terms defined in Section 2.1
 
 The requirements in this section use the convention IR-2.2.4-X.
 
-====== IR-2.2.4-1 Menu representation initialization
+===== IR-2.2.4-1 Menu representation initialization
 
 The system shall provide an interface for authorized cafeteria staff to create the menu information shown in the application, including menu items, prices, categories, and item descriptions.
 
-====== IR-2.2.4-2 Menu representation update
+===== IR-2.2.4-2 Menu representation update
 
 The system shall provide an interface for authorized cafeteria staff to update existing menu information when cafeteria offerings change, including changes to item price, item description, category, and availability.
 
-====== IR-2.2.4-3 Availability synchronization
+===== IR-2.2.4-3 Availability synchronization
 
 The system shall provide an interface for authorized cafeteria staff to mark menu items as available or unavailable so that the customer-facing menu reflects current cafeteria conditions.
 
 The system shall update the customer-facing menu after an authorized staff member changes item availability, so customers do not attempt to order items that are no longer available.
 
-====== IR-2.2.4-4 Customer menu visibility
+===== IR-2.2.4-4 Customer menu visibility
 
 The system shall provide an interface for customers to view the current menu, including item names, prices, categories, descriptions, and availability status.
 
 The system shall visually distinguish unavailable menu items from available menu items in the customer interface.
 
-====== IR-2.2.4-5 Order creation from domain observation
+===== IR-2.2.4-5 Order creation from domain observation
 
 The system shall provide an interface for customers to create an order by selecting available menu items and specifying quantities.
 
 The system shall prevent customers from selecting unavailable menu items during order creation.
 
-====== IR-2.2.4-6 Order modification before submission
+===== IR-2.2.4-6 Order modification before submission
 
 The system shall provide an interface for customers to review and modify an order before submission, including adding items, removing items, and changing item quantities.
 
 The system shall display an updated order summary when a customer modifies an order before submission.
 
-====== IR-2.2.4-7 Order submission and confirmation
+===== IR-2.2.4-7 Order submission and confirmation
 
 The system shall provide an interface for customers to submit an order after reviewing the order summary.
 
 After submission, the system shall display confirmation that the order has been recorded, including the order identifier, order summary, payment status, and pickup information when applicable.
 
-====== IR-2.2.4-8 Payment method capture and constraints
+===== IR-2.2.4-8 Payment method capture and constraints
 
 The system shall provide an interface for customers to select an available payment method before submitting an order.
 
@@ -767,31 +767,31 @@ If payment cannot be completed or confirmed, the system shall display an interfa
 
 After an order is submitted, the system shall restrict changes to the recorded payment method unless the system provides an explicitly supported correction path, such as cancellation and resubmission.
 
-====== IR-2.2.4-9 Order status synchronization (staff side)
+===== IR-2.2.4-9 Order status synchronization (staff side)
 
 The system shall provide an interface for authorized cafeteria staff to update the status of an order as it moves through the cafeteria workflow.
 
 The staff interface shall support status updates such as submitted, being prepared, ready for pickup, picked up, and canceled, using only status terms defined in the terminology section.
 
-====== IR-2.2.4-10 Order status visibility (customer side)
+===== IR-2.2.4-10 Order status visibility (customer side)
 
 The system shall provide an interface for customers to view the current status of their submitted order.
 
 The system shall update the customer-facing order status when authorized cafeteria staff change the order status through the staff interface.
 
-====== IR-2.2.4-11 Correction after submission (controlled editing)
+===== IR-2.2.4-11 Correction after submission (controlled editing)
 
 After an order is submitted, the system shall either prevent customer edits to the order contents or limit customer edits to explicitly supported actions, such as cancellation within an allowed window.
 
 If staff-side corrections to a submitted order are supported, the system shall provide an interface for authorized cafeteria staff to record the correction and include a reason or note for the change.
 
-====== IR-2.2.4-12 Immutable identifiers and record integrity
+===== IR-2.2.4-12 Immutable identifiers and record integrity
 
 The system shall assign each submitted order a stable order identifier and display that identifier in the appropriate customer and staff interfaces.
 
 The system shall prevent interface actions from changing core submitted order information, including the order identifier and submission timestamp, except through explicitly supported correction operations.
 
-====== IR-2.2.4-13 Interface decomposition note
+===== IR-2.2.4-13 Interface decomposition note
 
 Some requirements that appear to be interface-only include both interface and non-interface aspects. For example, “the system supports creating an order” includes:
 
@@ -801,7 +801,7 @@ Some requirements that appear to be interface-only include both interface and no
 
 This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.
 
-====== IR-2.2.4-14 Pickup code generation and display
+===== IR-2.2.4-14 Pickup code generation and display
 
 The system shall generate a pickup code for each submitted order and display the assigned pickup code to the customer after order confirmation.
 
@@ -809,17 +809,17 @@ The system shall provide an interface for cafeteria staff to enter or verify a c
 
 The system shall display whether the pickup code verification succeeds or fails so cafeteria staff can determine whether the order should be released.
 
-====== IR-2.2.4-15 Staff order queue visibility
+===== IR-2.2.4-15 Staff order queue visibility
 
 he system shall provide an interface for authorized cafeteria staff to view submitted orders in a staff-facing order queue.
 
 The staff-facing order queue shall display enough information for cafeteria staff to identify the order, review selected items, view payment status, and determine the current order status.
 
-====== IR-2.2.4-16 Interface feedback for invalid actions
+===== IR-2.2.4-16 Interface feedback for invalid actions
 
 The system shall provide clear interface feedback when a customer or cafeteria staff member attempts an invalid action, such as submitting an empty order, selecting an unavailable item, entering an incorrect pickup code, or attempting an unsupported order modification.
 
-====== IR-2.2.4-17 Role-specific interface access
+===== IR-2.2.4-17 Role-specific interface access
 
 The system shall restrict staff-facing interface actions, including menu updates, availability updates, order status changes, and pickup code verification, to authorized cafeteria staff.
 

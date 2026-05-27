@@ -1882,20 +1882,21 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="paragraph">
 <p>The requirements in this section use the convention IR-2.2.4-X.</p>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_1_menu_representation_initialization">IR-2.2.4-1 Menu representation initialization</h6>
+</div>
+<div class="sect4">
+<h5 id="_ir_2_2_4_1_menu_representation_initialization">IR-2.2.4-1 Menu representation initialization</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for authorized cafeteria staff to create the menu information shown in the application, including menu items, prices, categories, and item descriptions.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_2_menu_representation_update">IR-2.2.4-2 Menu representation update</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_2_menu_representation_update">IR-2.2.4-2 Menu representation update</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for authorized cafeteria staff to update existing menu information when cafeteria offerings change, including changes to item price, item description, category, and availability.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_3_availability_synchronization">IR-2.2.4-3 Availability synchronization</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_3_availability_synchronization">IR-2.2.4-3 Availability synchronization</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for authorized cafeteria staff to mark menu items as available or unavailable so that the customer-facing menu reflects current cafeteria conditions.</span></p>
 </div>
@@ -1903,8 +1904,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="green-bg">The system shall update the customer-facing menu after an authorized staff member changes item availability, so customers do not attempt to order items that are no longer available.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_4_customer_menu_visibility">IR-2.2.4-4 Customer menu visibility</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_4_customer_menu_visibility">IR-2.2.4-4 Customer menu visibility</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for customers to view the current menu, including item names, prices, categories, descriptions, and availability status.</span></p>
 </div>
@@ -1912,8 +1913,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="green-bg">The system shall visually distinguish unavailable menu items from available menu items in the customer interface.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_5_order_creation_from_domain_observation">IR-2.2.4-5 Order creation from domain observation</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_5_order_creation_from_domain_observation">IR-2.2.4-5 Order creation from domain observation</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for customers to create an order by selecting available menu items and specifying quantities.</span></p>
 </div>
@@ -1921,8 +1922,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="green-bg">The system shall prevent customers from selecting unavailable menu items during order creation.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_6_order_modification_before_submission">IR-2.2.4-6 Order modification before submission</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_6_order_modification_before_submission">IR-2.2.4-6 Order modification before submission</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for customers to review and modify an order before submission, including adding items, removing items, and changing item quantities.</span></p>
 </div>
@@ -1930,8 +1931,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="green-bg">The system shall display an updated order summary when a customer modifies an order before submission.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_7_order_submission_and_confirmation">IR-2.2.4-7 Order submission and confirmation</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_7_order_submission_and_confirmation">IR-2.2.4-7 Order submission and confirmation</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for customers to submit an order after reviewing the order summary.</span></p>
 </div>
@@ -1939,8 +1940,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="yellow-bg">After submission, the system shall display confirmation that the order has been recorded, including the order identifier, order summary, payment status, and pickup information when applicable.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_8_payment_method_capture_and_constraints">IR-2.2.4-8 Payment method capture and constraints</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_8_payment_method_capture_and_constraints">IR-2.2.4-8 Payment method capture and constraints</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for customers to select an available payment method before submitting an order.</span></p>
 </div>
@@ -1954,8 +1955,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="yellow-bg">After an order is submitted, the system shall restrict changes to the recorded payment method unless the system provides an explicitly supported correction path, such as cancellation and resubmission.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_9_order_status_synchronization_staff_side">IR-2.2.4-9 Order status synchronization (staff side)</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_9_order_status_synchronization_staff_side">IR-2.2.4-9 Order status synchronization (staff side)</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for authorized cafeteria staff to update the status of an order as it moves through the cafeteria workflow.</span></p>
 </div>
@@ -1963,8 +1964,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="yellow-bg">The staff interface shall support status updates such as submitted, being prepared, ready for pickup, picked up, and canceled, using only status terms defined in the terminology section.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_10_order_status_visibility_customer_side">IR-2.2.4-10 Order status visibility (customer side)</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_10_order_status_visibility_customer_side">IR-2.2.4-10 Order status visibility (customer side)</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall provide an interface for customers to view the current status of their submitted order.</span></p>
 </div>
@@ -1972,8 +1973,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="green-bg">The system shall update the customer-facing order status when authorized cafeteria staff change the order status through the staff interface.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_11_correction_after_submission_controlled_editing">IR-2.2.4-11 Correction after submission (controlled editing)</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_11_correction_after_submission_controlled_editing">IR-2.2.4-11 Correction after submission (controlled editing)</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">After an order is submitted, the system shall either prevent customer edits to the order contents or limit customer edits to explicitly supported actions, such as cancellation within an allowed window.</span></p>
 </div>
@@ -1981,8 +1982,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="yellow-bg">If staff-side corrections to a submitted order are supported, the system shall provide an interface for authorized cafeteria staff to record the correction and include a reason or note for the change.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_12_immutable_identifiers_and_record_integrity">IR-2.2.4-12 Immutable identifiers and record integrity</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_12_immutable_identifiers_and_record_integrity">IR-2.2.4-12 Immutable identifiers and record integrity</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall assign each submitted order a stable order identifier and display that identifier in the appropriate customer and staff interfaces.</span></p>
 </div>
@@ -1990,7 +1991,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="yellow-bg">The system shall prevent interface actions from changing core submitted order information, including the order identifier and submission timestamp, except through explicitly supported correction operations.</span></p>
 </div>
 <div class="paragraph">
-<p><span class="red-bg line-through">====== IR-2.2.4-13 Interface decomposition note</span></p>
+<p><span class="red-bg line-through">===== IR-2.2.4-13 Interface decomposition note</span></p>
 </div>
 <div class="paragraph">
 <p><span class="red-bg line-through">Some requirements that appear to be interface-only include both interface and non-interface aspects. For example, “the system supports creating an order” includes:</span></p>
@@ -2005,8 +2006,8 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="red-bg line-through">This section focuses on the boundary/interface aspects: how information is captured and kept consistent when the domain changes. Domain rules and internal constraints are specified in the domain and machine requirements sections.</span></p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_ir_2_2_4_14_pickup_code_generation_and_display">IR-2.2.4-14 Pickup code generation and display</h6>
+<div class="sect4">
+<h5 id="_ir_2_2_4_14_pickup_code_generation_and_display">IR-2.2.4-14 Pickup code generation and display</h5>
 <div class="paragraph">
 <p><span class="yellow-bg">The system shall generate a pickup code for each submitted order and display the assigned pickup code to the customer after order confirmation.</span></p>
 </div>
@@ -2017,7 +2018,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="green-bg">The system shall display whether the pickup code verification succeeds or fails so cafeteria staff can determine whether the order should be released.</span></p>
 </div>
 <div class="paragraph">
-<p><span class="green-bg">====== IR-2.2.4-15 Staff order queue visibility</span></p>
+<p><span class="green-bg">===== IR-2.2.4-15 Staff order queue visibility</span></p>
 </div>
 <div class="paragraph">
 <p><span class="green-bg">The system shall provide an interface for authorized cafeteria staff to view submitted orders in a staff-facing order queue.</span></p>
@@ -2026,17 +2027,16 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p><span class="green-bg">The staff-facing order queue shall display enough information for cafeteria staff to identify the order, review selected items, view payment status, and determine the current order status.</span></p>
 </div>
 <div class="paragraph">
-<p><span class="green-bg">====== IR-2.2.4-16 Interface feedback for invalid actions</span></p>
+<p><span class="green-bg">===== IR-2.2.4-16 Interface feedback for invalid actions</span></p>
 </div>
 <div class="paragraph">
 <p><span class="green-bg">The system shall provide clear interface feedback when a customer or cafeteria staff member attempts an invalid action, such as submitting an empty order, selecting an unavailable item, entering an incorrect pickup code, or attempting an unsupported order modification.</span></p>
 </div>
 <div class="paragraph">
-<p><span class="green-bg">====== IR-2.2.4-17 Role-specific interface access</span></p>
+<p><span class="green-bg">===== IR-2.2.4-17 Role-specific interface access</span></p>
 </div>
 <div class="paragraph">
 <p><span class="green-bg">The system shall restrict staff-facing interface actions, including menu updates, availability updates, order status changes, and pickup code verification, to authorized cafeteria staff.</span></p>
-</div>
 </div>
 </div>
 <div class="sect4">
@@ -4858,7 +4858,7 @@ function validateOrder(order: Order, menuItems: MenuItem[]): boolean {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-27 19:43:51 -0400
+Last updated 2026-05-27 19:55:20 -0400
 </div>
 </div>
 </body>
