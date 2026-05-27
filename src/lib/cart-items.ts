@@ -25,11 +25,6 @@ export const removeCartItem = (itemId: string) => {
   console.log('Cart Updated:', cartItems);
 };
 
-export const clearCart = () => {
-  cartItems = [];
-  console.log('Cart Cleared');
-}
-
 export const getCartItems = () => {
   return cartItems;
 };
