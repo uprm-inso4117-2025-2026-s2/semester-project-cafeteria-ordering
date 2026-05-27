@@ -1,0 +1,46 @@
+= BDD Profile Operations TR
+
+Author: Pedro Juan Bonilla
+
+*Date:* 2026-05-27
+
+*ID:* TR-BDD-PROF-01
+
+*Issue:* #617
+
+*Test:* BDD-PROF-01_profile_operations.test.ts
+
+*Pass/Fail Status:* PASS
+
+== Description
+
+All 11 BDD scenarios passed for the Profile Management Logic. Tests were written following the Given/When/Then structure and cover all profile operations in `src/lib/profiles.ts`. The Supabase client was injected via the optional `client` parameter on each function, bypassing the dynamic import and allowing full Jest compatibility without need for additional dependencies.
+
+The following scenarios were tested and passed:
+
+*Fetch User Profile (3/3)*
+
+* Given a profile exists for user-bdd-01 — When getProfileByUserId is called — Then it returns the profile with correct fields
+* Given no profile exists for user-ghost — When getProfileByUserId is called — Then it returns null without throwing
+* Given Supabase returns an error on fetch — When getProfileByUserId is called — Then it throws an error containing "Error finding profile"
+
+*Create Profile on Signup (2/2)*
+
+* Given a new student authenticated with user-bdd-new — When createProfile is called — Then the returned record contains the correct user_id and full_name
+* Given a profile already exists for user-bdd-dup — When createProfile is called again — Then it throws an error containing "Error creating profile"
+
+*Update Profile Name (3/3)*
+
+* Given a profile exists for user-bdd-02 — When updateProfileName is called with "New Name" — Then the returned record has full_name "New Name"
+* Given a profile for user-bdd-03 has phone "787-000-1111" — When updateProfileName is called — Then full_name is updated and phone is unchanged
+* Given Supabase returns an error on update — When updateProfileName is called — Then it throws an error containing "Error updating name"
+
+*Update Profile Phone (3/3)*
+
+* Given a profile exists for user-bdd-04 with phone "787-000-0000" — When updateProfilePhone is called with "787-999-9999" — Then the returned record has phone "787-999-9999"
+* Given a profile for user-bdd-05 has full_name "Pedro" — When updateProfilePhone is called — Then phone is updated and full_name is unchanged
+* Given Supabase returns an error on update — When updateProfilePhone is called — Then it throws an error containing "Error updating phone"
+
+== Notes
+
+Supabase module mocking was not used. Instead, a mock client was constructed and passed directly to each function via the optional `client` parameter already present in `profiles.ts`.
