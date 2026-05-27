@@ -1,0 +1,135 @@
+= Defect Management Applied to Order Confirmation Flow
+
+== 1. Overview of Defect Management
+
+Defect management is the process of identifying, reporting, tracking, and
+resolving defects found during software testing. Its purpose is to ensure that defects
+are handled efficiently, and resolved without introducing new issues.
+
+A well managed defect process:
+
+* Prevents wasted effort by ensuring defects are reproducible before being assigned.
+* Keeps all stakeholders informed of the current state of known issues.
+* Provides a traceable record of what went wrong and how it was resolved.
+
+== 2. Characteristics of a Good Defect Report
+
+A defect report is useful if the developer can understand and reproduce the issue.
+
+* *Objective*: The report describes the system behavior without assigning blame.
+* *Specific*: One report per defect. Do not combine multiple issues into a single report.
+* *Concise*: The report is simple and to the point.
+* *Reproducible*: The report contains enough information for anyone to reproduce the defect.
+* *Explicit*: Steps are stated clearly.
+* *Persuasive*: The report presents the defect in a way that communicates its impact
+  and motivates the developer to fix it.
+
+== 3. Defect Report
+
+=== 3.1 Defect Scenario
+
+The order confirmation flow, `submitOrder` successfully inserts a row
+into the `orders` table and returns an `order_id`. However, a subsequent call to
+`getOrderID` with that same `order_id` returns `null`, meaning the confirmation ID
+cannot be retrieved and is never displayed to the customer.
+
+=== 3.2 Defect Report Document
+
+[cols="1,3", options="header"]
+|===
+| Item | Description
+
+| *Title*
+| `getOrderID` returns null for a valid `order_id` immediately after `submitOrder` succeeds
+
+| *Severity*
+| High — the customer receives no confirmation ID after placing an order, leaving them
+  with no proof of purchase and no visibility into whether the order was received by the kitchen
+
+| *Status*
+| New
+
+| *Initial Configuration*
+| The user is authenticated with a valid session. The cart contains one item:
+  Chicken Wrap.
+  The Supabase `orders` and `order_items` tables are accessible and empty.
+
+| *Software Configuration*
+| React Native with Expo.
+  Supabase for backend.
+
+| *Steps to Reproduce*
+a|
+1. Authenticate as a valid user.
+2. Add Chicken Wrap to the cart.
+3. Call `submitOrder(cartItems, userId)`.
+4. Observe that `submitOrder` returns a valid `order_id` string.
+5. Immediately call `getOrderID(orderId)` with the returned value.
+6. Observe that `getOrderID` returns `null`.
+
+| *Expected Behavior*
+| `getOrderID` should return the same `order_id` string that was returned by `submitOrder`,
+  confirming that the order record is accessible in the database immediately after insertion.
+
+| *Actual Behavior*
+| `getOrderID` returns `null` and logs:
+  `"Error retrieving order ID: JSON object requested, multiple (or no) rows returned"`.
+  The order was inserted but the query in `getOrderID` finds no matching row.
+
+| *Impact*
+| The customer completes the checkout flow but receives no confirmation ID.
+  The kitchen receives the order but the customer has no proof of purchase.
+  This breaks the core acceptance criterion of the order confirmation feature.
+
+| *Root Cause (Proposed)*
+| The `getOrderID` function queries `order_id` using `.eq('order_id', orderId)` but the
+  column used as the primary key in the actual Supabase schema may differ from the column
+  name expected by the query, causing the lookup to return no rows.
+
+| *Proposed Solution*
+| Verify the exact primary key column name in the `orders` table and ensure the
+  `.select()` and `.eq()` calls in `getOrderID` reference the correct column name.
+  Add a `.maybeSingle()` fallback to handle the case where no row is found gracefully.
+
+| *Priority*
+| High — blocks the completion of the order confirmation user story.
+|===
+
+== 4. Defect Lifecycle
+
+The following models the full lifecycle of this defect through its resolution.
+
+[cols="1,1,2", options="header"]
+|===
+| State | Role | Action
+
+| *New*
+| Tester
+| Defect is discovered during manual testing of `getOrderID`. Report is written and
+  submitted to the development lead.
+
+| *Assigned*
+| Development Lead
+| Development lead reviews the report, confirms it is reproducible, and assigns it
+  to the developer responsible for `orders.ts`.
+
+| *Fixed*
+| Developer
+| Developer identifies that the column name in the `.eq()` call does not match the
+  actual schema. The query is corrected and the fix is committed to the branch.
+
+| *Ready for Test*
+| Release Manager
+| The fixed build is released to the testing environment. The tester is notified
+  that the defect is ready for verification.
+
+| *Retest*
+| Tester
+| Tester repeats the steps to reproduce. `getOrderID` now returns the correct
+  `order_id`. The fix is confirmed.
+
+| *Closed*
+| Tester
+| Defect is marked as closed. The confirmation ID is now correctly returned and
+  displayed to the customer after order placement.
+|===
