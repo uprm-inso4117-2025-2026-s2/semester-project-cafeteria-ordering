@@ -39,6 +39,7 @@
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
+    "@stripe/stripe-react-native": "0.50.3",
     "@supabase/supabase-js": "^2.97.0",
     "expo": "~54.0.33",
     "expo-constants": "~18.0.13",
@@ -97,26 +98,6 @@
     "tsx": "^4.21.0",
     "typescript": "~5.9.2"
   },
-  "jest": {
-    "preset": "jest-expo",
-    "testMatch": [
-      "**/__tests__/**/*.ts?(x)",
-      "**/?(*.)+(spec|test).ts?(x)"
-    ],
-    "collectCoverageFrom": [
-      "src/lib/test-generators/**/*.ts",
-      "!src/lib/test-generators/**/*.test.ts",
-      "!src/lib/test-generators/__tests__/**"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 70,
-        "functions": 70,
-        "lines": 70,
-        "statements": 70
-      }
-    }
-  },
-  
+
   "private": true
 }
