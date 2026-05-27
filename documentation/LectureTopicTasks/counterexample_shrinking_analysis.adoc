@@ -1,0 +1,60 @@
+= Counterexample Shrinking and Failure Analysis
+
+Author: Kaysha Pagan
+
+== Related Test Artifacts
+
+* Test Case: TC-ORD-11_counterexample_shrinking_failure_analysis
+* Test Report: TR-ORD-11_counterexample_shrinking_failure_analysis
+
+== Summary
+
+This Lecture Topic Task focuses on analyzing how shrinking helps simplify failing randomized test cases during property based testing. Random cart subtotal data was generated using fast check in order to observe how failing inputs are reduced into smaller counterexamples that are easier to understand and debug.
+
+== Failure Analysis
+
+During execution, randomized cart combinations generated subtotal values that exceeded the configured threshold value. Once a failure occurred, fast check continued shrinking the failing cart into smaller versions while still reproducing the same failure.
+
+== Before Shrinking
+
+* Cart item 1:
+** Price: 37
+** Quantity: 7
+
+* Cart item 2:
+** Price: 44
+** Quantity: 7
+
+* Cart item 3:
+** Price: 25
+** Quantity: 10
+
+* Cart item 4:
+** Price: 3
+** Quantity: 3
+
+== After Shrinking
+
+* Cart item 1:
+** Price: 10
+** Quantity: 10
+
+* Cart item 2:
+** Price: 1
+** Quantity: 1
+
+== Shrinking Result
+
+fast check reduced the failing randomized cart input 7 times before reaching a smaller counterexample that still reproduced the same failure condition.
+
+== Debugging Improvements
+
+The shrinking process made the failure easier to analyze because the final counterexample was significantly smaller than the original generated cart input. This made it easier to identify why the subtotal exceeded the configured threshold value of 100.
+
+== Execution Notes
+
+To directly observe the shrinking behavior, the property assertion was temporarily executed without the surrounding `toThrow()` expectation. This allowed the terminal output to display the generated counterexamples and shrinking process. After capturing the shrinking output, the original `toThrow()` wrapper was restored so the final committed test suite would continue passing successfully while still validating shrinking behavior.
+
+== Result
+
+The shrinking analysis executed successfully and demonstrated how counterexample minimization can improve debugging visibility during property based testing.
