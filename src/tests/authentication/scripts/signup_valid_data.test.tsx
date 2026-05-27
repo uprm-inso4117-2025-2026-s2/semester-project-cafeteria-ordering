@@ -164,7 +164,7 @@ describe('TC-AUTH-03: User Sign Up with Valid Data', () => {
           options: {
             data: {
               full_name: validUser1.fullName,
-              phone: validUser1.phone,
+              phone: validUser1.phone.replace(/\D/g, ''),
             },
           },
         });
@@ -189,7 +189,7 @@ describe('TC-AUTH-03: User Sign Up with Valid Data', () => {
           options: {
             data: {
               full_name: validUser2.fullName,
-              phone: validUser2.phone,
+              phone: validUser2.phone.replace(/\D/g, ''),
             },
           },
         });

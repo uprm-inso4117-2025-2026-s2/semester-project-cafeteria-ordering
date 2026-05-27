@@ -1978,6 +1978,329 @@ The system should support Intuitive workflows, responsive mobile layouts,adequat
 ==== Conclusion
 
 Usability testing is very important since it helps confirm that the system's designed workflow is successful while also cutting down on any issue involving the user's experience while navigating the application.
+=== 4.10 Fuzzing
+
+Fuzzing can be applied to the Cafeteria Ordering System to test how the web interface responds to unexpected, malformed, or invalid inputs. Unlike regular example-based testing, which checks a small number of predefined cases, fuzzing generates many unusual input values to discover weaknesses in input validation, error handling, and interface behavior.
+
+This is useful for the Cafeteria Ordering System because users interact with forms and interface elements such as order creation, item quantity selection, payment method selection, special instructions, pickup information, and login or profile fields. These inputs should remain stable and predictable even when users submit unexpected values.
+
+==== Fuzzing Scope
+
+For this project, the fuzzing strategy focuses on the web interface and order-related input flow. The main goal is to verify that invalid or unexpected inputs do not crash the interface, create invalid orders, bypass validation rules, or produce unclear feedback for the user.
+
+The main interface areas that can benefit from fuzzing include:
+
+* Order item quantity fields
+* Special instruction text fields
+* Payment-related input fields
+* Menu item selection controls
+* Pickup code or order verification fields
+* Login, sign-up, and profile text fields
+
+==== Example Fuzzed Inputs
+
+The following categories of fuzzed inputs can be used to test the Cafeteria Ordering System interface.
+
+===== Empty Strings
+
+Empty values can be submitted in text fields or required form fields.
+
+[source,text]
+----
+""
+" "
+----
+
+Expected system behavior:
+
+* Required fields should not be accepted when empty.
+* The interface should display a clear validation message.
+* The system should not create an incomplete order.
+* No crash or unhandled error should occur.
+
+===== Very Long Text Values
+
+Very long strings can be used to test fields such as special instructions, names, or notes.
+
+[source,text]
+----
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"Please add sauce " repeated 500 times
+----
+
+Expected system behavior:
+
+* The interface should enforce a reasonable character limit.
+* Long input should not break the layout.
+* The system should either reject the value with a clear message or safely truncate it if that behavior is intentionally supported.
+* The application should remain responsive.
+
+===== Invalid Item Quantities
+
+Invalid quantity values can be generated for item selection fields.
+
+[source,text]
+----
+0
+-1
+999999
+"abc"
+"2.5"
+----
+
+Expected system behavior:
+
+* Quantities less than one should be rejected.
+* Extremely large quantities should be rejected or limited.
+* Non-numeric values should not be accepted as valid quantities.
+* The order should not proceed until all quantities are valid.
+
+===== Malformed Payment Values
+
+Malformed payment-related values can be used to test payment form validation or payment method handling.
+
+[source,text]
+----
+"not-a-card"
+"123"
+"@@@@"
+"0000-0000-0000-0000"
+"cashier<script>"
+----
+
+Expected system behavior:
+
+* Invalid payment values should be rejected.
+* The system should not mark the order as paid unless payment is valid and confirmed.
+* The interface should display clear payment validation feedback.
+* The invalid value should not affect other order data.
+
+===== Unexpected Symbols and Special Characters
+
+Special characters can be entered into text-based fields to verify that the interface handles them safely.
+
+[source,text]
+----
+"<script>alert('test')</script>"
+"'; DROP TABLE orders; --"
+"🍕🔥💳"
+"../../orders"
+"#@$%^&*()"
+----
+
+Expected system behavior:
+
+* The interface should treat special characters as data, not executable code.
+* The system should sanitize or safely handle input before storing or displaying it.
+* The application should not expose sensitive errors.
+* The UI should remain stable and usable.
+
+==== Fuzzing Strategy
+
+The fuzzing process can be organized around the order submission flow:
+
+. Generate unexpected values for order-related fields.
+. Submit those values through the interface or a simulated interface-level test.
+. Observe whether the system accepts, rejects, or safely handles each input.
+. Verify that invalid inputs do not create valid orders.
+. Confirm that the user receives clear feedback.
+. Record any crash, unclear message, layout issue, or invalid accepted state as a defect.
+
+This approach is similar to property-based testing because both techniques use generated inputs instead of relying only on manually selected examples. However, fuzzing focuses more directly on malformed, unexpected, or hostile inputs, while property-based testing focuses on checking whether general system rules always hold.
+
+==== Connection to the Fuzzing Book Methodology
+
+The Fuzzing Book presents fuzzing as a technique for generating inputs automatically and observing whether the system behaves correctly. In the context of web application testing, this means submitting generated or unexpected values through web-facing inputs and checking whether the application validates, rejects, or safely processes them.
+
+For the Cafeteria Ordering System, this methodology can be applied by generating unusual order quantities, unexpected text field values, malformed payment inputs, and invalid menu-related data. The system should respond with controlled validation behavior rather than crashes, broken layouts, incorrect order creation, or unclear error messages.
+
+==== Relevance to the Project
+
+Fuzzing strengthens the reliability of the Cafeteria Ordering System by testing the interface against inputs that real users may accidentally or intentionally submit. Since the system handles important flows such as order creation, payment selection, and pickup verification, it must reject invalid data safely and consistently.
+
+By documenting a fuzzing strategy for the web interface, the project shows how generated unexpected inputs can help reveal validation weaknesses, improve robustness, and reduce the risk of invalid cafeteria orders being processed.
+=== 4.8 Property Based Testing
+
+Property-based testing can be used in the Cafeteria Ordering System to verify general rules that should remain true across many possible inputs. Instead of only testing one fixed example, property-based testing generates many combinations of values and checks whether important system properties still hold.
+
+This testing approach is useful for order validation because cafeteria orders can vary by selected menu items, quantities, prices, payment methods, and order status. By generating different order inputs, the team can identify edge cases that may not appear in manually written example-based tests.
+
+==== Testing Scope
+
+For this project, property-based testing focuses on the order validation flow. This includes checking whether generated orders follow the expected rules before they are accepted by the system or sent to the backend API.
+
+The following TypeScript-style example shows the kind of structure that could be tested:
+
+[source,ts]
+----
+type MenuItem = {
+  id: string;
+=== 4.9 Types
+
+The Cafeteria Ordering System incorporates static typing through TypeScript to make core domain concepts easier to understand, validate, and maintain. Since the project uses TypeScript, domain concepts such as orders, menu items, payments, and order statuses can be represented with explicit types instead of loosely structured objects.
+
+Static typing is useful in this project because it clarifies what kind of data each function expects and returns. This reduces ambiguity when developers work with order creation, menu item selection, payment processing, and order status updates.
+
+==== Core Domain Types
+
+The following TypeScript example represents important cafeteria ordering concepts using meaningful static types:
+
+[source,ts]
+----
+type MenuItemId = string;
+type OrderId = string;
+
+type PaymentMethod = "cashier" | "card";
+type OrderStatus = "draft" | "pending_payment" | "confirmed" | "ready_for_pickup" | "cancelled";
+
+type MenuItem = {
+  id: MenuItemId;
+  name: string;
+  price: number;
+  isAvailable: boolean;
+};
+
+type OrderItem = {
+  menuItemId: string;
+  quantity: number;
+};
+
+type Order = {
+  items: OrderItem[];
+  paymentMethod: "cashier" | "card";
+};
+
+function validateOrder(order: Order, menuItems: MenuItem[]): boolean {
+  if (order.items.length === 0) {
+    return false;
+  }
+
+  return order.items.every((item) => {
+    const menuItem = menuItems.find((menuItem) => menuItem.id === item.menuItemId);
+
+    return (
+      menuItem !== undefined &&
+      menuItem.isAvailable &&
+      item.quantity > 0 &&
+      item.quantity <= 10
+    );
+  });
+}
+----
+
+==== Meaningful Properties
+
+The following properties describe general rules that should hold for the cafeteria ordering flow.
+
+===== Property 1 — Order Total Should Never Be Negative
+
+For any valid generated order, the calculated total should always be greater than or equal to zero. Since menu item prices and item quantities determine the order total, the system should reject or prevent invalid values that could produce a negative total.
+
+[source,ts]
+----
+property("order total is never negative", (generatedOrder) => {
+  const total = calculateOrderTotal(generatedOrder);
+  expect(total).toBeGreaterThanOrEqual(0);
+});
+----
+
+This property helps detect invalid price or quantity handling, such as negative prices, negative quantities, or incorrect total calculations.
+
+===== Property 2 — A Valid Order Must Contain at Least One Item
+
+For any order to be valid, it must include at least one item. An empty order should not be accepted because it does not represent a real cafeteria request.
+
+[source,ts]
+----
+property("valid orders contain at least one item", (generatedOrder) => {
+  if (validateOrder(generatedOrder, menuItems)) {
+    expect(generatedOrder.items.length).toBeGreaterThan(0);
+  }
+});
+----
+
+This property supports the cafeteria ordering domain because every submitted order should represent one or more requested menu items.
+
+===== Property 3 — Item Quantities Must Stay Within Valid Limits
+
+Generated orders should only be valid when each item quantity is within the accepted range. For example, a quantity of zero, a negative quantity, or an unreasonably large quantity should cause the order to be rejected.
+
+[source,ts]
+----
+property("item quantities remain within valid limits", (generatedOrder) => {
+  const isValid = validateOrder(generatedOrder, menuItems);
+
+  if (isValid) {
+    generatedOrder.items.forEach((item) => {
+      expect(item.quantity).toBeGreaterThan(0);
+      expect(item.quantity).toBeLessThanOrEqual(10);
+    });
+  }
+});
+----
+
+This property helps verify that the system does not accept unrealistic or invalid order quantities.
+
+===== Property 4 — Invalid Menu Item IDs Should Not Create Valid Orders
+
+If a generated order contains a menu item ID that does not exist in the menu catalog, the order should not be accepted as valid.
+
+[source,ts]
+----
+property("invalid menu item ids do not create valid orders", (generatedOrder) => {
+  const containsInvalidItem = generatedOrder.items.some((item) => {
+    return !menuItems.some((menuItem) => menuItem.id === item.menuItemId);
+  });
+
+  if (containsInvalidItem) {
+    expect(validateOrder(generatedOrder, menuItems)).toBe(false);
+  }
+});
+----
+
+This property is important because the system should not allow users to submit orders for items that are not part of the cafeteria menu.
+
+==== Generated Test Cases and Edge Cases
+
+Generated test cases help reveal edge cases that developers may not manually consider. For example, a property-based testing tool could generate empty orders, orders with repeated items, invalid menu item identifiers, unavailable menu items, very large quantities, or unexpected combinations of valid and invalid items.
+
+This makes the testing process stronger because the same system rule is checked across many input combinations. If one generated case breaks a property, the test can expose a weakness in validation logic that might not be found through a small set of example-based tests.
+
+==== Relevance to the Project
+
+Property-based testing supports the Cafeteria Ordering System by validating general ordering rules at a higher level. These rules are connected to the web API and order validation flow because the system must determine whether submitted order data is valid before processing payment, notifying staff, or adding the order to the active queue.
+
+By documenting these properties, the project shows how property-based testing can be used to strengthen confidence in order validation and reduce the risk of accepting invalid cafeteria orders.
+  menuItem: MenuItem;
+  quantity: number;
+  specialInstructions?: string;
+};
+
+type Order = {
+  id: OrderId;
+  items: OrderItem[];
+  paymentMethod: PaymentMethod;
+  status: OrderStatus;
+};
+
+function calculateOrderTotal(order: Order): number {
+  return order.items.reduce((total, item) => {
+    return total + item.menuItem.price * item.quantity;
+  }, 0);
+}
+----
+
+==== Functional Insight
+
+The `calculateOrderTotal` function receives an `Order` and returns a `number`. This makes the function signature clear because developers can immediately understand that the function works with a complete order object and produces a numeric total.
+
+The type definitions also prevent common mistakes. For example, `paymentMethod` can only be `"cashier"` or `"card"`, and `status` can only use one of the defined order lifecycle values. This prevents unclear values such as `"paid later"` or `"done"` from being used when the system expects a specific domain value.
+
+==== Relevance to the Project
+
+These types improve the clarity of the Cafeteria Ordering System by making the domain model explicit. Instead of treating orders, menu items, and payments as generic objects, the system can represent them as meaningful concepts with defined structure and expected values.
+
+This supports maintainability because future developers can understand the shape of the data before modifying order creation, payment handling, or pickup-related functionality. It also supports reliability because invalid values are more likely to be detected during development before they cause runtime errors.
 
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
@@ -2032,6 +2355,12 @@ The following table have all the changes made to the documentation for Milestone
 | @Kaariinaa08 | 2.2.1 - User stories, epics, and features | Expanded the epics to better explain the high-level system goals and added more detailed features and user stories based on the issue feedback. | #634
 | @Kaariinaa08 | 2.2.3 - Domain Requirements | Revised DR-04 to replace vague “must allow” wording with clearer, testable requirements for maintaining, updating, and exposing order preparation status. | #635
 | @Kaariinaa08 | 2.2.4 - Interface Requirements | Revised the interface requirements to better reflect the current system design, expanded customer and staff interface behaviors, removed terminology definitions from the requirements, and ensured new or modified content follows the approved legend format. | #637
+| @aryamdiaz | 4.10 - Fuzzing | Added a new section explaining how fuzzing can be applied to the Cafeteria Ordering System web interface. Documented fuzzed input examples, expected validation behavior, and the connection to the Fuzzing Book methodology for testing web applications with generated or unexpected inputs. | #647
+| @aryamdiaz | 4.8 - Property Based Testing | Added a new section explaining how property-based testing can verify cafeteria order validation rules across generated inputs. Documented meaningful properties for order totals, non-empty orders, valid quantities, and invalid menu item IDs. | #646
+| @aryamdiaz | 4.9 - Types | Added a new section explaining how static typing is used through TypeScript to represent core domain concepts such as orders, menu items, payment methods, and order statuses. Included a functional example and explained how types improve clarity, maintainability, and function behavior. | #645
 | @JadStelar | 1.3.1 - Scope | Removed the out of place aspects from domain engineering based on professor's feedback | #649
 | @JadStelar | 3.1 - Concept Analysis | Expanded concepts to better align with professor's expectations of the section. | #650
+| @Lorenzo-PT | 1.2.2 - Needs | Summarized the needs in each area while still keeping the idea of the previous documentation. | #689
+| @Lorenzo-PT | 2.2.4 - Events, Actions, and Behaviors | Rewrote the behaviors to not be pointing out every event or action in them, as well as show a sequence as example. | #667
+| @Lorenzo-PT | 4.7 - Usability Testing | Developed section 4.7, based on usability testing. | #690
 |===

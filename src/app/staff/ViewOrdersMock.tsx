@@ -36,7 +36,7 @@ function getDetailStatusLabel(order: Order): string {
   return order.status.toUpperCase();
 }
 
-export default function ViewOrders() {
+export default function ViewOrdersMock() {
   const { width } = useWindowDimensions();
   const isSmallScreen = width < 600;
 
@@ -62,7 +62,6 @@ export default function ViewOrders() {
 
     filtered.sort((a, b) => {
       let comparison = 0;
-
       switch (sortField) {
         case "customer":
           comparison = a.customerName.localeCompare(b.customerName);
@@ -74,7 +73,6 @@ export default function ViewOrders() {
           comparison = a.orderNumber - b.orderNumber;
           break;
       }
-
       return sortDirection === "asc" ? comparison : -comparison;
     });
 
@@ -147,8 +145,11 @@ export default function ViewOrders() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <View style={styles.headerInner}>
-            <Image source={require("../../../documentation/branding/images/Light-Mode-Logo.png")} style={styles.logo} contentFit="contain" />
-
+            <Image
+              source={require("../../../documentation/branding/images/Light-Mode-Logo.png")}
+              style={styles.logo}
+              contentFit="contain"
+            />
             <View style={styles.filterContainer}>
               <FilterBar
                 sortField={sortField}
@@ -240,7 +241,11 @@ function FullScreenOrderDetails({
           <Text style={styles.backButtonText}>‹ Back</Text>
         </TouchableOpacity>
 
-        <Image source={require("../../../documentation/branding/images/Light-Mode-Logo.png")} style={styles.logo} contentFit="contain" />
+        <Image
+          source={require("../../../documentation/branding/images/Light-Mode-Logo.png")}
+          style={styles.logo}
+          contentFit="contain"
+        />
 
         <View style={styles.backButtonSpacer} />
       </View>
@@ -264,13 +269,9 @@ function FullScreenOrderDetails({
               </View>
 
               <View style={styles.fullOrderInfo}>
-                <Text style={styles.fullOrderTitle}>
-                  Order #{order.orderNumber}
-                </Text>
+                <Text style={styles.fullOrderTitle}>Order #{order.orderNumber}</Text>
                 <Text style={styles.fullCustomerName}>{order.customerName}</Text>
-                <Text style={styles.fullCreatedDate}>
-                  created: {order.createdAt}
-                </Text>
+                <Text style={styles.fullCreatedDate}>created: {order.createdAt}</Text>
               </View>
             </View>
 
@@ -292,14 +293,10 @@ function FullScreenOrderDetails({
                 <Text style={styles.fullItemText}>
                   {item.quantity} {item.name}
                 </Text>
-
                 {item.modifications && item.modifications.length > 0 && (
                   <View style={styles.modificationsContainer}>
                     {item.modifications.map((mod, modIdx) => (
-                      <View
-                        key={`${mod}-${modIdx}`}
-                        style={styles.modificationItem}
-                      >
+                      <View key={`${mod}-${modIdx}`} style={styles.modificationItem}>
                         <Text style={styles.bullet}>•</Text>
                         <Text style={styles.modificationText}>{mod}</Text>
                       </View>
@@ -402,15 +399,8 @@ function FullScreenOrderDetails({
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: "#fafafa",
-  },
-
-  scrollContent: {
-    paddingBottom: 32,
-  },
-
+  screen: { flex: 1, backgroundColor: "#fafafa" },
+  scrollContent: { paddingBottom: 32 },
   header: {
     backgroundColor: "#d9d9d9",
     borderColor: "#a8a8a8",
@@ -424,16 +414,11 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 3,
   },
-
   headerInner: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 0,
-    paddingBottom: 0,
     paddingTop: 35,
-    gap: 0,
   },
-
   logo: {
     width: 64,
     height: 64,
@@ -443,22 +428,9 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 3,
   },
-
-  filterContainer: {
-    flex: 1,
-  },
-
-  tabSection: {
-    paddingHorizontal: 24,
-    paddingTop: 32,
-    paddingBottom: 16,
-  },
-
-  ordersSection: {
-    paddingHorizontal: 24,
-    paddingVertical: 32,
-  },
-
+  filterContainer: { flex: 1 },
+  tabSection: { paddingHorizontal: 24, paddingTop: 32, paddingBottom: 16 },
+  ordersSection: { paddingHorizontal: 24, paddingVertical: 32 },
   ordersList: {
     width: "100%",
     maxWidth: 1200,
@@ -468,41 +440,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
   },
-
-  orderCardWrapper: {
-    width: "48%",
-    marginBottom: 24,
-  },
-
-  orderCardWrapperFull: {
-    width: "100%",
-  },
-
-  ordersListSingle: {
-    flexDirection: "column",
-  },
-
-  orderCardPressed: {
-    opacity: 0.8,
-  },
-
-  emptyState: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 48,
-  },
-
-  emptyStateText: {
-    fontSize: 24,
-    color: "#424242",
-    textAlign: "center",
-  },
-
-  detailScreen: {
-    flex: 1,
-    backgroundColor: "#fafafa",
-  },
-
+  ordersListSingle: { flexDirection: "column" },
+  orderCardWrapper: { width: "48%", marginBottom: 24 },
+  orderCardWrapperFull: { width: "100%" },
+  orderCardPressed: { opacity: 0.8 },
+  emptyState: { alignItems: "center", justifyContent: "center", paddingVertical: 48 },
+  emptyStateText: { fontSize: 24, color: "#424242", textAlign: "center" },
+  detailScreen: { flex: 1, backgroundColor: "#fafafa" },
   detailHeader: {
     paddingTop: 52,
     paddingHorizontal: 20,
@@ -514,31 +458,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-
-  backButton: {
-    minWidth: 80,
-    paddingVertical: 8,
-  },
-
-  backButtonText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#111827",
-  },
-
-  backButtonSpacer: {
-    width: 80,
-  },
-
-  detailScroll: {
-    flex: 1,
-  },
-
-  detailScrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-
+  backButton: { minWidth: 80, paddingVertical: 8 },
+  backButtonText: { fontSize: 18, fontWeight: "700", color: "#111827" },
+  backButtonSpacer: { width: 80 },
+  detailScroll: { flex: 1 },
+  detailScrollContent: { padding: 20, paddingBottom: 40 },
   fullOrderCard: {
     backgroundColor: "#EEEEEE",
     borderRadius: 18,
@@ -551,7 +475,6 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 4,
   },
-
   fullOrderTop: {
     backgroundColor: "#FFCCBC",
     padding: 20,
@@ -562,13 +485,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 16,
   },
-
-  fullOrderHeaderContent: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    flex: 1,
-  },
-
+  fullOrderHeaderContent: { flexDirection: "row", alignItems: "flex-start", flex: 1 },
   statusBadge: {
     width: 40,
     height: 40,
@@ -578,90 +495,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: 14,
   },
-
-  statusBadgeText: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "800",
-  },
-
-  fullOrderInfo: {
-    flex: 1,
-  },
-
-  fullOrderTitle: {
-    fontSize: 26,
-    fontWeight: "800",
-    color: "#111827",
-  },
-
-  fullCustomerName: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#374151",
-    marginTop: 6,
-  },
-
-  fullCreatedDate: {
-    fontSize: 15,
-    color: "#6b7280",
-    marginTop: 4,
-  },
-
+  statusBadgeText: { color: "#ffffff", fontSize: 18, fontWeight: "800" },
+  fullOrderInfo: { flex: 1 },
+  fullOrderTitle: { fontSize: 26, fontWeight: "800", color: "#111827" },
+  fullCustomerName: { fontSize: 18, fontWeight: "600", color: "#374151", marginTop: 6 },
+  fullCreatedDate: { fontSize: 15, color: "#6b7280", marginTop: 4 },
   statusPill: {
     backgroundColor: "#f3f4f6",
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 6,
   },
-
-  statusPillText: {
-    fontSize: 13,
-    fontWeight: "800",
-    color: "#374151",
-    textTransform: "uppercase",
-  },
-
-  fullOrderItems: {
-    padding: 20,
-  },
-
-  fullOrderItem: {
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e5e7eb",
-  },
-
-  fullItemText: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: "#111827",
-  },
-
-  modificationsContainer: {
-    marginTop: 10,
-    gap: 8,
-  },
-
-  modificationItem: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-  },
-
-  bullet: {
-    fontSize: 18,
-    color: "#6b7280",
-    marginRight: 8,
-    lineHeight: 24,
-  },
-
-  modificationText: {
-    flex: 1,
-    fontSize: 16,
-    color: "#4b5563",
-    lineHeight: 24,
-  },
-
+  statusPillText: { fontSize: 13, fontWeight: "800", color: "#374151", textTransform: "uppercase" },
+  fullOrderItems: { padding: 20 },
+  fullOrderItem: { paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: "#e5e7eb" },
+  fullItemText: { fontSize: 20, fontWeight: "800", color: "#111827" },
+  modificationsContainer: { marginTop: 10, gap: 8 },
+  modificationItem: { flexDirection: "row", alignItems: "flex-start" },
+  bullet: { fontSize: 18, color: "#6b7280", marginRight: 8, lineHeight: 24 },
+  modificationText: { flex: 1, fontSize: 16, color: "#4b5563", lineHeight: 24 },
   pickupSection: {
     marginHorizontal: 20,
     marginBottom: 20,
@@ -673,7 +525,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
   },
-
   pickupCodeLabel: {
     fontSize: 13,
     fontWeight: "700",
@@ -681,14 +532,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     letterSpacing: 1,
   },
-
-  pickupCodeValue: {
-    fontSize: 48,
-    fontWeight: "900",
-    color: "#111827",
-    letterSpacing: 8,
-  },
-
+  pickupCodeValue: { fontSize: 48, fontWeight: "900", color: "#111827", letterSpacing: 8 },
   confirmPickupButton: {
     paddingVertical: 14,
     paddingHorizontal: 32,
@@ -697,68 +541,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "stretch",
   },
-
-  confirmPickupButtonDone: {
-    backgroundColor: "#d1fae5",
-  },
-
-  confirmPickupButtonText: {
-    fontSize: 16,
-    fontWeight: "800",
-    color: "#ffffff",
-  },
-
+  confirmPickupButtonDone: { backgroundColor: "#d1fae5" },
+  confirmPickupButtonText: { fontSize: 16, fontWeight: "800", color: "#ffffff" },
   detailActions: {
     flexDirection: "row",
     borderTopWidth: 1,
     borderTopColor: "#d4d4d4",
     backgroundColor: "#ffffff",
   },
-
-  detailActionButton: {
-    flex: 1,
-    paddingVertical: 18,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  detailActionButtonText: {
-    fontSize: 16,
-    fontWeight: "800",
-    color: "#039700",
-  },
-
-  detailActionButtonTextClose: {
-    fontSize: 16,
-    fontWeight: "800",
-    color: "#ff0000",
-  },
-
-  actionDivider: {
-    width: 1,
-    backgroundColor: "#d4d4d4",
-  },
-
-  disabledButton: {
-    backgroundColor: "#f3f4f6",
-  },
-
-  disabledButtonText: {
-    color: "#9ca3af",
-  },
-
-  unreadStatusBadge: {
-    backgroundColor: "#969696",
-  },
-
-  openStatusBadge: {
-    backgroundColor: "#8cda8c",
-  },
-
-  finishedStatusBadge: {
-    backgroundColor: "#b1b1b1",
-  },
-
+  detailActionButton: { flex: 1, paddingVertical: 18, alignItems: "center", justifyContent: "center" },
+  detailActionButtonText: { fontSize: 16, fontWeight: "800", color: "#039700" },
+  detailActionButtonTextClose: { fontSize: 16, fontWeight: "800", color: "#ff0000" },
+  actionDivider: { width: 1, backgroundColor: "#d4d4d4" },
+  disabledButton: { backgroundColor: "#f3f4f6" },
+  disabledButtonText: { color: "#9ca3af" },
+  unreadStatusBadge: { backgroundColor: "#969696" },
+  openStatusBadge: { backgroundColor: "#8cda8c" },
+  finishedStatusBadge: { backgroundColor: "#b1b1b1" },
   closeReasonBox: {
     marginHorizontal: 20,
     marginBottom: 20,
@@ -768,17 +567,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#FDBA74",
   },
-
-  closeReasonTitle: {
-    fontSize: 14,
-    fontWeight: "800",
-    color: "#9A3412",
-    marginBottom: 6,
-  },
-
-  closeReasonText: {
-    fontSize: 15,
-    color: "#7C2D12",
-    lineHeight: 21,
-  },
+  closeReasonTitle: { fontSize: 14, fontWeight: "800", color: "#9A3412", marginBottom: 6 },
+  closeReasonText: { fontSize: 15, color: "#7C2D12", lineHeight: 21 },
 });
