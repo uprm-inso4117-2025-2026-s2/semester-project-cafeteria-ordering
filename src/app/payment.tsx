@@ -1,5 +1,6 @@
 import { Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { supabase } from '@/lib/supabase';
 import { MenuItem } from '@/models/food-item-class';
 import { OrderManager } from '@/models/order-class';
 import { StripePaymentService } from './payments/stripe/stripe-payment-service';
@@ -15,29 +16,26 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { getCartItems, clearCart, removeCartItem } from '../lib/cart-items';
-import { supabase } from '@/lib/supabase';
-import { CardField, CardFieldInput } from '@stripe/stripe-react-native';
+import { clearCart, getCartItems, removeCartItem } from '../lib/cart-items';
 
-//Replaced for Stripe payment system
-// const formatCardNumber = (value: string) => {
-//   const digits = value.replace(/[^0-9]/g, '').slice(0, 16);
-//   return digits.replace(/(.{4})/g, '$1 ').trim();
-// };
+const formatCardNumber = (value: string) => {
+  const digits = value.replace(/[^0-9]/g, '').slice(0, 16);
+  return digits.replace(/(.{4})/g, '$1 ').trim();
+};
 
-// const formatExpiry = (value: string) => {
-//   const digits = value.replace(/[^0-9]/g, '').slice(0, 4);
+const formatExpiry = (value: string) => {
+  const digits = value.replace(/[^0-9]/g, '').slice(0, 4);
 
-//   if (digits.length <= 2) {
-//     return digits;
-//   }
+  if (digits.length <= 2) {
+    return digits;
+  }
 
-//   return `${digits.slice(0, 2)}/${digits.slice(2, 4)}`;
-// };
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}`;
+};
 
-// const formatCvc = (value: string) => {
-//   return value.replace(/[^0-9]/g, '').slice(0, 3);
-// };
+const formatCvc = (value: string) => {
+  return value.replace(/[^0-9]/g, '').slice(0, 3);
+};
 
 const formatZip = (value: string) => {
   return value.replace(/[^0-9]/g, '').slice(0, 5);
@@ -69,11 +67,9 @@ export default function PaymentScreen() {
   };
 
 
-  const [cardDetails, setCardDetails] = useState<CardFieldInput.Details | null>(null);
-  //Replaced for Stripe payment system
-  // const [cardNumber, setCardNumber] = useState('');
-  // const [expiry, setExpiry] = useState('');
-  // const [cvc, setCvc] = useState('');                         
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvc, setCvc] = useState('');                         
   const [cardholderName, setCardholderName] = useState('');    
   const [country, setCountry] = useState('');                
   const [address1, setAddress1] = useState('');                
@@ -121,147 +117,78 @@ export default function PaymentScreen() {
 
 
   const handlePayNow = async () => {
-    try{
-
-      if (!cardDetails?.complete){
+    try {
+      // Validate card fields
+      if (cardNumber.length < 19 || expiry.length < 5 || cvc.length < 3) {
         alert('Please enter valid card details.');
         return;
       }
 
-
-
-
+      // Validate billing fields
+      if (!cardholderName || !address1 || !city || !zip || !country) {
+        alert('Please fill in all required fields');
+        return;
+      }
 
       const order_manager = new OrderManager();
 
-
-
       orderItems.forEach((item) => {
-        for (let i = 0; i < item.quantity; i++){
+        for (let i = 0; i < item.quantity; i++) {
           order_manager.addFoodItemToOrder(item.menuItem, []);
         }
       });
 
-
       const draft_order = order_manager.getOrderDraft();
 
-
-      if (!draft_order){
+      if (!draft_order) {
         alert('Cart is empty');
         return;
       }
 
-      if (
-        !cardDetails?.complete ||
-        !cardholderName ||
-        !address1 ||
-        !city ||
-        !zip ||
-        !country
-      ) {
-        alert("Please fill in all required fields");
-        return;
-      }
-
-      
       const stripe_service = new StripePaymentService();
 
-
       const { success: payment_success, paymentIntentId } =
-        await stripe_service.processPayment(draft_order.total_amount, {
-          name: cardholderName || 'Guest',
-          address: {
-            line1: address1,
-            line2: address2,
-            city: city,
-            postalCode: zip,
-            country: country,
-          },
-        });
+        await stripe_service.processPayment(draft_order.total_amount);
 
-
-
-      if (!payment_success){
+      if (!payment_success) {
         alert('Payment failed');
         return;
       }
 
-
-
-      const confirmed_order = order_manager.submitOrder( 1, cardholderName || 'Guest' );
-
+      const confirmed_order = order_manager.submitOrder(1, cardholderName || 'Guest');
 
       const { data: authData } = await supabase.auth.getUser();
-
       const user_id = authData?.user?.id ?? null;
 
-      const {data, error } = await supabase.from('orders').insert({
+      const { data, error } = await supabase.from('orders').insert({
         user_id,
         user_name: cardholderName || 'Guest',
         total_amount: draft_order.total_amount,
         status: 'confirmed',
-        notes: `Payment Intent:`,
-        created_at: new Date().toISOString()
+        notes: `Payment Intent: ${paymentIntentId}`,
+        created_at: new Date().toISOString(),
       }).select().single();
 
-      if (error){
+      if (error) {
         console.error('Failed to save order:', error);
-        alert('Order could not be saved. Please contact support.')
+        alert('Order could not be saved. Please contact support.');
         return;
       }
 
-      console.log('Order saved in DataBase:', data)
-
-
+      console.log('Order saved in Database:', data);
       console.log('Confirmed order:', confirmed_order);
 
-
-  
       clearCart();
       setCartSnapshot([]);
-      alert(`Payment successful. \nOrder ID: ${data.order_id}`);
 
-
-      
-
+      alert(`Payment successful.\nOrder ID: ${data.order_id}`);
 
       router.replace('/(tabs)');
 
     } catch (error) {
       console.error(error);
-      alert('Something went wrong.')
+      alert('Something went wrong.');
     }
-
-
-
-
-
-
-
-
-    // console.log({
-    //   cardNumber,
-    //   expiry,
-    //   cvc,
-    //   cardholderName,
-    //   country,
-    //   address1,
-    //   address2,
-    //   city,
-    //   zip,
-    //   savePaymentInfo,
-    //   orderItems: orderItems.map((item) => ({
-    //     id: item.menuItem.getId(),
-    //     name: item.menuItem.getName(),
-    //     unitPrice: item.menuItem.getTotalPrice(),
-    //     quantity: item.quantity,
-    //   })),
-    //   additionalFees,
-    //   tax,
-    // });
-
-    // // Placeholder until we have button action
-    // alert('Payment button pressed');
   };
 
   const handleHeaderLayout = (event: LayoutChangeEvent) => {
@@ -446,24 +373,44 @@ export default function PaymentScreen() {
           Card Information
         </Text>
 
-        <CardField
-          postalCodeEnabled={false}
-          placeholders={{ number: '4242 4242 4242 4242' }}
-          cardStyle={{
-            backgroundColor: colors.inputBackground,
-            textColor: colors.secondaryText,
-            borderColor: colors.inputBorder,
-            borderWidth: 1,
-            borderRadius: 12,
-            placeholderColor: colors.placeholderText,
-          }}
-          style={{
-            width: '100%',
-            height: 56,
-            marginBottom: 14,
-          }}
-          onCardChange={(details) => setCardDetails(details)}
+        {/* Card number */}
+        <TextInput
+          style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
+          placeholder="1234 1234 1234 1234"
+          placeholderTextColor={colors.placeholderText}
+          value={cardNumber}
+          onChangeText={(text) => setCardNumber(formatCardNumber(text))}
+          keyboardType="number-pad"
+          autoCorrect={false}
+          autoCapitalize="none"
+          maxLength={19}
         />
+
+        {/* Month/Year and CVC */}
+        <View style={styles.row}>
+          <TextInput
+            style={[styles.input, styles.halfInput, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
+            placeholder="MM / YY"
+            placeholderTextColor={colors.placeholderText}
+            value={expiry}
+            onChangeText={(text) => setExpiry(formatExpiry(text))}
+            keyboardType="number-pad"
+            autoCorrect={false}
+            autoCapitalize="none"
+            maxLength={5}
+          />
+          <TextInput
+            style={[styles.input, styles.halfInput, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
+            placeholder="CVC"
+            placeholderTextColor={colors.placeholderText}
+            value={cvc}
+            onChangeText={(text) => setCvc(formatCvc(text))}
+            keyboardType="number-pad"
+            autoCorrect={false}
+            autoCapitalize="none"
+            maxLength={3}
+          />
+        </View>
 
         
         

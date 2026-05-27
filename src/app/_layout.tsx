@@ -1,19 +1,12 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack, useRouter, useSegments } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
-import 'react-native-reanimated';
-
-const StripeProvider = Platform.OS !== 'web'
-  ? require('@stripe/stripe-react-native').StripeProvider
-  : ({ children }: any) => children;
-
 import OfflineBanner from '@/components/ui/offline-online-banner';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { metricsCollector } from '@/lib/performance/metricsCollector';
 import { regressionDetector } from '@/lib/performance/regressionDetector';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
+import { Stack, useRouter, useSegments } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { AuthProvider, useAuth } from './authContext';
 
@@ -168,9 +161,6 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <StripeProvider publishableKey={
-        process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-      }>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthGate />
         <Stack>
@@ -184,7 +174,6 @@ export default function RootLayout() {
         <OfflineBanner />
         <StatusBar style="auto" />
       </ThemeProvider>
-      </StripeProvider>
     </AuthProvider>
   );
 }
