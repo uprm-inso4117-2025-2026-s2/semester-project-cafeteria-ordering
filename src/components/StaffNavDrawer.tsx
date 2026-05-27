@@ -24,7 +24,7 @@ type BaseDrawerProps = {
 const DRAWER_ITEMS: readonly DrawerItem[] = [
   { label: "Dashboard", href: "/staff/Dashboard" },
   { label: "Performance", href: "/staff/Performance" },
-  { label: "Orders", href: "/staff/ViewOrders" },
+  { label: "Orders", href: "/staff/ViewOrdersMock" },
   { label: "Payments", href: "/staff/Payments" },
   { label: "Menu Management", href: "/staff/menu" },
   { label: "Special Status Request", href: "/staff/Special_Status_Request" },

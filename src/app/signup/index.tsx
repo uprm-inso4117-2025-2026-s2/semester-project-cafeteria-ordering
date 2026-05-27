@@ -18,6 +18,7 @@ import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { mapSignUpError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
+import { formatPhoneNumber, isValidEmail, isValidPassword } from '@/lib/validation';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface InputFieldProps {
@@ -145,20 +146,15 @@ function validate(fields: {
 
   if (!fields.email.trim()) {
     errors.email = 'Email is required.';
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
+  } else if (!isValidEmail(fields.email)) {
     errors.email = 'Please enter a valid email address.';
   }
 
   if (!fields.password) {
     errors.password = 'Password is required.';
-  } else if (fields.password.length < 8) {
-    errors.password = 'Password must be at least 8 characters.';
-  } else if (!/[a-z]/.test(fields.password)) {
-    errors.password = 'Password must contain at least 1 lowercase letter.';
-  } else if (!/[A-Z]/.test(fields.password)) {
-    errors.password = 'Password must contain at least 1 uppercase letter.';
-  } else if (!/[0-9]/.test(fields.password)) {
-    errors.password = 'Password must contain at least 1 number.';
+  } else if (!isValidPassword(fields.password)) {
+    errors.password =
+      'Password must be at least 8 characters and include a lowercase letter, an uppercase letter, and a number.';
   }
 
   if (fields.confirmPassword && fields.password !== fields.confirmPassword) {
@@ -267,13 +263,14 @@ export default function SignUpScreen() {
 
     try {
       // Profile row should be created by existing DB trigger strategy after Auth signup.
+      const formattedPhone = formatPhoneNumber(phone);
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
         options: {
           data: {
             full_name: fullName.trim(),
-            phone: phone.trim() || null,
+            phone: formattedPhone || null,
           },
         },
       });

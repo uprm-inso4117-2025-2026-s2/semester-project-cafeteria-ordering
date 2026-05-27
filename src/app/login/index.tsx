@@ -19,6 +19,7 @@ import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { mapLoginError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
+import { isValidEmail } from '@/lib/validation';
 
 // ─── Logo Assets ──────────────────────────────────────────────────────────────
 const LightModeLogo = require('../../../documentation/branding/images/Light-Mode-Logo.png');
@@ -137,7 +138,7 @@ function validate(fields: { emailOrUsername: string; password: string }) {
 
   if (!fields.emailOrUsername.trim()) {
     errors.emailOrUsername = 'Email is required.';
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.emailOrUsername)) {
+  } else if (!isValidEmail(fields.emailOrUsername)) {
     errors.emailOrUsername = 'Please enter a valid email address.';
   }
 
@@ -208,6 +209,23 @@ export default function LoginScreen() {
 
     router.replace((fallbackRoute || '/(tabs)') as any);
   };
+
+  // Log session state when login screen mounts
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      console.log('[Login Screen] Existing session check:', {
+        hasSession: !!session,
+        user: session?.user?.email,
+        expiresAt: session?.expires_at,
+      });
+    };
+
+    checkExistingSession();
+  }, []);
 
   const handleSignIn = async () => {
     const validationErrors = validate({ emailOrUsername, password });

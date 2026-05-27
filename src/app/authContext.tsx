@@ -2,16 +2,17 @@ import type { User as SupabaseUser } from '@supabase/supabase-js';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { Alert, Platform } from 'react-native';
 
 import { supabase } from '@/lib/supabase';
 
 WebBrowser.maybeCompleteAuthSession();
 
 // User object
-// Properties should be updated to match database after integration
 type User = {
   fullName: string;
   email: string;
+  userId?: string;
 };
 
 type AppleSignInResult = {
@@ -27,7 +28,7 @@ type GuestUpgradeState = {
 };
 
 type AuthContextType = {
-  user: User | null; // user=null if not logged in
+  user: User | null;
   isInitialized: boolean;
   loggedIn: boolean;
   guestUpgradeState: GuestUpgradeState;
@@ -38,6 +39,7 @@ type AuthContextType = {
   beginGuestUpgrade: (preservedRoute?: string) => void;
   cancelGuestUpgrade: () => void;
   completeGuestUpgrade: () => void;
+  sessionChecked: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -75,16 +77,28 @@ function getOAuthCodeFromUrl(url: string) {
   return getQueryParam(queryParams, 'code');
 }
 
-// Wraps the app and provides global authentication state
+// Helper for logging session events
+function logSessionEvent(event: string, data?: unknown) {
+  const timestamp = new Date().toISOString();
+
+  console.log(
+    `[Session Persistence][${timestamp}] ${event}`,
+    data ? JSON.stringify(data, null, 2) : ''
+  );
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [sessionChecked, setSessionChecked] = useState(false);
   const [guestUpgradeState, setGuestUpgradeState] = useState<GuestUpgradeState>({
     isGuest: false,
     isUpgradingGuest: false,
   });
 
   const syncProfileFromMetadata = async (supabaseUser: SupabaseUser) => {
+    logSessionEvent('Syncing profile from metadata', { userId: supabaseUser.id });
+
     const metadata = (supabaseUser.user_metadata ?? {}) as {
       full_name?: string;
       name?: string;
@@ -109,6 +123,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     if (!existing) {
+      logSessionEvent('Creating new profile for user', { userId: supabaseUser.id });
+
       const { error } = await supabase.from('profiles').insert({
         id: supabaseUser.id,
         user_id: supabaseUser.id,
@@ -136,52 +152,178 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         metadata.name?.trim() ||
         fallbackName,
       email: supabaseUser.email ?? '',
+      userId: supabaseUser.id,
     };
   };
 
   useEffect(() => {
     let isMounted = true;
+    let authListener: { subscription: { unsubscribe: () => void } } | null = null;
 
     async function initializeUser() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      logSessionEvent('Initializing user session on app startup');
 
-      if (!isMounted) return;
+      try {
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
 
-      if (session?.user) {
-        await syncProfileFromMetadata(session.user);
+        if (sessionError) {
+          logSessionEvent('Error getting session', { error: sessionError.message });
+          console.error('Session retrieval error:', sessionError.message);
+        }
+
+        if (!isMounted) return;
+
+        if (session?.user) {
+          logSessionEvent('Session found on startup', {
+            userId: session.user.id,
+            email: session.user.email,
+            sessionExpiresAt: session.expires_at,
+          });
+
+          await syncProfileFromMetadata(session.user);
+          setUser(mapSupabaseUserToAppUser(session.user));
+        } else {
+          logSessionEvent('No session found on startup');
+          setUser(null);
+        }
+
+        setSessionChecked(true);
+        setIsInitialized(true);
+        logSessionEvent('Session initialization complete', { hasSession: !!session });
+      } catch (error) {
+        logSessionEvent('Error during session initialization', { error });
+        console.error('Session initialization error:', error);
+        setUser(null);
+        setSessionChecked(true);
+        setIsInitialized(true);
       }
-
-      setUser(session?.user ? mapSupabaseUserToAppUser(session.user) : null);
-      setIsInitialized(true);
     }
 
     initializeUser();
 
-    const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
-      if (
-        session?.user &&
-        (event === 'SIGNED_IN' || event === 'USER_UPDATED' || event === 'INITIAL_SESSION')
-      ) {
-        void syncProfileFromMetadata(session.user);
+    const { data: subscription } = supabase.auth.onAuthStateChange(async (event, session) => {
+      logSessionEvent('Auth state change', { event, hasSession: !!session });
+
+      if (!isMounted) return;
+
+      switch (event) {
+        case 'SIGNED_IN':
+          logSessionEvent('User signed in', { userId: session?.user?.id });
+          if (session?.user) {
+            await syncProfileFromMetadata(session.user);
+            setUser(mapSupabaseUserToAppUser(session.user));
+          }
+          break;
+
+        case 'SIGNED_OUT':
+          logSessionEvent('User signed out');
+          setUser(null);
+          break;
+
+        case 'TOKEN_REFRESHED':
+          logSessionEvent('Session token refreshed', {
+            expiresAt: session?.expires_at,
+            newExpiry: session?.expires_at
+              ? new Date(session.expires_at * 1000).toISOString()
+              : null,
+          });
+          if (session?.user) {
+            setUser(mapSupabaseUserToAppUser(session.user));
+          }
+          break;
+
+        case 'USER_UPDATED':
+          logSessionEvent('User updated', { userId: session?.user?.id });
+          if (session?.user) {
+            await syncProfileFromMetadata(session.user);
+            setUser(mapSupabaseUserToAppUser(session.user));
+          }
+          break;
+
+        case 'INITIAL_SESSION':
+          logSessionEvent('Initial session loaded', { hasSession: !!session });
+          if (session?.user) {
+            await syncProfileFromMetadata(session.user);
+            setUser(mapSupabaseUserToAppUser(session.user));
+          } else {
+            setUser(null);
+          }
+          break;
       }
 
-      setUser(session?.user ? mapSupabaseUserToAppUser(session.user) : null);
+      setSessionChecked(true);
       setIsInitialized(true);
     });
 
+    authListener = subscription;
+
     return () => {
       isMounted = false;
-      subscription.subscription.unsubscribe();
+
+      if (authListener) {
+        authListener.subscription.unsubscribe();
+      }
     };
   }, []);
 
+  // Periodic session validation every 5 minutes on native platforms
+  useEffect(() => {
+    if (!user) return;
+
+    let interval: ReturnType<typeof setInterval> | undefined;
+
+    if (Platform.OS !== 'web') {
+      interval = setInterval(async () => {
+        logSessionEvent('Performing periodic session validation');
+
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
+
+        if (error) {
+          logSessionEvent('Session validation error', { error: error.message });
+        } else if (!session) {
+          logSessionEvent('Session validation failed - no session found');
+
+          setUser(null);
+
+          Alert.alert(
+            'Session Expired',
+            'Your session has expired. Please log in again.',
+            [{ text: 'OK' }]
+          );
+        } else if (session.user?.id !== user.userId) {
+          logSessionEvent('Session user mismatch', {
+            expected: user.userId,
+            actual: session.user?.id,
+          });
+        } else {
+          logSessionEvent('Session validation successful', {
+            expiresAt: session.expires_at,
+            timeUntilExpiry: session.expires_at
+              ? Math.floor((session.expires_at * 1000 - Date.now()) / 1000)
+              : 'unknown',
+          });
+        }
+      }, 5 * 60 * 1000);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [user]);
+
   const login = (userData: User) => {
+    logSessionEvent('Manual login', { userId: userData.userId });
     setUser(userData);
   };
 
   const logout = () => {
+    logSessionEvent('Manual logout');
     setUser(null);
   };
 
@@ -224,13 +366,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signOut = async () => {
+    logSessionEvent('Signing out');
+
     const { error } = await supabase.auth.signOut();
 
     if (error) {
+      logSessionEvent('Sign out error', { error: error.message });
       throw error;
     }
 
     setUser(null);
+    logSessionEvent('Sign out complete');
   };
 
   const signInWithApple = async (): Promise<AppleSignInResult> => {
@@ -291,7 +437,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user,
         isInitialized,
-        loggedIn: !!user, // true if user exists
+        loggedIn: !!user,
         guestUpgradeState,
         login,
         logout,
@@ -300,6 +446,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         beginGuestUpgrade,
         cancelGuestUpgrade,
         completeGuestUpgrade,
+        sessionChecked,
       }}
     >
       {children}
@@ -307,18 +454,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Custom hook for accessing authentication context
 export function useAuth() {
   const context = useContext(AuthContext);
 
-  // Ensures hook is used within provider
   if (!context) throw new Error('useAuth must be used inside AuthProvider');
 
   return context;
 }
 
-// This file lives under app/ and is discovered as a route by Expo Router.
-// Export a no-op component to prevent route warnings while keeping context exports.
+// No-op component to prevent route warnings
 export default function AuthContextRoutePlaceholder() {
   return null;
 }
