@@ -4630,49 +4630,46 @@ function calculateOrderTotal(order: Order): number {
 <div class="sect2">
 <h3 id="_tools_and_access_levels">Tools and Access Levels</h3>
 <div class="paragraph">
-<p>Our team utilized several Generative AI tools to support the project&#8217;s technical and documentation requirements. The tools used include:</p>
+<p>During Milestone 3, the team continued to rely on Generative AI tools and expanded their usage to support the active implementation phase of the project. The tools used include:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>ChatGPT (5.2 and Plus tier)</strong>: Primarily used for architectural  brainstorming.</p>
+<p><strong>ChatGPT (GPT-5.5, Plus subscription)</strong>: Used for building a foundational understanding of lecture topic tasks, guiding debugging sessions, and generating partial code for testing tasks such as integration and fuzz tests.</p>
 </li>
 <li>
-<p><strong>GitHub Copilot</strong>: Assisted in code generation and refine technical phasing.</p>
+<p><strong>GitHub Copilot (VS Code integration)</strong>: Assisted in code generation for testing tasks, code reformatting, and comment generation for improved readability.</p>
 </li>
 <li>
-<p><strong>Claude 3.5 Sonnet</strong>: Refactored research data into documentation.</p>
+<p><strong>Claude Sonnet 4.6 (via Claude Code and claude.ai)</strong>: Used for debugging code during development, reviewing documentation grammar and clarity, and evaluating approaches for expanding the CI pipeline.</p>
 </li>
 <li>
-<p><strong>Google Gemini (2.5 and 3.1)</strong>: Used for technical writing and refactoring research data into documentation.</p>
-</li>
-<li>
-<p><strong>DeepSeek</strong>: Used specifically for syntax transcription.</p>
+<p><strong>Google Gemini</strong>: Used for concept research, gathering usability testing guidelines, and supporting technical writing.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The systems delivered multiple research methods which allowed developers to create new code and organize their respective research materials.</p>
+<p>The combination of these tools allowed team members to address both implementation tasks and documentation requirements more efficiently throughout the milestone.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_stages_of_ai_usage">Stages of AI Usage</h3>
 <div class="paragraph">
-<p>AI tools were integrated into various stages which extended from initial brainstorming to final technical review.</p>
+<p>AI tools were integrated across several stages of the Milestone 3 implementation process:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>Research and Learning</strong>: Tools assisted in troubleshooting the code environment setups which included configuring the VS Code debugger for Expo and React Native.</p>
+<p><strong>Research and Learning</strong>: Team members used AI tools to research unfamiliar concepts, including database design principles such as Supabase workflows, SQL query structure, and table relationships, as well as usability testing methodology and course related topics such as Hoare logic, and fuzzing techniques. This helped members build understanding in areas that were new to them during the implementation phase.</p>
 </li>
 <li>
-<p><strong>Brainstorming</strong>: Generating UI design ideas and "skeletal" code outlines to identify potential redundancies.</p>
+<p><strong>Brainstorming and Issue Formulation</strong>: AI assisted in drafting and refining GitHub issues to ensure they were clear and aligned with project requirements, as well as identifying the structure and focus areas for lecture topic tasks.</p>
 </li>
 <li>
-<p><strong>Structuring and Refinement</strong>: We used AI to help structure test automation frameworks which included defining reporting standards and enhancing technical language for system logging and error flags. We also used AI to help structure our ideas and information for documentation.</p>
+<p><strong>Code Generation and Debugging</strong>: Tools such as GitHub Copilot and ChatGPT were used to generate initial code structures for testing tasks, including fuzz tests for order-related functions (for example, issues #605 and #613) and integration tests for order submission and confirmation flows. Claude Sonnet 4.6 was used during debugging sessions when errors surfaced, particularly in the CI/CD pipeline and the automated test suite. All generated code was reviewed and modified by developers before being applied.</p>
 </li>
 <li>
-<p><strong>Documentation</strong>: Structuring AsciiDoc files, drafting issues to ensure they were descriptive and proofreading documentation for clarity.</p>
+<p><strong>Documentation and Phrasing</strong>: AI tools were used for grammar correction, phrasing improvements, and AsciiDoc formatting verification.</p>
 </li>
 </ol>
 </div>
@@ -4680,22 +4677,31 @@ function calculateOrderTotal(order: Order): number {
 <div class="sect2">
 <h3 id="_human_vs_ai_contributions">Human vs AI Contributions</h3>
 <div class="paragraph">
-<p>Artificial Intelligence provided templates and initial drafts which required human users to create the main analysis and core logical framework. The team avoided AI use for some architectural tasks like Defect Management (Issue #35). All visual assets like logos, color palettes, and code logic were created entirely by the team. For example, while the AI suggested general UI components, the team manually developed the unique navigation structure and branding. AI, in general, provided initial verbal explanations and document structures while the team was responsible for the final content, design, and technical implementation.</p>
+<p>The team maintained a clear distinction between human work and AI assisted tasks throughout the implementation phase. Core analysis, architectural decisions, Hoare logic proofs, test case design, test input variations, and acceptance criteria were all developed independently by team members. AI was applied to the more mechanical or repetitive aspects of work like formatting, grammar cleanup, code reformatting, and generating initial structures, which developers then reviewed and often substantially revised before use.</p>
+</div>
+<div class="paragraph">
+<p>In testing work, for example, the logic behind what to test, the specific input variations, and the final validation of results were all determined by the developer. AI contributed by generating automated code and test function structures. For documentation tasks, all underlying research and analysis were conducted by team members, with AI limited to formatting and phrasing refinement.</p>
+</div>
+<div class="paragraph">
+<p>In all cases, AI output was reviewed before being incorporated into the project.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_verification_and_conflict_resolution">Verification and Conflict Resolution</h3>
 <div class="paragraph">
-<p>We enforced a strong verification process to ensure the accuracy of our documentation and code. For example, while AI generated drafts for the QA Test Plan proposed scope limits restricted to frontend requirements, the team identified conflicts with our quality standards. We manually revised the scope to include backend and integration testing.</p>
+<p>The team applied consistent verification practices to ensure that AI generated content was accurate and aligned with project requirements. Code generated by AI was tested directly in the relevant environment, including running fuzz tests against order functions, verifying Supabase queries against actual database behavior, and confirming that integration tests produced the expected results.</p>
 </div>
 <div class="paragraph">
-<p>All AI-generated content was reviewed by the team by researching websites, libraries, and documentation to ensure the accuracy of the information.</p>
+<p>When AI tools produced conflicting or inaccurate outputs, developers consulted alternative sources such as official documentation, online communities, or other AI tools before applying any suggestion. For example, when a tool failed to correctly address a specific code issue, the developer turned to official documentation and external resources instead. In another case, during scenario documentation work, AI introduced content about order history interactions in a section focused exclusively on the order placement flow, so the developer identified the mismatch with the issue scope and removed the irrelevant content before submitting the work.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_reflection">Reflection</h3>
 <div class="paragraph">
-<p>AI use enhanced our productivity by providing quick access to complex information and generating initial drafts. However, we recognized, for example, a dependency risk for AsciiDoc formatting that resulted in some formatting errors or inability to memorize specific syntax. Finally, the project taught us that AI is most effective as a supportive tool for speed and clarification, provided it is guided by human verification process.</p>
+<p>Across Milestone 3, AI tools generally enhanced team engagement and productivity. They reduced time spent on repetitive tasks such as renaming code elements, reformatting documents, and locating correct file paths within the project. For team members working with TypeScript or Supabase for the first time, AI provided a way to grasp unfamiliar syntax and concepts while staying focused on the team&#8217;s goals rather than getting stuck on language details.</p>
+</div>
+<div class="paragraph">
+<p>The most effective approach across the team was treating AI as a tutor or supportive assistant rather than a definitive source. By grounding AI use in independent verification and testing code outputs, checking course materials, and comparing suggestions across tools, the team was able to benefit from AI speed while maintaining quality and academic rigor. This milestone reinforced that AI is most valuable when paired with active human judgment and a solid understanding of the task at hand.</p>
 </div>
 </div>
 </div>
@@ -4824,6 +4830,12 @@ function calculateOrderTotal(order: Order): number {
 <td class="tableblock halign-left valign-top"><p class="tableblock">Developed section 4.7, based on usability testing.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#690</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Appendix A: AI Disclosure Statement</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Edited the section to include more details about the tools used in the implementation stage and milestone 3.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4831,7 +4843,7 @@ function calculateOrderTotal(order: Order): number {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-27 11:56:51 -0400
+Last updated 2026-05-27 18:54:13 -0400
 </div>
 </div>
 </body>

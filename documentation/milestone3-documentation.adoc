@@ -2305,41 +2305,46 @@ This supports maintainability because future developers can understand the shape
 == Appendix A: AI Disclosure Statement
 === Tools and Access Levels
 
-Our team utilized several Generative AI tools to support the project's technical and documentation requirements. The tools used include:
+During Milestone 3, the team continued to rely on Generative AI tools and expanded their usage to support the active implementation phase of the project. The tools used include:
 
-* *ChatGPT (5.2 and Plus tier)*: Primarily used for architectural  brainstorming.
-* *GitHub Copilot*: Assisted in code generation and refine technical phasing.
-* *Claude 3.5 Sonnet*: Refactored research data into documentation.
-* *Google Gemini (2.5 and 3.1)*: Used for technical writing and refactoring research data into documentation.
-* *DeepSeek*: Used specifically for syntax transcription.
+* *ChatGPT (GPT-5.5, Plus subscription)*: Used for building a foundational understanding of lecture topic tasks, guiding debugging sessions, and generating partial code for testing tasks such as integration and fuzz tests.
+* *GitHub Copilot (VS Code integration)*: Assisted in code generation for testing tasks, code reformatting, and comment generation for improved readability.
+* *Claude Sonnet 4.6 (via Claude Code and claude.ai)*: Used for debugging code during development, reviewing documentation grammar and clarity, and evaluating approaches for expanding the CI pipeline.
+* *Google Gemini*: Used for concept research, gathering usability testing guidelines, and supporting technical writing.
 
-The systems delivered multiple research methods which allowed developers to create new code and organize their respective research materials.
+The combination of these tools allowed team members to address both implementation tasks and documentation requirements more efficiently throughout the milestone.
 
 === Stages of AI Usage
 
-AI tools were integrated into various stages which extended from initial brainstorming to final technical review.
+AI tools were integrated across several stages of the Milestone 3 implementation process:
 
-. *Research and Learning*: Tools assisted in troubleshooting the code environment setups which included configuring the VS Code debugger for Expo and React Native.
+. *Research and Learning*: Team members used AI tools to research unfamiliar concepts, including database design principles such as Supabase workflows, SQL query structure, and table relationships, as well as usability testing methodology and course related topics such as Hoare logic, and fuzzing techniques. This helped members build understanding in areas that were new to them during the implementation phase.
 
-. *Brainstorming*: Generating UI design ideas and "skeletal" code outlines to identify potential redundancies.
+. *Brainstorming and Issue Formulation*: AI assisted in drafting and refining GitHub issues to ensure they were clear and aligned with project requirements, as well as identifying the structure and focus areas for lecture topic tasks.
 
-. *Structuring and Refinement*: We used AI to help structure test automation frameworks which included defining reporting standards and enhancing technical language for system logging and error flags. We also used AI to help structure our ideas and information for documentation.
+. *Code Generation and Debugging*: Tools such as GitHub Copilot and ChatGPT were used to generate initial code structures for testing tasks, including fuzz tests for order-related functions (for example, issues #605 and #613) and integration tests for order submission and confirmation flows. Claude Sonnet 4.6 was used during debugging sessions when errors surfaced, particularly in the CI/CD pipeline and the automated test suite. All generated code was reviewed and modified by developers before being applied.
 
-. *Documentation*: Structuring AsciiDoc files, drafting issues to ensure they were descriptive and proofreading documentation for clarity.
+. *Documentation and Phrasing*: AI tools were used for grammar correction, phrasing improvements, and AsciiDoc formatting verification.
 
 === Human vs AI Contributions
 
-Artificial Intelligence provided templates and initial drafts which required human users to create the main analysis and core logical framework. The team avoided AI use for some architectural tasks like Defect Management (Issue #35). All visual assets like logos, color palettes, and code logic were created entirely by the team. For example, while the AI suggested general UI components, the team manually developed the unique navigation structure and branding. AI, in general, provided initial verbal explanations and document structures while the team was responsible for the final content, design, and technical implementation.
+The team maintained a clear distinction between human work and AI assisted tasks throughout the implementation phase. Core analysis, architectural decisions, Hoare logic proofs, test case design, test input variations, and acceptance criteria were all developed independently by team members. AI was applied to the more mechanical or repetitive aspects of work like formatting, grammar cleanup, code reformatting, and generating initial structures, which developers then reviewed and often substantially revised before use.
+
+In testing work, for example, the logic behind what to test, the specific input variations, and the final validation of results were all determined by the developer. AI contributed by generating automated code and test function structures. For documentation tasks, all underlying research and analysis were conducted by team members, with AI limited to formatting and phrasing refinement.
+
+In all cases, AI output was reviewed before being incorporated into the project.
 
 === Verification and Conflict Resolution
 
-We enforced a strong verification process to ensure the accuracy of our documentation and code. For example, while AI generated drafts for the QA Test Plan proposed scope limits restricted to frontend requirements, the team identified conflicts with our quality standards. We manually revised the scope to include backend and integration testing.
+The team applied consistent verification practices to ensure that AI generated content was accurate and aligned with project requirements. Code generated by AI was tested directly in the relevant environment, including running fuzz tests against order functions, verifying Supabase queries against actual database behavior, and confirming that integration tests produced the expected results.
 
-All AI-generated content was reviewed by the team by researching websites, libraries, and documentation to ensure the accuracy of the information. 
+When AI tools produced conflicting or inaccurate outputs, developers consulted alternative sources such as official documentation, online communities, or other AI tools before applying any suggestion. For example, when a tool failed to correctly address a specific code issue, the developer turned to official documentation and external resources instead. In another case, during scenario documentation work, AI introduced content about order history interactions in a section focused exclusively on the order placement flow, so the developer identified the mismatch with the issue scope and removed the irrelevant content before submitting the work.
 
 === Reflection
 
-AI use enhanced our productivity by providing quick access to complex information and generating initial drafts. However, we recognized, for example, a dependency risk for AsciiDoc formatting that resulted in some formatting errors or inability to memorize specific syntax. Finally, the project taught us that AI is most effective as a supportive tool for speed and clarification, provided it is guided by human verification process.
+Across Milestone 3, AI tools generally enhanced team engagement and productivity. They reduced time spent on repetitive tasks such as renaming code elements, reformatting documents, and locating correct file paths within the project. For team members working with TypeScript or Supabase for the first time, AI provided a way to grasp unfamiliar syntax and concepts while staying focused on the team's goals rather than getting stuck on language details.
+
+The most effective approach across the team was treating AI as a tutor or supportive assistant rather than a definitive source. By grounding AI use in independent verification and testing code outputs, checking course materials, and comparing suggestions across tools, the team was able to benefit from AI speed while maintaining quality and academic rigor. This milestone reinforced that AI is most valuable when paired with active human judgment and a solid understanding of the task at hand.
 
 == Appendix B: Log of Changes
 
@@ -2366,4 +2371,6 @@ The following table have all the changes made to the documentation for Milestone
 | @Lorenzo-PT | 1.2.2 - Needs | Summarized the needs in each area while still keeping the idea of the previous documentation. | #689
 | @Lorenzo-PT | 2.1.4 - Events, Actions, and Behaviors | Rewrote the behaviors to not be pointing out every event or action in them, as well as show a sequence as example. | #667
 | @Lorenzo-PT | 4.7 - Usability Testing | Developed section 4.7, based on usability testing. | #690
+| @reinaldo-martinez1 | Appendix A: AI Disclosure Statement | Edited the section to include more details about the tools used in the implementation stage and milestone 3. | N/A
 |===
+ 
