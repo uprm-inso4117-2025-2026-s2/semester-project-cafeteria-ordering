@@ -8,7 +8,7 @@ import {
     minAddonPrice,
     minItemPrice,
     minQuantity,
-} from "../cases/TC-ORD-05_property_based_cart_calculations";
+} from "../cases/TC-ORD-10_property_based_cart_calculations";
 
 
 interface TestAddOn {
@@ -108,7 +108,7 @@ const cartArbitrary = fc.array(cartItemArbitrary, {
 
 // Test Suite
 
-describe("TC-ORD-05 Property Based Cart Calculations", () => {
+describe("TC-ORD-10 Property Based Cart Calculations", () => {
 
   test("cart subtotal is never negative", () => {
 

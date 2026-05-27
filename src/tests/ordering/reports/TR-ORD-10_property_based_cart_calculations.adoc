@@ -3,11 +3,11 @@ Author: Kaysha Pagan
 
 *Date:* 2026-05-27
 
-*ID:* TR-ORD-05
+*ID:* TR-ORD-10
 
 *Issue:* #653
 
-*Test:* TC-ORD-05_property_based_cart_calculations
+*Test:* TC-ORD-10_property_based_cart_calculations
 
 *Pass/Fail Status:* PASS
 

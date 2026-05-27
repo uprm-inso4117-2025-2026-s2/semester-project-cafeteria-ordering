@@ -4,8 +4,8 @@ Author: Kaysha Pagan
 
 == Related Test Artifacts
 
-* Test Case: TC-ORD-05_property_based_cart_calculations
-* Test Report: TR-ORD-05_property_based_cart_calculations
+* Test Case: TC-ORD-10_property_based_cart_calculations
+* Test Report: TR-ORD-10_property_based_cart_calculations
 
 == Summary
 
