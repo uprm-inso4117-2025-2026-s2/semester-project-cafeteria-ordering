@@ -1,0 +1,41 @@
+= TC-AUTH-07 Account Sign-In and Verification Regression Testing TR
+Author: Devlin Hahn
+
+*Date:* 2026-05-27
+
+*ID:* TR-AUTH-07
+
+*Issue:* #670
+
+*Test:* TC-AUTH-07 - Account Sign-In and Verification Regression Testing (auth_regression.test.tsx)
+
+*Pass/Fail Status:* PASS
+
+== Description
+All 14 test cases passed successfully:
+
+=== Login Page Render Tests
+1. Login screen renders correctly without crashing
+2. Email field is displayed on login screen
+3. Password field is displayed on login screen
+
+=== Session and Logout Tests
+4. Session restored correctly on app restart
+5. Expired session redirects to login page
+6. Logout clears session successfully
+7. Authenticated user has valid session
+8. Unauthenticated user has no session
+
+=== Sign Up Page Tests
+9. Sign up screen renders correctly without crashing
+10. Full Name field is displayed on sign up screen
+11. Email field is displayed on sign up screen
+12. Password field is displayed on sign up screen
+13. Confirm Password field is displayed on sign up screen
+14. Phone Number field is displayed on sign up screen
+
+== Notes
+Test suite executed successfully with all 14 tests passing. Session persistence, expiry handling, and logout functionality are working as expected. Sign up page UI elements are correctly rendered. No console errors were detected during test execution.
+
+// Test execution time: ~10.5 seconds
+// Tests: 14 passed, 0 failed
