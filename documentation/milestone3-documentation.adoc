@@ -1045,11 +1045,11 @@ The following code can help illustrate how the system currently handles this ord
 
 [source,text]
 ----
-export async function persistOrder(order: Order) {
+export async function createOrder(order: Order) {
   const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
 
   if (error) {
-    console.error('Error when persisting order:', error.message)
+    console.error('Error when creating order:', error.message)
     return null
   }
 
@@ -1064,21 +1064,21 @@ export async function persistOrder(order: Order) {
   return data
 }
 ----
-In this brief source code, persistOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. The function inserts this fully-formed record directly into the database. Note that the current implementation does not check item availability or stock levels before insertion; stock validation is a known gap that must be enforced before this function is called or added here explicitly if it is intended as a system constraint.
+In this code, createOrder receives an Order object with the student ID, selected items, total price, and status, and saves it to the database. One thing worth noting is that right now the function doesn't check whether items are actually in stock before inserting the order, so that validation either needs to happen before calling this function or be added inside it.
 
 *Pickup Code/ Order Security*
 
 Along with our order creation and confirmation, to increase security and reduce or eliminate the possibility of order theft, the system will have a pickup code generator, shown with this pseudocode:
 [source,text]
 ----
-function generateCode(order: Order)
+function generatePickupCode(order: Order)
     code= randomnumberBetween (0001,9999)
     order.update(id, {
         pickupCode: code
     })
     return code
 ----
-The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order. 
+Once generatePickupCode runs, the code gets saved to the order. When the customer comes to pick up their food, they show this code to the staff, who verify it before handing everything over.
 
 *UI Design*
 
@@ -1214,18 +1214,20 @@ The following concepts are derived from recurring observations in the domain rou
 
 ==== 3.2.1 Validation
 
-*Scenario Walkthroughs (Ongoing)*
+*Scenario Walkthroughs (Completed)*
 
-* The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:
+* During Milestone 2, the team conducted two scenario walkthroughs to check that our domain concepts, narrative, and requirements actually matched what happens in the cafeteria.
 
-** Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.
+* *Domain Narrative Walkthrough* — Team members each took a role — one as a student, another as cafeteria staff — and went through the narrative in Section 2.1.3 from start to finish. The ordering flow, payment step, and pickup sequence all checked out. We also confirmed that the “Student Has Just Left the Queue Without Ordering” event made sense in context, since it naturally comes up when a student looks at the line and realizes they don't have enough time. Nothing in the narrative needed to be changed, and the terms used matched what we defined in Section 2.1.2.
 
-* After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.
+* *Requirements Walkthrough* — The team went through a set of requirements from Sections 2.2.3 and 2.2.4 and matched each one to a persona from Section 2.2.2 to check if it covered a real problem. For example, we looked at DR-02 (Item Availability) through Mariana's situation, since she has trouble planning meals when she doesn't know what's available. IR-2.2.4-5 (Order creation) was checked against Carlos, since he needs to place orders quickly between classes. The main service stages were all covered and no new term conflicts came up.
 
-*Terminology and Concept Validation (Ongoing)*  
+* Both walkthroughs were reviewed by the Documentation Team Lead and didn't result in any changes to the domain concepts or requirements. As implementation moves forward, we plan to do more walkthroughs focused on the actual features being built.
 
-* Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).  
-* Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.
+*Terminology and Concept Validation (Ongoing)*
+
+* Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).
+* During the domain narrative walkthrough we also checked that our terms were being used correctly. Words like “customer,” “order,” and “pickup code” came up naturally in the scenarios and nobody was confused by them. No new conflicts came up.
 
 *Use of Research (Ongoing)*  
 
@@ -1473,12 +1475,12 @@ Precondition (client domain):
 
 Derived Acceptance Criteria (client domain):
 
-* The student must be able to select available menu items.
-* The student must be able to add selected items to an order.
-* The student must be able to proceed to checkout and choose a pickup option.
+* The system must present available menu items for the student to select.
+* The system must allow the student to add selected items to an order.
+* The system must provide a checkout step where the student can choose a pickup option.
 * The system must confirm successful order placement.
-* The cafeteria staff must be notified of new orders.
-* The student must receive an order confirmation message.
+* The system must notify cafeteria staff of new orders.
+* The system must send the student an order confirmation message.
 
 These acceptance criteria remain expressed in stakeholder language and do not reference technical implementation details.
 
@@ -1501,13 +1503,14 @@ Scenario: Successful log-in with valid credentials
 
 [source,gherkin]
 ----
-Scenario: Successful order placement  
-    Given the student is logged in and on the menu page  
-    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"  
-    And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process  
-    Then the system should confirm the order  
-    And the cafeteria staff should be notified of the new order  
-    And the student should receive an order confirmation message  
+Scenario: Successful order placement
+    Given the student is logged in and on the menu page
+    When the student selects "Pollo Asado" with sides "Arroz Blanco" and "Habichuelas" and clicks "Add to order"
+    And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process
+    Then the system should confirm the order
+    And the cafeteria staff should be notified of the new order
+    And the student should receive an order confirmation message
+    And the system should display an estimated pickup time
 ----
 
 * Secure Order Pickup
@@ -1536,22 +1539,19 @@ The project integrates Cucumber (cucumber-js) as the selected BDD tool. Cucumber
 
 The existing setup enables execution of Gherkin scenarios through the Cucumber runner, demonstrating integration of a BDD tool into the development workflow as required by the course guideline.
 
-==== Automation Status in Milestone 1
+==== Automation Status in Milestone 3
 
-At this milestone, the Cucumber environment and Gherkin specification files are fully configured. However, step definitions binding these scenarios to implemented application behavior have not yet been developed.
+By Milestone 3, Cucumber is set up and step definitions have been written for all the main scenarios. The issue is that those step definitions are still stubs as they track state in a local object instead of actually calling the app's service layer. 
 
-This is intentional and aligned with milestone sequencing. Milestone 1 focuses on domain modeling, requirements engineering, documentation, and preparation of testing infrastructure. Full behavioral binding and executable verification against implemented functionality will be completed in Milestone 2, once core application features are available.
+What we do have right now:
 
-The current configuration demonstrates that:
-
-* A BDD tool is integrated into the project.
-* Behavioral specifications are written in Gherkin.
-* Scenarios are structured for automated execution.
-* The testing infrastructure is prepared for future implementation binding.
+* Cucumber is set up in the project and can be run through npm.
+* Feature files are written in Gherkin for order placement, order pickup, authentication, staff operations, and menu browsing.
+* Step definitions exist for all of those scenarios.
 
 ==== Summary
 
-By applying BDD and integrating Cucumber into the repository, the project establishes a clear path from stakeholder requirements to executable behavioral specifications. Even though full step-definition implementation will occur in Milestone 2, the current setup ensures alignment between requirements, documentation, and automated testing infrastructure, satisfying the academic requirements for BDD tool integration.
+The team has integrated Cucumber into the project with feature files and step definitions written for all main scenarios and the runner working. The step definitions are still stubs at this point, so the next step is connecting them to the real service layer so the tests actually verify what the app does.
 
 === 4.3 Use of Debugging
 
@@ -2360,6 +2360,9 @@ The following table have all the changes made to the documentation for Milestone
 | @aryamdiaz | 4.9 - Types | Added a new section explaining how static typing is used through TypeScript to represent core domain concepts such as orders, menu items, payment methods, and order statuses. Included a functional example and explained how types improve clarity, maintainability, and function behavior. | #645
 | @JadStelar | 1.3.1 - Scope | Removed the out of place aspects from domain engineering based on professor's feedback | #649
 | @JadStelar | 3.1 - Concept Analysis | Expanded concepts to better align with professor's expectations of the section. | #650
+| @reinaldo-martinez1 | 2.3.1 - Selected Fragments | Added explanatory annotations to the order creation and pickup code fragments. | N/A
+| @reinaldo-martinez1 | 3.2.1 - Validation | Added scenario walkthrough details and terminology validation results. | N/A
+| @reinaldo-martinez1 | 4.2 - BDD | Added estimated pickup time step to the order placement scenario and automation status section. | N/A
 | @Lorenzo-PT | 1.2.2 - Needs | Summarized the needs in each area while still keeping the idea of the previous documentation. | #689
 | @Lorenzo-PT | 2.1.4 - Events, Actions, and Behaviors | Rewrote the behaviors to not be pointing out every event or action in them, as well as show a sequence as example. | #667
 | @Lorenzo-PT | 4.7 - Usability Testing | Developed section 4.7, based on usability testing. | #690
