@@ -1,1 +1,5 @@
-{ "recommendations": ["expo.vscode-expo-tools"] }
+{
+  "recommendations": [
+    "denoland.vscode-deno"
+  ]
+}

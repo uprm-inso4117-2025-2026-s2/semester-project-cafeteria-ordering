@@ -18,3 +18,9 @@ export const addCartItem = (
 export const getCartItems = () => {
   return cartItems;
 };
+
+//For clearing after payment
+export const clearCart = () => {
+  cartItems = [];
+  console.log('Cart cleared');
+};

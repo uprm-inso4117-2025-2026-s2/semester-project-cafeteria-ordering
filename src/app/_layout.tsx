@@ -2,6 +2,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import 'react-native-reanimated';
 
 import OfflineBanner from '@/components/ui/offline-online-banner';
@@ -108,6 +109,9 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
+      <StripeProvider publishableKey={
+        process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+      }>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthGate />
         <Stack>
@@ -121,6 +125,7 @@ export default function RootLayout() {
         <OfflineBanner />
         <StatusBar style="auto" />
       </ThemeProvider>
+      </StripeProvider>
     </AuthProvider>
   );
 }

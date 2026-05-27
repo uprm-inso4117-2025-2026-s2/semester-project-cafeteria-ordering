@@ -40,6 +40,13 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.anonymous.semesterprojectcafeteriaordering",
+          "enableGooglePay": false
+        }
       ]
     ],
     "experiments": {
