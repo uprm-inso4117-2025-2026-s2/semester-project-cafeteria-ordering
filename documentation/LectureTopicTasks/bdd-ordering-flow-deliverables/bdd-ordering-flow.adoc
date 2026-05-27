@@ -8,14 +8,12 @@ This document defines Behavior-Driven Development (BDD) scenarios for the orderi
 
 == Scenarios
 
-The scenarios in this document cover the following behaviors:
+Here we are covering the following behaviors:
 
 * Viewing menu items
 * Adding a menu item to the cart
 * Reviewing the order summary before payment
 * Completing payment and placing the order
-
-This document focuses only on the customer ordering flow.
 
 == Ordering Flow Scenarios
 
@@ -89,6 +87,6 @@ Payment --> Customer: Show order placed message
 @enduml
 ----
 
-== Diagram Explanation
+== Diagram
 
 The diagram shows the customer ordering flow using only behavior currently represented in the project files. The customer opens the menu page, views menu items, adds an item to the cart, opens the payment screen, reviews the order summary, enters payment information, and presses Pay Now. After payment, the cart is cleared and the system shows an order placed message.
