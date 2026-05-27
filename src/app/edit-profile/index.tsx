@@ -3,6 +3,7 @@ import { getProfileByUserId, updateProfileName, updateProfilePhone } from '@/lib
 import { formatPhoneNumber, isValidEmail } from '@/lib/validation';
 import React, { useState, useEffect } from 'react';
 import {
+  ActivityIndicator,
   View,
   Text,
   TextInput,
@@ -23,23 +24,29 @@ export default function EditProfile() {
   const colorScheme = useColorScheme() ?? 'light';
   const theme = Colors[colorScheme];
 
+  const [loading, setLoading] = useState(true);
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
-  async function loadProfile() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-    const profile = await getProfileByUserId(user.id);
-    if (!profile) return;
-    setFullName(profile.full_name ?? '');
-    setPhoneNumber(profile.phone ?? '');
-    setEmail(user.email ?? '');
-  }
-  loadProfile();
-}, []);
+    async function loadProfile() {
+      setLoading(true);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        const profile = await getProfileByUserId(user.id);
+        if (!profile) return;
+        setFullName(profile.full_name ?? '');
+        setPhoneNumber(profile.phone ?? '');
+        setEmail(user.email ?? '');
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadProfile();
+  }, []);
 
   /*function handleSave() {
     Alert.alert(
@@ -259,6 +266,11 @@ export default function EditProfile() {
           </TouchableOpacity>
         </View>
         </ScrollView>
+        {loading && (
+          <View style={[styles.loadingOverlay, { backgroundColor: theme.background }]}>
+            <ActivityIndicator size="large" color={Colors.primaryGreen} />
+          </View>
+        )}
       </SafeAreaView>
     </>
   );
@@ -400,5 +412,11 @@ const styles = StyleSheet.create({
   },
   discardButtonText: {
     fontSize: 17,
+  },
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
   },
 });

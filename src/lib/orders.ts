@@ -167,3 +167,45 @@ export async function getOrderID(orderId: string): Promise<string | null> {
  
   return data.order_id
 }
+
+export interface OrderHistoryItem {
+  order_id: string
+  user_id: string
+  total_amount: number
+  order_status: OrderStatus
+  notes?: string
+  created_at: string
+  order_items: {
+    menu_item_id: string
+    quantity: number
+    unit_price: number
+    special_instructions?: string
+  }[]
+}
+
+export async function getOrdersByUserId(userId: string): Promise<OrderHistoryItem[]> {
+  const { data, error } = await supabase
+    .from('orders')
+    .select(`
+      order_id,
+      user_id,
+      total_amount,
+      order_status,
+      notes,
+      created_at,
+      order_items (
+        menu_item_id,
+        quantity,
+        unit_price,
+        special_instructions
+      )
+    `)
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw new Error(`Error fetching order history: ${error.message}`)
+  }
+
+  return data ?? []
+}
