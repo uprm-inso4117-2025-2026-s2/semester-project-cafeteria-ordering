@@ -8,17 +8,18 @@ import * as ImagePicker from "expo-image-picker";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 import {
-    Alert,
-    Image,
-    Modal,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  Image,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import { useAuth } from "../authContext";
@@ -75,11 +76,11 @@ export default function ProfileScreen() {
   const router = useRouter();
   const { signOut } = useAuth();
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  // const [editing, setEditing] = useState(false);
-  // const [saved, setSaved] = useState(false);
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
 
   async function pickAvatar() {
@@ -143,13 +144,24 @@ export default function ProfileScreen() {
   useFocusEffect(
     useCallback(() => {
       async function loadProfile() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-        const profile = await getProfileByUserId(user.id);
-        if (!profile) return;
-        setName(profile.full_name ?? '');
-        setPhone(profile.phone ?? '');
-        setEmail(user.email ?? '');
+        setLoading(true);
+        setError(false);
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            router.replace('/login');
+            return;
+          }
+          const profile = await getProfileByUserId(user.id);
+          if (!profile) return;
+          setName(profile.full_name ?? '');
+          setPhone(profile.phone ?? '');
+          setEmail(user.email ?? '');
+        } catch {
+          setError(true);
+        } finally {
+          setLoading(false);
+        }
       }
       loadProfile();
       AsyncStorage.getItem("@profile_avatar").then((v) => v && setAvatarUri(v));
@@ -173,7 +185,7 @@ export default function ProfileScreen() {
 
       {/* Header */}
       <View style={[s.header, { backgroundColor: Colors.primaryGreen }]}>
-        <TouchableOpacity onPress={() => router.replace("/")} style={s.backBtn}>
+        <TouchableOpacity onPress={() => router.navigate("/(tabs)" as any)} style={s.backBtn}>
           <Ionicons name="arrow-back" size={26} color={theme.secondaryText} />
         </TouchableOpacity>
         <View pointerEvents="none" style={s.headerTitleWrapper}>
@@ -269,6 +281,27 @@ export default function ProfileScreen() {
 
       </ScrollView>
 
+      {loading && (
+        <View style={[s.loadingOverlay, { backgroundColor: theme.background }]}>
+          <ActivityIndicator size="large" color={Colors.primaryGreen} />
+        </View>
+      )}
+
+      {error && (
+        <View style={[s.loadingOverlay, { backgroundColor: theme.background }]}>
+          <Ionicons name="alert-circle-outline" size={54} color={Colors.mutedGray} />
+          <Text style={[{ color: Colors.mutedGray, marginTop: 8 }, Typography.body]}>
+            Something went wrong
+          </Text>
+          <TouchableOpacity
+            onPress={() => setError(false)}
+            style={[s.outlineBtn, { borderColor: theme.tint, marginTop: 12, paddingHorizontal: 32 }]}
+          >
+            <Text style={{ color: theme.tint, ...Typography.button, fontSize: 14 }}>Try Again</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <ConfirmModal
         visible={logoutModal} onClose={() => setLogoutModal(false)}
         onConfirm={handleLogout}
@@ -355,4 +388,5 @@ goldBtn: { borderWidth: 1.5, borderRadius: 50, padding: 14, alignItems: "center"
   reqRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8 },
   reqCheck: { width: 20, height: 20, borderRadius: 4, borderWidth: 1.5, alignItems: "center", justifyContent: "center" },
   reqNoteInput: { borderWidth: 1, borderRadius: 8, padding: 10, marginTop: 12, minHeight: 70, textAlignVertical: "top" },
+  loadingOverlay: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center", zIndex: 10 },
 });
