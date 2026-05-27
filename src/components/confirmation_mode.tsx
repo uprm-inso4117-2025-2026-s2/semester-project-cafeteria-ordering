@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     Modal,
     StyleSheet,
@@ -11,20 +11,27 @@ import {
 type ConfirmationModeProps = {
   visible: boolean;
   orderNumber: number;
-  reason: string;
-  onReasonChange: (reason: string) => void;
-  onConfirmCancel: (reason?: string) => void;
+  onConfirm: (closeType: "completed" | "cancelled", reason?: string) => void;
   onGoBack: () => void;
 };
 
 export default function ConfirmationMode({
   visible,
   orderNumber,
-  reason,
-  onReasonChange,
-  onConfirmCancel,
+  onConfirm,
   onGoBack,
 }: ConfirmationModeProps) {
+  const [reason, setReason] = useState("");
+
+  useEffect(() => {
+    if (!visible) setReason("");
+  }, [visible]);
+
+  const handleConfirm = (closeType: "completed" | "cancelled") => {
+    onConfirm(closeType, reason.trim() || undefined);
+    setReason("");
+  };
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.confirmationOverlay}>
@@ -34,13 +41,12 @@ export default function ConfirmationMode({
           </Text>
 
           <Text style={styles.confirmationMessage}>
-            This action will close the order. Please confirm only if this order is ready or
-            should no longer be prepared.
+            How would you like to close this order?
           </Text>
 
           <TextInput
             value={reason}
-            onChangeText={onReasonChange}
+            onChangeText={setReason}
             placeholder="Optional reason for closing"
             placeholderTextColor="#8a8a8a"
             style={styles.reasonInput}
@@ -48,22 +54,30 @@ export default function ConfirmationMode({
           />
 
           <View style={styles.confirmationActions}>
+            <View style={styles.actionRow}>
+              <TouchableOpacity
+                activeOpacity={0.75}
+                style={styles.preparedButton}
+                onPress={() => handleConfirm("completed")}
+              >
+                <Text style={styles.preparedButtonText}>Order Prepared</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                activeOpacity={0.75}
+                style={styles.cancelOrderButton}
+                onPress={() => handleConfirm("cancelled")}
+              >
+                <Text style={styles.cancelOrderButtonText}>Cancel Order</Text>
+              </TouchableOpacity>
+            </View>
+
             <TouchableOpacity
               activeOpacity={0.75}
               style={styles.goBackButton}
               onPress={onGoBack}
             >
               <Text style={styles.goBackButtonText}>Go back</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={0.75}
-              style={styles.confirmCancelButton}
-              onPress={() => onConfirmCancel(reason.trim() || undefined)}
-            >
-              <Text style={styles.confirmCancelButtonText}>
-                Confirm close
-              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -124,13 +138,44 @@ const styles = StyleSheet.create({
   },
 
   confirmationActions: {
-    flexDirection: "row",
     gap: 12,
     marginTop: 20,
   },
 
-  goBackButton: {
+  actionRow: {
+    flexDirection: "row",
+    gap: 12,
+  },
+
+  preparedButton: {
     flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    backgroundColor: "#16a34a",
+    alignItems: "center",
+  },
+
+  preparedButtonText: {
+    fontSize: 15,
+    fontWeight: "800",
+    color: "#ffffff",
+  },
+
+  cancelOrderButton: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    backgroundColor: "#dc2626",
+    alignItems: "center",
+  },
+
+  cancelOrderButtonText: {
+    fontSize: 15,
+    fontWeight: "800",
+    color: "#ffffff",
+  },
+
+  goBackButton: {
     paddingVertical: 14,
     borderRadius: 12,
     backgroundColor: "#e5e7eb",
@@ -141,19 +186,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "800",
     color: "#111827",
-  },
-
-  confirmCancelButton: {
-    flex: 1,
-    paddingVertical: 14,
-    borderRadius: 12,
-    backgroundColor: "#dc2626",
-    alignItems: "center",
-  },
-
-  confirmCancelButtonText: {
-    fontSize: 15,
-    fontWeight: "800",
-    color: "#ffffff",
   },
 });

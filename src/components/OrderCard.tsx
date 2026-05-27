@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Colors } from "@/constants/theme";
 import { OrderStatusInput, StatusBadge } from "./ui/StatusBadge";
 
 interface OrderItem {
@@ -8,6 +9,7 @@ interface OrderItem {
 }
 
 type OrderTab = "unread" | "open" | "finished";
+type PickupStatus = "awaiting_pickup" | "picked_up" | "cancelled";
 
 interface OrderCardProps {
   orderNumber: number;
@@ -15,6 +17,13 @@ interface OrderCardProps {
   createdAt: string;
   items: OrderItem[] | string[];
   status: OrderTab | OrderStatusInput;
+  pickupStatus?: PickupStatus;
+}
+
+function getPickupLabel(ps: PickupStatus): { text: string; color: string } {
+  if (ps === "awaiting_pickup") return { text: "AWAITING", color: "#f97316" };
+  if (ps === "picked_up") return { text: "PICKED UP", color: "#16a34a" };
+  return { text: "CANCELLED", color: "#dc2626" };
 }
 
 export function OrderCard({
@@ -23,6 +32,7 @@ export function OrderCard({
   createdAt,
   items,
   status,
+  pickupStatus,
 }: OrderCardProps) {
   const visibleItems = items.slice(0, 2);
   const showViewMore = items.length > 2;
@@ -34,11 +44,24 @@ export function OrderCard({
     status === "finished" && styles.avatarFinished,
   ];
 
+  const pickupLabel = pickupStatus ? getPickupLabel(pickupStatus) : null;
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
         <View style={styles.headerRow}>
-          <View style={avatarStyle} />
+          <View style={styles.avatarColumn}>
+            {pickupLabel ? (
+              <>
+                <View style={[styles.avatarDot, { backgroundColor: pickupLabel.color }]} />
+                <Text style={[styles.pickupLabel, { color: pickupLabel.color }]}>
+                  {pickupLabel.text}
+                </Text>
+              </>
+            ) : (
+              <View style={avatarStyle} />
+            )}
+          </View>
 
           <View style={styles.headerTextContainer}>
             <Text style={styles.orderTitle}>Order #{orderNumber}</Text>
@@ -81,13 +104,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#BDBDBD",
-    flex: 1,
+    borderColor: Colors.mutedGray,
   },
   header: {
-    backgroundColor: "#FFCCBC",
+    backgroundColor: Colors.pastelPeach,
     borderBottomWidth: 2,
-    borderBottomColor: "#BDBDBD",
+    borderBottomColor: Colors.mutedGray,
     paddingHorizontal: 5,
     paddingVertical: 6,
   },
@@ -106,16 +128,29 @@ const styles = StyleSheet.create({
   avatarUnread: {
     backgroundColor: "#FFFFFF",
     borderWidth: 1,
-    borderColor: "#BDBDBD",
+    borderColor: Colors.mutedGray,
   },
   avatarOpen: {
-    backgroundColor: "#A5D6A7",
+    backgroundColor: Colors.pastelSage,
     borderWidth: 1,
-    borderColor: "#2E7D32",
+    borderColor: Colors.primaryGreen,
   },
   avatarFinished: {
-    backgroundColor: "#FFCCBC",
+    backgroundColor: Colors.pastelPeach,
     borderWidth: 0,
+  },
+  avatarColumn: {
+    alignItems: "center",
+    marginTop: 4,
+    flexShrink: 0,
+    width: 44,
+  },
+  pickupLabel: {
+    fontSize: 8,
+    fontWeight: "800",
+    marginTop: 3,
+    textAlign: "center",
+    letterSpacing: 0.5,
   },
   headerTextContainer: {
     flex: 1,
