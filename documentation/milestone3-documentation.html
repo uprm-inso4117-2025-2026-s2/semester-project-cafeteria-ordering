@@ -483,7 +483,7 @@ Friday, February 27, 2026</p>
 <li><a href="#_4_4_load_testing">4.4 Load Testing</a></li>
 <li><a href="#_4_5_hoare_logic_testing">4.5 Hoare Logic Testing</a></li>
 <li><a href="#_4_6_mutation_testing">4.6 Mutation Testing</a></li>
-<li><a href="#_4_10_fuzzing">4.10 Fuzzing</a></li>
+<li><a href="#_4_7_usability_testing">4.7 Usability testing</a></li>
 </ul>
 </li>
 <li><a href="#_appendix_a_ai_disclosure_statement">Appendix A: AI Disclosure Statement</a>
@@ -895,141 +895,59 @@ Oversee system-wide quality and automation.</p>
 </div>
 <div class="sect3">
 <h4 id="_1_2_2_needs">1.2.2 Needs</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_1_2_2_needs_2">1.2.2 Needs</h4>
 <div class="paragraph">
 <p>The long wait times at the university cafeteria show unmet needs in food service and campus life, not in any specific system or technology. These needs come from how student schedules, cafeteria operations, and institutional restrictions interact, and as a consequence, they affect many stakeholders.</p>
 </div>
 <div class="sect4">
 <h5 id="_students">Students</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Be able to access meals within limited time windows between classes without risking tardiness or absence.</p>
-</li>
-<li>
-<p>Reduce uncertainty around how long it will take to obtain food, especially during peak cafeteria hours.</p>
-</li>
-<li>
-<p>Maintain consistent access to meals that supports health, focus, and academic performance.</p>
-</li>
-<li>
-<p>Avoid having to choose between basic needs and academic responsibilities.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Access meals reliably within a limited time window without having to risk tardiness, academic responsabilities and basic needs</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_cafeteria_staff">Cafeteria Staff</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Handle high volumes of orders efficiently without excessive pressure during peak periods.</p>
-</li>
-<li>
-<p>Maintain a smooth operational flow that minimizes crowding and confusion at service points.</p>
-</li>
-<li>
-<p>Receive clearer signals about when demand will come and the volume of orders. This will help better manage preparation.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Be able to handle high order volumes efficiently at any time while mantaining a manageable and organized operational flow.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_university_staff">University Staff</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Ensure campus services support student retention, wellness, and academic success.</p>
-</li>
-<li>
-<p>Minimize crowds in shared spaces to improve safety and traffic flow.</p>
-</li>
-<li>
-<p>Balance service improvements with resource and staffing constraints.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Ensure that campus food services support the student&#8217;s wellness and success, doing so while remaining within any resource and staffing constraints</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_ordering">Ordering</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Customers need clear visibility of available items, sides, and prices early enough to make a decision without losing time.</p>
-</li>
-<li>
-<p>Customers need confidence that what they request can actually be fulfilled at the moment of ordering.</p>
-</li>
-<li>
-<p>Staff need orders to be communicated unambiguously, such as items, quantities, and special requests to reduce rework, corrections, and misunderstandings.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>All parties, both customers and staff, need the ordering process to be as clear, accurante and unambiguous. Customers need menu visibility and availability, and staff requires orders to be communicated without error.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_paying">Paying</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Customers need to know the total amount they are expected to pay, including any applicable fees, before committing to payment, so they can decide whether to proceed with payment</p>
-</li>
-<li>
-<p>Customers need clear confirmation that payment was accepted and tied to their specific order, so they can avoid order payment conflicts at pickup.</p>
-</li>
-<li>
-<p>Staff need a clear, consistent way to determine whether payment has been completed before a meal is released, to avoid disputes and confusion.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Customers need clear information of the amount they are expected to pay, along with the order&#8217;s payment confirmation and staff need a reliable way to verify the customer&#8217;s payment before releasing the meal.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_preparing">Preparing</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Staff need preparation work to align with real demand so that surges do not create overwhelming backlogs or food waste.</p>
-</li>
-<li>
-<p>Customers need realistic expectations about preparation time, especially during peak periods when delays are more likely.</p>
-</li>
-<li>
-<p>The preparation step needs a clear notion of order progress so that customers have visibility into the status of their order.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>The staff need to align preparation work based on average customer demand during normal or peak periods to reduce food waste and update customers with their order&#8217;s preparation status and time.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_pickup">Pickup</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Customers need a pickup process that is orderly and time-efficient.</p>
-</li>
-<li>
-<p>Staff need to reliably match prepared meals to the correct customer to prevent wrong hand-offs, disputes, and wasted food.</p>
-</li>
-<li>
-<p>Customers need to accurately know when their order is actually ready so they do not cluster at the pickup area unnecessarily or pick up their order late.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>The pickup process needs to be ordered and accurate. Customers need to be accurately notified when their order is ready and the staff needs a reliable way to match the correct order with the customer.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_project_level_needs">Project Level Needs</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>A clear statement of requirements based on stakeholder needs, without reference to any system.</p>
-</li>
-<li>
-<p>A common language used in analysis, design, implementation, and testing to avoid confusion.</p>
-</li>
-<li>
-<p>Planning documents (requirements, architecture, design, and test strategy) to support the solution selected later.</p>
-</li>
-<li>
-<p>A general description of cafeteria operations and how stakeholders interact.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>A baseline for the project&#8217;s requirements, common language format for any documentation belonging to the project, doccument planning and a general description of the Cafeteria Ordering operations to show the project from research through implementation.</p>
 </div>
 </div>
 </div>
@@ -1379,10 +1297,10 @@ A recurring slowdown caused by limited capacity in ordering, payment, or prepara
 <p><strong>Student Has Just Left the Queue Without Ordering (event)</strong> — the moment a student abandons the line due to time pressure or other circumstances.</p>
 </li>
 <li>
-<p><strong>Crowd Surge (behavior)</strong> — Actions involved: Joining a Queue (performed by many students in a short time span). Events observed: Student Has Just Joined the Queue (repeated rapidly). Outcome: long queues and increased service pressure.</p>
+<p><strong>Crowd Surge (behavior)</strong> — Multiple students <strong>Join a queue</strong> in a short span of time &#8594; <strong>Student Has Just Joined the Queue</strong> is observed repeatedly &#8594; results in a more lengthy queue and increased service pressure on staff</p>
 </li>
 <li>
-<p><strong>Time-Constrained Decision Making (behavior)</strong> — Actions involved: Joining a Queue; abandoning the queue before ordering. Events observed: Student Has Just Left the Queue Without Ordering. Pattern: customers weigh estimated waiting time against remaining time before their next obligation and decide whether to remain.</p>
+<p><strong>Time-Constrained Decision Making (behavior)</strong> — Student <strong>Joins a queue</strong> &#8594; student contemplates about staying or leaving the queue line &#8594; if student left: <strong>Student Has Just Left the Queue Without Ordering</strong></p>
 </li>
 </ul>
 </div>
@@ -1411,7 +1329,7 @@ A recurring slowdown caused by limited capacity in ordering, payment, or prepara
 <p><strong>Payment Has Just Failed (event)</strong> — the moment a payment attempt does not complete successfully, causing a delay in service.</p>
 </li>
 <li>
-<p><strong>Service Bottleneck (behavior)</strong> — Actions involved: Payment (repeated attempts); staff troubleshooting. Events observed: Payment Has Just Failed; Student Has Just Left the Queue Without Ordering. Outcome: increased waiting time and reduced service throughput.</p>
+<p><strong>Service Bottleneck (behavior)</strong> — Customer performs payment &#8594; staff troubleshoots, stalling queue &#8594; other customers try to join the queue &#8594; throughput is reduced &#8594; Student left queue without Ordering</p>
 </li>
 </ul>
 </div>
@@ -1430,7 +1348,7 @@ A recurring slowdown caused by limited capacity in ordering, payment, or prepara
 <p><strong>Meal Pickup (action)</strong> — a customer receiving prepared or selected items after an order has been completed.</p>
 </li>
 <li>
-<p><strong>Uncertain Demand Preparation (behavior)</strong> — Actions involved: Meal Preparation (performed in advance). Events observed: Meal Has Just Been Prepared (occurring before confirmed demand). Pattern: staff produce meals without precise knowledge of near-term order volume, leading to potential over- or under-preparation.</p>
+<p><strong>Uncertain Demand Preparation (behavior)</strong> — Staff prepares meal without confirmed order &#8594; Meal is Prepared in advance &#8594; Food waste due to over-preparation or delays due to under-preparation depending on actual incoming orders</p>
 </li>
 </ul>
 </div>
@@ -2500,11 +2418,11 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-text" data-lang="text">export async function persistOrder(order: Order) {
+<pre class="highlight"><code class="language-text" data-lang="text">export async function createOrder(order: Order) {
   const { data, error } = await supabase.from('orders').insert({student_id: order.student_id, items: order.items, total: order.total, status: 'Pending',})
 
   if (error) {
-    console.error('Error when persisting order:', error.message)
+    console.error('Error when creating order:', error.message)
     return null
   }
 
@@ -2521,7 +2439,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 </div>
 <div class="paragraph">
-<p>In this brief source code, persistOrder takes an Order object, that has all the essential information such as student ID, selected items, price and status of the order, as an input. The function inserts this fully-formed record directly into the database. Note that the current implementation does not check item availability or stock levels before insertion; stock validation is a known gap that must be enforced before this function is called or added here explicitly if it is intended as a system constraint.</p>
+<p>In this code, createOrder receives an Order object with the student ID, selected items, total price, and status, and saves it to the database. One thing worth noting is that right now the function doesn&#8217;t check whether items are actually in stock before inserting the order, so that validation either needs to happen before calling this function or be added inside it.</p>
 </div>
 <div class="paragraph">
 <p><strong>Pickup Code/ Order Security</strong></p>
@@ -2531,7 +2449,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-text" data-lang="text">function generateCode(order: Order)
+<pre class="highlight"><code class="language-text" data-lang="text">function generatePickupCode(order: Order)
     code= randomnumberBetween (0001,9999)
     order.update(id, {
         pickupCode: code
@@ -2540,7 +2458,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 </div>
 </div>
 <div class="paragraph">
-<p>The pickup code is now in the user order, when the user goes to the pickup counter at the cafeteria, they will be asked their code and can now pickup their order.</p>
+<p>Once generatePickupCode runs, the code gets saved to the order. When the customer comes to pick up their food, they show this code to the staff, who verify it before handing everything over.</p>
 </div>
 <div class="paragraph">
 <p><strong>UI Design</strong></p>
@@ -2915,22 +2833,21 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <div class="sect3">
 <h4 id="_3_2_1_validation">3.2.1 Validation</h4>
 <div class="paragraph">
-<p><strong>Scenario Walkthroughs (Ongoing)</strong></p>
+<p><strong>Scenario Walkthroughs (Completed)</strong></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The team has planned scenario walkthroughs with prospective stakeholders, but these sessions have not yet taken place. These walkthroughs are intended to confirm that events such as “Student Has Just Left the Queue Without Ordering” match reality and serve to validate the proposed requirements. For example:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Juan is a 2nd year student that is currently taking a high load of classes this semester. He has a 30 minute break between his 12:00 PM and 12:30 PM classes. He goes to the cafeteria at 12:05 PM and sees a long line that extends into the hallway. He looks at his watch and decides to skip the meal because he is afraid of being late for his next class.</p>
-</li>
-</ul>
-</div>
+<p>During Milestone 2, the team conducted two scenario walkthroughs to check that our domain concepts, narrative, and requirements actually matched what happens in the cafeteria.</p>
 </li>
 <li>
-<p>After walkthroughs are conducted, any mismatches or missing steps will lead to updated domain concepts and requirements.</p>
+<p><strong>Domain Narrative Walkthrough</strong> — Team members each took a role — one as a student, another as cafeteria staff — and went through the narrative in Section 2.1.3 from start to finish. The ordering flow, payment step, and pickup sequence all checked out. We also confirmed that the “Student Has Just Left the Queue Without Ordering” event made sense in context, since it naturally comes up when a student looks at the line and realizes they don&#8217;t have enough time. Nothing in the narrative needed to be changed, and the terms used matched what we defined in Section 2.1.2.</p>
+</li>
+<li>
+<p><strong>Requirements Walkthrough</strong> — The team went through a set of requirements from Sections 2.2.3 and 2.2.4 and matched each one to a persona from Section 2.2.2 to check if it covered a real problem. For example, we looked at DR-02 (Item Availability) through Mariana&#8217;s situation, since she has trouble planning meals when she doesn&#8217;t know what&#8217;s available. IR-2.2.4-5 (Order creation) was checked against Carlos, since he needs to place orders quickly between classes. The main service stages were all covered and no new term conflicts came up.</p>
+</li>
+<li>
+<p>Both walkthroughs were reviewed by the Documentation Team Lead and didn&#8217;t result in any changes to the domain concepts or requirements. As implementation moves forward, we plan to do more walkthroughs focused on the actual features being built.</p>
 </li>
 </ul>
 </div>
@@ -2943,7 +2860,7 @@ If a customer or staff member cancels an order, the system must reverse the tran
 <p>Through internal reviews and discussions we have already identified and resolved terminology conflicts (such as student vs. customer, and customer queue vs. order queue).</p>
 </li>
 <li>
-<p>Future validation sessions will describe scenarios using our terms and ask stakeholders whether they would express them differently. Missing or misaligned terms will be added or revised.</p>
+<p>During the domain narrative walkthrough we also checked that our terms were being used correctly. Words like “customer,” “order,” and “pickup code” came up naturally in the scenarios and nobody was confused by them. No new conflicts came up.</p>
 </li>
 </ul>
 </div>
@@ -3347,22 +3264,22 @@ through verifiable, incremental behavior.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>The student must be able to select available menu items.</p>
+<p>The system must present available menu items for the student to select.</p>
 </li>
 <li>
-<p>The student must be able to add selected items to an order.</p>
+<p>The system must allow the student to add selected items to an order.</p>
 </li>
 <li>
-<p>The student must be able to proceed to checkout and choose a pickup option.</p>
+<p>The system must provide a checkout step where the student can choose a pickup option.</p>
 </li>
 <li>
 <p>The system must confirm successful order placement.</p>
 </li>
 <li>
-<p>The cafeteria staff must be notified of new orders.</p>
+<p>The system must notify cafeteria staff of new orders.</p>
 </li>
 <li>
-<p>The student must receive an order confirmation message.</p>
+<p>The system must send the student an order confirmation message.</p>
 </li>
 </ul>
 </div>
@@ -3406,7 +3323,8 @@ through verifiable, incremental behavior.</p>
     And the student proceeds to checkout and selects "ASAP" as the pickup option and completes the payment process
     Then the system should confirm the order
     And the cafeteria staff should be notified of the new order
-    And the student should receive an order confirmation message</code></pre>
+    And the student should receive an order confirmation message
+    And the system should display an estimated pickup time</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -3455,29 +3373,23 @@ through verifiable, incremental behavior.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_automation_status_in_milestone_1">Automation Status in Milestone 1</h4>
+<h4 id="_automation_status_in_milestone_3">Automation Status in Milestone 3</h4>
 <div class="paragraph">
-<p>At this milestone, the Cucumber environment and Gherkin specification files are fully configured. However, step definitions binding these scenarios to implemented application behavior have not yet been developed.</p>
+<p>By Milestone 3, Cucumber is set up and step definitions have been written for all the main scenarios. The issue is that those step definitions are still stubs as they track state in a local object instead of actually calling the app&#8217;s service layer.</p>
 </div>
 <div class="paragraph">
-<p>This is intentional and aligned with milestone sequencing. Milestone 1 focuses on domain modeling, requirements engineering, documentation, and preparation of testing infrastructure. Full behavioral binding and executable verification against implemented functionality will be completed in Milestone 2, once core application features are available.</p>
-</div>
-<div class="paragraph">
-<p>The current configuration demonstrates that:</p>
+<p>What we do have right now:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>A BDD tool is integrated into the project.</p>
+<p>Cucumber is set up in the project and can be run through npm.</p>
 </li>
 <li>
-<p>Behavioral specifications are written in Gherkin.</p>
+<p>Feature files are written in Gherkin for order placement, order pickup, authentication, staff operations, and menu browsing.</p>
 </li>
 <li>
-<p>Scenarios are structured for automated execution.</p>
-</li>
-<li>
-<p>The testing infrastructure is prepared for future implementation binding.</p>
+<p>Step definitions exist for all of those scenarios.</p>
 </li>
 </ul>
 </div>
@@ -3485,7 +3397,7 @@ through verifiable, incremental behavior.</p>
 <div class="sect3">
 <h4 id="_summary">Summary</h4>
 <div class="paragraph">
-<p>By applying BDD and integrating Cucumber into the repository, the project establishes a clear path from stakeholder requirements to executable behavioral specifications. Even though full step-definition implementation will occur in Milestone 2, the current setup ensures alignment between requirements, documentation, and automated testing infrastructure, satisfying the academic requirements for BDD tool integration.</p>
+<p>The team has integrated Cucumber into the project with feature files and step definitions written for all main scenarios and the runner working. The step definitions are still stubs at this point, so the next step is connecting them to the real service layer so the tests actually verify what the app does.</p>
 </div>
 </div>
 </div>
@@ -4083,12 +3995,156 @@ payment_failed    = true   ⇒  confirmation_id  = 0</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_4_10_fuzzing">4.10 Fuzzing</h3>
+<h3 id="_4_7_usability_testing">4.7 Usability testing</h3>
+<div class="paragraph">
+<p>Usability testing evaluates how easily users can complete their tasks in a system, focusing on the agilty and quality of experience rather than the task being performed successfully. For context, The Cafeteria Ordering application can be fully functional but it can still fail if the students cannot place an order quickly during a short break or if the cafeteria staff cannot process any order during peak periods. This usability testing analysis is documented in two LTT documents stored in <code>documentation/LectureTopicTasks/</code>. &amp; some testing plans are included in <code>documentation/LectureTopicTasks/usability-testing</code></p>
+</div>
+<div class="sect3">
+<h4 id="_usability_testing_plan_new_user_registration_and_authentication">Usability Testing Plan: New User Registration and Authentication</h4>
+<div class="paragraph">
+<p><strong>This testing plan are derived from two of the scenarios located in <code>documentation/LectureTopicTasks/usability-testing/usability-testing-auth-sec.adoc</code></strong></p>
+</div>
+<div class="sect4">
+<h5 id="_objectiveusability_question">Objective/Usability Question</h5>
+<div class="paragraph">
+<p>When designing this testing plan, the primary question was:</p>
+</div>
+<div class="paragraph">
+<p><strong>How many UPRM students will be able to complete the full registration and login flow without any assistance, in (at most) 3 minutes?</strong></p>
+</div>
+<div class="paragraph">
+<p>The study was chosen since authentication is a key point that grants entry to all of the system&#8217;s features. If users cannot easily register or log in, then the system can&#8217;t be used by them.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_test_plan_setup">Test Plan Setup</h5>
+<div class="paragraph">
+<p>The test presents participants using a fully functional version of the cafeteria Ordering App. The participants are to perform a new user registration and successfully log in. The participants have no assistance during these tasks and the testing session is timed as soon as the participant opens the application until they are successfully logged in.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_participants">Participants</h5>
+<div class="paragraph">
+<p>Participants will be recruited based on primary users being university students, faculty members or just local customers.</p>
+</div>
+<div class="paragraph">
+<p>The test must include at least <strong>three</strong> non-engineering students, <strong>two</strong> students from any faculty and <strong>at least one</strong> university staff or faculty member.</p>
+</div>
+<div class="paragraph">
+<p>To not recruit many users who have a good understanding of technology, it is reccommended to not have any stem or engineering majors. Also, it is very important to recruit members who often go to the cafeteria, as that is what the application is based on.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_monitoring_methods">Monitoring Methods</h5>
+<div class="paragraph">
+<p>The sessions for these tests are monitored with:</p>
+</div>
+<div class="paragraph">
+<p><strong>Observation</strong> - Observers note any points of hesitation, confusion, backtracking, or errors without intervening.
+<strong>Post-test surveys or Interviews</strong> - A perfect way to understand how users feel about the system.
+<strong>System Analytics</strong> - Lets us know any delay, load time or errors during testing.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_minimal_expectations">Minimal Expectations</h5>
+<div class="paragraph">
+<p>Since the system&#8217;s authentication is fully functional, the minimum expectations for this test plan is for the users to smoothly and successfully perform the sign up and log in workflows while have reduced loading times and no errors produced.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usability_metrics">Usability Metrics</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metric</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Task Success Rate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Percentage of users who complete tasks successfully</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time on Task</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of time needed to complete workflows</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Error Rate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frequency of mistakes during interactions</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User Satisfaction Score</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Survey-based satisfaction measurement</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Learnability Score</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ease of learning system usage</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Efficiency Rate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Speed of completing repeated tasks</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accessibility Compliance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ability to meet accessibility standards</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_focus_areas_for_improvement">Focus Areas for Improvement</h4>
+<div class="paragraph">
+<p>Based on the test plan, the project&#8217;s areas for improvement can vary based on result, but some ways the system can improved based on this plan are:</p>
+</div>
+<div class="sect4">
+<h5 id="_learnability">Learnability</h5>
+<div class="paragraph">
+<p>Improvements for the systen should include: clear instructions, simple navigation, intuitive authentication workflows</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_efficiency">Efficiency</h5>
+<div class="paragraph">
+<p>The system should: minimize clicks, reduce loading times, streamline authentication processes</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_satisfaction">Satisfaction</h5>
+<div class="paragraph">
+<p>Improve visual consistency, interface responsiveness, user trust in authentication security to better improve quality of life on the app.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_error_prevention">Error Prevention</h5>
+<div class="paragraph">
+<p>The platform should always validate forms clearly, prevent invalid submissions, display understandable error messages</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_accessibility">Accessibility</h5>
+<div class="paragraph">
+<p>The system should support Intuitive workflows, responsive mobile layouts,adequate color contrast</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conclusion">Conclusion</h4>
+<div class="paragraph">
+<p>Usability testing is very important since it helps confirm that the system&#8217;s designed workflow is successful while also cutting down on any issue involving the user&#8217;s experience while navigating the application.
+=== 4.10 Fuzzing</p>
+</div>
 <div class="paragraph">
 <p>Fuzzing can be applied to the Cafeteria Ordering System to test how the web interface responds to unexpected, malformed, or invalid inputs. Unlike regular example-based testing, which checks a small number of predefined cases, fuzzing generates many unusual input values to discover weaknesses in input validation, error handling, and interface behavior.</p>
 </div>
 <div class="paragraph">
 <p>This is useful for the Cafeteria Ordering System because users interact with forms and interface elements such as order creation, item quantity selection, payment method selection, special instructions, pickup information, and login or profile fields. These inputs should remain stable and predictable even when users submit unexpected values.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_fuzzing_scope">Fuzzing Scope</h4>
@@ -4732,6 +4788,42 @@ function calculateOrderTotal(order: Order): number {
 <td class="tableblock halign-left valign-top"><p class="tableblock">Expanded concepts to better align with professor&#8217;s expectations of the section.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">#650</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.3.1 - Selected Fragments</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added explanatory annotations to the order creation and pickup code fragments.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.2.1 - Validation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added scenario walkthrough details and terminology validation results.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@reinaldo-martinez1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.2 - BDD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Added estimated pickup time step to the order placement scenario and automation status section.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@Lorenzo-PT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2.2 - Needs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Summarized the needs in each area while still keeping the idea of the previous documentation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#689</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@Lorenzo-PT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.4 - Events, Actions, and Behaviors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rewrote the behaviors to not be pointing out every event or action in them, as well as show a sequence as example.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#667</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@Lorenzo-PT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.7 - Usability Testing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developed section 4.7, based on usability testing.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#690</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4739,7 +4831,7 @@ function calculateOrderTotal(order: Order): number {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-26 20:39:45 -0400
+Last updated 2026-05-27 11:56:51 -0400
 </div>
 </div>
 </body>

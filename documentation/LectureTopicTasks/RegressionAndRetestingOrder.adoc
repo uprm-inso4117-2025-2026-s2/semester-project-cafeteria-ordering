@@ -1,0 +1,166 @@
+= Regression and Retesting Applied to Order Confirmation Flow
+
+== 1. Overview
+
+=== 1.1 Retesting
+
+Retesting is the process of re-executing a test case that previously failed in order to
+verify that a specific defect has been resolved. Retesting focuses
+on the defect that was fixed and confirms that the expected behavior is now met.
+
+=== 1.2 Regression Testing
+
+Regression testing verifies that a fix or change to one part of the system has not
+introduced new defects in other parts. It is broader than retesting and typically covers
+all functionality that could have been affected by the change.
+
+=== 1.3 Key Distinction
+
+[cols="1,2,2", options="header"]
+|===
+| | Retesting | Regression Testing
+| *Purpose* | Confirm the defect is fixed | Confirm no new defects were introduced
+| *Scope* | The specific failing test case | All related functionality
+| *Triggered by* | A defect fix | Any code change
+|===
+
+== 2. Context Order Confirmation Flow
+
+The order confirmation flow involves two functions
+in `src/lib/orders.ts`:
+
+* `submitOrder` — inserts a new order into the `orders` and `order_items` tables
+  and returns the generated `order_id`.
+* `getOrderID` — queries the `orders` table to retrieve the `order_id` for a
+  placed order and returns it as the customer's confirmation ID.
+
+=== 2.1 The Defect
+
+`getOrderID` returns `null` for a valid `order_id`
+immediately after `submitOrder` succeeded. The root cause was identified as a mismatch
+between the column name used in the `.eq()` query and the actual primary key column
+name in the Supabase `orders` table.
+
+The following fix was applied to `getOrderID`:
+
+*Before (defective):*
+[source, typescript]
+----
+const { data, error } = await supabase
+  .from('orders')
+  .select('order_id')
+  .eq('id', orderId)   // incorrect column name
+  .single()
+----
+
+*After (fixed):*
+[source, typescript]
+----
+const { data, error } = await supabase
+  .from('orders')
+  .select('order_id')
+  .eq('order_id', orderId)   // correct column name
+  .single()
+----
+
+== 3. Retesting
+
+After the fix was applied, the tester re-executed the specific test case that originally
+failed to confirm the defect was resolved.
+
+=== 3.1 Retest Case
+
+*Test:* Call `getOrderID` with a valid `order_id` returned by `submitOrder`.
+
+[source, typescript]
+----
+const orderId = await submitOrder(cartItems, userId)
+// orderId = "1e7578f3-ad2c-4085-8c23-ef600e8d4c93" (example)
+
+const confirmationId = await getOrderID(orderId)
+assert(confirmationId === orderId)
+----
+
+*Before fix:* `getOrderID` returned `null`. Test failed.
+
+*After fix:* `getOrderID` returned the correct `order_id`. Test passed.
+
+Retest confirmed the defect was resolved. The confirmation ID is now
+correctly returned and can be displayed to the customer.
+
+== 4. Regression Testing
+
+With the fix confirmed by retesting, regression testing was performed to verify that
+the change to `getOrderID` did not break any related functionality in the order
+confirmation flow.
+
+=== 4.1 Regression Test Cases
+
+==== submitOrder Still Returns a Valid order_id
+
+The fix touched only `getOrderID`. However, both functions work together in the
+confirmation flow, so `submitOrder` must be verified to still behave correctly.
+
+*Test:* Given a valid cart and authenticated user, `submitOrder` must return a
+non-null `order_id` string.
+
+[source, typescript]
+----
+const orderId = await submitOrder(cartItems, userId)
+assert(orderId !== null)
+assert(typeof orderId === 'string')
+----
+
+*Result:* Pass, `submitOrder` was not affected by the fix to `getOrderID`.
+
+==== submitOrder Still Rejects an Empty Cart
+
+The empty cart guard in `submitOrder` must still return `null` after the fix.
+
+*Test:* Given an empty cart, `submitOrder` must return `null` and log an error.
+
+[source, typescript]
+----
+const orderId = await submitOrder([], userId)
+assert(orderId === null)
+----
+
+*Result:* Pass, the guard clause in `submitOrder` was not affected.
+
+==== getOrderID Still Returns Null for a Nonexistent order_id
+
+The fix changed the column name in the query. The behavior for invalid inputs
+must remain unchanged.
+
+*Test:* Given a UUID that does not exist in the `orders` table, `getOrderID`
+must return `null`.
+
+[source, typescript]
+----
+const result = await getOrderID('00000000-0000-0000-0000-000000000000')
+assert(result === null)
+----
+
+*Result:* Pass, the fix did not affect the null-return behavior for missing records.
+
+==== order_items Are Still Inserted Correctly
+
+Since `submitOrder` inserts into both `orders` and `order_items`, the `order_items`
+insertion must be verified to still work after the fix.
+
+*Test:* After a successful `submitOrder`, the `order_items` table must contain
+one row linked to the returned `order_id`.
+
+[source, typescript]
+----
+const orderId = await submitOrder([chickenWrap], userId)
+const { data } = await supabase
+  .from('order_items')
+  .select('*')
+  .eq('order_id', orderId)
+
+assert(data.length === 1)
+assert(data[0].menu_item_id === '1e7578f3-ad2c-4085-8c23-ef600e8d4c93')
+----
+
+*Result:* Pass, `order_items` insertion was not affected by the fix.

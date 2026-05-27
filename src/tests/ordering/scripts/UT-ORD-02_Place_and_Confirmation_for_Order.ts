@@ -1,5 +1,5 @@
 import { strict as assert } from 'node:assert';
-import { dummyInvalidIDs, dummyOrderID, isValidUUID } from '../cases/TC-ORD-2_Place_and_Confirmation_for_Order';
+import { dummyInvalidIDs, dummyOrderID, isValidUUID } from '../cases/TC-ORD-02_Place_and_Confirmation_for_Order';
 
 
 // ─────────────────────────────────────────────
