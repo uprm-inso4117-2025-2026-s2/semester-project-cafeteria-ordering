@@ -7,7 +7,7 @@ Department of Computer Science and Engineering +
 
 Prof. Marko Schutz +
 INSO 4117-060 +
-Friday, February 27, 2026
+Wednesday, May 27, 2026
 
 toc::[]
 
