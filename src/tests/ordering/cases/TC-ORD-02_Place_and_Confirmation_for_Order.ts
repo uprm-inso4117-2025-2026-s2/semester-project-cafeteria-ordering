@@ -46,7 +46,7 @@ Notes
 - Only the format and presence of the order ID is tested.
 - UUID validation uses regex: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.
 - Uniqueness of IDs is assumed and not tested until integration.
-- run: npx tsx src/tests/ordering/scripts/UT-ORD-2_Place_and_Confirmation_for_Order.ts
+- run: npx tsx src/tests/ordering/scripts/UT-ORD-02_Place_and_Confirmation_for_Order.ts
 
 Author: Gerardo Soto Rios (@GerardoSotoRios)
 Date Created: 2026-03-16

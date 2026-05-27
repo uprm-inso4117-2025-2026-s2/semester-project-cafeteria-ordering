@@ -1,5 +1,5 @@
 /*
-Add to cart fuzz test TC
+TC-ORD-09: Add to Cart and Remove Cart Item Fuzz Test
 Author: Horeb Cotto Rosado @horebcotto21
 
 Description
