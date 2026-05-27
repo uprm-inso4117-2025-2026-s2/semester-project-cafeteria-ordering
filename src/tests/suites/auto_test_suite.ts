@@ -5,11 +5,11 @@
  */
 export const testSuiteMetadata = {
   name: "Automated TS Auth, Security, Ordering & Payment Test Suite",
-  version: "1.2.0",
+  version: "1.3.0",
   status: "initialized",
   modules: {
-    authentication: ["TC-AUTH-03", "TC-AUTH-04"],
-    security: ["TC-SUPA-01", "TC-SUPA-02"],
+    authentication: ["TC-AUTH-03", "TC-AUTH-04", "TC-UTIL-VALIDATION-01"],
+    security: ["TC-SUPA-01", "TC-SUPA-02", "TC-SUPA-03"],
     ordering: ["TC-ORD-01", "TC-ORD-02"],
     payment: ["TC-PAY-01"],
   },
