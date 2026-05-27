@@ -34,8 +34,18 @@ function main() {
   //Security & Infrastructure Check
   //Requieres user to have proper .env file set up for local testing
   runStep(
+    "Supabase Security: Configuration (TC-SUPA-01)",
+    "npx tsx src/tests/supabase/scripts/supabase-connection.test.ts",
+  );
+  runStep(
     "Supabase Security Check (TC-SUPA-02)",
     "npx tsx src/tests/supabase/scripts/quick-test.ts",
+  );
+
+  // Centralized input validation utilities.
+  runStep(
+    "Utilities Flow: Centralized Input Validation Utilities (TC-UTIL-VALIDATION-01)",
+    "npx jest src/tests/utils/scripts/validation.test.ts --config jest.config.js",
   );
 
   //Authentication Logic Check
