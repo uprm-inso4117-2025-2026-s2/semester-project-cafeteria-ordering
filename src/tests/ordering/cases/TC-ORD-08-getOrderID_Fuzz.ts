@@ -1,5 +1,5 @@
 /*
- * TC-ORD-06: getOrderID() Fuzz Testing
+ * TC-ORD-08: getOrderID() Fuzz Testing
  * Author: Gerardo Soto Rios (@GerardoSotoRios)
  *
  * Description:
@@ -126,7 +126,7 @@ function randomString(length: number): string {
    * - Fuzz inputs include malformed, oversized, Unicode, and injection-like payloads.
    * - The goal is to identify unexpected runtime failures or unsafe handling.
    * - Run Command to execute test:
-   *   npx tsx src/tests/ordering/scripts/FT-ORD-06-getOrderID_Fuzz.ts
+   *   npx tsx src/tests/ordering/scripts/FT-ORD-08-getOrderID_Fuzz.ts
    *
    * - Date Created: 2026-05-26
    *
