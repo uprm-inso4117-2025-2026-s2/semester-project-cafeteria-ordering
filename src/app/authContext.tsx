@@ -36,6 +36,7 @@ type AuthContextType = {
   logout: () => void;
   signOut: () => Promise<void>;
   signInWithApple: () => Promise<AppleSignInResult>;
+  startGuestSession: () => void;
   beginGuestUpgrade: (preservedRoute?: string) => void;
   cancelGuestUpgrade: () => void;
   completeGuestUpgrade: () => void;
@@ -327,6 +328,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const startGuestSession = useCallback(() => {
+    setGuestUpgradeState({
+      isGuest: true,
+      isUpgradingGuest: false,
+      preservedRoute: '/(tabs)',
+      message: 'You are continuing as a guest.',
+    });
+  }, []);
+
   const beginGuestUpgrade = useCallback((preservedRoute?: string) => {
     setGuestUpgradeState((current) => {
       const nextRoute = preservedRoute || current.preservedRoute || '/(tabs)';
@@ -376,6 +386,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     setUser(null);
+    setGuestUpgradeState({
+      isGuest: false,
+      isUpgradingGuest: false,
+    });
     logSessionEvent('Sign out complete');
   };
 
@@ -443,6 +457,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         signOut,
         signInWithApple,
+        startGuestSession,
         beginGuestUpgrade,
         cancelGuestUpgrade,
         completeGuestUpgrade,

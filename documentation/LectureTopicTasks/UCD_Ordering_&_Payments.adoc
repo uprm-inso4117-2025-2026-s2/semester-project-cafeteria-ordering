@@ -1,0 +1,330 @@
+= User-Centered Design Review for Ordering and Payments
+:toc:
+:toclevels: 3
+
+== Overview
+
+This document reviews the cafeteria ordering and payment experience using User-Centered Design (UCD) principles. The goal is to analyze how effectively the current system supports users while browsing menu items, customizing orders, and completing payments.
+
+The review focuses on usability, efficiency, clarity, and overall user experience throughout the ordering and checkout flow.
+
+The analysis is based on the current implementation of:
+
+- `menu/index.tsx`
+- `menu/[id].tsx`
+- `payment.tsx`
+
+== User-Centered Design Principles Applied
+
+The following UCD principles were used during the review:
+
+=== Simplicity
+
+Interfaces should minimize unnecessary complexity and reduce the amount of effort required from the user.
+
+=== Feedback and Visibility
+
+Users should always understand what is happening in the system after performing an action.
+
+=== Efficiency
+
+Common tasks should require as few steps as possible, especially for returning users.
+
+=== Error Prevention
+
+The interface should prevent invalid actions and guide users toward successful interactions.
+
+=== Consistency
+
+Navigation, terminology, styling, and interactions should remain predictable across screens.
+
+=== Accessibility and Readability
+
+Important information should remain readable, understandable, and visually organized.
+
+== Current Ordering Workflow Analysis
+
+=== Home Experience
+
+The ordering flow begins on the home screen, which includes discovery-oriented features.
+
+Current functionality includes:
+
+- Search bar for menu discovery
+- Category filtering
+- Shopping cart shortcut
+- Best seller highlighting
+- Dynamic filtering of menu items
+
+Strengths:
+
+- Search functionality supports faster ordering
+- Category chips reduce browsing effort
+- Best seller promotion helps users make quick decisions
+- Cart access is always visible
+
+Potential Friction Points:
+
+- Categories are currently limited
+- Category labels may not scale well as menu size grows
+- Search only supports item names and ingredients
+- No sorting functionality exists
+- No recent or favorite items section
+
+=== Menu Browsing
+
+The ordering process begins in `menu/index.tsx`.
+
+Current workflow:
+
+- Menu items are displayed using a `FlatList`
+- Each item is rendered through `MenuItemCard`
+- Users can:
+  * Open item details
+  * Add items directly to cart
+
+Strengths:
+
+- Simple layout
+- Clear separation between browsing and customization
+- Scrollable design supports larger menus
+- Dynamic routing supports scalable navigation
+
+Potential Friction Points:
+
+- The current ordering flow already includes search and category filtering, which improves navigation efficiency. However, filtering and discovery features remain relatively limited for larger menu growth.
+- No visual indication of cart state
+- No feedback confirming an item was added to cart
+
+=== Item Modification Screen
+
+The customization flow occurs in `menu/[id].tsx`.
+
+Current functionality includes:
+
+- Viewing item image and description
+- Adjusting quantity
+- Selecting add-ons
+- Viewing dynamic pricing
+- Adding item to cart
+
+Strengths:
+
+- Quantity controls are visually simple
+- Add-ons are easy to toggle
+- Dynamic descriptions improve readability
+- Availability restrictions disable invalid actions
+
+Potential Friction Points:
+
+- Add-ons lack categories or organization
+- No running total updates when add-ons are selected
+- No visual confirmation after adding to cart
+- Ingredient customization is not yet implemented
+- Users may not immediately understand selected add-ons
+
+=== Ordering Behavior Analysis
+
+Typical user behavior during food ordering includes:
+
+- Fast browsing
+- Minimal reading
+- Repeated purchases
+- Preference for visual information
+- Desire for quick checkout
+
+The inclusion of categories, search functionality, and a highlighted best seller aligns well with common cafeteria ordering behavior, where users often prioritize speed and familiar choices.
+
+The current ordering flow supports basic navigation well but could better support speed and repeat ordering behavior.
+
+== Current Payment Workflow Analysis
+
+=== Payment Information Entry
+
+The checkout process occurs in `payment.tsx`.
+
+Current functionality includes:
+
+- Viewing order summary
+- Entering card information
+- Entering billing information
+- Viewing subtotal and total
+- Saving payment information
+- Submitting payment
+
+Strengths:
+
+- Structured payment layout
+- Clear section separation
+- Automatic formatting for:
+  * Card number
+  * Expiration date
+  * ZIP code
+  * CVC
+- Visible encryption reassurance
+- Stripe branding increases trust
+
+=== Current Checkout Flow
+
+The current payment process follows this sequence:
+
+1. User reviews cart items
+2. User reviews pricing summary
+3. User enters payment information
+4. User enters billing address
+5. User submits payment
+
+=== Payment UX Weaknesses
+
+Several friction points currently affect usability:
+
+==== Large Form Size
+
+The checkout screen contains many input fields.
+
+Impact:
+
+- Increased cognitive load
+- Slower checkout process
+- More intimidating for mobile users
+
+==== No Input Validation Feedback
+
+Inputs are formatted but not fully validated visually.
+
+Examples:
+
+- Invalid expiration dates
+- Empty cardholder name
+- Incomplete address fields
+
+Impact:
+
+- Users may only discover errors late in the process
+
+==== Lack of Payment Progress Indicators
+
+Users do not receive loading states or processing indicators after pressing "Pay Now".
+
+Impact:
+
+- Creates uncertainty
+- May encourage repeated button presses
+
+== User Needs and Motivations
+
+Users interacting with cafeteria systems typically prioritize:
+
+- Speed
+- Convenience
+- Minimal interaction effort
+- Clear pricing
+- Reliable checkout
+- Fast repeat ordering
+
+Students especially may use the application during:
+
+- Short breaks between classes
+- Busy lunch periods
+- High-traffic ordering times
+
+This means reducing interaction time is highly important.
+
+== Growth Path From New to Experienced Users
+
+=== New Users
+
+New users require:
+
+- Clear navigation
+- Obvious actions
+- Readable item descriptions
+- Transparent pricing
+- Guidance during checkout
+
+The current system supports new users reasonably well due to its clear structure.
+
+=== Returning Users
+
+Experienced users prioritize speed and efficiency.
+
+Current limitations for repeat users include:
+
+- No saved preferences
+- No recent orders
+- No quick reorder functionality
+
+== Simplification Opportunities
+
+Several improvements could reduce friction and improve usability.
+
+=== Ordering Improvements
+
+Potential improvements include:
+
+Potential improvements include:
+
+- Expand category organization
+- Add recent or favorite orders
+- Add quick reorder support
+- Show confirmation messages after cart actions
+
+=== Item Customization Improvements
+
+Potential improvements include:
+
+- Add ingredient modification support
+- Group add-ons into categories
+- Display live total updates
+- Add clearer selection indicators
+
+=== Payment Improvements
+
+Potential improvements include:
+
+- Add inline validation feedback
+- Reduce unnecessary billing inputs
+- Add payment loading indicators
+- Support alternative payment methods
+
+== Recommendations Tied to User Needs
+
+[cols="1,2", options="header"]
+|===
+|User Need |Recommendation
+
+|Fast ordering
+|Add search, favorites, and repeat ordering
+
+|Clear pricing
+|Display full totals before payment submission
+
+|Checkout confidence
+|Add validation feedback and loading indicators
+
+|Reduced interaction effort
+|Support saved preferences
+
+|Customization clarity
+|Improve add-on organization and live pricing updates
+
+|Mobile usability
+|Reduce form complexity and scrolling
+|===
+
+== Conclusion
+
+The cafeteria ordering and payment system already provides a strong foundation with structured navigation, organized screens, and clear interaction flow.
+
+The ordering experience already demonstrates several strong user-centered design elements, including search functionality, category filtering, personalized greetings, and highlighted menu recommendations.
+
+However, several improvements could better support real cafeteria usage patterns, especially for returning users who prioritize speed and convenience.
+
+The most significant usability opportunities involve:
+
+- Faster ordering workflows
+- Reduced checkout friction
+- Better feedback during interactions
+- Improved transparency during payment
+
+Applying these improvements would better align the system with User-Centered Design principles and create a smoother overall ordering experience.

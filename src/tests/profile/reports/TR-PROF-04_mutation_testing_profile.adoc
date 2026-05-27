@@ -1,0 +1,120 @@
+= Mutation Testing Profile Screen UI TR
+Author: @daniellameleroo
+
+*Date:* 2026-05-18
+
+*ID:* TR-PROF-MT-01 / TR-PROF-MT-02 / TR-PROF-MT-03
+
+*Issue:* #529
+
+*Test:* TC-PROF-01_mutation_testing_profile — Mutation Testing Profile Screen UI
+
+*Type:* Mutation Analysis (Component / Integration)
+
+*Pass/Fail Status:* ANALYSIS COMPLETE — Test Scripts Pending Implementation
+
+== Description
+
+This report documents the evaluation of three mutation points in the Profile Screen of the Cafeteria Ordering System. Each mutation was analyzed against the current test suite to determine whether it would be killed or survive. The analysis is grounded in the Mutation Testing lecture concepts: Reach, Infect, and Propagate.
+
+Full mutation analysis and design rationale are in:
+`documentation/LectureTopicTasks/MutationTesting-Profile-Screen-UI.adoc`
+
+Test case definitions are in:
+`src/tests/profile/cases/TC-PROF-01_mutation_testing_profile.tsx`
+
+---
+
+=== TR-PROF-MT-01 — Save Profile Guard (Mutation 1)
+
+*Mutation Point:* `src/app/edit-profile/index.tsx` — `handleSave()` authentication guard
+
+*Original Code:* `if (!user) return;`
+
+*Mutant Change:* Guard removed — `handleSave()` proceeds when `user` is null
+
+*Actual Result:* MUTANT SURVIVES
+
+No automated test exists that renders the `EditProfile` component with a null user session and verifies that `updateProfileName` and `updateProfilePhone` are not called. The existing baseline tests (`TC-PROF-01` / `UT-PROF-01_profile_functionality.ts`) operate entirely at the `src/lib/profiles.ts` level and do not mount or exercise the `EditProfile` UI component.
+
+If the `if (!user) return;` guard were removed, no test in the current suite would fail. The mutant survives because no test reaches the guard, infects the state, or observes the missing early return.
+
+*Coverage Gap:* No test verifies that the save flow refuses to execute when the user is not authenticated.
+
+*To Kill This Mutant:* Implement TC-PROF-MT-01 — render `EditProfile` with `supabase.auth.getUser()` mocked to return `{ data: { user: null } }` and assert that `updateProfileName` and `updateProfilePhone` are not called.
+
+---
+
+=== TR-PROF-MT-02 — Logout Confirmation Bypass (Mutation 2)
+
+*Mutation Point:* `src/app/(tabs)/profile.tsx` — Logout button `onPress` handler
+
+*Original Code:* `onPress={() => setLogoutModal(true)}`
+
+*Mutant Change:* `onPress` replaced with `onPress={handleLogout}` — `supabase.auth.signOut()` fires immediately on button press
+
+*Actual Result:* MUTANT SURVIVES
+
+No automated test in the profile test suite verifies any part of the logout confirmation flow. The `ConfirmModal` component, the `setLogoutModal(true)` trigger on the Logout button, and the gating of `handleLogout()` behind modal confirmation are all completely untested.
+
+If the Logout button were rewired to call `handleLogout()` directly, no test would detect the change. `supabase.auth.signOut()` would be called on the first button press with no confirmation required, and all existing tests would continue to pass.
+
+*Coverage Gap:* No test verifies that the logout confirmation modal is required before `signOut()` is called.
+
+*To Kill This Mutant:* Implement TC-PROF-MT-02 — render `ProfileScreen`, press the Logout button, assert `signOut` has not been called, assert the modal is visible, then confirm and assert `signOut` is called exactly once.
+
+---
+
+=== TR-PROF-MT-03 — User ID in Profile Update Calls (Mutation 3)
+
+*Mutation Point:* `src/app/edit-profile/index.tsx` — `handleSave()`, `user.id` argument passed to update calls
+
+*Original Code:*
+[source,typescript]
+----
+await updateProfileName(user.id, fullName);
+await updateProfilePhone(user.id, phoneNumber);
+----
+
+*Mutant Change:* `user.id` replaced with `""` — wrong or empty user identifier passed to update functions
+
+*Actual Result:* PARTIALLY KILLED
+
+The existing unit tests in `TC-PROF-01` (`UT-PROF-01_profile_functionality.ts`) test `updateProfileName` and `updateProfilePhone` at the `src/lib/profiles.ts` level. These tests inject a specific `userId` and assert that the mock Supabase client receives the correct arguments. This kills the mutant at the *library level*: they confirm that passing `""` as the `userId` would not produce the correct behavior.
+
+However, no test verifies that the `EditProfile` UI component passes the correct `user.id` from the authenticated session to these functions. A mutation replacing `user.id` with `""` at the call site in `handleSave()` would survive because no test mounts the `EditProfile` component and asserts on the argument values received by the update functions.
+
+*Coverage Gap:* Library-level test kills the mutation within `profiles.ts`; UI-to-library integration path is untested.
+
+*To Fully Kill This Mutant:* Implement TC-PROF-MT-03 — render `EditProfile` with a known mocked user session, trigger save, and assert that both update functions are called with `"user-test-999"` as the first argument.
+
+---
+
+== Summary Table
+
+[cols="1,2,1,2", options="header"]
+|===
+| Test ID | Mutation | Verdict | Action Required
+
+| TC-PROF-MT-01
+| Save guard removal in `handleSave()`
+| SURVIVES
+| Implement component test with null user session
+
+| TC-PROF-MT-02
+| Logout button bypasses confirmation modal
+| SURVIVES
+| Implement component test for logout confirmation flow
+
+| TC-PROF-MT-03
+| `user.id` replaced with `""` in update calls
+| PARTIALLY KILLED
+| Implement integration test asserting correct argument at call site
+|===
+
+== Notes
+
+- This report will be updated to PASS or FAIL status once the test scripts defined in `TC-PROF-01_mutation_testing_profile.tsx` are implemented and executed.
+- Script implementations should be placed in `src/tests/profile/scripts/`.
+- The mutation analysis and full justification for each verdict are documented in `documentation/LectureTopicTasks/MutationTesting-Profile-Screen-UI.adoc`.
+- The existing baseline test coverage for `profiles.ts` (`TR-PROF-01_profile_functionality.adoc`) is not replaced by this report — it remains valid and complementary. This report targets the UI-layer gaps that the baseline tests do not cover.

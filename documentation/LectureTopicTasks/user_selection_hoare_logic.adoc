@@ -1,0 +1,230 @@
+= Navigation Behavioral Specification Using Hoare Logic
+:toc:
+:toclevels: 3
+
+== Overview ==
+This document analyzes the navigation transition behavior used in the cafeteria ordering system when a user selects a menu item from the menu screen. The analysis applies Hoare Logic to reason about correctness of the navigation flow implemented through the 'handlePressItem()' function in 'index.tsx'. The purpose of this specification is to describe the expected bevavior of the navigation process, identify the conditions required for the correct execution, and define guarantees about the resulting application state after navigation occurs. 
+
+== Navigation Context ==
+The menu system displays a list of available menu items using a 'Flatlist'. Each item is rendered through 'MenuItemCard', which allows the user to interact with a specific menu entry.
+When a user presses a menu item:
+
+. The selected 'MenuItem' object is passed to 'handlePressItem()'
+. The function retrieves the item identifier using:
++
+[source,ts]
+----
+menuItem.getId()
+----
+. The application navigates to:
++
+[source,ts]
+----
+/menu/[id].tsx
+----
+. The destination page retrieves the identifier through:
++
+[source,ts]
+----
+useLocalSearchParams()
+----
+. The corresponding item is loaded from the data source
+
+This creats the complete navigation transition from menu selection to item detail visualization.
+
+== Function Under Analysis ==
+[source,ts]
+----
+const handlePressItem = (menuItem: MenuItem) => {
+  console.log("Navigating to item page:", menuItem);
+  router.push(`/menu/${menuItem.getId()}`);
+};
+----
+
+== Purpose of the Navigation Behavior ==
+The navigation transition is responsible for:
+
+- Receiving the selected menu item
+- Extracting a valid identifier from the item
+- Constructing the correct route
+- Navigating the user to the item detail page
+- Preserving integrity of the selected item during navigation
+
+The function does not modify menu data or application state beyonf route transition.
+
+== Preconditions ==
+The following conditions must hold before the navigation transition is executed.
+
+=== Valid Menu Item ===
+The selected object must represent a valid 'MenuItem'.
+
+Conditions:
+
+[source,text]
+----
+menuItem ≠ null
+----
+
+and 
+
+[source,text]
+----
+menuItem contains a valid identifier
+----
+
+=== Identifier Availability ===
+The selected item must expose a valid ID through:
+
+[source,ts]
+----
+menuItem.getID()
+----
+
+The returned value must be:
+
+- defined
+- non-empty
+- route-safe
+
+=== Router Availability ===
+The router instance obtained through:
+
+[source,ts]
+----
+const router = useRouter();
+----
+
+must exist and be operational before navigation occurs.
+
+== Postconditions ==
+The following conditions are guaranteed after the successful execution.
+
+=== Correct Route Transition ===
+The application transitions to:
+
+[source,text]
+----
+/menu/<item-id>
+----
+
+where '<item-id>' corresponds exactly to the identifier returned by:
+
+[source,ts]
+----
+menuItem.getId()
+----
+
+=== Item Identity Preservation ===
+The item identifier passed through the route remains unchanged during navigation. The destination page receives the same identifier originally associated with the selected item.
+
+=== No Data Mutation ===
+The navigation operation does not modify:
+
+- 'menuItem'
+- cart state
+- pricing data
+- add-on data
+
+The function only triggers a route transition.
+
+== Hoare Logic Specification ==
+
+=== Primary Navigation Triple ===
+[source,text]
+----
+{ menuItem ≠ null ∧ valid(menuItem.id) }
+handlePressItem(menuItem)
+{ currentRoute = "/menu/" + menuItem.id }
+----
+
+== Interpretation of the Triple ==
+
+=== Before Execution ===
+The following must be true:
+
+- A valid menu item exists
+- The item contains a valid identifier
+- Navigation services are available
+
+=== After Execution ===
+The following is guaranteed:
+
+- The application navigates to the correct item page
+- The selected item identity is preserved
+- No unintended state mutation occurs
+
+== Navigation Invariants ==
+The following invariants should remain true throughout execution.
+
+=== Route Consistency ===
+The generated route must always correspond to the selected item identifier.
+
+=== Identifier Integrity ===
+The item ID used for routing must not be modified during transition.
+
+=== Read-Only Navigation Bahavior ===
+The navigation transition must not mutate menu data or application state unrelated to routing.
+
+== Route Resolution Behavior ==
+After navigation occurs, the destination page ('[id].tsx') performs route resolution using:
+
+[source,ts]
+----
+const { id } = useLocalSearchParams<{ id: string }>();
+----
+
+The page then retrieves the associated menu item:
+
+[source,ts]
+----
+dummyMenuItems.find((menuItem) => menuItem.getId() === id);
+----
+
+This created a deterministic mapping between:
+
+[source,text]
+----
+Selected Menu Item -> Generated Route -> Route Parameter -> Retrieved Item
+----
+
+The correctness of this sequence depends on preservation of the item identifier throughout navigation.
+
+== Potential Failure Conditions ==
+The following conditions may violate the specification.
+
+[cols="1,2", options="header"]
+|===
+|Condition |Potential Result
+
+|Null menu item
+|Navigation cannot resolve valid route
+
+|Undefined item identifier
+|Invalid or malformed route generation
+
+|Duplicate identifiers
+|Incorrect item resolution
+
+|Broken router state
+|Navigation failure
+
+|Missing item in destination page
+|Item detail page cannot load correct data
+|===
+
+== Behavioral Guarantees ==
+Under valid preconditions, the navigation transition guarantees:
+
+- Correct route generation
+- Deterministic item lookup
+- Preservation of item identity
+- Safe transition between menu and item detail views
+- No unintended mutation of applicaion data
+
+== Conclusion
+
+This specification applies Hoare Logic reasoning to the navigation transition behavior implemented by `handlePressItem()` in the cafeteria ordering system.
+
+The analysis demonstrates that navigation correctness depends primarily on validity of the selected menu item and integrity of the item identifier used during route construction.
+
+Under the defined preconditions, the system guarantees deterministic navigation to the appropriate item detail page while preserving application consistency and avoiding unintended data mutation.

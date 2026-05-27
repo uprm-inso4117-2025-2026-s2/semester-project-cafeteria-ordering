@@ -18,7 +18,7 @@ import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { mapSignUpError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
-import { formatPhoneNumber, isValidEmail, isValidPassword } from '@/lib/validation';
+import { isValidEmail } from '@/lib/validation';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface InputFieldProps {
@@ -152,9 +152,14 @@ function validate(fields: {
 
   if (!fields.password) {
     errors.password = 'Password is required.';
-  } else if (!isValidPassword(fields.password)) {
-    errors.password =
-      'Password must be at least 8 characters and include a lowercase letter, an uppercase letter, and a number.';
+  } else if (fields.password.length < 8) {
+    errors.password = 'Password must be at least 8 characters.';
+  } else if (!/[a-z]/.test(fields.password)) {
+    errors.password = 'Password must contain at least 1 lowercase letter.';
+  } else if (!/[A-Z]/.test(fields.password)) {
+    errors.password = 'Password must contain at least 1 uppercase letter.';
+  } else if (!/[0-9]/.test(fields.password)) {
+    errors.password = 'Password must contain at least 1 number.';
   }
 
   if (fields.confirmPassword && fields.password !== fields.confirmPassword) {
@@ -262,15 +267,13 @@ export default function SignUpScreen() {
     setIsSubmitting(true);
 
     try {
-      // Profile row should be created by existing DB trigger strategy after Auth signup.
-      const formattedPhone = formatPhoneNumber(phone);
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
         options: {
           data: {
             full_name: fullName.trim(),
-            phone: formattedPhone || null,
+            phone: phone.trim() || null,
           },
         },
       });
@@ -342,12 +345,10 @@ export default function SignUpScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Header ── */}
         <ThemedText type="heading" style={styles.title} accessibilityRole="header">
           Create Your Account
         </ThemedText>
 
-        {/* ── Avatar ── */}
         <View style={[styles.avatarContainer, { borderColor: Colors.mutedGray }]}>
           <Ionicons name="person-circle-outline" size={60} color={Colors.mutedGray} />
         </View>
@@ -366,7 +367,6 @@ export default function SignUpScreen() {
           </View>
         )}
 
-        {/* ── Fields ── */}
         <View style={styles.form}>
           <InputField
             label="Full Name"
@@ -452,7 +452,6 @@ export default function SignUpScreen() {
             accessibilityLabel="Confirm Password"
           />
 
-          {/* ── Terms Checkbox ── */}
           <TouchableOpacity
             style={styles.termsRow}
             onPress={() => {
@@ -496,7 +495,6 @@ export default function SignUpScreen() {
           )}
         </View>
 
-        {/* ── Sign Up Button ── */}
         <TouchableOpacity
           onPress={handleSignUp}
           disabled={isSubmitting || isAppleSubmitting}
@@ -573,7 +571,6 @@ export default function SignUpScreen() {
           </ThemedText>
         )}
 
-        {/* ── Log In Link ── */}
         <View style={styles.loginLinkRow}>
           <ThemedText type="body" style={styles.loginLinkText} lightColor={Colors.mutedGray}>
             Already have an account?{' '}
@@ -592,7 +589,6 @@ export default function SignUpScreen() {
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   flex: { flex: 1 },
   scrollContent: {

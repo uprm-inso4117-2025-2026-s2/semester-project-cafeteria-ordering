@@ -1,0 +1,55 @@
+= TR-ORD-01 Modify Order Unit Test Report
+Author: Yadriel Rivera Rodríguez
+
+*Date:* 2026-05-26
+
+*ID:* TR-ORD-07
+
+*Issue:* #258
+
+*Test:* Integration, no script
+
+*Pass/Fail Status:* FAIL
+
+== Testing Overview
+
+[cols="1,2",options="header"]
+|===
+
+| Test Step | Result
+
+| Log in with valid user
+| PASS
+
+| Reload app to check for user connection in Supabase
+| PASS
+
+| Select an available menu item and enter the item page
+| PASS
+
+| Add an extra ingredient to a known menu item selected from the main page 
+| PASS
+
+| Reload app to ensure extra ingredient selections are connected to Supabase 
+| FAIL
+
+| Add modified order to cart and check cart for existence 
+| PASS
+
+| Reload app to ensure that the cart items are connected to Supabase 
+| FAIL
+
+| Place Order button provides visual input of action 
+| PASS
+
+| Check "Orders" table in Supabase and  reload the app to ensure that the orders are connected to the Supabase 
+| FAIL
+
+| Orders page displays recent order
+| FAIL
+
+|===
+
+== Notes
+- Test results are valid up to 2026/05/26 8:12 AM
+- Menu Items do not have cohesive extra ingredients; Latte has extra cheese and extra sauce as additional ingredients 

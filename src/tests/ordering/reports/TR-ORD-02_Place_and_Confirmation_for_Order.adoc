@@ -1,13 +1,18 @@
-= Place and Confirmation Order ID Unit Test
-Gerardo Y. Soto Ríos
-3/17/2026
-:doctype: article
+= TR-ORD-02 Place and Confirmation Order ID Unit Test Report
+Author: Gerardo Y. Soto Rios
 
-== Test Information
-*ID:* TR-ORD-2 +
-*Issue:* #297 +
-*Type:* Unit Test +
-*Status:* PASS
+*Date:* 2026-03-17
+
+*ID:* TR-ORD-02
+
+*Issue:* #297
+
+*Test:* TC-ORD-02-Place-and-Confirmation-for-Order (unit tests for order ID validation)
+
+*Pass/Fail Status:* PASS
 
 == Description
 This unit test focuses on validating the generation and integrity of Order IDs. It verifies that each generated ID meets the expected format, is not undefined, and remains consistent across operations. Edge cases involving invalid or missing IDs were also tested. All test cases passed, confirming the reliability of the Order ID implementation.
+
+== Notes
+- RUN: npx tsx src/tests/ordering/scripts/UT-ORD-2_Place_and_Confirmation_for_Order.ts

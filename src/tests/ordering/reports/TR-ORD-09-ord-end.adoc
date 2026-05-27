@@ -1,0 +1,72 @@
+= Order endpoints fuzz testing TR
+Author: Horeb Cotto Rosado @horebcotto21
+
+*Date:* 2026-05-26
+
+*ID:* TR-ORD-09
+
+*Issue:* #613
+
+*Test:* FT-ORD-09-ord-end
+
+*Pass/Fail Status:* PASS
+
+== Description
+
+Since this test is focused on adding and removing from cart, we test the add to cart functionality by adding random items with random quantities and add-ons. We then test the remove from cart functionality by randomly removing items from the cart until it is empty. We check that the cart is updated correctly after each operation.
+
+== Notes
+
+Adding malformed ingredients to an item should not crash the system, but should log an error message indicating that the ingredient was not found. The same applies to modifying the base price or ingredients of an item with invalid data. Tested in FT-ORD-06-ord-modify-item-fuzz. 
+
+
+Log last items added and removed from cart:
+
+[source,typescript]
+----
+Cart Cleared
+Cart Updated: [
+  {
+    item: MenuItem {
+      id: 'item1',
+      category_id: 'cat1',
+      name: 'Spaghetti Bolognese',
+      ingredients: [Array],
+      price: 10,
+      image_url: 'image.jpg',
+      available: true,
+      allergens: [],
+      prep_time_minutes: 15,
+      created_at: '2023-01-01',
+      updated_at: '2023-01-01'
+    },
+    quantity: 20,
+    addOns: []
+  }
+]
+Cart Cleared
+Cart Updated: [
+  {
+    item: MenuItem {
+      id: 'item1',
+      category_id: 'cat1',
+      name: 'Spaghetti Bolognese',
+      ingredients: [Array],
+      price: 10,
+      image_url: 'image.jpg',
+      available: true,
+      allergens: [],
+      prep_time_minutes: 15,
+      created_at: '2023-01-01',
+      updated_at: '2023-01-01'
+    },
+    quantity: 3,
+    addOns: []
+  }
+]
+Cart Updated: []
+PASS: Fuzz removeCartItem stress test handled correctly
+
+RESULT: PASS 16 validations succeeded, 0 failures.`
+
+----
