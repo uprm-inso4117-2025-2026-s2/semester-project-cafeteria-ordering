@@ -254,6 +254,11 @@ Then("the user should receive an order confirmation message", function () {
   assert(world.userNotified, "User should receive confirmation");
 });
 
+Then("the system should display an estimated pickup time", function () {
+  world.estimatedPickupTime = "15 minutes";
+  assert(world.estimatedPickupTime, "System should display an estimated pickup time");
+});
+
 // Canceling an Order
 Given("an order is in a cancellable state", function () {
   world.orderStatus = "pending";

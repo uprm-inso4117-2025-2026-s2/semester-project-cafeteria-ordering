@@ -1,0 +1,74 @@
+= Staff Dashboard Usability Summary
+Author: Reinaldo J. Martinez Morales
+
+*Date:* 2026-05-26
+
+*Issue:* #536
+
+*Test Case Reference:* TC-STAFF-01 (`src/tests/staff_operations/cases/TC-STAFF-01_staff_dashboard_usability.ts`)
+
+*Test Report Reference:* TR-STAFF-01 (`src/tests/staff_operations/reports/TR-STAFF-01_staff_dashboard_usability.adoc`)
+
+== Overview
+This document summarizes the findings and recommendations from the manual usability evaluation
+of the cafeteria staff dashboard. The evaluation covered five core workflows: viewing active
+orders, updating order statuses, managing the kitchen queue via the dashboard, verifying
+pickups, and handling order issues via Special Status Requests. Navigation was also evaluated.
+
+== Workflow Results Summary
+
+[cols="2,1,4", options="header"]
+|====
+|Workflow |Result |Notes
+|Viewing Active Orders |PASS |Tabs, order cards, and sort controls all function correctly.
+|Updating Order Statuses |PASS |Detail view accessible; status updates move orders to correct tabs.
+|Managing Kitchen Queues (Dashboard) |PARTIAL |Period data updates correctly; Customer Traffic card accuracy unverifiable.
+|Verifying Pickups |FAIL |"Ready for Pickup" status not surfaced in UI; no confirmation mechanism exists.
+|Handling Order Issues |FAIL |Special Status Requests screen is a non-functional placeholder.
+|Navigation |PASS |Drawer animation, routing, and active state highlighting all correct.
+|====
+
+== Usability Problems Identified
+
+=== Problem 1 — Pickup Verification Workflow Missing (Severity: Critical)
+Staff have no way to confirm that a "Ready for Pickup" order has been collected by the customer.
+The "Ready for Pickup" status is not surfaced on the Orders screen, and no confirmation action
+exists anywhere in the staff UI. This breaks the kitchen-to-counter handoff workflow.
+
+*Recommendation:* Surface "Ready for Pickup" orders visibly in the Open tab. Add a
+"Confirm Pickup" action in the order detail view that transitions the order to Completed/Finished
+and notifies the system.
+
+=== Problem 2 — Special Status Requests Non-Functional (Severity: Critical)
+The Special Status Requests screen contains no functional UI. Staff navigating there to act on
+customer requests find only a title and description text, with no list of requests and no approve
+or deny controls.
+
+*Recommendation:* Implement the request list view with approve and deny actions. Requests should
+display the customer name, request type, and submission time to give staff enough context to act.
+
+=== Problem 3 — Customer Traffic Card Accuracy Unverifiable (Severity: Medium)
+The Dashboard Customer Traffic card could not be confirmed as dynamic during testing. If the
+displayed message is a static string, it provides no actionable information to staff during
+high- or low-volume periods.
+
+*Recommendation:* Tie the Customer Traffic card to real-time active order counts with defined
+thresholds (e.g., High if active orders > 20, Medium if 10–20, Low if < 10) so the signal is
+operationally meaningful.
+
+== Efficiency Observations
+- Order sorting and tab navigation are responsive; staff can quickly locate orders by status.
+- The Dashboard period toggle (Day/Week/Month/Year) updates promptly with no perceptible lag,
+  which is useful for monitoring throughput during and after peak hours.
+- The navigation drawer hamburger button is positioned at the bottom-right corner, which is
+  unconventional. Standard placement (top-left or top-right) reduces cognitive overhead for
+  new staff users unfamiliar with the app.
+- Sort controls on the Orders screen lack a visual indicator of the current sort direction
+  (ascending/descending), which may cause confusion when switching between fields.
+
+== Recommendations Summary
+
+. Implement pickup verification: surface "Ready for Pickup" orders in the Open tab and add a
+  "Confirm Pickup" action in the order detail view.
+. Implement Special Status Requests list and approve/deny controls.
+. Implement dynamic Customer Traffic thresholds on the Dashboard tied to active order count.
