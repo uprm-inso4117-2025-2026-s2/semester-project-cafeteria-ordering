@@ -1,0 +1,436 @@
+= Usability Testing Plan for the Cafeteria Ordering System Authentication & Security
+:author: @TaimaraColon
+:toc:
+:toclevels: 3
+:sectnums:
+
+== Overview
+
+This document defines the usability testing plan for the cafeteria ordering system with emphasis on authentication and security-related workflows. The goal is to evaluate how real users interact with the system while ensuring the platform remains secure, efficient, accessible, and easy to use.
+
+The testing plan follows user-centered design principles and industry-standard usability evaluation methodologies.
+
+== Purpose
+
+The purpose of this usability testing plan is to:
+
+* Evaluate how users interact with authentication and security features
+* Identify usability problems that affect authentication and security-related workflows
+* Improve overall user satisfaction and efficiency
+* Reduce user errors during login and first time registration
+* Ensure accessibility for all users
+* Validate whether the system supports real cafeteria usage scenarios
+
+== Definitions
+
+=== Usability
+
+Usability refers to how effectively, efficiently, and satisfactorily users can interact with a system to achieve their goals.
+
+A usable system allows users to:
+
+* Learn quickly
+* Complete tasks efficiently
+* Avoid errors
+* Recover from mistakes easily
+* Feel satisfied while using the platform
+
+== Nielsen’s Usability Quality Components
+
+The testing plan incorporates Nielsen’s five usability quality components.
+
+=== Learnability
+
+New users should understand how to:
+
+* Create an account
+* Log in securely
+* Recover passwords
+
+=== Efficiency
+
+Frequent users should complete actions quickly with minimal effort.
+
+Examples:
+
+* Fast login process
+* Intuitive creation of account process
+
+=== Memorability
+
+Users returning after a period of inactivity should still remember how to use the platform without relearning the interface.
+
+=== Errors
+
+The system should:
+
+* Prevent common mistakes
+* Clearly explain errors
+* Help users recover easily
+
+Examples include:
+
+* Incorrect password handling
+* Password specifications not satisfied
+
+=== Satisfaction
+
+Users should feel comfortable and confident while using the cafeteria ordering system.
+
+Important factors include:
+
+* Clean interface
+* Responsive design
+* Clear feedback messages
+* Trust in authentication and account security
+
+== Testing Goals
+
+The usability testing process aims to evaluate the following goals:
+
+[cols="1,3"]
+|===
+|Goal |Description
+
+|Authentication Simplicity
+|Determine whether users can register and log in without confusion
+
+|Security Awareness
+|Evaluate whether users understand password requirements
+
+|Sign up and Login Efficiency
+|Measure how quickly users can access the cafeteria ordering system
+
+|Error Prevention
+|Identify interface issues that cause mistakes
+
+|Accessibility
+|Ensure users can use the platform effectively
+
+|User Satisfaction
+|Measure confidence, comfort, and overall experience
+|===
+
+== Target Users
+
+The cafeteria ordering system serves multiple user groups.
+
+=== Primary Users
+
+* University students
+* Faculty members
+* General customers
+
+=== Secondary Users
+
+* Cafeteria employees
+* Guest users
+* System administrators
+
+== User Personas
+
+=== Persona 1: Student User
+
+[cols="1,2"]
+|===
+|Attribute |Details
+
+|Name
+|Carlos Rivera
+
+|Age
+|20
+
+|Role
+|University Student
+
+|Goals
+|Quickly order food between classes
+
+|Challenges
+|Limited time and mobile usage
+
+|Technical Skill
+|High
+|===
+
+=== Persona 2: Faculty Member
+
+[cols="1,2"]
+|===
+|Attribute |Details
+
+|Name
+|Maria Gonzalez
+
+|Age
+|42
+
+|Role
+|Professor
+
+|Goals
+|Place reliable and secure lunch orders
+
+|Challenges
+|Needs clear navigation and accessibility support
+
+|Technical Skill
+|Medium
+|===
+
+=== Persona 3: Cafeteria Employee
+
+[cols="1,2"]
+|===
+|Attribute |Details
+
+|Name
+|Luis Morales
+
+|Age
+|35
+
+|Role
+|Cafeteria Staff
+
+|Goals
+|Efficiently process customer orders
+
+|Challenges
+|Handling high-volume order periods
+
+|Technical Skill
+|Medium
+|===
+
+== Common Cafeteria Ordering Workflows
+
+=== Workflow 1: User Registration
+
+Steps:
+
+. Open app to registration page
+. Enter personal information
+. Create secure password
+. Submit registration form
+. Verify account confirmation
+
+=== Workflow 2: User Login
+
+Steps:
+
+. Open login page
+. Enter username/email
+. Enter password
+. Authenticate successfully
+. Access home page
+
+=== Workflow 3: Password Recovery
+
+Steps:
+
+. Select "Forgot Password"
+. Enter email address
+. Receive reset link
+. Create new password
+. Log in again
+
+=== Workflow 4: Staff Login 
+
+Steps:
+
+. Open login page
+. Enter username/email
+. Enter password
+. Authenticate successfully
+. Access staff dashboard
+
+=== Accessibility Testing
+
+Accessibility testing evaluates support for:
+
+* Navigation
+* Screen readers
+* Color contrast
+* Responsive layouts
+
+== Testing Environment
+
+Testing should be performed on:
+
+* Tablets
+* Mobile devices
+
+== Test Scenarios
+
+=== Scenario 1: New User Registration
+
+Objective:
+
+Evaluate whether new users can successfully create an account without assistance.
+
+Expected Result:
+
+User completes registration in less than 3 minutes with minimal errors.
+
+=== Scenario 2: Secure Login
+
+Objective:
+
+Measure how efficiently users authenticate into the system.
+
+Expected Result:
+
+User logs in successfully without confusion regarding credentials.
+
+=== Scenario 3: Incorrect Password Recovery
+
+Objective:
+
+Evaluate recovery workflow usability.
+
+Expected Result:
+
+Users understand error messages and recover accounts successfully.
+
+=== Scenario 4: Accessibility Navigation
+
+Objective:
+
+Verify accessibility compliance for assistive technology users.
+
+Expected Result:
+
+All major workflows remain accessible.
+
+== Methods for Collecting Feedback
+
+=== Observation
+
+Researchers observe:
+
+* Navigation patterns
+* User hesitation
+* Repeated errors
+* Confusing interactions
+
+=== Surveys
+
+Post-test surveys measure:
+
+* Ease of use
+* Satisfaction
+* Confidence in system security
+
+=== Interviews
+
+Short interviews help gather:
+
+* User opinions
+* Suggestions for improvement
+* Pain points
+
+=== System Analytics
+
+Analytics can collect:
+
+* Task completion times
+* Click frequency
+* Error occurrence rates
+* Session duration
+
+== Usability Metrics
+
+[cols="1,3"]
+|===
+|Metric |Description
+
+|Task Success Rate
+|Percentage of users who complete tasks successfully
+
+|Time on Task
+|Amount of time needed to complete workflows
+
+|Error Rate
+|Frequency of mistakes during interactions
+
+|User Satisfaction Score
+|Survey-based satisfaction measurement
+
+|Learnability Score
+|Ease of learning system usage
+
+|Efficiency Rate
+|Speed of completing repeated tasks
+
+|Accessibility Compliance
+|Ability to meet accessibility standards
+|===
+
+== Focus Areas for Improvement
+
+=== Learnability
+
+Improvements should include:
+
+* Clear instructions
+* Simple navigation
+* Intuitive authentication workflows
+
+=== Efficiency
+
+The system should:
+
+* Minimize clicks
+* Reduce loading times
+* Streamline authentication processes
+
+=== Satisfaction
+
+Improve:
+
+* Visual consistency
+* Interface responsiveness
+* User trust in authentication security
+
+=== Error Prevention
+
+The platform should:
+
+* Validate forms clearly
+* Prevent invalid submissions
+* Display understandable error messages
+
+=== Accessibility
+
+The system should support:
+
+* Intuitive workflow
+* Responsive mobile layouts
+* Adequate color contrast
+
+== Expected Deliverables
+
+The usability testing effort should produce:
+
+* Completed usability test reports
+* User feedback summaries
+* Identified usability issues
+* Accessibility evaluation results
+* Recommendations for interface improvements
+
+== Success Criteria
+
+The usability testing plan will be considered successful when:
+
+* Users can complete authentication workflows successfully
+* Accessibility requirements are satisfied
+* User satisfaction scores meet project expectations
+* Major usability problems are identified and documented
+
+== Conclusion
+
+This usability testing plan provides a structured approach for evaluating the cafeteria ordering system’s authentication and security usability. By applying usability methodologies, the project can improve efficiency, accessibility, security awareness, and overall user satisfaction.
+
+The testing process will help ensure that the cafeteria platform remains practical, secure, and easy to use for all users.

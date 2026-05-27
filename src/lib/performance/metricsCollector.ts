@@ -26,10 +26,17 @@ class MetricsCollector {
       this.setupPerformanceObservers();
       this.startSystemMonitoring();
     }
-    this.loadHistoricalMetrics();
+    // Expo Router static rendering runs in Node.js for web export. Avoid AsyncStorage
+    // access there because the web storage implementation expects `window`.
+    const isWebStaticRender = Platform.OS === 'web' && typeof window === 'undefined';
+    if (!isWebStaticRender) {
+      this.loadHistoricalMetrics();
+    }
   }
 
   private async loadHistoricalMetrics() {
+    const isWebStaticRender = Platform.OS === 'web' && typeof window === 'undefined';
+    if (isWebStaticRender) return;
     try {
       const stored = await AsyncStorage.getItem(this.STORAGE_KEY);
       if (stored) {

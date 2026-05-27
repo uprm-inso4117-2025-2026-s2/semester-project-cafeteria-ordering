@@ -1,8 +1,15 @@
-import { Stack, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, useColorScheme, View } from "react-native";
+
+// import { availableAddOns } from "../../dummyData/addons";
+// import { dummyMenuItems } from "../../dummyData/menuData";
+// import { addCartItem } from "../../lib/cart-items";
+// import { MenuItem } from "../../models/food-item-class";
+
 import { availableAddOns } from "../../dummyData/addons";
-import { dummyMenuItems } from "../../dummyData/menuData";
+import { addCartItem } from "../../lib/cart-items";
+import { fetchMenuItemById } from "../../lib/menu-service";
 import { MenuItem } from "../../models/food-item-class";
 
 /**
@@ -52,13 +59,25 @@ function generateDescription(item: MenuItem): string {
  */
 export default function ItemPage() {
     const { id } = useLocalSearchParams<{ id: string }>();
-    const item = dummyMenuItems.find((menuItem) => menuItem.getId() === id);
+    const [item, setItem] = useState<MenuItem | undefined>(undefined);
+    const [loading, setLoading] = useState(true);
     const colorScheme = useColorScheme();
+
+    useEffect(() => {
+      if (!id) return;
+      fetchMenuItemById(id)
+        .then(setItem)
+        .catch((err) => console.error('Failed to load item:', err))
+        .finally(() => setLoading(false));
+    }, [id]);
+
+
     const isDark = colorScheme === "dark";
     const colors = isDark ? darkColors : lightColors;
     const [count, setCount] = useState(1);
     const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
     const isAvailable = item?.isAvailable();
+    const router = useRouter();
 
     /**
      * handleAddToCart
@@ -66,16 +85,17 @@ export default function ItemPage() {
      * Logs the item, quantity, and selected add-ons.
      * Placeholder for actual cart logic.
      */
-    const handleAddToCart = () => {
+   const handleAddToCart = () => {
         if (!item) return;
-            const selected = availableAddOns.filter((addon) =>
-                selectedAddOns.includes(addon.id)
-            );
-        console.log({
-            item: item.getName(),
-            quantity: count,
-            addOns: selected,
-        });
+
+        const selected = availableAddOns.filter((addon) =>
+            selectedAddOns.includes(addon.id)
+        );
+
+        addCartItem(item, count, selected);
+        router.push('/(tabs)');
+
+        console.log('Added modified item to cart:', item.getName(), count, selected);
     };
 
     /**

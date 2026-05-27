@@ -2,6 +2,46 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
 import 'react-native-url-polyfill/auto';
 
+// Expo Router static rendering (web export) runs in Node.js where there is no
+// native WebSocket (Node < 22). Supabase initializes its realtime client eagerly
+// and expects a WebSocket constructor to exist.
+//
+// We provide a minimal stub so the client can be constructed during export.
+// This should never be used for actual realtime subscriptions in SSR.
+if (typeof window === 'undefined' && typeof (globalThis as any).WebSocket === 'undefined') {
+  class WebSocketStub {
+    static CONNECTING = 0;
+    static OPEN = 1;
+    static CLOSING = 2;
+    static CLOSED = 3;
+
+    CONNECTING = 0;
+    OPEN = 1;
+    CLOSING = 2;
+    CLOSED = 3;
+
+    readyState = WebSocketStub.CLOSED;
+    url = '';
+    protocol = '';
+
+    onopen = null;
+    onmessage = null;
+    onclose = null;
+    onerror = null;
+
+    constructor(address: string | URL) {
+      this.url = String(address);
+    }
+
+    close() {}
+    send() {}
+    addEventListener() {}
+    removeEventListener() {}
+  }
+
+  (globalThis as any).WebSocket = WebSocketStub;
+}
+
 // AsyncStorage v2 accesses `window` internally, which doesn't exist in
 // Node.js (Expo Router static rendering). This adapter guards against that.
 const ssrSafeStorage = {
