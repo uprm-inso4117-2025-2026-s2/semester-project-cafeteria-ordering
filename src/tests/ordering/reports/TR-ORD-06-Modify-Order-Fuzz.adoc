@@ -1,0 +1,25 @@
+= TR-ORD-01 Modify Order Unit Test Report
+Author: Yadriel Rivera
+
+*Date:* 2026-05-20
+
+*ID:* TR-ORD-06
+
+*Issue:* #605
+
+*Test:* TC-ORD-06-Order-Mod-Fuzz (fuzz tests for MenuItem order modification methods)
+
+*Pass/Fail Status:* PASS
+
+== Description
+All fuzz tests executed for order modification logic passed successfully. The test suite validated:
+
+- Base meal was initialized correctly and without errors.
+- Called `addIngredient()` with random valid string IDs and names and the item accepted new ingredients or safely rejected duplicates without crashing
+- Called `removeIngredient()` with random ingredient IDs and the method handled unknown IDs gracefully and preserved a valid item state
+- Called `modBasePrice()` with random numeric values and the base price updated to the fuzzed value and remained a finite number
+- Called `modIngredients()` with randomized ingredient arrays and the ingredient list replaced correctly and the item stayed valid
+
+== Notes
+
+- RUN: npx tsx src/tests/ordering/scripts/FT-ORD-06-Order-Mod-Fuzz.ts to execute

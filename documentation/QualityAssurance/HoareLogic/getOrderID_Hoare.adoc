@@ -1,0 +1,225 @@
+= Applying Hoare Logic to getOrderID() Function
+
+== Introduction
+
+The `getOrderID()` function is responsible for validating an order ID,
+retrieving the corresponding order information from the database,
+and safely handling success and failure cases.
+
+Applying Hoare Logic to this function allows us to formally verify that it
+behaves correctly under valid preconditions and produces the expected
+postconditions.
+
+== Scope
+
+This document proves the partial correctness of the `getOrderID()`
+function using Hoare Logic.
+
+The proof demonstrates that valid order ID input leads to:
+
+* successful order retrieval
+* a controlled failure state
+
+The analysis is based on the actual implementation found in `orders.ts`.
+
+== Function Specification
+
+[source,typescript]
+----
+export async function getOrderID(
+  orderId: string
+): Promise<string | null>
+----
+
+=== Responsibilities
+
+The function performs the following operations:
+
+. Validate the provided order ID
+. Query the `orders` table using Supabase
+. Retrieve the matching `order_id`
+. Return the retrieved `order_id`
+. Return `null` if execution fails
+
+== Preconditions (P)
+
+The following conditions must hold before execution:
+
+P ≡
+
+. `orderId` is defined
+. `orderId` is a non-empty string
+. Supabase client is initialized and reachable
+. The `orders` table exists in the database
+
+This means:
+
+P ≡
+(validOrderId ∧ initializedSupabase)
+
+== Postconditions (Q)
+
+=== Successful Execution (Q_success)
+
+Q_success ≡
+
+. A matching order exists in the database
+. The retrieved row contains `order_id`
+. Returned value equals the queried `orderId`
+. Function returns `order_id`
+
+=== Failed Execution (Q_failure)
+
+Q_failure ≡
+
+. Function returns `null`
+. Error is logged using `console.error`
+
+=== Combined Postcondition
+
+Q ≡ Q_success ∨ Q_failure
+
+== Hoare Triple
+
+{P} getOrderID(orderId) {Q}
+
+== Proof by Cases
+
+=== Case 1: Invalid Order ID Input
+
+**Path Condition:**  
+`orderId = null ∨ orderId = ""`
+
+[source,typescript]
+----
+if (!orderId) {
+  console.error('No order ID provided.')
+  return null
+}
+----
+
+Hoare Triple:
+
+{P ∧ invalidOrderId} validation {Q_failure}
+
+*Reasoning:*
+
+. The function evaluates whether `orderId` exists
+. Invalid input immediately terminates execution
+. No database query is executed
+. Function returns `null`
+. Error is logged
+
+*Conclusion:*  
+The function safely rejects invalid order identifiers and satisfies `Q_failure`.
+
+=== Case 2: Database Query Execution
+
+**Path Condition:**  
+`orderId` is valid
+
+[source,typescript]
+----
+const { data, error } = await supabase
+  .from('orders')
+  .select('order_id')
+  .eq('order_id', orderId)
+  .single()
+----
+
+Hoare Triple:
+
+{validOrderId} queryDatabase {data retrieved ∨ error detected}
+
+*Reasoning:*
+
+. The function queries the `orders` table
+. The query filters rows using equality comparison
+. `.single()` guarantees at most one result
+. Supabase returns either valid data or an error object
+
+*Conclusion:*  
+The database query executes safely under valid input conditions.
+
+=== Case 3: Query Failure or Missing Data
+
+**Path Condition:**  
+`error exists ∨ data = null`
+
+[source,typescript]
+----
+if (error || !data) {
+  console.error('Error retrieving order ID:', error?.message)
+  return null
+}
+----
+
+Hoare Triple:
+
+{queryExecuted ∧ retrievalFailure} handleFailure {Q_failure}
+
+*Reasoning:*
+
+. Query execution fails or returns no matching row
+. Error handling branch is executed
+. Function avoids invalid property access
+. Function returns `null`
+
+*Conclusion:*  
+Database retrieval failures satisfy `Q_failure`.
+
+=== Case 4: Successful Retrieval
+
+**Path Condition:**  
+`data exists ∧ error = null`
+
+[source,typescript]
+----
+return data.order_id
+----
+
+Hoare Triple:
+
+{validDataRetrieved} returnOrderId {Q_success}
+
+*Reasoning:*
+
+. Supabase successfully retrieves the matching order
+. `data.order_id` exists
+. Function returns the correct identifier
+. Postconditions for successful execution are satisfied
+
+*Conclusion:*  
+The function satisfies `Q_success`.
+
+== Completeness of Case Analysis
+
+The proof covers all possible execution paths:
+
+* invalid order ID input
+* successful database query execution
+* query failure
+* missing order data
+* successful retrieval
+
+Therefore, all reachable execution states of the function
+have been analyzed.
+
+== Overall Correctness Proof
+
+Since every execution path satisfies either
+`Q_success` or `Q_failure`, the following Hoare triple holds:
+
+{P} getOrderID(orderId) {Q}
+
+The function therefore satisfies partial correctness
+with respect to its specification.
+
+== Final Conclusion
+
+The `getOrderID()` function satisfies its specification under Hoare Logic.
+Given valid preconditions, it either successfully retrieves an order ID or
+handles failures safely without causing unhandled exceptions.
+
+This formal verification confirms the correctness of the `getOrderID()`
+function with respect to its preconditions and postconditions.

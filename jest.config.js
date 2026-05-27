@@ -21,5 +21,18 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^@app/(.*)$": "<rootDir>/src/app/$1",
   },
+   collectCoverageFrom: [
+    "src/lib/test-generators/**/*.ts",
+    "!src/lib/test-generators/**/*.test.ts",
+    "!src/lib/test-generators/__tests__/**",
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70,
+    },
+  },
   verbose: true,
 };

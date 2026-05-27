@@ -28,20 +28,31 @@ function runInternalCheck(stepName, checkLogic) {
 function main() {
   banner("AUTO TEST SUITE RUNNING");
 
-  runStep("Lint (Expo ESLint)", "npm run lint");
-  runStep("Build Export (Expo export)", "npm run test:build");
+  const tsSuite = require("../build/ci-build/auto_test_suite.js");
+
+  runStep("Lint (Expo ESLint)", tsSuite.testSuiteCommands.lint);
+  runStep("Build Export (Expo export)", tsSuite.testSuiteCommands.buildExport);
 
   //Security & Infrastructure Check
   //Requieres user to have proper .env file set up for local testing
   runStep(
+    "Supabase Security: Configuration (TC-SUPA-01)",
+    "npx tsx src/tests/supabase/scripts/supabase-connection.test.ts",
+  );
+  runStep(
     "Supabase Security Check (TC-SUPA-02)",
-    "npx tsx src/tests/supabase/scripts/quick-test.ts",
+    tsSuite.testSuiteCommands.supabaseSecurity,
+  );
+
+  // Centralized input validation utilities.
+  runStep(
+    "Utilities Flow: Centralized Input Validation Utilities (TC-UTIL-VALIDATION-01)",
+    "npx jest src/tests/utils/scripts/validation.test.ts --config jest.config.js",
   );
 
   //Authentication Logic Check
   //Ensure that auto_test_suite.js file was properly created in build folder
   runInternalCheck("Verify Compiled TS Suite", () => {
-    const tsSuite = require("../build/ci-build/auto_test_suite.js");
     console.log(`Successfully integrated: ${tsSuite.testSuiteMetadata.name}`);
     console.log(
       `Active Modules: ${Object.keys(tsSuite.testSuiteMetadata.modules).join(", ")}`,
@@ -51,17 +62,17 @@ function main() {
   // Ordering Flow Verification
   runStep(
     "Ordering Flow: Order Modification (TC-ORD-01)",
-    "npx tsx src/tests/ordering/scripts/UT-OrderModification.ts",
+    tsSuite.testSuiteCommands.orderingModification,
   );
   runStep(
     "Ordering Flow: Place Order & Confirmation (TC-ORD-02)",
-    "npx tsx src/tests/ordering/scripts/UT-ORD-2_Place_and_Confirmation_for_Order.ts",
+    tsSuite.testSuiteCommands.orderingPlaceConfirmation,
   );
 
   // Payment Flow Verification
   runStep(
     "Payment Flow Validation (TC-PAY-01)",
-    "npx tsx src/tests/payment/scripts/UT-PAY-1_PaymentValidation.ts",
+    tsSuite.testSuiteCommands.paymentValidation,
   );
 
   //(UNCOMMENT TO USE)

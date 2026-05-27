@@ -1,0 +1,197 @@
+= BDD Research for Profile System
+Pedro Juan Bonilla
+:project: Cafeteria Ordering
+
+== Introduction
+
+This document presents a research analysis of Behavior Driven Development (BDD) and how it applies to the Profile feature of the Cafeteria Ordering System. The profile system handles creating, fetching, and updating user data through Supabase, and is one of the most user-facing features in the platform. Because profile operations directly affect what students see when they open the app, they benefit greatly from tests written in human-readable language that both developers and non-technical stakeholders can understand and verify.
+
+This research defines BDD concepts, explains how they bridge the gap between developers and stakeholders, documents executable scenarios for profile operations, and recommends tools compatible with the project's React Native and TypeScript stack.
+
+---
+
+== What Is BDD?
+
+=== Definition and Purpose
+
+Behavior Driven Development is a software development methodology that extends Test Driven Development (TDD) by expressing tests in natural language that describes system behavior from the user's perspective. Instead of writing tests that assert on internal implementation details, BDD tests describe what the system should do in response to specific conditions.
+
+The core idea is that a test should read like a specification. Anyone — a developer, a QA engineer, a product owner, or a cafeteria manager — should be able to read a BDD scenario and understand exactly what the system is supposed to do, without needing to understand the code.
+
+BDD answers the question: +
+_"Given a specific context, when a user takes an action, what should the system do?"_
+
+=== The Given/When/Then Structure
+
+Every BDD scenario is written using three clauses that together describe a complete behavior:
+
+* *Given* — the initial context or state before the action occurs
+* *When* — the action or event that the user or system performs
+* *Then* — the expected observable outcome
+
+This structure maps directly to the Arrange/Act/Assert pattern used in unit tests, but expressed in language that non-developers can read and validate.
+
+.Example: Plain English BDD scenario
+----
+Given a student has a registered account
+When they open the profile screen
+Then they should see their full name, email, and phone number displayed
+----
+
+=== And / But Clauses
+
+Scenarios can be extended with *And* and *But* to add additional conditions or outcomes without repeating Given/When/Then:
+
+----
+Given a student is logged in
+And their profile has a saved phone number
+When they open the profile screen
+Then their phone number should be displayed
+And their name should match their registration data
+But no edit fields should be active by default
+----
+
+---
+
+== How BDD Bridges Developers and Stakeholders
+
+=== The Communication Problem BDD Solves
+
+In traditional development, requirements are written in prose documents that developers then interpret and implement. The gap between what a stakeholder describes and what a developer builds is a primary source of bugs and rework. BDD closes this gap by making the requirement and the test the same artifact.
+
+For the Cafeteria Ordering System, this means:
+
+* A cafeteria manager can read a scenario like _"Given a student updates their phone number, Then the new number should appear on their next login"_ and confirm it matches their expectation — without reading TypeScript.
+* A developer implements the feature to pass that exact scenario — not an interpretation of a prose document.
+* A QA engineer runs the scenario as an automated test — without rewriting it.
+
+All three roles work from the same source of truth.
+
+=== Living Documentation
+
+BDD scenarios serve as living documentation — they describe what the system does and are always up to date because they are executed as tests. If a scenario fails, the feature is broken. If the feature changes, the scenario is updated. Unlike a Word document or a wiki page, a BDD scenario cannot drift from reality without the test suite catching it.
+
+For the profile system, this means that the behavior of `getProfileByUserId`, `updateProfileName`, and `createProfile` is documented not in comments or README files, but in executable scenarios that run on every CI push.
+
+---
+
+== Profile System Components and BDD Applicability
+
+=== Fetching a User Profile — High BDD Value
+
+Fetching the profile is the most user-visible operation and the one most likely to have edge cases that stakeholders care about: what happens when no profile exists, when the user is offline, when the data is partial.
+
+BDD scenarios for this component describe the full range of observable behaviors without requiring knowledge of `getProfileByUserId` or AsyncStorage internals.
+
+=== Updating Profile Name and Phone — High BDD Value
+
+Update operations have clear pre and post conditions — ideal for Given/When/Then. The stakeholder expectation is simple: if I change my name, I should see my new name. BDD makes this expectation executable.
+
+=== Creating a New Profile on Signup — Medium-High BDD Value
+
+Profile creation happens once per user and is tightly coupled to the authentication flow. BDD scenarios here help define what a "successful signup" looks like from the user's perspective, including what data must be present in the profile immediately after creation.
+
+=== Handling Missing or Invalid Profile Data — High BDD Value
+
+Edge cases around missing or invalid data are exactly where BDD excels. Stakeholders can describe what they expect to see ("the app should show a placeholder, not crash") and developers can implement to that specification. Without BDD, these edge cases are often undocumented and untested.
+
+---
+
+== BDD Tools and Frameworks
+
+=== Cucumber.js (Already in the Project)
+
+The project already has `@cucumber/cucumber` installed and configured via `cucumber.json`. This is the standard BDD framework for JavaScript and TypeScript projects. Cucumber.js reads `.feature` files written in Gherkin syntax and maps each step to a TypeScript step definition function.
+
+*How it fits:* The scenarios documented in this research can be placed in `.feature` files and wired to step definitions that call `getProfileByUserId`, `updateProfileName`, and `createProfile` directly. The project's existing `test:cucumber` script runs them.
+
+.Feature file location (following existing project structure)
+----
+features/
+  profile/
+    fetch-profile.feature
+    update-profile-name.feature
+    update-profile-phone.feature
+    create-profile.feature
+    invalid-profile-data.feature
+----
+
+.Example step definition structure
+[source,typescript]
+----
+import { Given, When, Then } from '@cucumber/cucumber'
+import { getProfileByUserId } from '../../src/lib/profiles'
+
+Given('a student is authenticated with user ID {string}', function (userId: string) {
+  this.userId = userId
+})
+
+When('the profile screen attempts to load their data', async function () {
+  this.result = await getProfileByUserId(this.userId)
+})
+
+Then('getProfileByUserId should return the newly created profile', function () {
+  expect(this.result).not.toBeNull()
+  expect(this.result.user_id).toBe(this.userId)
+})
+----
+
+=== Jest (For Step-Level Unit Assertions)
+
+Jest is already used extensively in the project. BDD-style tests can be written in Jest using `describe`/`it` blocks that follow the Given/When/Then naming convention even without Gherkin syntax. This is a lighter-weight alternative when Cucumber setup overhead is not justified.
+
+[source,typescript]
+----
+describe("Profile fetch behavior", () => {
+  it("Given a valid user ID, When getProfileByUserId is called, Then it returns the profile", async () => {
+    const result = await getProfileByUserId("user-abc")
+    expect(result).not.toBeNull()
+    expect(result?.user_id).toBe("user-abc")
+  })
+})
+----
+
+=== Recommended Approach for This Project
+
+Given that `@cucumber/cucumber` is already installed and the project has a `test:cucumber` script, the recommended approach is:
+
+. Write `.feature` files in Gherkin for the four profile feature areas documented above
+. Create step definitions in `features/profile/step-definitions/`
+. Run with `npm run test:cucumber`
+. Use Jest for fine-grained unit assertions within step definitions
+
+This avoids introducing any new dependencies and integrates directly with the existing CI pipeline defined in `.github/workflows/auto_test_suite.yml`.
+
+---
+
+== Benefits of BDD for the Profile System
+
+* *Stakeholder alignment:* Cafeteria managers and instructors can read and validate Gherkin scenarios without reading TypeScript. They can confirm that the described behavior matches their expectations before a single line of implementation code is written.
+* *Edge case coverage:* The process of writing Given/When/Then scenarios forces explicit documentation of edge cases — offline behavior, missing data, duplicate records — that are often skipped in implementation-first development.
+* *Regression prevention:* Executable scenarios catch regressions in profile behavior automatically on every CI run. If `updateProfileName` stops writing to the correct field, the scenario for "Update phone does not affect other profile fields" will catch it.
+* *Living documentation:* The `.feature` files serve as always-current documentation of what the profile system does, readable by anyone on the team.
+* *Test reuse:* Step definitions written for profile fetch scenarios can be reused across multiple feature files, reducing test maintenance overhead as the profile system grows.
+
+---
+
+== Risks and Limitations
+
+* *Step definition maintenance:* As the profile system evolves (new fields, new Supabase schema), step definitions must be updated in parallel. Stale step definitions produce false positives.
+* *Scenario granularity:* BDD scenarios describe observable behavior, not internal implementation. This makes them poor tools for testing low-level details like exact SQL queries or AsyncStorage key names — Jest unit tests are better suited for that.
+* *Overhead for simple operations:* Writing a full Gherkin scenario for a trivial getter function adds ceremony without proportional value. BDD is most valuable for user-facing behaviors with multiple edge cases, not for every function in `profiles.ts`.
+* *Async complexity:* React Native async operations (AsyncStorage, Supabase calls, `useFocusEffect`) require careful handling in Cucumber step definitions. Steps that don't properly await async operations will produce intermittent failures.
+* *No UI interaction:* Cucumber.js does not render React Native components. UI-level BDD (e.g., asserting that the profile screen displays a name) requires either a separate Playwright/Detox setup or the existing `@testing-library/react-native` approach used in `OT-PROF-01`.
+
+---
+
+== Summary
+
+This research has defined BDD concepts and their application to the Profile feature of the Cafeteria Ordering System, documented 16 executable Given/When/Then scenarios across four profile feature areas, and confirmed that the project's existing Cucumber.js installation is the correct tool for implementation.
+
+The key takeaways are:
+
+. BDD transforms profile requirements into executable specifications that both developers and stakeholders can read and validate.
+. The four highest-value areas for BDD in the profile system are: profile fetch, name update, phone update, and missing data handling.
+. `@cucumber/cucumber` is already installed — no new dependencies are needed to implement the scenarios documented here.
+. BDD scenarios complement, not replace, the existing Jest unit tests in `OT-PROF-01`. Jest tests assert on implementation details; BDD scenarios assert on observable user-facing behavior.
+. Offline behavior and edge cases around missing profile data are the scenarios that benefit most from BDD, as they represent cases that are easy to miss in implementation-first development but easy to specify in Given/When/Then form.

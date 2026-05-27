@@ -14,4 +14,6 @@
 |TC-ORD-02 |Validate Order ID format and correctness of generated values for place and confirm order feature. | UT-ORD-2_Place_and_Confirmation_for_Order.ts
 |TC-PAY-01 |Payment confirmation verification |TBD 
 |TC-ORD-03 | Menu item attribute validation tests | src/tests/ordering/scrips/TC-ORD-03-menu-item-script.ts
+|TC-STAFF-02 | Order State Transition Property-Based Tests — validates order lifecycle with fast-check (placed, preparing, ready, completed, cancelled) | src/tests/staff_operations/scripts/TC-STAFF-02_order_state_transitions_pbt.test.ts
+|TC-STAFF-01 | Staff Dashboard Usability — manual evaluation of five core staff workflows: viewing active orders, updating order statuses, managing kitchen queues, verifying pickups, and handling order issues | src/tests/staff_operations/cases/TC-STAFF-01_staff_dashboard_usability.ts
 |====

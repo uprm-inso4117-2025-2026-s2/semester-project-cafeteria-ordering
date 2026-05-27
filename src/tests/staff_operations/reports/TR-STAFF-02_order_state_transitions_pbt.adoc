@@ -1,0 +1,116 @@
+= TR-STAFF-02 Order State Transition Property-Based Tests
+Author: Reinaldo J. Martinez Morales
+
+*Date:* 2026-05-26
+
+*ID:* TR-STAFF-02
+
+*Issue:* #537
+
+*Test:* TC-STAFF-02 – Order State Transition Property-Based Tests
+
+*Pass/Fail Status:* PASS
+
+== Description
+
+All 11 tests executed successfully across 5 property-based `fc.assert` calls (200–500 random samples each) plus 5 deterministic smoke tests.
+
+=== Test Execution Summary
+
+[cols="1,4,1,1", options="header"]
+|===
+| Group | Test | Samples | Result
+
+| Smoke tests
+| ST-1: placed → preparing is valid
+| 1 (deterministic)
+| PASS
+
+| Smoke tests
+| ST-2: ready → completed is valid
+| 1 (deterministic)
+| PASS
+
+| Smoke tests
+| ST-3: completed → placed is invalid (backwards)
+| 1 (deterministic)
+| PASS
+
+| Smoke tests
+| ST-4: cancelled → preparing is invalid (terminal)
+| 1 (deterministic)
+| PASS
+
+| Smoke tests
+| ST-5: isTerminalState correctly classifies all states
+| 1 (deterministic)
+| PASS
+
+| Property 1
+| isValidTransition returns true for all pairs in VALID_TRANSITIONS
+| 200
+| PASS
+
+| Property 2
+| isValidTransition returns false for all (terminal, any) pairs
+| 200
+| PASS
+
+| Property 3
+| isValidTransition(s, s) is false for every state s
+| 200
+| PASS
+
+| Property 4
+| getValidNextStates returns exactly the expected successors for every state
+| 200
+| PASS
+
+| Property 5a
+| Every consecutive pair in a valid-transition walk is accepted
+| 500
+| PASS
+
+| Property 5b
+| Terminal states always appear as the final step of any valid walk from placed
+| 500
+| PASS
+|===
+
+Total tests: 11 / 11 passed. +
+Total property samples run: 1800+. +
+No counterexamples found. +
+Wall time: ~0.7 s.
+
+=== Raw Jest Output
+
+----
+ PASS  src/tests/staff_operations/scripts/TC-STAFF-02_order_state_transitions_pbt.test.ts
+  Smoke tests – specific known transitions
+    ✓ ST-1: placed → preparing is valid (1 ms)
+    ✓ ST-2: ready → completed is valid
+    ✓ ST-3: completed → placed is invalid (backwards)
+    ✓ ST-4: cancelled → preparing is invalid (terminal)
+    ✓ ST-5: isTerminalState correctly classifies all states
+  Property 1 – every defined valid transition is accepted
+    ✓ isValidTransition returns true for all pairs in VALID_TRANSITIONS (2 ms)
+  Property 2 – terminal states cannot transition to any state
+    ✓ isValidTransition returns false for all (terminal, any) pairs
+  Property 3 – no state can transition to itself
+    ✓ isValidTransition(s, s) is false for every state s
+  Property 4 – getValidNextStates matches VALID_TRANSITIONS
+    ✓ for every state, getValidNextStates returns exactly the expected successors (1 ms)
+  Property 5 – randomly generated valid walks are consistent
+    ✓ every consecutive pair in a valid-transition walk is accepted (75 ms)
+    ✓ completed and cancelled states always appear as the final step of any shrunk walk (139 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       11 passed, 11 total
+Snapshots:   0 total
+Time:        0.394 s, estimated 1 s
+Ran all test suites matching TC-STAFF-02.
+----
+
+=== Shrinking
+
+No property violations were found, so fast-check's shrinking was not triggered.  The shrinking setup is in place: if a future code change introduces an invalid transition into `VALID_TRANSITIONS` or breaks `isValidTransition`, fast-check will automatically report the minimal (from, to) pair or shortest walk that demonstrates the failure.
