@@ -31,15 +31,35 @@ function main() {
   runStep("Lint (Expo ESLint)", "npm run lint");
   runStep("Build Export (Expo export)", "npm run test:build");
 
-  //Security & Infrastructure Check
-  //Requieres user to have proper .env file set up for local testing
+  // Security & Infrastructure Check
+  // Requieres user to have proper .env file set up for local testing
+  runStep(
+    "Supabase Security: Configuration (TC-SUPA-01)",
+    "npx tsx src/tests/supabase/scripts/supabase-connection.test.ts",
+  );
   runStep(
     "Supabase Security Check (TC-SUPA-02)",
     "npx tsx src/tests/supabase/scripts/quick-test.ts",
   );
+  runStep(
+    "Supabase Security: Auth Session (TC-SUPA-03)",
+    "npx tsx src/tests/supabase/scripts/auth-session.test.ts",
+  );
 
-  //Authentication Logic Check
-  //Ensure that auto_test_suite.js file was properly created in build folder
+  // UI Flow Verification
+  runStep(
+    "UI Flow: Login Screen Components (TC-AUTH-07)",
+    "npx playwright test src/tests/ui/scripts/login.spec.ts",
+  );
+
+  // Centralized input validation utilities.
+  runStep(
+    "Utilities Flow: Centralized Input Validation Utilities (TC-UTIL-VALIDATION-01)",
+    "npx jest src/tests/utils/scripts/validation.test.ts --config jest.config.js",
+  );
+
+  // Authentication Logic Check
+  // Ensure that auto_test_suite.js file was properly created in build folder
   runInternalCheck("Verify Compiled TS Suite", () => {
     const tsSuite = require("../build/ci-build/auto_test_suite.js");
     console.log(`Successfully integrated: ${tsSuite.testSuiteMetadata.name}`);
