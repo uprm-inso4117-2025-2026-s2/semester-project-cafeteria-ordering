@@ -10,10 +10,9 @@ import {
     randomString,
     removeCartItem,
     validateMenuItem
-} from '../cases/TC-ORD-07-ord-end';
+} from '../cases/TC-ORD-09-ord-end';
 
 
-const STRING_LENGTHS = [1, 4, 8, 16, 32, 48];
 const FUZZ_ROUNDS = 12;
 let failureCount = 0;
 let passCount = 0;
@@ -240,7 +239,7 @@ function fuzzRemovFromCart(): void {
 
 
 function runFuzzSuite(): void {
-    printHeader('FT-ORD-07 Add to Cart and Remove Cart Item Fuzz Test');
+    printHeader('FT-ORD-09 Add to Cart and Remove Cart Item Fuzz Test');
     try {
         testBaseState();
         fuzzAddToCart();
