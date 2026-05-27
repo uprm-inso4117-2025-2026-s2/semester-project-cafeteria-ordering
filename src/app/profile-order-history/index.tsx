@@ -1,3 +1,4 @@
+import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Colors, Typography } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Ionicons } from "@expo/vector-icons";
@@ -236,28 +237,6 @@ export default function ProfileOrderHistoryScreen() {
         )}
       </View>
     </>
-  );
-}
-
-function StatusBadge({ status }: { status: Status }) {
-  const badgeStyle =
-    status === "Pending"
-      ? styles.pendingBadge
-      : status === "Complete"
-        ? styles.completeBadge
-        : styles.cancelledBadge;
-
-  const textStyle =
-    status === "Pending"
-      ? styles.pendingText
-      : status === "Complete"
-        ? styles.completeText
-        : styles.cancelledText;
-
-  return (
-    <View style={[styles.badge, badgeStyle]}>
-      <Text style={[styles.badgeText, textStyle]}>{status}</Text>
-    </View>
   );
 }
 

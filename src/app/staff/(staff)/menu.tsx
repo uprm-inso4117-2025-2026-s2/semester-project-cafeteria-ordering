@@ -25,13 +25,16 @@ export default function StaffMenuScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const [sections, setSections] = useState<Section[]>([]);
   const [categories, setCategories] = useState<MenuCategory[]>([]);
   const [items, setItems] = useState<MenuItemData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showNewItemModal, setShowNewItemModal] = useState(false);
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
+
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const [availabilityFilter, setAvailabilityFilter] = useState<'all' | 'available' | 'unavailable'>('all');
+  const [priceSort, setPriceSort] = useState<'none' | 'asc' | 'desc'>('none');
 
   const categoryNameById = useMemo(
     () => new Map(categories.map((c) => [c.id, c.name])),
@@ -49,6 +52,36 @@ export default function StaffMenuScreen() {
     []
   );
 
+  const sections = useMemo(() => {
+    let result = buildSections(categories, items);
+
+    if (categoryFilter !== null) {
+      result = result.filter((s) => s.title === categoryFilter);
+    }
+
+    if (availabilityFilter !== 'all') {
+      result = result
+        .map((s) => ({
+          ...s,
+          data: s.data.filter((item) =>
+            availabilityFilter === 'available' ? item.available : !item.available
+          ),
+        }))
+        .filter((s) => s.data.length > 0);
+    }
+
+    if (priceSort !== 'none') {
+      result = result.map((s) => ({
+        ...s,
+        data: [...s.data].sort((a, b) =>
+          priceSort === 'asc' ? a.price - b.price : b.price - a.price
+        ),
+      }));
+    }
+
+    return result;
+  }, [categories, items, categoryFilter, availabilityFilter, priceSort, buildSections]);
+
   const loadData = useCallback(async () => {
     try {
       setLoading(true);
@@ -56,46 +89,64 @@ export default function StaffMenuScreen() {
       const [cats, its] = await Promise.all([fetchMenuCategories(), fetchAllMenuItems()]);
       setCategories(cats);
       setItems(its);
-      setSections(buildSections(cats, its));
     } catch (e) {
       console.error('[StaffMenuScreen] loadData error:', e);
       setError('Failed to load menu items.');
     } finally {
       setLoading(false);
     }
-  }, [buildSections]);
+  }, []);
 
   useEffect(() => {
     loadData();
   }, [loadData]);
 
+  const handleCategoryPress = useCallback(() => {
+    setCategoryFilter((prev) => {
+      const names = categories.map((c) => c.name);
+      if (prev === null) return names[0] ?? null;
+      const idx = names.indexOf(prev);
+      return idx === -1 || idx === names.length - 1 ? null : names[idx + 1];
+    });
+  }, [categories]);
+
+  const handleAvailabilityPress = useCallback(() => {
+    setAvailabilityFilter((prev) => {
+      if (prev === 'all') return 'available';
+      if (prev === 'available') return 'unavailable';
+      return 'all';
+    });
+  }, []);
+
+  const handlePricePress = useCallback(() => {
+    setPriceSort((prev) => {
+      if (prev === 'none') return 'asc';
+      if (prev === 'asc') return 'desc';
+      return 'none';
+    });
+  }, []);
+
   const handleCreated = useCallback(
     (newItem: MenuItemData) => {
-      const updated = [...items, newItem];
-      setItems(updated);
-      setSections(buildSections(categories, updated));
+      setItems((prev) => [...prev, newItem]);
       setShowNewItemModal(false);
     },
-    [items, categories, buildSections]
+    []
   );
 
   const handleUpdate = useCallback(
     (updatedItem: MenuItemData) => {
-      const updated = items.map((i) => (i.id === updatedItem.id ? updatedItem : i));
-      setItems(updated);
-      setSections(buildSections(categories, updated));
+      setItems((prev) => prev.map((i) => (i.id === updatedItem.id ? updatedItem : i)));
     },
-    [items, categories, buildSections]
+    []
   );
 
   const handleDeleted = useCallback(
     (id: string) => {
-      const updated = items.filter((i) => i.id !== id);
-      setItems(updated);
-      setSections(buildSections(categories, updated));
+      setItems((prev) => prev.filter((i) => i.id !== id));
       setExpandedItemId((prev) => (prev === id ? null : prev));
     },
-    [items, categories, buildSections]
+    []
   );
 
 return (
@@ -130,14 +181,29 @@ return (
 
         {/* Filter pills */}
         <View style={styles.filtersRow}>
-          <Pressable style={styles.filterPill}>
-            <Text style={styles.filterText}>Category ▾</Text>
+          <Pressable
+            style={[styles.filterPill, categoryFilter !== null && styles.filterPillActive]}
+            onPress={handleCategoryPress}
+          >
+            <Text style={[styles.filterText, categoryFilter !== null && styles.filterTextActive]}>
+              {categoryFilter ?? 'Category'} ▾
+            </Text>
           </Pressable>
-          <Pressable style={styles.filterPill}>
-            <Text style={styles.filterText}>Availability ▾</Text>
+          <Pressable
+            style={[styles.filterPill, availabilityFilter !== 'all' && styles.filterPillActive]}
+            onPress={handleAvailabilityPress}
+          >
+            <Text style={[styles.filterText, availabilityFilter !== 'all' && styles.filterTextActive]}>
+              {availabilityFilter === 'all' ? 'Availability' : availabilityFilter === 'available' ? 'Available' : 'Unavailable'} ▾
+            </Text>
           </Pressable>
-          <Pressable style={styles.filterPill}>
-            <Text style={styles.filterText}>Price ▾</Text>
+          <Pressable
+            style={[styles.filterPill, priceSort !== 'none' && styles.filterPillActive]}
+            onPress={handlePricePress}
+          >
+            <Text style={[styles.filterText, priceSort !== 'none' && styles.filterTextActive]}>
+              {priceSort === 'none' ? 'Price' : priceSort === 'asc' ? 'Price: Low→High' : 'Price: High→Low'} ▾
+            </Text>
           </Pressable>
         </View>
 
@@ -244,10 +310,17 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 14,
   },
+  filterPillActive: {
+    backgroundColor: Colors.primaryGreen,
+    borderColor: Colors.primaryGreen,
+  },
   filterText: {
     fontFamily: Typography.body.fontFamily,
     fontSize: 13,
     color: Colors.light.text,
+  },
+  filterTextActive: {
+    color: Colors.light.secondaryText,
   },
   sectionHeader: {
     paddingHorizontal: 16,
