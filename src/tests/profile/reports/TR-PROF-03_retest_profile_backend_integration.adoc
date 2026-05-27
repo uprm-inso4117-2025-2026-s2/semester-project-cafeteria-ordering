@@ -1,0 +1,409 @@
+= TR-PROF-03 Re-Test Profile Functionality After Backend Integration
+Kevin J. Lara-Rodriguez
+
+:toc:
+:icons: font
+:sectnums:
+
+== Report Metadata
+
+* Report ID: TR-PROF-03
+* Related Issue: #609
+* Task: Re-Test Profile Functionality After Backend Integration
+* Area: Profile & Offline Support
+* Branch: `issue609-retest-profile-backend-integration`
+* Date: 2026-05-22
+* Status: PASS WITH DOCUMENTED LIMITATIONS
+
+== Purpose
+
+This report documents the re-testing of profile-related functionality after backend integration.
+
+The goal was to confirm that the Profile & Offline Support area continues to behave correctly with backend-connected profile functionality, including profile loading, profile display, editing navigation, persistence-related behavior, and basic UI behavior.
+
+This re-test is important because backend integration can affect previously validated profile behavior. Profile loading, editing, authentication state, backend persistence, local state, and UI fallback behavior must remain stable after backend-connected changes.
+
+== Scope
+
+This re-test focused on the Profile & Offline Support area only.
+
+The following implementation areas were reviewed or exercised:
+
+* `src/app/(tabs)/profile.tsx`
+* `src/app/authContext.tsx`
+* `src/lib/profiles.ts`
+* `src/lib/supabase.ts`
+* `src/tests/profile/cases/`
+* `src/tests/profile/scripts/`
+* `src/tests/profile/reports/`
+
+This report does not validate unrelated application areas such as ordering, payments, staff operations, or general authentication flows except where they directly affect profile behavior.
+
+== Current Implementation Summary
+
+The current profile implementation uses backend-connected Supabase functionality for authenticated profile data and local AsyncStorage for some persisted client-side profile-related state.
+
+Based on the reviewed files:
+
+* `ProfileScreen` retrieves the authenticated Supabase user through `supabase.auth.getUser()`.
+* `ProfileScreen` loads backend profile data using `getProfileByUserId(user.id)`.
+* The profile screen displays the user's `full_name`, `phone`, and authenticated email when available.
+* Profile fields are displayed as read-only on the profile screen.
+* The Edit action routes the user to `/edit-profile`.
+* Avatar data is persisted locally using AsyncStorage under `@profile_avatar`.
+* Logout clears local profile/avatar data and redirects the user to login.
+* The Supabase client uses AsyncStorage for authentication session persistence.
+* The profile helper module supports profile creation, profile lookup, profile name update, profile phone update, and profile deletion.
+
+== Test Environment
+
+The following commands were executed locally from the project root:
+
+[source,bash]
+----
+npx tsx src/tests/profile/scripts/UT-PROF-01_profile_functionality.ts
+----
+
+[source,bash]
+----
+npx jest --config ./jest.config.js src/tests/profile/scripts/IT-PROF-01_auth_profile_sync.tsx --runInBand
+----
+
+[source,bash]
+----
+npx jest --config ./jest.config.js src/tests/profile/scripts/OT-PROF-01_offline_mode_behavior.test.tsx --runInBand
+----
+
+Manual application testing was also performed by running the application with backend connectivity enabled and checking the profile-related flow directly.
+
+== Automated Test Results
+
+=== UT-PROF-01 Profile Functionality Unit Test
+
+Command executed:
+
+[source,bash]
+----
+npx tsx src/tests/profile/scripts/UT-PROF-01_profile_functionality.ts
+----
+
+Result: PASS
+
+Observed output:
+
+[source,text]
+----
+Running TC-PROF-01 Unit Tests...
+Test 1 passed: createProfile() success
+Test 2 passed: createProfile() failure
+Test 3 passed: getProfileByUserId() success
+Test 4 passed: getProfileByUserId() failure
+Test 5 passed: updateProfileName() success
+Test 6 passed: updateProfileName() failure
+Test 7 passed: updateProfilePhone() success
+Test 8 passed: updateProfilePhone() failure
+Test 9 passed: deleteProfile() success
+Test 10 passed: deleteProfile() failure
+
+All TC-PROF-01 unit tests passed successfully.
+----
+
+Validation covered:
+
+* `createProfile()` success handling
+* `createProfile()` failure handling
+* `getProfileByUserId()` success handling
+* `getProfileByUserId()` failure handling
+* `updateProfileName()` success handling
+* `updateProfileName()` failure handling
+* `updateProfilePhone()` success handling
+* `updateProfilePhone()` failure handling
+* `deleteProfile()` success handling
+* `deleteProfile()` failure handling
+
+Conclusion:
+
+The profile helper functions passed the available unit-level re-test coverage.
+
+=== IT-PROF-01 Auth/Profile Sync Integration Test
+
+Command executed:
+
+[source,bash]
+----
+npx jest --config ./jest.config.js src/tests/profile/scripts/IT-PROF-01_auth_profile_sync.tsx --runInBand
+----
+
+Result: NOT EXECUTED BY JEST
+
+Observed output:
+
+[source,text]
+----
+No tests found, exiting with code 1
+Run with `--passWithNoTests` to exit with code 0
+
+testMatch: **/__tests__/**/*.test.[jt]s?(x), **/?(*.)+(spec|test).[jt]s?(x), **/src/**/*.test.[jt]s?(x), **/src/**/*.spec.[jt]s?(x)
+Pattern: src/tests/profile/scripts/IT-PROF-01_auth_profile_sync.tsx - 0 matches
+----
+
+Finding:
+
+The integration script exists, but Jest did not execute it because the filename does not match the configured Jest test patterns. The file name ends in `.tsx`, but it does not include `.test.tsx` or `.spec.tsx`.
+
+Impact:
+
+This is a test-discovery/configuration issue, not a confirmed failure of backend profile functionality.
+
+Recommended follow-up:
+
+Rename the file to match the Jest test pattern if the team expects it to run through Jest. For example:
+
+[source,text]
+----
+IT-PROF-01_auth_profile_sync.test.tsx
+----
+
+Alternatively, run the file through the intended non-Jest runner if it was designed as a standalone validation script.
+
+=== OT-PROF-01 Offline Mode Behavior Test
+
+Command executed:
+
+[source,bash]
+----
+npx jest --config ./jest.config.js src/tests/profile/scripts/OT-PROF-01_offline_mode_behavior.test.tsx --runInBand
+----
+
+Result: FAIL
+
+Observed outcome:
+
+[source,text]
+----
+Test Suites: 1 failed, 1 total
+Tests: 6 failed, 6 total
+----
+
+Primary failure:
+
+[source,text]
+----
+useAuth must be used inside AuthProvider
+----
+
+Affected tests:
+
+* loads cached profile data and cached avatar from AsyncStorage on mount
+* falls back safely when cached profile data and avatar are missing
+* navigates to edit-profile from the profile screen and does not perform inline local save
+* persists previously cached profile data across remounts
+* stores selected avatar locally and reloads it on remount
+
+Additional failure:
+
+[source,text]
+----
+Cannot use spyOn on a primitive value; undefined given
+----
+
+Affected test:
+
+* shows permission alert when avatar access is denied
+
+Finding:
+
+The offline behavior test currently renders `ProfileScreen` without providing the required `AuthProvider` context or mocking `useAuth()`. Because `ProfileScreen` now depends on `useAuth()`, the test harness must be updated to wrap the component in `AuthProvider` or mock the authentication context.
+
+The Alert spy failure also indicates that the React Native `Alert` object is not available or not mocked correctly in the current Jest environment.
+
+Impact:
+
+This is a test harness issue after backend/auth integration. It does not prove that the app’s profile functionality is broken during manual use. It does show that the offline test artifact needs maintenance to remain compatible with the current backend-integrated profile screen.
+
+Recommended follow-up:
+
+Update `OT-PROF-01_offline_mode_behavior.test.tsx` to:
+
+* wrap `ProfileScreen` with `AuthProvider`, or
+* mock `useAuth()` directly;
+* mock `Alert.alert` safely;
+* ensure Supabase auth and profile calls are mocked consistently;
+* revise expectations to match the current backend-connected profile behavior.
+
+== Manual Backend Re-Test Results
+
+Manual testing was performed by running the application and checking the backend-connected profile flow directly.
+
+Overall manual result: PASS
+
+The app was run with backend connectivity available. The profile-related flow appeared to run smoothly, and no user-facing issues were encountered during the manual re-test.
+
+[cols="1,3,2,4", options="header"]
+|===
+|Check ID |Validation Area |Result |Notes
+
+|MANUAL-PROF-01
+|Application opens and runs with backend connectivity
+|PASS
+|The application ran successfully during manual testing.
+
+|MANUAL-PROF-02
+|Profile screen opens after login/session availability
+|PASS
+|No profile-screen crash or blocking issue was observed.
+
+|MANUAL-PROF-03
+|Backend-connected profile loading
+|PASS
+|Profile behavior appeared to work smoothly with backend connectivity.
+
+|MANUAL-PROF-04
+|Profile UI behavior after backend integration
+|PASS
+|No broken UI state or user-facing issue was observed during manual use.
+
+|MANUAL-PROF-05
+|Profile edit navigation
+|PASS
+|The current implementation routes the Edit action to `/edit-profile`.
+
+|MANUAL-PROF-06
+|Session/profile continuity during normal use
+|PASS
+|No session or profile continuity issue was observed during the manual run.
+
+|MANUAL-PROF-07
+|Logout/local cleanup behavior
+|PASS
+|The implementation clears local profile/avatar storage and routes to login during logout.
+|===
+
+== Findings
+
+=== Passed Behavior
+
+The following behavior passed during re-test:
+
+* Profile helper functions passed all available unit tests.
+* The application ran smoothly during manual backend-connected testing.
+* The profile screen did not show any user-facing failure during manual validation.
+* Backend-connected profile loading appeared stable during manual use.
+* The Edit action remains routed to `/edit-profile`.
+* Logout behavior is implemented with local profile/avatar cleanup.
+* Supabase authentication session persistence remains configured through AsyncStorage.
+
+=== Detected Issues
+
+The following issues were detected during automated re-test execution:
+
+[cols="1,3,3,3", options="header"]
+|===
+|Issue ID |Area |Finding |Status
+
+|PROF-RT-01
+|Integration test execution
+|`IT-PROF-01_auth_profile_sync.tsx` was not detected by Jest because its filename does not match the configured Jest test patterns.
+|Follow-up recommended
+
+|PROF-RT-02
+|Offline behavior test harness
+|`OT-PROF-01_offline_mode_behavior.test.tsx` fails because `ProfileScreen` now requires `useAuth()` context.
+|Follow-up recommended
+
+|PROF-RT-03
+|Offline behavior test harness
+|The permission-alert test fails because `Alert.alert` is not available or not mocked correctly in the Jest environment.
+|Follow-up recommended
+|===
+
+== Resolved or Confirmed Behaviors
+
+The following behaviors were confirmed as working or still implemented:
+
+* `createProfile()` handles successful profile creation.
+* `createProfile()` handles backend error conditions.
+* `getProfileByUserId()` handles successful profile lookup.
+* `getProfileByUserId()` handles backend error conditions.
+* `updateProfileName()` handles successful name updates.
+* `updateProfileName()` handles update failures.
+* `updateProfilePhone()` handles successful phone updates.
+* `updateProfilePhone()` handles update failures.
+* `deleteProfile()` handles successful profile deletion.
+* `deleteProfile()` handles delete failures.
+* `ProfileScreen` is backend-connected through Supabase user/profile lookup.
+* Profile fields are read-only on the profile screen.
+* Edit navigation uses the `/edit-profile` route.
+* Avatar state is locally persisted through AsyncStorage.
+* Logout clears local profile/avatar storage.
+
+== Limitations
+
+This report includes both automated and manual re-test evidence, but it has the following limitations:
+
+* The integration auth/profile sync script was not executed by Jest due to test discovery naming.
+* The offline behavior test failed because the test harness is no longer aligned with the backend/auth-integrated profile screen.
+* Manual testing was successful, but it was not instrumented with detailed backend database snapshots.
+* This report does not prove full offline synchronization, retry queues, or conflict resolution.
+* This report does not validate every possible edit-profile input scenario.
+
+== Recommendations
+
+The following follow-up actions are recommended:
+
+. Rename or reconfigure `IT-PROF-01_auth_profile_sync.tsx` so it can be executed by Jest if it is intended to be part of the automated integration suite.
+. Update `OT-PROF-01_offline_mode_behavior.test.tsx` so it provides the required auth context or mocks `useAuth()`.
+. Add or update mocks for `Alert.alert` in the offline test environment.
+. Consider adding a backend-connected Jest test for the profile screen that mocks:
+   * Supabase authenticated user retrieval;
+   * `getProfileByUserId()`;
+   * successful profile data display;
+   * missing profile fallback behavior;
+   * edit navigation.
+. Keep manual backend re-testing as part of the final validation process when profile/backend behavior changes.
+
+== Acceptance Criteria Review
+
+[cols="1,4,2", options="header"]
+|===
+|ID |Acceptance Criterion |Status
+
+|AC-01
+|Re-run relevant profile tests after backend integration
+|Complete
+
+|AC-02
+|Validate profile loading behavior with backend-connected data
+|Complete
+
+|AC-03
+|Validate profile editing and persistence behavior after backend integration
+|Complete with limitations
+
+|AC-04
+|Validate profile UI behavior after backend-connected changes
+|Complete
+
+|AC-05
+|Document executed test results in a final profile re-test report
+|Complete
+
+|AC-06
+|Document detected issues, resolved behaviors, and remaining limitations or follow-up items
+|Complete
+|===
+
+== Final Conclusion
+
+The Profile & Offline Support area was re-tested after backend integration.
+
+The available profile helper unit tests passed successfully, and manual backend-connected application testing completed without observed user-facing issues. Based on this re-test, the backend-connected profile functionality appears stable for normal profile use.
+
+However, two automated QA artifacts need follow-up maintenance:
+
+* the auth/profile sync integration script was not detected by Jest because of its filename pattern;
+* the offline mode behavior test now fails because the profile screen requires authentication context and the test harness has not been updated for the current backend-integrated implementation.
+
+Final status: PASS WITH DOCUMENTED LIMITATIONS.
+
+The core profile backend functionality appears to work during manual validation and unit-level testing, but the automated integration/offline test artifacts should be updated in future follow-up work so they remain aligned with the current backend-connected profile implementation.
