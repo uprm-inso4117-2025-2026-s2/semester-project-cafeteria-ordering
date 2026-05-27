@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
   AccessibilityInfo,
   KeyboardAvoidingView,
@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 
+import { useAuth } from '@/app/authContext';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
@@ -100,30 +101,30 @@ function InputField({
 function PasswordChecklist({ password }: { password: string }) {
   const textColor = useThemeColor({}, 'text');
   const defaultColor = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text');
+
   const checks = [
     { label: 'At least 8 characters', met: password.length >= 8 },
     { label: 'At least 1 lowercase', met: /[a-z]/.test(password) },
     { label: 'At least 1 uppercase', met: /[A-Z]/.test(password) },
     { label: 'At least 1 number', met: /[0-9]/.test(password) },
   ];
+
   return (
     <View style={styles.checklistContainer}>
       {checks.map((c) => (
         <View key={c.label} style={styles.checklistRow}>
-          <ThemedText 
-            type="body" 
-            style={{ 
-              fontSize: 14, 
-              color: c.met ? Colors.primaryGreen : defaultColor 
+          <ThemedText
+            type="body"
+            style={{
+              fontSize: 14,
+              color: c.met ? Colors.primaryGreen : defaultColor,
             }}
           >
             ✓
           </ThemedText>
-          <ThemedText
-            type="body"
-            style={[styles.checklistText, { color: textColor }]}
-          >
-            {' '}{c.label}
+          <ThemedText type="body" style={[styles.checklistText, { color: textColor }]}>
+            {' '}
+            {c.label}
           </ThemedText>
         </View>
       ))}
@@ -140,28 +141,74 @@ function validate(fields: {
   agreedToTerms: boolean;
 }) {
   const errors: Record<string, string> = {};
+
   if (!fields.fullName.trim()) errors.fullName = 'Full name is required.';
+
   if (!fields.email.trim()) {
     errors.email = 'Email is required.';
   } else if (!isValidEmail(fields.email)) {
     errors.email = 'Please enter a valid email address.';
   }
+
   if (!fields.password) {
     errors.password = 'Password is required.';
   } else if (!isValidPassword(fields.password)) {
     errors.password =
       'Password must be at least 8 characters and include a lowercase letter, an uppercase letter, and a number.';
   }
+
   if (fields.confirmPassword && fields.password !== fields.confirmPassword) {
     errors.confirmPassword = 'Passwords do not match.';
   }
+
   if (!fields.agreedToTerms) errors.terms = 'You must agree to the Terms and Privacy Policy.';
+
   return errors;
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function getSearchParam(value: string | string[] | undefined) {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+
+  return value;
+}
+
+function mapAppleSignUpError(message?: string) {
+  const normalized = message?.toLowerCase() ?? '';
+
+  if (normalized.includes('apple_oauth_cancelled')) {
+    return 'Apple sign-up was cancelled. Please try again or create an account with email and password.';
+  }
+
+  if (normalized.includes('provider') || normalized.includes('not enabled')) {
+    return 'Apple sign-up is not enabled yet. Please contact support or create an account with email and password.';
+  }
+
+  if (normalized.includes('authorization code') || normalized.includes('code')) {
+    return 'Apple sign-up failed after redirect. Please try again.';
+  }
+
+  if (normalized.includes('access_denied')) {
+    return 'Apple sign-up was denied. Please try again or create an account with email and password.';
+  }
+
+  return 'Apple sign-up failed. Please try again or create an account with email and password.';
 }
 
 // ─── SignUpScreen ─────────────────────────────────────────────────────────────
 export default function SignUpScreen() {
   const backgroundColor = useThemeColor({}, 'background');
+  const router = useRouter();
+
+  const params = useLocalSearchParams<{
+    error?: string;
+    error_code?: string;
+    error_description?: string;
+  }>();
+
+  const { signInWithApple } = useAuth();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -171,12 +218,23 @@ export default function SignUpScreen() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [authMessage, setAuthMessage] = useState<string | null>(null);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
+  const [isAppleSubmitting, setIsAppleSubmitting] = useState(false);
+
+  useEffect(() => {
+    const redirectError =
+      getSearchParam(params.error_description) ||
+      getSearchParam(params.error) ||
+      getSearchParam(params.error_code);
+
+    if (redirectError) {
+      setAuthMessage(mapAppleSignUpError(redirectError));
+    }
+  }, [params.error, params.error_code, params.error_description]);
 
   const handleSignUp = async () => {
     const validationErrors = validate({ fullName, email, password, confirmPassword, agreedToTerms });
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       AccessibilityInfo.announceForAccessibility(
@@ -184,9 +242,11 @@ export default function SignUpScreen() {
       );
       return;
     }
+
     setErrors({});
     setAuthMessage(null);
     setIsSubmitting(true);
+
     try {
       // Profile row should be created by existing DB trigger strategy after Auth signup.
       const formattedPhone = formatPhoneNumber(phone);
@@ -220,6 +280,21 @@ export default function SignUpScreen() {
       }
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleSignUpWithApple = async () => {
+    setAuthMessage(null);
+    setIsAppleSubmitting(true);
+
+    try {
+      await signInWithApple();
+      router.replace('/(tabs)');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : undefined;
+      setAuthMessage(mapAppleSignUpError(message));
+    } finally {
+      setIsAppleSubmitting(false);
     }
   };
 
@@ -350,7 +425,9 @@ export default function SignUpScreen() {
               ]}
             >
               {agreedToTerms && (
-                <ThemedText style={{ color: '#FFFFFF', fontSize: 10, fontWeight: '700' }}>✓</ThemedText>
+                <ThemedText style={{ color: '#FFFFFF', fontSize: 10, fontWeight: '700' }}>
+                  ✓
+                </ThemedText>
               )}
             </View>
             <ThemedText type="body" style={styles.termsText}>
@@ -365,17 +442,19 @@ export default function SignUpScreen() {
             </ThemedText>
           </TouchableOpacity>
           {errors.terms && (
-            <ThemedText type="body" style={styles.errorText}>{errors.terms}</ThemedText>
+            <ThemedText type="body" style={styles.errorText}>
+              {errors.terms}
+            </ThemedText>
           )}
         </View>
 
         {/* ── Sign Up Button ── */}
         <TouchableOpacity
           onPress={handleSignUp}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isAppleSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign up"
-          accessibilityState={{ disabled: isSubmitting }}
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting }}
           style={[
             styles.primaryButton,
             { backgroundColor: isSubmitting ? Colors.pastelSage : Colors.primaryGreen },
@@ -391,6 +470,29 @@ export default function SignUpScreen() {
           </ThemedText>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          onPress={handleSignUpWithApple}
+          disabled={isSubmitting || isAppleSubmitting}
+          accessibilityRole="button"
+          accessibilityLabel="Sign up with Apple"
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting }}
+          style={[
+            styles.appleButton,
+            { opacity: isSubmitting || isAppleSubmitting ? 0.7 : 1 },
+          ]}
+          activeOpacity={0.85}
+        >
+          <Ionicons name="logo-apple" size={20} color="#FFFFFF" />
+          <ThemedText
+            type="button"
+            lightColor="#FFFFFF"
+            darkColor="#FFFFFF"
+            style={styles.socialButtonText}
+          >
+            {isAppleSubmitting ? 'Connecting…' : 'Sign up with Apple'}
+          </ThemedText>
+        </TouchableOpacity>
+
         {authMessage && (
           <ThemedText
             type="body"
@@ -401,7 +503,8 @@ export default function SignUpScreen() {
                   ? Colors.primaryGreen
                   : '#C62828',
               },
-            ]}>
+            ]}
+          >
             {authMessage}
           </ThemedText>
         )}
@@ -499,7 +602,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 24,
+    marginBottom: 12,
+  },
+  appleButton: {
+    width: '100%',
+    maxWidth: 480,
+    borderRadius: 50,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#000000',
     marginBottom: 16,
+  },
+  socialButtonText: {
+    marginLeft: 8,
   },
   loginLinkRow: {
     flexDirection: 'row',
