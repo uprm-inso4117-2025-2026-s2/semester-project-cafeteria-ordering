@@ -1,6 +1,8 @@
 import { strict as assert } from 'node:assert';
 import { dummyInvalidIDs, dummyOrderID, isValidUUID } from '../cases/TC-ORD-02_Place_and_Confirmation_for_Order';
 
+// UT-ORD-02: Unit tests for place order and confirmation order IDs.
+
 
 // ─────────────────────────────────────────────
 // Types

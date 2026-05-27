@@ -10,10 +10,19 @@
 |TC-AUTH-06 |Account Verification Process - Verify that after registration, users can successfully verify their accounts via email/verification link, including valid token acceptance, invalid/expired token handling, and account status changes from unverified to verified |TC-AUTH-04_account_verification.tsx
 |TC-SUPA-01 |Supabase configuration validation |src/tests/supabase/scripts/supabase-connection.test.ts
 |TC-SUPA-02 |Supabase quick connection smoke check |src/tests/supabase/scripts/quick-test.ts
-|TC-ORD-01 | Order Modification - Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults.| TC-ORD-01-Modify-Order
-|TC-ORD-02 |Validate Order ID format and correctness of generated values for place and confirm order feature. | UT-ORD-2_Place_and_Confirmation_for_Order.ts
+|TC-ORD-01 | Order Modification - Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults.| src/tests/ordering/scripts/UT-ORD-01-OrderModification.ts
+|TC-ORD-02 |Validate Order ID format and correctness of generated values for place and confirm order feature. | src/tests/ordering/scripts/UT-ORD-02_Place_and_Confirmation_for_Order.ts
 |TC-PAY-01 |Payment confirmation verification |TBD 
-|TC-ORD-03 | Menu item attribute validation tests | src/tests/ordering/scrips/TC-ORD-03-menu-item-script.ts
+|TC-ORD-03 | Menu item attribute validation tests | src/tests/ordering/cases/TC-ORD-03_menu_item_tests.ts
+|TC-ORD-04 |Customer ordering workflow load testing | src/tests/ordering/cases/TC-ORD-04-Load-testing.js
+|TC-ORD-05 |Place order and order confirmation integration test | src/tests/ordering/scripts/IT-ORD-05-Place_and_Confirm_Order.ts
+|TC-ORD-06 |Modify order fuzz testing | src/tests/ordering/scripts/FT-ORD-06-Order-Mod-Fuzz.ts
+|TC-ORD-07 |Order modification integration test | src/tests/ordering/cases/TC-ORD-07-Order-Mod-Integration.ts
+|TC-ORD-08 |getOrderID fuzz testing | src/tests/ordering/scripts/FT-ORD-08-getOrderID_Fuzz.ts
+|TC-ORD-09 |Order endpoint add/remove cart fuzz testing | src/tests/ordering/scripts/FT-ORD-09-ord-end.ts
+|TC-ORD-10 |Property based cart calculations | src/tests/ordering/scripts/PBT-ORD-10_cart_calculations.test.ts
+|TC-ORD-11 |Counterexample shrinking failure analysis | src/tests/ordering/scripts/PBT-ORD-11_counterexample_shrinking.test.ts
+|TC-ORD-12 |Mutation testing for homepage filtering and display logic | src/tests/ordering/cases/TC-ORD-12_homepage_mutation_testing.ts
 |TC-STAFF-02 | Order State Transition Property-Based Tests — validates order lifecycle with fast-check (placed, preparing, ready, completed, cancelled) | src/tests/staff_operations/scripts/TC-STAFF-02_order_state_transitions_pbt.test.ts
 |TC-STAFF-01 | Staff Dashboard Usability — manual evaluation of five core staff workflows: viewing active orders, updating order statuses, managing kitchen queues, verifying pickups, and handling order issues | src/tests/staff_operations/cases/TC-STAFF-01_staff_dashboard_usability.ts
 |====

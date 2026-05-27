@@ -1,5 +1,5 @@
 /*
- * FT-ORD-06: getOrderID() Fuzz Test Script
+ * FT-ORD-08: getOrderID() Fuzz Test Script
  * Author: Gerardo Soto Rios (@GerardoSotoRios)
  *
  * Description:
@@ -7,7 +7,7 @@
  * Type: Fuzz Test
  *
  * Run Command:
- *   npx tsx src/tests/ordering/scripts/FT-ORD-06-getOrderID_Fuzz.ts
+ *   npx tsx src/tests/ordering/scripts/FT-ORD-08-getOrderID_Fuzz.ts
  *
  * Date Created: 2026-05-26
  *
@@ -31,9 +31,21 @@ import {
 // Replace the stub below with the real import
 //
 //
-  function getOrderID(orderId: any): Promise<string | null> {
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function getOrderID(orderId: unknown): Promise<string | null> {
+  if (typeof orderId !== 'string') {
     return Promise.resolve(null);
   }
+
+  const normalizedOrderId = orderId.trim();
+  if (!UUID_PATTERN.test(normalizedOrderId)) {
+    return Promise.resolve(null);
+  }
+
+  return Promise.resolve(normalizedOrderId);
+}
 // ─────────────────────────────────────────────
 
 
@@ -164,7 +176,7 @@ async function fuzzBoundaryLengths(): Promise<void> {
 // ─────────────────────────────────────────────
 
 async function runFuzzSuite(): Promise<void> {
-  printHeader('FT-ORD-06: FUZZ — getOrderID');
+  printHeader('FT-ORD-08: FUZZ — getOrderID');
 
   try {
     await testValidOrderID();
@@ -194,4 +206,4 @@ async function runFuzzSuite(): Promise<void> {
   }
 }
 
-runFuzzSuite(); 
+runFuzzSuite();

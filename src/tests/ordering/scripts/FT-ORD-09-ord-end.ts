@@ -1,4 +1,6 @@
 import { strict as assert } from 'node:assert';
+
+// FT-ORD-09: Fuzz tests for add-to-cart and remove-cart-item behavior.
 import {
     addCartItem,
     clearCart,
