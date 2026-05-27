@@ -47,6 +47,7 @@
           "merchantIdentifier": "merchant.com.anonymous.semesterprojectcafeteriaordering",
           "enableGooglePay": false
         }
+        
       ]
     ],
     "experiments": {
