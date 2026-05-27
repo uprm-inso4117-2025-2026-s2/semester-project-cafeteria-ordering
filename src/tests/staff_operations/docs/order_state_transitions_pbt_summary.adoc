@@ -1,0 +1,112 @@
+= Order State Transition Property-Based Testing — Strategy Summary
+Author: Reinaldo J. Martinez Morales
+:toc:
+:toc-placement: preamble
+
+*Issue:* #537 +
+*Test Case:* TC-STAFF-02 +
+*Test Report:* TR-STAFF-02 +
+*Date:* 2026-05-26
+
+== Overview
+
+The order lifecycle has exactly 7 allowed transitions across 5 states.  You could write one test per path and call, but that misses what happens when transitions get chained or the state machine receives a combination nobody thought to include.  fast-check generates the inputs, so edge cases surface from the tool rather than scenarios we imagined.  If a property fails, it shrinks the counter example down automatically, which makes it easier to note what broke.
+
+== Order Lifecycle State Machine
+
+The state machine is encoded in `src/lib/order-state-machine.ts` and mirrors the transitions implemented in staff operations orders screen.
+
+=== States
+
+[cols="1,3,1", options="header"]
+|===
+| Status | Description | Terminal?
+
+| `placed`
+| Customer has submitted the order; awaiting staff action
+| No
+
+| `preparing`
+| Staff opened the order and is actively preparing it
+| No
+
+| `ready`
+| Preparation complete; awaiting customer pickup
+| No
+
+| `completed`
+| Customer collected the order
+| *Yes*
+
+| `cancelled`
+| Order cancelled at any pre-collection stage
+| *Yes*
+|===
+
+=== Valid Transitions
+
+[cols="1,1,2", options="header"]
+|===
+| From | To | Trigger
+
+| `placed` | `preparing` | Staff opens unread order (`onOpenOrder`)
+| `placed` | `ready` | Staff closes unread order as done (`onCloseOrder("completed")`)
+| `placed` | `cancelled` | Staff cancels before starting (`onCloseOrder("cancelled")`)
+| `preparing` | `ready` | Staff finishes preparation
+| `preparing` | `cancelled` | Staff cancels during preparation
+| `ready` | `completed` | Customer picks up (`onPickupConfirm`)
+| `ready` | `cancelled` | Order not collected (edge case)
+|===
+
+All other transitions (e.g., `completed to placed`, `preparing to placed`, `ready to preparing`) are **invalid** and must be rejected.
+
+== Properties Tested
+
+=== Property 1 — Valid transitions are always accepted
+
+Sanity check: every `(from, to)` pair in `VALID_TRANSITIONS` should return `true` from `isValidTransition`. +
+Generator: `fc.constantFrom(...VALID_TRANSITIONS)`, 7 possible pairs, 200 runs. +
+Catches a typo or off-by-one in the lookup that would silently reject a transition the workflow needs.
+
+=== Property 2 — Terminal states have no outgoing transitions
+
+`completed` and `cancelled` are end states, so nothing should follow them. +
+Feeds all `(terminal, anyState)` combinations into `isValidTransition` and expects `false` every time. +
+200 samples across both terminal states × all 5 states.
+
+=== Property 3 — Non-reflexivity (no self-transitions)
+
+`isValidTransition(s, s)` must be `false` for every status. A self-transition is a silent no-op and could mask real bugs if accidentally accepted. Short property: 200 samples over all 5 states.
+
+=== Property 4 — `getValidNextStates` is consistent with `VALID_TRANSITIONS`
+
+`isValidTransition` and `getValidNextStates` both expose the transition data through different call surfaces. +
+If someone updates `VALID_TRANSITIONS` and forgets to keep `getValidNextStates` in sync, they drift apart in ways that can be hard to notice. +
+This property checks that for every state the set returned by `getValidNextStates(s)` exactly matches what you'd compute directly from `VALID_TRANSITIONS`. 200 samples.
+
+=== Property 5 — Random valid walks are internally consistent
+
+The generator builds random state sequences (length 1–8); `fc.pre` filters out any that aren't already valid walks, so only realistic order progressions reach the assertions.
+
+- *5a:* Every consecutive pair in the walk satisfies `isValidTransition`.
+- *5b:* In any walk starting from `placed`, a terminal state may only appear as the last element, nothing follows `completed` or `cancelled`.
+
+500 samples. Most generated sequences get discarded by `fc.pre`; the count reflects passing pre-conditions only.
+
+== Shrinking
+
+No failures were found during this run (TR-STAFF-02).  The shrinking infrastructure is in place to aid debugging should a future code change break any property.
+
+== Running the Tests
+
+[source,bash]
+----
+# Run TC-STAFF-02 only
+npx jest --config jest.config.js TC-STAFF-02 --verbose
+
+----
+
+== Results
+
+All 11 tests passed across 1 800+ generated samples in ~0.7 s. +
+Check TR-STAFF-02 for the full execution log.

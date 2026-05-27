@@ -33,6 +33,10 @@ jest.mock('react-native', () => ({
   // Mock hooks
   useColorScheme: () => 'light',
   useWindowDimensions: () => ({ width: 375, height: 667 }),
+  Alert: { alert: jest.fn() },
+  Modal: 'Modal',
+  Pressable: 'Pressable',
+  ActivityIndicator: 'ActivityIndicator',
 }));
 
 // Mock other React Native modules
@@ -64,12 +68,16 @@ jest.mock('@/lib/supabase', () => ({
 
 // Mock expo-router
 jest.mock('expo-router', () => ({
-  Link: ({ children }: any) => children,
+  Link: ({ children }) => children,
   useRouter: () => ({
     replace: jest.fn(),
     push: jest.fn(),
     back: jest.fn(),
   }),
+  useFocusEffect: (cb) => {
+    const { useEffect } = require('react');
+    useEffect(cb, []);
+  },
   usePathname: () => '/',
   useSegments: () => [],
   useLocalSearchParams: () => ({}),
@@ -148,11 +156,37 @@ jest.mock('@/components/themed-text', () => {
 
 jest.mock('@/constants/theme', () => ({
   Colors: {
-    pastelSage: '#D3E0D3',
-    mutedGray: '#9CA3AF',
-    primaryGreen: '#4CAF50',
-    light: { text: '#000000', secondaryText: '#FFFFFF' },
-    dark: { text: '#FFFFFF' },
+    light: {
+      text: '#424242',
+      secondaryText: '#FAFAFA',
+      alternateText: '#1C1C1C',
+      background: '#FAFAFA',
+      tint: '#2E7D32',
+      icon: '#687076',
+      tabIconDefault: '#687076',
+      tabIconSelected: '#2E7D32',
+    },
+    dark: {
+      text: '#FFFFFF',
+      secondaryText: '#BDBDBD',
+      alternateText: '#1C1C1C',
+      background: '#1C1C1C',
+      tint: '#FFCCBC',
+      icon: '#9BA1A6',
+      tabIconDefault: '#9BA1A6',
+      tabIconSelected: '#FFCCBC',
+    },
+    primaryGreen: '#2E7D32',
+    pastelSage: '#A5D6A7',
+    pastelPeach: '#FFCCBC',
+    softGray: '#EEEEEE',
+    mutedGray: '#BDBDBD',
+  },
+  Typography: {
+    heading: { fontFamily: 'Bitter' },
+    subheading: { fontFamily: 'Inter' },
+    body: { fontFamily: 'Inter' },
+    button: { fontFamily: 'Inter' },
   },
 }));
 
