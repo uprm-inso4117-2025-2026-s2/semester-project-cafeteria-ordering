@@ -1,3 +1,4 @@
+import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Colors, Typography } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,6 +11,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -57,6 +59,8 @@ export default function ProfileOrderHistoryScreen() {
   const isDark = colorScheme === "dark";
 
   const [selectedTab, setSelectedTab] = useState<Filter>("All Orders");
+  // TODO: set to error message string when API fetch fails
+  const [error, setError] = useState<string | null>(null);
 
   const tabs: Filter[] = ["All Orders", "In Progress", "Completed", "Cancelled"];
 
@@ -122,6 +126,22 @@ export default function ProfileOrderHistoryScreen() {
           />
         </View>
 
+        {error ? (
+          <View style={styles.errorState}>
+            <Ionicons name="alert-circle-outline" size={54} color={Colors.mutedGray} />
+            <Text style={[styles.errorTitle, { color: Colors.mutedGray, ...Typography.body }]}>
+              Something went wrong
+            </Text>
+            <TouchableOpacity
+              onPress={() => setError(null)}
+              style={[styles.retryBtn, { borderColor: theme.tint }]}
+            >
+              <Text style={{ color: theme.tint, ...Typography.button, fontSize: 14 }}>
+                Try Again
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
@@ -214,30 +234,9 @@ export default function ProfileOrderHistoryScreen() {
             </View>
           ))}
         </ScrollView>
+        )}
       </View>
     </>
-  );
-}
-
-function StatusBadge({ status }: { status: Status }) {
-  const badgeStyle =
-    status === "Pending"
-      ? styles.pendingBadge
-      : status === "Complete"
-        ? styles.completeBadge
-        : styles.cancelledBadge;
-
-  const textStyle =
-    status === "Pending"
-      ? styles.pendingText
-      : status === "Complete"
-        ? styles.completeText
-        : styles.cancelledText;
-
-  return (
-    <View style={[styles.badge, badgeStyle]}>
-      <Text style={[styles.badgeText, textStyle]}>{status}</Text>
-    </View>
   );
 }
 
@@ -388,5 +387,21 @@ const styles = StyleSheet.create({
   },
   cancelledText: {
     color: "#D73535",
+  },
+  errorState: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
+  errorTitle: {
+    fontSize: 15,
+  },
+  retryBtn: {
+    marginTop: 8,
+    borderWidth: 1.5,
+    borderRadius: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 32,
   },
 });

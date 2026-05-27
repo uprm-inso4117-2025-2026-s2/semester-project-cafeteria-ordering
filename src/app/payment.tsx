@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { getCartItems, clearCart } from '../lib/cart-items';
+import { getCartItems, clearCart, removeCartItem } from '../lib/cart-items';
 import { supabase } from '@/lib/supabase';
 import { CardField, CardFieldInput } from '@stripe/stripe-react-native';
 
@@ -43,10 +43,6 @@ const formatZip = (value: string) => {
   return value.replace(/[^0-9]/g, '').slice(0, 5);
 };
 
-type OrderItem = {
-  menuItem: MenuItem;
-  quantity: number;
-};
 
 export default function PaymentScreen() {
   const router = useRouter();
@@ -86,11 +82,19 @@ export default function PaymentScreen() {
   const [zip, setZip] = useState('');
   const [savePaymentInfo, setSavePaymentInfo] = useState(false);
 
-  const orderItems = getCartItems().map((cartItem) => ({
+  // Local snapshot of cart so removing an item triggers a re-render
+  const [cartSnapshot, setCartSnapshot] = useState(() => getCartItems());
+
+  const orderItems = cartSnapshot.map((cartItem) => ({
     menuItem: cartItem.item,
     quantity: cartItem.quantity,
     addOns: cartItem.addOns ?? [],
   }));
+
+  const handleRemoveItem = (itemId: string) => {
+    removeCartItem(itemId);
+    setCartSnapshot([...getCartItems()]); // spread forces React to see a new array
+  };
 
   // Order subtotal from added items
   const subtotal = orderItems.reduce((sum, item) => {
@@ -212,9 +216,9 @@ export default function PaymentScreen() {
       console.log('Confirmed order:', confirmed_order);
 
 
-
+  
       clearCart();
-
+      setCartSnapshot([]);
       alert(`Payment successful. \nOrder ID: ${data.order_id}`);
 
 
@@ -314,7 +318,7 @@ export default function PaymentScreen() {
                 <Text style={[styles.subText, { color: colors.mutedText }]}>
                   ${item.menuItem.getTotalPrice().toFixed(2)} each
                 </Text>
-                    {item.addOns.length > 0 && (
+                {item.addOns.length > 0 && (
                   <Text style={[styles.subText, { color: colors.mutedText }]}>
                     Add-ons: {item.addOns.map((addon) => addon.name).join(', ')}
                   </Text>
@@ -328,6 +332,14 @@ export default function PaymentScreen() {
                     item.addOns.reduce((sum, addon) => sum + addon.price, 0))
                 ).toFixed(2)}
               </Text>
+
+              {/* Trash button — inside the map so 'item' is in scope */}
+              <TouchableOpacity
+                onPress={() => handleRemoveItem(item.menuItem.getId())}
+                style={{ marginLeft: 12 }}
+              >
+                <Ionicons name="trash-outline" size={20} color={colors.mutedText} />
+              </TouchableOpacity>
             </View>
           ))}
         </View>

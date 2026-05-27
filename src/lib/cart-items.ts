@@ -1,5 +1,7 @@
+import { MenuItem } from "@/models/food-item-class";
+
 type CartItem = {
-  item: any;
+  item: MenuItem;
   quantity: number;
   addOns: any[];
 };
@@ -7,11 +9,19 @@ type CartItem = {
 let cartItems: CartItem[] = [];
 
 export const addCartItem = (
-  item: any,
+  item: MenuItem,
   quantity: number = 1,
   addOns: any[] = []
 ) => {
   cartItems.push({ item, quantity, addOns });
+  console.log('Cart Updated:', cartItems);
+};
+
+export const removeCartItem = (itemId: string) => {
+  const index = cartItems.findIndex((c) => c.item.getId() === itemId);
+  if (index !== -1) {
+    cartItems.splice(index, 1);
+  }
   console.log('Cart Updated:', cartItems);
 };
 

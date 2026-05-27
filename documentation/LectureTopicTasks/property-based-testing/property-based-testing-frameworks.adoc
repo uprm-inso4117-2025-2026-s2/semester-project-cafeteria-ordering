@@ -1,0 +1,131 @@
+= Property-Based Testing Framework Research
+:author: @Alma-pineiro
+:toc:
+:sectnums:
+
+== Overview
+
+Property-Based Testing (PBT) automatically generates large numbers of test inputs to verify that certain properties of a system always hold true. Unlike traditional unit tests that check specific examples, PBT explores a wider range of inputs and helps uncover unexpected edge cases.
+
+This research evaluates property-based testing frameworks for the React Native Cafeteria Ordering System and recommends the most suitable option.
+
+== Framework Comparison
+
+[cols="1,1,1,1,1,1", options="header"]
+|===
+|Framework
+|Language
+|Generator Support
+|Shrinking
+|Jest Compatible
+|CI/CD Support
+
+|fast-check
+|JavaScript/TypeScript
+|Excellent
+|Excellent
+|Yes
+|Excellent
+
+|Hypothesis
+|Python
+|Excellent
+|Excellent
+|No
+|Excellent
+
+|QuickCheck
+|Haskell
+|Good
+|Good
+|No
+|Good
+|===
+
+== Compatibility with React Native
+
+The cafeteria ordering system uses:
+
+* React Native
+* TypeScript
+* Jest
+* GitHub Actions
+
+Among the frameworks evaluated, fast-check provides the highest compatibility because it is designed specifically for JavaScript and TypeScript applications and integrates directly with Jest.
+
+== Cafeteria Testing Use Cases
+
+=== Cart Validation
+
+Property:
+----
+Cart total should never be negative.
+----
+
+=== Order Validation
+
+Property:
+----
+An order must contain at least one item before checkout.
+----
+
+=== Menu Validation
+
+Property:
+----
+Menu item prices must always be greater than or equal to zero.
+----
+
+=== User Input Validation
+
+Property:
+----
+Valid usernames must not exceed the maximum allowed length.
+----
+
+== CI/CD Compatibility
+
+fast-check runs as part of normal Jest test execution and works seamlessly with GitHub Actions.
+
+Benefits include:
+
+* Automated execution
+* Edge case discovery
+* Regression prevention
+* Increased test coverage
+* Easy integration into existing pipelines
+
+== Advantages and Disadvantages
+
+=== fast-check
+
+Advantages:
+
+* Built for JavaScript and TypeScript
+* Works with React Native
+* Native Jest integration
+* Strong generator support
+* Automatic shrinking
+* Active community
+
+Disadvantages:
+
+* Smaller ecosystem than traditional unit testing libraries
+* Additional execution time for large generated test sets
+
+== Recommendation
+
+fast-check is the recommended property-based testing framework for the Cafeteria Ordering System.
+
+Reasons:
+
+* Best React Native compatibility
+* Native TypeScript support
+* Jest integration
+* Strong shrinking capabilities
+* CI/CD friendly
+* Suitable for testing carts, orders, payments, menus, and user inputs
+
+== Conclusion
+
+Property-Based Testing can improve application reliability by automatically generating diverse test cases and uncovering edge cases that traditional tests may miss. For a React Native application, fast-check provides the best balance of usability, integration, and long-term maintainability.

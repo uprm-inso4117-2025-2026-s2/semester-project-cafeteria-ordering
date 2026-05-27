@@ -1,7 +1,7 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import 'react-native-reanimated';
 
@@ -11,28 +11,89 @@ import { metricsCollector } from '@/lib/performance/metricsCollector';
 import { regressionDetector } from '@/lib/performance/regressionDetector';
 import { useFonts } from 'expo-font';
 import { AuthProvider, useAuth } from './authContext';
+import { View, ActivityIndicator, Text } from 'react-native';
+
+// Session logging helper
+function logAuthGate(event: string, data?: any) {
+  const timestamp = new Date().toISOString();
+  console.log(`[AuthGate][${timestamp}] ${event}`, data ? JSON.stringify(data) : '');
+}
 
 function AuthGate() {
   const router = useRouter();
   const segments = useSegments();
-  const { loggedIn, isInitialized } = useAuth();
+  const { loggedIn, isInitialized, sessionChecked } = useAuth();
+  const [isNavigating, setIsNavigating] = useState(false);
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
-    if (!isInitialized) return;
+    if (!isInitialized || !sessionChecked) {
+      logAuthGate('Waiting for auth initialization', { isInitialized, sessionChecked });
+      return;
+    }
+
+    if (isNavigating) {
+      logAuthGate('Already navigating, skipping');
+      return;
+    }
 
     const first = segments[0];
     const inAuthScreens = first === 'login' || first === 'signup' || first === 'PasswordRecovery';
     const inProtectedGroup = first === '(tabs)' || first === 'staff';
+    const inResetPassword = segments[1] === 'resetPassword';
 
-    if (!loggedIn && inProtectedGroup) {
-      router.replace('/login');
+    logAuthGate('Auth state check', {
+      loggedIn,
+      currentRoute: first,
+      inAuthScreens,
+      inProtectedGroup,
+      inResetPassword,
+      fullSegments: segments,
+    });
+
+    // Allow access to reset password page without being logged in
+    if (inResetPassword) {
+      logAuthGate('Allowing access to reset password page');
       return;
     }
 
-    if (loggedIn && inAuthScreens) {
-      router.replace('/(tabs)');
+    // Redirect logged-out users away from protected screens
+    if (!loggedIn && inProtectedGroup) {
+      logAuthGate('Redirecting unauthenticated user to login');
+      setIsNavigating(true);
+      router.replace('/login');
+      setTimeout(() => setIsNavigating(false), 500);
+      return;
     }
-  }, [isInitialized, loggedIn, router, segments]);
+
+    // Redirect logged-in users away from auth screens
+    if (loggedIn && inAuthScreens) {
+      logAuthGate('Redirecting authenticated user to tabs');
+      setIsNavigating(true);
+      router.replace('/(tabs)');
+      setTimeout(() => setIsNavigating(false), 500);
+      return;
+    }
+
+    logAuthGate('Auth gate check passed, no redirect needed');
+  }, [isInitialized, sessionChecked, loggedIn, router, segments, isNavigating]);
+
+  // Return loading UI - moved to END of hooks
+  if (!isInitialized || !sessionChecked) {
+    return (
+      <View style={{ 
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        backgroundColor: colorScheme === 'dark' ? '#1C1C1C' : '#FAFAFA' 
+      }}>
+        <ActivityIndicator size="large" color={colorScheme === 'dark' ? '#FFCCBC' : '#2E7D32'} />
+        <Text style={{ marginTop: 20, color: colorScheme === 'dark' ? '#FFFFFF' : '#424242' }}>
+          Checking authentication...
+        </Text>
+      </View>
+    );
+  }
 
   return null;
 }
@@ -53,14 +114,12 @@ export default function RootLayout() {
     // Record app start time
     (global as any).__APP_START_TIME__ = Date.now();
     
-    // Start monitoring
     console.log('[Performance] Starting metrics collection...');
     
     // Set baseline after 30 seconds
     setTimeout(async () => {
       await regressionDetector.setBaseline('v1.0');
       
-      // Log initial performance score
       const score = regressionDetector.getPerformanceScore();
       console.log(`[Performance] Initial score: ${score}/100`);
       
@@ -73,15 +132,11 @@ export default function RootLayout() {
       });
     }, 30000);
 
-    // Set up regression alerting
     regressionDetector.onRegression((metric, baseline, current, severity) => {
       const message = `⚠️ Performance Alert [${severity.toUpperCase()}]: ${metric} degraded from ${baseline.toFixed(2)} to ${current.toFixed(2)}`;
       console.error(message);
-      
-      // Could also show in-app notification here
     });
 
-    // Monitor memory pressure
     const checkMemory = setInterval(async () => {
       const systemMetrics = await metricsCollector.getCurrentSystemMetrics();
       if (systemMetrics && systemMetrics.memoryUsed / systemMetrics.totalMemory > 0.85) {
@@ -97,7 +152,7 @@ export default function RootLayout() {
           }
         });
       }
-    }, 60000); // Check every minute
+    }, 60000);
 
     return () => {
       metricsCollector.stop();

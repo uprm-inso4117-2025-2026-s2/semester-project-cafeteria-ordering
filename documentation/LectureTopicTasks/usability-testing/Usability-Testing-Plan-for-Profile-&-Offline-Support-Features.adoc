@@ -1,0 +1,367 @@
+= Usability Testing Plan for Profile Management and Offline Support Features
+:author: @Alma-pineiro
+:toc:
+:sectnums:
+
+== Overview
+
+Usability Testing is a method used to evaluate how effectively users can interact with a system. It focuses on observing user behavior while performing realistic tasks in order to identify usability problems and improve the overall user experience.
+
+This testing plan focuses on two important areas of the Cafeteria Ordering System:
+
+- Profile Management Features
+- Offline Support Features
+
+The testing plan evaluates how easily users can complete profile-related tasks and how the application behaves when internet connectivity becomes unstable or unavailable.
+
+== Definitions
+
+=== Usability
+
+Usability refers to how effectively, efficiently, and satisfactorily users can interact with a system to accomplish specific goals.
+
+A usable system should allow users to:
+
+- learn the interface quickly
+- complete tasks efficiently
+- avoid common mistakes
+- recover from errors easily
+- feel satisfied during interaction
+
+=== User-Centered Design
+
+User-Centered Design (UCD) is a design philosophy that prioritizes the needs, behaviors, and expectations of users throughout the development process.
+
+This approach emphasizes:
+
+- continuous user feedback
+- accessibility
+- intuitive workflows
+- iterative improvement
+- real-world usability evaluation
+
+== Nielsen’s Usability Quality Components
+
+The testing plan is based on Nielsen’s five usability quality components.
+
+=== Learnability
+
+The system should be easy for first-time users to understand and navigate.
+
+=== Efficiency
+
+Experienced users should be able to complete tasks quickly with minimal effort.
+
+=== Memorability
+
+Users returning after a period of inactivity should still understand how to use the system.
+
+=== Error Prevention and Recovery
+
+The system should minimize user errors and provide clear recovery options when errors occur.
+
+=== Satisfaction
+
+Users should feel comfortable and satisfied while interacting with the application.
+
+== Target Users
+
+The usability testing plan focuses on representative cafeteria system users.
+
+=== Primary User Groups
+
+[cols="1,2"]
+|===
+|User Type |Description
+
+|Students
+|Users placing frequent mobile and in-person cafeteria orders
+
+|Faculty Members
+|Users managing profiles and placing occasional orders
+
+|Campus Visitors
+|Temporary users with limited familiarity with the platform
+
+|Staff Members
+|Users interacting with saved preferences and order history features
+|===
+
+=== Accessibility Considerations
+
+Testing should include users with:
+
+- limited technical experience
+- visual impairments
+- motor accessibility needs
+- inconsistent internet connectivity
+- older mobile devices
+
+== Profile Management Features
+
+The Profile Management section allows users to manage personal account information and customize their experience within the cafeteria platform.
+
+=== Features Included
+
+- Account creation
+- Profile editing
+- Password management
+- Authentication flows
+- Viewing order history
+- Managing saved preferences
+
+== Common Profile-Related User Workflows
+
+=== Account Creation Workflow
+
+Workflow:
+
+1. User opens the registration page
+2. User enters personal information
+3. User creates login credentials
+4. User submits registration form
+5. System confirms account creation
+
+Usability Goals:
+
+- Minimize registration confusion
+- Prevent invalid input errors
+- Ensure clear instructions
+
+=== Updating Personal Information
+
+Workflow:
+
+1. User navigates to profile settings
+2. User edits account information
+3. User saves changes
+4. System confirms update success
+
+Usability Goals:
+
+- Easy navigation to profile settings
+- Clear edit/save actions
+- Immediate feedback after updates
+
+=== Viewing Order History
+
+Workflow:
+
+1. User accesses profile dashboard
+2. User selects order history
+3. User reviews previous orders
+
+Usability Goals:
+
+- Easy access to historical orders
+- Clear order organization
+- Readable information presentation
+
+=== Password and Authentication Flows
+
+Workflow:
+
+1. User attempts login
+2. User enters credentials
+3. User authenticates successfully or resets password
+
+Usability Goals:
+
+- Reduce login confusion
+- Provide clear error messages
+- Ensure secure and understandable recovery flows
+
+== Offline Support Features
+
+Offline support allows users to continue interacting with limited portions of the application even when internet connectivity becomes unstable or unavailable.
+
+=== Offline Features Included
+
+- Accessing cached information
+- Offline browsing
+- Viewing stored menu information
+- Reconnection synchronization
+- Error handling during connection loss
+
+== Offline Usage Scenarios
+
+=== Accessing Cached Information
+
+Scenario:
+
+A student loses internet connectivity while browsing cafeteria menus.
+
+Expected Behavior:
+
+- Cached menu information remains visible
+- Previously loaded content stays accessible
+- System clearly indicates offline status
+
+=== Offline Browsing Behavior
+
+Scenario:
+
+A user continues navigating the application without internet access.
+
+Expected Behavior:
+
+- Navigation remains responsive
+- Offline limitations are clearly explained
+- Unavailable actions are disabled gracefully
+
+=== Sync Behavior After Reconnecting
+
+Scenario:
+
+Internet connectivity returns after temporary disconnection.
+
+Expected Behavior:
+
+- Data synchronization occurs automatically
+- User changes are preserved
+- System informs users when syncing is complete
+
+=== Error Handling During Connection Loss
+
+Scenario:
+
+A user attempts to submit an order while offline.
+
+Expected Behavior:
+
+- Clear offline warning appears
+- Failed actions are explained
+- Recovery instructions are provided
+
+=== User Understanding of Offline Limitations
+
+Scenario:
+
+A user attempts unsupported actions while offline.
+
+Expected Behavior:
+
+- Limitations are communicated clearly
+- Users understand what actions require connectivity
+- Frustration is minimized through informative messaging
+
+== Usability Testing Methodologies
+
+Several usability testing methods can be applied to evaluate these features.
+
+=== Think-Aloud Testing
+
+Users verbalize their thoughts while completing tasks.
+
+Benefits:
+
+- Reveals confusion points
+- Identifies unclear interface elements
+- Provides insight into user expectations
+
+=== Observation Testing
+
+Researchers observe users performing realistic tasks.
+
+Benefits:
+
+- Identifies navigation difficulties
+- Detects usability bottlenecks
+- Measures task completion behavior
+
+=== Surveys and Questionnaires
+
+Users provide structured feedback after testing sessions.
+
+Benefits:
+
+- Measures satisfaction
+- Collects qualitative feedback
+- Identifies recurring concerns
+
+=== Error Tracking
+
+System logs and observations are used to identify common user errors.
+
+Benefits:
+
+- Detects problematic workflows
+- Improves error prevention strategies
+- Measures interface reliability
+
+== Metrics for Measuring Usability Success
+
+The following metrics will be used during testing.
+
+[cols="1,2"]
+|===
+|Metric |Purpose
+
+|Task Completion Rate
+|Measures whether users successfully complete tasks
+
+|Time on Task
+|Measures efficiency while performing workflows
+
+|Error Frequency
+|Measures how often users encounter problems
+
+|User Satisfaction Score
+|Measures overall satisfaction with the experience
+
+|Navigation Success
+|Measures how easily users locate features
+
+|Offline Recovery Success
+|Measures how effectively users recover after reconnection
+
+|Accessibility Compliance
+|Measures support for accessible interaction
+|===
+
+== Accessibility Considerations
+
+The usability testing plan includes accessibility-focused evaluation.
+
+Areas of focus include:
+
+- readable text and contrast
+- keyboard navigation support
+- understandable error messages
+- screen reader compatibility
+- responsive layouts for different devices
+
+Accessibility testing ensures the platform remains usable for users with different abilities and technical limitations.
+
+== Reliability During Unstable Network Conditions
+
+Special attention is given to system reliability during poor connectivity situations.
+
+Testing should evaluate:
+
+- behavior during intermittent disconnections
+- reconnection handling
+- synchronization consistency
+- preservation of user data
+- system stability during offline transitions
+
+Reliable offline behavior is critical for maintaining user trust and reducing frustration.
+
+== Testing Goals
+
+The usability testing plan aims to improve:
+
+- Learnability
+- Efficiency
+- Satisfaction
+- Error Prevention
+- Accessibility
+- Reliability under unstable network conditions
+
+The goal is to ensure that both profile management and offline support features remain intuitive, stable, and user-friendly.
+
+== Conclusion
+
+Usability testing is essential for ensuring that users can efficiently and comfortably interact with the Cafeteria Ordering System.
+
+By evaluating profile management workflows and offline support behavior through realistic user scenarios, the development team can identify usability issues, improve accessibility, reduce user frustration, and provide a more reliable overall experience.
