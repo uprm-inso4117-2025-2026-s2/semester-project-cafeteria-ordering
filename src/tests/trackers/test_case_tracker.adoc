@@ -20,13 +20,29 @@
 |User Login Functionality Verification
 |TC-AUTH-04_user_login.tsx
 
+|TC-AUTH-05
+|Password Reset and Recovery Flow Verification — validates the forgot-password and reset-password flows including email submission, link reception, new password constraints, and error handling for invalid or expired tokens
+|src/tests/authentication/cases/TC-AUTH-05_password_reset.tsx
+
 |TC-AUTH-06
 |Account Verification Process - Verify that after registration, users can successfully verify their accounts via email/verification link, including valid token acceptance, invalid/expired token handling, and account status changes from unverified to verified
 |TC-AUTH-04_account_verification.tsx
 
+|TC-AUTH-07
+|Login Screen UI Components & Button Navigation — Playwright E2E validation of login screen layout, client-side form validation, Google OAuth button, and Sign Up link routing across headless Chromium, Firefox, and WebKit
+|src/tests/ui/scripts/login.spec.ts
+
 |TC-AUTH-08
 |User Login Regression Testing - Re-validate the email/password login flow after merged changes (session-persistence, Google OAuth implementation, Apple sign-in button, onAuthStateChange listener): valid login with role-based redirect, invalid/unregistered/empty/malformed credential handling, client-side validation, real Google OAuth happy/cancel/error paths, Apple placeholder behavior, mount-time existing-session check, and Forgot password / Sign up navigation
 |src/tests/authentication/cases/TC-AUTH-08_login_regression_test_case.tsx
+
+|TC-AUTH-10
+|Input Validation Fuzz Testing for User Forms — validates that authentication-related user forms handle malformed or unexpected inputs (empty, whitespace, SQL injection, XSS payloads, unicode characters, boundary string lengths) safely without crashes or security regressions
+|src/tests/authentication/scripts/FT-AUTH-10_fuzz_test_inputs.ts
+
+|TC-HOME-01
+|Home Page UI Components & Button Navigation — Playwright E2E validation of home screen layout elements, category filter chip interactions, cart icon routing to /payment, Best Seller card routing to /menu/:id, and search input behavior
+|src/tests/ui/scripts/home.spec.ts
 
 |TC-ORD-01
 |Order Modification - Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults.
@@ -107,5 +123,13 @@
 |TC-SUPA-02
 |Supabase quick connection smoke check
 |src/tests/supabase/scripts/quick-test.ts
+
+|TC-SUPA-03
+|Supabase Auth Session Creation Validation — integration smoke test confirming that signInWithPassword produces a usable session with an access_token, getSession() retrieves the active session, getUser() resolves the authenticated user, and signOut() clears the session
+|src/tests/supabase/scripts/auth-session.test.ts
+
+|TC-UTIL-VALIDATION-01
+|Centralized Input Validation Utilities — unit tests for isValidEmail, isValidPassword, and formatPhoneNumber in src/lib/validation.ts covering valid inputs, boundary conditions, whitespace trimming, and all rejection cases used by Signup, Login, and Edit Profile screens
+|src/tests/utils/scripts/validation.test.ts
 
 |====
