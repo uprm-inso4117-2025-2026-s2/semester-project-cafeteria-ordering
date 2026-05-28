@@ -3,7 +3,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { MenuItem } from '@/models/food-item-class';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   LayoutChangeEvent,
   ScrollView,
@@ -79,7 +79,23 @@ export default function PaymentScreen() {
   const [savePaymentInfo, setSavePaymentInfo] = useState(false);
 
   // Local snapshot of cart so removing an item triggers a re-render
-  const [cartSnapshot, setCartSnapshot] = useState(() => getCartItems());
+  const [cartSnapshot, setCartSnapshot] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load cart items asynchronously
+  useEffect(() => {
+    const loadCart = async () => {
+      try {
+        const items = await getCartItems();
+        setCartSnapshot(items);
+      } catch (error) {
+        console.error('Error loading cart:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadCart();
+  }, []);
 
   const orderItems = cartSnapshot.map((cartItem) => ({
     menuItem: cartItem.item,
@@ -87,9 +103,14 @@ export default function PaymentScreen() {
     addOns: cartItem.addOns ?? [],
   }));
 
-  const handleRemoveItem = (itemId: string) => {
-    removeCartItem(itemId);
-    setCartSnapshot([...getCartItems()]); // spread forces React to see a new array
+  const handleRemoveItem = async (itemId: string) => {
+    try {
+      await removeCartItem(itemId);
+      const items = await getCartItems();
+      setCartSnapshot(items);
+    } catch (error) {
+      console.error('Error removing item:', error);
+    }
   };
 
   // Order subtotal from added items
@@ -113,7 +134,7 @@ export default function PaymentScreen() {
   // Total will stay 0 for values that are still TBD
   const total = subtotal + (additionalFees ?? 0) + (tax ?? 0);
 
-  const handlePayNow = () => {
+  const handlePayNow = async () => {
     console.log({
       cardNumber,
       expiry,
@@ -135,7 +156,7 @@ export default function PaymentScreen() {
       tax,
     });
 
-    clearCart();
+    await clearCart();
     setCartSnapshot([]);
     // Placeholder until we have button action
     alert('order placed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
@@ -145,6 +166,14 @@ export default function PaymentScreen() {
     const { height } = event.nativeEvent.layout;
     setHeaderHeight(height);
   };
+
+  if (loading) {
+    return (
+      <View style={[styles.screen, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: colors.primaryText }}>Loading cart...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.screen, { backgroundColor: colors.background }]}>

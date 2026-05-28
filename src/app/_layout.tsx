@@ -21,7 +21,7 @@ function logAuthGate(event: string, data?: any) {
 function AuthGate() {
   const router = useRouter();
   const segments = useSegments();
-  const { loggedIn, isInitialized, sessionChecked } = useAuth();
+  const { user, isInitialized, sessionChecked, guestUpgradeState } = useAuth();
   const [isNavigating, setIsNavigating] = useState(false);
   const colorScheme = useColorScheme();
 
@@ -40,10 +40,18 @@ function AuthGate() {
     const inAuthScreens = first === 'login' || first === 'signup' || first === 'PasswordRecovery';
     const inProtectedGroup = first === '(tabs)' || first === 'staff';
     const inResetPassword = segments[1] === 'resetPassword';
+    
+    // Check if this is a profile-related screen
+    const isProfileScreen = first === '(tabs)' && (segments[1] === 'profile' || segments[1] === 'edit-profile' || segments[1] === 'profile-order-history');
+    const isOrderFlow = first === '(tabs)' && (segments[1] === 'index' || segments[1] === 'orders' || segments[1] === 'payment' || !segments[1] || segments[1] === 'menu');
 
     logAuthGate('Auth state check', {
-      loggedIn,
+      hasUser: !!user,
+      isGuest: guestUpgradeState.isGuest,
       currentRoute: first,
+      segment1: segments[1],
+      isProfileScreen,
+      isOrderFlow,
       inAuthScreens,
       inProtectedGroup,
       inResetPassword,
@@ -56,18 +64,37 @@ function AuthGate() {
       return;
     }
 
-    // Redirect logged-out users away from protected screens
-    if (!loggedIn && inProtectedGroup) {
-      logAuthGate('Redirecting unauthenticated user to login');
+    // Handle guest users
+    if (guestUpgradeState.isGuest && !user) {
+      // Profile screens require upgrade (login/signup)
+      if (isProfileScreen) {
+        logAuthGate('Guest user trying to access profile - requiring upgrade');
+        setIsNavigating(true);
+        const preservedRoute = encodeURIComponent(segments.join('/'));
+        router.replace(`/login?upgrade=guest&returnTo=${preservedRoute}`);
+        setTimeout(() => setIsNavigating(false), 500);
+        return;
+      }
+      
+      // Ordering flow is allowed for guests
+      if (isOrderFlow) {
+        logAuthGate('Guest user allowed to access ordering flow');
+        return;
+      }
+    }
+
+    // If user is NOT logged in and trying to access protected routes (and not a guest)
+    if (!user && !guestUpgradeState.isGuest && inProtectedGroup) {
+      logAuthGate('No user and not a guest - redirecting to login');
       setIsNavigating(true);
-      router.replace('/login');
+      router.replace('/login' as any);
       setTimeout(() => setIsNavigating(false), 500);
       return;
     }
 
-    // Redirect logged-in users away from auth screens
-    if (loggedIn && inAuthScreens) {
-      logAuthGate('Redirecting authenticated user to tabs');
+    // If user IS logged in and trying to access auth screens
+    if (user && inAuthScreens) {
+      logAuthGate('User is logged in - redirecting to tabs');
       setIsNavigating(true);
       router.replace('/(tabs)');
       setTimeout(() => setIsNavigating(false), 500);
@@ -75,9 +102,9 @@ function AuthGate() {
     }
 
     logAuthGate('Auth gate check passed, no redirect needed');
-  }, [isInitialized, sessionChecked, loggedIn, router, segments, isNavigating]);
+  }, [isInitialized, sessionChecked, user, guestUpgradeState.isGuest, router, segments, isNavigating]);
 
-  // Return loading UI - moved to END of hooks
+  // Return loading UI
   if (!isInitialized || !sessionChecked) {
     return (
       <View style={{ 

@@ -19,6 +19,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { mapSignUpError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
 import { isValidEmail } from '@/lib/validation';
+import { mergeGuestCartWithUserCart } from '@/lib/cart-items';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface InputFieldProps {
@@ -292,6 +293,12 @@ export default function SignUpScreen() {
         const preservedRoute = guestUpgradeState.preservedRoute || '/(tabs)';
 
         if (guestUpgradeState.isUpgradingGuest) {
+          try {
+            await mergeGuestCartWithUserCart(data.user.id);
+            console.log('Guest cart merged successfully during signup');
+          } catch (mergeError) {
+            console.error('Error merging guest cart:', mergeError);
+          }
           completeGuestUpgrade();
           setAuthMessage('Account created successfully. Your guest progress was preserved.');
           router.replace(preservedRoute as any);
@@ -320,9 +327,15 @@ export default function SignUpScreen() {
     try {
       const preservedRoute = guestUpgradeState.preservedRoute || '/(tabs)';
 
-      await signInWithApple();
+      const { supabaseUser } = await signInWithApple();
 
       if (guestUpgradeState.isUpgradingGuest) {
+        try {
+          await mergeGuestCartWithUserCart(supabaseUser.id);
+          console.log('Guest cart merged successfully during Apple signup');
+        } catch (mergeError) {
+          console.error('Error merging guest cart:', mergeError);
+        }
         completeGuestUpgrade();
       }
 
@@ -543,7 +556,8 @@ export default function SignUpScreen() {
           <TouchableOpacity
             onPress={() => {
               cancelGuestUpgrade();
-              router.replace((guestUpgradeState.preservedRoute || '/(tabs)') as any);
+              const route = guestUpgradeState.preservedRoute || '/(tabs)';
+              router.replace(route as any);
             }}
             accessibilityRole="button"
             accessibilityLabel="Continue as guest"

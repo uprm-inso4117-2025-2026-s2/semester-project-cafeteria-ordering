@@ -85,14 +85,14 @@ export default function ItemPage() {
      * Logs the item, quantity, and selected add-ons.
      * Placeholder for actual cart logic.
      */
-   const handleAddToCart = () => {
+   const handleAddToCart = async () => {
         if (!item) return;
 
         const selected = availableAddOns.filter((addon) =>
             selectedAddOns.includes(addon.id)
         );
 
-        addCartItem(item, count, selected);
+        await addCartItem(item, count, selected);
         router.push('/(tabs)');
 
         console.log('Added modified item to cart:', item.getName(), count, selected);

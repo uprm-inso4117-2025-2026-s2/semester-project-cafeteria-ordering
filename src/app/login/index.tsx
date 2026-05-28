@@ -20,6 +20,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { mapLoginError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
 import { isValidEmail } from '@/lib/validation';
+import { mergeGuestCartWithUserCart } from '@/lib/cart-items';
 
 // ─── Logo Assets ──────────────────────────────────────────────────────────────
 const LightModeLogo = require('../../../documentation/branding/images/Light-Mode-Logo.png');
@@ -166,6 +167,7 @@ export default function LoginScreen() {
   const {
     signInWithApple,
     guestUpgradeState,
+    startGuestSession,
     beginGuestUpgrade,
     cancelGuestUpgrade,
     completeGuestUpgrade,
@@ -189,11 +191,17 @@ export default function LoginScreen() {
     }
   }, [params.error, params.error_code, params.error_description]);
 
+  // DEBUG: Log params to see if upgrade parameter is being received
   useEffect(() => {
+    console.log('Login screen params:', params);
+    console.log('upgrade param:', params.upgrade);
+    console.log('returnTo param:', params.returnTo);
+
     if (params.upgrade === 'guest') {
+      console.log('Starting guest upgrade with returnTo:', params.returnTo);
       beginGuestUpgrade(params.returnTo || '/(tabs)');
     }
-  }, [beginGuestUpgrade, params.returnTo, params.upgrade]);
+  }, [params, beginGuestUpgrade]);
 
   const routeAuthenticatedUser = async (userId: string, fallbackRoute?: string) => {
     const { data: profile } = await supabase
@@ -261,6 +269,12 @@ export default function LoginScreen() {
       const preservedRoute = guestUpgradeState.preservedRoute || '/(tabs)';
 
       if (guestUpgradeState.isUpgradingGuest) {
+        try {
+          await mergeGuestCartWithUserCart(data.user.id);
+          console.log('Guest cart merged successfully during login');
+        } catch (mergeError) {
+          console.error('Error merging guest cart:', mergeError);
+        }
         completeGuestUpgrade();
       }
 
@@ -279,6 +293,12 @@ export default function LoginScreen() {
       const preservedRoute = guestUpgradeState.preservedRoute || '/(tabs)';
 
       if (guestUpgradeState.isUpgradingGuest) {
+        try {
+          await mergeGuestCartWithUserCart(supabaseUser.id);
+          console.log('Guest cart merged successfully during Apple login');
+        } catch (mergeError) {
+          console.error('Error merging guest cart:', mergeError);
+        }
         completeGuestUpgrade();
       }
 
@@ -293,6 +313,11 @@ export default function LoginScreen() {
 
   const handleSignInWithGoogle = async () => {
     setAuthMessage('Google sign-in is not enabled yet. Please sign in with email and password.');
+  };
+
+  const handleContinueAsGuest = () => {
+    startGuestSession();
+    router.replace('/(tabs)' as any);
   };
 
   return (
@@ -440,11 +465,27 @@ export default function LoginScreen() {
           </ThemedText>
         </TouchableOpacity>
 
+        {/* Continue as guest button - show when NOT upgrading */}
+        {!guestUpgradeState.isUpgradingGuest && (
+          <TouchableOpacity
+            onPress={handleContinueAsGuest}
+            accessibilityRole="button"
+            accessibilityLabel="Continue as guest"
+            style={styles.guestButton}
+          >
+            <ThemedText type="body" style={styles.guestButtonText}>
+              Continue as Guest
+            </ThemedText>
+          </TouchableOpacity>
+        )}
+
+        {/* Cancel guest upgrade button - only show during upgrade flow */}
         {guestUpgradeState.isUpgradingGuest && (
           <TouchableOpacity
             onPress={() => {
               cancelGuestUpgrade();
-              router.replace((guestUpgradeState.preservedRoute || '/(tabs)') as any);
+              const route = guestUpgradeState.preservedRoute || '/(tabs)';
+              router.replace(route as any);
             }}
             accessibilityRole="button"
             accessibilityLabel="Continue as guest"
@@ -476,7 +517,6 @@ export default function LoginScreen() {
           <ThemedText type="body" style={styles.signUpLinkText}>
             {"Don't have an account? "}
           </ThemedText>
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           <Link href={'/signup' as any} asChild>
             <TouchableOpacity accessibilityRole="link" accessibilityLabel="Sign up">
               <ThemedText type="link" style={styles.signUpLink}>
@@ -616,7 +656,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#2E7D32',
+    marginBottom: 12,
+  },
+  guestButton: {
+    width: 190,
+    borderRadius: 50,
+    paddingVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.pastelSage,
     marginBottom: 24,
+    borderWidth: 1.5,
+    borderColor: Colors.primaryGreen,
+  },
+  guestButtonText: {
+    fontSize: 14,
+    color: Colors.primaryGreen,
+    fontWeight: '500',
   },
   cancelGuestUpgradeButton: {
     marginBottom: 12,

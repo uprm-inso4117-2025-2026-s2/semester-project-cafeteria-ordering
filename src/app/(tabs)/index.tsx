@@ -86,9 +86,8 @@ export default function HomeScreen() {
     });
   }, [search, selectedCategory, menuItems]);
 
-  const handleAddToCart = (menuItem: any) => {
-    addCartItem(menuItem, 1, []);
-
+  const handleAddToCart = async (menuItem: any) => {
+    await addCartItem(menuItem, 1, []);
     console.log('Added to cart:', menuItem);
   };
 

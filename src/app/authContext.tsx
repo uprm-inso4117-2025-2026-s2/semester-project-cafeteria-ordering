@@ -3,6 +3,7 @@ import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { Alert, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { supabase } from '@/lib/supabase';
 
@@ -189,6 +190,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } else {
           logSessionEvent('No session found on startup');
           setUser(null);
+
+          // CHECK FOR GUEST SESSION HERE
+          try {
+            const hasGuestData = await AsyncStorage.getItem('@guest_session_data');
+            const hasCartItems = await AsyncStorage.getItem('@cart_items');
+
+            if (hasGuestData || hasCartItems) {
+              logSessionEvent('Guest session detected with existing data', {
+                hasGuestData: !!hasGuestData,
+                hasCartItems: !!hasCartItems,
+              });
+              setGuestUpgradeState({
+                isGuest: true,
+                isUpgradingGuest: false,
+                preservedRoute: '/(tabs)',
+                message: 'You have existing guest data. Sign up or log in to save your progress.',
+              });
+            }
+          } catch (error) {
+            console.error('Error checking guest session:', error);
+          }
         }
 
         setSessionChecked(true);
@@ -338,27 +360,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const beginGuestUpgrade = useCallback((preservedRoute?: string) => {
-    setGuestUpgradeState((current) => {
-      const nextRoute = preservedRoute || current.preservedRoute || '/(tabs)';
+    logSessionEvent('Beginning guest upgrade', { preservedRoute });
 
-      if (
-        current.isGuest &&
-        current.isUpgradingGuest &&
-        current.preservedRoute === nextRoute
-      ) {
-        return current;
-      }
+    const nextRoute = preservedRoute || guestUpgradeState.preservedRoute || '/(tabs)';
 
-      return {
-        isGuest: true,
-        isUpgradingGuest: true,
-        preservedRoute: nextRoute,
-        message: 'Create an account to keep your current guest progress.',
-      };
+    // Set state directly without checking current state
+    setGuestUpgradeState({
+      isGuest: true,
+      isUpgradingGuest: true,
+      preservedRoute: nextRoute,
+      message: 'Create an account to keep your current guest progress.',
     });
-  }, []);
+  }, [guestUpgradeState.preservedRoute]);
 
   const cancelGuestUpgrade = useCallback(() => {
+    logSessionEvent('Cancelling guest upgrade');
     setGuestUpgradeState((current) => ({
       ...current,
       isGuest: true,
@@ -368,6 +384,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const completeGuestUpgrade = useCallback(() => {
+    logSessionEvent('Completing guest upgrade');
     setGuestUpgradeState({
       isGuest: false,
       isUpgradingGuest: false,
