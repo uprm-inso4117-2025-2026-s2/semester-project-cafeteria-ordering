@@ -1,0 +1,56 @@
+= Customer Ordering Flow Usability Evaluation
+
+== Objective
+
+Evaluate the usability and overall customer experience of the cafeteria ordering workflow.
+
+== Scope
+
+The evaluation focused on the following customer interactions:
+
+* Browsing menu items
+* Adding and removing meals from cart
+* Completing transactions and checkout
+* Viewing profile information
+* Order confirmation flow
+
+== Testing Methodology
+
+The application was tested through manual usability evaluation using the customer ordering workflow. User interaction behavior, navigation clarity, responsiveness, and transaction flow were observed throughout the evaluation.
+
+== Test Scenarios
+
+The following usability scenarios were executed:
+
+* Browse menu items
+* Add meals to cart
+* Remove meals from cart
+* Complete checkout/payment flow
+* View profile information
+* Verify order confirmation flow
+
+== Observations
+
+* Navigation across the application was easy and straightforward
+* Menu browsing experience felt intuitive
+* Adding meals to the cart was smooth and responsive
+* Checkout and transaction flow completed successfully without confusion
+* Profile page displayed sign-up credentials correctly
+
+== Pain Points Identified
+
+* Users may not immediately recognize that an item was successfully added to the cart due to limited visual confirmation feedback
+
+== Recommendations
+
+* Add a toast/snackbar/confirmation widget after adding an item to the cart
+* Improve cart feedback visibility to enhance user confidence during ordering interactions
+
+== Conclusion
+
+Overall, the customer ordering workflow provided a smooth and intuitive user experience. Navigation, cart functionality, and transaction flow operated successfully with minimal confusion. Minor usability improvements related to visual cart feedback could further improve the overall customer experience.
+
+== References
+
+* TC-Customer-Ordering-Usability.adoc
+* TR-Customer-Ordering-Usability.adoc
