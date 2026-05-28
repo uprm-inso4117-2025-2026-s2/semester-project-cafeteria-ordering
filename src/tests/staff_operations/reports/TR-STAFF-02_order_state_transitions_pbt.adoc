@@ -114,3 +114,5 @@ Ran all test suites matching TC-STAFF-02.
 === Shrinking
 
 No property violations were found, so fast-check's shrinking was not triggered.  The shrinking setup is in place: if a future code change introduces an invalid transition into `VALID_TRANSITIONS` or breaks `isValidTransition`, fast-check will automatically report the minimal (from, to) pair or shortest walk that demonstrates the failure.
+
+===

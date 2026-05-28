@@ -1,0 +1,137 @@
+= Customer Ordering Flow Usability Test Cases
+
+== Objective
+
+Evaluate the usability of the customer ordering workflow within the cafeteria application.
+
+== Scope
+
+The following usability areas were evaluated:
+
+* Browsing menu items
+* Adding and removing items from cart
+* Completing checkout/payment flow
+* Viewing profile information
+* Order confirmation and transaction flow
+
+== TC-COU-001 Browse Menu Items
+
+[cols="1,3"]
+|===
+|Test ID | TC-COU-001
+|Objective | Verify that users can browse menu items easily and understand navigation flow
+|Preconditions | Application launched successfully
+|===
+
+=== Steps
+
+1. Open the cafeteria application
+2. Navigate through menu categories
+3. Scroll through available meals and items
+
+=== Expected Result
+
+* Navigation should be clear and intuitive
+* Menu items should be visible and readable
+* User should navigate categories without confusion
+
+== TC-COU-002 Add Item to Cart
+
+[cols="1,3"]
+|===
+|Test ID | TC-COU-002
+|Objective | Verify users can add menu items to cart successfully
+|Preconditions | User is browsing menu items
+|===
+
+=== Steps
+
+1. Select a meal item
+2. Press the “Add to Cart” button
+3. Open cart view
+
+=== Expected Result
+
+* Selected item should appear in cart
+* Cart should update correctly
+* User should understand that item was added successfully
+
+== TC-COU-003 Remove Item from Cart
+
+[cols="1,3"]
+|===
+|Test ID | TC-COU-003
+|Objective | Verify users can remove items from cart easily
+|Preconditions | Cart contains at least one item
+|===
+
+=== Steps
+
+1. Open cart
+2. Remove selected item from cart
+
+=== Expected Result
+
+* Item should be removed successfully
+* Cart should refresh correctly
+* User should understand removal interaction
+
+== TC-COU-004 Complete Checkout Flow
+
+[cols="1,3"]
+|===
+|Test ID | TC-COU-004
+|Objective | Verify checkout/payment workflow is smooth and understandable
+|Preconditions | Cart contains at least one item
+|===
+
+=== Steps
+
+1. Open cart
+2. Proceed to checkout
+3. Complete payment/transaction flow
+
+=== Expected Result
+
+* Checkout process should be straightforward
+* Navigation should remain clear
+* Transaction should complete without confusion
+
+== TC-COU-005 View Profile Information
+
+[cols="1,3"]
+|===
+|Test ID | TC-COU-005
+|Objective | Verify profile page accessibility and visibility of sign-up information
+|Preconditions | User logged into application
+|===
+
+=== Steps
+
+1. Navigate to profile page
+2. Review displayed account information
+
+=== Expected Result
+
+* Profile page should load correctly
+* User credentials/account information should display properly
+* Navigation should remain consistent
+
+== TC-COU-006 Order Confirmation and Transaction Flow
+
+[cols="1,3"]
+|===
+|Test ID | TC-COU-006
+|Objective | Verify order confirmation flow and transaction feedback
+|Preconditions | Successful checkout completed
+|===
+
+=== Steps
+
+1. Complete checkout
+2. Review transaction confirmation
+
+=== Expected Result
+
+* User should receive confirmation of completed transaction
+* Order flow should feel smooth and complete

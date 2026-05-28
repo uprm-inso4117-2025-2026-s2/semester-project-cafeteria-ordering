@@ -20,6 +20,8 @@ import { mapLoginError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
 import { isValidEmail } from '@/lib/validation';
 
+WebBrowser.maybeCompleteAuthSession();
+
 // ─── Logo Assets ──────────────────────────────────────────────────────────────
 const LightModeLogo = require('../../../documentation/branding/images/Light-Mode-Logo.png');
 const DarkModeLogo = require('../../../documentation/branding/images/Dark-Mode-Logo.png');
@@ -153,6 +155,24 @@ export default function LoginScreen() {
     checkExistingSession();
   }, []);
 
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state changed:', event);
+
+      if (session?.user) {
+        setTimeout(() => {
+          router.replace('/(tabs)');
+        }, 2000);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
   const handleSignIn = async () => {
     const validationErrors = validate({ emailOrUsername, password });
 
@@ -197,7 +217,58 @@ export default function LoginScreen() {
   };
 
   const handleSignInWithGoogle = async () => {
-    setAuthMessage('Google sign-in is not enabled yet. Please sign in with email and password.');
+    try {
+      setAuthMessage(null);
+      setIsGoogleSubmitting(true);
+
+      const redirectTo = 'exp://localhost:19000/**';
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+          skipBrowserRedirect: true,
+        },
+      });
+
+      if (error) {
+        setAuthMessage(error.message);
+        return;
+      }
+
+      if (data?.url) {
+        const result = await WebBrowser.openAuthSessionAsync(
+          data.url,
+          redirectTo
+        );
+
+        if (result.type === 'success') {
+          const url = result.url;
+
+          const access_token = url.match(/access_token=([^&]+)/)?.[1];
+          const refresh_token = url.match(/refresh_token=([^&]+)/)?.[1];
+
+          if (access_token && refresh_token) {
+            const { error: sessionError } = await supabase.auth.setSession({
+              access_token,
+              refresh_token,
+            });
+
+            if (sessionError) {
+              setAuthMessage(sessionError.message);
+              return;
+            }
+          }
+        } else if (result.type === 'cancel') {
+          setAuthMessage('Google sign in was cancelled.');
+        }
+      }
+    } catch (err) {
+      console.error('Google OAuth error:', err);
+      setAuthMessage('Unable to sign in with Google.');
+    } finally {
+      setIsGoogleSubmitting(false);
+    }
   };
 
   return (
@@ -284,6 +355,24 @@ export default function LoginScreen() {
             darkColor={Colors.light.secondaryText}
           >
             {isSubmitting ? 'Signing in…' : 'Sign in'}
+          </ThemedText>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleSignInWithGoogle}
+          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
+          accessibilityRole="button"
+          accessibilityLabel="Sign in with Google"
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
+          style={styles.googleButton}
+          activeOpacity={0.85}
+        >
+          <ThemedText
+            type="button"
+            lightColor={Colors.light.secondaryText}
+            darkColor={Colors.light.secondaryText}
+          >
+            {isGoogleSubmitting ? 'Connecting…' : 'Sign in with Google'}
           </ThemedText>
         </TouchableOpacity>
 

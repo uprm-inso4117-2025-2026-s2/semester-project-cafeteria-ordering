@@ -87,5 +87,5 @@ Navigation: Drawer opens and closes with smooth animation; all menu items route 
 item is visually highlighted; backdrop dismissal works correctly.
 
 Reviewed By
-<reviewer(s) fill this part>
+Jorge L. De León Orama
 */

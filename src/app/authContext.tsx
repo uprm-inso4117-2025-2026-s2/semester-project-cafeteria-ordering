@@ -1,3 +1,4 @@
+import { supabase } from '@/lib/supabase';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Alert, Platform } from 'react-native';
@@ -153,10 +154,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       switch (event) {
         case 'SIGNED_IN':
           logSessionEvent('User signed in', { userId: session?.user?.id });
+
           if (session?.user) {
-            await syncProfileFromMetadata(session.user);
             setUser(mapSupabaseUserToAppUser(session.user));
+            syncProfileFromMetadata(session.user).catch((err) => {
+              console.warn('Profile sync failed:', err);
+            });
           }
+
           break;
 
         case 'SIGNED_OUT':
