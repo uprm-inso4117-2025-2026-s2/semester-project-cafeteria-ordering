@@ -1,0 +1,286 @@
+= Performance Testing Strategy Research - Order Status Transitions
+:toc:
+:sectnums:
+
+== Objective
+
+This document researches performance testing strategies for the *Order Status Transitions* feature area of the Cafeteria Ordering System.
+
+Order status transitions are performance-sensitive because they connect staff actions, kitchen workflow, customer-facing order tracking, database persistence, and real-time updates. During busy cafeteria periods, many orders may move through the lifecycle at the same time. The system must keep those transitions fast, consistent, and visible to the correct users.
+
+This research is documentation only. It does not implement automated performance tests.
+
+== Feature Scope
+
+The focus of this research is the order lifecycle used by staff operations.
+
+Relevant workflow areas include:
+
+* Staff updating order progress from the dashboard or order detail view.
+* Orders moving through statuses such as `unread`, `opened`, `in_process`, `completed`, and `cancelled`.
+* Real-time updates reaching other staff sessions and customer-facing order tracking views.
+* Multiple staff members working from the same queue during peak cafeteria periods.
+* Failed, delayed, duplicate, or conflicting status update attempts.
+
+The existing state transition research defines the expected staff workflow as:
+
+[cols="1,2", options="header"]
+|===
+| Current State | Allowed Next State
+
+| `unread`
+| `opened`
+
+| `opened`
+| `in_process`, `cancelled`
+
+| `in_process`
+| `completed`, `cancelled`
+
+| `completed`
+| Terminal state
+
+| `cancelled`
+| Terminal state
+|===
+
+Performance testing for this feature must verify not only that updates are fast, but also that high traffic does not cause stale, skipped, duplicated, or invalid transitions.
+
+== Performance Testing Types
+
+=== Performance Testing
+
+*Definition:* Performance testing measures how quickly and reliably a specific operation behaves under normal, controlled conditions.
+
+*Application to order status transitions:* A baseline performance test would measure one staff member updating one order through a valid transition, such as `opened` to `in_process`, while no unusual traffic is present.
+
+Useful measurements include:
+
+* Time from tapping the status update action to UI confirmation.
+* Time for the database update to complete.
+* Time for the updated status to appear in the staff queue.
+* Time for the updated status to appear on the customer order tracking screen.
+
+*Cafeteria-specific example:* During a quiet morning period, one staff member opens a new order, marks it as in process, then marks it completed. Each transition should feel immediate and should not require staff to refresh the dashboard manually.
+
+=== Load Testing
+
+*Definition:* Load testing evaluates system behavior under expected real-world traffic.
+
+*Application to order status transitions:* A load test should simulate normal lunch service, where several staff members are processing orders while customers continue placing new ones.
+
+Expected cafeteria workload:
+
+* 3 to 5 concurrent staff sessions.
+* 10 to 20 order status updates per minute.
+* Multiple staff dashboard views subscribed to real-time order changes.
+* Customers checking order status while staff update kitchen progress.
+
+*Cafeteria-specific example:* Between 11:30 and 13:00, three staff members repeatedly open pending orders, mark them in process, complete ready orders, and cancel unavailable items when necessary. The system should keep the staff queue and customer order status views synchronized without noticeable delay.
+
+=== Stress Testing
+
+*Definition:* Stress testing evaluates the system beyond expected traffic to find its failure point and observe how it behaves under pressure.
+
+*Application to order status transitions:* Stress testing should simulate abnormal cafeteria conditions, such as a campus event, delayed kitchen preparation, or a sudden rush after class dismissal.
+
+Stress conditions may include:
+
+* 8 or more concurrent staff sessions.
+* 30 to 50 status updates per minute.
+* A backlog of 50 or more active orders.
+* Duplicate clicks or repeated status update attempts caused by slow UI feedback.
+* Multiple staff members attempting to update the same order at nearly the same time.
+
+*Cafeteria-specific example:* A lunch rush creates a large queue of orders. Staff members quickly move orders from `opened` to `in_process` and then to `completed`. The test should identify when response time becomes unacceptable, when real-time updates lag, and whether conflicting updates are rejected cleanly.
+
+=== Soak Testing
+
+*Definition:* Soak testing evaluates stability over a long period under sustained moderate load.
+
+*Application to order status transitions:* Staff order management may run continuously during a cafeteria shift. A short test may pass even if memory usage, subscriptions, or response times degrade over several hours.
+
+Soak testing should monitor:
+
+* Whether status update response time increases over time.
+* Whether real-time subscriptions remain active.
+* Whether staff sessions silently stop receiving updates.
+* Whether memory usage grows during repeated queue updates.
+* Whether failed transition rates increase later in the shift.
+
+*Cafeteria-specific example:* Simulate a 6-hour cafeteria operating window with 2 to 4 staff sessions and steady order updates. The dashboard should continue reflecting accurate statuses without requiring app restarts or manual refreshes.
+
+=== Realistic Workload Simulation
+
+*Definition:* Realistic workload simulation models how users actually behave instead of sending identical requests at a constant rate.
+
+For order status transitions, a realistic workload should include:
+
+* Staff reading order details before updating status.
+* Natural delays between actions while food is prepared.
+* Uneven traffic, including quiet periods, ramp-up, peak lunch rush, and ramp-down.
+* A mix of valid transitions, cancellation attempts, failed updates, and occasional duplicate clicks.
+* Different orders being updated instead of repeatedly updating the same record.
+
+*Cafeteria-specific example:* A test session should resemble the actual rhythm of cafeteria work: new orders arrive in clusters after classes end, staff open orders, some orders remain in process longer than others, a few orders are cancelled due to unavailable items, and completed orders leave the active queue.
+
+== Expected Workload and Traffic Scenarios
+
+[cols="1,2,2,2,2", options="header"]
+|===
+| Scenario | Staff Sessions | Order Volume | Status Update Pattern | Test Type
+
+| Quiet service
+| 1 to 2
+| 2 to 5 orders per minute
+| Occasional single-order updates
+| Baseline performance testing
+
+| Normal lunch service
+| 3 to 5
+| 10 to 20 orders per minute
+| Frequent valid transitions across multiple orders
+| Load testing
+
+| Peak cafeteria rush
+| 5 to 8
+| 30 to 50 orders per minute
+| Rapid queue processing, duplicate clicks, conflicting updates
+| Stress testing
+
+| Long operating shift
+| 2 to 4
+| 8 to 15 orders per minute sustained
+| Repeated updates over several hours
+| Soak testing
+
+| Recovery after delay
+| 3 to 6
+| Backlog of 50 or more orders
+| Many orders updated in a short recovery window
+| Stress and recovery testing
+|===
+
+== Suggested Performance Metrics
+
+[cols="1,3,2", options="header"]
+|===
+| Metric | Meaning | Suggested Target
+
+| Status update response time
+| Time from staff action to visible confirmation in the staff UI
+| Under 1 second during normal load
+
+| Real-time propagation delay
+| Time for the new status to appear in other staff/customer views
+| Under 2 seconds during normal load
+
+| Transition throughput
+| Number of status updates processed successfully per second
+| At least 5 updates per second during expected load
+
+| Error rate
+| Percentage of status update attempts that fail unexpectedly
+| Under 1% during normal load
+
+| Conflict handling correctness
+| Whether simultaneous updates to the same order resolve to one valid final state
+| 100% correctness expected
+
+| Stale data duration
+| Time a screen displays an outdated status after a successful update
+| Under 2 seconds during normal load
+
+| Long-session stability
+| Whether response time, memory usage, and subscription health degrade over time
+| No continuous degradation during a 6-hour test
+|===
+
+== Potential Performance Bottlenecks
+
+=== Real-Time Subscription Lag
+
+Order status transitions depend on real-time updates reaching staff and customer views. If subscriptions lag under load, one user may see an old status while another user has already changed it.
+
+*Risk:* Staff may prepare, complete, or cancel an order based on stale information.
+
+*Performance concern:* Real-time propagation delay should be measured separately from the initial database update.
+
+=== Concurrent Staff Updates
+
+Two staff members may attempt to update the same order at nearly the same time, especially during peak service.
+
+*Risk:* The order could skip a workflow step, show different statuses in different views, or accept an invalid final state.
+
+*Performance concern:* Stress tests should include conflicting updates and verify that only one valid transition persists.
+
+=== Duplicate Status Requests
+
+If the UI responds slowly, staff may tap the same status action more than once.
+
+*Risk:* Duplicate writes may create repeated audit records, confusing notifications, or inconsistent UI feedback.
+
+*Performance concern:* Tests should measure whether delayed feedback encourages repeated actions and whether duplicate requests are safely ignored or rejected.
+
+=== Large Active Order Queue Rendering
+
+During peak traffic, the staff dashboard may need to render many active orders while also processing real-time status changes.
+
+*Risk:* UI rendering delays may make successful backend updates appear stuck or failed.
+
+*Performance concern:* Queue rendering time should be tested with 50 or more active orders.
+
+=== Database Write and Trigger Overhead
+
+Order status updates may trigger audit logging, timestamps, notifications, and customer-facing updates.
+
+*Risk:* Each transition may become slower as extra database work is added.
+
+*Performance concern:* Baseline tests should measure transition latency before and after adding triggers or notification logic.
+
+=== Long-Running Session Degradation
+
+Staff dashboards may remain open for an entire shift.
+
+*Risk:* Memory leaks, stale listeners, or expired sessions may cause updates to stop appearing even though the app still looks open.
+
+*Performance concern:* Soak tests should monitor memory, failed updates, and subscription reconnect behavior.
+
+== Cafeteria-Specific Risks
+
+The most important risks for order status transition performance are:
+
+* Customers may arrive for pickup before the displayed status updates to `completed` or ready-equivalent status.
+* Staff may lose trust in the dashboard if status changes appear delayed or inconsistent.
+* Kitchen work may be duplicated if two staff members act on the same stale order.
+* Completed or cancelled orders may remain in the active queue during rush periods.
+* A sudden class-change rush may create more updates than the normal lunch baseline predicts.
+* Long cafeteria shifts may expose issues that are invisible in short developer tests.
+
+== Strategy Recommendations
+
+The recommended performance testing strategy is:
+
+. Establish a single-user baseline for each valid transition.
+. Run expected-load tests with realistic lunch service traffic.
+. Add stress tests for backlog recovery, duplicate clicks, and simultaneous staff updates.
+. Run a long-duration soak test to check dashboard stability over a full shift.
+. Track database update time, UI confirmation time, and real-time propagation delay separately.
+. Treat stale or inconsistent final states as correctness failures, not only performance failures.
+
+== Relationship to Existing Documentation
+
+This research aligns with the following existing project documents:
+
+* `documentation/LectureTopicTasks/OrderStateTransitionTesting.adoc` - defines valid and invalid staff order state transitions.
+* `documentation/QualityAssurance/Test_Plan/TestPlans/staff-operations-test-plan.adoc` - defines staff operations testing scope and order status transition test cases.
+* `documentation/LectureTopicTasks/load&performance-testing/staff-dashboard-performance-testing-strategy-ltt.adoc` - defines broader staff dashboard performance testing strategy.
+* `documentation/database/schema-design.adoc` - documents database behavior, indexes, triggers, and order status update concerns.
+* `documentation/database/sql/05-triggers.sql` - includes trigger behavior related to order status change logging and notifications.
+* `documentation/database/sql/06-rls-policies.sql` - includes policy behavior for staff order status updates.
+
+== Conclusion
+
+Performance testing for order status transitions should focus on both speed and workflow correctness. A transition that finishes quickly but leaves another staff session stale, skips a required lifecycle step, or creates conflicting final states is still a failure.
+
+For the Cafeteria Ordering System, the strongest strategy is to combine baseline performance tests, realistic lunch-service load tests, peak-rush stress tests, and long-shift soak tests. This gives the team a clear understanding of how order status transitions behave under the conditions most likely to affect cafeteria staff and customers.

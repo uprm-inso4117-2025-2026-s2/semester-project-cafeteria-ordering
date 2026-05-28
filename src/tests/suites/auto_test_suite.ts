@@ -1,11 +1,12 @@
 // src/tests/suites/auto_test_suite.ts
 /**
  * This file houses the Customer Ordering and Payment test integrations.
- * For instance it contains Auto Test Suite logic for Customer Ordering, Payment, and Security.
+ * For instance it contains Auto Test Suite logic for Customer Ordering, Payment, Security,
+ * Profile, and Staff Operations.
  */
 export const testSuiteMetadata = {
-  name: "Automated TS Auth, Security, Ordering & Payment Test Suite",
-  version: "1.3.0",
+  name: "Automated TS Auth, Security, Ordering, Payment, Profile & Staff Test Suite",
+  version: "1.4.0",
   status: "initialized",
   modules: {
     authentication: ["TC-AUTH-03", "TC-AUTH-04", "TC-UTIL-VALIDATION-01"],
@@ -25,6 +26,8 @@ export const testSuiteMetadata = {
       "TC-ORD-12",
     ],
     payment: ["TC-PAY-01"],
+    profile: ["TC-PROF-01"],
+    staff: ["TC-STAFF-02"],
   },
 };
 
@@ -42,4 +45,6 @@ export const testSuiteCommands = {
   orderingCartCalculations: "npx jest src/tests/ordering/scripts/PBT-ORD-10_cart_calculations.test.ts --config jest.config.js",
   orderingCounterexampleShrinking: "npx jest src/tests/ordering/scripts/PBT-ORD-11_counterexample_shrinking.test.ts --config jest.config.js",
   paymentValidation: "npx tsx src/tests/payment/scripts/UT-PAY-1_PaymentValidation.ts",
+  profileUnitTests: "npx tsx src/tests/profile/scripts/UT-PROF-01_profile_functionality.ts",
+  staffOrderStateTransitions: "npx jest src/tests/staff_operations/scripts/TC-STAFF-02_order_state_transitions_pbt.test.ts --config jest.config.js",
 };

@@ -19,6 +19,8 @@ import { mapSignUpError } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
 import { formatPhoneNumber, isValidEmail, isValidPassword } from '@/lib/validation';
 
+WebBrowser.maybeCompleteAuthSession();
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface InputFieldProps {
   label: string;
@@ -237,6 +239,69 @@ export default function SignUpScreen() {
     setAuthMessage('Apple sign-up is not available. Please create an account with email and password.');
   };
 
+  const handleSignUpWithGoogle = async () => {
+    try {
+      setAuthMessage(null);
+      setIsGoogleSubmitting(true);
+
+      const redirectTo = 'exp://localhost:19000/**';
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+          skipBrowserRedirect: true,
+        },
+      });
+
+      if (error) {
+        setAuthMessage(error.message);
+        return;
+      }
+
+      if (data?.url) {
+        const result = await WebBrowser.openAuthSessionAsync(
+          data.url,
+          redirectTo
+        );
+
+        if (result.type === 'success') {
+          const url = result.url;
+
+          const access_token =
+            url.match(/access_token=([^&]+)/)?.[1];
+
+          const refresh_token =
+            url.match(/refresh_token=([^&]+)/)?.[1];
+
+          if (access_token && refresh_token) {
+            const { error: sessionError } =
+              await supabase.auth.setSession({
+                access_token,
+                refresh_token,
+              });
+
+            if (sessionError) {
+              setAuthMessage(sessionError.message);
+              return;
+            }
+
+            router.replace('/(tabs)');
+          }
+        } else if (result.type === 'cancel') {
+          setAuthMessage('Google sign-up was cancelled.');
+        }
+      }
+    } catch (err) {
+      console.error('Google OAuth error:', err);
+      setAuthMessage(
+        'Unable to sign up with Google right now.'
+      );
+    } finally {
+      setIsGoogleSubmitting(false);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={[styles.flex, { backgroundColor }]}
@@ -410,6 +475,24 @@ export default function SignUpScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={handleSignUpWithGoogle}
+          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
+          accessibilityRole="button"
+          accessibilityLabel="Sign up with Google"
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
+          style={styles.googleButton}
+          activeOpacity={0.85}
+        >
+          <ThemedText
+            type="button"
+            lightColor={Colors.light.secondaryText}
+            darkColor={Colors.light.secondaryText}
+          >
+            {isGoogleSubmitting ? 'Connecting…' : 'Sign up with Google'}
+          </ThemedText>
+        </TouchableOpacity>
+
+        <TouchableOpacity
           onPress={handleSignUpWithApple}
           disabled={isSubmitting}
           accessibilityRole="button"
@@ -555,6 +638,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000000',
+    marginBottom: 16,
+  },
+  googleButton: {
+    width: '100%',
+    maxWidth: 480,
+    borderRadius: 50,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2E7D32',
     marginBottom: 16,
   },
   socialButtonText: {

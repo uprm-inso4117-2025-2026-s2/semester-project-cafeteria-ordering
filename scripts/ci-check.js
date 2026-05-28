@@ -128,6 +128,17 @@ function main() {
     tsSuite.testSuiteCommands.paymentValidation,
   );
 
+  // Profile Flow Verification
+  runStep(
+    "Profile Flow: Profile Functionality Unit Tests (TC-PROF-01)",
+    tsSuite.testSuiteCommands.profileUnitTests,
+  );
+  // Staff Operations Verification
+  runStep(
+    "Staff Operations: Order State Transitions PBT (TC-STAFF-02)",
+    tsSuite.testSuiteCommands.staffOrderStateTransitions,
+  );
+
   //(UNCOMMENT TO USE)
   // Test to verify FAILED tests are correctly logged.
   // runStep("Intentional failure test", "node -e \"process.exit(1)\"");

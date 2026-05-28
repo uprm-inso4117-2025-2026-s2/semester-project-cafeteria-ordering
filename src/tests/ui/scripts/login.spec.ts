@@ -40,13 +40,14 @@ test.describe('TC-AUTH-07: Login Screen UI Components & Button Navigation', () =
     await expect(formatError).toBeVisible();
   });
 
-  test('should pop up placeholder warnings on unimplemented Google authentication blocks', async ({ page }) => {
-    const googleButton = page.getByRole('button', { name: 'Sign in with Google' });
-    await googleButton.dispatchEvent('click');
+  test('should allow users to initiate Google OAuth authentication', async ({ page }) => {
+      const googleButton = page.getByRole('button', { name: /google/i,});
 
-    const expectedMessage = 'Google sign-in is not enabled yet. Please sign in with email and password.';
-    await expect(page.locator(`text=${expectedMessage}`)).toBeVisible();
-  });
+      await expect(googleButton).toBeVisible();
+
+      await googleButton.click();
+    }
+  );
 
   test('should accurately route users toward the account registration viewport on link tap', async ({ page }) => {
     const signUpLink = page.getByRole('link', { name: 'Sign up' });

@@ -1,0 +1,402 @@
+= LTT: Performance Testing Strategy Research for Concurrent Staff Activity
+:toc:
+:sectnums:
+:project: Cafeteria Ordering System
+
+*Assignee:* @JorgeDeLeonOrama +
+*Date:* 2026-05-27 +
+*Issue:* Lecture Topic Task — Concurrent Staff Performance Testing
+
+== Lecture Alignment
+
+Lecture Topic: Performance Testing
+
+This research applies performance testing concepts specifically to scenarios where multiple staff users operate within the cafeteria ordering platform at the same time. The focus is on how the system behaves when concurrent staff activity occurs during realistic and peak-load cafeteria service conditions.
+
+This document specializes the project-wide strategy defined in `documentation/LectureTopicTasks/ltt-performance-testing-strategy.adoc` and complements the staff-specific work in `documentation/LectureTopicTasks/load&performance-testing/staff-dashboard-performance-testing-strategy-ltt.adoc`. It does not replace either of those documents. The scope here is the concurrency dimension: what happens when more than one staff member is interacting with shared system resources simultaneously.
+
+== Scope
+
+Concurrent staff activity in the cafeteria ordering system involves:
+
+* Multiple staff members viewing the same order queue at the same time.
+* Two or more staff members updating different order statuses in overlapping time windows.
+* Concurrent access to the staff dashboard analytics and queue views from separate sessions.
+* Real-time subscription channels shared across all active staff sessions.
+* Supabase connection pool slots consumed by simultaneous staff database operations.
+
+The workflows referenced in this document correspond to those defined in:
+
+* `documentation/LectureTopicTasks/bdd-staff-operations-acceptance-scenarios.adoc`
+* `documentation/LectureTopicTasks/define-risk-based-test-priorities-for-staff-view.adoc`
+* `documentation/LectureTopicTasks/performance-testing/order-queue-management-performance-testing-strategy.adoc`
+
+== Performance Testing Type Definitions
+
+=== Performance Testing (Baseline)
+
+Performance testing is the broad practice of evaluating system responsiveness, stability, and resource usage under defined conditions. For concurrent staff activity, the baseline is established with a single authenticated staff session to give a clean reference point before introducing additional concurrent load.
+
+*Applied to concurrent staff activity:*
+
+One staff member logs in, opens the Orders tab, and updates one order from `Pending` to `In-Progress`. The time for the status change to persist to the database and reflect in the UI is measured without any competing sessions open.
+
+*Baseline thresholds:*
+
+* Orders list load time: < 1 second
+* Status update round-trip (write to visible UI confirmation): < 800 ms
+* Staff dashboard analytics load: < 1.5 seconds
+* Error rate: 0% under single-session conditions
+
+=== Load Testing (Expected Concurrent Staff Volume)
+
+Load testing evaluates the system under the expected number of concurrent staff sessions during normal cafeteria operating hours.
+
+*Applied to concurrent staff activity:*
+
+During a standard lunch service window (11:30 AM — 1:00 PM), the realistic cafeteria operation involves multiple staff roles: one staff member managing the incoming order queue, another updating statuses from `In-Progress` to `Ready`, and a third overseeing the dashboard. These sessions are concurrent, not sequential.
+
+*Expected concurrent staff load model:*
+
+* Quiet period (early morning, late afternoon): 1–2 concurrent staff sessions, 2–5 order updates per minute
+* Normal lunch service: 3–5 concurrent staff sessions, 10–20 order status updates per minute
+* Busy lunch service: 4–6 concurrent staff sessions, 25–40 order status updates per minute
+
+*Queue theory mapping (from lecture):*
+
+* *Arrival process:* concurrent status update and queue refresh requests from all active staff sessions
+* *Service process:* Supabase write, real-time broadcast, and client-side re-render per request
+* *Number of servers:* available Supabase connection pool slots
+* *Queue capacity:* bounded by the connection pool limit on the active Supabase plan tier
+* *Client population size:* the number of concurrent staff sessions (3–6)
+
+The key load testing question is not just whether individual requests succeed, but whether all concurrent sessions receive consistent, up-to-date data within the same time window.
+
+=== Stress Testing (Beyond Expected Concurrent Capacity)
+
+Stress testing evaluates system behavior when concurrent staff activity exceeds expected capacity to identify failure thresholds and observe how the system degrades.
+
+*Applied to concurrent staff activity:*
+
+A campus event, a delayed service opening, or a system interruption causes a backlog of 60+ pending orders. All available staff (7–10 sessions) are simultaneously logged in: filtering orders, opening detail views, and updating statuses at peak frequency.
+
+*Stress scenarios to evaluate:*
+
+* 8–10 concurrent staff sessions each sending status updates at 30-second intervals
+* Simultaneous competing writes to the same order record from two different staff sessions
+* A sudden flood of 80 order status updates within a 2-minute window
+* Staff repeatedly refreshing the full orders list while updates are in progress
+
+*Thresholds to identify:*
+
+* At which concurrent session count does status update response time exceed 3 seconds?
+* At which update frequency does the staff UI begin displaying stale order states?
+* At which point does the Supabase connection pool reject new incoming requests?
+* Does the system fail gracefully with visible error feedback, or silently leave order states inconsistent?
+
+=== Soak Testing (Extended Concurrent Staff Activity)
+
+Soak testing evaluates system stability during sustained concurrent staff activity over a full cafeteria operating window, revealing degradation that short tests cannot detect.
+
+*Applied to concurrent staff activity:*
+
+A full cafeteria operating day spans breakfast through lunch — roughly 6–8 hours. Staff devices remain logged in with the Orders screen open for the entire shift. Throughout this period, new orders arrive, statuses are updated, and real-time subscriptions remain active.
+
+*Soak test scenario:*
+
+* 2–4 concurrent staff sessions held open continuously for 6 hours
+* 8–15 order status updates per minute sustained throughout the window
+* Real-time Supabase subscription channels active for all sessions for the full duration
+
+*Observations to track at 1-hour intervals:*
+
+* Staff session memory consumption (browser and device)
+* Supabase real-time channel health (whether subscriptions drop or require re-establishment)
+* Average status update response time over time — gradual drift upward indicates memory pressure or connection degradation
+* Frequency of stale data events — instances where one session shows an order state that another session has already updated
+* Error rate across status update requests
+
+*Expected result:* System should show no more than a 20% increase in average response time and no increase in stale data events between hour 1 and hour 6.
+
+=== Spike Testing (Sudden Bursts of Concurrent Staff Actions)
+
+Spike testing evaluates system behavior when concurrent staff activity increases suddenly and dramatically, then returns to normal levels.
+
+*Applied to concurrent staff activity:*
+
+A class period ends and a large number of students simultaneously submit orders. Staff members who were idle immediately begin processing a queue that jumps from 5 pending orders to 80+ in under 2 minutes. All staff sessions simultaneously begin refreshing, filtering, and updating statuses.
+
+*Spike scenarios to evaluate:*
+
+* 2 concurrent staff sessions → 8 concurrent sessions within 90 seconds, all active simultaneously
+* Queue size jumps from 10 orders to 100 orders while staff are mid-action on existing orders
+* A batch of 60 real-time broadcast events delivered to all active staff sessions within a 30-second window
+* Spike subsides after 5 minutes and load returns to 2–3 sessions at low update frequency
+
+*Questions the spike test should answer:*
+
+* Does the system recover to baseline performance after the spike without requiring a page reload or session restart?
+* Are any status updates lost or silently dropped during the spike window?
+* Do real-time subscriptions remain stable, or do they disconnect and require manual re-establishment?
+* Does the staff UI remain interactive (scrollable, filterable) during the spike, or does it freeze?
+
+=== Realistic Workload Simulation for Concurrent Staff
+
+Simulating concurrent staff activity realistically requires more than increasing virtual user counts. Staff behavior follows specific patterns that differ from customer behavior.
+
+*Concurrent staff workload model:*
+
+* Each staff session alternates between reading (browsing the orders list, checking dashboard analytics) and writing (updating an order status, cancelling an order)
+* Read-to-write ratio under normal service: approximately 3:1
+* Think time between actions per session: 8–20 seconds, reflecting natural staff pacing between order acknowledgments
+* Staff sessions do not all start and stop simultaneously — they join and leave throughout the shift window
+* Different staff members may act on orders in overlapping but not identical subsets of the queue
+
+*What unrealistic simulation looks like:*
+
+Sending a constant stream of identical status update requests from a fixed number of virtual users does not reflect real staff behavior. It misses the variation in which orders are being acted on, the asymmetry between read and write operations, and the natural gaps in activity between queue reviews.
+
+*Realistic simulation should include:*
+
+* Staggered session start times over a 10-minute ramp-up period
+* Mixed operations: queue list fetch, order detail open, status update, dashboard view
+* Different virtual staff users acting on different non-overlapping subsets of the order pool
+* Occasional overlapping writes: two sessions attempt to update the same order within the same time window
+
+== Concurrent Staff Activity Scenarios
+
+[cols="1,2,2,2", options="header"]
+|===
+| Scenario | Concurrent Sessions | Operations per Minute | Test Type
+
+| Single staff baseline
+| 1
+| 3–5 status updates
+| Performance baseline
+
+| Normal lunch service
+| 3–5
+| 10–20 status updates
+| Load test
+
+| Busy service with event backlog
+| 6–8
+| 30–50 status updates
+| Stress test
+
+| Full shift operation
+| 2–4 sustained for 6 hours
+| 8–15 sustained throughout
+| Soak test
+
+| Class dismissal spike
+| 2 → 8 within 90 seconds
+| 5 → 60+ within 2 minutes
+| Spike test
+|===
+
+== Expected System Load Thresholds
+
+[cols="2,2,2", options="header"]
+|===
+| Condition | Acceptable | Threshold Breach
+
+| Status update response time (load test, 3–5 sessions)
+| < 1.5 seconds
+| > 3 seconds
+
+| Queue list load time (load test, 3–5 sessions)
+| < 2 seconds
+| > 5 seconds
+
+| Cross-session update propagation delay
+| < 2 seconds
+| > 5 seconds
+
+| Status update error rate (load test)
+| < 1%
+| > 5%
+
+| Status update error rate (stress test)
+| < 5%
+| > 15%
+
+| Supabase connection pool saturation
+| < 80% of available slots
+| > 95% of available slots
+
+| Real-time subscription drop rate (soak test, 6 hours)
+| 0 forced reconnects
+| > 1 reconnect per session per hour
+
+| Response time drift over 6-hour soak
+| < 20% increase hour 1 → hour 6
+| > 40% increase
+|===
+
+== Performance Benchmarks and Thresholds
+
+[cols="2,3,2", options="header"]
+|===
+| Metric | Definition | Concurrent Staff Target
+
+| Response time
+| Time from staff action initiation to visible UI confirmation of the result
+| < 1 s (status update), < 2 s (queue list with 50+ orders)
+
+| Latency
+| Time between staff frontend request and backend processing start
+| < 300 ms per individual request
+
+| Throughput
+| Concurrent status updates processed per second across all staff sessions
+| ≥ 5 updates/s at load test concurrency (3–5 sessions)
+
+| Availability
+| System uptime during cafeteria operating hours (7 AM — 3 PM)
+| ≥ 99.5%
+
+| Stale data rate
+| Percentage of read operations returning data older than 3 seconds
+| < 2% under load test conditions
+
+| Error rate
+| Percentage of status update requests that fail or return an error response
+| < 1% under load test, < 5% under stress test
+
+| Real-time propagation consistency
+| Percentage of status updates visible across all active sessions within 2 seconds
+| ≥ 98% under load test conditions
+|===
+
+Benchmarks should be re-evaluated after each major backend change (schema migrations, Supabase plan tier upgrades, or RLS policy changes) because those changes directly affect connection handling and query execution time under concurrent load.
+
+== Performance Risks Specific to Concurrent Staff Operations
+
+=== Risk 1 — Race Conditions on Shared Order State
+
+When two staff members view the same order simultaneously and both attempt a status update, the second write depends on whether the application enforces optimistic locking or last-write-wins semantics. Without explicit conflict handling, one staff member's update silently overwrites the other, leaving the order in an unexpected state with no feedback to either user.
+
+*Cafeteria impact:* A staff member begins preparing an order that another staff member has already cancelled. Food is prepared unnecessarily and the customer receives conflicting status notifications.
+
+*Risk level:* High — this can produce inconsistent operational state during peak concurrent activity.
+
+*Mitigation direction:* Measure conflicting concurrent write behavior explicitly during stress testing. Confirm that the system either rejects the second write with a clear error or refreshes the acting staff member's view before allowing the update.
+
+=== Risk 2 — Real-Time Subscription Degradation Under Concurrent Load
+
+Supabase real-time channels broadcast state changes to all subscribed clients. Under concurrent staff load, a single status update triggers broadcasts to every active staff session simultaneously. As the number of concurrent sessions increases, the broadcast fan-out amplifies the backend message load.
+
+*Cafeteria impact:* Staff members see a queue that stops updating during the busiest service window, exactly when accurate real-time data is most critical.
+
+*Risk level:* High — subscription degradation is invisible until it causes visible stale data, and staff may trust the stale state rather than recognizing a problem.
+
+*Mitigation direction:* Measure subscription update latency at each concurrency level. Flag any scenario where cross-session propagation exceeds 3 seconds at load test concurrency as a threshold breach requiring investigation.
+
+=== Risk 3 — Supabase Connection Pool Saturation
+
+The Supabase free plan imposes a hard limit on concurrent database connections. Each concurrent staff session that actively queries or subscribes to real-time channels consumes one or more connection slots. Under stress test concurrency (7–10 sessions with frequent queries), the connection pool may be exhausted, causing subsequent requests to queue or fail.
+
+*Cafeteria impact:* Status update requests begin failing silently or with generic errors. Staff members may retry manually, amplifying the load further.
+
+*Risk level:* High on the current free-tier Supabase plan — connection pool limits are low relative to peak concurrent staff activity scenarios.
+
+*Mitigation direction:* Monitor Supabase connection usage metrics during stress test execution. Document the concurrency level at which connection pool saturation first occurs. Evaluate whether moving to a paid Supabase plan tier is necessary to support peak concurrent staff activity.
+
+=== Risk 4 — Queue Consistency Across Concurrent Sessions
+
+When one staff member updates an order status, other staff members' open queue views may not reflect that change immediately. If the propagation delay is long enough, a second staff member may act on an order whose state has already been changed, leading to duplicate or contradictory actions.
+
+*Cafeteria impact:* Two staff members simultaneously mark an order as `In-Progress`, leading to duplicate preparation or customer notification inconsistency.
+
+*Risk level:* Medium — depends on real-time subscription health and session refresh frequency.
+
+*Mitigation direction:* Include a cross-session consistency check in load test execution: after one virtual staff session updates an order status, measure how long it takes for the updated state to appear in all other active sessions.
+
+=== Risk 5 — Memory and Resource Accumulation in Long-Running Staff Sessions
+
+Staff members keep the dashboard and orders screen open for entire shifts. React Native components that subscribe to real-time events and do not clean up listeners on unmount will accumulate memory over time, gradually degrading responsiveness and potentially causing crashes near the end of a shift.
+
+*Cafeteria impact:* Staff devices become unresponsive 3–4 hours into a shift, requiring app restarts during active service periods.
+
+*Risk level:* Medium — does not appear in short load tests but surfaces during soak testing.
+
+*Mitigation direction:* Measure memory consumption in staff sessions at 1-hour intervals during the 6-hour soak test. Flag any session showing monotonic memory growth that does not plateau.
+
+=== Risk 6 — Dashboard Performance Under Concurrent Read Load
+
+The staff dashboard aggregates order counts, customer traffic metrics, and period-based summaries. Under concurrent staff load, multiple sessions may simultaneously query the same aggregation views, placing repeated read pressure on the database during peak service.
+
+*Cafeteria impact:* Dashboard analytics fail to load or return outdated totals during the hours when management most needs accurate visibility into queue volume.
+
+*Risk level:* Low to medium — dashboard reads are less frequent than queue operations, but aggregation queries are more expensive.
+
+*Mitigation direction:* Include dashboard view requests in the load test alongside queue operations. Measure dashboard load time under concurrent staff activity and confirm it does not compete with status update throughput.
+
+== Recommended Performance Testing Tools
+
+[cols="2,3,3", options="header"]
+|===
+| Tool | Purpose | Relevant Use for Concurrent Staff Testing
+
+| https://k6.io[k6]
+| Scriptable load and stress testing with virtual user concurrency
+| Simulate multiple concurrent staff sessions performing realistic mixed read/write workflows; ramp-up, sustain, and spike scenarios
+
+| Jest + https://github.com/dubzzz/fast-check[fast-check]
+| Property-based testing for deterministic concurrency properties
+| Validate order state transition invariants under randomly generated concurrent update sequences (complementary to load testing)
+
+| https://supabase.com/dashboard[Supabase Dashboard]
+| Connection pool monitoring, query performance, real-time channel metrics
+| Monitor connection slot usage and real-time broadcast latency during concurrent staff test runs
+
+| Browser DevTools (Performance + Memory tabs)
+| Client-side profiling of memory growth, render performance, and event listener accumulation
+| Profile long-running staff sessions during soak testing; identify memory leaks from unreleased subscriptions
+
+| https://react-native.dev/docs/performance[React Native Performance Monitor]
+| In-app frame rate and JS thread monitoring
+| Measure UI responsiveness during spike scenarios on representative staff device hardware
+|===
+
+k6 is recommended as the primary tool for concurrent staff load and stress testing because it natively supports multi-session virtual user concurrency, provides built-in think-time configuration, and has been used in the project for customer ordering load testing (`documentation/LectureTopicTasks/loadTesting-CustomerOrdering/`). Applying the same tool to staff-side concurrent testing maintains consistency in methodology and result format.
+
+== Research Risks and Limitations
+
+=== Limitation 1 — Supabase Free Plan Connection Constraints
+
+All current performance research is conducted against a Supabase free-tier instance. The free plan enforces hard limits on concurrent connections and real-time subscriptions that are lower than what a production deployment would provide. Stress test results that show connection pool saturation at 7–8 concurrent sessions may not represent real production limits on a paid plan. Thresholds documented here should be re-evaluated after any Supabase plan tier change.
+
+=== Limitation 2 — Absence of a Production-Equivalent Environment
+
+Testing conducted on developer machines or against the shared development Supabase project does not replicate production hardware, network conditions, or RLS policy enforcement at scale. Results should be treated as directional indicators rather than exact production performance guarantees. The environment configuration (device specs, network bandwidth, Supabase plan) must be recorded alongside every test result to make findings reproducible and comparable.
+
+=== Limitation 3 — Simulated vs. Real Staff Behavior
+
+Virtual user scripts approximate staff behavior based on observed workflows. Actual staff members exhibit variability in pacing, order selection, and decision making that is difficult to fully capture in a script. Realistic workload simulation reduces this gap but does not eliminate it. Usability test observations from `documentation/LectureTopicTasks/usability-testing/Usability-Testing-Protocol-for-Staff-View-Operations.adoc` should be used to refine think-time values and operation sequences before final load test execution.
+
+=== Limitation 4 — Research-Only Scope
+
+This document is a research and strategy document. It defines testing approaches, scenarios, thresholds, and risks for concurrent staff activity but does not include implemented test scripts or execution results. Script implementation and execution are follow-on work items that reference this strategy as their design basis.
+
+=== Limitation 5 — Spike Testing Approximation
+
+The spike scenarios defined in this document are based on cafeteria operational knowledge (class period end times, event schedules) rather than empirical traffic data. Actual spike magnitude and duration should be validated against order placement logs once the system is in production use. If traffic data shows that spikes are larger or faster than modeled here, thresholds must be revised.
+
+
+== Research Conclusions
+
+Concurrent staff activity is the most operationally critical performance scenario in the cafeteria ordering system. Unlike customer-side load, where individual sessions are largely independent, staff sessions share mutable state (the order queue), shared database write targets (order status fields), and a shared real-time broadcast channel. These shared resources make concurrency behavior fundamentally different from scaling individual session performance.
+
+The five testing types defined here address complementary failure modes:
+
+* Load testing confirms that the system meets throughput and response time targets during expected service periods.
+* Stress testing identifies the concurrent session count and update frequency at which the system breaks or degrades unacceptably.
+* Soak testing exposes resource accumulation risks that only surface after hours of sustained concurrent operation.
+* Spike testing validates recovery behavior after sudden bursts of concurrent activity.
+* Realistic workload simulation ensures that test scenarios reflect actual staff behavior rather than artificial uniform load patterns.
+
+The most significant risks are race conditions on shared order state, real-time subscription degradation under fan-out load, and Supabase connection pool saturation. All three can produce silent failures — the system appears functional to individual staff members while producing inconsistent shared state — which makes them more dangerous than obvious errors. Testing strategies must explicitly measure cross-session consistency, not just individual request success rates.
+
+
