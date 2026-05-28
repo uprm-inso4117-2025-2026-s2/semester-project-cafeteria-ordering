@@ -38,11 +38,6 @@ const formatZip = (value: string) => {
   return value.replace(/[^0-9]/g, '').slice(0, 5);
 };
 
-type OrderItem = {
-  menuItem: MenuItem;
-  quantity: number;
-};
-
 export default function PaymentScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme() ?? 'light';
@@ -135,7 +130,19 @@ export default function PaymentScreen() {
   const total = subtotal + (additionalFees ?? 0) + (tax ?? 0);
 
   const handlePayNow = async () => {
-    console.log({
+    // Validate card fields
+    if (cardNumber.length < 19 || expiry.length < 5 || cvc.length < 3) {
+      alert('Please enter valid card details.');
+      return;
+    }
+
+    // Validate billing fields
+    if (!cardholderName || !address1 || !city || !zip || !country) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    console.log('Payment submitted (demo mode):', {
       cardNumber,
       expiry,
       cvc,
@@ -154,12 +161,16 @@ export default function PaymentScreen() {
       })),
       additionalFees,
       tax,
+      total,
     });
 
+    // Clear cart and show success message
     await clearCart();
     setCartSnapshot([]);
-    // Placeholder until we have button action
-    alert('order placed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    alert(`Order placed successfully! (Demo mode)\nTotal: $${total.toFixed(2)}`);
+    
+    // Navigate back to home
+    router.replace('/(tabs)');
   };
 
   const handleHeaderLayout = (event: LayoutChangeEvent) => {
