@@ -32,6 +32,8 @@ jobs:
         env:
           EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_TEST_LOGIN_EMAIL: ${{ secrets.SUPABASE_TEST_LOGIN_EMAIL }}
+          SUPABASE_TEST_LOGIN_PASSWORD: ${{ secrets.SUPABASE_TEST_LOGIN_PASSWORD }}
           CI: true
 
       - name: Archive Test Run Results HTML Report
