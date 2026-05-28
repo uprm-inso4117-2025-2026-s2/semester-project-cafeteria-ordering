@@ -24,6 +24,10 @@
 |Account Verification Process - Verify that after registration, users can successfully verify their accounts via email/verification link, including valid token acceptance, invalid/expired token handling, and account status changes from unverified to verified
 |TC-AUTH-04_account_verification.tsx
 
+|TC-AUTH-08
+|User Login Regression Testing - Re-validate the email/password login flow after merged changes (session-persistence, Google OAuth implementation, Apple sign-in button, onAuthStateChange listener): valid login with role-based redirect, invalid/unregistered/empty/malformed credential handling, client-side validation, real Google OAuth happy/cancel/error paths, Apple placeholder behavior, mount-time existing-session check, and Forgot password / Sign up navigation
+|src/tests/authentication/cases/TC-AUTH-08_login_regression_test_case.tsx
+
 |TC-ORD-01
 |Order Modification - Verify backend order modification routines correctly update order item ingredients and price when extras are added/removed, enforce valid ingredient/extra combinations, and preserve base meal defaults.
 |src/tests/ordering/scripts/UT-ORD-01-OrderModification.ts
