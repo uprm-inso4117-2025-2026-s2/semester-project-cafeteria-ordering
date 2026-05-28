@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import { useState } from 'react';
 import {
   AccessibilityInfo,
@@ -181,6 +182,7 @@ export default function SignUpScreen() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
 
   const handleSignUp = async () => {
     const validationErrors = validate({ fullName, email, password, confirmPassword, agreedToTerms });
@@ -476,10 +478,10 @@ export default function SignUpScreen() {
 
         <TouchableOpacity
           onPress={handleSignUpWithGoogle}
-          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
+          disabled={isSubmitting || isGoogleSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign up with Google"
-          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
+          accessibilityState={{ disabled: isSubmitting || isGoogleSubmitting }}
           style={styles.googleButton}
           activeOpacity={0.85}
         >

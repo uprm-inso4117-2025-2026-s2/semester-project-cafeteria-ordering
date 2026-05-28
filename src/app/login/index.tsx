@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
 import {
   AccessibilityInfo,
@@ -130,6 +131,7 @@ export default function LoginScreen() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
 
   const routeAuthenticatedUser = async (userId: string) => {
     const { data: profile } = await supabase
@@ -355,24 +357,6 @@ export default function LoginScreen() {
             darkColor={Colors.light.secondaryText}
           >
             {isSubmitting ? 'Signing in…' : 'Sign in'}
-          </ThemedText>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={handleSignInWithGoogle}
-          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
-          accessibilityRole="button"
-          accessibilityLabel="Sign in with Google"
-          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
-          style={styles.googleButton}
-          activeOpacity={0.85}
-        >
-          <ThemedText
-            type="button"
-            lightColor={Colors.light.secondaryText}
-            darkColor={Colors.light.secondaryText}
-          >
-            {isGoogleSubmitting ? 'Connecting…' : 'Sign in with Google'}
           </ThemedText>
         </TouchableOpacity>
 
