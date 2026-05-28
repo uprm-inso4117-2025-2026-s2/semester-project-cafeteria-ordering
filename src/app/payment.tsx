@@ -64,10 +64,10 @@ export default function PaymentScreen() {
 
   const [cardNumber, setCardNumber] = useState('');
   const [expiry, setExpiry] = useState('');
-  const [cvc, setCvc] = useState('');
-  const [cardholderName, setCardholderName] = useState('');
-  const [country, setCountry] = useState('');
-  const [address1, setAddress1] = useState('');
+  const [cvc, setCvc] = useState('');                         
+  const [cardholderName, setCardholderName] = useState('');    
+  const [country, setCountry] = useState('');                
+  const [address1, setAddress1] = useState('');                
   const [address2, setAddress2] = useState('');
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
@@ -365,20 +365,12 @@ export default function PaymentScreen() {
 
         {/* Card number */}
         <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: colors.inputBackground,
-              borderColor: colors.inputBorder,
-              color: colors.secondaryText,
-            },
-          ]}
+          style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
           placeholder="1234 1234 1234 1234"
           placeholderTextColor={colors.placeholderText}
           value={cardNumber}
           onChangeText={(text) => setCardNumber(formatCardNumber(text))}
           keyboardType="number-pad"
-          inputMode="numeric"
           autoCorrect={false}
           autoCapitalize="none"
           maxLength={19}
@@ -386,45 +378,24 @@ export default function PaymentScreen() {
 
         {/* Month/Year and CVC */}
         <View style={styles.row}>
-          {/* Month/Year */}
           <TextInput
-            style={[
-              styles.input,
-              styles.halfInput,
-              {
-                backgroundColor: colors.inputBackground,
-                borderColor: colors.inputBorder,
-                color: colors.secondaryText,
-              },
-            ]}
+            style={[styles.input, styles.halfInput, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
             placeholder="MM / YY"
             placeholderTextColor={colors.placeholderText}
             value={expiry}
             onChangeText={(text) => setExpiry(formatExpiry(text))}
             keyboardType="number-pad"
-            inputMode="numeric"
             autoCorrect={false}
             autoCapitalize="none"
             maxLength={5}
           />
-
-          {/* CVC */}
           <TextInput
-            style={[
-              styles.input,
-              styles.halfInput,
-              {
-                backgroundColor: colors.inputBackground,
-                borderColor: colors.inputBorder,
-                color: colors.secondaryText,
-              },
-            ]}
+            style={[styles.input, styles.halfInput, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
             placeholder="CVC"
             placeholderTextColor={colors.placeholderText}
             value={cvc}
             onChangeText={(text) => setCvc(formatCvc(text))}
             keyboardType="number-pad"
-            inputMode="numeric"
             autoCorrect={false}
             autoCapitalize="none"
             maxLength={3}

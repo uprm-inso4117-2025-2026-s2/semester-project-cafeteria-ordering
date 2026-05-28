@@ -3,12 +3,89 @@
 [cols="1,3,3", options=header]
 |====
 |ID |Description |Script File Name
-|TR-SUPA-01 |Report for Supabase configuration validation execution |src/tests/supabase/scripts/supabase-connection.test.ts
-|TR-SUPA-02 |Report for Supabase quick connection smoke check execution |src/tests/supabase/scripts/quick-test.ts
-|TR-ORD-01 |Test report to inform about the execution of order modification procedures| UT-OrderModification.ts
-|TR-ORD-2 |Report that unit test outputs for Order ID generation are correct, including format validation and handling of invalid or undefined values |
-|TR-AUTH-03 |Test report for User Sign Up functionality with valid data, including UI verification, happy path, negative test scenarios, form recovery, and optional phone number validation |src/tests/authentication/scripts/signup_valid_data.test.tsx
-|TR-AUTH-04 |Test report for Account Verification Process including valid token verification, invalid/expired tokens, resend verification email, already verified account handling, and empty/missing token validation |src/tests/authentication/scripts/verification.test.tsx
-|TR-STAFF-02 |Property-based test report for order state transitions — 11 tests, 1800+ random samples, all passed | src/tests/staff_operations/scripts/TC-STAFF-02_order_state_transitions_pbt.test.ts
-|TR-STAFF-01 |Test report for Staff Dashboard Usability evaluation — documents outcomes for all five staff workflows and navigation; two workflows failed due to missing features (pickup verification and Special Status Requests) | src/tests/staff_operations/cases/TC-STAFF-01_staff_dashboard_usability.ts
+
+|TR-AUTH-03
+|Test report for User Sign Up functionality with valid data, including UI verification, happy path, negative test scenarios, form recovery, and optional phone number validation
+|src/tests/authentication/scripts/signup_valid_data.test.tsx
+
+|TR-AUTH-04
+|Test report for Account Verification Process including valid token verification, invalid/expired tokens, resend verification email, already verified account handling, and empty/missing token validation
+|src/tests/authentication/scripts/verification.test.tsx
+
+|TR-ORD-01
+|Test report to inform about the execution of order modification procedures
+|src/tests/ordering/scripts/UT-ORD-01-OrderModification.ts
+
+|TR-ORD-02
+|Report that unit test outputs for Order ID generation are correct, including format validation and handling of invalid or undefined values
+|src/tests/ordering/scripts/UT-ORD-02_Place_and_Confirmation_for_Order.ts
+
+|TR-ORD-04
+|Customer ordering load testing report
+|src/tests/ordering/cases/TC-ORD-04-Load-testing.js
+
+|TR-ORD-05
+|Place order and order confirmation integration test report
+|src/tests/ordering/scripts/IT-ORD-05-Place_and_Confirm_Order.ts
+
+|TR-ORD-06
+|Modify order fuzz test report
+|src/tests/ordering/scripts/FT-ORD-06-Order-Mod-Fuzz.ts
+
+|TR-ORD-07
+|Order modification integration test report
+|src/tests/ordering/cases/TC-ORD-07-Order-Mod-Integration.ts
+
+|TR-ORD-08
+|getOrderID fuzz test report
+|src/tests/ordering/scripts/FT-ORD-08-getOrderID_Fuzz.ts
+
+|TR-ORD-09
+|Order endpoint add/remove cart fuzz test report
+|src/tests/ordering/scripts/FT-ORD-09-ord-end.ts
+
+|TR-ORD-10
+|Property based cart calculations report
+|src/tests/ordering/scripts/PBT-ORD-10_cart_calculations.test.ts
+
+|TR-ORD-11
+|Counterexample shrinking failure analysis report
+|src/tests/ordering/scripts/PBT-ORD-11_counterexample_shrinking.test.ts
+
+|TR-ORD-12
+|Homepage mutation testing report
+|src/tests/ordering/cases/TC-ORD-12_homepage_mutation_testing.ts
+
+|TR-PROF-01
+|Profile Functionality Unit Test report — all 10 unit tests passed validating CRUD helpers (createProfile, getProfileByUserId, updateProfileName, updateProfilePhone, deleteProfile) under success and failure conditions
+|src/tests/profile/scripts/UT-PROF-01_profile_functionality.ts
+
+|TR-PROF-02
+|Auth Profile Sync integration test report — validates authentication-driven profile synchronization in authContext.tsx; all 7 integration checks passed
+|src/tests/profile/scripts/IT-PROF-01_auth_profile_sync.test.tsx
+
+|TR-PROF-03
+|Offline Mode Behavior validation report — 6 Jest tests passed validating AsyncStorage-based profile and avatar caching, safe fallback behavior, and navigation to /edit-profile
+|src/tests/profile/scripts/OT-PROF-01_offline_mode_behavior.test.tsx
+
+|TR-PROF-04
+|Mutation Testing Profile Screen UI report — analysis of three mutation points (TC-PROF-MT-01: save guard removal, TC-PROF-MT-02: logout confirmation bypass, TC-PROF-MT-03: user ID substitution); analysis complete, test scripts pending implementation
+|TBD
+
+|TR-STAFF-01
+|Test report for Staff Dashboard Usability evaluation — documents outcomes for all five staff workflows and navigation; two workflows failed due to missing features (pickup verification and Special Status Requests)
+|src/tests/staff_operations/cases/TC-STAFF-01_staff_dashboard_usability.ts
+
+|TR-STAFF-02
+|Property-based test report for order state transitions — 11 tests, 1800+ random samples, all passed
+|src/tests/staff_operations/scripts/TC-STAFF-02_order_state_transitions_pbt.test.ts
+
+|TR-SUPA-01
+|Report for Supabase configuration validation execution
+|src/tests/supabase/scripts/supabase-connection.test.ts
+
+|TR-SUPA-02
+|Report for Supabase quick connection smoke check execution
+|src/tests/supabase/scripts/quick-test.ts
+
 |====

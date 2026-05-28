@@ -1,5 +1,16 @@
 const { execSync } = require("child_process");
 
+function commandExists(command) {
+  try {
+    execSync(process.platform === "win32" ? `where ${command}` : `command -v ${command}`, {
+      stdio: "ignore",
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function banner(title) {
   console.log("\n===================================================");
   console.log(title);
@@ -15,6 +26,20 @@ function runStep(stepName, command) {
   );
 }
 
+function runK6Step(stepName, command) {
+  if (!commandExists("k6")) {
+    console.log(`\nTest: ${stepName}`);
+    console.log(`\nCommand: ${command}`);
+    console.log("\n[SKIP] k6 is not installed in this environment.");
+    console.log(
+      "\n///////////////////////////////////////////////////////////////////////\n",
+    );
+    return;
+  }
+
+  runStep(stepName, command);
+}
+
 //Verify that compiled JavaScript files can be imported cleanly into ci-check.js
 function runInternalCheck(stepName, checkLogic) {
   console.log(`\nTest: ${stepName}`);
@@ -28,7 +53,7 @@ function runInternalCheck(stepName, checkLogic) {
 function main() {
   banner("AUTO TEST SUITE RUNNING");
 
-  const tsSuite = require("../build/ci-build/auto_test_suite.js");
+  const tsSuite = require("../src/tests/suites/auto_test_suite.ts");
 
   runStep("Lint (Expo ESLint)", tsSuite.testSuiteCommands.lint);
   runStep("Build Export (Expo export)", tsSuite.testSuiteCommands.buildExport);
@@ -68,11 +93,50 @@ function main() {
     "Ordering Flow: Place Order & Confirmation (TC-ORD-02)",
     tsSuite.testSuiteCommands.orderingPlaceConfirmation,
   );
+  runK6Step(
+    "Ordering Flow: Customer Ordering Load Test (TC-ORD-04)",
+    tsSuite.testSuiteCommands.orderingLoadTesting,
+  );
+  runStep(
+    "Ordering Flow: Place Order & Confirmation Integration (TC-ORD-05)",
+    tsSuite.testSuiteCommands.orderingPlaceConfirmIntegration,
+  );
+  runStep(
+    "Ordering Flow: Modify Order Fuzz (TC-ORD-06)",
+    tsSuite.testSuiteCommands.orderingModifyFuzz,
+  );
+  runStep(
+    "Ordering Flow: getOrderID Fuzz (TC-ORD-08)",
+    tsSuite.testSuiteCommands.orderingGetOrderIdFuzz,
+  );
+  runStep(
+    "Ordering Flow: Endpoint Fuzz (TC-ORD-09)",
+    tsSuite.testSuiteCommands.orderingEndpointFuzz,
+  );
+  runStep(
+    "Ordering Flow: Cart Calculations PBT (TC-ORD-10)",
+    tsSuite.testSuiteCommands.orderingCartCalculations,
+  );
+  runStep(
+    "Ordering Flow: Counterexample Shrinking (TC-ORD-11)",
+    tsSuite.testSuiteCommands.orderingCounterexampleShrinking,
+  );
 
   // Payment Flow Verification
   runStep(
     "Payment Flow Validation (TC-PAY-01)",
     tsSuite.testSuiteCommands.paymentValidation,
+  );
+
+  // Profile Flow Verification
+  runStep(
+    "Profile Flow: Profile Functionality Unit Tests (TC-PROF-01)",
+    tsSuite.testSuiteCommands.profileUnitTests,
+  );
+  // Staff Operations Verification
+  runStep(
+    "Staff Operations: Order State Transitions PBT (TC-STAFF-02)",
+    tsSuite.testSuiteCommands.staffOrderStateTransitions,
   );
 
   //(UNCOMMENT TO USE)

@@ -15,4 +15,4 @@ Author: Gerardo Y. Soto Rios
 This unit test focuses on validating the generation and integrity of Order IDs. It verifies that each generated ID meets the expected format, is not undefined, and remains consistent across operations. Edge cases involving invalid or missing IDs were also tested. All test cases passed, confirming the reliability of the Order ID implementation.
 
 == Notes
-- RUN: npx tsx src/tests/ordering/scripts/UT-ORD-2_Place_and_Confirmation_for_Order.ts
+- RUN: npx tsx src/tests/ordering/scripts/UT-ORD-02_Place_and_Confirmation_for_Order.ts

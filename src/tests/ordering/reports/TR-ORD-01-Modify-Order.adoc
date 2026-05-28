@@ -23,4 +23,4 @@ All unit tests executed for order modification logic passed successfully. The te
 
 == Notes
 - To prevent test interference, `createBaseMenuItem()` now clones the base ingredient array for each test instance so modifications do not persist across tests.
-- RUN: npx tsx src/tests/ordering/scripts/UT-OrderModification.ts to execute
+- RUN: npx tsx src/tests/ordering/scripts/UT-ORD-01-OrderModification.ts to execute
