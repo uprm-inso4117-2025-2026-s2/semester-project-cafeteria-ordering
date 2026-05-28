@@ -132,4 +132,3 @@
 |Centralized Input Validation Utilities — unit tests for isValidEmail, isValidPassword, and formatPhoneNumber in src/lib/validation.ts covering valid inputs, boundary conditions, whitespace trimming, and all rejection cases used by Signup, Login, and Edit Profile screens
 |src/tests/utils/scripts/validation.test.ts
 
-|====

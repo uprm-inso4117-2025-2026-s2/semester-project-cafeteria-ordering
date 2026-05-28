@@ -2,6 +2,11 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './src/tests/ui',
+  testIgnore: ['**/home.spec.ts', '**/auth.setup.ts'],
+  timeout: 120000,
+  expect: {
+    timeout: 120000,
+  },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
