@@ -12,6 +12,10 @@
 |Test report for Account Verification Process including valid token verification, invalid/expired tokens, resend verification email, already verified account handling, and empty/missing token validation
 |src/tests/authentication/scripts/verification.test.tsx
 
+|TR-AUTH-08
+|Test report for User Login Regression Testing (TC-AUTH-08) — PASS with 4 regression defects found and resolved during execution (missing getSession mock, missing onAuthStateChange mock, stale Google OAuth assertion, expo-web-browser import crash). Jest suite 9/9 passed after fixes; Playwright UI suite 5/5 passed on Chromium.
+|src/tests/authentication/scripts/login.test.tsx
+
 |TR-ORD-01
 |Test report to inform about the execution of order modification procedures
 |src/tests/ordering/scripts/UT-ORD-01-OrderModification.ts

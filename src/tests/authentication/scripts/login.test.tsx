@@ -49,16 +49,44 @@ import {
 import React from "react";
 import LoginScreen from "../../../app/login/index";
 
-// Mocking the Supabase auth hooks
+// expo-web-browser is imported at module load by LoginScreen and calls
+// maybeCompleteAuthSession() during the Google OAuth flow. Outside the Expo
+// runtime it crashes on AppState.currentState, so we stub it. Tracked under
+// TR-AUTH-08 defect DEF-AUTH-08-04.
+const mockOpenAuthSessionAsync = jest.fn();
+jest.mock("expo-web-browser", () => ({
+  maybeCompleteAuthSession: jest.fn(),
+  openAuthSessionAsync: (...args: any[]) => mockOpenAuthSessionAsync(...args),
+}));
+
+// Mocking the Supabase auth hooks. The login screen now depends on
+// getSession (PR #694), onAuthStateChange (post-#694 merge train), and the
+// profiles `from(...).select(...).eq(...).maybeSingle()` chain for role-based
+// redirect. See TR-AUTH-08 defects DEF-AUTH-08-01 / DEF-AUTH-08-02.
 const mockSignInWithPassword = jest.fn();
 const mockSignInWithOAuth = jest.fn();
+const mockGetSession = jest.fn().mockResolvedValue({ data: { session: null } });
+const mockOnAuthStateChange = jest.fn().mockReturnValue({
+  data: { subscription: { unsubscribe: jest.fn() } },
+});
+const mockSetSession = jest.fn().mockResolvedValue({ data: { session: null }, error: null });
 
 jest.mock("../../../lib/supabase", () => ({
   supabase: {
     auth: {
       signInWithPassword: (...args: any[]) => mockSignInWithPassword(...args),
       signInWithOAuth: (...args: any[]) => mockSignInWithOAuth(...args),
+      getSession: (...args: any[]) => mockGetSession(...args),
+      onAuthStateChange: (...args: any[]) => mockOnAuthStateChange(...args),
+      setSession: (...args: any[]) => mockSetSession(...args),
     },
+    from: () => ({
+      select: () => ({
+        eq: () => ({
+          maybeSingle: () => Promise.resolve({ data: null, error: null }),
+        }),
+      }),
+    }),
   },
 }));
 
@@ -224,26 +252,57 @@ describe("TC-AUTH-04: LoginScreen Component", () => {
   });
 
   // ============================================================================
-  // STEP 5: Google OAuth Login
+  // STEP 5: Google OAuth Login (cancel path)
   // ============================================================================
   /**
-   * Input: Click "Log in with Google" and complete the OAuth flow
-   * Expected: User is successfully authenticated via Google
-   * Redirected to the main dashboard
+   * Pre PR #745 the Google button was a placeholder. It is now a real OAuth
+   * flow: supabase.auth.signInWithOAuth(...) returns an auth URL, which is
+   * opened via WebBrowser.openAuthSessionAsync. The cancel branch surfaces
+   * the inline message "Google sign in was cancelled.".
+   *
+   * Input: Click "Sign in with Google", then user cancels in the browser tab
+   * Expected: Inline message "Google sign in was cancelled." is shown,
+   *   no session is created, user remains on the login screen
    */
-  it("should trigger Google OAuth flow when the Google button is clicked", async () => {
+  it("should surface cancel message when the Google OAuth flow is cancelled", async () => {
     mockSignInWithOAuth.mockResolvedValueOnce({
-      data: { url: "https://..." },
+      data: { url: "https://accounts.google.com/o/oauth2/test-flow" },
       error: null,
     });
+    mockOpenAuthSessionAsync.mockResolvedValueOnce({ type: "cancel" });
+
     render(<LoginScreen />);
 
     const googleButton = screen.getByLabelText("Sign in with Google");
     fireEvent.press(googleButton);
 
     await waitFor(() => {
+      expect(mockSignInWithOAuth).toHaveBeenCalledWith(
+        expect.objectContaining({ provider: "google" }),
+      );
+      expect(mockOpenAuthSessionAsync).toHaveBeenCalled();
       expect(
-        screen.getByText(/google sign-in is not enabled yet/i),
+        screen.getByText(/google sign in was cancelled\./i),
+      ).toBeTruthy();
+    });
+  });
+
+  // ============================================================================
+  // STEP 6: Apple Sign-In Placeholder
+  // ============================================================================
+  /**
+   * Apple sign-in backend is intentionally not wired (paid Apple Developer
+   * membership required — see issue #648). Pressing the button must surface
+   * the inline placeholder notice.
+   */
+  it("should surface placeholder notice when the Apple button is pressed", async () => {
+    render(<LoginScreen />);
+
+    fireEvent.press(screen.getByLabelText("Sign in with Apple"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/apple sign-in is not available/i),
       ).toBeTruthy();
     });
   });
