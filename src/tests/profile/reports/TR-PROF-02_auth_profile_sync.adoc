@@ -2,7 +2,7 @@
 Author: Kevin Lara
 
 *Date:* 2026-04-07
-*ID:* TR-PROF-01
+*ID:* TR-PROF-02
 *Issue:* #449
 *Test:* IT-PROF-01_auth_profile_sync.tsx
 *Type:* Integration Test

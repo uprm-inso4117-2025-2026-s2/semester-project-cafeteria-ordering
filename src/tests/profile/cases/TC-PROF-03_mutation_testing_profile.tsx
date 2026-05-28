@@ -255,7 +255,7 @@ export const mockProfileData = {
  *   instead of ("user-test-999", ...) — killing the mutant.
  *
  * @reviewed_by
- * <reviewer(s)>
+ * Jorge L. De León Orama
  */
 // [SCRIPT SPACE — implement in src/tests/profile/scripts/]
 //
