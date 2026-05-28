@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
 import {
   AccessibilityInfo,
@@ -172,6 +172,7 @@ export default function LoginScreen() {
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAppleSubmitting, setIsAppleSubmitting] = useState(false);
+  const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
 
   useEffect(() => {
     const redirectError =
@@ -281,10 +282,9 @@ export default function LoginScreen() {
   const handleSignInWithGoogle = async () => {
     try {
       setAuthMessage(null);
+      setIsGoogleSubmitting(true);
 
       const redirectTo = 'exp://localhost:19000/**';
-
-      console.log('Redirect URL:', redirectTo);
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -305,8 +305,6 @@ export default function LoginScreen() {
           redirectTo
         );
 
-        console.log('OAuth result:', result);
-
         if (result.type === 'success') {
           const url = result.url;
 
@@ -324,11 +322,15 @@ export default function LoginScreen() {
               return;
             }
           }
+        } else if (result.type === 'cancel') {
+          setAuthMessage('Google sign in was cancelled.');
         }
       }
     } catch (err) {
       console.error('Google OAuth error:', err);
       setAuthMessage('Unable to sign in with Google.');
+    } finally {
+      setIsGoogleSubmitting(false);
     }
   };
 
@@ -400,10 +402,10 @@ export default function LoginScreen() {
 
         <TouchableOpacity
           onPress={handleSignIn}
-          disabled={isSubmitting || isAppleSubmitting}
+          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign in"
-          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting }}
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
           style={[
             styles.signInButton,
             { backgroundColor: isSubmitting ? Colors.pastelSage : Colors.primaryGreen },
@@ -420,14 +422,32 @@ export default function LoginScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={handleSignInWithGoogle}
+          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
+          accessibilityRole="button"
+          accessibilityLabel="Sign in with Google"
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
+          style={styles.googleButton}
+          activeOpacity={0.85}
+        >
+          <ThemedText
+            type="button"
+            lightColor={Colors.light.secondaryText}
+            darkColor={Colors.light.secondaryText}
+          >
+            {isGoogleSubmitting ? 'Connecting…' : 'Sign in with Google'}
+          </ThemedText>
+        </TouchableOpacity>
+
+        <TouchableOpacity
           onPress={handleSignInWithApple}
-          disabled={isSubmitting || isAppleSubmitting}
+          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign in with Apple"
-          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting }}
+          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
           style={[
             styles.appleButton,
-            { opacity: isSubmitting || isAppleSubmitting ? 0.7 : 1 },
+            { opacity: isSubmitting || isAppleSubmitting || isGoogleSubmitting ? 0.7 : 1 },
           ]}
           activeOpacity={0.85}
         >
@@ -443,24 +463,6 @@ export default function LoginScreen() {
               {isAppleSubmitting ? 'Connecting…' : 'Sign in with Apple'}
             </ThemedText>
           </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={handleSignInWithGoogle}
-          disabled={isSubmitting || isAppleSubmitting}
-          accessibilityRole="button"
-          accessibilityLabel="Sign in with Google"
-          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting }}
-          style={styles.googleButton}
-          activeOpacity={0.85}
-        >
-          <ThemedText
-            type="button"
-            lightColor={Colors.light.secondaryText}
-            darkColor={Colors.light.secondaryText}
-          >
-            Sign in with Google
-          </ThemedText>
         </TouchableOpacity>
 
         {authMessage && (
