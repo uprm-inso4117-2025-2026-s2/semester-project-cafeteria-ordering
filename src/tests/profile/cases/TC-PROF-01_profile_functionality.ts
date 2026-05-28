@@ -112,5 +112,5 @@ export const supabaseErrorMessage = "database failure";
  *
  * ============================================================================
  * @reviewed_by
- * <reviewer(s)>
+ * Jorge L. De León Orama
  */

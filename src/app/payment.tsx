@@ -1,6 +1,9 @@
 import { Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { supabase } from '@/lib/supabase';
 import { MenuItem } from '@/models/food-item-class';
+import { OrderManager } from '@/models/order-class';
+import { StripePaymentService } from './payments/stripe/stripe-payment-service';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState, useEffect } from 'react';
@@ -38,10 +41,6 @@ const formatZip = (value: string) => {
   return value.replace(/[^0-9]/g, '').slice(0, 5);
 };
 
-type OrderItem = {
-  menuItem: MenuItem;
-  quantity: number;
-};
 
 export default function PaymentScreen() {
   const router = useRouter();
@@ -67,12 +66,13 @@ export default function PaymentScreen() {
     black: '#000000',
   };
 
+
   const [cardNumber, setCardNumber] = useState('');
   const [expiry, setExpiry] = useState('');
-  const [cvc, setCvc] = useState('');
-  const [cardholderName, setCardholderName] = useState('');
-  const [country, setCountry] = useState('');
-  const [address1, setAddress1] = useState('');
+  const [cvc, setCvc] = useState('');                         
+  const [cardholderName, setCardholderName] = useState('');    
+  const [country, setCountry] = useState('');                
+  const [address1, setAddress1] = useState('');                
   const [address2, setAddress2] = useState('');
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
@@ -160,6 +160,82 @@ export default function PaymentScreen() {
     setCartSnapshot([]);
     // Placeholder until we have button action
     alert('order placed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+
+
+  const handlePayNow = async () => {
+    try {
+      // Validate card fields
+      if (cardNumber.length < 19 || expiry.length < 5 || cvc.length < 3) {
+        alert('Please enter valid card details.');
+        return;
+      }
+
+      // Validate billing fields
+      if (!cardholderName || !address1 || !city || !zip || !country) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      const order_manager = new OrderManager();
+
+      orderItems.forEach((item) => {
+        for (let i = 0; i < item.quantity; i++) {
+          order_manager.addFoodItemToOrder(item.menuItem, []);
+        }
+      });
+
+      const draft_order = order_manager.getOrderDraft();
+
+      if (!draft_order) {
+        alert('Cart is empty');
+        return;
+      }
+
+      const stripe_service = new StripePaymentService();
+
+      const { success: payment_success, paymentIntentId } =
+        await stripe_service.processPayment(draft_order.total_amount);
+
+      if (!payment_success) {
+        alert('Payment failed');
+        return;
+      }
+
+      const confirmed_order = order_manager.submitOrder(1, cardholderName || 'Guest');
+
+      const { data: authData } = await supabase.auth.getUser();
+      const user_id = authData?.user?.id ?? null;
+
+      const { data, error } = await supabase.from('orders').insert({
+        user_id,
+        user_name: cardholderName || 'Guest',
+        total_amount: draft_order.total_amount,
+        status: 'confirmed',
+        notes: `Payment Intent: ${paymentIntentId}`,
+        created_at: new Date().toISOString(),
+      }).select().single();
+
+      if (error) {
+        console.error('Failed to save order:', error);
+        alert('Order could not be saved. Please contact support.');
+        return;
+      }
+
+      console.log('Order saved in Database:', data);
+      console.log('Confirmed order:', confirmed_order);
+
+      clearCart();
+      setCartSnapshot([]);
+
+      alert(`Payment successful.\nOrder ID: ${data.order_id}`);
+
+      router.replace('/(tabs)');
+
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong.');
+    }
   };
 
   const handleHeaderLayout = (event: LayoutChangeEvent) => {
@@ -354,20 +430,12 @@ export default function PaymentScreen() {
 
         {/* Card number */}
         <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: colors.inputBackground,
-              borderColor: colors.inputBorder,
-              color: colors.secondaryText,
-            },
-          ]}
+          style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
           placeholder="1234 1234 1234 1234"
           placeholderTextColor={colors.placeholderText}
           value={cardNumber}
           onChangeText={(text) => setCardNumber(formatCardNumber(text))}
           keyboardType="number-pad"
-          inputMode="numeric"
           autoCorrect={false}
           autoCapitalize="none"
           maxLength={19}
@@ -375,50 +443,38 @@ export default function PaymentScreen() {
 
         {/* Month/Year and CVC */}
         <View style={styles.row}>
-          {/* Month/Year */}
           <TextInput
-            style={[
-              styles.input,
-              styles.halfInput,
-              {
-                backgroundColor: colors.inputBackground,
-                borderColor: colors.inputBorder,
-                color: colors.secondaryText,
-              },
-            ]}
+            style={[styles.input, styles.halfInput, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
             placeholder="MM / YY"
             placeholderTextColor={colors.placeholderText}
             value={expiry}
             onChangeText={(text) => setExpiry(formatExpiry(text))}
             keyboardType="number-pad"
-            inputMode="numeric"
             autoCorrect={false}
             autoCapitalize="none"
             maxLength={5}
           />
-
-          {/* CVC */}
           <TextInput
-            style={[
-              styles.input,
-              styles.halfInput,
-              {
-                backgroundColor: colors.inputBackground,
-                borderColor: colors.inputBorder,
-                color: colors.secondaryText,
-              },
-            ]}
+            style={[styles.input, styles.halfInput, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.secondaryText }]}
             placeholder="CVC"
             placeholderTextColor={colors.placeholderText}
             value={cvc}
             onChangeText={(text) => setCvc(formatCvc(text))}
             keyboardType="number-pad"
-            inputMode="numeric"
             autoCorrect={false}
             autoCapitalize="none"
             maxLength={3}
           />
         </View>
+
+        
+        
+
+
+
+
+
+        
 
         <Text style={[styles.label, { color: colors.primaryText }]}>
           Cardholder Name

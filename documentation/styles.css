@@ -1,10 +1,16 @@
 .green-bg {
   background-color: #90ee90;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 .yellow-bg {
   background-color: #ffd700;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 .red-bg {
   background-color: #ff6b6b;
   text-decoration: line-through;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }

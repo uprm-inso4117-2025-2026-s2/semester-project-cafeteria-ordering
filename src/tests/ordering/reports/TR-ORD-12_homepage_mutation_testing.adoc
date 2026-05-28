@@ -1,13 +1,13 @@
-= Homepage Mutation Testing TR
+= TR-ORD-12 Homepage Mutation Testing Report
 Author: Kaysha Pagan
 
 *Date:* 2026-05-16
 
-*ID:* TR-ORD-04
+*ID:* TR-ORD-12
 
 *Issue:* #400
 
-*Test:* Mutation Testing for Homepage Filtering and Display Logic
+*Test:* TC-ORD-12 - Mutation Testing for Homepage Filtering and Display Logic
 
 *Pass/Fail Status:* PASS
 
