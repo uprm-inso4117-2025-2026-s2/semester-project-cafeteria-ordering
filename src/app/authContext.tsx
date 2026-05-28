@@ -1,22 +1,14 @@
-import { supabase } from '@/lib/supabase';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
-import * as Linking from 'expo-linking';
-import * as WebBrowser from 'expo-web-browser';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Alert, Platform } from 'react-native';
 
-WebBrowser.maybeCompleteAuthSession();
+import { supabase } from '@/lib/supabase';
 
 // User object
 type User = {
   fullName: string;
   email: string;
   userId?: string;
-};
-
-type AppleSignInResult = {
-  user: User;
-  supabaseUser: SupabaseUser;
 };
 
 type AuthContextType = {
@@ -26,44 +18,10 @@ type AuthContextType = {
   login: (user: User) => void;
   logout: () => void;
   signOut: () => Promise<void>;
-  signInWithApple: () => Promise<AppleSignInResult>;
   sessionChecked: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-function getQueryParam(
-  params: Record<string, string | string[] | undefined>,
-  key: string
-) {
-  const value = params[key];
-
-  if (Array.isArray(value)) {
-    return value[0];
-  }
-
-  return value;
-}
-
-function getOAuthRedirectUrl() {
-  return Linking.createURL('auth/callback');
-}
-
-function getOAuthCodeFromUrl(url: string) {
-  const parsedUrl = Linking.parse(url);
-  const queryParams = parsedUrl.queryParams ?? {};
-
-  const error =
-    getQueryParam(queryParams, 'error_description') ||
-    getQueryParam(queryParams, 'error') ||
-    getQueryParam(queryParams, 'error_code');
-
-  if (error) {
-    throw new Error(error);
-  }
-
-  return getQueryParam(queryParams, 'code');
-}
 
 // Helper for logging session events
 function logSessionEvent(event: string, data?: unknown) {
@@ -328,59 +286,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logSessionEvent('Sign out complete');
   };
 
-  const signInWithApple = async (): Promise<AppleSignInResult> => {
-    const redirectTo = getOAuthRedirectUrl();
-
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'apple',
-      options: {
-        redirectTo,
-        skipBrowserRedirect: true,
-      },
-    });
-
-    if (error) {
-      throw new Error(error.message || 'Apple sign-in could not be started.');
-    }
-
-    if (!data.url) {
-      throw new Error('Apple sign-in could not be started. Missing OAuth URL.');
-    }
-
-    const authResult = await WebBrowser.openAuthSessionAsync(data.url, redirectTo);
-
-    if (authResult.type !== 'success') {
-      throw new Error('APPLE_OAUTH_CANCELLED');
-    }
-
-    const code = getOAuthCodeFromUrl(authResult.url);
-
-    if (!code) {
-      throw new Error('Apple sign-in failed because no authorization code was returned.');
-    }
-
-    const { data: sessionData, error: exchangeError } =
-      await supabase.auth.exchangeCodeForSession(code);
-
-    if (exchangeError) {
-      throw new Error(exchangeError.message || 'Apple sign-in failed during session exchange.');
-    }
-
-    if (!sessionData.session || !sessionData.user) {
-      throw new Error('Apple sign-in did not return a valid session.');
-    }
-
-    await syncProfileFromMetadata(sessionData.user);
-
-    const mappedUser = mapSupabaseUserToAppUser(sessionData.user);
-    setUser(mappedUser);
-
-    return {
-      user: mappedUser,
-      supabaseUser: sessionData.user,
-    };
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -390,7 +295,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         signOut,
-        signInWithApple,
         sessionChecked,
       }}
     >

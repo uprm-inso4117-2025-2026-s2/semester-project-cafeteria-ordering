@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   AccessibilityInfo,
   KeyboardAvoidingView,
@@ -13,7 +13,6 @@ import {
   View,
 } from 'react-native';
 
-import { useAuth } from '@/app/authContext';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
@@ -169,49 +168,10 @@ function validate(fields: {
   return errors;
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-function getSearchParam(value: string | string[] | undefined) {
-  if (Array.isArray(value)) {
-    return value[0];
-  }
-
-  return value;
-}
-
-function mapAppleSignUpError(message?: string) {
-  const normalized = message?.toLowerCase() ?? '';
-
-  if (normalized.includes('apple_oauth_cancelled')) {
-    return 'Apple sign-up was cancelled. Please try again or create an account with email and password.';
-  }
-
-  if (normalized.includes('provider') || normalized.includes('not enabled')) {
-    return 'Apple sign-up is not enabled yet. Please contact support or create an account with email and password.';
-  }
-
-  if (normalized.includes('authorization code') || normalized.includes('code')) {
-    return 'Apple sign-up failed after redirect. Please try again.';
-  }
-
-  if (normalized.includes('access_denied')) {
-    return 'Apple sign-up was denied. Please try again or create an account with email and password.';
-  }
-
-  return 'Apple sign-up failed. Please try again or create an account with email and password.';
-}
-
 // ─── SignUpScreen ─────────────────────────────────────────────────────────────
 export default function SignUpScreen() {
   const backgroundColor = useThemeColor({}, 'background');
   const router = useRouter();
-
-  const params = useLocalSearchParams<{
-    error?: string;
-    error_code?: string;
-    error_description?: string;
-  }>();
-
-  const { signInWithApple } = useAuth();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -222,19 +182,7 @@ export default function SignUpScreen() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isAppleSubmitting, setIsAppleSubmitting] = useState(false);
   const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
-
-  useEffect(() => {
-    const redirectError =
-      getSearchParam(params.error_description) ||
-      getSearchParam(params.error) ||
-      getSearchParam(params.error_code);
-
-    if (redirectError) {
-      setAuthMessage(mapAppleSignUpError(redirectError));
-    }
-  }, [params.error, params.error_code, params.error_description]);
 
   const handleSignUp = async () => {
     const validationErrors = validate({ fullName, email, password, confirmPassword, agreedToTerms });
@@ -287,19 +235,10 @@ export default function SignUpScreen() {
     }
   };
 
-  const handleSignUpWithApple = async () => {
-    setAuthMessage(null);
-    setIsAppleSubmitting(true);
-
-    try {
-      await signInWithApple();
-      router.replace('/(tabs)');
-    } catch (error) {
-      const message = error instanceof Error ? error.message : undefined;
-      setAuthMessage(mapAppleSignUpError(message));
-    } finally {
-      setIsAppleSubmitting(false);
-    }
+  // Apple sign-up backend is not wired up (see issue #648). The button is kept
+  // as a visual placeholder and surfaces an inline notice when tapped.
+  const handleSignUpWithApple = () => {
+    setAuthMessage('Apple sign-up is not available. Please create an account with email and password.');
   };
 
   const handleSignUpWithGoogle = async () => {
@@ -518,10 +457,10 @@ export default function SignUpScreen() {
         {/* ── Sign Up Button ── */}
         <TouchableOpacity
           onPress={handleSignUp}
-          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
+          disabled={isSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign up"
-          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
+          accessibilityState={{ disabled: isSubmitting }}
           style={[
             styles.primaryButton,
             { backgroundColor: isSubmitting ? Colors.pastelSage : Colors.primaryGreen },
@@ -539,10 +478,10 @@ export default function SignUpScreen() {
 
         <TouchableOpacity
           onPress={handleSignUpWithGoogle}
-          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
+          disabled={isSubmitting || isGoogleSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign up with Google"
-          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
+          accessibilityState={{ disabled: isSubmitting || isGoogleSubmitting }}
           style={styles.googleButton}
           activeOpacity={0.85}
         >
@@ -557,13 +496,13 @@ export default function SignUpScreen() {
 
         <TouchableOpacity
           onPress={handleSignUpWithApple}
-          disabled={isSubmitting || isAppleSubmitting || isGoogleSubmitting}
+          disabled={isSubmitting}
           accessibilityRole="button"
           accessibilityLabel="Sign up with Apple"
-          accessibilityState={{ disabled: isSubmitting || isAppleSubmitting || isGoogleSubmitting }}
+          accessibilityState={{ disabled: isSubmitting }}
           style={[
             styles.appleButton,
-            { opacity: isSubmitting || isAppleSubmitting || isGoogleSubmitting ? 0.7 : 1 },
+            { opacity: isSubmitting ? 0.7 : 1 },
           ]}
           activeOpacity={0.85}
         >
@@ -574,7 +513,7 @@ export default function SignUpScreen() {
             darkColor="#FFFFFF"
             style={styles.socialButtonText}
           >
-            {isAppleSubmitting ? 'Connecting…' : 'Sign up with Apple'}
+            Sign up with Apple
           </ThemedText>
         </TouchableOpacity>
 
@@ -584,9 +523,11 @@ export default function SignUpScreen() {
             style={[
               styles.authMessage,
               {
-                color: authMessage.toLowerCase().includes('account created')
+                color: /account created/i.test(authMessage)
                   ? Colors.primaryGreen
-                  : '#C62828',
+                  : /enabled yet|not available/i.test(authMessage)
+                    ? Colors.mutedGray
+                    : '#C62828',
               },
             ]}
           >

@@ -7,7 +7,7 @@
  * @date 2026-03-15
  * * ============================================================================
  * @description
- * Verify that a user can successfully log in using valid credentials or Google 
+ * Verify that a user can successfully log in using valid credentials or Google
  * OAuth, and that the system properly handles and rejects invalid credentials.
  * This test validates both the UI layout and authentication logic.
  * * ============================================================================
@@ -40,13 +40,13 @@
 // STEP 1: Navigate to Login page
 // ============================================================================
 /**
- * Expected: Centered container displays with "Log In" title and 
+ * Expected: Centered container displays with "Log In" title and
  * relevant subtitle/branding.
  */
 // [SCRIPT SPACE - Add your test script here]
-// 
-// 
-// 
+//
+//
+///
 
 // ============================================================================
 // STEP 2: Verify UI elements
@@ -58,9 +58,9 @@
  * "Don't have an account? Sign up" link present.
  */
 // [SCRIPT SPACE - Add your test script here]
-// 
-// 
-// 
+//
+//
+//
 
 // ============================================================================
 // STEP 3: Test Invalid Scenarios
@@ -75,9 +75,9 @@
  * Form submission blocked
  */
 // [SCRIPT SPACE - Add your test script here]
-// 
-// 
-// 
+//
+//
+//
 
 // ----------------------------------------------------------------------------
 // STEP 3b: TC-AUTH-04-NEG-03 - Invalid Email Format
@@ -88,9 +88,9 @@
  * Form submission blocked
  */
 // [SCRIPT SPACE - Add your test script here]
-// 
-// 
-// 
+//
+//
+//
 
 // ----------------------------------------------------------------------------
 // STEP 3c: TC-AUTH-04-NEG-02 - Unregistered Email
@@ -101,9 +101,9 @@
  * Access denied
  */
 // [SCRIPT SPACE - Add your test script here]
-// 
-// 
-// 
+//
+//
+//
 
 // ----------------------------------------------------------------------------
 // STEP 3d: TC-AUTH-04-NEG-01 - Invalid Password
@@ -114,9 +114,9 @@
  * Access denied
  */
 // [SCRIPT SPACE - Add your test script here]
-// 
-// 
-// 
+//
+//
+//
 
 // ============================================================================
 // STEP 4: Valid Email/Password Login
@@ -127,9 +127,9 @@
  * Redirected to the main dashboard
  */
 // [SCRIPT SPACE - Add your test script here]
-// 
-// 
-// 
+//
+//
+//
 
 // ============================================================================
 // STEP 5: Google OAuth Login
@@ -140,9 +140,9 @@
  * Redirected to the main dashboard
  */
 // [SCRIPT SPACE - Add your test script here]
-// 
-// 
-// 
+//
+//
+//
 
 // ============================================================================
 // @expected_results
@@ -158,4 +158,5 @@
  * - No console errors during any test steps
  */
 
-export {};
+export { };
+
