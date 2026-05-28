@@ -12,9 +12,21 @@
 |Test report for Account Verification Process including valid token verification, invalid/expired tokens, resend verification email, already verified account handling, and empty/missing token validation
 |src/tests/authentication/scripts/verification.test.tsx
 
+|TR-AUTH-06
+|Test report for Logout UI Functionality Validation — validates that logging out properly clears auth/session state, resets UI state, redirects to the login screen, and blocks protected routes; PASS
+|src/tests/authentication/cases/TC-AUTH-06_logout_ui_functionality_validation.tsx
+
+|TR-AUTH-07
+|Test report for Login Screen UI Button Interactions & Navigation Flows — all Playwright E2E tests passed across Chromium, Firefox, and WebKit; layout assertions, client-side validation blocking, and Sign Up link routing verified; PASS
+|src/tests/ui/scripts/login.spec.ts
+
 |TR-AUTH-08
 |Test report for User Login Regression Testing (TC-AUTH-08) — PASS with 4 regression defects found and resolved during execution (missing getSession mock, missing onAuthStateChange mock, stale Google OAuth assertion, expo-web-browser import crash). Jest suite 9/9 passed after fixes; Playwright UI suite 5/5 passed on Chromium.
 |src/tests/authentication/scripts/login.test.tsx
+
+|TR-AUTH-10
+|Test report for Input Validation Fuzz Testing — all fuzz input cases passed; login base validation, email fuzz, and password fuzz tests confirmed forms handle malformed payloads including SQL injection, XSS, whitespace-only, and boundary-length strings safely; PASS
+|src/tests/authentication/scripts/FT-AUTH-10_fuzz_test_inputs.ts
 
 |TR-ORD-01
 |Test report to inform about the execution of order modification procedures
@@ -76,6 +88,10 @@
 |Mutation Testing Profile Screen UI report — analysis of three mutation points (TC-PROF-MT-01: save guard removal, TC-PROF-MT-02: logout confirmation bypass, TC-PROF-MT-03: user ID substitution); analysis complete, test scripts pending implementation
 |TBD
 
+|TR-PROF-05
+|BDD Profile Operations Testing report — 11 Given/When/Then scenarios passed covering all profile CRUD operations in src/lib/profiles.ts (createProfile, getProfileByUserId, updateProfileName, updateProfilePhone, deleteProfile) with Supabase client injected via parameter; PASS
+|src/tests/profile/scripts/BDD-PROF-01_operations.test.ts
+
 |TR-STAFF-01
 |Test report for Staff Dashboard Usability evaluation — documents outcomes for all five staff workflows and navigation; two workflows failed due to missing features (pickup verification and Special Status Requests)
 |src/tests/staff_operations/cases/TC-STAFF-01_staff_dashboard_usability.ts
@@ -91,5 +107,13 @@
 |TR-SUPA-02
 |Report for Supabase quick connection smoke check execution
 |src/tests/supabase/scripts/quick-test.ts
+
+|TR-SUPA-03
+|Test report for Supabase Auth Session Creation Validation — all 6 steps passed: initial sign-out, signInWithPassword session creation, getSession retrieval, getUser resolution, optional refreshSession, and signOut clearing; PASS
+|src/tests/supabase/scripts/auth-session.test.ts
+
+|TR-UTIL-VALIDATION-01
+|Test report for Centralized Input Validation Utilities — all Jest assertions passed for isValidEmail (whitespace trimming, format rejection), isValidPassword (length and character-class enforcement), and formatPhoneNumber; PASS
+|src/tests/utils/scripts/validation.test.ts
 
 |====
