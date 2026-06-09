@@ -1,6 +1,6 @@
 # Milestone Data
 
-## Date Generated: 2026-06-08
+## Date Generated: 2026-06-09
 | Developer | Points Closed | Percent Contribution | Indivudal Grade | Milestone Grade | Lecture Topic Tasks |
 | --------- | ------------- | -------------------- | --------------- | --------------- | ------------------- |
 | horebcotto21 | 41.6 | 3.0% | 86.9% | 92.1% | 3 |
@@ -71,69 +71,69 @@
 
 | Developer | Week #1 | Week #2 | Week #3 | Week #4 | Penalty |
 |---|---|---|---|---|---|
-| kian-robert | Yes | Yes | Yes | No | 2.0 |
-| jonVargas1 | Yes | Yes | Yes | No | 2.0 |
-| L-A-M-D | Yes | Yes | Yes | No | 2.0 |
-| devlin-hahn04 | Yes | Yes | Yes | No | 2.0 |
-| fernan-castro | Yes | Yes | Yes | No | 2.0 |
-| reinaldo-martinez1 | Yes | Yes | Yes | No | 2.0 |
-| Lorenzo-PT | No | Yes | No | No | 7.0 |
-| Kay9876 | Yes | Yes | Yes | No | 2.0 |
-| jankii03 | Yes | Yes | Yes | No | 2.0 |
-| YandreCaban | Yes | Yes | Yes | No | 2.0 |
-| YadrielRivera | Yes | Yes | Yes | No | 2.0 |
-| yamilette-alemany | Yes | Yes | Yes | No | 2.0 |
 | FabiolaZTorres | Yes | Yes | Yes | No | 2.0 |
-| andreasegarra | Yes | Yes | No | No | 5.0 |
+| Pedro-Juan-Bonilla | Yes | Yes | Yes | No | 2.0 |
+| reinaldo-martinez1 | Yes | Yes | Yes | No | 2.0 |
 | aryamdiaz | No | Yes | No | No | 7.0 |
 | nataliavera6 | Yes | Yes | Yes | No | 2.0 |
-| GerardoSotoRios | Yes | Yes | Yes | No | 2.0 |
-| Osvaldoo1414 | Yes | Yes | Yes | No | 2.0 |
-| ernestosoto3 | Yes | Yes | Yes | No | 2.0 |
-| Pedro-Juan-Bonilla | Yes | Yes | Yes | No | 2.0 |
-| Kaariinaa08 | Yes | Yes | Yes | No | 2.0 |
-| horebcotto21 | Yes | Yes | Yes | No | 2.0 |
-| SamarysB | Yes | Yes | Yes | No | 2.0 |
-| JorgeDeLeonOrama | Yes | No | No | No | 9.0 |
-| JadStelar | Yes | Yes | Yes | No | 2.0 |
-| LuisJCruz | Yes | Yes | Yes | No | 2.0 |
-| kevinlara1 | Yes | Yes | Yes | No | 2.0 |
+| jonVargas1 | Yes | Yes | Yes | No | 2.0 |
+| Lorenzo-PT | No | Yes | No | No | 7.0 |
 | daniellameleroo | Yes | Yes | Yes | No | 2.0 |
+| SamarysB | Yes | Yes | Yes | No | 2.0 |
+| kevinlara1 | Yes | Yes | Yes | No | 2.0 |
 | TaimaraColon | Yes | Yes | Yes | No | 2.0 |
 | Alma-pineiro | Yes | Yes | Yes | No | 2.0 |
+| Kay9876 | Yes | Yes | Yes | No | 2.0 |
+| ernestosoto3 | Yes | Yes | Yes | No | 2.0 |
+| JorgeDeLeonOrama | Yes | No | No | No | 9.0 |
+| LuisJCruz | Yes | Yes | Yes | No | 2.0 |
+| devlin-hahn04 | Yes | Yes | Yes | No | 2.0 |
+| andreasegarra | Yes | Yes | No | No | 5.0 |
+| GerardoSotoRios | Yes | Yes | Yes | No | 2.0 |
+| fernan-castro | Yes | Yes | Yes | No | 2.0 |
+| yamilette-alemany | Yes | Yes | Yes | No | 2.0 |
+| horebcotto21 | Yes | Yes | Yes | No | 2.0 |
+| JadStelar | Yes | Yes | Yes | No | 2.0 |
+| Kaariinaa08 | Yes | Yes | Yes | No | 2.0 |
+| YadrielRivera | Yes | Yes | Yes | No | 2.0 |
+| kian-robert | Yes | Yes | Yes | No | 2.0 |
+| YandreCaban | Yes | Yes | Yes | No | 2.0 |
+| L-A-M-D | Yes | Yes | Yes | No | 2.0 |
+| Osvaldoo1414 | Yes | Yes | Yes | No | 2.0 |
+| jankii03 | Yes | Yes | Yes | No | 2.0 |
 
 ## Point Percent by Label
 
-| Developer | Team Lead Approved | Profile and Offline Support | Quality Assurance | LTT approved | Ordering and Payments | documentation | Authentication and Security | LTT in progress | UI | High Priority | Lecture Topic Task | state: in progress | Manager | presentation | Manager Approved | state: concluded | Staff Operations | Database Implementation | Team Lead Task | Central Quality Assurance | LTT ready for review |
+| Developer | Central Quality Assurance | Team Lead Approved | Team Lead Task | LTT approved | documentation | Lecture Topic Task | UI | Authentication and Security | Manager Approved | Profile and Offline Support | LTT ready for review | state: concluded | state: in progress | Database Implementation | presentation | Manager | High Priority | LTT in progress | Quality Assurance | Staff Operations | Ordering and Payments |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| horebcotto21 | 0.0% | 0.0% | 18.0% | 59.9% | 47.9% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 59.9% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 40.1% | 0.0% | 0.0% |
-| reinaldo-martinez1 | 0.0% | 0.0% | 0.0% | 14.4% | 0.0% | 0.0% | 0.0% | 24.0% | 15.4% | 0.0% | 57.6% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 82.9% | 0.0% | 17.1% | 0.0% | 0.0% |
-| Kay9876 | 26.4% | 0.0% | 0.0% | 73.6% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 26.4% | 73.6% | 0.0% | 0.0% | 0.0% | 100.0% | 82.3% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| JadStelar | 100.0% | 0.0% | 0.0% | 32.1% | 0.0% | 27.8% | 72.2% | 0.0% | 0.0% | 0.0% | 72.2% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| aryamdiaz | 100.0% | 0.0% | 17.3% | 0.0% | 0.0% | 82.7% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| fernan-castro | 26.0% | 0.0% | 0.0% | 74.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 74.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| Kaariinaa08 | 100.0% | 0.0% | 0.0% | 42.2% | 42.2% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 42.2% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| nataliavera6 | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 19.2% | 47.2% | 0.0% | 52.8% | 0.0% | 0.0% | 0.0% | 80.8% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| LuisJCruz | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 57.6% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| YandreCaban | 73.7% | 0.0% | 0.0% | 13.1% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 26.3% | 0.0% | 0.0% | 0.0% | 86.9% | 86.9% | 0.0% | 0.0% | 0.0% | 0.0% | 13.1% |
-| SamarysB | 51.2% | 0.0% | 0.0% | 48.8% | 48.8% | 51.2% | 0.0% | 0.0% | 0.0% | 0.0% | 48.8% | 0.0% | 0.0% | 0.0% | 100.0% | 64.1% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| FabiolaZTorres | 62.0% | 0.0% | 0.0% | 49.8% | 0.0% | 0.0% | 100.0% | 0.0% | 18.8% | 0.0% | 49.8% | 14.5% | 0.0% | 0.0% | 85.5% | 66.7% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| jonVargas1 | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| andreasegarra | 20.6% | 78.5% | 0.0% | 57.9% | 0.0% | 0.0% | 0.0% | 0.0% | 20.6% | 0.0% | 57.9% | 0.0% | 9.3% | 0.0% | 90.7% | 100.0% | 0.0% | 0.0% | 21.5% | 0.0% | 0.0% |
-| yamilette-alemany | 55.5% | 0.0% | 0.0% | 44.5% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 69.9% | 0.0% | 0.0% | 0.0% | 100.0% | 49.1% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| jankii03 | 55.9% | 0.0% | 0.0% | 18.2% | 0.0% | 0.0% | 49.1% | 0.0% | 0.0% | 0.0% | 29.0% | 0.0% | 0.0% | 0.0% | 100.0% | 89.3% | 0.0% | 0.0% | 33.0% | 0.0% | 0.0% |
-| Osvaldoo1414 | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 79.7% | 0.0% | 0.0% | 79.7% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 100.0% | 20.3% | 0.0% | 0.0% | 0.0% |
-| ernestosoto3 | 71.5% | 0.0% | 0.0% | 71.2% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 71.2% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| Lorenzo-PT | 43.0% | 0.0% | 0.0% | 57.0% | 0.0% | 43.0% | 0.0% | 0.0% | 0.0% | 0.0% | 57.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| YadrielRivera | 72.9% | 0.0% | 100.0% | 27.1% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 27.1% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| GerardoSotoRios | 23.1% | 0.0% | 79.0% | 76.9% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 39.5% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| daniellameleroo | 83.8% | 100.0% | 0.0% | 56.8% | 0.0% | 0.0% | 0.0% | 0.0% | 43.2% | 0.0% | 56.8% | 0.0% | 0.0% | 0.0% | 100.0% | 83.8% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| devlin-hahn04 | 76.3% | 0.0% | 0.0% | 23.6% | 0.0% | 0.0% | 76.3% | 0.0% | 6.8% | 0.0% | 56.9% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 23.7% | 0.0% | 0.0% |
-| kevinlara1 | 55.5% | 100.0% | 100.0% | 44.5% | 0.0% | 44.5% | 0.0% | 0.0% | 0.0% | 0.0% | 44.5% | 0.0% | 0.0% | 0.0% | 100.0% | 87.2% | 0.0% | 0.0% | 0.0% | 55.5% | 0.0% |
-| JorgeDeLeonOrama | 0.0% | 0.0% | 23.9% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 9.0% | 10.3% | 8.5% | 0.0% | 25.9% | 77.1% | 91.5% | 5.7% | 0.0% | 16.0% | 52.4% | 0.0% |
-| L-A-M-D | 25.4% | 0.0% | 39.6% | 35.2% | 35.2% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 35.2% | 0.0% | 25.4% | 0.0% | 74.6% | 76.9% | 0.0% | 0.0% | 0.0% | 64.8% | 0.0% |
-| kian-robert | 69.4% | 0.0% | 48.2% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
-| Pedro-Juan-Bonilla | 64.7% | 100.0% | 0.0% | 54.3% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 54.3% | 0.0% | 0.0% | 0.0% | 77.9% | 100.0% | 0.0% | 45.7% | 0.0% | 0.0% | 0.0% |
+| horebcotto21 | 0.0% | 0.0% | 40.1% | 59.9% | 0.0% | 59.9% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 18.0% | 0.0% | 47.9% |
+| reinaldo-martinez1 | 0.0% | 0.0% | 17.1% | 14.4% | 0.0% | 57.6% | 15.4% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 24.0% | 0.0% | 82.9% | 0.0% |
+| Kay9876 | 0.0% | 26.4% | 0.0% | 73.6% | 0.0% | 73.6% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 82.3% | 0.0% | 0.0% | 0.0% | 0.0% | 26.4% | 0.0% | 0.0% | 0.0% | 100.0% |
+| JadStelar | 0.0% | 100.0% | 0.0% | 32.1% | 27.8% | 72.2% | 0.0% | 72.2% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| aryamdiaz | 0.0% | 100.0% | 0.0% | 0.0% | 82.7% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 17.3% | 0.0% | 0.0% |
+| fernan-castro | 0.0% | 26.0% | 0.0% | 74.0% | 0.0% | 74.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% |
+| Kaariinaa08 | 0.0% | 100.0% | 0.0% | 42.2% | 100.0% | 42.2% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 42.2% |
+| nataliavera6 | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 52.8% | 47.2% | 0.0% | 80.8% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 19.2% | 0.0% | 100.0% | 0.0% |
+| LuisJCruz | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 57.6% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| YandreCaban | 0.0% | 73.7% | 0.0% | 13.1% | 0.0% | 26.3% | 0.0% | 0.0% | 86.9% | 0.0% | 13.1% | 86.9% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% |
+| SamarysB | 0.0% | 51.2% | 0.0% | 48.8% | 51.2% | 48.8% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 64.1% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 48.8% |
+| FabiolaZTorres | 0.0% | 62.0% | 0.0% | 49.8% | 0.0% | 49.8% | 18.8% | 100.0% | 85.5% | 0.0% | 0.0% | 66.7% | 14.5% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| jonVargas1 | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% |
+| andreasegarra | 0.0% | 20.6% | 21.5% | 57.9% | 0.0% | 57.9% | 20.6% | 0.0% | 90.7% | 78.5% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 9.3% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| yamilette-alemany | 0.0% | 55.5% | 0.0% | 44.5% | 0.0% | 69.9% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 49.1% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% |
+| jankii03 | 0.0% | 55.9% | 33.0% | 18.2% | 0.0% | 29.0% | 0.0% | 49.1% | 100.0% | 0.0% | 0.0% | 89.3% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Osvaldoo1414 | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 79.7% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 20.3% | 0.0% | 0.0% | 0.0% | 79.7% | 0.0% | 100.0% | 0.0% |
+| ernestosoto3 | 0.0% | 71.5% | 0.0% | 71.2% | 0.0% | 71.2% | 0.0% | 100.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Lorenzo-PT | 0.0% | 43.0% | 0.0% | 57.0% | 43.0% | 57.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| YadrielRivera | 0.0% | 72.9% | 0.0% | 27.1% | 0.0% | 27.1% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 100.0% |
+| GerardoSotoRios | 0.0% | 23.1% | 0.0% | 76.9% | 0.0% | 39.5% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 79.0% | 0.0% | 100.0% |
+| daniellameleroo | 0.0% | 83.8% | 0.0% | 56.8% | 0.0% | 56.8% | 43.2% | 0.0% | 100.0% | 100.0% | 0.0% | 83.8% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| devlin-hahn04 | 0.0% | 76.3% | 23.7% | 23.6% | 0.0% | 56.9% | 6.8% | 76.3% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| kevinlara1 | 55.5% | 55.5% | 0.0% | 44.5% | 44.5% | 44.5% | 0.0% | 0.0% | 100.0% | 100.0% | 0.0% | 87.2% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% |
+| JorgeDeLeonOrama | 52.4% | 0.0% | 16.0% | 0.0% | 0.0% | 10.3% | 0.0% | 0.0% | 77.1% | 0.0% | 0.0% | 91.5% | 8.5% | 0.0% | 25.9% | 0.0% | 9.0% | 0.0% | 23.9% | 5.7% | 0.0% |
+| L-A-M-D | 64.8% | 25.4% | 0.0% | 35.2% | 0.0% | 35.2% | 0.0% | 0.0% | 74.6% | 0.0% | 0.0% | 76.9% | 0.0% | 0.0% | 0.0% | 25.4% | 0.0% | 0.0% | 39.6% | 0.0% | 35.2% |
+| kian-robert | 100.0% | 69.4% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 100.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 48.2% | 0.0% | 0.0% |
+| Pedro-Juan-Bonilla | 0.0% | 64.7% | 0.0% | 54.3% | 0.0% | 54.3% | 0.0% | 0.0% | 77.9% | 100.0% | 0.0% | 100.0% | 0.0% | 45.7% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
 # Metrics Generation Logs
 
 | Message |
@@ -145,7 +145,7 @@
 | WARNING: [Issue #404](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/404) does not have the Urgency and/or Difficulty fields populated |
 | WARNING: [Issue #425](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/425) does not have only 1 assigned developer so lecture topic task points for this issue will be ignored |
 | WARNING: [Issue #606](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/606) does not have the Urgency and/or Difficulty fields populated |
-| WARNING: [Issue #607](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/607) does not have the Urgency and/or Difficulty fields populated |
 | WARNING: [Issue #579](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/579) does not have only 1 assigned developer so lecture topic task points for this issue will be ignored |
+| WARNING: [Issue #607](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/607) does not have the Urgency and/or Difficulty fields populated |
 | WARNING: [Issue #677](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/677) does not have the Urgency and/or Difficulty fields populated |
 | WARNING: [Issue #719](https://github.com/uprm-inso4117-2025-2026-s2/semester-project-cafeteria-ordering/issues/719) is not associated with a milestone. |
